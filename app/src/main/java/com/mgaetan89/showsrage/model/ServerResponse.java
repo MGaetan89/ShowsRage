@@ -1,6 +1,8 @@
 package com.mgaetan89.showsrage.model;
 
-public class ServerResponse<DATA> {
+import java.io.Serializable;
+
+public class ServerResponse<DATA> implements Serializable {
 	private DATA data;
 	private String message;
 	private String result;

@@ -2,7 +2,9 @@ package com.mgaetan89.showsrage.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ComingEpisode {
+import java.io.Serializable;
+
+public class ComingEpisode implements Serializable {
 	private String airdate;
 	private String airs;
 	private int episode;

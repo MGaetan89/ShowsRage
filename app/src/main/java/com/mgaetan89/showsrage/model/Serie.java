@@ -2,7 +2,9 @@ package com.mgaetan89.showsrage.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Serie {
+import java.io.Serializable;
+
+public class Serie implements Serializable {
 	@SerializedName("Actors")
 	private String actors;
 
