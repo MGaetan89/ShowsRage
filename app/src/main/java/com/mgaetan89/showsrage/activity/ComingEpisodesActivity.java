@@ -20,9 +20,11 @@ public class ComingEpisodesActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.getSupportFragmentManager().beginTransaction()
-				.replace(R.id.content, new ComingEpisodesFragment())
-				.commit();
+		if (savedInstanceState == null) {
+			this.getSupportFragmentManager().beginTransaction()
+					.replace(R.id.content, new ComingEpisodesFragment())
+					.commit();
+		}
 	}
 
 	@Override

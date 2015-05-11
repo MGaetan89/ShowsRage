@@ -20,9 +20,11 @@ public class ShowsActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.getSupportFragmentManager().beginTransaction()
-				.replace(R.id.content, new ShowsFragment())
-				.commit();
+		if (savedInstanceState == null) {
+			this.getSupportFragmentManager().beginTransaction()
+					.replace(R.id.content, new ShowsFragment())
+					.commit();
+		}
 	}
 
 	@Override

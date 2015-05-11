@@ -20,9 +20,11 @@ public class SettingsActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.getFragmentManager().beginTransaction()
-				.replace(R.id.content, new SettingsFragment())
-				.commit();
+		if (savedInstanceState == null) {
+			this.getFragmentManager().beginTransaction()
+					.replace(R.id.content, new SettingsFragment())
+					.commit();
+		}
 	}
 
 	@Override

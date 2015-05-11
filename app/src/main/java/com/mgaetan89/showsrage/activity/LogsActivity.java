@@ -20,9 +20,11 @@ public class LogsActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.getSupportFragmentManager().beginTransaction()
-				.replace(R.id.content, new LogsFragment())
-				.commit();
+		if (savedInstanceState == null) {
+			this.getSupportFragmentManager().beginTransaction()
+					.replace(R.id.content, new LogsFragment())
+					.commit();
+		}
 	}
 
 	@Override

@@ -57,10 +57,6 @@ public class ShowPagerAdapter extends FragmentStatePagerAdapter {
 
 	@Override
 	public CharSequence getPageTitle(int position) {
-		if (!this.fragment.isAdded()) {
-			return "";
-		}
-
 		if (position == 0) {
 			return this.fragment.getString(R.string.show);
 		}
