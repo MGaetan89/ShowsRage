@@ -119,7 +119,7 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 			this.swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
 
 			if (this.recyclerView != null) {
-				EpisodesAdapter episodesAdapter = new EpisodesAdapter(this.episodes);
+				EpisodesAdapter episodesAdapter = new EpisodesAdapter(this.episodes, this.seasonNumber);
 
 				this.adapter = new AlphaInAnimationAdapter(episodesAdapter);
 

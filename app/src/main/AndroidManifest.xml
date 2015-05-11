@@ -12,6 +12,7 @@
 		android:label="@string/app_name"
 		android:theme="@style/AppTheme">
 		<activity android:name=".activity.ComingEpisodesActivity"/>
+		<activity android:name=".activity.EpisodeActivity"/>
 		<activity android:name=".activity.LogsActivity"/>
 		<activity android:name=".activity.SettingsActivity"/>
 		<activity

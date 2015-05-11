@@ -10,6 +10,7 @@
 	<string name="app_name">ShowsRage</string>
 	<string name="coming_episodes">Episodes à venir</string>
 	<string name="debug">Debug</string>
+	<string name="episode">Episode</string>
 	<string name="episode_name">E<xliff:g example="01" id="number">%1$02d</xliff:g> : <xliff:g example="Pilot" id="name">%2$s</xliff:g></string>
 	<string name="error">Erreur</string>
 	<string name="external_links">Liens Externes</string>

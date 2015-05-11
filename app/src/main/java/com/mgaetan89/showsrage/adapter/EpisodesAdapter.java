@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -21,12 +22,20 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 	@NonNull
 	private List<Episode> episodes = Collections.emptyList();
 
-	public EpisodesAdapter(@Nullable List<Episode> episodes) {
+	private int seasonNumber;
+
+	public interface OnEpisodeSelectedListener {
+		void onEpisodeSelected(int seasonNumber, @NonNull Episode episode);
+	}
+
+	public EpisodesAdapter(@Nullable List<Episode> episodes, int seasonNumber) {
 		if (episodes == null) {
 			this.episodes = Collections.emptyList();
 		} else {
 			this.episodes = episodes;
 		}
+
+		this.seasonNumber = seasonNumber;
 	}
 
 	@Override
@@ -93,17 +102,12 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 
 		@Override
 		public void onClick(View view) {
-			/*
 			Context context = view.getContext();
-			Show show = shows.get(this.getAdapterPosition());
+			Episode episode = episodes.get(this.getAdapterPosition());
 
-			if (context != null && show != null) {
-				Intent intent = new Intent(context, ShowActivity.class);
-				intent.putExtra(Constants.Bundle.SHOW_MODEL, show);
-
-				context.startActivity(intent);
+			if (context instanceof OnEpisodeSelectedListener && episode != null) {
+				((OnEpisodeSelectedListener) context).onEpisodeSelected(seasonNumber, episode);
 			}
-			*/
 		}
 	}
 }

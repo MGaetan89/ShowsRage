@@ -1,7 +1,6 @@
 package com.mgaetan89.showsrage.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -13,9 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.activity.ShowActivity;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.network.SickRageApi;
@@ -33,6 +30,10 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 
 	@NonNull
 	private List<Show> shows = Collections.emptyList();
+
+	public interface OnShowSelectedListener {
+		void onShowSelected(@NonNull Show show);
+	}
 
 	public ShowsAdapter(@Nullable List<Show> shows) {
 		if (shows == null) {
@@ -119,11 +120,8 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 			Context context = view.getContext();
 			Show show = shows.get(this.getAdapterPosition());
 
-			if (context != null && show != null) {
-				Intent intent = new Intent(context, ShowActivity.class);
-				intent.putExtra(Constants.Bundle.SHOW_MODEL, show);
-
-				context.startActivity(intent);
+			if (context instanceof OnShowSelectedListener && show != null) {
+				((OnShowSelectedListener) context).onShowSelected(show);
 			}
 		}
 	}
