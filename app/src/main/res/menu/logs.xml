@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<group
+		android:id="@+id/menu_logs_level"
+		android:checkableBehavior="single">
+		<item
+			android:id="@+id/menu_debug"
+			android:title="@string/debug"/>
+		<item
+			android:id="@+id/menu_info"
+			android:title="@string/info"/>
+		<item
+			android:id="@+id/menu_warning"
+			android:title="@string/warning"/>
+		<item
+			android:id="@+id/menu_error"
+			android:title="@string/error"/>
+	</group>
+</menu>

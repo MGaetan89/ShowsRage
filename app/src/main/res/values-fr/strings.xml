@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+	xmlns:tools="http://schemas.android.com/tools"
+	xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
+	tools:locale="fr">
+	<string name="about">A propos</string>
+	<string name="address">URL</string>
+	<string name="airs">Diffusion : <xliff:g example="Lundi 20:00" id="airs">%1$s</xliff:g></string>
+	<string name="api_key">Clé de l\'API</string>
+	<string name="app_name">ShowsRage</string>
+	<string name="coming_episodes">Episodes à venir</string>
+	<string name="debug">Debug</string>
+	<string name="episode_name">E<xliff:g example="01" id="number">%1$02d</xliff:g> : <xliff:g example="Pilot" id="name">%2$s</xliff:g></string>
+	<string name="error">Erreur</string>
+	<string name="external_links">Liens Externes</string>
+	<string name="genre">Genre :</string>
+	<string name="history">Historique</string>
+	<string name="info">Info</string>
+	<string name="language">Langue : <xliff:g example="Anglais" id="language">%1$s</xliff:g></string>
+	<string name="language_county">Langue : <xliff:g example="Anglais" id="language">%1$s</xliff:g> (<xliff:g example="Etats-Unis" id="country">%2$s</xliff:g>)</string>
+	<string name="licenses">Licences</string>
+	<string name="location">Emplacement : <xliff:g example="/Séries/2 Broke Girls" id="location">%1$s</xliff:g></string>
+	<string name="logs">Logs</string>
+	<string name="more_information">Plus d\'informations</string>
+	<string name="network">Chaîne : <xliff:g example="CBS" id="network">%1$s</xliff:g></string>
+	<string name="never">Jamais</string>
+	<string name="next_episode">Prochain épisode : <xliff:g example="dans 2 jours" id="next_episode">%1$s</xliff:g></string>
+	<string name="no_episodes">Aucun épisode</string>
+	<string name="no_logs">Aucun log</string>
+	<string name="no_shows">Aucune série</string>
+	<string name="password">Mot de passe</string>
+	<string name="path">Chemin</string>
+	<string name="plot">Résumé</string>
+	<string name="port_number">Numéro de port</string>
+	<string name="quality">Qualité : <xliff:g example="HD1080p" id="quality">%1$s</xliff:g></string>
+	<string name="rated">Classification : <xliff:g example="TV-14" id="rated">%1$s</xliff:g></string>
+	<string name="rating">Evaluation IMDb : <xliff:g example="5.0" id="rating">%1$s</xliff:g>/10 (<xliff:g example="10000" id="votes">%2$s</xliff:g> votes)</string>
+	<string name="runtime">Durée : <xliff:g example="22 min" id="runtime">%1$s</xliff:g></string>
+	<string name="season_number">Saison %1$d</string>
+	<string name="server_information">Information sur le serveur</string>
+	<string name="settings">Paramètres</string>
+	<string name="specials">Spéciaux</string>
+	<string name="show">Série</string>
+	<string name="shows">Séries</string>
+	<string name="status">Status : <xliff:g example="En cours" id="status">%1$s</xliff:g></string>
+	<string name="use_https">Connexion sécurisée ?</string>
+	<string name="username">Identifiant</string>
+	<string name="warning">Avertissement</string>
+	<string name="year">Diffusion : <xliff:g example="2005-" id="year">%1$s</xliff:g></string>
+</resources>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory android:title="@string/server_information">
+
+		<CheckBoxPreference
+			android:key="use_https"
+			android:title="@string/use_https"/>
+
+		<EditTextPreference
+			android:key="server_address"
+			android:title="@string/address"/>
+
+		<EditTextPreference
+			android:inputType="number"
+			android:key="server_port_number"
+			android:title="@string/port_number"/>
+
+		<EditTextPreference
+			android:key="server_path"
+			android:title="@string/path"/>
+
+		<EditTextPreference
+			android:key="api_key"
+			android:title="@string/api_key"/>
+
+		<EditTextPreference
+			android:key="server_username"
+			android:title="@string/username"/>
+
+		<EditTextPreference
+			android:inputType="textPassword"
+			android:key="server_password"
+			android:title="@string/password"/>
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/about">
+
+		<PreferenceScreen
+			android:key="licenses"
+			android:title="@string/licenses">
+
+			<PreferenceCategory android:title="Apache License, Version 2.0">
+
+				<PreferenceScreen
+					android:key="android_tag_group"
+					android:summary="Version 1.2"
+					android:title="AndroidTagGroup">
+
+					<intent
+						android:action="android.intent.action.VIEW"
+						android:data="https://github.com/2dxgujun/AndroidTagGroup"/>
+				</PreferenceScreen>
+
+				<PreferenceScreen
+					android:key="dagger"
+					android:summary="Version 1.2.2"
+					android:title="Dagger">
+
+					<intent
+						android:action="android.intent.action.VIEW"
+						android:data="http://square.github.io/dagger/"/>
+				</PreferenceScreen>
+
+				<PreferenceScreen
+					android:key="material_drawer"
+					android:summary="Version 2.9.5"
+					android:title="MaterialDrawer">
+
+					<intent
+						android:action="android.intent.action.VIEW"
+						android:data="http://mikepenz.github.io/MaterialDrawer/"/>
+				</PreferenceScreen>
+
+				<PreferenceScreen
+					android:key="material_view_pager"
+					android:summary="Version 1.0.3.1"
+					android:title="MaterialViewPager">
+
+					<intent
+						android:action="android.intent.action.VIEW"
+						android:data="https://github.com/florent37/MaterialViewPager"/>
+				</PreferenceScreen>
+
+				<PreferenceScreen
+					android:key="okhttp"
+					android:summary="Version 2.3.0"
+					android:title="OkHttp">
+
+					<intent
+						android:action="android.intent.action.VIEW"
+						android:data="http://square.github.io/okhttp/"/>
+				</PreferenceScreen>
+
+				<PreferenceScreen
+					android:key="picasso"
+					android:summary="Version 2.5.2"
+					android:title="Picasso">
+
+					<intent
+						android:action="android.intent.action.VIEW"
+						android:data="http://square.github.io/picasso/"/>
+				</PreferenceScreen>
+
+				<PreferenceScreen
+					android:key="recyclerview-animators"
+					android:summary="Version 1.2.0"
+					android:title="recyclerview-animators">
+
+					<intent
+						android:action="android.intent.action.VIEW"
+						android:data="http://square.github.io/picasso/"/>
+				</PreferenceScreen>
+
+				<PreferenceScreen
+					android:key="retrofit"
+					android:summary="Version 1.9.0"
+					android:title="Retrofit">
+
+					<intent
+						android:action="android.intent.action.VIEW"
+						android:data="http://square.github.io/retrofit/"/>
+				</PreferenceScreen>
+			</PreferenceCategory>
+
+			<PreferenceCategory android:title="MIT License">
+
+				<PreferenceScreen
+					android:key="floating_action_button"
+					android:summary="Version 1.3.0"
+					android:title="FloatingActionButton">
+
+					<intent
+						android:action="android.intent.action.VIEW"
+						android:data="https://github.com/makovkastar/FloatingActionButton"/>
+				</PreferenceScreen>
+			</PreferenceCategory>
+		</PreferenceScreen>
+	</PreferenceCategory>
+</PreferenceScreen>

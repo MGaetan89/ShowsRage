@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.github.ksoichiro.android.observablescrollview.ObservableScrollView
+	android:id="@+id/scroll"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context="com.mgaetan89.showsrage.fragment.ShowOverviewFragment">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:padding="@dimen/padding">
+
+		<include layout="@layout/material_view_pager_placeholder"/>
+
+		<android.support.v7.widget.CardView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="@dimen/padding">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<ImageView
+					android:id="@+id/show_poster"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:adjustViewBounds="true"
+					tools:ignore="ContentDescription"
+					tools:src="@mipmap/ic_launcher"/>
+
+				<LinearLayout
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/padding"
+					android:layout_weight="2"
+					android:orientation="vertical">
+
+					<TextView
+						android:id="@+id/show_name"
+						style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="@dimen/padding_half"
+						android:ellipsize="end"
+						android:singleLine="true"
+						android:visibility="gone"
+						tools:text="2 Broke Girls"
+						tools:visibility="visible"/>
+
+					<TextView
+						android:id="@+id/show_airs"
+						style="@style/TextAppearance.AppCompat.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="@dimen/padding_half"
+						android:visibility="gone"
+						tools:text="@string/airs"
+						tools:visibility="visible"/>
+
+					<TextView
+						android:id="@+id/show_network"
+						style="@style/TextAppearance.AppCompat.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="@dimen/padding_half"
+						android:visibility="gone"
+						tools:text="@string/network"
+						tools:visibility="visible"/>
+
+					<TextView
+						android:id="@+id/show_next_episode_date"
+						style="@style/TextAppearance.AppCompat.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="@dimen/padding_half"
+						android:visibility="gone"
+						tools:text="@string/next_episode"
+						tools:visibility="visible"/>
+
+					<TextView
+						android:id="@+id/show_status"
+						style="@style/TextAppearance.AppCompat.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:visibility="gone"
+						tools:text="@string/status"
+						tools:visibility="visible"/>
+				</LinearLayout>
+			</LinearLayout>
+		</android.support.v7.widget.CardView>
+
+		<android.support.v7.widget.CardView
+			android:id="@+id/show_plot_layout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="@dimen/padding"
+			android:visibility="gone"
+			tools:visibility="visible">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/padding"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/padding_half"
+					android:text="@string/plot"/>
+
+				<TextView
+					android:id="@+id/show_plot"
+					style="@style/TextAppearance.AppCompat.Inverse"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet nisi et arcu gravida dictum. Vestibulum vitae odio quis augue porta tincidunt eu pulvinar odio."/>
+			</LinearLayout>
+		</android.support.v7.widget.CardView>
+
+		<android.support.v7.widget.CardView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="@dimen/padding">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/padding"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/padding_half"
+					android:text="@string/more_information"/>
+
+				<TextView
+					android:id="@+id/show_language_country"
+					style="@style/TextAppearance.AppCompat.Inverse"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/padding_half"
+					android:visibility="gone"
+					tools:text="@string/language_county"
+					tools:visibility="visible"/>
+
+				<TextView
+					android:id="@+id/show_year"
+					style="@style/TextAppearance.AppCompat.Inverse"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/padding_half"
+					android:visibility="gone"
+					tools:text="@string/year"
+					tools:visibility="visible"/>
+
+				<TextView
+					android:id="@+id/show_rated"
+					style="@style/TextAppearance.AppCompat.Inverse"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/padding_half"
+					android:visibility="gone"
+					tools:text="@string/rated"
+					tools:visibility="visible"/>
+
+				<TextView
+					android:id="@+id/show_runtime"
+					style="@style/TextAppearance.AppCompat.Inverse"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/padding_half"
+					android:visibility="gone"
+					tools:text="@string/runtime"
+					tools:visibility="visible"/>
+
+				<TextView
+					android:id="@+id/show_rating"
+					style="@style/TextAppearance.AppCompat.Inverse"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/padding_half"
+					android:visibility="gone"
+					tools:text="@string/rating"
+					tools:visibility="visible"/>
+
+				<TextView
+					android:id="@+id/show_location"
+					style="@style/TextAppearance.AppCompat.Inverse"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/padding_half"
+					android:visibility="gone"
+					tools:text="@string/location"
+					tools:visibility="visible"/>
+
+				<TextView
+					android:id="@+id/show_quality"
+					style="@style/TextAppearance.AppCompat.Inverse"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/padding_half"
+					android:visibility="gone"
+					tools:text="@string/quality"
+					tools:visibility="visible"/>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:gravity="center_vertical"
+					android:orientation="horizontal">
+
+					<TextView
+						style="@style/TextAppearance.AppCompat.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/genre"/>
+
+					<me.gujun.android.taggroup.TagGroup
+						android:id="@+id/show_genre"
+						style="@style/TagGroup.Small.Light_Blue"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						app:backgroundColor="@color/primary"
+						app:brightColor="@android:color/white"/>
+				</LinearLayout>
+			</LinearLayout>
+		</android.support.v7.widget.CardView>
+
+		<android.support.v7.widget.CardView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/padding"
+				android:orientation="vertical">
+
+				<TextView
+					style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/padding_half"
+					android:text="@string/external_links"/>
+
+				<Button
+					android:id="@+id/show_imdb"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/imdb"/>
+
+				<Button
+					android:id="@+id/show_the_tvdb"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/the_tvdb"/>
+
+				<Button
+					android:id="@+id/show_tvrage"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/tvrage"/>
+			</LinearLayout>
+		</android.support.v7.widget.CardView>
+	</LinearLayout>
+</com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
