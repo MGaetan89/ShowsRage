@@ -25,7 +25,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 	private int seasonNumber;
 
 	public interface OnEpisodeSelectedListener {
-		void onEpisodeSelected(int seasonNumber, @NonNull Episode episode);
+		void onEpisodeSelected(int seasonNumber, int episodeNumber, @NonNull Episode episode);
 	}
 
 	public EpisodesAdapter(@Nullable List<Episode> episodes, int seasonNumber) {
@@ -106,7 +106,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 			Episode episode = episodes.get(this.getAdapterPosition());
 
 			if (context instanceof OnEpisodeSelectedListener && episode != null) {
-				((OnEpisodeSelectedListener) context).onEpisodeSelected(seasonNumber, episode);
+				((OnEpisodeSelectedListener) context).onEpisodeSelected(seasonNumber, getItemCount() - this.getAdapterPosition(), episode);
 			}
 		}
 	}

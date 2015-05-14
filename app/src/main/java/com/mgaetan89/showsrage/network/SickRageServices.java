@@ -16,6 +16,9 @@ public interface SickRageServices {
 	@GET("/?cmd=future")
 	void getComingEpisodes(Callback<ComingEpisodes> callback);
 
+	@GET("/?cmd=episode")
+	void getEpisode(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, Callback<Object> callback);
+
 	@GET("/?cmd=show.seasons")
 	void getEpisodes(@Query("indexerid") int indexerId, @Query("season") int season, Callback<Episodes> callback);
 

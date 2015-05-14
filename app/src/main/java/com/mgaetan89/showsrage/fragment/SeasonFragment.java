@@ -96,7 +96,6 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 		Intent intent = this.getActivity().getIntent();
 		Show show = (Show) intent.getSerializableExtra(Constants.Bundle.SHOW_MODEL);
 
-		this.seasonNumber = this.getArguments().getInt(Constants.Bundle.SEASON_NUMBER, 0);
 		this.indexerId = show.getIndexerId();
 
 		this.onRefresh();
@@ -112,6 +111,8 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_season, container, false);
+
+		this.seasonNumber = this.getArguments().getInt(Constants.Bundle.SEASON_NUMBER, 0);
 
 		if (view != null) {
 			this.emptyView = (TextView) view.findViewById(android.R.id.empty);

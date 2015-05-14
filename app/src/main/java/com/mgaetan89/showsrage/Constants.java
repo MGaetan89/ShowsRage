@@ -5,6 +5,7 @@ import com.mgaetan89.showsrage.model.LogLevel;
 public abstract class Constants {
 	public abstract static class Bundle {
 		public static final String EPISODE_MODEL = "episode_model";
+		public static final String EPISODE_NUMBER = "episode_number";
 		public static final String SEASON_NUMBER = "season_number";
 		public static final String SHOW_MODEL = "show_model";
 	}
