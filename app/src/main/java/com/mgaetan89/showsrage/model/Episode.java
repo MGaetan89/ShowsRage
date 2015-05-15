@@ -8,8 +8,13 @@ public class Episode implements Serializable {
 	@SerializedName("airdate")
 	private String airDate;
 
+	private String description;
+
 	@SerializedName("file_size")
 	private long fileSize;
+
+	@SerializedName("file_size_human")
+	private String fileSizeHuman;
 
 	private String location;
 
@@ -28,8 +33,16 @@ public class Episode implements Serializable {
 		return this.airDate;
 	}
 
+	public String getDescription() {
+		return this.description;
+	}
+
 	public long getFileSize() {
 		return this.fileSize;
+	}
+
+	public String getFileSizeHuman() {
+		return this.fileSizeHuman;
 	}
 
 	public String getLocation() {

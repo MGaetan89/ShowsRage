@@ -18,6 +18,7 @@
 	<string name="episode_name">E<xliff:g example="01" id="number">%1$02d</xliff:g>: <xliff:g example="Pilot" id="name">%2$s</xliff:g></string>
 	<string name="error">Error</string>
 	<string name="external_links">External Links</string>
+	<string name="file_size">File size: <xliff:g example="856.93 MB" id="file_size">%1$s</xliff:g></string>
 	<string name="genre">Genre: </string>
 	<string name="history">History</string>
 	<string name="info">Info</string>

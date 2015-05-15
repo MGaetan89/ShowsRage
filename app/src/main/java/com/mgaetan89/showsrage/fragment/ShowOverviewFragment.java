@@ -115,7 +115,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		this.omDbApi = restAdapter.create(OmDbApi.class);
 
 		AppCompatActivity activity = (AppCompatActivity) this.getActivity();
-		final ActionBar actionBar = activity.getSupportActionBar();
+		ActionBar actionBar = activity.getSupportActionBar();
 		Intent intent = activity.getIntent();
 		this.show = (Show) intent.getSerializableExtra(Constants.Bundle.SHOW_MODEL);
 

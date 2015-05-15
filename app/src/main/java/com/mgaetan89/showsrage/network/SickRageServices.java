@@ -6,6 +6,7 @@ import com.mgaetan89.showsrage.model.LogLevel;
 import com.mgaetan89.showsrage.model.Logs;
 import com.mgaetan89.showsrage.model.Seasons;
 import com.mgaetan89.showsrage.model.Shows;
+import com.mgaetan89.showsrage.model.SingleEpisode;
 import com.mgaetan89.showsrage.model.SingleShow;
 
 import retrofit.Callback;
@@ -16,8 +17,8 @@ public interface SickRageServices {
 	@GET("/?cmd=future")
 	void getComingEpisodes(Callback<ComingEpisodes> callback);
 
-	@GET("/?cmd=episode")
-	void getEpisode(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, Callback<Object> callback);
+	@GET("/?cmd=episode&full_path=1")
+	void getEpisode(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, Callback<SingleEpisode> callback);
 
 	@GET("/?cmd=show.seasons")
 	void getEpisodes(@Query("indexerid") int indexerId, @Query("season") int season, Callback<Episodes> callback);
