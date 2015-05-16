@@ -12,6 +12,7 @@
 	<string name="debug">Debug</string>
 	<string name="episode">Episode</string>
 	<string name="episode_name">E<xliff:g example="01" id="number">%1$02d</xliff:g> : <xliff:g example="Pilot" id="name">%2$s</xliff:g></string>
+	<string name="episode_name_short">E<xliff:g example="01" id="number">%1$02d</xliff:g></string>
 	<string name="error">Erreur</string>
 	<string name="external_links">Liens Externes</string>
 	<string name="file_size">Taille du fichier : <xliff:g example="856.93 MB" id="file_size">%1$s</xliff:g></string>

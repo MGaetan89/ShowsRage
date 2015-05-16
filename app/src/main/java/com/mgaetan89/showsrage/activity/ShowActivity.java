@@ -20,10 +20,11 @@ public class ShowActivity extends BaseActivity implements EpisodesAdapter.OnEpis
 	private Show show = null;
 
 	@Override
-	public void onEpisodeSelected(int seasonNumber, int episodeNumber, @NonNull Episode episode) {
+	public void onEpisodeSelected(int seasonNumber, int episodeNumber, @NonNull Episode episode, int episodesCount) {
 		Intent intent = new Intent(this, EpisodeActivity.class);
 		intent.putExtra(Constants.Bundle.EPISODE_MODEL, episode);
 		intent.putExtra(Constants.Bundle.EPISODE_NUMBER, episodeNumber);
+		intent.putExtra(Constants.Bundle.EPISODES_COUNT, episodesCount);
 		intent.putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber);
 		intent.putExtra(Constants.Bundle.SHOW_MODEL, this.show);
 

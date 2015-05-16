@@ -83,6 +83,13 @@ public class ShowFragment extends Fragment implements Callback<Seasons> {
 	}
 
 	@Override
+	public void onDestroy() {
+		this.seasons.clear();
+
+		super.onDestroy();
+	}
+
+	@Override
 	public void success(Seasons seasons, Response response) {
 		this.seasons.clear();
 		this.seasons.addAll(seasons.getData());

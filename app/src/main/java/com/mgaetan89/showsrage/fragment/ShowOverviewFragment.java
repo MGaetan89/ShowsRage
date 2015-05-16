@@ -195,7 +195,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			ObservableScrollView scroll = (ObservableScrollView) view.findViewById(R.id.scroll);
 
 			if (scroll != null) {
-				MaterialViewPagerHelper.registerScrollView(getActivity(), scroll, null);
+				MaterialViewPagerHelper.registerScrollView(this.getActivity(), scroll, null);
 			}
 
 

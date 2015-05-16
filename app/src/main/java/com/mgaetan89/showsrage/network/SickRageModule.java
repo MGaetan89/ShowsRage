@@ -3,7 +3,7 @@ package com.mgaetan89.showsrage.network;
 import android.content.Context;
 
 import com.mgaetan89.showsrage.fragment.ComingEpisodesFragment;
-import com.mgaetan89.showsrage.fragment.EpisodeFragment;
+import com.mgaetan89.showsrage.fragment.EpisodeDetailFragment;
 import com.mgaetan89.showsrage.fragment.LogsFragment;
 import com.mgaetan89.showsrage.fragment.SeasonFragment;
 import com.mgaetan89.showsrage.fragment.ShowFragment;
@@ -19,7 +19,7 @@ import dagger.Provides;
 		complete = true,
 		injects = {
 				ComingEpisodesFragment.class,
-				EpisodeFragment.class,
+				EpisodeDetailFragment.class,
 				LogsFragment.class,
 				SeasonFragment.class,
 				ShowFragment.class,
