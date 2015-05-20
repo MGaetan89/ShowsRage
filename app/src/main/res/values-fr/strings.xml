@@ -33,6 +33,7 @@
 	<string name="no_shows">Aucune série</string>
 	<string name="password">Mot de passe</string>
 	<string name="path">Chemin</string>
+	<string name="play_video">Lire la vidéo</string>
 	<string name="plot">Résumé</string>
 	<string name="port_number">Numéro de port</string>
 	<string name="quality">Qualité : <xliff:g example="HD1080p" id="quality">%1$s</xliff:g></string>

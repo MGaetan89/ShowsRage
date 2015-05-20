@@ -1,5 +1,7 @@
 package com.mgaetan89.showsrage.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +12,9 @@ import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -39,6 +44,9 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 	private TextView airs = null;
 
 	@Nullable
+	private Episode episode = null;
+
+	@Nullable
 	private TextView fileSize = null;
 
 	@Nullable
@@ -60,9 +68,13 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 	private TextView quality = null;
 
 	@Nullable
+	private Show show = null;
+
+	@Nullable
 	private TextView status = null;
 
 	public EpisodeDetailFragment() {
+		this.setHasOptionsMenu(true);
 	}
 
 	@Override
@@ -79,14 +91,15 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 		Episode episode = (Episode) arguments.getSerializable(Constants.Bundle.EPISODE_MODEL);
 		int episodeNumber = arguments.getInt(Constants.Bundle.EPISODE_NUMBER, 0);
 		int seasonNumber = arguments.getInt(Constants.Bundle.SEASON_NUMBER, 0);
-		Show show = (Show) arguments.getSerializable(Constants.Bundle.SHOW_MODEL);
 
 		if (actionBar != null) {
 			actionBar.setTitle(this.getString(R.string.season_number, seasonNumber));
 		}
 
+		this.show = (Show) arguments.getSerializable(Constants.Bundle.SHOW_MODEL);
+
 		this.displayEpisode(episode);
-		this.api.getServices().getEpisode(show.getIndexerId(), seasonNumber, episodeNumber, this);
+		this.api.getServices().getEpisode(this.show.getIndexerId(), seasonNumber, episodeNumber, this);
 	}
 
 	@Override
@@ -94,6 +107,12 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 		super.onCreate(savedInstanceState);
 
 		((ShowsRageApplication) this.getActivity().getApplication()).inject(this);
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// TODO Hide the "Play video" menu if VLC is not installed
+		inflater.inflate(R.menu.episode, menu);
 	}
 
 	@Nullable
@@ -138,14 +157,45 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 	}
 
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_play_video:
+				this.clickPlayVideo();
+
+				return true;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
 	public void success(SingleEpisode singleEpisode, Response response) {
 		this.displayEpisode(singleEpisode.getData());
+	}
+
+	private void clickPlayVideo() {
+		String episodeUrl = this.api.getVideosUrl();
+
+		if (this.show != null) {
+			episodeUrl += this.show.getShowName().replace(" ", "%20") + "/";
+		}
+
+		if (this.episode != null) {
+			episodeUrl += this.episode.getLocation().replace(" ", "%20");
+		}
+
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(episodeUrl));
+		intent.setClassName("org.videolan.vlc", "org.videolan.vlc.gui.video.VideoPlayerActivity");
+
+		this.startActivity(intent);
 	}
 
 	private void displayEpisode(@Nullable Episode episode) {
 		if (episode == null) {
 			return;
 		}
+
+		this.episode = episode;
 
 		if (this.airs != null) {
 			this.airs.setText(this.getString(R.string.airs, DateTimeHelper.getRelativeDate(episode.getAirDate(), "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)));

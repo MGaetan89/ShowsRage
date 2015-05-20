@@ -338,7 +338,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 		if (this.poster != null) {
 			Picasso.with(this.getActivity())//
-					.load(this.api.getBaseUrl() + "?cmd=show.getposter&tvdbid=" + this.show.getTvDbId())//
+					.load(this.api.getApiUrl() + "?cmd=show.getposter&tvdbid=" + this.show.getTvDbId())//
 					.into(this.poster);
 
 			this.poster.setContentDescription(this.show.getShowName());

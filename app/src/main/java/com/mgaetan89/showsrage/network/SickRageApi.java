@@ -13,9 +13,12 @@ import retrofit.RestAdapter;
 @Singleton
 public class SickRageApi {
 	@NonNull
-	private String baseUrl = "";
+	private String apiUrl = "";
 
 	private SickRageServices services = null;
+
+	@NonNull
+	private String videosUrl = "";
 
 	@Inject
 	public SickRageApi(Context context) {
@@ -26,10 +29,11 @@ public class SickRageApi {
 		String path = preferences.getString("server_path", "");
 		String apiKey = preferences.getString("api_key", "");
 
-		this.baseUrl = String.format("%s://%s:%s/%s/%s/", protocol, address, portNumber, path, apiKey);
+		this.apiUrl = String.format("%s://%s:%s/%s/%s/", protocol, address, portNumber, path, apiKey);
+		this.videosUrl = String.format("%s://%s:%s/videos/", protocol, address, portNumber);
 
 		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(this.baseUrl)
+				.setEndpoint(this.apiUrl)
 				.setLogLevel(RestAdapter.LogLevel.FULL)
 				.build();
 
@@ -37,11 +41,16 @@ public class SickRageApi {
 	}
 
 	@NonNull
-	public String getBaseUrl() {
-		return this.baseUrl;
+	public String getApiUrl() {
+		return this.apiUrl;
 	}
 
 	public SickRageServices getServices() {
 		return this.services;
+	}
+
+	@NonNull
+	public String getVideosUrl() {
+		return this.videosUrl;
 	}
 }

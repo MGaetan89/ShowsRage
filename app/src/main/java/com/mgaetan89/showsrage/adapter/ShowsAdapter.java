@@ -56,7 +56,7 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 			holder.logo.setContentDescription(show.getShowName());
 
 			Picasso.with(holder.logo.getContext())//
-					.load(this.api.getBaseUrl() + "?cmd=show.getposter&tvdbid=" + show.getTvDbId())//
+					.load(this.api.getApiUrl() + "?cmd=show.getposter&tvdbid=" + show.getTvDbId())//
 					.transform(new CircleTransformation())//
 					.into(holder.logo);
 		}
