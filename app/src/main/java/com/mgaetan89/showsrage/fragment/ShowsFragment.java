@@ -17,6 +17,8 @@ import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.ShowsRageApplication;
 import com.mgaetan89.showsrage.adapter.ShowsAdapter;
 import com.mgaetan89.showsrage.model.Show;
+import com.mgaetan89.showsrage.model.ShowStat;
+import com.mgaetan89.showsrage.model.ShowStats;
 import com.mgaetan89.showsrage.model.Shows;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
@@ -153,7 +155,7 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SwipeRef
 	}
 
 	@Override
-	public void success(Shows shows, Response response) {
+	public void success(final Shows shows, Response response) {
 		if (this.swipeRefreshLayout != null) {
 			this.swipeRefreshLayout.setRefreshing(false);
 		}
@@ -162,6 +164,28 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SwipeRef
 
 		if (shows != null) {
 			this.shows.addAll(shows.getData().values());
+
+			for (final Show show : this.shows) {
+				this.api.getServices().getShowStats(show.getIndexerId(), new Callback<ShowStats>() {
+					@Override
+					public void failure(RetrofitError error) {
+						error.printStackTrace();
+					}
+
+					@Override
+					public void success(ShowStats showStats, Response response) {
+						ShowStat showStat = showStats.getData();
+
+						show.setEpisodesCount(showStat.getTotal());
+						show.setDownloaded(showStat.getTotalDone());
+						show.setSnatched(showStat.getTotalPending());
+
+						if (adapter != null) {
+							adapter.notifyDataSetChanged();
+						}
+					}
+				});
+			}
 		}
 
 		if (this.shows.isEmpty()) {

@@ -14,8 +14,10 @@ public class Show implements Serializable {
 	@SerializedName("archive_firstmatch")
 	private int archiveFirstmatch;
 	private Map<String, Integer> cache;
+	private int downloaded;
 	@SerializedName("dvdorder")
 	private int dvdOrder;
+	private int episodesCount;
 	@SerializedName("flatten_folders")
 	private int flattenFolders;
 	private List<String> genre;
@@ -41,6 +43,7 @@ public class Show implements Serializable {
 	private List<Integer> seasonList;
 	@SerializedName("show_name")
 	private String showName;
+	private int snatched;
 	private int sports;
 	private String status;
 	private int subtitles;
@@ -71,8 +74,16 @@ public class Show implements Serializable {
 		return this.cache;
 	}
 
+	public int getDownloaded() {
+		return this.downloaded;
+	}
+
 	public int getDvdOrder() {
 		return this.dvdOrder;
+	}
+
+	public int getEpisodesCount() {
+		return this.episodesCount;
 	}
 
 	public int getFlattenFolders() {
@@ -139,6 +150,10 @@ public class Show implements Serializable {
 		return this.showName;
 	}
 
+	public int getSnatched() {
+		return this.snatched;
+	}
+
 	public int getSports() {
 		return this.sports;
 	}
@@ -161,5 +176,17 @@ public class Show implements Serializable {
 
 	public String getTvRageName() {
 		return this.tvRageName;
+	}
+
+	public void setDownloaded(int downloaded) {
+		this.downloaded = downloaded;
+	}
+
+	public void setEpisodesCount(int episodesCount) {
+		this.episodesCount = episodesCount;
+	}
+
+	public void setSnatched(int snatched) {
+		this.snatched = snatched;
 	}
 }

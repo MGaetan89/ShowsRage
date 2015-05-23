@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mgaetan89.showsrage.R;
@@ -78,6 +79,12 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 				holder.nextEpisodeDate.setText(DateTimeHelper.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS));
 			}
 		}
+
+		if (holder.progress != null) {
+			holder.progress.setMax(show.getEpisodesCount());
+			holder.progress.setProgress(show.getDownloaded());
+			holder.progress.setSecondaryProgress(show.getDownloaded() + show.getSnatched());
+		}
 	}
 
 	@Override
@@ -104,6 +111,9 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 		@Nullable
 		public TextView nextEpisodeDate;
 
+		@Nullable
+		public ProgressBar progress;
+
 		public ViewHolder(View view) {
 			super(view);
 
@@ -113,6 +123,7 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 			this.name = (TextView) view.findViewById(R.id.show_name);
 			this.networkQuality = (TextView) view.findViewById(R.id.show_network_quality);
 			this.nextEpisodeDate = (TextView) view.findViewById(R.id.show_next_episode_date);
+			this.progress = (ProgressBar) view.findViewById(R.id.show_progress);
 		}
 
 		@Override
