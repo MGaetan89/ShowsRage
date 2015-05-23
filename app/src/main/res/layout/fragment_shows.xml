@@ -38,5 +38,5 @@
 		android:layout_gravity="bottom|end|right"
 		android:layout_margin="@dimen/fab_margin"
 		android:src="@drawable/ic_add_black_24dp"
-		fab:fab_colorNormal="@color/accent"/>
+		fab:fab_colorNormal="?attr/colorAccent"/>
 </FrameLayout>
