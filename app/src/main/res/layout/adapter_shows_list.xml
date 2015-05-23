@@ -61,7 +61,7 @@
 		android:id="@+id/show_progress"
 		style="@style/Widget.AppCompat.ProgressBar.Horizontal"
 		android:layout_width="match_parent"
-		android:layout_height="8dp"
+		android:layout_height="4dp"
 		tools:progress="33"
 		tools:secondaryProgress="66"/>
 </LinearLayout>
