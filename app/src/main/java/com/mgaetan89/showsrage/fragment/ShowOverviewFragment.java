@@ -313,7 +313,14 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		}
 
 		if (this.location != null) {
-			this.location.setText(this.getString(R.string.location, this.show.getLocation()));
+			String location = this.show.getLocation();
+
+			if (TextUtils.isEmpty(location)) {
+				this.location.setText(this.getString(R.string.location, "N/A"));
+			} else {
+				this.location.setText(this.getString(R.string.location, location));
+			}
+
 			this.location.setVisibility(View.VISIBLE);
 		}
 
