@@ -19,6 +19,7 @@
 	<string name="episode_name_short">E<xliff:g example="01" id="number">%1$02d</xliff:g></string>
 	<string name="error">Error</string>
 	<string name="external_links">External Links</string>
+	<string name="extra_features">Extra features</string>
 	<string name="file_size">File size: <xliff:g example="856.93 MB" id="file_size">%1$s</xliff:g></string>
 	<string name="genre">Genre: </string>
 	<string name="history">History</string>
@@ -53,6 +54,8 @@
 	<string name="status">Status: <xliff:g example="Continuing" id="status">%1$s</xliff:g></string>
 	<string name="use_https">Use HTTPS?</string>
 	<string name="username">Username</string>
+	<string name="view_in_vlc">View downloaded episodes in VLC</string>
+	<string name="view_in_vlc_summary">Requires VLC to be installed</string>
 	<string name="warning">Warning</string>
 	<string name="year">Year: <xliff:g example="2005-" id="year">%1$s</xliff:g></string>
 </resources>

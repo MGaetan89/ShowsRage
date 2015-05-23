@@ -34,6 +34,15 @@
 			android:title="@string/password"/>
 	</PreferenceCategory>
 
+	<PreferenceCategory android:title="@string/extra_features">
+
+		<CheckBoxPreference
+			android:defaultValue="false"
+			android:key="view_in_vlc"
+			android:summary="@string/view_in_vlc_summary"
+			android:title="@string/view_in_vlc"/>
+	</PreferenceCategory>
+
 	<PreferenceCategory android:title="@string/about">
 
 		<PreferenceScreen

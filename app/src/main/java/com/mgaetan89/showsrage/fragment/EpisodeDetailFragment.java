@@ -1,8 +1,10 @@
 package com.mgaetan89.showsrage.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -59,6 +61,9 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 	private TextView name = null;
 
 	@Nullable
+	private MenuItem playVideoMenu = null;
+
+	@Nullable
 	private TextView plot = null;
 
 	@Nullable
@@ -111,8 +116,9 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		// TODO Hide the "Play video" menu if VLC is not installed
 		inflater.inflate(R.menu.episode, menu);
+
+		this.playVideoMenu = menu.findItem(R.id.menu_play_video);
 	}
 
 	@Nullable
@@ -171,6 +177,7 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 	@Override
 	public void success(SingleEpisode singleEpisode, Response response) {
 		this.displayEpisode(singleEpisode.getData());
+		this.displayPlayVideoMenu(singleEpisode.getData());
 	}
 
 	private void clickPlayVideo() {
@@ -185,6 +192,7 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 		}
 
 		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(episodeUrl));
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.setClassName("org.videolan.vlc", "org.videolan.vlc.gui.video.VideoPlayerActivity");
 
 		this.startActivity(intent);
@@ -255,6 +263,20 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 		if (this.status != null) {
 			this.status.setText(this.getString(R.string.status, episode.getStatus()));
 			this.status.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private void displayPlayVideoMenu(Episode episode) {
+		if (episode == null) {
+			return;
+		}
+
+		if (this.playVideoMenu != null) {
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+			boolean episodeDownloaded = "Downloaded".equalsIgnoreCase(episode.getStatus());
+			boolean viewInVlc = preferences.getBoolean("view_in_vlc", false);
+
+			this.playVideoMenu.setVisible(episodeDownloaded && viewInVlc);
 		}
 	}
 }

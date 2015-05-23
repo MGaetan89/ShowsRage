@@ -6,5 +6,6 @@
 		android:id="@+id/menu_play_video"
 		android:icon="@drawable/ic_play_arrow_white_24dp"
 		android:title="@string/play_video"
+		android:visible="false"
 		app:showAsAction="ifRoom"/>
 </menu>
