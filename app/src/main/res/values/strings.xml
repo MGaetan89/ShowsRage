@@ -3,17 +3,16 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
 	tools:locale="en">
-	<string name="imdb" translatable="false">IMDb</string>
-	<string name="the_tvdb" translatable="false">The TVDB</string>
-	<string name="tvrage" translatable="false">TVRage</string>
-
 	<string name="about">About</string>
+	<string name="actors">Actors: <xliff:g example="Kat Dennings, Beth Behrs, Garrett Morris, Jonathan Kite" id="actors">%1$s</xliff:g></string>
 	<string name="address">Address</string>
 	<string name="airs">Airs: <xliff:g example="Monday 8:00 PM" id="airs">%1$s</xliff:g></string>
 	<string name="api_key">API Key</string>
-	<string name="app_name">ShowsRage</string>
+	<string name="awards">Awards</string>
+	<string name="casting">Casting</string>
 	<string name="coming_episodes">Coming Episodes</string>
 	<string name="debug">Debug</string>
+	<string name="directors">Directors: <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>
 	<string name="episode">Episode</string>
 	<string name="episode_name">E<xliff:g example="01" id="number">%1$02d</xliff:g>: <xliff:g example="Pilot" id="name">%2$s</xliff:g></string>
 	<string name="episode_name_short">E<xliff:g example="01" id="number">%1$02d</xliff:g></string>
@@ -57,5 +56,6 @@
 	<string name="view_in_vlc">View downloaded episodes in VLC</string>
 	<string name="view_in_vlc_summary">Requires VLC to be installed</string>
 	<string name="warning">Warning</string>
+	<string name="writers">Writers: <xliff:g example="Whitney Cummings, Michael Patrick King" id="writers">%1$s</xliff:g></string>
 	<string name="year">Year: <xliff:g example="2005-" id="year">%1$s</xliff:g></string>
 </resources>

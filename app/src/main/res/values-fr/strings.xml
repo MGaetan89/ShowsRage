@@ -4,12 +4,15 @@
 	xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
 	tools:locale="fr">
 	<string name="about">A propos</string>
+	<string name="actors">Acteurs : <xliff:g example="Kat Dennings, Beth Behrs, Garrett Morris, Jonathan Kite" id="actors">%1$s</xliff:g></string>
 	<string name="address">URL</string>
 	<string name="airs">Diffusion : <xliff:g example="Lundi 20:00" id="airs">%1$s</xliff:g></string>
 	<string name="api_key">Clé de l\'API</string>
-	<string name="app_name">ShowsRage</string>
+	<string name="awards">Récompenses</string>
+	<string name="casting">Casting</string>
 	<string name="coming_episodes">Episodes à venir</string>
 	<string name="debug">Debug</string>
+	<string name="directors">Réalisateurs : <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>
 	<string name="episode">Episode</string>
 	<string name="episode_name">E<xliff:g example="01" id="number">%1$02d</xliff:g> : <xliff:g example="Pilot" id="name">%2$s</xliff:g></string>
 	<string name="episode_name_short">E<xliff:g example="01" id="number">%1$02d</xliff:g></string>
@@ -53,5 +56,6 @@
 	<string name="view_in_vlc">Voir les épisodes téléchargés dans VLC</string>
 	<string name="view_in_vlc_summary">Nécessite que VLC soit installé</string>
 	<string name="warning">Avertissement</string>
+	<string name="writers">Scénaristes : <xliff:g example="Whitney Cummings, Michael Patrick King" id="writers">%1$s</xliff:g></string>
 	<string name="year">Diffusion : <xliff:g example="2005-" id="year">%1$s</xliff:g></string>
 </resources>

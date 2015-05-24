@@ -47,6 +47,24 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	private TextView airs = null;
 
 	@Nullable
+	private TextView awards = null;
+
+	@Nullable
+	private CardView awardsLayout = null;
+
+	@Nullable
+	private TextView castingActors = null;
+
+	@Nullable
+	private TextView castingDirectors = null;
+
+	@Nullable
+	private CardView castingLayout = null;
+
+	@Nullable
+	private TextView castingWriters = null;
+
+	@Nullable
 	private TagGroup genre = null;
 
 	@Nullable
@@ -176,6 +194,12 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 		if (view != null) {
 			this.airs = (TextView) view.findViewById(R.id.show_airs);
+			this.awards = (TextView) view.findViewById(R.id.show_awards);
+			this.awardsLayout = (CardView) view.findViewById(R.id.show_awards_layout);
+			this.castingActors = (TextView) view.findViewById(R.id.show_casting_actors);
+			this.castingDirectors = (TextView) view.findViewById(R.id.show_casting_directors);
+			this.castingLayout = (CardView) view.findViewById(R.id.show_casting_layout);
+			this.castingWriters = (TextView) view.findViewById(R.id.show_casting_writers);
 			this.genre = (TagGroup) view.findViewById(R.id.show_genre);
 			this.languageCountry = (TextView) view.findViewById(R.id.show_language_country);
 			this.location = (TextView) view.findViewById(R.id.show_location);
@@ -222,6 +246,12 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	@Override
 	public void onDestroyView() {
 		this.airs = null;
+		this.awards = null;
+		this.awardsLayout = null;
+		this.castingActors = null;
+		this.castingDirectors = null;
+		this.castingLayout = null;
+		this.castingWriters = null;
 		this.genre = null;
 		this.languageCountry = null;
 		this.location = null;
@@ -254,6 +284,66 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 			@Override
 			public void success(Serie serie, Response response) {
+				String actors = serie.getActors();
+				String director = serie.getDirector();
+				String writer = serie.getWriter();
+				boolean hasActors = !"N/A".equalsIgnoreCase(actors);
+				boolean hasDirectors = !"N/A".equalsIgnoreCase(director);
+				boolean hasWriters = !"N/A".equalsIgnoreCase(writer);
+
+				if (hasActors || hasDirectors || hasWriters) {
+					if (awards != null) {
+						String awardsText = serie.getAwards();
+
+						if ("N/A".equalsIgnoreCase(awardsText)) {
+							if (awardsLayout != null) {
+								awardsLayout.setVisibility(View.GONE);
+							}
+						} else {
+							awards.setText(awardsText);
+
+							if (awardsLayout != null) {
+								awardsLayout.setVisibility(View.VISIBLE);
+							}
+						}
+					}
+
+					if (castingActors != null) {
+						if (hasActors) {
+							castingActors.setText(getString(R.string.actors, actors));
+							castingActors.setVisibility(View.VISIBLE);
+						} else {
+							castingActors.setVisibility(View.GONE);
+						}
+					}
+
+					if (castingDirectors != null) {
+						if (hasDirectors) {
+							castingDirectors.setText(getString(R.string.directors, director));
+							castingDirectors.setVisibility(View.VISIBLE);
+						} else {
+							castingDirectors.setVisibility(View.GONE);
+						}
+					}
+
+					if (castingLayout != null) {
+						castingLayout.setVisibility(View.VISIBLE);
+					}
+
+					if (castingWriters != null) {
+						if (hasWriters) {
+							castingWriters.setText(getString(R.string.writers, writer));
+							castingWriters.setVisibility(View.VISIBLE);
+						} else {
+							castingWriters.setVisibility(View.GONE);
+						}
+					}
+				} else {
+					if (castingLayout != null) {
+						castingLayout.setVisibility(View.GONE);
+					}
+				}
+
 				if (languageCountry != null) {
 					languageCountry.setText(getString(R.string.language_county, serie.getLanguage(), serie.getCountry()));
 					languageCountry.setVisibility(View.VISIBLE);
