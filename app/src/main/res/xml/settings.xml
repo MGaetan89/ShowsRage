@@ -73,7 +73,7 @@
 
 				<PreferenceScreen
 					android:key="material_drawer"
-					android:summary="Version 2.9.8"
+					android:summary="Version 3.0.0"
 					android:title="MaterialDrawer">
 
 					<intent

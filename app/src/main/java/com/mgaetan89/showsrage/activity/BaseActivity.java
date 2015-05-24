@@ -14,24 +14,25 @@ import android.widget.Toast;
 
 import com.mgaetan89.showsrage.R;
 import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public abstract class BaseActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, Drawer.OnDrawerNavigationListener {
 	@Nullable
-	private Drawer.Result drawerResult = null;
+	private Drawer drawer = null;
 
 	@Override
 	public void onBackPressed() {
-		if (this.drawerResult != null && this.drawerResult.isDrawerOpen()) {
-			this.drawerResult.closeDrawer();
+		if (this.drawer != null && this.drawer.isDrawerOpen()) {
+			this.drawer.closeDrawer();
 		} else {
 			super.onBackPressed();
 		}
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id, IDrawerItem drawerItem) {
+	public boolean onItemClick(AdapterView<?> adapterView, View view, int position, long id, IDrawerItem drawerItem) {
 		if (drawerItem instanceof PrimaryDrawerItem) {
 			switch (((PrimaryDrawerItem) drawerItem).getNameRes()) {
 				case R.string.coming_episodes: {
@@ -40,13 +41,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Drawer.O
 
 					this.startActivity(intent);
 
-					break;
+					return true;
 				}
 
 				case R.string.history:
 					Toast.makeText(this, "Display history", Toast.LENGTH_SHORT).show();
 
-					break;
+					return true;
 
 				case R.string.logs: {
 					Intent intent = new Intent(this, LogsActivity.class);
@@ -54,7 +55,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Drawer.O
 
 					this.startActivity(intent);
 
-					break;
+					return true;
 				}
 
 				case R.string.settings: {
@@ -62,7 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Drawer.O
 
 					this.startActivity(intent);
 
-					break;
+					return true;
 				}
 
 				case R.string.shows: {
@@ -71,15 +72,17 @@ public abstract class BaseActivity extends AppCompatActivity implements Drawer.O
 
 					this.startActivity(intent);
 
-					break;
+					return true;
 				}
 			}
 		}
+
+		return false;
 	}
 
 	@Override
 	public boolean onNavigationClickListener(View view) {
-		if (this.drawerResult != null && !this.drawerResult.getActionBarDrawerToggle().isDrawerIndicatorEnabled()) {
+		if (this.drawer != null && !this.drawer.getActionBarDrawerToggle().isDrawerIndicatorEnabled()) {
 			this.onBackPressed();
 
 			return true;
@@ -92,8 +95,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Drawer.O
 		ActionBar actionBar = this.getSupportActionBar();
 
 		if (displayHomeAsUp) {
-			if (this.drawerResult != null) {
-				this.drawerResult.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+			if (this.drawer != null) {
+				this.drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
 			}
 
 			if (actionBar != null) {
@@ -104,8 +107,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Drawer.O
 				actionBar.setDisplayHomeAsUpEnabled(false);
 			}
 
-			if (this.drawerResult != null) {
-				this.drawerResult.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
+			if (this.drawer != null) {
+				this.drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
 			}
 		}
 	}
@@ -129,7 +132,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Drawer.O
 			this.setSupportActionBar(toolbar);
 		}
 
-		this.drawerResult = new Drawer()
+		this.drawer = new DrawerBuilder(this)
 				.withActionBarDrawerToggle(true)
 				.withActionBarDrawerToggleAnimated(true)
 				.withActivity(this)
@@ -149,6 +152,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Drawer.O
 						new PrimaryDrawerItem().withName(R.string.settings)
 				)
 				.build();
-		this.drawerResult.getDrawerLayout().setScrimColor(Color.TRANSPARENT);
+		this.drawer.getDrawerLayout().setScrimColor(Color.TRANSPARENT);
 	}
 }
