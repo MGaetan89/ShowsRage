@@ -298,7 +298,14 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		});
 
 		if (this.airs != null) {
-			this.airs.setText(this.getString(R.string.airs, this.show.getAirs()));
+			String airs = this.show.getAirs();
+
+			if (TextUtils.isEmpty(airs)) {
+				this.airs.setText(this.getString(R.string.airs, "N/A"));
+			} else {
+				this.airs.setText(this.getString(R.string.airs, airs));
+			}
+
 			this.airs.setVisibility(View.VISIBLE);
 		}
 
