@@ -32,8 +32,20 @@
 		style="@style/TextAppearance.AppCompat.Caption"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:layout_below="@+id/episode_date"
+		android:layout_toLeftOf="@+id/episode_actions"
+		android:layout_toStartOf="@+id/episode_actions"
+		tools:text="HD1080p"/>
+
+	<ImageView
+		android:id="@+id/episode_actions"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
 		android:layout_alignParentEnd="true"
 		android:layout_alignParentRight="true"
-		android:layout_below="@+id/episode_date"
-		tools:text="HD1080p"/>
+		android:layout_centerVertical="true"
+		android:layout_marginLeft="@dimen/padding"
+		android:layout_marginStart="@dimen/padding"
+		android:contentDescription="@string/actions"
+		android:src="@drawable/ic_more_vert_white_24dp"/>
 </RelativeLayout>

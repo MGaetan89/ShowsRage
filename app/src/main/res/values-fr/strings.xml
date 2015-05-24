@@ -4,10 +4,12 @@
 	xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
 	tools:locale="fr">
 	<string name="about">A propos</string>
+	<string name="actions">Actions</string>
 	<string name="actors">Acteurs : <xliff:g example="Kat Dennings, Beth Behrs, Garrett Morris, Jonathan Kite" id="actors">%1$s</xliff:g></string>
 	<string name="address">URL</string>
 	<string name="airs">Diffusion : <xliff:g example="Lundi 20:00" id="airs">%1$s</xliff:g></string>
 	<string name="api_key">Clé de l\'API</string>
+	<string name="archived">Archivé</string>
 	<string name="awards">Récompenses</string>
 	<string name="casting">Casting</string>
 	<string name="coming_episodes">Episodes à venir</string>
@@ -16,13 +18,17 @@
 	<string name="episode">Episode</string>
 	<string name="episode_name">E<xliff:g example="01" id="number">%1$02d</xliff:g> : <xliff:g example="Pilot" id="name">%2$s</xliff:g></string>
 	<string name="episode_name_short">E<xliff:g example="01" id="number">%1$02d</xliff:g></string>
+	<string name="episode_search">Recherche de l\'épisode <xliff:g example="1" id="episode">%1$d</xliff:g> de la saison <xliff:g example="1" id="season">%2$s</xliff:g></string>
 	<string name="error">Erreur</string>
 	<string name="external_links">Liens Externes</string>
 	<string name="extra_features">Fonctionnalités supplémentaires</string>
+	<string name="failed">Echoué</string>
 	<string name="file_size">Taille du fichier : <xliff:g example="856.93 MB" id="file_size">%1$s</xliff:g></string>
 	<string name="genre">Genre :</string>
 	<string name="history">Historique</string>
+	<string name="ignored">Ignoré</string>
 	<string name="info">Info</string>
+	<string name="keep">Conserver</string>
 	<string name="language">Langue : <xliff:g example="Anglais" id="language">%1$s</xliff:g></string>
 	<string name="language_county">Langue : <xliff:g example="Anglais" id="language">%1$s</xliff:g> (<xliff:g example="Etats-Unis" id="country">%2$s</xliff:g>)</string>
 	<string name="licenses">Licences</string>
@@ -43,10 +49,15 @@
 	<string name="quality">Qualité : <xliff:g example="HD1080p" id="quality">%1$s</xliff:g></string>
 	<string name="rated">Classification : <xliff:g example="TV-14" id="rated">%1$s</xliff:g></string>
 	<string name="rating">Evaluation IMDb : <xliff:g example="5.0" id="rating">%1$s</xliff:g>/10 (<xliff:g example="10000" id="votes">%2$s</xliff:g> votes)</string>
+	<string name="replace">Replacer</string>
+	<string name="replace_existing_episode">Replacer l\'épisode actuel s\'il avait déjà été téléchargé ?</string>
 	<string name="runtime">Durée : <xliff:g example="22 min" id="runtime">%1$s</xliff:g></string>
+	<string name="search_episode">Chercher l\'épisode</string>
 	<string name="season_number">Saison %1$d</string>
 	<string name="server_information">Information sur le serveur</string>
+	<string name="set_status">Définir le status</string>
 	<string name="settings">Paramètres</string>
+	<string name="skipped">Passé</string>
 	<string name="specials">Spéciaux</string>
 	<string name="show">Série</string>
 	<string name="shows">Séries</string>
@@ -55,6 +66,7 @@
 	<string name="username">Identifiant</string>
 	<string name="view_in_vlc">Voir les épisodes téléchargés dans VLC</string>
 	<string name="view_in_vlc_summary">Nécessite que VLC soit installé</string>
+	<string name="wanted">Voulu</string>
 	<string name="warning">Avertissement</string>
 	<string name="writers">Scénaristes : <xliff:g example="Whitney Cummings, Michael Patrick King" id="writers">%1$s</xliff:g></string>
 	<string name="year">Diffusion : <xliff:g example="2005-" id="year">%1$s</xliff:g></string>

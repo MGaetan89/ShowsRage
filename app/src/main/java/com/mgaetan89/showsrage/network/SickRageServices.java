@@ -5,6 +5,7 @@ import com.mgaetan89.showsrage.model.Episodes;
 import com.mgaetan89.showsrage.model.LogLevel;
 import com.mgaetan89.showsrage.model.Logs;
 import com.mgaetan89.showsrage.model.Seasons;
+import com.mgaetan89.showsrage.model.ServerResponse;
 import com.mgaetan89.showsrage.model.ShowStats;
 import com.mgaetan89.showsrage.model.Shows;
 import com.mgaetan89.showsrage.model.SingleEpisode;
@@ -38,4 +39,10 @@ public interface SickRageServices {
 
 	@GET("/?cmd=show.stats")
 	void getShowStats(@Query("indexerid") int indexerId, Callback<ShowStats> callback);
+
+	@GET("/?cmd=episode.search")
+	void searchEpisode(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, Callback<ServerResponse<Object>> callback);
+
+	@GET("/?cmd=episode.setstatus")
+	void setEpisodeStatus(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, @Query("force") int force, @Query("status") String status, Callback<ServerResponse<Object>> callback);
 }

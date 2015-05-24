@@ -4,10 +4,12 @@
 	xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
 	tools:locale="en">
 	<string name="about">About</string>
+	<string name="actions">Actions</string>
 	<string name="actors">Actors: <xliff:g example="Kat Dennings, Beth Behrs, Garrett Morris, Jonathan Kite" id="actors">%1$s</xliff:g></string>
 	<string name="address">Address</string>
 	<string name="airs">Airs: <xliff:g example="Monday 8:00 PM" id="airs">%1$s</xliff:g></string>
 	<string name="api_key">API Key</string>
+	<string name="archived">Archived</string>
 	<string name="awards">Awards</string>
 	<string name="casting">Casting</string>
 	<string name="coming_episodes">Coming Episodes</string>
@@ -16,13 +18,17 @@
 	<string name="episode">Episode</string>
 	<string name="episode_name">E<xliff:g example="01" id="number">%1$02d</xliff:g>: <xliff:g example="Pilot" id="name">%2$s</xliff:g></string>
 	<string name="episode_name_short">E<xliff:g example="01" id="number">%1$02d</xliff:g></string>
+	<string name="episode_search">Searching for episode <xliff:g example="1" id="episode">%1$d</xliff:g> in season <xliff:g example="1" id="season">%2$s</xliff:g></string>
 	<string name="error">Error</string>
 	<string name="external_links">External Links</string>
 	<string name="extra_features">Extra features</string>
+	<string name="failed">Failed</string>
 	<string name="file_size">File size: <xliff:g example="856.93 MB" id="file_size">%1$s</xliff:g></string>
 	<string name="genre">Genre: </string>
 	<string name="history">History</string>
+	<string name="ignored">Ignored</string>
 	<string name="info">Info</string>
+	<string name="keep">Keep</string>
 	<string name="language">Language: <xliff:g example="English" id="language">%1$s</xliff:g></string>
 	<string name="language_county">Language: <xliff:g example="English" id="language">%1$s</xliff:g> (<xliff:g example="USA" id="country">%2$s</xliff:g>)</string>
 	<string name="licenses">Licenses</string>
@@ -43,10 +49,15 @@
 	<string name="quality">Quality: <xliff:g example="HD1080p" id="quality">%1$s</xliff:g></string>
 	<string name="rated">Rated: <xliff:g example="TV-14" id="rated">%1$s</xliff:g></string>
 	<string name="rating">IMDb Rating: <xliff:g example="5.0" id="rating">%1$s</xliff:g>/10 (<xliff:g example="10000" id="votes">%2$s</xliff:g> votes)</string>
+	<string name="replace">Replace</string>
+	<string name="replace_existing_episode">Replace the current episode if it was already downloaded?</string>
 	<string name="runtime">Runtime: <xliff:g example="22 min" id="runtime">%1$s</xliff:g></string>
+	<string name="search_episode">Search episode</string>
 	<string name="season_number">Season %1$d</string>
 	<string name="server_information">Server Information</string>
+	<string name="set_status">Set status</string>
 	<string name="settings">Settings</string>
+	<string name="skipped">Skipped</string>
 	<string name="specials">Specials</string>
 	<string name="show">Show</string>
 	<string name="shows">Shows</string>
@@ -55,6 +66,7 @@
 	<string name="username">Username</string>
 	<string name="view_in_vlc">View downloaded episodes in VLC</string>
 	<string name="view_in_vlc_summary">Requires VLC to be installed</string>
+	<string name="wanted">Wanted</string>
 	<string name="warning">Warning</string>
 	<string name="writers">Writers: <xliff:g example="Whitney Cummings, Michael Patrick King" id="writers">%1$s</xliff:g></string>
 	<string name="year">Year: <xliff:g example="2005-" id="year">%1$s</xliff:g></string>

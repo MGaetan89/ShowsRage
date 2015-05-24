@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.network;
 
 import android.content.Context;
 
+import com.mgaetan89.showsrage.activity.ShowActivity;
 import com.mgaetan89.showsrage.fragment.ComingEpisodesFragment;
 import com.mgaetan89.showsrage.fragment.EpisodeDetailFragment;
 import com.mgaetan89.showsrage.fragment.LogsFragment;
@@ -22,6 +23,7 @@ import dagger.Provides;
 				EpisodeDetailFragment.class,
 				LogsFragment.class,
 				SeasonFragment.class,
+				ShowActivity.class,
 				ShowFragment.class,
 				ShowOverviewFragment.class,
 				ShowsFragment.class

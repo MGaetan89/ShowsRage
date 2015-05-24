@@ -3,12 +3,15 @@ package com.mgaetan89.showsrage.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mgaetan89.showsrage.R;
@@ -23,6 +26,10 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 	private List<Episode> episodes = Collections.emptyList();
 
 	private int seasonNumber;
+
+	public interface OnEpisodeActionSelectedListener {
+		void onEpisodeActionSelected(int seasonNumber, int episodeNumber, MenuItem action);
+	}
 
 	public interface OnEpisodeSelectedListener {
 		void onEpisodeSelected(int seasonNumber, int episodeNumber, @NonNull Episode episode, int episodesCount);
@@ -79,8 +86,10 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 		return new ViewHolder(view);
 	}
 
+	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+		@Nullable
+		public ImageView actions;
 
-	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		@Nullable
 		public TextView date;
 
@@ -95,19 +104,47 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 
 			view.setOnClickListener(this);
 
+			this.actions = (ImageView) view.findViewById(R.id.episode_actions);
 			this.date = (TextView) view.findViewById(R.id.episode_date);
 			this.name = (TextView) view.findViewById(R.id.episode_name);
 			this.qualityOrStatus = (TextView) view.findViewById(R.id.episode_quality_or_status);
+
+			if (this.actions != null) {
+				this.actions.setOnClickListener(this);
+			}
 		}
 
 		@Override
 		public void onClick(View view) {
 			Context context = view.getContext();
-			Episode episode = episodes.get(this.getAdapterPosition());
 
-			if (context instanceof OnEpisodeSelectedListener && episode != null) {
-				((OnEpisodeSelectedListener) context).onEpisodeSelected(seasonNumber, getItemCount() - this.getAdapterPosition(), episode, getItemCount());
+			if (view.getId() == R.id.episode_actions) {
+				PopupMenu popupMenu = new PopupMenu(context, this.actions);
+				popupMenu.inflate(R.menu.episode_action);
+				popupMenu.setOnMenuItemClickListener(this);
+				popupMenu.show();
+			} else {
+				Episode episode = episodes.get(this.getAdapterPosition());
+
+				if (context instanceof OnEpisodeSelectedListener && episode != null) {
+					((OnEpisodeSelectedListener) context).onEpisodeSelected(seasonNumber, getItemCount() - this.getAdapterPosition(), episode, getItemCount());
+				}
 			}
+		}
+
+		@Override
+		public boolean onMenuItemClick(MenuItem item) {
+			if (this.actions != null) {
+				Context context = this.actions.getContext();
+
+				if (context instanceof OnEpisodeActionSelectedListener) {
+					((OnEpisodeActionSelectedListener) context).onEpisodeActionSelected(seasonNumber, getItemCount() - this.getAdapterPosition(), item);
+
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 }
