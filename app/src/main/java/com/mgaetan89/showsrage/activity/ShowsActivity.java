@@ -21,7 +21,7 @@ public class ShowsActivity extends BaseActivity implements ShowsAdapter.OnShowSe
 
 	@Override
 	protected int getSelectedMenuItemIndex() {
-		return 0;
+		return MenuItems.SHOWS.ordinal();
 	}
 
 	@Override

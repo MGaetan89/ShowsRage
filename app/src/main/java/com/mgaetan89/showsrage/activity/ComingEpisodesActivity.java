@@ -8,7 +8,7 @@ import com.mgaetan89.showsrage.fragment.ComingEpisodesFragment;
 public class ComingEpisodesActivity extends BaseActivity {
 	@Override
 	protected int getSelectedMenuItemIndex() {
-		return 1;
+		return MenuItems.COMING_EPISODES.ordinal();
 	}
 
 	@Override

@@ -114,7 +114,7 @@
 				<PreferenceScreen
 					android:key="recyclerview-animators"
 					android:summary="Version 1.2.0"
-					android:title="recyclerview-animators">
+					android:title="RecyclerView Animators">
 
 					<intent
 						android:action="android.intent.action.VIEW"
@@ -129,6 +129,19 @@
 					<intent
 						android:action="android.intent.action.VIEW"
 						android:data="http://square.github.io/retrofit/"/>
+				</PreferenceScreen>
+			</PreferenceCategory>
+
+			<PreferenceCategory android:title="Attribution 4.0 International">
+
+				<PreferenceScreen
+					android:key="google_material_design_icons"
+					android:summary="Version 1.0.2"
+					android:title="Material Design Icons">
+
+					<intent
+						android:action="android.intent.action.VIEW"
+						android:data="https://github.com/google/material-design-icons"/>
 				</PreferenceScreen>
 			</PreferenceCategory>
 

@@ -8,7 +8,7 @@ import com.mgaetan89.showsrage.fragment.SettingsFragment;
 public class SettingsActivity extends BaseActivity {
 	@Override
 	protected int getSelectedMenuItemIndex() {
-		return -1;
+		return MenuItems.SETTINGS.ordinal();
 	}
 
 	@Override

@@ -84,7 +84,7 @@ public class ShowActivity extends BaseActivity implements EpisodesAdapter.OnEpis
 
 	@Override
 	protected int getSelectedMenuItemIndex() {
-		return -1;
+		return MenuItems.SHOWS.ordinal();
 	}
 
 	@Override

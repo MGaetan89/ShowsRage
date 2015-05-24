@@ -143,15 +143,23 @@ public abstract class BaseActivity extends AppCompatActivity implements Drawer.O
 				.withToolbar(toolbar)
 				.withTranslucentStatusBar(false)
 				.addDrawerItems(
-						new PrimaryDrawerItem().withName(R.string.shows),
-						new PrimaryDrawerItem().withName(R.string.coming_episodes),
-						new PrimaryDrawerItem().withName(R.string.history),
-						new PrimaryDrawerItem().withName(R.string.logs)
+						new PrimaryDrawerItem().withName(R.string.shows).withIcon(R.drawable.ic_tv_white_24dp).withIconTintingEnabled(true),
+						new PrimaryDrawerItem().withName(R.string.coming_episodes).withIcon(R.drawable.ic_event_white_24dp).withIconTintingEnabled(true),
+						new PrimaryDrawerItem().withName(R.string.history).withIcon(R.drawable.ic_history_white_24dp).withIconTintingEnabled(true),
+						new PrimaryDrawerItem().withName(R.string.logs).withIcon(R.drawable.ic_list_white_24dp).withIconTintingEnabled(true)
 				)
 				.addStickyDrawerItems(
-						new PrimaryDrawerItem().withName(R.string.settings)
+						new PrimaryDrawerItem().withName(R.string.settings).withIcon(R.drawable.ic_settings_white_24dp).withIconTintingEnabled(true)
 				)
 				.build();
 		this.drawer.getDrawerLayout().setScrimColor(Color.TRANSPARENT);
+	}
+
+	public enum MenuItems {
+		SHOWS,
+		COMING_EPISODES,
+		HISTORY,
+		LOGS,
+		SETTINGS
 	}
 }
