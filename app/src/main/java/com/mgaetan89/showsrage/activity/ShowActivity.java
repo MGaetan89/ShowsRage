@@ -28,12 +28,17 @@ import retrofit.client.Response;
 /**
  * Requires a {@link com.mgaetan89.showsrage.Constants.Bundle#SHOW_MODEL Constants.Bundle#SHOW_MODEL} associated with a non-{@code null} {@link com.mgaetan89.showsrage.model.Show Show} in its {@link android.content.Intent Intent}.
  */
-public class ShowActivity extends BaseActivity implements EpisodesAdapter.OnEpisodeActionSelectedListener, EpisodesAdapter.OnEpisodeSelectedListener {
+public class ShowActivity extends BaseActivity implements Callback<ServerResponse<Object>>, EpisodesAdapter.OnEpisodeActionSelectedListener, EpisodesAdapter.OnEpisodeSelectedListener {
 	@Inject
 	public SickRageApi api;
 
 	@Nullable
 	private Show show = null;
+
+	@Override
+	public void failure(RetrofitError error) {
+		error.printStackTrace();
+	}
 
 	@Override
 	public void onEpisodeActionSelected(int seasonNumber, int episodeNumber, MenuItem action) {
@@ -83,6 +88,11 @@ public class ShowActivity extends BaseActivity implements EpisodesAdapter.OnEpis
 	}
 
 	@Override
+	public void success(ServerResponse<Object> serverResponse, Response response) {
+		Toast.makeText(ShowActivity.this, serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
 	protected int getSelectedMenuItemIndex() {
 		return MenuItems.SHOWS.ordinal();
 	}
@@ -121,17 +131,7 @@ public class ShowActivity extends BaseActivity implements EpisodesAdapter.OnEpis
 
 		Toast.makeText(this, this.getString(R.string.episode_search, episodeNumber, seasonNumber), Toast.LENGTH_SHORT).show();
 
-		this.api.getServices().searchEpisode(this.show.getIndexerId(), seasonNumber, episodeNumber, new Callback<ServerResponse<Object>>() {
-			@Override
-			public void failure(RetrofitError error) {
-				error.printStackTrace();
-			}
-
-			@Override
-			public void success(ServerResponse<Object> serverResponse, Response response) {
-				Toast.makeText(ShowActivity.this, serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
-			}
-		});
+		this.api.getServices().searchEpisode(this.show.getIndexerId(), seasonNumber, episodeNumber, this);
 	}
 
 	private void setEpisodeStatus(final int seasonNumber, final int episodeNumber, final String status) {
@@ -139,17 +139,7 @@ public class ShowActivity extends BaseActivity implements EpisodesAdapter.OnEpis
 			return;
 		}
 
-		final Callback<ServerResponse<Object>> callback = new Callback<ServerResponse<Object>>() {
-			@Override
-			public void failure(RetrofitError error) {
-				error.printStackTrace();
-			}
-
-			@Override
-			public void success(ServerResponse<Object> serverResponse, Response response) {
-				Toast.makeText(ShowActivity.this, serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
-			}
-		};
+		final Callback<ServerResponse<Object>> callback = this;
 
 		new AlertDialog.Builder(this)
 				.setMessage(R.string.replace_existing_episode)
