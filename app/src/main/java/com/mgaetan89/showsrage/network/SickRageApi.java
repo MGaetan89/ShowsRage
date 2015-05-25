@@ -5,23 +5,27 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import retrofit.RestAdapter;
 
-@Singleton
 public class SickRageApi {
 	@NonNull
 	private String apiUrl = "";
+
+	private static final SickRageApi INSTANCE = new SickRageApi();
 
 	private SickRageServices services = null;
 
 	@NonNull
 	private String videosUrl = "";
 
-	@Inject
-	public SickRageApi(Context context) {
+	private SickRageApi() {
+	}
+
+	public static SickRageApi getInstance() {
+		return INSTANCE;
+	}
+
+	public void init(Context context) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String protocol = preferences.getBoolean("use_https", false) ? "https" : "http";
 		String address = preferences.getString("server_address", "");

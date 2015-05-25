@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.ShowsRageApplication;
 import com.mgaetan89.showsrage.adapter.LogsAdapter;
 import com.mgaetan89.showsrage.model.LogLevel;
 import com.mgaetan89.showsrage.model.Logs;
@@ -28,16 +27,11 @@ import com.mgaetan89.showsrage.network.SickRageApi;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class LogsFragment extends Fragment implements Callback<Logs>, SwipeRefreshLayout.OnRefreshListener {
-	@Inject
-	public SickRageApi api;
-
 	@Nullable
 	private LogsAdapter adapter = null;
 
@@ -71,13 +65,6 @@ public class LogsFragment extends Fragment implements Callback<Logs>, SwipeRefre
 		super.onActivityCreated(savedInstanceState);
 
 		this.onRefresh();
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		((ShowsRageApplication) this.getActivity().getApplication()).inject(this);
 	}
 
 	@Override
@@ -184,7 +171,7 @@ public class LogsFragment extends Fragment implements Callback<Logs>, SwipeRefre
 			this.swipeRefreshLayout.setRefreshing(true);
 		}
 
-		this.api.getServices().getLogs(this.getPreferredLogsLevel(), this);
+		SickRageApi.getInstance().getServices().getLogs(this.getPreferredLogsLevel(), this);
 	}
 
 	@Override

@@ -11,15 +11,12 @@ import android.widget.Toast;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.ShowsRageApplication;
 import com.mgaetan89.showsrage.adapter.EpisodesAdapter;
 import com.mgaetan89.showsrage.fragment.ShowFragment;
 import com.mgaetan89.showsrage.model.Episode;
 import com.mgaetan89.showsrage.model.ServerResponse;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.network.SickRageApi;
-
-import javax.inject.Inject;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -29,9 +26,6 @@ import retrofit.client.Response;
  * Requires a {@link com.mgaetan89.showsrage.Constants.Bundle#SHOW_MODEL Constants.Bundle#SHOW_MODEL} associated with a non-{@code null} {@link com.mgaetan89.showsrage.model.Show Show} in its {@link android.content.Intent Intent}.
  */
 public class ShowActivity extends BaseActivity implements Callback<ServerResponse<Object>>, EpisodesAdapter.OnEpisodeActionSelectedListener, EpisodesAdapter.OnEpisodeSelectedListener {
-	@Inject
-	public SickRageApi api;
-
 	@Nullable
 	private Show show = null;
 
@@ -106,8 +100,6 @@ public class ShowActivity extends BaseActivity implements Callback<ServerRespons
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		((ShowsRageApplication) this.getApplication()).inject(this);
-
 		this.show = (Show) this.getIntent().getSerializableExtra(Constants.Bundle.SHOW_MODEL);
 
 		if (savedInstanceState == null) {
@@ -131,7 +123,7 @@ public class ShowActivity extends BaseActivity implements Callback<ServerRespons
 
 		Toast.makeText(this, this.getString(R.string.episode_search, episodeNumber, seasonNumber), Toast.LENGTH_SHORT).show();
 
-		this.api.getServices().searchEpisode(this.show.getIndexerId(), seasonNumber, episodeNumber, this);
+		SickRageApi.getInstance().getServices().searchEpisode(this.show.getIndexerId(), seasonNumber, episodeNumber, this);
 	}
 
 	private void setEpisodeStatus(final int seasonNumber, final int episodeNumber, final String status) {
@@ -146,13 +138,13 @@ public class ShowActivity extends BaseActivity implements Callback<ServerRespons
 				.setPositiveButton(R.string.replace, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						api.getServices().setEpisodeStatus(show.getIndexerId(), seasonNumber, episodeNumber, 1, status, callback);
+						SickRageApi.getInstance().getServices().setEpisodeStatus(show.getIndexerId(), seasonNumber, episodeNumber, 1, status, callback);
 					}
 				})
 				.setNegativeButton(R.string.keep, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						api.getServices().setEpisodeStatus(show.getIndexerId(), seasonNumber, episodeNumber, 0, status, callback);
+						SickRageApi.getInstance().getServices().setEpisodeStatus(show.getIndexerId(), seasonNumber, episodeNumber, 0, status, callback);
 					}
 				})
 				.show();

@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.ShowsRageApplication;
 import com.mgaetan89.showsrage.adapter.ShowPagerAdapter;
 import com.mgaetan89.showsrage.model.Seasons;
 import com.mgaetan89.showsrage.model.Show;
@@ -21,16 +20,11 @@ import com.mgaetan89.showsrage.network.SickRageApi;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class ShowFragment extends Fragment implements Callback<Seasons> {
-	@Inject
-	public SickRageApi api;
-
 	@Nullable
 	private ShowPagerAdapter adapter = null;
 
@@ -52,14 +46,7 @@ public class ShowFragment extends Fragment implements Callback<Seasons> {
 		Intent intent = this.getActivity().getIntent();
 		Show show = (Show) intent.getSerializableExtra(Constants.Bundle.SHOW_MODEL);
 
-		this.api.getServices().getSeasons(show.getIndexerId(), this);
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		((ShowsRageApplication) this.getActivity().getApplication()).inject(this);
+		SickRageApi.getInstance().getServices().getSeasons(show.getIndexerId(), this);
 	}
 
 	@Nullable

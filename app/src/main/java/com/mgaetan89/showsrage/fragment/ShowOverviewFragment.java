@@ -22,7 +22,6 @@ import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.ShowsRageApplication;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
 import com.mgaetan89.showsrage.model.Serie;
 import com.mgaetan89.showsrage.model.Show;
@@ -31,8 +30,6 @@ import com.mgaetan89.showsrage.network.OmDbApi;
 import com.mgaetan89.showsrage.network.SickRageApi;
 import com.squareup.picasso.Picasso;
 
-import javax.inject.Inject;
-
 import me.gujun.android.taggroup.TagGroup;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -40,9 +37,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class ShowOverviewFragment extends Fragment implements Callback<SingleShow>, View.OnClickListener {
-	@Inject
-	public SickRageApi api;
-
 	@Nullable
 	private TextView airs = null;
 
@@ -140,7 +134,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		if (actionBar != null) {
 			actionBar.setTitle(this.show.getShowName());
 
-			this.api.getServices().getShow(this.show.getIndexerId(), this);
+			SickRageApi.getInstance().getServices().getShow(this.show.getIndexerId(), this);
 		}
 	}
 
@@ -178,13 +172,6 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 				break;
 			}
 		}
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		((ShowsRageApplication) this.getActivity().getApplication()).inject(this);
 	}
 
 	@Nullable
@@ -442,7 +429,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 		if (this.poster != null) {
 			Picasso.with(this.getActivity())//
-					.load(this.api.getApiUrl() + "?cmd=show.getposter&tvdbid=" + this.show.getTvDbId())//
+					.load(SickRageApi.getInstance().getApiUrl() + "?cmd=show.getposter&tvdbid=" + this.show.getTvDbId())//
 					.into(this.poster);
 
 			this.poster.setContentDescription(this.show.getShowName());

@@ -23,12 +23,7 @@ import com.squareup.picasso.Picasso;
 import java.util.Collections;
 import java.util.List;
 
-import javax.inject.Inject;
-
 public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> {
-	@Inject
-	public SickRageApi api;
-
 	@NonNull
 	private List<Show> shows = Collections.emptyList();
 
@@ -57,7 +52,7 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 			holder.logo.setContentDescription(show.getShowName());
 
 			Picasso.with(holder.logo.getContext())//
-					.load(this.api.getApiUrl() + "?cmd=show.getposter&tvdbid=" + show.getTvDbId())//
+					.load(SickRageApi.getInstance().getApiUrl() + "?cmd=show.getposter&tvdbid=" + show.getTvDbId())//
 					.transform(new CircleTransformation())//
 					.into(holder.logo);
 		}
@@ -92,10 +87,6 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_shows_list, parent, false);
 
 		return new ViewHolder(view);
-	}
-
-	public void setApi(SickRageApi api) {
-		this.api = api;
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

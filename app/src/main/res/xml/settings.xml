@@ -62,16 +62,6 @@
 				</PreferenceScreen>
 
 				<PreferenceScreen
-					android:key="dagger"
-					android:summary="Version 1.2.2"
-					android:title="Dagger">
-
-					<intent
-						android:action="android.intent.action.VIEW"
-						android:data="http://square.github.io/dagger/"/>
-				</PreferenceScreen>
-
-				<PreferenceScreen
 					android:key="material_drawer"
 					android:summary="Version 3.0.0"
 					android:title="MaterialDrawer">

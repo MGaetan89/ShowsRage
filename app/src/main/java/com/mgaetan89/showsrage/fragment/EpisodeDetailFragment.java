@@ -25,23 +25,17 @@ import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.ShowsRageApplication;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
 import com.mgaetan89.showsrage.model.Episode;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.SingleEpisode;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
-import javax.inject.Inject;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class EpisodeDetailFragment extends Fragment implements Callback<SingleEpisode> {
-	@Inject
-	public SickRageApi api;
-
 	@Nullable
 	private TextView airs = null;
 
@@ -104,14 +98,7 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 		this.show = (Show) arguments.getSerializable(Constants.Bundle.SHOW_MODEL);
 
 		this.displayEpisode(episode);
-		this.api.getServices().getEpisode(this.show.getIndexerId(), seasonNumber, episodeNumber, this);
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		((ShowsRageApplication) this.getActivity().getApplication()).inject(this);
+		SickRageApi.getInstance().getServices().getEpisode(this.show.getIndexerId(), seasonNumber, episodeNumber, this);
 	}
 
 	@Override
@@ -181,7 +168,7 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 	}
 
 	private void clickPlayVideo() {
-		String episodeUrl = this.api.getVideosUrl();
+		String episodeUrl = SickRageApi.getInstance().getVideosUrl();
 
 		if (this.show != null) {
 			episodeUrl += this.show.getShowName().replace(" ", "%20") + "/";

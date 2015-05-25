@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.mgaetan89.showsrage.R;
+import com.mgaetan89.showsrage.network.SickRageApi;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -123,6 +124,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Drawer.O
 		super.onCreate(savedInstanceState);
 
 		this.setContentView(R.layout.activity_main);
+
+		SickRageApi.getInstance().init(this);
 
 		this.setTitle(this.getTitleResourceId());
 

@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.ShowsRageApplication;
 import com.mgaetan89.showsrage.adapter.EpisodesAdapter;
 import com.mgaetan89.showsrage.model.Episode;
 import com.mgaetan89.showsrage.model.Episodes;
@@ -27,16 +26,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class SeasonFragment extends Fragment implements Callback<Episodes>, SwipeRefreshLayout.OnRefreshListener {
-	@Inject
-	public SickRageApi api;
-
 	@Nullable
 	private EpisodesAdapter adapter = null;
 
@@ -101,13 +95,6 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		((ShowsRageApplication) this.getActivity().getApplication()).inject(this);
-	}
-
-	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_season, container, false);
 
@@ -159,7 +146,7 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 			this.swipeRefreshLayout.setRefreshing(true);
 		}
 
-		this.api.getServices().getEpisodes(this.indexerId, this.seasonNumber, this);
+		SickRageApi.getInstance().getServices().getEpisodes(this.indexerId, this.seasonNumber, this);
 	}
 
 	@Override

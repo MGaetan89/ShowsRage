@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.ShowsRageApplication;
 import com.mgaetan89.showsrage.adapter.ShowsAdapter;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.ShowStat;
@@ -26,16 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.inject.Inject;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class ShowsFragment extends Fragment implements Callback<Shows>, SwipeRefreshLayout.OnRefreshListener {
-	@Inject
-	public SickRageApi api;
-
 	@Nullable
 	private ShowsAdapter adapter = null;
 
@@ -71,13 +65,6 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SwipeRef
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		((ShowsRageApplication) this.getActivity().getApplication()).inject(this);
-	}
-
-	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_shows, container, false);
 
@@ -90,7 +77,6 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SwipeRef
 
 			if (this.recyclerView != null) {
 				this.adapter = new ShowsAdapter(this.shows);
-				this.adapter.setApi(this.api);
 
 				this.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 					@Override
@@ -149,7 +135,7 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SwipeRef
 			this.swipeRefreshLayout.setRefreshing(true);
 		}
 
-		this.api.getServices().getShows(this);
+		SickRageApi.getInstance().getServices().getShows(this);
 	}
 
 	@Override
@@ -166,7 +152,7 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SwipeRef
 			final AtomicInteger responseCount = new AtomicInteger(0);
 
 			for (final Show show : this.shows) {
-				this.api.getServices().getShowStats(show.getIndexerId(), new Callback<ShowStats>() {
+				SickRageApi.getInstance().getServices().getShowStats(show.getIndexerId(), new Callback<ShowStats>() {
 					@Override
 					public void failure(RetrofitError error) {
 						error.printStackTrace();
