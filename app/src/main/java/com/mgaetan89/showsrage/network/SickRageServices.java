@@ -40,9 +40,15 @@ public interface SickRageServices {
 	@GET("/?cmd=show.stats")
 	void getShowStats(@Query("indexerid") int indexerId, Callback<ShowStats> callback);
 
+	@GET("/?cmd=sb.restart")
+	void restart();
+
 	@GET("/?cmd=episode.search")
 	void searchEpisode(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, Callback<ServerResponse<Object>> callback);
 
 	@GET("/?cmd=episode.setstatus")
 	void setEpisodeStatus(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, @Query("force") int force, @Query("status") String status, Callback<ServerResponse<Object>> callback);
+
+	@GET("/?cmd=sb.shutdown")
+	void shutDown();
 }

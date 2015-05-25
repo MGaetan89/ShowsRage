@@ -54,6 +54,9 @@
 	<string name="rating">Evaluation IMDb : <xliff:g example="5.0" id="rating">%1$s</xliff:g>/10 (<xliff:g example="10000" id="votes">%2$s</xliff:g> votes)</string>
 	<string name="replace">Replacer</string>
 	<string name="replace_existing_episode">Replacer l\'épisode actuel s\'il avait déjà été téléchargé ?</string>
+	<string name="restart">Redémarrer</string>
+	<string name="restart_confirm">Etes-vous sûr de vouloir redémarrer SickRage ?</string>
+	<string name="restart_sickrage">Redémarrer SickRage</string>
 	<string name="runtime">Durée : <xliff:g example="22 min" id="runtime">%1$s</xliff:g></string>
 	<string name="search_episode">Chercher l\'épisode</string>
 	<string name="season_episode_name">S<xliff:g example="01" id="season">%1$02d</xliff:g>E<xliff:g example="01" id="episode">%2$02d</xliff:g> - <xliff:g example="Pilot" id="name">%3$s</xliff:g></string>
@@ -61,11 +64,14 @@
 	<string name="server_information">Information sur le serveur</string>
 	<string name="set_status">Définir le statut</string>
 	<string name="settings">Paramètres</string>
+	<string name="show">Série</string>
+	<string name="shows">Séries</string>
+	<string name="shutdown">Arrêter</string>
+	<string name="shutdown_confirm">Etes-vous sûr de vouloir arrêter SickRage ?</string>
+	<string name="shutdown_sickrage">Arrêter SickRage</string>
 	<string name="skipped">Passé</string>
 	<string name="soon">Bientôt</string>
 	<string name="specials">Spéciaux</string>
-	<string name="show">Série</string>
-	<string name="shows">Séries</string>
 	<string name="status">Status : <xliff:g example="En cours" id="status">%1$s</xliff:g></string>
 	<string name="today">Aujourd\'hui</string>
 	<string name="use_https">Connexion sécurisée ?</string>
