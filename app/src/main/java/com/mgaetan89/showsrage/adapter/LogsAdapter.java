@@ -55,22 +55,22 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
 
 				switch (errorType.toLowerCase()) {
 					case "debug":
-						errorTypeColor = R.color.debug;
+						errorTypeColor = R.color.green;
 
 						break;
 
 					case "error":
-						errorTypeColor = R.color.error;
+						errorTypeColor = R.color.red;
 
 						break;
 
 					case "info":
-						errorTypeColor = R.color.info;
+						errorTypeColor = R.color.blue;
 
 						break;
 
 					case "warning":
-						errorTypeColor = R.color.warning;
+						errorTypeColor = R.color.orange;
 
 						break;
 				}
