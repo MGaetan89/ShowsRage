@@ -16,7 +16,7 @@
 	<string name="debug">Debug</string>
 	<string name="directors">Directors: <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>
 	<string name="episode">Episode</string>
-	<string name="episode_name">E<xliff:g example="01" id="number">%1$02d</xliff:g>: <xliff:g example="Pilot" id="name">%2$s</xliff:g></string>
+	<string name="episode_name">E<xliff:g example="01" id="number">%1$02d</xliff:g> - <xliff:g example="Pilot" id="name">%2$s</xliff:g></string>
 	<string name="episode_name_short">E<xliff:g example="01" id="number">%1$02d</xliff:g></string>
 	<string name="episode_search">Searching for episode <xliff:g example="1" id="episode">%1$d</xliff:g> in season <xliff:g example="1" id="season">%2$s</xliff:g></string>
 	<string name="error">Error</string>
