@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="@dimen/list_item_height"
+	android:gravity="center_vertical"
+	android:paddingEnd="@dimen/padding"
+	android:paddingLeft="@dimen/padding"
+	android:paddingRight="@dimen/padding"
+	android:paddingStart="@dimen/padding">
+
+	<ImageView
+		android:id="@+id/episode_logo"
+		android:layout_width="40dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/padding"
+		android:layout_marginRight="@dimen/padding"
+		tools:ignore="ContentDescription"
+		tools:src="@mipmap/ic_launcher"/>
+
+	<TextView
+		android:id="@+id/episode_name"
+		style="@style/TextAppearance.AppCompat.Subhead"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toEndOf="@+id/episode_logo"
+		android:layout_toRightOf="@+id/episode_logo"
+		android:ellipsize="end"
+		android:singleLine="true"
+		tools:text="@string/episode_name"/>
+
+	<TextView
+		android:id="@+id/episode_date"
+		style="@style/TextAppearance.AppCompat.Caption"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/episode_name"
+		android:layout_toEndOf="@+id/episode_logo"
+		android:layout_toRightOf="@+id/episode_logo"
+		tools:text="2011-09-19"/>
+
+	<TextView
+		android:id="@+id/episode_network_quality"
+		style="@style/TextAppearance.AppCompat.Caption"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/episode_date"
+		android:layout_toLeftOf="@+id/episode_actions"
+		android:layout_toStartOf="@+id/episode_actions"
+		tools:text="CBS / HD1080p"/>
+
+	<ImageView
+		android:id="@+id/episode_actions"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentEnd="true"
+		android:layout_alignParentRight="true"
+		android:layout_centerVertical="true"
+		android:layout_marginLeft="@dimen/padding"
+		android:layout_marginStart="@dimen/padding"
+		android:contentDescription="@string/actions"
+		android:src="@drawable/ic_more_vert_white_24dp"/>
+</RelativeLayout>

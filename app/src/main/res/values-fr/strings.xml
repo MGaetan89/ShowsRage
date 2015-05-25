@@ -31,13 +31,16 @@
 	<string name="keep">Conserver</string>
 	<string name="language">Langue : <xliff:g example="Anglais" id="language">%1$s</xliff:g></string>
 	<string name="language_county">Langue : <xliff:g example="Anglais" id="language">%1$s</xliff:g> (<xliff:g example="Etats-Unis" id="country">%2$s</xliff:g>)</string>
+	<string name="later">A venir</string>
 	<string name="licenses">Licences</string>
 	<string name="location">Emplacement : <xliff:g example="/Séries/2 Broke Girls" id="location">%1$s</xliff:g></string>
 	<string name="logs">Logs</string>
+	<string name="missed">Manqués</string>
 	<string name="more_information">Plus d\'informations</string>
 	<string name="network">Chaîne : <xliff:g example="CBS" id="network">%1$s</xliff:g></string>
 	<string name="never">Jamais</string>
 	<string name="next_episode">Prochain épisode : <xliff:g example="dans 2 jours" id="next_episode">%1$s</xliff:g></string>
+	<string name="no_coming_episodes">Aucun épisode à venir</string>
 	<string name="no_episodes">Aucun épisode</string>
 	<string name="no_logs">Aucun log</string>
 	<string name="no_shows">Aucune série</string>
@@ -53,15 +56,18 @@
 	<string name="replace_existing_episode">Replacer l\'épisode actuel s\'il avait déjà été téléchargé ?</string>
 	<string name="runtime">Durée : <xliff:g example="22 min" id="runtime">%1$s</xliff:g></string>
 	<string name="search_episode">Chercher l\'épisode</string>
+	<string name="season_episode_name">S<xliff:g example="01" id="season">%1$02d</xliff:g>E<xliff:g example="01" id="episode">%2$02d</xliff:g> - <xliff:g example="Pilot" id="name">%3$s</xliff:g></string>
 	<string name="season_number">Saison %1$d</string>
 	<string name="server_information">Information sur le serveur</string>
-	<string name="set_status">Définir le status</string>
+	<string name="set_status">Définir le statut</string>
 	<string name="settings">Paramètres</string>
 	<string name="skipped">Passé</string>
+	<string name="soon">Bientôt</string>
 	<string name="specials">Spéciaux</string>
 	<string name="show">Série</string>
 	<string name="shows">Séries</string>
 	<string name="status">Status : <xliff:g example="En cours" id="status">%1$s</xliff:g></string>
+	<string name="today">Aujourd\'hui</string>
 	<string name="use_https">Connexion sécurisée ?</string>
 	<string name="username">Identifiant</string>
 	<string name="view_in_vlc">Voir les épisodes téléchargés dans VLC</string>

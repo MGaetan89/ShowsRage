@@ -83,7 +83,7 @@ public class ShowActivity extends BaseActivity implements Callback<ServerRespons
 
 	@Override
 	public void success(ServerResponse<Object> serverResponse, Response response) {
-		Toast.makeText(ShowActivity.this, serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
