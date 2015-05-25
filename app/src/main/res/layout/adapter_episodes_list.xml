@@ -28,7 +28,17 @@
 		tools:text="2011-09-19"/>
 
 	<TextView
-		android:id="@+id/episode_quality_or_status"
+		android:id="@+id/episode_status"
+		style="@style/TextAppearance.AppCompat.Caption"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/episode_date"
+		android:background="@drawable/rounded_background"
+		android:textColor="@android:color/white"
+		tools:text="Downloaded"/>
+
+	<TextView
+		android:id="@+id/episode_quality"
 		style="@style/TextAppearance.AppCompat.Caption"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"

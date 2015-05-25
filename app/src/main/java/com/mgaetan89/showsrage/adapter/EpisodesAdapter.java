@@ -1,8 +1,10 @@
 package com.mgaetan89.showsrage.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -68,14 +70,20 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 			holder.name.setText(holder.name.getResources().getString(R.string.episode_name, this.getItemCount() - position, episode.getName()));
 		}
 
-		if (holder.qualityOrStatus != null) {
+		if (holder.quality != null) {
 			String quality = episode.getQuality();
 
 			if ("N/A".equalsIgnoreCase(quality)) {
-				holder.qualityOrStatus.setText(episode.getStatus());
+				holder.quality.setText("");
 			} else {
-				holder.qualityOrStatus.setText(quality);
+				holder.quality.setText(quality);
 			}
+		}
+
+		if (holder.status != null) {
+			holder.status.setText(episode.getStatus());
+
+			this.setStatusBackgroundColor(holder.status, episode.getStatus());
 		}
 	}
 
@@ -84,6 +92,43 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_episodes_list, parent, false);
 
 		return new ViewHolder(view);
+	}
+
+	private void setStatusBackgroundColor(@NonNull TextView view, String status) {
+		int color = 0;
+
+		if (status != null) {
+			switch (status) {
+				case "Archived":
+				case "Downloaded":
+					color = R.color.green;
+
+					break;
+
+				case "Snatched":
+					color = R.color.purple;
+
+					break;
+
+				case "Unaired":
+					color = R.color.yellow;
+
+					break;
+
+				case "Wanted":
+					color = R.color.red;
+
+					break;
+
+				default:
+					color = android.R.color.transparent;
+
+					break;
+			}
+		}
+
+		Drawable background = DrawableCompat.wrap(view.getBackground());
+		DrawableCompat.setTint(background, view.getResources().getColor(color));
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
@@ -97,7 +142,10 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 		public TextView name;
 
 		@Nullable
-		public TextView qualityOrStatus;
+		public TextView quality;
+
+		@Nullable
+		public TextView status;
 
 		public ViewHolder(View view) {
 			super(view);
@@ -107,7 +155,8 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 			this.actions = (ImageView) view.findViewById(R.id.episode_actions);
 			this.date = (TextView) view.findViewById(R.id.episode_date);
 			this.name = (TextView) view.findViewById(R.id.episode_name);
-			this.qualityOrStatus = (TextView) view.findViewById(R.id.episode_quality_or_status);
+			this.quality = (TextView) view.findViewById(R.id.episode_quality);
+			this.status = (TextView) view.findViewById(R.id.episode_status);
 
 			if (this.actions != null) {
 				this.actions.setOnClickListener(this);
