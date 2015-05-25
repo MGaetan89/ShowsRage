@@ -23,7 +23,6 @@ import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -149,8 +148,6 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SwipeRef
 		if (shows != null) {
 			this.shows.addAll(shows.getData().values());
 
-			final AtomicInteger responseCount = new AtomicInteger(0);
-
 			for (final Show show : this.shows) {
 				SickRageApi.getInstance().getServices().getShowStats(show.getIndexerId(), new Callback<ShowStats>() {
 					@Override
@@ -162,17 +159,12 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SwipeRef
 					public void success(ShowStats showStats, Response response) {
 						ShowStat showStat = showStats.getData();
 
-						int localResponseCount = responseCount.incrementAndGet();
-
 						show.setEpisodesCount(showStat.getTotal());
 						show.setDownloaded(showStat.getTotalDone());
 						show.setSnatched(showStat.getTotalPending());
 
-						// Only notify the adapter every 10 responses or when every responses are available
-						if ((localResponseCount % 10) == 0 || localResponseCount == ShowsFragment.this.shows.size()) {
-							if (adapter != null) {
-								adapter.notifyDataSetChanged();
-							}
+						if (adapter != null) {
+							adapter.notifyItemChanged(ShowsFragment.this.shows.indexOf(show));
 						}
 					}
 				});
