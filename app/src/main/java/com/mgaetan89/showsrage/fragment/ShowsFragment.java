@@ -28,7 +28,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 
-import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -38,7 +37,7 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SwipeRef
 	public SickRageApi api;
 
 	@Nullable
-	private RecyclerView.Adapter adapter = null;
+	private ShowsAdapter adapter = null;
 
 	@Nullable
 	private TextView emptyView = null;
@@ -90,10 +89,8 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SwipeRef
 			FloatingActionButton addShow = (FloatingActionButton) view.findViewById(R.id.add_show);
 
 			if (this.recyclerView != null) {
-				ShowsAdapter showsAdapter = new ShowsAdapter(this.shows);
-				showsAdapter.setApi(this.api);
-
-				this.adapter = new AlphaInAnimationAdapter(showsAdapter);
+				this.adapter = new ShowsAdapter(this.shows);
+				this.adapter.setApi(this.api);
 
 				this.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 					@Override

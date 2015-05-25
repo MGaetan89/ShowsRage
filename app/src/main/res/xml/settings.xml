@@ -112,16 +112,6 @@
 				</PreferenceScreen>
 
 				<PreferenceScreen
-					android:key="recyclerview-animators"
-					android:summary="Version 1.2.0"
-					android:title="RecyclerView Animators">
-
-					<intent
-						android:action="android.intent.action.VIEW"
-						android:data="http://square.github.io/picasso/"/>
-				</PreferenceScreen>
-
-				<PreferenceScreen
 					android:key="retrofit"
 					android:summary="Version 1.9.0"
 					android:title="Retrofit">

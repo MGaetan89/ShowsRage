@@ -29,7 +29,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -39,7 +38,7 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 	public SickRageApi api;
 
 	@Nullable
-	private RecyclerView.Adapter adapter = null;
+	private EpisodesAdapter adapter = null;
 
 	@Nullable
 	private TextView emptyView = null;
@@ -120,9 +119,7 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 			this.swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
 
 			if (this.recyclerView != null) {
-				EpisodesAdapter episodesAdapter = new EpisodesAdapter(this.episodes, this.seasonNumber);
-
-				this.adapter = new AlphaInAnimationAdapter(episodesAdapter);
+				this.adapter = new EpisodesAdapter(this.episodes, this.seasonNumber);
 
 				this.recyclerView.addOnScrollListener(this.scrollListener);
 				this.recyclerView.setAdapter(this.adapter);

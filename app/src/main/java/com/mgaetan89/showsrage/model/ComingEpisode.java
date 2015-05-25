@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class ComingEpisode implements Serializable {
-	private String airdate;
+	@SerializedName("airdate")
+	private String airDate;
 	private String airs;
 	private int episode;
 	@SerializedName("ep_name")
@@ -26,8 +27,8 @@ public class ComingEpisode implements Serializable {
 	private int tvDbId;
 	private int weekday;
 
-	public String getAirdate() {
-		return this.airdate;
+	public String getAirDate() {
+		return this.airDate;
 	}
 
 	public String getAirs() {

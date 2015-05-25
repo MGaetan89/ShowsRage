@@ -30,7 +30,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import jp.wasabeef.recyclerview.animators.adapters.AlphaInAnimationAdapter;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -40,7 +39,7 @@ public class LogsFragment extends Fragment implements Callback<Logs>, SwipeRefre
 	public SickRageApi api;
 
 	@Nullable
-	private RecyclerView.Adapter adapter = null;
+	private LogsAdapter adapter = null;
 
 	@Nullable
 	private TextView emptyView = null;
@@ -121,7 +120,7 @@ public class LogsFragment extends Fragment implements Callback<Logs>, SwipeRefre
 			this.swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
 
 			if (this.recyclerView != null) {
-				this.adapter = new AlphaInAnimationAdapter(new LogsAdapter(this.logs));
+				this.adapter = new LogsAdapter(this.logs);
 
 				this.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 					@Override
