@@ -186,8 +186,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Drawer.O
 						new PrimaryDrawerItem().withName(R.string.history).withIcon(R.drawable.ic_history_white_24dp).withIconTintingEnabled(true),
 						new PrimaryDrawerItem().withName(R.string.logs).withIcon(R.drawable.ic_list_white_24dp).withIconTintingEnabled(true),
 						new DividerDrawerItem(),
-						new SecondaryDrawerItem().withName(R.string.restart_sickrage).withIcon(R.drawable.ic_replay_white_24dp).withIconTintingEnabled(true),
-						new SecondaryDrawerItem().withName(R.string.shutdown_sickrage).withIcon(R.drawable.ic_stop_white_24dp).withIconTintingEnabled(true)
+						new SecondaryDrawerItem().withName(R.string.restart_sickrage).withIcon(R.drawable.ic_replay_white_24dp).withIconTintingEnabled(true).withCheckable(false),
+						new SecondaryDrawerItem().withName(R.string.shutdown_sickrage).withIcon(R.drawable.ic_stop_white_24dp).withIconTintingEnabled(true).withCheckable(false)
 				)
 				.addStickyDrawerItems(
 						new PrimaryDrawerItem().withName(R.string.settings).withIcon(R.drawable.ic_settings_white_24dp).withIconTintingEnabled(true)
