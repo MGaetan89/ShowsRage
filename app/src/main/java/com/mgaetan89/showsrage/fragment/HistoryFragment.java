@@ -35,6 +35,9 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 	private HistoriesAdapter adapter = null;
 
 	@Nullable
+	private FloatingActionButton clearHistory = null;
+
+	@Nullable
 	private TextView emptyView = null;
 
 	@NonNull
@@ -105,11 +108,11 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 		View view = inflater.inflate(R.layout.fragment_history, container, false);
 
 		if (view != null) {
+			this.clearHistory = (FloatingActionButton) view.findViewById(R.id.clear_history);
 			this.emptyView = (TextView) view.findViewById(android.R.id.empty);
 			this.recyclerView = (RecyclerView) view.findViewById(android.R.id.list);
 			this.swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
 
-			FloatingActionButton clearHistory = (FloatingActionButton) view.findViewById(R.id.clear_history);
 
 			if (this.recyclerView != null) {
 				this.adapter = new HistoriesAdapter(this.histories);
@@ -135,13 +138,13 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 				this.recyclerView.setAdapter(this.adapter);
 				this.recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
-				if (clearHistory != null) {
-					clearHistory.attachToRecyclerView(this.recyclerView);
+				if (this.clearHistory != null) {
+					this.clearHistory.attachToRecyclerView(this.recyclerView);
 				}
 			}
 
-			if (clearHistory != null) {
-				clearHistory.setOnClickListener(this);
+			if (this.clearHistory != null) {
+				this.clearHistory.setOnClickListener(this);
 			}
 
 			if (this.swipeRefreshLayout != null) {
@@ -162,6 +165,7 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 
 	@Override
 	public void onDestroyView() {
+		this.clearHistory = null;
 		this.emptyView = null;
 		this.recyclerView = null;
 		this.swipeRefreshLayout = null;
@@ -191,6 +195,10 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 		}
 
 		if (this.histories.isEmpty()) {
+			if (this.clearHistory != null) {
+				this.clearHistory.setVisibility(View.GONE);
+			}
+
 			if (this.emptyView != null) {
 				this.emptyView.setVisibility(View.VISIBLE);
 			}
@@ -199,6 +207,10 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 				this.recyclerView.setVisibility(View.GONE);
 			}
 		} else {
+			if (this.clearHistory != null) {
+				this.clearHistory.setVisibility(View.VISIBLE);
+			}
+
 			if (this.emptyView != null) {
 				this.emptyView.setVisibility(View.GONE);
 			}
