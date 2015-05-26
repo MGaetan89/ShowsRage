@@ -41,7 +41,7 @@ public interface SickRageServices {
 	void getShowStats(@Query("indexerid") int indexerId, Callback<ShowStats> callback);
 
 	@GET("/?cmd=sb.restart")
-	void restart();
+	void restart(Callback<ServerResponse<Object>> callback);
 
 	@GET("/?cmd=episode.search")
 	void searchEpisode(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, Callback<ServerResponse<Object>> callback);
@@ -50,5 +50,5 @@ public interface SickRageServices {
 	void setEpisodeStatus(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, @Query("force") int force, @Query("status") String status, Callback<ServerResponse<Object>> callback);
 
 	@GET("/?cmd=sb.shutdown")
-	void shutDown();
+	void shutDown(Callback<ServerResponse<Object>> callback);
 }

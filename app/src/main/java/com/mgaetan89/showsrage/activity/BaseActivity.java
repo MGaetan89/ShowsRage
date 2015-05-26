@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.mgaetan89.showsrage.R;
+import com.mgaetan89.showsrage.model.ServerResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -24,9 +25,18 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
-public abstract class BaseActivity extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, Drawer.OnDrawerNavigationListener {
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+public abstract class BaseActivity extends AppCompatActivity implements Callback<ServerResponse<Object>>, Drawer.OnDrawerItemClickListener, Drawer.OnDrawerNavigationListener {
 	@Nullable
 	private Drawer drawer = null;
+
+	@Override
+	public void failure(RetrofitError error) {
+		error.printStackTrace();
+	}
 
 	@Override
 	public void onBackPressed() {
@@ -70,7 +80,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Drawer.O
 							.setPositiveButton(R.string.restart, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
-									SickRageApi.getInstance().getServices().restart();
+									SickRageApi.getInstance().getServices().restart(BaseActivity.this);
 								}
 							})
 							.setNegativeButton(android.R.string.cancel, null)
@@ -102,7 +112,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Drawer.O
 							.setPositiveButton(R.string.shutdown, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
-									SickRageApi.getInstance().getServices().restart();
+									SickRageApi.getInstance().getServices().shutDown(BaseActivity.this);
 								}
 							})
 							.setNegativeButton(android.R.string.cancel, null)
@@ -125,6 +135,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Drawer.O
 		}
 
 		return false;
+	}
+
+	@Override
+	public void success(ServerResponse<Object> serverResponse, Response response) {
+		Toast.makeText(this, serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
 	}
 
 	protected void displayHomeAsUp(boolean displayHomeAsUp) {
