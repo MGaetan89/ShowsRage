@@ -45,6 +45,7 @@
 	<string name="next_episode">Prochain épisode : <xliff:g example="dans 2 jours" id="next_episode">%1$s</xliff:g></string>
 	<string name="no_coming_episodes">Aucun épisode à venir</string>
 	<string name="no_episodes">Aucun épisode</string>
+	<string name="no_history">Aucun historique</string>
 	<string name="no_logs">Aucun log</string>
 	<string name="no_shows">Aucune série</string>
 	<string name="password">Mot de passe</string>
