@@ -12,6 +12,8 @@
 	<string name="archived">Archivé</string>
 	<string name="awards">Récompenses</string>
 	<string name="casting">Casting</string>
+	<string name="clear">Effacer</string>
+	<string name="clear_history_confirm">Etes-vous sûr de vouloir effacer l\'historique de SickRage ?</string>
 	<string name="coming_episodes">Episodes à venir</string>
 	<string name="debug">Debug</string>
 	<string name="directors">Réalisateurs : <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>

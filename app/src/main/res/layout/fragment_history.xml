@@ -37,6 +37,6 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="bottom|end|right"
 		android:layout_margin="@dimen/fab_margin"
-		android:src="@drawable/ic_add_black_24dp"
+		android:src="@drawable/ic_clear_all_black_24dp"
 		fab:fab_colorNormal="?attr/colorAccent"/>
 </FrameLayout>

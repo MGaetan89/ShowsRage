@@ -1,21 +1,26 @@
 package com.mgaetan89.showsrage.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.adapter.HistoriesAdapter;
 import com.mgaetan89.showsrage.model.Histories;
 import com.mgaetan89.showsrage.model.History;
+import com.mgaetan89.showsrage.model.ServerResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.ArrayList;
@@ -25,7 +30,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class HistoryFragment extends Fragment implements Callback<Histories>, SwipeRefreshLayout.OnRefreshListener {
+public class HistoryFragment extends Fragment implements Callback<Histories>, DialogInterface.OnClickListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 	@Nullable
 	private HistoriesAdapter adapter = null;
 
@@ -60,6 +65,40 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Sw
 		this.onRefresh();
 	}
 
+	@Override
+	public void onClick(View view) {
+		if (view == null) {
+			return;
+		}
+
+		int id = view.getId();
+
+		if (id == R.id.clear_history) {
+			this.clearHistory();
+		}
+	}
+
+	@Override
+	public void onClick(DialogInterface dialog, int which) {
+		SickRageApi.getInstance().getServices().clearHistory(new Callback<ServerResponse<Object>>() {
+			@Override
+			public void failure(RetrofitError error) {
+				error.printStackTrace();
+			}
+
+			@Override
+			public void success(ServerResponse<Object> serverResponse, Response response) {
+				Toast.makeText(getActivity(), serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+				histories.clear();
+
+				if (adapter != null) {
+					adapter.notifyDataSetChanged();
+				}
+			}
+		});
+	}
+
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +108,8 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Sw
 			this.emptyView = (TextView) view.findViewById(android.R.id.empty);
 			this.recyclerView = (RecyclerView) view.findViewById(android.R.id.list);
 			this.swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+
+			FloatingActionButton clearHistory = (FloatingActionButton) view.findViewById(R.id.clear_history);
 
 			if (this.recyclerView != null) {
 				this.adapter = new HistoriesAdapter(this.histories);
@@ -93,6 +134,14 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Sw
 				});
 				this.recyclerView.setAdapter(this.adapter);
 				this.recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+
+				if (clearHistory != null) {
+					clearHistory.attachToRecyclerView(this.recyclerView);
+				}
+			}
+
+			if (clearHistory != null) {
+				clearHistory.setOnClickListener(this);
 			}
 
 			if (this.swipeRefreshLayout != null) {
@@ -162,5 +211,13 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Sw
 		if (this.adapter != null) {
 			this.adapter.notifyDataSetChanged();
 		}
+	}
+
+	private void clearHistory() {
+		new AlertDialog.Builder(this.getActivity())
+				.setMessage(R.string.clear_history_confirm)
+				.setPositiveButton(R.string.clear, this)
+				.setNegativeButton(android.R.string.cancel, null)
+				.show();
 	}
 }

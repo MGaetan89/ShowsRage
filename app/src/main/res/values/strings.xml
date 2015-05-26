@@ -12,6 +12,8 @@
 	<string name="archived">Archived</string>
 	<string name="awards">Awards</string>
 	<string name="casting">Casting</string>
+	<string name="clear">Clear</string>
+	<string name="clear_history_confirm">Are you sure you want to clear SickRage\'s history?</string>
 	<string name="coming_episodes">Coming Episodes</string>
 	<string name="debug">Debug</string>
 	<string name="directors">Directors: <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>

@@ -17,6 +17,9 @@ import retrofit.http.GET;
 import retrofit.http.Query;
 
 public interface SickRageServices {
+	@GET("/?cmd=history.clear")
+	void clearHistory(Callback<ServerResponse<Object>> callback);
+
 	@GET("/?cmd=future")
 	void getComingEpisodes(Callback<ComingEpisodes> callback);
 
