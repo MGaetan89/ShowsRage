@@ -51,7 +51,10 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 		int itemCount = this.comingEpisodes.size();
 
 		for (List<ComingEpisode> episodes : this.comingEpisodes.values()) {
-			if (episodes != null) {
+			// If the section is empty, we just ignore it
+			if (episodes == null || episodes.isEmpty()) {
+				itemCount--;
+			} else {
 				itemCount += episodes.size();
 			}
 		}
@@ -101,19 +104,30 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 		int index = 0;
 
 		for (Map.Entry<String, List<ComingEpisode>> entry : this.comingEpisodes.entrySet()) {
+			List<ComingEpisode> episodes = entry.getValue();
+
 			if (index == position) {
+				if (episodes == null || episodes.isEmpty()) {
+					continue;
+				}
+
 				return ITEM_TYPE_SECTION;
 			}
 
-			for (ComingEpisode ignored : entry.getValue()) {
-				index++;
+			if (episodes != null) {
+				for (ComingEpisode ignored : episodes) {
+					index++;
 
-				if (index == position) {
-					return ITEM_TYPE_EPISODE;
+					if (index == position) {
+						return ITEM_TYPE_EPISODE;
+					}
 				}
 			}
 
-			index++;
+			// Only increment the index if the section is not empty
+			if (episodes != null && !episodes.isEmpty()) {
+				index++;
+			}
 		}
 
 		return ITEM_TYPE_UNKNOWN;
@@ -124,19 +138,30 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 		int index = 0;
 
 		for (Map.Entry<String, List<ComingEpisode>> entry : this.comingEpisodes.entrySet()) {
+			List<ComingEpisode> episodes = entry.getValue();
+
 			if (index == position) {
+				if (episodes == null || episodes.isEmpty()) {
+					continue;
+				}
+
 				return entry.getKey();
 			}
 
-			for (ComingEpisode comingEpisode : entry.getValue()) {
-				index++;
+			if (episodes != null) {
+				for (ComingEpisode comingEpisode : episodes) {
+					index++;
 
-				if (index == position) {
-					return comingEpisode;
+					if (index == position) {
+						return comingEpisode;
+					}
 				}
 			}
 
-			index++;
+			// Only increment the index if the section is not empty
+			if (episodes != null && !episodes.isEmpty()) {
+				index++;
+			}
 		}
 
 		return null;
