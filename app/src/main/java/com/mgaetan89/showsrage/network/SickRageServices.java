@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.network;
 
 import com.mgaetan89.showsrage.model.ComingEpisodes;
 import com.mgaetan89.showsrage.model.Episodes;
+import com.mgaetan89.showsrage.model.Histories;
 import com.mgaetan89.showsrage.model.LogLevel;
 import com.mgaetan89.showsrage.model.Logs;
 import com.mgaetan89.showsrage.model.Seasons;
@@ -24,6 +25,9 @@ public interface SickRageServices {
 
 	@GET("/?cmd=show.seasons")
 	void getEpisodes(@Query("indexerid") int indexerId, @Query("season") int season, Callback<Episodes> callback);
+
+	@GET("/?cmd=history")
+	void getHistory(Callback<Histories> callback);
 
 	@GET("/?cmd=logs")
 	void getLogs(@Query("min_level") LogLevel minLevel, Callback<Logs> callback);

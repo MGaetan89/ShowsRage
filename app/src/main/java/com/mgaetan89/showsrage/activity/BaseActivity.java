@@ -60,10 +60,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 					return true;
 				}
 
-				case R.string.history:
-					Toast.makeText(this, "Display history", Toast.LENGTH_SHORT).show();
+				case R.string.history: {
+					Intent intent = new Intent(this, HistoryActivity.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+					this.startActivity(intent);
 
 					return true;
+				}
 
 				case R.string.logs: {
 					Intent intent = new Intent(this, LogsActivity.class);

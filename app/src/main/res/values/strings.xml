@@ -15,6 +15,7 @@
 	<string name="coming_episodes">Coming Episodes</string>
 	<string name="debug">Debug</string>
 	<string name="directors">Directors: <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>
+	<string name="downloaded">Downloaded</string>
 	<string name="episode">Episode</string>
 	<string name="episode_name">E<xliff:g example="01" id="number">%1$02d</xliff:g> - <xliff:g example="Pilot" id="name">%2$s</xliff:g></string>
 	<string name="episode_name_short">E<xliff:g example="01" id="number">%1$02d</xliff:g></string>
@@ -65,14 +66,17 @@
 	<string name="set_status">Set status</string>
 	<string name="settings">Settings</string>
 	<string name="show">Show</string>
+	<string name="show_name_episode"><xliff:g example="2 Broke Girls" id="show_name">%1$s</xliff:g> - S<xliff:g example="01" id="season">%2$02d</xliff:g>E<xliff:g example="01" id="episode">%3$02d</xliff:g></string>
 	<string name="shows">Shows</string>
 	<string name="shutdown">Shutdown</string>
 	<string name="shutdown_confirm">Are you sure you want to shutdown SickRage?</string>
 	<string name="shutdown_sickrage">Shutdown SickRage</string>
 	<string name="skipped">Skipped</string>
+	<string name="snatched">Snatched</string>
 	<string name="soon">Soon</string>
 	<string name="specials">Specials</string>
 	<string name="status">Status: <xliff:g example="Continuing" id="status">%1$s</xliff:g></string>
+	<string name="status_from"><xliff:g example="Downloaded" id="status">%1$s</xliff:g> from <xliff:g example="KAT" id="provider">%2$s</xliff:g></string>
 	<string name="today">Today</string>
 	<string name="use_https">Use HTTPS?</string>
 	<string name="username">Username</string>
