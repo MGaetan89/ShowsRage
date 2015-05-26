@@ -63,7 +63,7 @@
 
 				<PreferenceScreen
 					android:key="material_drawer"
-					android:summary="Version 3.0.2"
+					android:summary="Version 3.0.3"
 					android:title="MaterialDrawer">
 
 					<intent
@@ -112,7 +112,7 @@
 				</PreferenceScreen>
 			</PreferenceCategory>
 
-			<PreferenceCategory android:title="Attribution 4.0 International">
+			<PreferenceCategory android:title="Creative Common Attribution 4.0 International License">
 
 				<PreferenceScreen
 					android:key="google_material_design_icons"
