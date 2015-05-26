@@ -9,14 +9,14 @@ import android.widget.Toast;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.adapter.ComingEpisodesAdapter;
 import com.mgaetan89.showsrage.fragment.ComingEpisodesFragment;
-import com.mgaetan89.showsrage.model.ServerResponse;
+import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class ComingEpisodesActivity extends BaseActivity implements Callback<ServerResponse<Object>>, ComingEpisodesAdapter.OnEpisodeActionSelectedListener {
+public class ComingEpisodesActivity extends BaseActivity implements Callback<GenericResponse>, ComingEpisodesAdapter.OnEpisodeActionSelectedListener {
 	@Override
 	public void failure(RetrofitError error) {
 		error.printStackTrace();
@@ -58,8 +58,8 @@ public class ComingEpisodesActivity extends BaseActivity implements Callback<Ser
 	}
 
 	@Override
-	public void success(ServerResponse<Object> serverResponse, Response response) {
-		Toast.makeText(this, serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+	public void success(GenericResponse genericResponse, Response response) {
+		Toast.makeText(this, genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class ComingEpisodesActivity extends BaseActivity implements Callback<Ser
 	}
 
 	private void setEpisodeStatus(final int seasonNumber, final int episodeNumber, final int indexerId, final String status) {
-		final Callback<ServerResponse<Object>> callback = this;
+		final Callback<GenericResponse> callback = this;
 
 		new AlertDialog.Builder(this)
 				.setMessage(R.string.replace_existing_episode)

@@ -2,11 +2,11 @@ package com.mgaetan89.showsrage.network;
 
 import com.mgaetan89.showsrage.model.ComingEpisodes;
 import com.mgaetan89.showsrage.model.Episodes;
+import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.model.Histories;
 import com.mgaetan89.showsrage.model.LogLevel;
 import com.mgaetan89.showsrage.model.Logs;
 import com.mgaetan89.showsrage.model.Seasons;
-import com.mgaetan89.showsrage.model.ServerResponse;
 import com.mgaetan89.showsrage.model.ShowStats;
 import com.mgaetan89.showsrage.model.Shows;
 import com.mgaetan89.showsrage.model.SingleEpisode;
@@ -18,7 +18,7 @@ import retrofit.http.Query;
 
 public interface SickRageServices {
 	@GET("/?cmd=history.clear")
-	void clearHistory(Callback<ServerResponse<Object>> callback);
+	void clearHistory(Callback<GenericResponse> callback);
 
 	@GET("/?cmd=future")
 	void getComingEpisodes(Callback<ComingEpisodes> callback);
@@ -48,14 +48,14 @@ public interface SickRageServices {
 	void getShowStats(@Query("indexerid") int indexerId, Callback<ShowStats> callback);
 
 	@GET("/?cmd=sb.restart")
-	void restart(Callback<ServerResponse<Object>> callback);
+	void restart(Callback<GenericResponse> callback);
 
 	@GET("/?cmd=episode.search")
-	void searchEpisode(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, Callback<ServerResponse<Object>> callback);
+	void searchEpisode(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, Callback<GenericResponse> callback);
 
 	@GET("/?cmd=episode.setstatus")
-	void setEpisodeStatus(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, @Query("force") int force, @Query("status") String status, Callback<ServerResponse<Object>> callback);
+	void setEpisodeStatus(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, @Query("force") int force, @Query("status") String status, Callback<GenericResponse> callback);
 
 	@GET("/?cmd=sb.shutdown")
-	void shutDown(Callback<ServerResponse<Object>> callback);
+	void shutDown(Callback<GenericResponse> callback);
 }

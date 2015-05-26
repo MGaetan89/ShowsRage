@@ -15,7 +15,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.model.ServerResponse;
+import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -29,7 +29,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public abstract class BaseActivity extends AppCompatActivity implements Callback<ServerResponse<Object>>, Drawer.OnDrawerItemClickListener, Drawer.OnDrawerNavigationListener {
+public abstract class BaseActivity extends AppCompatActivity implements Callback<GenericResponse>, Drawer.OnDrawerItemClickListener, Drawer.OnDrawerNavigationListener {
 	@Nullable
 	private Drawer drawer = null;
 
@@ -142,8 +142,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 	}
 
 	@Override
-	public void success(ServerResponse<Object> serverResponse, Response response) {
-		Toast.makeText(this, serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+	public void success(GenericResponse genericResponse, Response response) {
+		Toast.makeText(this, genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
 	}
 
 	protected void displayHomeAsUp(boolean displayHomeAsUp) {

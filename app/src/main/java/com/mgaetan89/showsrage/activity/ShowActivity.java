@@ -14,7 +14,7 @@ import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.adapter.EpisodesAdapter;
 import com.mgaetan89.showsrage.fragment.ShowFragment;
 import com.mgaetan89.showsrage.model.Episode;
-import com.mgaetan89.showsrage.model.ServerResponse;
+import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
@@ -25,7 +25,7 @@ import retrofit.client.Response;
 /**
  * Requires a {@link com.mgaetan89.showsrage.Constants.Bundle#SHOW_MODEL Constants.Bundle#SHOW_MODEL} associated with a non-{@code null} {@link com.mgaetan89.showsrage.model.Show Show} in its {@link android.content.Intent Intent}.
  */
-public class ShowActivity extends BaseActivity implements Callback<ServerResponse<Object>>, EpisodesAdapter.OnEpisodeActionSelectedListener, EpisodesAdapter.OnEpisodeSelectedListener {
+public class ShowActivity extends BaseActivity implements Callback<GenericResponse>, EpisodesAdapter.OnEpisodeActionSelectedListener, EpisodesAdapter.OnEpisodeSelectedListener {
 	@Nullable
 	private Show show = null;
 
@@ -82,8 +82,8 @@ public class ShowActivity extends BaseActivity implements Callback<ServerRespons
 	}
 
 	@Override
-	public void success(ServerResponse<Object> serverResponse, Response response) {
-		Toast.makeText(this, serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+	public void success(GenericResponse genericResponse, Response response) {
+		Toast.makeText(this, genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -131,7 +131,7 @@ public class ShowActivity extends BaseActivity implements Callback<ServerRespons
 			return;
 		}
 
-		final Callback<ServerResponse<Object>> callback = this;
+		final Callback<GenericResponse> callback = this;
 
 		new AlertDialog.Builder(this)
 				.setMessage(R.string.replace_existing_episode)

@@ -18,9 +18,9 @@ import android.widget.Toast;
 import com.melnykov.fab.FloatingActionButton;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.adapter.HistoriesAdapter;
+import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.model.Histories;
 import com.mgaetan89.showsrage.model.History;
-import com.mgaetan89.showsrage.model.ServerResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.ArrayList;
@@ -80,15 +80,15 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
-		SickRageApi.getInstance().getServices().clearHistory(new Callback<ServerResponse<Object>>() {
+		SickRageApi.getInstance().getServices().clearHistory(new Callback<GenericResponse>() {
 			@Override
 			public void failure(RetrofitError error) {
 				error.printStackTrace();
 			}
 
 			@Override
-			public void success(ServerResponse<Object> serverResponse, Response response) {
-				Toast.makeText(getActivity(), serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+			public void success(GenericResponse genericResponse, Response response) {
+				Toast.makeText(getActivity(), genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
 				histories.clear();
 
