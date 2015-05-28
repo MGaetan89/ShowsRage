@@ -18,8 +18,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
@@ -202,13 +200,6 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			this.runtime = (TextView) view.findViewById(R.id.show_runtime);
 			this.status = (TextView) view.findViewById(R.id.show_status);
 			this.year = (TextView) view.findViewById(R.id.show_year);
-
-			ObservableScrollView scroll = (ObservableScrollView) view.findViewById(R.id.scroll);
-
-			if (scroll != null) {
-				MaterialViewPagerHelper.registerScrollView(this.getActivity(), scroll, null);
-			}
-
 
 			Button imdb = (Button) view.findViewById(R.id.show_imdb);
 			Button theTvDb = (Button) view.findViewById(R.id.show_the_tvdb);

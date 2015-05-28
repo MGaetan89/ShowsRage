@@ -21,8 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
@@ -123,12 +121,6 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 			this.plotLayout = (CardView) view.findViewById(R.id.episode_plot_layout);
 			this.quality = (TextView) view.findViewById(R.id.episode_quality);
 			this.status = (TextView) view.findViewById(R.id.episode_status);
-
-			ObservableScrollView scroll = (ObservableScrollView) view.findViewById(R.id.scroll);
-
-			if (scroll != null) {
-				MaterialViewPagerHelper.registerScrollView(this.getActivity(), scroll, null);
-			}
 		}
 
 		return view;

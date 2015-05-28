@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.adapter.EpisodesAdapter;
@@ -111,8 +110,6 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 				this.recyclerView.addOnScrollListener(this.scrollListener);
 				this.recyclerView.setAdapter(this.adapter);
 				this.recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-
-				MaterialViewPagerHelper.registerRecyclerView(this.getActivity(), this.recyclerView, this.scrollListener);
 			}
 
 			if (this.swipeRefreshLayout != null) {

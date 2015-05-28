@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.adapter.EpisodePagerAdapter;
@@ -25,7 +26,7 @@ public class EpisodeFragment extends Fragment {
 	private final List<Integer> episodes = new ArrayList<>();
 
 	@Nullable
-	private MaterialViewPager viewPager = null;
+	private TabLayout tabLayout = null;
 
 	public EpisodeFragment() {
 	}
@@ -46,10 +47,14 @@ public class EpisodeFragment extends Fragment {
 
 			if (this.adapter != null) {
 				this.adapter.notifyDataSetChanged();
+
+				if (this.tabLayout != null) {
+					this.tabLayout.setTabsFromPagerAdapter(this.adapter);
+				}
 			}
 
-			if (this.viewPager != null) {
-				this.viewPager.getViewPager().setCurrentItem(episodeNumber);
+			if (this.tabLayout != null) {
+				this.tabLayout.getTabAt(episodesCount - episodeNumber).select();
 			}
 		}
 	}
@@ -60,14 +65,18 @@ public class EpisodeFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_show, container, false);
 
 		if (view != null) {
-			this.viewPager = (MaterialViewPager) view.findViewById(R.id.show_pager);
+			this.tabLayout = (TabLayout) view.findViewById(R.id.show_tabs);
+			ViewPager viewPager = (ViewPager) view.findViewById(R.id.show_pager);
 
-			if (this.viewPager != null) {
+			if (viewPager != null) {
 				this.adapter = new EpisodePagerAdapter(this.getChildFragmentManager(), this, this.episodes);
 
-				this.viewPager.getToolbar().setVisibility(View.GONE);
-				this.viewPager.getViewPager().setAdapter(this.adapter);
-				this.viewPager.getPagerTitleStrip().setViewPager(viewPager.getViewPager());
+				viewPager.setAdapter(this.adapter);
+
+				if (this.tabLayout != null) {
+					this.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+					this.tabLayout.setupWithViewPager(viewPager);
+				}
 			}
 		}
 
@@ -83,7 +92,7 @@ public class EpisodeFragment extends Fragment {
 
 	@Override
 	public void onDestroyView() {
-		this.viewPager = null;
+		this.tabLayout = null;
 
 		super.onDestroyView();
 	}

@@ -72,16 +72,6 @@
 				</PreferenceScreen>
 
 				<PreferenceScreen
-					android:key="material_view_pager"
-					android:summary="Version 1.0.4"
-					android:title="MaterialViewPager">
-
-					<intent
-						android:action="android.intent.action.VIEW"
-						android:data="https://github.com/florent37/MaterialViewPager"/>
-				</PreferenceScreen>
-
-				<PreferenceScreen
 					android:key="okhttp"
 					android:summary="Version 2.4.0"
 					android:title="OkHttp">
