@@ -3,6 +3,7 @@ package com.mgaetan89.showsrage.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.melnykov.fab.FloatingActionButton;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.adapter.ShowsAdapter;
 import com.mgaetan89.showsrage.model.Show;
@@ -98,9 +98,12 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SwipeRef
 				this.recyclerView.setAdapter(this.adapter);
 				this.recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
+				// TODO
+				/*
 				if (addShow != null) {
 					addShow.attachToRecyclerView(this.recyclerView);
 				}
+				*/
 			}
 
 			if (this.swipeRefreshLayout != null) {

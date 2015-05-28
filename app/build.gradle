@@ -28,12 +28,12 @@ android {
 dependencies {
 	compile 'com.android.support:appcompat-v7:22.2.0'
 	compile 'com.android.support:cardview-v7:22.2.0'
+	compile 'com.android.support:design:22.2.0'
 	compile 'com.android.support:recyclerview-v7:22.2.0'
 	compile 'com.android.support:support-v4:22.2.0'
 	compile('com.github.florent37:materialviewpager:1.0.4@aar') {
 		transitive = true
 	}
-	compile 'com.melnykov:floatingactionbutton:1.3.0'
 	compile('com.mikepenz:materialdrawer:3.0.3') {
 		transitive = true
 	}

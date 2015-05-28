@@ -124,19 +124,6 @@
 						android:data="https://github.com/google/material-design-icons"/>
 				</PreferenceScreen>
 			</PreferenceCategory>
-
-			<PreferenceCategory android:title="MIT License">
-
-				<PreferenceScreen
-					android:key="floating_action_button"
-					android:summary="Version 1.3.0"
-					android:title="FloatingActionButton">
-
-					<intent
-						android:action="android.intent.action.VIEW"
-						android:data="https://github.com/makovkastar/FloatingActionButton"/>
-				</PreferenceScreen>
-			</PreferenceCategory>
 		</PreferenceScreen>
 	</PreferenceCategory>
 </PreferenceScreen>

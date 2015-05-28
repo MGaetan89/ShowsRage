@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -15,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.melnykov.fab.FloatingActionButton;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.adapter.HistoriesAdapter;
 import com.mgaetan89.showsrage.model.GenericResponse;
@@ -138,9 +138,12 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 				this.recyclerView.setAdapter(this.adapter);
 				this.recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
+				// TODO
+				/*
 				if (this.clearHistory != null) {
 					this.clearHistory.attachToRecyclerView(this.recyclerView);
 				}
+				*/
 			}
 
 			if (this.clearHistory != null) {
