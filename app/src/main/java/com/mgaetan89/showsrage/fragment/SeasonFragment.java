@@ -94,7 +94,7 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 	}
 
 	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_season, container, false);
 
 		this.seasonNumber = this.getArguments().getInt(Constants.Bundle.SEASON_NUMBER, 0);
