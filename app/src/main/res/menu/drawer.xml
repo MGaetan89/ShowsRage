@@ -22,18 +22,24 @@
 			android:title="@string/logs"/>
 
 		<item
-			android:id="@+id/menu_restart"
-			android:icon="@drawable/ic_replay_white_24dp"
-			android:title="@string/restart"/>
-
-		<item
-			android:id="@+id/menu_shutdown"
-			android:icon="@drawable/ic_stop_white_24dp"
-			android:title="@string/shutdown"/>
-
-		<item
 			android:id="@+id/menu_settings"
 			android:icon="@drawable/ic_settings_white_24dp"
 			android:title="@string/settings"/>
 	</group>
+
+	<item android:title="@string/actions">
+		<menu>
+			<group android:checkableBehavior="single">
+				<item
+					android:id="@+id/menu_restart"
+					android:icon="@drawable/ic_replay_white_24dp"
+					android:title="@string/restart"/>
+
+				<item
+					android:id="@+id/menu_shutdown"
+					android:icon="@drawable/ic_stop_white_24dp"
+					android:title="@string/shutdown"/>
+			</group>
+		</menu>
+	</item>
 </menu>
