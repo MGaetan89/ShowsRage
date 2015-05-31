@@ -31,9 +31,9 @@ dependencies {
 	compile 'com.android.support:design:22.2.0'
 	compile 'com.android.support:recyclerview-v7:22.2.0'
 	compile 'com.android.support:support-v4:22.2.0'
+	compile 'com.github.bumptech.glide:glide:3.6.0'
 	compile 'com.squareup.okhttp:okhttp:2.4.0'
 	compile 'com.squareup.okhttp:okhttp-urlconnection:2.4.0'
-	compile 'com.squareup.picasso:picasso:2.5.2'
 	compile 'com.squareup.retrofit:retrofit:1.9.0'
 	compile 'me.gujun.android.taggroup:library:1.4'
 

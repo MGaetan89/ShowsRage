@@ -6,8 +6,7 @@
 	android:background="?attr/colorPrimary"
 	android:gravity="bottom"
 	android:orientation="vertical"
-	android:padding="@dimen/padding"
-	android:theme="@style/ThemeOverlay.AppCompat.Dark">
+	android:padding="@dimen/padding">
 
 	<TextView
 		style="@style/TextAppearance.AppCompat.Title"

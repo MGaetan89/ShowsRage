@@ -11,12 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
 import com.mgaetan89.showsrage.model.History;
 import com.mgaetan89.showsrage.network.SickRageApi;
-import com.mgaetan89.showsrage.picasso.CircleTransformation;
-import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.List;
@@ -49,9 +48,8 @@ public class HistoriesAdapter extends RecyclerView.Adapter<HistoriesAdapter.View
 		if (holder.logo != null) {
 			holder.logo.setContentDescription(history.getShowName());
 
-			Picasso.with(holder.logo.getContext())//
+			Glide.with(holder.logo.getContext())//
 					.load(SickRageApi.getInstance().getApiUrl() + "?cmd=show.getposter&tvdbid=" + history.getTvDbId())//
-					.transform(new CircleTransformation())//
 					.into(holder.logo);
 		}
 
