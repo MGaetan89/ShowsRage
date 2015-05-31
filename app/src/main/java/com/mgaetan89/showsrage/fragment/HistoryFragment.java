@@ -113,7 +113,6 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 			this.recyclerView = (RecyclerView) view.findViewById(android.R.id.list);
 			this.swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
 
-
 			if (this.recyclerView != null) {
 				this.adapter = new HistoriesAdapter(this.histories);
 
@@ -137,13 +136,6 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 				});
 				this.recyclerView.setAdapter(this.adapter);
 				this.recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-
-				// TODO
-				/*
-				if (this.clearHistory != null) {
-					this.clearHistory.attachToRecyclerView(this.recyclerView);
-				}
-				*/
 			}
 
 			if (this.clearHistory != null) {

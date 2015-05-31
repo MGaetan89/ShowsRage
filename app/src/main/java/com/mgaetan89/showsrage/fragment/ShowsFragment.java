@@ -97,13 +97,6 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SwipeRef
 				});
 				this.recyclerView.setAdapter(this.adapter);
 				this.recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-
-				// TODO
-				/*
-				if (addShow != null) {
-					addShow.attachToRecyclerView(this.recyclerView);
-				}
-				*/
 			}
 
 			if (this.swipeRefreshLayout != null) {
