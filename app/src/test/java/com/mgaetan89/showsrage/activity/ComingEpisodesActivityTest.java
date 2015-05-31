@@ -17,8 +17,8 @@ public class ComingEpisodesActivityTest {
 	}
 
 	@Test
-	public void getSelectedMenuItemIndex() {
-		assertThat(this.activity.getSelectedMenuItemIndex()).isEqualTo(BaseActivity.MenuItems.COMING_EPISODES.ordinal());
+	public void getSelectedMenuId() {
+		assertThat(this.activity.getSelectedMenuId()).isEqualTo(R.id.menu_coming_episodes);
 	}
 
 	@Test

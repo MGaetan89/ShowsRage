@@ -7,8 +7,8 @@ import com.mgaetan89.showsrage.fragment.EpisodeFragment;
 
 public class EpisodeActivity extends BaseActivity {
 	@Override
-	protected int getSelectedMenuItemIndex() {
-		return MenuItems.SHOWS.ordinal();
+	protected int getSelectedMenuId() {
+		return R.id.menu_shows;
 	}
 
 	@Override

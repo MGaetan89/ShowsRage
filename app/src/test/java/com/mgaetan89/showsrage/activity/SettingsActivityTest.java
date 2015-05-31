@@ -17,8 +17,8 @@ public class SettingsActivityTest {
 	}
 
 	@Test
-	public void getSelectedMenuItemIndex() {
-		assertThat(this.activity.getSelectedMenuItemIndex()).isEqualTo(BaseActivity.MenuItems.SETTINGS.ordinal());
+	public void getSelectedMenuId() {
+		assertThat(this.activity.getSelectedMenuId()).isEqualTo(R.id.menu_settings);
 	}
 
 	@Test

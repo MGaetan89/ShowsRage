@@ -2,36 +2,39 @@ package com.mgaetan89.showsrage.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.NavigationView;
+import android.support.v4.content.IntentCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.AdapterView;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public abstract class BaseActivity extends AppCompatActivity implements Callback<GenericResponse>, Drawer.OnDrawerItemClickListener, Drawer.OnDrawerNavigationListener {
+public abstract class BaseActivity extends AppCompatActivity implements Callback<GenericResponse>, NavigationView.OnNavigationItemSelectedListener {
 	@Nullable
-	private Drawer drawer = null;
+	private DrawerLayout drawerLayout = null;
+
+	@Nullable
+	private ActionBarDrawerToggle drawerToggle = null;
+
+	@Nullable
+	private NavigationView navigationView = null;
 
 	@Override
 	public void failure(RetrofitError error) {
@@ -40,90 +43,109 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 	@Override
 	public void onBackPressed() {
-		if (this.drawer != null && this.drawer.isDrawerOpen()) {
-			this.drawer.closeDrawer();
+		if (this.drawerLayout != null && this.navigationView != null && this.drawerLayout.isDrawerOpen(this.navigationView)) {
+			this.drawerLayout.closeDrawers();
 		} else {
 			super.onBackPressed();
 		}
 	}
 
 	@Override
-	public boolean onItemClick(AdapterView<?> adapterView, View view, int position, long id, IDrawerItem drawerItem) {
-		if (drawerItem instanceof Nameable) {
-			switch (((Nameable) drawerItem).getNameRes()) {
-				case R.string.coming_episodes: {
-					Intent intent = new Intent(this, ComingEpisodesActivity.class);
-					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
 
-					this.startActivity(intent);
+		if (this.drawerToggle != null) {
+			this.drawerToggle.onConfigurationChanged(newConfig);
+		}
+	}
 
-					return true;
-				}
+	@Override
+	public boolean onNavigationItemSelected(MenuItem menuItem) {
+		int id = menuItem.getItemId();
 
-				case R.string.history: {
-					Intent intent = new Intent(this, HistoryActivity.class);
-					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		switch (id) {
+			case R.id.menu_coming_episodes: {
+				Intent intent = new Intent(this, ComingEpisodesActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
 
-					this.startActivity(intent);
+				this.startActivity(intent);
 
-					return true;
-				}
+				menuItem.setChecked(true);
 
-				case R.string.logs: {
-					Intent intent = new Intent(this, LogsActivity.class);
-					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+				return true;
+			}
 
-					this.startActivity(intent);
+			case R.id.menu_history: {
+				Intent intent = new Intent(this, HistoryActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
 
-					return true;
-				}
+				this.startActivity(intent);
 
-				case R.string.restart_sickrage: {
-					new AlertDialog.Builder(this)
-							.setMessage(R.string.restart_confirm)
-							.setPositiveButton(R.string.restart, new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									SickRageApi.getInstance().getServices().restart(BaseActivity.this);
-								}
-							})
-							.setNegativeButton(android.R.string.cancel, null)
-							.show();
+				menuItem.setChecked(true);
 
-					return true;
-				}
+				return true;
+			}
 
-				case R.string.settings: {
-					Intent intent = new Intent(this, SettingsActivity.class);
+			case R.id.menu_logs: {
+				Intent intent = new Intent(this, LogsActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
 
-					this.startActivity(intent);
+				this.startActivity(intent);
 
-					return true;
-				}
+				menuItem.setChecked(true);
 
-				case R.string.shows: {
-					Intent intent = new Intent(this, ShowsActivity.class);
-					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+				return true;
+			}
 
-					this.startActivity(intent);
+			case R.id.menu_restart: {
+				new AlertDialog.Builder(this)
+						.setMessage(R.string.restart_confirm)
+						.setPositiveButton(R.string.restart, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								SickRageApi.getInstance().getServices().restart(BaseActivity.this);
+							}
+						})
+						.setNegativeButton(android.R.string.cancel, null)
+						.show();
 
-					return true;
-				}
+				return true;
+			}
 
-				case R.string.shutdown_sickrage: {
-					new AlertDialog.Builder(this)
-							.setMessage(R.string.shutdown_confirm)
-							.setPositiveButton(R.string.shutdown, new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									SickRageApi.getInstance().getServices().shutDown(BaseActivity.this);
-								}
-							})
-							.setNegativeButton(android.R.string.cancel, null)
-							.show();
+			case R.id.menu_settings: {
+				Intent intent = new Intent(this, SettingsActivity.class);
 
-					return true;
-				}
+				this.startActivity(intent);
+
+				menuItem.setChecked(true);
+
+				return true;
+			}
+
+			case R.id.menu_shows: {
+				Intent intent = new Intent(this, ShowsActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+
+				this.startActivity(intent);
+
+				menuItem.setChecked(true);
+
+				return true;
+			}
+
+			case R.id.menu_shutdown: {
+				new AlertDialog.Builder(this)
+						.setMessage(R.string.shutdown_confirm)
+						.setPositiveButton(R.string.shutdown, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								SickRageApi.getInstance().getServices().shutDown(BaseActivity.this);
+							}
+						})
+						.setNegativeButton(android.R.string.cancel, null)
+						.show();
+
+				return true;
 			}
 		}
 
@@ -131,14 +153,18 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 	}
 
 	@Override
-	public boolean onNavigationClickListener(View view) {
-		if (this.drawer != null && !this.drawer.getActionBarDrawerToggle().isDrawerIndicatorEnabled()) {
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (this.drawerToggle != null && this.drawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+
+		if (item.getItemId() == android.R.id.home) {
 			this.onBackPressed();
 
 			return true;
 		}
 
-		return false;
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -150,8 +176,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		ActionBar actionBar = this.getSupportActionBar();
 
 		if (displayHomeAsUp) {
-			if (this.drawer != null) {
-				this.drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+			if (this.drawerToggle != null) {
+				this.drawerToggle.setDrawerIndicatorEnabled(false);
 			}
 
 			if (actionBar != null) {
@@ -162,13 +188,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 				actionBar.setDisplayHomeAsUpEnabled(false);
 			}
 
-			if (this.drawer != null) {
-				this.drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
+			if (this.drawerToggle != null) {
+				this.drawerToggle.setDrawerIndicatorEnabled(true);
 			}
 		}
 	}
 
-	protected abstract int getSelectedMenuItemIndex();
+	@IdRes
+	protected abstract int getSelectedMenuId();
 
 	@StringRes
 	protected abstract int getTitleResourceId();
@@ -183,45 +210,29 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 		this.setTitle(this.getTitleResourceId());
 
+		this.drawerLayout = (DrawerLayout) this.findViewById(R.id.drawer_layout);
+		this.navigationView = (NavigationView) this.findViewById(R.id.drawer_content);
 		Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
+
+		if (this.drawerLayout != null) {
+			this.drawerToggle = new ActionBarDrawerToggle(this, this.drawerLayout, toolbar, R.string.abc_action_bar_home_description, R.string.abc_action_bar_home_description);
+
+			this.drawerLayout.setDrawerListener(this.drawerToggle);
+			this.drawerLayout.post(new Runnable() {
+				@Override
+				public void run() {
+					drawerToggle.syncState();
+				}
+			});
+		}
+
+		if (this.navigationView != null) {
+			this.navigationView.setNavigationItemSelectedListener(this);
+			this.navigationView.getMenu().findItem(this.getSelectedMenuId()).setChecked(true);
+		}
 
 		if (toolbar != null) {
 			this.setSupportActionBar(toolbar);
 		}
-
-		this.drawer = new DrawerBuilder(this)
-				.withActionBarDrawerToggle(true)
-				.withActionBarDrawerToggleAnimated(true)
-				.withActivity(this)
-				.withDisplayBelowToolbar(true)
-				.withOnDrawerItemClickListener(this)
-				.withOnDrawerNavigationListener(this)
-				.withSelectedItem(this.getSelectedMenuItemIndex())
-				.withToolbar(toolbar)
-				.withTranslucentStatusBar(false)
-				.addDrawerItems(
-						new PrimaryDrawerItem().withName(R.string.shows).withIcon(R.drawable.ic_tv_white_24dp).withIconTintingEnabled(true),
-						new PrimaryDrawerItem().withName(R.string.coming_episodes).withIcon(R.drawable.ic_event_white_24dp).withIconTintingEnabled(true),
-						new PrimaryDrawerItem().withName(R.string.history).withIcon(R.drawable.ic_history_white_24dp).withIconTintingEnabled(true),
-						new PrimaryDrawerItem().withName(R.string.logs).withIcon(R.drawable.ic_list_white_24dp).withIconTintingEnabled(true),
-						new DividerDrawerItem(),
-						new SecondaryDrawerItem().withName(R.string.restart_sickrage).withIcon(R.drawable.ic_replay_white_24dp).withIconTintingEnabled(true).withCheckable(false),
-						new SecondaryDrawerItem().withName(R.string.shutdown_sickrage).withIcon(R.drawable.ic_stop_white_24dp).withIconTintingEnabled(true).withCheckable(false)
-				)
-				.addStickyDrawerItems(
-						new PrimaryDrawerItem().withName(R.string.settings).withIcon(R.drawable.ic_settings_white_24dp).withIconTintingEnabled(true)
-				)
-				.build();
-		this.drawer.getDrawerLayout().setScrimColor(Color.TRANSPARENT);
-	}
-
-	public enum MenuItems {
-		SHOWS,
-		COMING_EPISODES,
-		HISTORY,
-		LOGS,
-		RESTART,
-		SHUTDOWN,
-		SETTINGS
 	}
 }

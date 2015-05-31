@@ -20,8 +20,8 @@ public class ShowsActivity extends BaseActivity implements ShowsAdapter.OnShowSe
 	}
 
 	@Override
-	protected int getSelectedMenuItemIndex() {
-		return MenuItems.SHOWS.ordinal();
+	protected int getSelectedMenuId() {
+		return R.id.menu_shows;
 	}
 
 	@Override

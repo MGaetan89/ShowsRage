@@ -63,8 +63,8 @@ public class ComingEpisodesActivity extends BaseActivity implements Callback<Gen
 	}
 
 	@Override
-	protected int getSelectedMenuItemIndex() {
-		return MenuItems.COMING_EPISODES.ordinal();
+	protected int getSelectedMenuId() {
+		return R.id.menu_coming_episodes;
 	}
 
 	@Override

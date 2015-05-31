@@ -7,8 +7,8 @@ import com.mgaetan89.showsrage.fragment.HistoryFragment;
 
 public class HistoryActivity extends BaseActivity {
 	@Override
-	protected int getSelectedMenuItemIndex() {
-		return MenuItems.HISTORY.ordinal();
+	protected int getSelectedMenuId() {
+		return R.id.menu_history;
 	}
 
 	@Override

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<group android:checkableBehavior="single">
+		<item
+			android:id="@+id/menu_shows"
+			android:icon="@drawable/ic_tv_white_24dp"
+			android:title="@string/shows"/>
+
+		<item
+			android:id="@+id/menu_coming_episodes"
+			android:icon="@drawable/ic_event_white_24dp"
+			android:title="@string/coming_episodes"/>
+
+		<item
+			android:id="@+id/menu_history"
+			android:icon="@drawable/ic_history_white_24dp"
+			android:title="@string/history"/>
+
+		<item
+			android:id="@+id/menu_logs"
+			android:icon="@drawable/ic_list_white_24dp"
+			android:title="@string/logs"/>
+
+		<item
+			android:id="@+id/menu_restart"
+			android:icon="@drawable/ic_replay_white_24dp"
+			android:title="@string/restart"/>
+
+		<item
+			android:id="@+id/menu_shutdown"
+			android:icon="@drawable/ic_stop_white_24dp"
+			android:title="@string/shutdown"/>
+
+		<item
+			android:id="@+id/menu_settings"
+			android:icon="@drawable/ic_settings_white_24dp"
+			android:title="@string/settings"/>
+	</group>
+</menu>

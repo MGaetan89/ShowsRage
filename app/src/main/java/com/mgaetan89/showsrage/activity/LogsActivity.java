@@ -7,8 +7,8 @@ import com.mgaetan89.showsrage.fragment.LogsFragment;
 
 public class LogsActivity extends BaseActivity {
 	@Override
-	protected int getSelectedMenuItemIndex() {
-		return MenuItems.LOGS.ordinal();
+	protected int getSelectedMenuId() {
+		return R.id.menu_logs;
 	}
 
 	@Override

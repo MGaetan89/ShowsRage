@@ -87,8 +87,8 @@ public class ShowActivity extends BaseActivity implements Callback<GenericRespon
 	}
 
 	@Override
-	protected int getSelectedMenuItemIndex() {
-		return MenuItems.SHOWS.ordinal();
+	protected int getSelectedMenuId() {
+		return R.id.menu_shows;
 	}
 
 	@Override
