@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mgaetan89.showsrage.R;
+import com.mgaetan89.showsrage.activity.AddShowActivity;
 import com.mgaetan89.showsrage.adapter.ShowsAdapter;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.ShowStat;
@@ -28,7 +30,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class ShowsFragment extends Fragment implements Callback<Shows>, SwipeRefreshLayout.OnRefreshListener {
+public class ShowsFragment extends Fragment implements Callback<Shows>, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 	@Nullable
 	private ShowsAdapter adapter = null;
 
@@ -64,7 +66,20 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SwipeRef
 	}
 
 	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public void onClick(View view) {
+		if (view == null) {
+			return;
+		}
+
+		if (view.getId() == R.id.add_show) {
+			Intent intent = new Intent(this.getActivity(), AddShowActivity.class);
+
+			this.startActivity(intent);
+		}
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_shows, container, false);
 
 		if (view != null) {
@@ -73,6 +88,10 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SwipeRef
 			this.swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
 
 			FloatingActionButton addShow = (FloatingActionButton) view.findViewById(R.id.add_show);
+
+			if (addShow != null) {
+				addShow.setOnClickListener(this);
+			}
 
 			if (this.recyclerView != null) {
 				this.adapter = new ShowsAdapter(this.shows);

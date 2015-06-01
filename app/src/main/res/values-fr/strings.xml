@@ -6,6 +6,7 @@
 	<string name="about">A propos</string>
 	<string name="actions">Actions</string>
 	<string name="actors">Acteurs : <xliff:g example="Kat Dennings, Beth Behrs, Garrett Morris, Jonathan Kite" id="actors">%1$s</xliff:g></string>
+	<string name="add_show">Ajouter une série</string>
 	<string name="address">URL</string>
 	<string name="airs">Diffusion : <xliff:g example="Lundi 20:00" id="airs">%1$s</xliff:g></string>
 	<string name="api_key">Clé de l\'API</string>
@@ -47,6 +48,7 @@
 	<string name="no_episodes">Aucun épisode</string>
 	<string name="no_history">Aucun historique</string>
 	<string name="no_logs">Aucun log</string>
+	<string name="no_results">Aucun résultat</string>
 	<string name="no_shows">Aucune série</string>
 	<string name="password">Mot de passe</string>
 	<string name="path">Chemin</string>
@@ -62,7 +64,9 @@
 	<string name="restart_confirm">Etes-vous sûr de vouloir redémarrer SickRage ?</string>
 	<string name="restart_sickrage">Redémarrer SickRage</string>
 	<string name="runtime">Durée : <xliff:g example="22 min" id="runtime">%1$s</xliff:g></string>
+	<string name="search">Chercher</string>
 	<string name="search_episode">Chercher l\'épisode</string>
+	<string name="search_show">Chercher une série</string>
 	<string name="season_episode_name">S<xliff:g example="01" id="season">%1$02d</xliff:g>E<xliff:g example="01" id="episode">%2$02d</xliff:g> - <xliff:g example="Pilot" id="name">%3$s</xliff:g></string>
 	<string name="season_number">Saison %1$d</string>
 	<string name="server_information">Information sur le serveur</string>

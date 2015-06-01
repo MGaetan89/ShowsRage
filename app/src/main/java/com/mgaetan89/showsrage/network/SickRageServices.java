@@ -6,6 +6,7 @@ import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.model.Histories;
 import com.mgaetan89.showsrage.model.LogLevel;
 import com.mgaetan89.showsrage.model.Logs;
+import com.mgaetan89.showsrage.model.SearchResults;
 import com.mgaetan89.showsrage.model.Seasons;
 import com.mgaetan89.showsrage.model.ShowStats;
 import com.mgaetan89.showsrage.model.Shows;
@@ -49,6 +50,9 @@ public interface SickRageServices {
 
 	@GET("/?cmd=sb.restart")
 	void restart(Callback<GenericResponse> callback);
+
+	@GET("/?cmd=sb.searchindexers")
+	void search(@Query("name") String name, Callback<SearchResults> callback);
 
 	@GET("/?cmd=episode.search")
 	void searchEpisode(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, Callback<GenericResponse> callback);
