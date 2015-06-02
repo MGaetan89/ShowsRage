@@ -2,8 +2,10 @@ package com.mgaetan89.showsrage.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -15,6 +17,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -233,6 +236,21 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 		if (toolbar != null) {
 			this.setSupportActionBar(toolbar);
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		if (!(this instanceof SettingsActivity)) {
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+			if (TextUtils.isEmpty(preferences.getString("server_address", ""))) {
+				Intent intent = new Intent(this, SettingsActivity.class);
+
+				this.startActivity(intent);
+			}
 		}
 	}
 }

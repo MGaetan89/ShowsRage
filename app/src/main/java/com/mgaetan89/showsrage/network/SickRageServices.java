@@ -48,6 +48,9 @@ public interface SickRageServices {
 	@GET("/?cmd=show.stats")
 	void getShowStats(@Query("indexerid") int indexerId, Callback<ShowStats> callback);
 
+	@GET("/?cmd=sb.ping")
+	void ping(Callback<GenericResponse> callback);
+
 	@GET("/?cmd=sb.restart")
 	void restart(Callback<GenericResponse> callback);
 

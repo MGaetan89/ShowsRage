@@ -12,10 +12,14 @@
 	<string name="api_key">Clé de l\'API</string>
 	<string name="archived">Archivé</string>
 	<string name="awards">Récompenses</string>
+	<string name="cancel">Annuler</string>
 	<string name="casting">Casting</string>
 	<string name="clear">Effacer</string>
 	<string name="clear_history_confirm">Etes-vous sûr de vouloir effacer l\'historique de SickRage ?</string>
 	<string name="coming_episodes">Episodes à venir</string>
+	<string name="connecting_to">Connexion à <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g>…</string>
+	<string name="connection_failed">Connexion à <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g> impossible</string>
+	<string name="connection_successful">Connexion réussie !</string>
 	<string name="debug">Debug</string>
 	<string name="directors">Réalisateurs : <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>
 	<string name="downloaded">Téléchargé</string>
@@ -84,6 +88,8 @@
 	<string name="specials">Spéciaux</string>
 	<string name="status">Status : <xliff:g example="En cours" id="status">%1$s</xliff:g></string>
 	<string name="status_from"><xliff:g example="Téléchargé" id="status">%1$s</xliff:g> depuis <xliff:g example="KAT" id="provider">%2$s</xliff:g></string>
+	<string name="test">Tester</string>
+	<string name="testing_server_settings">Test de la configuration du serveur</string>
 	<string name="today">Aujourd\'hui</string>
 	<string name="use_https">Connexion sécurisée ?</string>
 	<string name="username">Identifiant</string>

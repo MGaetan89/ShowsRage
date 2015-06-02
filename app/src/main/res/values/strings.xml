@@ -12,10 +12,14 @@
 	<string name="api_key">API Key</string>
 	<string name="archived">Archived</string>
 	<string name="awards">Awards</string>
+	<string name="cancel">Cancel</string>
 	<string name="casting">Casting</string>
 	<string name="clear">Clear</string>
 	<string name="clear_history_confirm">Are you sure you want to clear SickRage\'s history?</string>
 	<string name="coming_episodes">Coming Episodes</string>
+	<string name="connecting_to">Connecting to <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g>…</string>
+	<string name="connection_failed">Connection to <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g> failed</string>
+	<string name="connection_successful">Connection successful!</string>
 	<string name="debug">Debug</string>
 	<string name="directors">Directors: <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>
 	<string name="downloaded">Downloaded</string>
@@ -84,6 +88,8 @@
 	<string name="specials">Specials</string>
 	<string name="status">Status: <xliff:g example="Continuing" id="status">%1$s</xliff:g></string>
 	<string name="status_from"><xliff:g example="Downloaded" id="status">%1$s</xliff:g> from <xliff:g example="KAT" id="provider">%2$s</xliff:g></string>
+	<string name="test">Test</string>
+	<string name="testing_server_settings">Testing server settings</string>
 	<string name="today">Today</string>
 	<string name="use_https">Use HTTPS?</string>
 	<string name="username">Username</string>

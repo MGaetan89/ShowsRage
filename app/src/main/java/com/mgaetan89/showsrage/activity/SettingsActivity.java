@@ -31,6 +31,6 @@ public class SettingsActivity extends BaseActivity {
 	protected void onResume() {
 		super.onResume();
 
-		this.displayHomeAsUp(false);
+		this.displayHomeAsUp(true);
 	}
 }
