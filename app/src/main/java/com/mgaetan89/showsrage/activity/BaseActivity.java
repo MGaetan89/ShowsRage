@@ -135,21 +135,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 				return true;
 			}
-
-			case R.id.menu_shutdown: {
-				new AlertDialog.Builder(this)
-						.setMessage(R.string.shutdown_confirm)
-						.setPositiveButton(R.string.shutdown, new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								SickRageApi.getInstance().getServices().shutDown(BaseActivity.this);
-							}
-						})
-						.setNegativeButton(android.R.string.cancel, null)
-						.show();
-
-				return true;
-			}
 		}
 
 		return false;

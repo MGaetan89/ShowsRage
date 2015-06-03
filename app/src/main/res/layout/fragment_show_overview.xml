@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -293,28 +292,14 @@
 					tools:text="@string/quality"
 					tools:visibility="visible"/>
 
-				<LinearLayout
-					android:layout_width="match_parent"
+				<TextView
+					android:id="@+id/show_genre"
+					style="@style/TextAppearance.AppCompat.Inverse"
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:gravity="center_vertical"
-					android:orientation="horizontal">
-
-					<TextView
-						style="@style/TextAppearance.AppCompat.Inverse"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:text="@string/genre"/>
-
-					<me.gujun.android.taggroup.TagGroup
-						android:id="@+id/show_genre"
-						style="@style/TagGroup.Small"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						app:atg_backgroundColor="@color/primary"
-						app:atg_borderColor="@color/primary_dark"
-						app:atg_pressedBackgroundColor="@color/primary"
-						app:atg_textColor="@android:color/white"/>
-				</LinearLayout>
+					android:visibility="gone"
+					tools:text="@string/genre"
+					tools:visibility="visible"/>
 			</LinearLayout>
 		</android.support.v7.widget.CardView>
 

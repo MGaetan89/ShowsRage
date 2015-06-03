@@ -32,7 +32,7 @@
 	<string name="extra_features">Extra features</string>
 	<string name="failed">Failed</string>
 	<string name="file_size">File size: <xliff:g example="856.93 MB" id="file_size">%1$s</xliff:g></string>
-	<string name="genre">Genre: </string>
+	<string name="genre">Genre: <xliff:g example="Comedy" id="genre">%1$s</xliff:g></string>
 	<string name="history">History</string>
 	<string name="ignored">Ignored</string>
 	<string name="info">Info</string>
@@ -79,9 +79,6 @@
 	<string name="show">Show</string>
 	<string name="show_name_episode"><xliff:g example="2 Broke Girls" id="show_name">%1$s</xliff:g> - S<xliff:g example="01" id="season">%2$02d</xliff:g>E<xliff:g example="01" id="episode">%3$02d</xliff:g></string>
 	<string name="shows">Shows</string>
-	<string name="shutdown">Shutdown</string>
-	<string name="shutdown_confirm">Are you sure you want to shutdown SickRage?</string>
-	<string name="shutdown_sickrage">Shutdown SickRage</string>
 	<string name="skipped">Skipped</string>
 	<string name="snatched">Snatched</string>
 	<string name="soon">Soon</string>

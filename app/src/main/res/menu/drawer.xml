@@ -20,26 +20,19 @@
 			android:id="@+id/menu_logs"
 			android:icon="@drawable/ic_list_white_24dp"
 			android:title="@string/logs"/>
+	</group>
 
+	<group
+		android:id="@+id/menu_actions"
+		android:checkableBehavior="single">
 		<item
 			android:id="@+id/menu_settings"
 			android:icon="@drawable/ic_settings_white_24dp"
 			android:title="@string/settings"/>
+
+		<item
+			android:id="@+id/menu_restart"
+			android:icon="@drawable/ic_replay_white_24dp"
+			android:title="@string/restart"/>
 	</group>
-
-	<item android:title="@string/actions">
-		<menu>
-			<group android:checkableBehavior="single">
-				<item
-					android:id="@+id/menu_restart"
-					android:icon="@drawable/ic_replay_white_24dp"
-					android:title="@string/restart"/>
-
-				<item
-					android:id="@+id/menu_shutdown"
-					android:icon="@drawable/ic_stop_white_24dp"
-					android:title="@string/shutdown"/>
-			</group>
-		</menu>
-	</item>
 </menu>

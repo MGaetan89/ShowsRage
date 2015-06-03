@@ -52,16 +52,6 @@
 			<PreferenceCategory android:title="Apache License, Version 2.0">
 
 				<PreferenceScreen
-					android:key="android_tag_group"
-					android:summary="Version 1.4"
-					android:title="AndroidTagGroup">
-
-					<intent
-						android:action="android.intent.action.VIEW"
-						android:data="https://github.com/2dxgujun/AndroidTagGroup"/>
-				</PreferenceScreen>
-
-				<PreferenceScreen
 					android:key="glide"
 					android:summary="Version 3.6.0"
 					android:title="Glide">

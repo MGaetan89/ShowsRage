@@ -62,7 +62,4 @@ public interface SickRageServices {
 
 	@GET("/?cmd=episode.setstatus")
 	void setEpisodeStatus(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, @Query("force") int force, @Query("status") String status, Callback<GenericResponse> callback);
-
-	@GET("/?cmd=sb.shutdown")
-	void shutDown(Callback<GenericResponse> callback);
 }

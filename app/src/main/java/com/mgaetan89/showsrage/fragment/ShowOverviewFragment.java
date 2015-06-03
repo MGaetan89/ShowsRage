@@ -27,7 +27,8 @@ import com.mgaetan89.showsrage.model.SingleShow;
 import com.mgaetan89.showsrage.network.OmDbApi;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
-import me.gujun.android.taggroup.TagGroup;
+import java.util.List;
+
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -56,7 +57,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	private TextView castingWriters = null;
 
 	@Nullable
-	private TagGroup genre = null;
+	private TextView genre = null;
 
 	@Nullable
 	private TextView languageCountry = null;
@@ -184,7 +185,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			this.castingDirectors = (TextView) view.findViewById(R.id.show_casting_directors);
 			this.castingLayout = (CardView) view.findViewById(R.id.show_casting_layout);
 			this.castingWriters = (TextView) view.findViewById(R.id.show_casting_writers);
-			this.genre = (TagGroup) view.findViewById(R.id.show_genre);
+			this.genre = (TextView) view.findViewById(R.id.show_genre);
 			this.languageCountry = (TextView) view.findViewById(R.id.show_language_country);
 			this.location = (TextView) view.findViewById(R.id.show_location);
 			this.name = (TextView) view.findViewById(R.id.show_name);
@@ -377,7 +378,18 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		}
 
 		if (this.genre != null) {
-			this.genre.setTags(this.show.getGenre());
+			String genres = "";
+			List<String> genresList = this.show.getGenre();
+
+			for (int i = 0; i < genresList.size(); i++) {
+				genres += genresList.get(i);
+
+				if (i + 1 < genresList.size()) {
+					genres += ", ";
+				}
+			}
+
+			this.genre.setText(this.getString(R.string.genre, genres));
 			this.genre.setVisibility(View.VISIBLE);
 		}
 
