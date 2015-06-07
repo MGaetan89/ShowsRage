@@ -103,6 +103,8 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 		inflater.inflate(R.menu.episode, menu);
 
 		this.playVideoMenu = menu.findItem(R.id.menu_play_video);
+
+		this.displayPlayVideoMenu(this.episode);
 	}
 
 	@Nullable
