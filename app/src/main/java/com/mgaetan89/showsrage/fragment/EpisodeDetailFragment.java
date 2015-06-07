@@ -1,13 +1,16 @@
 package com.mgaetan89.showsrage.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
@@ -19,11 +22,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
 import com.mgaetan89.showsrage.model.Episode;
+import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.SingleEpisode;
 import com.mgaetan89.showsrage.network.SickRageApi;
@@ -32,12 +37,14 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class EpisodeDetailFragment extends Fragment implements Callback<SingleEpisode> {
+public class EpisodeDetailFragment extends Fragment implements Callback<SingleEpisode>, View.OnClickListener {
 	@Nullable
 	private TextView airs = null;
 
 	@Nullable
 	private Episode episode = null;
+
+	private int episodeNumber = 0;
 
 	@Nullable
 	private TextView fileSize = null;
@@ -63,6 +70,8 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 	@Nullable
 	private TextView quality = null;
 
+	private int seasonNumber = 0;
+
 	@Nullable
 	private Show show = null;
 
@@ -85,17 +94,38 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 		ActionBar actionBar = ((AppCompatActivity) this.getActivity()).getSupportActionBar();
 		Bundle arguments = this.getArguments();
 		Episode episode = (Episode) arguments.getSerializable(Constants.Bundle.EPISODE_MODEL);
-		int episodeNumber = arguments.getInt(Constants.Bundle.EPISODE_NUMBER, 0);
-		int seasonNumber = arguments.getInt(Constants.Bundle.SEASON_NUMBER, 0);
+		this.episodeNumber = arguments.getInt(Constants.Bundle.EPISODE_NUMBER, 0);
+		this.seasonNumber = arguments.getInt(Constants.Bundle.SEASON_NUMBER, 0);
 
 		if (actionBar != null) {
-			actionBar.setTitle(this.getString(R.string.season_number, seasonNumber));
+			actionBar.setTitle(this.getString(R.string.season_number, this.seasonNumber));
 		}
 
 		this.show = (Show) arguments.getSerializable(Constants.Bundle.SHOW_MODEL);
 
 		this.displayEpisode(episode);
-		SickRageApi.getInstance().getServices().getEpisode(this.show.getIndexerId(), seasonNumber, episodeNumber, this);
+		SickRageApi.getInstance().getServices().getEpisode(this.show.getIndexerId(), this.seasonNumber, this.episodeNumber, this);
+	}
+
+	@Override
+	public void onClick(View view) {
+		if (this.show == null) {
+			return;
+		}
+
+		Toast.makeText(this.getActivity(), this.getString(R.string.episode_search, this.episodeNumber, this.seasonNumber), Toast.LENGTH_SHORT).show();
+
+		SickRageApi.getInstance().getServices().searchEpisode(this.show.getIndexerId(), this.seasonNumber, this.episodeNumber, new Callback<GenericResponse>() {
+			@Override
+			public void failure(RetrofitError error) {
+				error.printStackTrace();
+			}
+
+			@Override
+			public void success(GenericResponse genericResponse, Response response) {
+				Toast.makeText(getActivity(), genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	@Override
@@ -122,6 +152,12 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 			this.plotLayout = (CardView) view.findViewById(R.id.episode_plot_layout);
 			this.quality = (TextView) view.findViewById(R.id.episode_quality);
 			this.status = (TextView) view.findViewById(R.id.episode_status);
+
+			FloatingActionButton searchEpisode = (FloatingActionButton) view.findViewById(R.id.search_episode);
+
+			if (searchEpisode != null) {
+				searchEpisode.setOnClickListener(this);
+			}
 		}
 
 		return view;
@@ -145,6 +181,31 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case R.id.menu_episode_set_status_archived:
+				this.setEpisodeStatus(seasonNumber, episodeNumber, "archived");
+
+				break;
+
+			case R.id.menu_episode_set_status_failed:
+				this.setEpisodeStatus(seasonNumber, episodeNumber, "failed");
+
+				break;
+
+			case R.id.menu_episode_set_status_ignored:
+				this.setEpisodeStatus(seasonNumber, episodeNumber, "ignored");
+
+				break;
+
+			case R.id.menu_episode_set_status_skipped:
+				this.setEpisodeStatus(seasonNumber, episodeNumber, "skipped");
+
+				break;
+
+			case R.id.menu_episode_set_status_wanted:
+				this.setEpisodeStatus(seasonNumber, episodeNumber, "wanted");
+
+				break;
+
 			case R.id.menu_play_video:
 				this.clickPlayVideo();
 
@@ -258,5 +319,39 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 
 			this.playVideoMenu.setVisible(episodeDownloaded && viewInVlc);
 		}
+	}
+
+	private void setEpisodeStatus(final int seasonNumber, final int episodeNumber, final String status) {
+		if (this.show == null) {
+			return;
+		}
+
+		final Callback<GenericResponse> callback = new Callback<GenericResponse>() {
+			@Override
+			public void failure(RetrofitError error) {
+				error.printStackTrace();
+			}
+
+			@Override
+			public void success(GenericResponse genericResponse, Response response) {
+				Toast.makeText(getActivity(), genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
+			}
+		};
+
+		new AlertDialog.Builder(this.getActivity())
+				.setMessage(R.string.replace_existing_episode)
+				.setPositiveButton(R.string.replace, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						SickRageApi.getInstance().getServices().setEpisodeStatus(show.getIndexerId(), seasonNumber, episodeNumber, 1, status, callback);
+					}
+				})
+				.setNegativeButton(R.string.keep, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						SickRageApi.getInstance().getServices().setEpisodeStatus(show.getIndexerId(), seasonNumber, episodeNumber, 0, status, callback);
+					}
+				})
+				.show();
 	}
 }
