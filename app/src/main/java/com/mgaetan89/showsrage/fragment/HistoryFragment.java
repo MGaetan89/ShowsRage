@@ -98,6 +98,14 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 				if (adapter != null) {
 					adapter.notifyDataSetChanged();
 				}
+
+				if (clearHistory != null) {
+					clearHistory.setVisibility(View.GONE);
+				}
+
+				if (emptyView != null) {
+					emptyView.setVisibility(View.VISIBLE);
+				}
 			}
 		});
 	}
