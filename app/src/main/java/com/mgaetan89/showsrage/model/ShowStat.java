@@ -55,10 +55,18 @@ public class ShowStat {
 	}
 
 	public int getTotalDone() {
+		if (this.downloaded == null) {
+			return this.archived;
+		}
+
 		return this.archived + this.downloaded.get("total");
 	}
 
 	public int getTotalPending() {
+		if (this.snatched == null) {
+			return this.snatchedBest;
+		}
+
 		return this.snatchedBest + this.snatched.get("total");
 	}
 
