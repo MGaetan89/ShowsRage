@@ -187,11 +187,7 @@ public class AddShowFragment extends Fragment implements Callback<SearchResults>
 
 		query = query.trim();
 
-		if (TextUtils.isEmpty(query)) {
-			return false;
-		}
-
-		return true;
+		return !TextUtils.isEmpty(query);
 	}
 
 	private void searchShows(String query) {
