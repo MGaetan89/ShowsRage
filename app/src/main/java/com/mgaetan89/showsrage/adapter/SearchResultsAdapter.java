@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,10 @@ import java.util.List;
 public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdapter.ViewHolder> {
 	@NonNull
 	private List<SearchResultItem> searchResults = Collections.emptyList();
+
+	public interface OnSearchResultSelectedListener {
+		void onSearchResultSelected(int indexerId);
+	}
 
 	public SearchResultsAdapter(@Nullable List<SearchResultItem> searchResults) {
 		if (searchResults == null) {
@@ -53,7 +58,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 		return new ViewHolder(view);
 	}
 
-	public static class ViewHolder extends RecyclerView.ViewHolder {
+	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		@Nullable
 		public TextView firstAired;
 
@@ -63,8 +68,30 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 		public ViewHolder(View view) {
 			super(view);
 
+			view.setOnClickListener(this);
+
 			this.firstAired = (TextView) view.findViewById(R.id.show_first_aired);
 			this.name = (TextView) view.findViewById(R.id.show_name);
+		}
+
+		@Override
+		public void onClick(View view) {
+			Context context = view.getContext();
+
+			if (context instanceof OnSearchResultSelectedListener) {
+				int id = 0;
+				SearchResultItem searchResult = searchResults.get(this.getAdapterPosition());
+
+				if (searchResult.getIndexer() == 1) {
+					id = searchResult.getTvDbId();
+				} else if (searchResult.getIndexer() == 2) {
+					id = searchResult.getTvRageId();
+				}
+
+				if (id != 0) {
+					((OnSearchResultSelectedListener) context).onSearchResultSelected(id);
+				}
+			}
 		}
 	}
 }

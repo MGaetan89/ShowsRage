@@ -18,6 +18,9 @@ import retrofit.http.GET;
 import retrofit.http.Query;
 
 public interface SickRageServices {
+	@GET("/?cmd=show.addnew")
+	void addNewShow(@Query("indexerid") int indexerId, Callback<GenericResponse> callback);
+
 	@GET("/?cmd=history.clear")
 	void clearHistory(Callback<GenericResponse> callback);
 
