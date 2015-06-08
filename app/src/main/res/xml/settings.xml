@@ -17,6 +17,7 @@
 			android:title="@string/port_number"/>
 
 		<EditTextPreference
+			android:defaultValue="api"
 			android:key="server_path"
 			android:title="@string/path"/>
 
