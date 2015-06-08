@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.fragment;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -24,6 +25,8 @@ import retrofit.client.Response;
 public class SettingsFragment extends PreferenceFragment implements Callback<GenericResponse>, SharedPreferences.OnSharedPreferenceChangeListener {
 	@Nullable
 	private AlertDialog alertDialog = null;
+
+	private boolean canceled = false;
 
 	public SettingsFragment() {
 		this.setHasOptionsMenu(true);
@@ -96,6 +99,10 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 	}
 
 	private void showResult(boolean successful) {
+		if (this.canceled) {
+			return;
+		}
+
 		if (this.alertDialog != null) {
 			this.alertDialog.dismiss();
 
@@ -112,13 +119,22 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 	}
 
 	private void testConnection() {
+		this.canceled = false;
+
 		SickRageApi.getInstance().init(this.getActivity());
 
 		this.alertDialog = new AlertDialog.Builder(this.getActivity())
 				.setCancelable(true)
 				.setTitle(R.string.testing_server_settings)
 				.setMessage(this.getString(R.string.connecting_to, SickRageApi.getInstance().getApiUrl()))
-				.setNegativeButton(R.string.cancel, null)
+				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						canceled = true;
+
+						dialog.dismiss();
+					}
+				})
 				.show();
 
 		SickRageApi.getInstance().getServices().ping(this);
