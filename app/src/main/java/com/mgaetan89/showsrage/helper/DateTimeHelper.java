@@ -11,7 +11,7 @@ import java.util.Locale;
 public abstract class DateTimeHelper {
 	public static CharSequence getRelativeDate(String dateTime, String format, long minResolution) {
 		try {
-			DateFormat formatter = new SimpleDateFormat(format, Locale.ENGLISH);
+			DateFormat formatter = new SimpleDateFormat(format, Locale.getDefault());
 			Date date = formatter.parse(dateTime);
 
 			return DateUtils.getRelativeTimeSpanString(date.getTime(), System.currentTimeMillis(), minResolution);
