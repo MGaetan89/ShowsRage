@@ -2,9 +2,12 @@ package com.mgaetan89.showsrage.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class ShowStat {
+public class ShowStat implements Serializable {
+	private static final long serialVersionUID = 7360065212498675713L;
+
 	private int archived;
 	private Map<String, Integer> downloaded;
 	private int failed;

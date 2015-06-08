@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class Episode implements Serializable {
+	private static final long serialVersionUID = -7301513909240986546L;
+
 	@SerializedName("airdate")
 	private String airDate;
 

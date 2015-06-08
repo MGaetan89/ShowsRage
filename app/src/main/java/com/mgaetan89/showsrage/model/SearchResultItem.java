@@ -2,7 +2,11 @@ package com.mgaetan89.showsrage.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SearchResultItem {
+import java.io.Serializable;
+
+public class SearchResultItem implements Serializable {
+	private static final long serialVersionUID = -2543517162206194921L;
+
 	@SerializedName("first_aired")
 	private String firstAired;
 	private int indexer;

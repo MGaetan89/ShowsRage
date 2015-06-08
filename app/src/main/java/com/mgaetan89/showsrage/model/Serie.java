@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class Serie implements Serializable {
+	private static final long serialVersionUID = 2676294120265160465L;
+
 	@SerializedName("Actors")
 	private String actors;
 

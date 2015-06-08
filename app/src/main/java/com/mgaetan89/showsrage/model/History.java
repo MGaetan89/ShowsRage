@@ -2,7 +2,11 @@ package com.mgaetan89.showsrage.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class History {
+import java.io.Serializable;
+
+public class History implements Serializable {
+	private static final long serialVersionUID = 421953291471416097L;
+
 	private String date;
 	private int episode;
 	@SerializedName("indexerid")

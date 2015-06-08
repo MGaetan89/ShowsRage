@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Show implements Serializable {
+	private static final long serialVersionUID = 2761152554452275886L;
+
 	@SerializedName("air_by_date")
 	private int airByDate;
 	private String airs;
