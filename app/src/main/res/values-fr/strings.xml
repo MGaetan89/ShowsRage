@@ -5,6 +5,7 @@
 	tools:locale="fr">
 	<string name="about">A propos</string>
 	<string name="actions">Actions</string>
+	<string name="active">En cours : <xliff:g example="1" id="active">%1$s</xliff:g></string>
 	<string name="actors">Acteurs : <xliff:g example="Kat Dennings, Beth Behrs, Garrett Morris, Jonathan Kite" id="actors">%1$s</xliff:g></string>
 	<string name="add_show">Ajouter une série</string>
 	<string name="address">URL</string>
@@ -23,10 +24,12 @@
 	<string name="debug">Debug</string>
 	<string name="directors">Réalisateurs : <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>
 	<string name="downloaded">Téléchargé</string>
+	<string name="downloaded_count">Téléchargés : <xliff:g example="1" id="downloaded">%1$s</xliff:g></string>
 	<string name="episode">Episode</string>
 	<string name="episode_name">E<xliff:g example="01" id="number">%1$02d</xliff:g> - <xliff:g example="Pilot" id="name">%2$s</xliff:g></string>
 	<string name="episode_name_short">E<xliff:g example="01" id="number">%1$02d</xliff:g></string>
 	<string name="episode_search">Recherche de l\'épisode <xliff:g example="1" id="episode">%1$d</xliff:g> de la saison <xliff:g example="1" id="season">%2$s</xliff:g></string>
+	<string name="episodes">Episodes</string>
 	<string name="error">Erreur</string>
 	<string name="external_links">Liens Externes</string>
 	<string name="extra_features">Fonctionnalités supplémentaires</string>
@@ -44,6 +47,7 @@
 	<string name="location">Emplacement : <xliff:g example="/Séries/2 Broke Girls" id="location">%1$s</xliff:g></string>
 	<string name="logs">Logs</string>
 	<string name="missed">Manqués</string>
+	<string name="missing">Manquant : <xliff:g example="1" id="missing">%1$s</xliff:g></string>
 	<string name="more_information">Plus d\'informations</string>
 	<string name="network">Chaîne : <xliff:g example="CBS" id="network">%1$s</xliff:g></string>
 	<string name="never">Jamais</string>
@@ -57,6 +61,7 @@
 	<string name="password">Mot de passe</string>
 	<string name="path">Chemin</string>
 	<string name="play_video">Lire la vidéo</string>
+	<string name="please_wait">Veuillez patienter…</string>
 	<string name="plot">Résumé</string>
 	<string name="port_number">Numéro de port</string>
 	<string name="quality">Qualité : <xliff:g example="HD1080p" id="quality">%1$s</xliff:g></string>
@@ -81,13 +86,16 @@
 	<string name="shows">Séries</string>
 	<string name="skipped">Passé</string>
 	<string name="snatched">Récupéré</string>
+	<string name="snatched_count">Récupérés : <xliff:g example="1" id="snatched">%1$s</xliff:g></string>
 	<string name="soon">Bientôt</string>
 	<string name="specials">Spéciaux</string>
+	<string name="statistics">Statistiques</string>
 	<string name="status">Status : <xliff:g example="En cours" id="status">%1$s</xliff:g></string>
 	<string name="status_from"><xliff:g example="Téléchargé" id="status">%1$s</xliff:g> depuis <xliff:g example="KAT" id="provider">%2$s</xliff:g></string>
 	<string name="test">Tester</string>
 	<string name="testing_server_settings">Test de la configuration du serveur</string>
 	<string name="today">Aujourd\'hui</string>
+	<string name="total">Total : <xliff:g example="1" id="total">%1$s</xliff:g></string>
 	<string name="use_https">Connexion sécurisée ?</string>
 	<string name="username">Identifiant</string>
 	<string name="view_in_vlc">Voir les épisodes téléchargés dans VLC</string>

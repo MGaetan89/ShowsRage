@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.mgaetan89.showsrage.R;
+import com.mgaetan89.showsrage.fragment.StatisticsFragment;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
@@ -132,6 +133,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 				this.startActivity(intent);
 
 				menuItem.setChecked(true);
+
+				return true;
+			}
+
+			case R.id.menu_statistics: {
+				StatisticsFragment fragment = new StatisticsFragment();
+				fragment.show(this.getSupportFragmentManager(), "statistics");
 
 				return true;
 			}

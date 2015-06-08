@@ -10,6 +10,7 @@ import com.mgaetan89.showsrage.model.SearchResults;
 import com.mgaetan89.showsrage.model.Seasons;
 import com.mgaetan89.showsrage.model.ShowStats;
 import com.mgaetan89.showsrage.model.Shows;
+import com.mgaetan89.showsrage.model.ShowsStats;
 import com.mgaetan89.showsrage.model.SingleEpisode;
 import com.mgaetan89.showsrage.model.SingleShow;
 
@@ -47,6 +48,9 @@ public interface SickRageServices {
 
 	@GET("/?cmd=shows&sort=name")
 	void getShows(Callback<Shows> callback);
+
+	@GET("/?cmd=shows.stats")
+	void getShowsStats(Callback<ShowsStats> callback);
 
 	@GET("/?cmd=show.stats")
 	void getShowStats(@Query("indexerid") int indexerId, Callback<ShowStats> callback);
