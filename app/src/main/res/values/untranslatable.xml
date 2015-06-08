@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="app_name" translatable="false">ShowsRage</string>
 	<string name="imdb" translatable="false">IMDb</string>
 	<string name="the_tvdb" translatable="false">The TVDB</string>
 	<string name="tvrage" translatable="false">TVRage</string>
-	<string name="app_name" translatable="false">ShowsRage</string>
 </resources>
