@@ -1,7 +1,11 @@
 package com.mgaetan89.showsrage.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceGroup;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
@@ -16,7 +20,8 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class SettingsFragment extends PreferenceFragment implements Callback<GenericResponse> {
+// Code to display preferences values from: http://stackoverflow.com/a/18807490/1914223
+public class SettingsFragment extends PreferenceFragment implements Callback<GenericResponse>, SharedPreferences.OnSharedPreferenceChangeListener {
 	@Nullable
 	private AlertDialog alertDialog = null;
 
@@ -34,11 +39,19 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 		super.onCreate(savedInstanceState);
 
 		this.addPreferencesFromResource(R.xml.settings);
+		this.getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 	}
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.settings, menu);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+
+		this.getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
 	}
 
 	@Override
@@ -51,6 +64,30 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		for (int i = 0; i < this.getPreferenceScreen().getPreferenceCount(); i++) {
+			Preference preference = this.getPreferenceScreen().getPreference(i);
+
+			if (preference instanceof PreferenceGroup) {
+				PreferenceGroup preferenceGroup = (PreferenceGroup) preference;
+
+				for (int j = 0; j < preferenceGroup.getPreferenceCount(); j++) {
+					this.updatePreference(preferenceGroup.getPreference(j));
+				}
+			} else {
+				this.updatePreference(preference);
+			}
+		}
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		this.updatePreference(this.findPreference(key));
 	}
 
 	@Override
@@ -85,5 +122,12 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 				.show();
 
 		SickRageApi.getInstance().getServices().ping(this);
+	}
+
+	private void updatePreference(Preference preference) {
+		if (preference instanceof EditTextPreference) {
+			EditTextPreference editTextPreference = (EditTextPreference) preference;
+			editTextPreference.setSummary(editTextPreference.getText());
+		}
 	}
 }
