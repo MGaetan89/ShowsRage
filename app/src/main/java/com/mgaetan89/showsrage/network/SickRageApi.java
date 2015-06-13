@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
+import com.mgaetan89.showsrage.BuildConfig;
+
 import retrofit.RestAdapter;
 
 public class SickRageApi {
@@ -36,12 +38,16 @@ public class SickRageApi {
 		this.apiUrl = String.format("%s://%s:%s/%s/%s/", protocol, address, portNumber, path, apiKey);
 		this.videosUrl = String.format("%s://%s:%s/videos/", protocol, address, portNumber);
 
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(this.apiUrl)
-				.setLogLevel(RestAdapter.LogLevel.FULL)
-				.build();
+		RestAdapter.Builder builder = new RestAdapter.Builder();
+		builder.setEndpoint(this.apiUrl);
 
-		this.services = restAdapter.create(SickRageServices.class);
+		if (BuildConfig.DEBUG) {
+			builder.setLogLevel(RestAdapter.LogLevel.FULL);
+		} else {
+			builder.setLogLevel(RestAdapter.LogLevel.NONE);
+		}
+
+		this.services = builder.build().create(SickRageServices.class);
 	}
 
 	@NonNull
