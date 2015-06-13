@@ -1,5 +1,9 @@
 # Version 0.3 (2015-xx-xx)
 
+## Features
+
+- Automatically get the API Key
+
 ## Changes
 
 - Hide the password value on the *Settings* screen
