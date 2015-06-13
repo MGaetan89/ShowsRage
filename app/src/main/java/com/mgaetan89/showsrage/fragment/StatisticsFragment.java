@@ -127,7 +127,7 @@ public class StatisticsFragment extends DialogFragment implements Callback<Shows
 		NumberFormat numberFormat = NumberFormat.getInstance();
 
 		if (this.episodesDownloaded != null) {
-			this.episodesDownloaded.setText(this.getString(R.string.downloaded_count, numberFormat.format(episodesDownloaded)));
+			this.episodesDownloaded.setText(this.getString(R.string.downloaded_count, numberFormat.format(episodesDownloaded), this.getFormattedRatio(episodesDownloaded, episodesTotal)));
 		}
 
 		if (this.episodesDownloadedBar != null) {
@@ -139,7 +139,7 @@ public class StatisticsFragment extends DialogFragment implements Callback<Shows
 		}
 
 		if (this.episodesMissing != null) {
-			this.episodesMissing.setText(this.getString(R.string.missing, numberFormat.format(episodesMissing)));
+			this.episodesMissing.setText(this.getString(R.string.missing, numberFormat.format(episodesMissing), this.getFormattedRatio(episodesMissing, episodesTotal)));
 		}
 
 		if (this.episodesMissingBar != null) {
@@ -151,7 +151,7 @@ public class StatisticsFragment extends DialogFragment implements Callback<Shows
 		}
 
 		if (this.episodesSnatched != null) {
-			this.episodesSnatched.setText(this.getString(R.string.snatched_count, numberFormat.format(episodesSnatched)));
+			this.episodesSnatched.setText(this.getString(R.string.snatched_count, numberFormat.format(episodesSnatched), this.getFormattedRatio(episodesSnatched, episodesTotal)));
 		}
 
 		if (this.episodesSnatchedBar != null) {
@@ -181,5 +181,16 @@ public class StatisticsFragment extends DialogFragment implements Callback<Shows
 		if (this.statisticsLayout != null) {
 			this.statisticsLayout.setVisibility(View.VISIBLE);
 		}
+	}
+
+	private String getFormattedRatio(int a, int b) {
+		if (b == 0) {
+			return "0";
+		}
+
+		NumberFormat numberFormat = NumberFormat.getInstance();
+		numberFormat.setMaximumFractionDigits(1);
+
+		return numberFormat.format(100f * a / b);
 	}
 }

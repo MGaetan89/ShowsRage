@@ -24,7 +24,7 @@
 	<string name="debug">Debug</string>
 	<string name="directors">Réalisateurs : <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>
 	<string name="downloaded">Téléchargé</string>
-	<string name="downloaded_count">Téléchargés : <xliff:g example="1" id="downloaded">%1$s</xliff:g></string>
+	<string name="downloaded_count">Téléchargés : <xliff:g example="1" id="downloaded">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
 	<string name="episode">Episode</string>
 	<string name="episode_name">E<xliff:g example="01" id="number">%1$02d</xliff:g> - <xliff:g example="Pilot" id="name">%2$s</xliff:g></string>
 	<string name="episode_name_short">E<xliff:g example="01" id="number">%1$02d</xliff:g></string>
@@ -47,7 +47,7 @@
 	<string name="location">Emplacement : <xliff:g example="/Séries/2 Broke Girls" id="location">%1$s</xliff:g></string>
 	<string name="logs">Logs</string>
 	<string name="missed">Manqués</string>
-	<string name="missing">Manquant : <xliff:g example="1" id="missing">%1$s</xliff:g></string>
+	<string name="missing">Manquant : <xliff:g example="1" id="missing">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
 	<string name="more_information">Plus d\'informations</string>
 	<string name="network">Chaîne : <xliff:g example="CBS" id="network">%1$s</xliff:g></string>
 	<string name="never">Jamais</string>
@@ -86,7 +86,7 @@
 	<string name="shows">Séries</string>
 	<string name="skipped">Passé</string>
 	<string name="snatched">Récupéré</string>
-	<string name="snatched_count">Récupérés : <xliff:g example="1" id="snatched">%1$s</xliff:g></string>
+	<string name="snatched_count">Récupérés : <xliff:g example="1" id="snatched">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
 	<string name="soon">Bientôt</string>
 	<string name="specials">Spéciaux</string>
 	<string name="statistics">Statistiques</string>
