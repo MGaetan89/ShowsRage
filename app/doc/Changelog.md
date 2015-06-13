@@ -1,4 +1,4 @@
-# Version 0.3 (2015-xx-xx)
+# Version 0.3 (2015-06-13)
 
 ## Features
 
