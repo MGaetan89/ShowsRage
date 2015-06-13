@@ -19,54 +19,54 @@ import retrofit.http.GET;
 import retrofit.http.Query;
 
 public interface SickRageServices {
-	@GET("/?cmd=show.addnew")
+	@GET("/{api_path}/{api_key}/?cmd=show.addnew")
 	void addNewShow(@Query("indexerid") int indexerId, Callback<GenericResponse> callback);
 
-	@GET("/?cmd=history.clear")
+	@GET("/{api_path}/{api_key}/?cmd=history.clear")
 	void clearHistory(Callback<GenericResponse> callback);
 
-	@GET("/?cmd=future")
+	@GET("/{api_path}/{api_key}/?cmd=future")
 	void getComingEpisodes(Callback<ComingEpisodes> callback);
 
-	@GET("/?cmd=episode")
+	@GET("/{api_path}/{api_key}/?cmd=episode")
 	void getEpisode(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, Callback<SingleEpisode> callback);
 
-	@GET("/?cmd=show.seasons")
+	@GET("/{api_path}/{api_key}/?cmd=show.seasons")
 	void getEpisodes(@Query("indexerid") int indexerId, @Query("season") int season, Callback<Episodes> callback);
 
-	@GET("/?cmd=history")
+	@GET("/{api_path}/{api_key}/?cmd=history")
 	void getHistory(Callback<Histories> callback);
 
-	@GET("/?cmd=logs")
+	@GET("/{api_path}/{api_key}/?cmd=logs")
 	void getLogs(@Query("min_level") LogLevel minLevel, Callback<Logs> callback);
 
-	@GET("/?cmd=show.seasonlist")
+	@GET("/{api_path}/{api_key}/?cmd=show.seasonlist")
 	void getSeasons(@Query("indexerid") int indexerId, Callback<Seasons> callback);
 
-	@GET("/?cmd=show")
+	@GET("/{api_path}/{api_key}/?cmd=show")
 	void getShow(@Query("indexerid") int indexerId, Callback<SingleShow> callback);
 
-	@GET("/?cmd=shows&sort=name")
+	@GET("/{api_path}/{api_key}/?cmd=shows&sort=name")
 	void getShows(Callback<Shows> callback);
 
-	@GET("/?cmd=shows.stats")
+	@GET("/{api_path}/{api_key}/?cmd=shows.stats")
 	void getShowsStats(Callback<ShowsStats> callback);
 
-	@GET("/?cmd=show.stats")
+	@GET("/{api_path}/{api_key}/?cmd=show.stats")
 	void getShowStats(@Query("indexerid") int indexerId, Callback<ShowStats> callback);
 
-	@GET("/?cmd=sb.ping")
+	@GET("/{api_path}/{api_key}/?cmd=sb.ping")
 	void ping(Callback<GenericResponse> callback);
 
-	@GET("/?cmd=sb.restart")
+	@GET("/{api_path}/{api_key}/?cmd=sb.restart")
 	void restart(Callback<GenericResponse> callback);
 
-	@GET("/?cmd=sb.searchindexers")
+	@GET("/{api_path}/{api_key}/?cmd=sb.searchindexers")
 	void search(@Query("name") String name, Callback<SearchResults> callback);
 
-	@GET("/?cmd=episode.search")
+	@GET("/{api_path}/{api_key}/?cmd=episode.search")
 	void searchEpisode(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, Callback<GenericResponse> callback);
 
-	@GET("/?cmd=episode.setstatus")
+	@GET("/{api_path}/{api_key}/?cmd=episode.setstatus")
 	void setEpisodeStatus(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, @Query("force") int force, @Query("status") String status, Callback<GenericResponse> callback);
 }
