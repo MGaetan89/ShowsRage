@@ -21,18 +21,30 @@
 			android:key="server_path"
 			android:title="@string/path"/>
 
-		<EditTextPreference
-			android:key="api_key"
-			android:title="@string/api_key"/>
+		<PreferenceScreen
+			android:key="get_api_key"
+			android:title="@string/api_key">
 
-		<EditTextPreference
-			android:key="server_username"
-			android:title="@string/username"/>
+			<EditTextPreference
+				android:key="api_key"
+				android:title="@string/api_key"/>
 
-		<EditTextPreference
-			android:inputType="textPassword"
-			android:key="server_password"
-			android:title="@string/password"/>
+			<PreferenceCategory android:title="@string/get_api_key">
+
+				<EditTextPreference
+					android:key="server_username"
+					android:title="@string/username"/>
+
+				<EditTextPreference
+					android:inputType="textPassword"
+					android:key="server_password"
+					android:title="@string/password"/>
+
+				<Preference
+					android:key="get_api_key_action"
+					android:title="@string/get_api_key"/>
+			</PreferenceCategory>
+		</PreferenceScreen>
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/extra_features">

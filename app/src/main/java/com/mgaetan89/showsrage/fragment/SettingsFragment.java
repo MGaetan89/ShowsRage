@@ -7,6 +7,8 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
+import android.preference.PreferenceScreen;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -15,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.mgaetan89.showsrage.R;
+import com.mgaetan89.showsrage.model.ApiKey;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
@@ -35,7 +38,7 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 
 	@Override
 	public void failure(RetrofitError error) {
-		this.showResult(false);
+		this.showTestResult(false);
 	}
 
 	@Override
@@ -74,19 +77,7 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 	public void onResume() {
 		super.onResume();
 
-		for (int i = 0; i < this.getPreferenceScreen().getPreferenceCount(); i++) {
-			Preference preference = this.getPreferenceScreen().getPreference(i);
-
-			if (preference instanceof PreferenceGroup) {
-				PreferenceGroup preferenceGroup = (PreferenceGroup) preference;
-
-				for (int j = 0; j < preferenceGroup.getPreferenceCount(); j++) {
-					this.updatePreference(preferenceGroup.getPreference(j));
-				}
-			} else {
-				this.updatePreference(preference);
-			}
-		}
+		this.updatePreferenceGroup(this.getPreferenceScreen());
 	}
 
 	@Override
@@ -95,11 +86,72 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 	}
 
 	@Override
-	public void success(GenericResponse genericResponse, Response response) {
-		this.showResult(true);
+	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, @NonNull Preference preference) {
+		if ("get_api_key_action".equals(preference.getKey())) {
+			this.getApiKey();
+
+			return true;
+		}
+
+		return super.onPreferenceTreeClick(preferenceScreen, preference);
 	}
 
-	private void showResult(boolean successful) {
+	@Override
+	public void success(GenericResponse genericResponse, Response response) {
+		this.showTestResult(true);
+	}
+
+	private void getApiKey() {
+		String username = this.getPreferenceValue("server_username", null);
+		String password = this.getPreferenceValue("server_password", null);
+
+		SickRageApi.getInstance().getServices().getApiKey(username, password, new Callback<ApiKey>() {
+			@Override
+			public void failure(RetrofitError error) {
+				showApiKeyResult(null);
+			}
+
+			@Override
+			public void success(ApiKey apiKey, Response response) {
+				if (apiKey.isSuccess()) {
+					showApiKeyResult(apiKey.getApiKey());
+				} else {
+					showApiKeyResult(null);
+				}
+			}
+		});
+	}
+
+	private String getPreferenceValue(String key, String defaultValue) {
+		return this.getPreferenceManager().getSharedPreferences().getString(key, defaultValue);
+	}
+
+	private void setPreferenceValue(String key, String value) {
+		SharedPreferences sharedPreferences = this.getPreferenceManager().getSharedPreferences();
+		sharedPreferences.edit().putString(key, value).apply();
+	}
+
+	private void showApiKeyResult(@Nullable String apiKey) {
+		int messageId;
+
+		if (TextUtils.isEmpty(apiKey)) {
+			messageId = R.string.get_api_key_error;
+		} else {
+			this.setPreferenceValue("api_key", apiKey);
+			this.findPreference("api_key").setSummary(apiKey);
+			this.findPreference("get_api_key").setSummary(apiKey);
+
+			messageId = R.string.get_api_key_success;
+		}
+
+		new AlertDialog.Builder(this.getActivity())
+				.setCancelable(true)
+				.setMessage(messageId)
+				.setPositiveButton(android.R.string.ok, null)
+				.show();
+	}
+
+	private void showTestResult(boolean successful) {
 		if (this.canceled) {
 			return;
 		}
@@ -144,12 +196,29 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 	private void updatePreference(Preference preference) {
 		if (preference instanceof EditTextPreference) {
 			EditTextPreference editTextPreference = (EditTextPreference) preference;
+			String key = editTextPreference.getKey();
 			String text = editTextPreference.getText();
 
-			if ("server_password".equals(editTextPreference.getKey()) && !TextUtils.isEmpty(text)) {
+			if ("server_password".equals(key) && !TextUtils.isEmpty(text)) {
 				editTextPreference.setSummary("*****");
 			} else {
 				editTextPreference.setSummary(text);
+			}
+		}
+	}
+
+	private void updatePreferenceGroup(PreferenceGroup preferenceGroup) {
+		for (int i = 0; i < preferenceGroup.getPreferenceCount(); i++) {
+			Preference preference = preferenceGroup.getPreference(i);
+
+			if (preference instanceof PreferenceGroup) {
+				if ("get_api_key".equals(preference.getKey())) {
+					preference.setSummary(this.getPreferenceValue("api_key", ""));
+				}
+
+				this.updatePreferenceGroup((PreferenceGroup) preference);
+			} else {
+				this.updatePreference(preference);
 			}
 		}
 	}

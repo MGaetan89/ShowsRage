@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.network;
 
+import com.mgaetan89.showsrage.model.ApiKey;
 import com.mgaetan89.showsrage.model.ComingEpisodes;
 import com.mgaetan89.showsrage.model.Episodes;
 import com.mgaetan89.showsrage.model.GenericResponse;
@@ -24,6 +25,9 @@ public interface SickRageServices {
 
 	@GET("/{api_path}/{api_key}/?cmd=history.clear")
 	void clearHistory(Callback<GenericResponse> callback);
+
+	@GET("/getkey")
+	void getApiKey(@Query("u") String username, @Query("p") String password, Callback<ApiKey> callback);
 
 	@GET("/{api_path}/{api_key}/?cmd=future")
 	void getComingEpisodes(Callback<ComingEpisodes> callback);

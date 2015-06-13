@@ -36,6 +36,9 @@
 	<string name="failed">Failed</string>
 	<string name="file_size">File size: <xliff:g example="856.93 MB" id="file_size">%1$s</xliff:g></string>
 	<string name="genre">Genre: <xliff:g example="Comedy" id="genre">%1$s</xliff:g></string>
+	<string name="get_api_key">Get API Key</string>
+	<string name="get_api_key_error">Unable to get the API Key</string>
+	<string name="get_api_key_success">API Key successfully received</string>
 	<string name="history">History</string>
 	<string name="ignored">Ignored</string>
 	<string name="info">Info</string>
