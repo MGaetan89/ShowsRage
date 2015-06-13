@@ -1,4 +1,11 @@
-# Version 0.2 (2015-xx-xx)
+# Version 0.3 (2015-xx-xx)
+
+## Changes
+
+- Hide the password value on the *Settings* screen
+- Update global shows statistics
+
+# Version 0.2 (2015-06-08)
 
 ## New features
 

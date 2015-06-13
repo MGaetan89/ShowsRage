@@ -9,6 +9,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -143,11 +144,12 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 	private void updatePreference(Preference preference) {
 		if (preference instanceof EditTextPreference) {
 			EditTextPreference editTextPreference = (EditTextPreference) preference;
+			String text = editTextPreference.getText();
 
-			if ("server_password".equals(editTextPreference.getKey())) {
+			if ("server_password".equals(editTextPreference.getKey()) && !TextUtils.isEmpty(text)) {
 				editTextPreference.setSummary("*****");
 			} else {
-				editTextPreference.setSummary(editTextPreference.getText());
+				editTextPreference.setSummary(text);
 			}
 		}
 	}
