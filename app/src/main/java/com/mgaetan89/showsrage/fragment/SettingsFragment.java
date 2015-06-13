@@ -143,7 +143,12 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 	private void updatePreference(Preference preference) {
 		if (preference instanceof EditTextPreference) {
 			EditTextPreference editTextPreference = (EditTextPreference) preference;
-			editTextPreference.setSummary(editTextPreference.getText());
+
+			if ("server_password".equals(editTextPreference.getKey())) {
+				editTextPreference.setSummary("*****");
+			} else {
+				editTextPreference.setSummary(editTextPreference.getText());
+			}
 		}
 	}
 }
