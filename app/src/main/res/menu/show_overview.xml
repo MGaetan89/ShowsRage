@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+	<item
+		android:id="@+id/menu_pause_show"
+		android:icon="@drawable/ic_pause_white_24dp"
+		android:title="@string/pause_show"
+		android:visible="false"
+		app:showAsAction="ifRoom"
+		tools:visible="true"/>
+
+	<item
+		android:id="@+id/menu_resume_show"
+		android:icon="@drawable/ic_replay_white_24dp"
+		android:title="@string/resume_show"
+		android:visible="false"
+		app:showAsAction="ifRoom"
+		tools:visible="true"/>
+</menu>

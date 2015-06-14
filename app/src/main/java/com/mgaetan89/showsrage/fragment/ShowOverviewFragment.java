@@ -11,16 +11,21 @@ import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
+import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.model.Serie;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.SingleShow;
@@ -77,6 +82,9 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	private OmDbApi omDbApi = null;
 
 	@Nullable
+	private MenuItem pauseMenu = null;
+
+	@Nullable
 	private TextView plot = null;
 
 	@Nullable
@@ -95,6 +103,9 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	private TextView rating = null;
 
 	@Nullable
+	private MenuItem resumeMenu = null;
+
+	@Nullable
 	private TextView runtime = null;
 
 	private Show show = null;
@@ -106,6 +117,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	private TextView year = null;
 
 	public ShowOverviewFragment() {
+		this.setHasOptionsMenu(true);
 	}
 
 	@Override
@@ -170,6 +182,14 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 				break;
 			}
 		}
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.show_overview, menu);
+
+		this.pauseMenu = menu.findItem(R.id.menu_pause_show);
+		this.resumeMenu = menu.findItem(R.id.menu_resume_show);
 	}
 
 	@Nullable
@@ -247,6 +267,23 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		this.year = null;
 
 		super.onDestroyView();
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_pause_show:
+				this.pauseOrResumeShow(true);
+
+				return true;
+
+			case R.id.menu_resume_show:
+				this.pauseOrResumeShow(false);
+
+				return true;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -429,12 +466,20 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			this.network.setVisibility(View.VISIBLE);
 		}
 
+		if (this.pauseMenu != null) {
+			this.pauseMenu.setVisible(this.show.getPaused() == 0);
+		}
+
 		if (this.poster != null) {
 			Glide.with(this)//
 					.load(SickRageApi.getInstance().getApiUrl() + "?cmd=show.getposter&tvdbid=" + this.show.getTvDbId())//
 					.into(this.poster);
 
 			this.poster.setContentDescription(this.show.getShowName());
+		}
+
+		if (this.resumeMenu != null) {
+			this.resumeMenu.setVisible(this.show.getPaused() == 1);
 		}
 
 		if (this.status != null) {
@@ -450,5 +495,35 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			this.quality.setText(this.getString(R.string.quality, this.show.getQuality()));
 			this.quality.setVisibility(View.VISIBLE);
 		}
+	}
+
+	private void pauseOrResumeShow(final boolean pause) {
+		if (this.pauseMenu != null) {
+			this.pauseMenu.setVisible(!pause);
+		}
+
+		if (this.resumeMenu != null) {
+			this.resumeMenu.setVisible(pause);
+		}
+
+		SickRageApi.getInstance().getServices().pauseShow(this.show.getIndexerId(), pause ? 1 : 0, new Callback<GenericResponse>() {
+			@Override
+			public void failure(RetrofitError error) {
+				error.printStackTrace();
+
+				if (pauseMenu != null) {
+					pauseMenu.setVisible(pause);
+				}
+
+				if (resumeMenu != null) {
+					resumeMenu.setVisible(!pause);
+				}
+			}
+
+			@Override
+			public void success(GenericResponse genericResponse, Response response) {
+				Toast.makeText(getActivity(), genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 }
