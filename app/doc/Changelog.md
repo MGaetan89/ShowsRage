@@ -1,3 +1,9 @@
+# Version 0.4 (2015-xx-xx)
+
+## Features
+
+- Pause/Resume show from the show overview
+
 # Version 0.3 (2015-06-13)
 
 ## Features
