@@ -22,6 +22,7 @@
 	<string name="connection_failed">Connection to <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g> failed</string>
 	<string name="connection_successful">Connection successful!</string>
 	<string name="debug">Debug</string>
+	<string name="developer">Developer</string>
 	<string name="directors">Directors: <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>
 	<string name="downloaded">Downloaded</string>
 	<string name="downloaded_count">Downloaded: <xliff:g example="1" id="downloaded">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
@@ -93,6 +94,7 @@
 	<string name="snatched">Snatched</string>
 	<string name="snatched_count">Snatched: <xliff:g example="1" id="snatched">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
 	<string name="soon">Soon</string>
+	<string name="source_code">Source code</string>
 	<string name="specials">Specials</string>
 	<string name="statistics">Statistics</string>
 	<string name="status">Status: <xliff:g example="Continuing" id="status">%1$s</xliff:g></string>
@@ -103,6 +105,7 @@
 	<string name="total">Total: <xliff:g example="1" id="total">%1$s</xliff:g></string>
 	<string name="use_https">Use HTTPS?</string>
 	<string name="username">Username</string>
+	<string name="version">Version</string>
 	<string name="view_in_vlc">View downloaded episodes in VLC</string>
 	<string name="view_in_vlc_summary">Requires VLC to be installed</string>
 	<string name="wanted">Wanted</string>

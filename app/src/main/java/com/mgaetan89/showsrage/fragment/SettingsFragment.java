@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.mgaetan89.showsrage.BuildConfig;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.model.ApiKey;
 import com.mgaetan89.showsrage.model.GenericResponse;
@@ -74,6 +75,17 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 	}
 
 	@Override
+	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, @NonNull Preference preference) {
+		if ("get_api_key_action".equals(preference.getKey())) {
+			this.getApiKey();
+
+			return true;
+		}
+
+		return super.onPreferenceTreeClick(preferenceScreen, preference);
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
 
@@ -83,17 +95,6 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		this.updatePreference(this.findPreference(key));
-	}
-
-	@Override
-	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, @NonNull Preference preference) {
-		if ("get_api_key_action".equals(preference.getKey())) {
-			this.getApiKey();
-
-			return true;
-		}
-
-		return super.onPreferenceTreeClick(preferenceScreen, preference);
 	}
 
 	@Override
@@ -212,7 +213,11 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 			Preference preference = preferenceGroup.getPreference(i);
 
 			if (preference instanceof PreferenceGroup) {
-				if ("get_api_key".equals(preference.getKey())) {
+				String key = preference.getKey();
+
+				if ("application_version".equals(key)) {
+					preference.setSummary(BuildConfig.VERSION_NAME);
+				} else if ("get_api_key".equals(key)) {
 					preference.setSummary(this.getPreferenceValue("api_key", ""));
 				}
 

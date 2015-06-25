@@ -22,6 +22,7 @@
 	<string name="connection_failed">Connexion à <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g> impossible</string>
 	<string name="connection_successful">Connexion réussie !</string>
 	<string name="debug">Debug</string>
+	<string name="developer">Développeur</string>
 	<string name="directors">Réalisateurs : <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>
 	<string name="downloaded">Téléchargé</string>
 	<string name="downloaded_count">Téléchargés : <xliff:g example="1" id="downloaded">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
@@ -93,6 +94,7 @@
 	<string name="snatched">Récupéré</string>
 	<string name="snatched_count">Récupérés : <xliff:g example="1" id="snatched">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
 	<string name="soon">Bientôt</string>
+	<string name="source_code">Code source</string>
 	<string name="specials">Spéciaux</string>
 	<string name="statistics">Statistiques</string>
 	<string name="status">Status : <xliff:g example="En cours" id="status">%1$s</xliff:g></string>
@@ -103,6 +105,7 @@
 	<string name="total">Total : <xliff:g example="1" id="total">%1$s</xliff:g></string>
 	<string name="use_https">Connexion sécurisée ?</string>
 	<string name="username">Identifiant</string>
+	<string name="version">Version</string>
 	<string name="view_in_vlc">Voir les épisodes téléchargés dans VLC</string>
 	<string name="view_in_vlc_summary">Nécessite que VLC soit installé</string>
 	<string name="wanted">Voulu</string>

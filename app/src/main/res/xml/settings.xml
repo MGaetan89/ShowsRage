@@ -59,6 +59,38 @@
 	<PreferenceCategory android:title="@string/about">
 
 		<PreferenceScreen
+			android:key="application"
+			android:title="@string/app_name">
+
+			<PreferenceCategory android:title="@string/app_name">
+
+				<PreferenceScreen
+					android:key="application_version"
+					android:title="@string/version"/>
+
+				<PreferenceScreen
+					android:key="application_source"
+					android:summary="GitHub"
+					android:title="@string/source_code">
+
+					<intent
+						android:action="android.intent.action.VIEW"
+						android:data="https://github.com/MGaetan89/ShowsRage"/>
+				</PreferenceScreen>
+
+				<PreferenceScreen
+					android:key="application_developer"
+					android:summary="MGaetan89"
+					android:title="@string/developer">
+
+					<intent
+						android:action="android.intent.action.VIEW"
+						android:data="https://github.com/MGaetan89"/>
+				</PreferenceScreen>
+			</PreferenceCategory>
+		</PreferenceScreen>
+
+		<PreferenceScreen
 			android:key="licenses"
 			android:title="@string/licenses">
 
