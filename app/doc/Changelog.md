@@ -5,6 +5,10 @@
 - Pause/Resume show from the show overview
 - Add application information in the *Settings*
 
+## Fixes
+
+- Fix crash when trying to add a new show
+
 # Version 0.3 (2015-06-13)
 
 ## Features

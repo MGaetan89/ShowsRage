@@ -34,3 +34,6 @@
     java.lang.Object writeReplace();
     java.lang.Object readResolve();
 }
+
+# Rules for the Support Library
+-keep class android.support.v7.widget.SearchView { *; }
