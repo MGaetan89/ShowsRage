@@ -3,6 +3,7 @@
 ## Features
 
 - Pause/Resume show from the show overview
+- Add application information in the *Settings*
 
 # Version 0.3 (2015-06-13)
 
