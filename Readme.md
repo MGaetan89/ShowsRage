@@ -1,4 +1,4 @@
-# ShowsRage
+# ShowsRage [![Build Status](https://travis-ci.org/MGaetan89/ShowsRage.svg?branch=master)](https://travis-ci.org/MGaetan89/ShowsRage)
 
 **ShowsRage** is an Android application that allows you to manage your [SickRage](https://www.sickrage.tv/) installation.
 

@@ -3,7 +3,7 @@ apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
 	compileSdkVersion 22
-	buildToolsVersion '23-rc2'
+	buildToolsVersion '22.0.1'
 
 	defaultConfig {
 		applicationId 'com.mgaetan89.showsrage'
@@ -26,8 +26,11 @@ android {
 		release {
 			minifyEnabled true
 			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-			signingConfig signingConfigs.release
 		}
+	}
+
+	lintOptions {
+		abortOnError false
 	}
 }
 
