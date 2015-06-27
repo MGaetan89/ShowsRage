@@ -204,7 +204,7 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 			holder.logo.setContentDescription(comingEpisode.getShowName());
 
 			Glide.with(holder.logo.getContext())//
-					.load(SickRageApi.getInstance().getApiUrl() + "?cmd=show.getposter&tvdbid=" + comingEpisode.getTvDbId())//
+					.load(SickRageApi.getInstance().getPosterUrl(comingEpisode.getTvDbId()))//
 					.into(holder.logo);
 		}
 

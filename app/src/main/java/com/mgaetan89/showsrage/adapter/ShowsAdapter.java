@@ -51,7 +51,7 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 			holder.logo.setContentDescription(show.getShowName());
 
 			Glide.with(holder.logo.getContext())//
-					.load(SickRageApi.getInstance().getApiUrl() + "?cmd=show.getposter&tvdbid=" + show.getTvDbId())//
+					.load(SickRageApi.getInstance().getPosterUrl(show.getTvDbId()))//
 					.into(holder.logo);
 		}
 

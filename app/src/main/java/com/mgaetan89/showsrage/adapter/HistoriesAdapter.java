@@ -49,7 +49,7 @@ public class HistoriesAdapter extends RecyclerView.Adapter<HistoriesAdapter.View
 			holder.logo.setContentDescription(history.getShowName());
 
 			Glide.with(holder.logo.getContext())//
-					.load(SickRageApi.getInstance().getApiUrl() + "?cmd=show.getposter&tvdbid=" + history.getTvDbId())//
+					.load(SickRageApi.getInstance().getPosterUrl(history.getTvDbId()))//
 					.into(holder.logo);
 		}
 

@@ -472,7 +472,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 		if (this.poster != null) {
 			Glide.with(this)//
-					.load(SickRageApi.getInstance().getApiUrl() + "?cmd=show.getposter&tvdbid=" + this.show.getTvDbId())//
+					.load(SickRageApi.getInstance().getPosterUrl(this.show.getTvDbId()))//
 					.into(this.poster);
 
 			this.poster.setContentDescription(this.show.getShowName());

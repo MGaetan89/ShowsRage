@@ -37,6 +37,11 @@ public class SickRageApi implements RequestInterceptor {
 		return this.apiUrl + this.path + "/" + this.apiKey + "/";
 	}
 
+	@NonNull
+	public String getPosterUrl(int tvDbId) {
+		return String.format("%s?cmd=show.getposter&tvdbid=%d", this.getApiUrl(), tvDbId);
+	}
+
 	public SickRageServices getServices() {
 		return this.services;
 	}
