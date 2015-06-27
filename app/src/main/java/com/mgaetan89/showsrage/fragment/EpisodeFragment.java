@@ -28,6 +28,9 @@ public class EpisodeFragment extends Fragment {
 	@Nullable
 	private TabLayout tabLayout = null;
 
+	@Nullable
+	private ViewPager viewPager = null;
+
 	public EpisodeFragment() {
 	}
 
@@ -57,6 +60,13 @@ public class EpisodeFragment extends Fragment {
 				this.tabLayout.getTabAt(episodesCount - episodeNumber).select();
 			}
 		}
+
+		this.tabLayout = (TabLayout) this.getActivity().findViewById(R.id.tabs);
+
+		if (this.tabLayout != null && this.viewPager != null) {
+			this.tabLayout.setupWithViewPager(this.viewPager);
+			this.tabLayout.setVisibility(View.VISIBLE);
+		}
 	}
 
 	@Nullable
@@ -65,18 +75,12 @@ public class EpisodeFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_show, container, false);
 
 		if (view != null) {
-			this.tabLayout = (TabLayout) view.findViewById(R.id.show_tabs);
-			ViewPager viewPager = (ViewPager) view.findViewById(R.id.show_pager);
+			this.viewPager = (ViewPager) view.findViewById(R.id.show_pager);
 
-			if (viewPager != null) {
+			if (this.viewPager != null) {
 				this.adapter = new EpisodePagerAdapter(this.getChildFragmentManager(), this, this.episodes);
 
-				viewPager.setAdapter(this.adapter);
-
-				if (this.tabLayout != null) {
-					this.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-					this.tabLayout.setupWithViewPager(viewPager);
-				}
+				this.viewPager.setAdapter(this.adapter);
 			}
 		}
 
@@ -93,6 +97,7 @@ public class EpisodeFragment extends Fragment {
 	@Override
 	public void onDestroyView() {
 		this.tabLayout = null;
+		this.viewPager = null;
 
 		super.onDestroyView();
 	}

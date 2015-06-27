@@ -35,6 +35,9 @@ public class ShowFragment extends Fragment implements Callback<Seasons> {
 	@Nullable
 	private TabLayout tabLayout = null;
 
+	@Nullable
+	private ViewPager viewPager = null;
+
 	public ShowFragment() {
 	}
 
@@ -51,6 +54,13 @@ public class ShowFragment extends Fragment implements Callback<Seasons> {
 		Show show = (Show) intent.getSerializableExtra(Constants.Bundle.SHOW_MODEL);
 
 		SickRageApi.getInstance().getServices().getSeasons(show.getIndexerId(), this);
+
+		this.tabLayout = (TabLayout) this.getActivity().findViewById(R.id.tabs);
+
+		if (this.tabLayout != null && this.viewPager != null) {
+			this.tabLayout.setupWithViewPager(this.viewPager);
+			this.tabLayout.setVisibility(View.VISIBLE);
+		}
 	}
 
 	@Nullable
@@ -59,18 +69,12 @@ public class ShowFragment extends Fragment implements Callback<Seasons> {
 		View view = inflater.inflate(R.layout.fragment_show, container, false);
 
 		if (view != null) {
-			this.tabLayout = (TabLayout) view.findViewById(R.id.show_tabs);
-			ViewPager viewPager = (ViewPager) view.findViewById(R.id.show_pager);
+			this.viewPager = (ViewPager) view.findViewById(R.id.show_pager);
 
-			if (viewPager != null) {
+			if (this.viewPager != null) {
 				this.adapter = new ShowPagerAdapter(this.getChildFragmentManager(), this, this.seasons);
 
-				viewPager.setAdapter(this.adapter);
-
-				if (this.tabLayout != null) {
-					this.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-					this.tabLayout.setupWithViewPager(viewPager);
-				}
+				this.viewPager.setAdapter(this.adapter);
 			}
 		}
 
@@ -87,6 +91,7 @@ public class ShowFragment extends Fragment implements Callback<Seasons> {
 	@Override
 	public void onDestroyView() {
 		this.tabLayout = null;
+		this.viewPager = null;
 
 		super.onDestroyView();
 	}
