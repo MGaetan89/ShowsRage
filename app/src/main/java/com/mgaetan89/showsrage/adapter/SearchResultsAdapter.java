@@ -46,6 +46,20 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 			holder.firstAired.setText(DateTimeHelper.getRelativeDate(searchResult.getFirstAired(), "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS));
 		}
 
+		if (holder.indexer != null) {
+			switch (searchResult.getIndexer()) {
+				case 1:
+					holder.indexer.setText(R.string.the_tvdb);
+
+					break;
+
+				case 2:
+					holder.indexer.setText(R.string.tvrage);
+
+					break;
+			}
+		}
+
 		if (holder.name != null) {
 			holder.name.setText(searchResult.getName());
 		}
@@ -63,6 +77,9 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 		public TextView firstAired;
 
 		@Nullable
+		public TextView indexer;
+
+		@Nullable
 		public TextView name;
 
 		public ViewHolder(View view) {
@@ -71,6 +88,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 			view.setOnClickListener(this);
 
 			this.firstAired = (TextView) view.findViewById(R.id.show_first_aired);
+			this.indexer = (TextView) view.findViewById(R.id.show_indexer);
 			this.name = (TextView) view.findViewById(R.id.show_name);
 		}
 
