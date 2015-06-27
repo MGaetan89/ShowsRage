@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.adapter;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -67,7 +68,9 @@ public class HistoriesAdapter extends RecyclerView.Adapter<HistoriesAdapter.View
 					holder.statusProvider.setText(status);
 				}
 			} else {
-				holder.statusProvider.setText(holder.statusProvider.getResources().getString(R.string.status_from, status, provider));
+				Resources resources = holder.statusProvider.getResources();
+
+				holder.statusProvider.setText(resources.getString(R.string.status_from, resources.getString(status), provider));
 			}
 		}
 	}
