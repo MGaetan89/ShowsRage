@@ -22,6 +22,10 @@
 	<string name="connection_failed">Connexion à <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g> impossible</string>
 	<string name="connection_successful">Connexion réussie !</string>
 	<string name="debug">Debug</string>
+	<string name="delete">Supprimer</string>
+	<string name="delete_show">Supprimer la série</string>
+	<string name="delete_show_message">Voulez-vous conserver les fichiers de cette série ?</string>
+	<string name="delete_show_title">Supprimer \"<xliff:g example="2 Broke Girls" id="show_name">%1$s</xliff:g>\"</string>
 	<string name="developer">Développeur</string>
 	<string name="directors">Réalisateurs : <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>
 	<string name="downloaded">Téléchargé</string>

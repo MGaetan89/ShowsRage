@@ -22,6 +22,10 @@
 	<string name="connection_failed">Connection to <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g> failed</string>
 	<string name="connection_successful">Connection successful!</string>
 	<string name="debug">Debug</string>
+	<string name="delete">Delete</string>
+	<string name="delete_show">Delete show</string>
+	<string name="delete_show_message">Do you want to keep the files related to this show?</string>
+	<string name="delete_show_title">Delete \"<xliff:g example="2 Broke Girls" id="show_name">%1$s</xliff:g>\"</string>
 	<string name="developer">Developer</string>
 	<string name="directors">Directors: <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>
 	<string name="downloaded">Downloaded</string>

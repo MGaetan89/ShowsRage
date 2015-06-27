@@ -26,6 +26,9 @@ public interface SickRageServices {
 	@GET("/{api_path}/{api_key}/?cmd=history.clear")
 	void clearHistory(Callback<GenericResponse> callback);
 
+	@GET("/{api_path}/{api_key}/?cmd=show.delete")
+	void deleteShow(@Query("indexerid") int indexerId, @Query("removefiles") int removeFiles, Callback<GenericResponse> callback);
+
 	@GET("/getkey")
 	void getApiKey(@Query("u") String username, @Query("p") String password, Callback<ApiKey> callback);
 

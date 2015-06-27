@@ -1,11 +1,13 @@
 package com.mgaetan89.showsrage.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
@@ -272,6 +274,11 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case R.id.menu_delete_show:
+				this.deleteShow();
+
+				return true;
+
 			case R.id.menu_pause_show:
 				this.pauseOrResumeShow(true);
 
@@ -495,6 +502,39 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			this.quality.setText(this.getString(R.string.quality, this.show.getQuality()));
 			this.quality.setVisibility(View.VISIBLE);
 		}
+	}
+
+	private void deleteShow() {
+		final int indexerId = this.show.getIndexerId();
+		final Callback<GenericResponse> callback = new Callback<GenericResponse>() {
+			@Override
+			public void failure(RetrofitError error) {
+				error.printStackTrace();
+			}
+
+			@Override
+			public void success(GenericResponse genericResponse, Response response) {
+				Toast.makeText(getActivity(), genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
+			}
+		};
+
+		new AlertDialog.Builder(this.getActivity())//
+				.setTitle(this.getString(R.string.delete_show_title, this.show.getShowName()))//
+				.setMessage(R.string.delete_show_message)//
+				.setPositiveButton(R.string.keep, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						SickRageApi.getInstance().getServices().deleteShow(indexerId, 0, callback);
+					}
+				})//
+				.setNegativeButton(R.string.delete, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						SickRageApi.getInstance().getServices().deleteShow(indexerId, 1, callback);
+					}
+				})//
+				.setNeutralButton(R.string.cancel, null)//
+				.show();
 	}
 
 	private void pauseOrResumeShow(final boolean pause) {
