@@ -7,6 +7,7 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
+import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -175,7 +176,7 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 	private void testConnection() {
 		this.canceled = false;
 
-		SickRageApi.getInstance().init(this.getActivity());
+		SickRageApi.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this.getActivity()));
 
 		this.alertDialog = new AlertDialog.Builder(this.getActivity())
 				.setCancelable(true)

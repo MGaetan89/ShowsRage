@@ -202,7 +202,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 		this.setContentView(R.layout.activity_main);
 
-		SickRageApi.getInstance().init(this);
+		SickRageApi.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this));
 
 		this.setTitle(this.getTitleResourceId());
 

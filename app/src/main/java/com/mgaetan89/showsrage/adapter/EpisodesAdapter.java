@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -83,7 +84,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 		if (holder.status != null) {
 			holder.status.setText(episode.getStatus());
 
-			this.setStatusBackgroundColor(holder.status, episode.getStatus());
+			setStatusBackgroundColor(holder.status, episode.getStatus());
 		}
 	}
 
@@ -94,41 +95,35 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 		return new ViewHolder(view);
 	}
 
-	private void setStatusBackgroundColor(@NonNull TextView view, String status) {
-		int color = 0;
-
-		if (status != null) {
-			switch (status) {
-				case "Archived":
-				case "Downloaded":
-					color = R.color.green;
-
-					break;
-
-				case "Snatched":
-					color = R.color.purple;
-
-					break;
-
-				case "Unaired":
-					color = R.color.yellow;
-
-					break;
-
-				case "Wanted":
-					color = R.color.red;
-
-					break;
-
-				default:
-					color = android.R.color.transparent;
-
-					break;
-			}
-		}
+	private static void setStatusBackgroundColor(@NonNull TextView view, String status) {
+		int color = getStatusBackgroundColor(status);
 
 		Drawable background = DrawableCompat.wrap(view.getBackground());
 		DrawableCompat.setTint(background, view.getResources().getColor(color));
+	}
+
+	@ColorRes
+	/* package */ static int getStatusBackgroundColor(String status) {
+		if (status != null) {
+			String normalizedStatus = status.toLowerCase();
+
+			switch (normalizedStatus) {
+				case "archived":
+				case "downloaded":
+					return R.color.green;
+
+				case "snatched":
+					return R.color.purple;
+
+				case "unaired":
+					return R.color.yellow;
+
+				case "wanted":
+					return R.color.red;
+			}
+		}
+
+		return android.R.color.transparent;
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
