@@ -1,10 +1,9 @@
 package com.mgaetan89.showsrage.adapter;
 
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,14 +57,17 @@ public class HistoriesAdapter extends RecyclerView.Adapter<HistoriesAdapter.View
 		}
 
 		if (holder.statusProvider != null) {
-			Resources resources = holder.statusProvider.getResources();
 			String provider = history.getProvider();
-			String status = this.getTranslatedStatus(resources, history.getStatus());
+			int status = getTranslatedStatus(history.getStatus());
 
 			if ("-1".equals(provider)) {
-				holder.statusProvider.setText(status);
+				if (status == 0) {
+					holder.statusProvider.setText(history.getStatus());
+				} else {
+					holder.statusProvider.setText(status);
+				}
 			} else {
-				holder.statusProvider.setText(resources.getString(R.string.status_from, status, provider));
+				holder.statusProvider.setText(holder.statusProvider.getResources().getString(R.string.status_from, status, provider));
 			}
 		}
 	}
@@ -75,6 +77,23 @@ public class HistoriesAdapter extends RecyclerView.Adapter<HistoriesAdapter.View
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_histories_list, parent, false);
 
 		return new ViewHolder(view);
+	}
+
+	@StringRes
+	/* package */ static int getTranslatedStatus(String status) {
+		if (status != null) {
+			String normalizedStatus = status.toLowerCase();
+
+			switch (normalizedStatus) {
+				case "downloaded":
+					return R.string.downloaded;
+
+				case "snatched":
+					return R.string.snatched;
+			}
+		}
+
+		return 0;
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -97,23 +116,6 @@ public class HistoriesAdapter extends RecyclerView.Adapter<HistoriesAdapter.View
 			this.logo = (ImageView) view.findViewById(R.id.episode_logo);
 			this.name = (TextView) view.findViewById(R.id.episode_name);
 			this.statusProvider = (TextView) view.findViewById(R.id.episode_status_provider);
-		}
-	}
-
-	private String getTranslatedStatus(Resources resources, String originalStatus) {
-		if (TextUtils.isEmpty(originalStatus)) {
-			return originalStatus;
-		}
-
-		switch (originalStatus) {
-			case "Downloaded":
-				return resources.getString(R.string.downloaded);
-
-			case "Snatched":
-				return resources.getString(R.string.snatched);
-
-			default:
-				return originalStatus;
 		}
 	}
 }

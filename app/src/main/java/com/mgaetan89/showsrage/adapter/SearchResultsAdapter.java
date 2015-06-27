@@ -3,6 +3,7 @@ package com.mgaetan89.showsrage.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -47,17 +48,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 		}
 
 		if (holder.indexer != null) {
-			switch (searchResult.getIndexer()) {
-				case 1:
-					holder.indexer.setText(R.string.the_tvdb);
-
-					break;
-
-				case 2:
-					holder.indexer.setText(R.string.tvrage);
-
-					break;
-			}
+			holder.indexer.setText(getIndexerName(searchResult.getIndexer()));
 		}
 
 		if (holder.name != null) {
@@ -70,6 +61,19 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_search_result, parent, false);
 
 		return new ViewHolder(view);
+	}
+
+	@StringRes
+	/* package */ static int getIndexerName(int indexerId) {
+		switch (indexerId) {
+			case 1:
+				return R.string.the_tvdb;
+
+			case 2:
+				return R.string.tvrage;
+		}
+
+		return 0;
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

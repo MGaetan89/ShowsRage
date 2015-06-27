@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.adapter;
 
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -51,29 +52,7 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
 			}
 
 			if (holder.errorType != null) {
-				int errorTypeColor = 0;
-
-				switch (errorType.toLowerCase()) {
-					case "debug":
-						errorTypeColor = R.color.green;
-
-						break;
-
-					case "error":
-						errorTypeColor = R.color.red;
-
-						break;
-
-					case "info":
-						errorTypeColor = R.color.blue;
-
-						break;
-
-					case "warning":
-						errorTypeColor = R.color.orange;
-
-						break;
-				}
+				int errorTypeColor = getErrorColor(errorType);
 
 				holder.errorType.setText(errorType);
 				holder.errorType.setTextColor(holder.errorType.getResources().getColor(errorTypeColor));
@@ -90,6 +69,29 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_logs_list, parent, false);
 
 		return new ViewHolder(view);
+	}
+
+	@ColorRes
+	/* package */ static int getErrorColor(String errorType) {
+		if (errorType != null) {
+			String normalizedErrorType = errorType.toLowerCase();
+
+			switch (normalizedErrorType) {
+				case "debug":
+					return R.color.green;
+
+				case "error":
+					return R.color.red;
+
+				case "info":
+					return R.color.blue;
+
+				case "warning":
+					return R.color.orange;
+			}
+		}
+
+		return android.R.color.black;
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {

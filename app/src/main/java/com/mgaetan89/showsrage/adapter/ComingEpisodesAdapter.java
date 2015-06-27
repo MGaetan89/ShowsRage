@@ -26,9 +26,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ComingEpisodesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-	private static final int ITEM_TYPE_EPISODE = 0;
-	private static final int ITEM_TYPE_SECTION = 1;
-	private static final int ITEM_TYPE_UNKNOWN = 2;
+	/* package */ static final int ITEM_TYPE_EPISODE = 0;
+	/* package */ static final int ITEM_TYPE_SECTION = 1;
+	/* package */ static final int ITEM_TYPE_UNKNOWN = 2;
 
 	@NonNull
 	private Map<String, List<ComingEpisode>> comingEpisodes = Collections.emptyMap();
@@ -63,7 +63,36 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 	@Override
 	public int getItemViewType(int position) {
-		return this.getViewTypeForPosition(position);
+		int index = 0;
+
+		for (Map.Entry<String, List<ComingEpisode>> entry : this.comingEpisodes.entrySet()) {
+			List<ComingEpisode> episodes = entry.getValue();
+
+			if (index == position) {
+				if (episodes == null || episodes.isEmpty()) {
+					continue;
+				}
+
+				return ITEM_TYPE_SECTION;
+			}
+
+			if (episodes != null) {
+				for (ComingEpisode ignored : episodes) {
+					index++;
+
+					if (index == position) {
+						return ITEM_TYPE_EPISODE;
+					}
+				}
+			}
+
+			// Only increment the index if the section is not empty
+			if (episodes != null && !episodes.isEmpty()) {
+				index++;
+			}
+		}
+
+		return ITEM_TYPE_UNKNOWN;
 	}
 
 	@Override
@@ -99,41 +128,8 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 		return null;
 	}
 
-	private int getViewTypeForPosition(int position) {
-		int index = 0;
-
-		for (Map.Entry<String, List<ComingEpisode>> entry : this.comingEpisodes.entrySet()) {
-			List<ComingEpisode> episodes = entry.getValue();
-
-			if (index == position) {
-				if (episodes == null || episodes.isEmpty()) {
-					continue;
-				}
-
-				return ITEM_TYPE_SECTION;
-			}
-
-			if (episodes != null) {
-				for (ComingEpisode ignored : episodes) {
-					index++;
-
-					if (index == position) {
-						return ITEM_TYPE_EPISODE;
-					}
-				}
-			}
-
-			// Only increment the index if the section is not empty
-			if (episodes != null && !episodes.isEmpty()) {
-				index++;
-			}
-		}
-
-		return ITEM_TYPE_UNKNOWN;
-	}
-
 	@Nullable
-	private Object getItemAtPosition(int position) {
+	/* package */ Object getItemAtPosition(int position) {
 		int index = 0;
 
 		for (Map.Entry<String, List<ComingEpisode>> entry : this.comingEpisodes.entrySet()) {
@@ -167,23 +163,23 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 	}
 
 	@StringRes
-	private int getSectionName(String sectionId) {
-		if (TextUtils.isEmpty(sectionId)) {
-			return 0;
-		}
+	/* package */ static int getSectionName(String sectionId) {
+		if (sectionId != null) {
+			String normalizedSectionId = sectionId.toLowerCase();
 
-		switch (sectionId) {
-			case "later":
-				return R.string.later;
+			switch (normalizedSectionId) {
+				case "later":
+					return R.string.later;
 
-			case "missed":
-				return R.string.missed;
+				case "missed":
+					return R.string.missed;
 
-			case "soon":
-				return R.string.soon;
+				case "soon":
+					return R.string.soon;
 
-			case "today":
-				return R.string.today;
+				case "today":
+					return R.string.today;
+			}
 		}
 
 		return 0;
@@ -219,7 +215,13 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 	private void onBindSectionViewHolder(SectionViewHolder holder, String sectionId) {
 		if (holder.name != null) {
-			holder.name.setText(this.getSectionName(sectionId));
+			int sectionName = getSectionName(sectionId);
+
+			if (sectionName == 0) {
+				holder.name.setText(sectionId);
+			} else {
+				holder.name.setText(sectionName);
+			}
 		}
 	}
 

@@ -17,8 +17,7 @@ android:
     - tools
 
 script:
-  - ./gradlew build
-  - ./gradlew test
+  - ./gradlew build test
 
 sudo: false
 
