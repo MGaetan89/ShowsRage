@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,11 +105,12 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 			this.swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
 
 			if (this.recyclerView != null) {
+				int columnCount = this.getResources().getInteger(R.integer.shows_column_count);
 				this.adapter = new EpisodesAdapter(this.episodes, this.seasonNumber);
 
 				this.recyclerView.addOnScrollListener(this.scrollListener);
 				this.recyclerView.setAdapter(this.adapter);
-				this.recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+				this.recyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), columnCount));
 			}
 
 			if (this.swipeRefreshLayout != null) {
