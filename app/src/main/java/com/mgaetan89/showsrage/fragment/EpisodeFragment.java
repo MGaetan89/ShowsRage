@@ -38,6 +38,13 @@ public class EpisodeFragment extends Fragment {
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
+		this.tabLayout = (TabLayout) this.getActivity().findViewById(R.id.tabs);
+
+		if (this.tabLayout != null && this.viewPager != null) {
+			this.tabLayout.setupWithViewPager(this.viewPager);
+			this.tabLayout.setVisibility(View.VISIBLE);
+		}
+
 		Intent intent = this.getActivity().getIntent();
 
 		if (intent != null) {
@@ -59,13 +66,6 @@ public class EpisodeFragment extends Fragment {
 			if (this.tabLayout != null) {
 				this.tabLayout.getTabAt(episodesCount - episodeNumber).select();
 			}
-		}
-
-		this.tabLayout = (TabLayout) this.getActivity().findViewById(R.id.tabs);
-
-		if (this.tabLayout != null && this.viewPager != null) {
-			this.tabLayout.setupWithViewPager(this.viewPager);
-			this.tabLayout.setVisibility(View.VISIBLE);
 		}
 	}
 
