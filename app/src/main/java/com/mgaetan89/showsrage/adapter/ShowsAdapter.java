@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
+import com.mgaetan89.showsrage.model.Indexer;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
@@ -51,7 +52,7 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 			holder.logo.setContentDescription(show.getShowName());
 
 			Glide.with(holder.logo.getContext())//
-					.load(SickRageApi.getInstance().getPosterUrl(show.getTvDbId()))//
+					.load(SickRageApi.getInstance().getPosterUrl(show.getTvDbId(), Indexer.TVDB))//
 					.into(holder.logo);
 		}
 

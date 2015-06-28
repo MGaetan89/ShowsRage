@@ -9,11 +9,15 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
+import com.mgaetan89.showsrage.model.Indexer;
 import com.mgaetan89.showsrage.model.SearchResultItem;
+import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.Collections;
 import java.util.List;
@@ -51,6 +55,33 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 			holder.indexer.setText(getIndexerName(searchResult.getIndexer()));
 		}
 
+		if (holder.logo != null) {
+			holder.logo.setContentDescription(searchResult.getName());
+
+			Indexer indexer = null;
+			int indexerId = 0;
+
+			switch (searchResult.getIndexer()) {
+				case 1:
+					indexer = Indexer.TVDB;
+					indexerId = searchResult.getTvDbId();
+
+					break;
+
+				case 2:
+					indexer = Indexer.TVRAGE;
+					indexerId = searchResult.getTvRageId();
+
+					break;
+			}
+
+			if (indexer != null && indexerId > 0) {
+				Glide.with(holder.logo.getContext())//
+						.load(SickRageApi.getInstance().getPosterUrl(indexerId, indexer))//
+						.into(holder.logo);
+			}
+		}
+
 		if (holder.name != null) {
 			holder.name.setText(searchResult.getName());
 		}
@@ -84,6 +115,9 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 		public TextView indexer;
 
 		@Nullable
+		public ImageView logo;
+
+		@Nullable
 		public TextView name;
 
 		public ViewHolder(View view) {
@@ -93,6 +127,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 
 			this.firstAired = (TextView) view.findViewById(R.id.show_first_aired);
 			this.indexer = (TextView) view.findViewById(R.id.show_indexer);
+			this.logo = (ImageView) view.findViewById(R.id.show_logo);
 			this.name = (TextView) view.findViewById(R.id.show_name);
 		}
 

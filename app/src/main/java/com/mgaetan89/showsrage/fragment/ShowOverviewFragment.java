@@ -28,6 +28,7 @@ import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
 import com.mgaetan89.showsrage.model.GenericResponse;
+import com.mgaetan89.showsrage.model.Indexer;
 import com.mgaetan89.showsrage.model.Serie;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.SingleShow;
@@ -479,7 +480,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 		if (this.poster != null) {
 			Glide.with(this)//
-					.load(SickRageApi.getInstance().getPosterUrl(this.show.getTvDbId()))//
+					.load(SickRageApi.getInstance().getPosterUrl(this.show.getTvDbId(), Indexer.TVDB))//
 					.into(this.poster);
 
 			this.poster.setContentDescription(this.show.getShowName());

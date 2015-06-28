@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
 import com.mgaetan89.showsrage.model.History;
+import com.mgaetan89.showsrage.model.Indexer;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.Collections;
@@ -49,7 +50,7 @@ public class HistoriesAdapter extends RecyclerView.Adapter<HistoriesAdapter.View
 			holder.logo.setContentDescription(history.getShowName());
 
 			Glide.with(holder.logo.getContext())//
-					.load(SickRageApi.getInstance().getPosterUrl(history.getTvDbId()))//
+					.load(SickRageApi.getInstance().getPosterUrl(history.getTvDbId(), Indexer.TVDB))//
 					.into(holder.logo);
 		}
 

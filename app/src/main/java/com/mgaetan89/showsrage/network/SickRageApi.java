@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.mgaetan89.showsrage.BuildConfig;
+import com.mgaetan89.showsrage.model.Indexer;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -35,8 +36,8 @@ public class SickRageApi implements RequestInterceptor {
 	}
 
 	@NonNull
-	public String getPosterUrl(int tvDbId) {
-		return String.format("%s?cmd=show.getposter&tvdbid=%d", this.getApiUrl(), tvDbId);
+	public String getPosterUrl(int indexerId, Indexer indexer) {
+		return String.format("%s?cmd=show.getposter&%s=%d", this.getApiUrl(), indexer.getParamName(), indexerId);
 	}
 
 	public SickRageServices getServices() {

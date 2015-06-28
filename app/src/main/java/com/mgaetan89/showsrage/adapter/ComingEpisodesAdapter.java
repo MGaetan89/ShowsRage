@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
 import com.mgaetan89.showsrage.model.ComingEpisode;
+import com.mgaetan89.showsrage.model.Indexer;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.Collections;
@@ -200,7 +201,7 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 			holder.logo.setContentDescription(comingEpisode.getShowName());
 
 			Glide.with(holder.logo.getContext())//
-					.load(SickRageApi.getInstance().getPosterUrl(comingEpisode.getTvDbId()))//
+					.load(SickRageApi.getInstance().getPosterUrl(comingEpisode.getTvDbId(), Indexer.TVDB))//
 					.into(holder.logo);
 		}
 
