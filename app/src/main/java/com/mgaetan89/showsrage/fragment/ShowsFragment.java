@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,6 +94,7 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, View.OnC
 			}
 
 			if (this.recyclerView != null) {
+				int columnCount = this.getResources().getInteger(R.integer.shows_column_count);
 				this.adapter = new ShowsAdapter(this.shows);
 
 				this.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -115,7 +116,7 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, View.OnC
 					}
 				});
 				this.recyclerView.setAdapter(this.adapter);
-				this.recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+				this.recyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), columnCount));
 			}
 
 			if (this.swipeRefreshLayout != null) {

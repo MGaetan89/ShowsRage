@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<dimen name="fab_margin">24dp</dimen>
+	<integer name="shows_column_count">1</integer>
 </resources>
