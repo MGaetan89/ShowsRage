@@ -104,6 +104,8 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 	}
 
 	private void getApiKey() {
+		SickRageApi.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this.getActivity()));
+
 		String username = this.getPreferenceValue("server_username", null);
 		String password = this.getPreferenceValue("server_password", null);
 
