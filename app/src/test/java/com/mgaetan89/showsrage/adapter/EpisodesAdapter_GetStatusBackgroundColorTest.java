@@ -31,6 +31,8 @@ public class EpisodesAdapter_GetStatusBackgroundColorTest {
 				{"Archived", R.color.green},
 				{"downloaded", R.color.green},
 				{"Downloaded", R.color.green},
+				{"skipped", R.color.blue},
+				{"Skipped", R.color.blue},
 				{"snatched", R.color.purple},
 				{"Snatched", R.color.purple},
 				{"unaired", R.color.yellow},

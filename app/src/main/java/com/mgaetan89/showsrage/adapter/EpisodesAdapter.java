@@ -112,6 +112,9 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 				case "downloaded":
 					return R.color.green;
 
+				case "skipped":
+					return R.color.blue;
+
 				case "snatched":
 					return R.color.purple;
 
