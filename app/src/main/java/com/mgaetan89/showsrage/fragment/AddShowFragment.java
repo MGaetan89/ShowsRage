@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -60,14 +60,15 @@ public class AddShowFragment extends Fragment implements Callback<SearchResults>
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.add_show, menu);
 
-		SearchManager searchManager = (SearchManager) this.getActivity().getSystemService(Context.SEARCH_SERVICE);
+		FragmentActivity activity = this.getActivity();
+		SearchManager searchManager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
 		MenuItem searchMenu = menu.findItem(R.id.menu_search);
 
 		SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
 		searchView.setIconifiedByDefault(false);
 		searchView.setOnQueryTextListener(this);
-		searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getActivity().getComponentName()));
-		searchView.setQuery(this.getQueryFromIntent(), true);
+		searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
+		searchView.setQuery(getQueryFromIntent(activity.getIntent()), true);
 	}
 
 	@Nullable
@@ -107,7 +108,7 @@ public class AddShowFragment extends Fragment implements Callback<SearchResults>
 
 	@Override
 	public boolean onQueryTextChange(String newText) {
-		if (this.isQueryValid(newText)) {
+		if (isQueryValid(newText)) {
 			this.searchShows(newText);
 
 			return true;
@@ -118,7 +119,7 @@ public class AddShowFragment extends Fragment implements Callback<SearchResults>
 
 	@Override
 	public boolean onQueryTextSubmit(String query) {
-		if (this.isQueryValid(query)) {
+		if (isQueryValid(query)) {
 			this.searchShows(query);
 
 			return true;
@@ -166,9 +167,8 @@ public class AddShowFragment extends Fragment implements Callback<SearchResults>
 		}
 	}
 
-	private String getQueryFromIntent() {
-		Intent intent = this.getActivity().getIntent();
-
+	/* package */
+	static String getQueryFromIntent(@Nullable Intent intent) {
 		if (intent == null) {
 			return "";
 		}
@@ -180,14 +180,15 @@ public class AddShowFragment extends Fragment implements Callback<SearchResults>
 		return intent.getStringExtra(SearchManager.QUERY);
 	}
 
-	private boolean isQueryValid(String query) {
-		if (TextUtils.isEmpty(query)) {
+	/* package */
+	static boolean isQueryValid(String query) {
+		if (query == null || query.isEmpty()) {
 			return false;
 		}
 
 		query = query.trim();
 
-		return !TextUtils.isEmpty(query);
+		return !query.isEmpty();
 	}
 
 	private void searchShows(String query) {

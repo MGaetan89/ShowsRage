@@ -58,27 +58,17 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 		if (holder.logo != null) {
 			holder.logo.setContentDescription(searchResult.getName());
 
-			Indexer indexer = null;
-			int indexerId = 0;
-
-			switch (searchResult.getIndexer()) {
-				case 1:
-					indexer = Indexer.TVDB;
-					indexerId = searchResult.getTvDbId();
-
-					break;
-
-				case 2:
-					indexer = Indexer.TVRAGE;
-					indexerId = searchResult.getTvRageId();
-
-					break;
-			}
+			Indexer indexer = getIndexType(searchResult.getIndexer());
+			int indexerId = getIndexId(searchResult);
 
 			if (indexer != null && indexerId > 0) {
 				Glide.with(holder.logo.getContext())//
 						.load(SickRageApi.getInstance().getPosterUrl(indexerId, indexer))//
 						.into(holder.logo);
+
+				holder.logo.setVisibility(View.VISIBLE);
+			} else {
+				holder.logo.setVisibility(View.INVISIBLE);
 			}
 		}
 
@@ -94,6 +84,21 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 		return new ViewHolder(view);
 	}
 
+	/* package */
+	static int getIndexId(SearchResultItem searchResultItem) {
+		if (searchResultItem != null) {
+			switch (searchResultItem.getIndexer()) {
+				case 1:
+					return searchResultItem.getTvDbId();
+
+				case 2:
+					return searchResultItem.getTvRageId();
+			}
+		}
+
+		return 0;
+	}
+
 	@StringRes
 	/* package */ static int getIndexerName(int indexerId) {
 		switch (indexerId) {
@@ -105,6 +110,19 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 		}
 
 		return 0;
+	}
+
+	@Nullable
+	/* package */ static Indexer getIndexType(int indexerId) {
+		switch (indexerId) {
+			case 1:
+				return Indexer.TVDB;
+
+			case 2:
+				return Indexer.TVRAGE;
+		}
+
+		return null;
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

@@ -95,7 +95,7 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		this.updatePreference(this.findPreference(key));
+		updatePreference(this.findPreference(key));
 	}
 
 	@Override
@@ -197,7 +197,7 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 		SickRageApi.getInstance().getServices().ping(this);
 	}
 
-	private void updatePreference(Preference preference) {
+	private static void updatePreference(Preference preference) {
 		if (preference instanceof EditTextPreference) {
 			EditTextPreference editTextPreference = (EditTextPreference) preference;
 			String key = editTextPreference.getKey();
@@ -226,7 +226,7 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 
 				this.updatePreferenceGroup((PreferenceGroup) preference);
 			} else {
-				this.updatePreference(preference);
+				updatePreference(preference);
 			}
 		}
 	}
