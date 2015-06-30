@@ -108,12 +108,6 @@ public class AddShowFragment extends Fragment implements Callback<SearchResults>
 
 	@Override
 	public boolean onQueryTextChange(String newText) {
-		if (isQueryValid(newText)) {
-			this.searchShows(newText);
-
-			return true;
-		}
-
 		return false;
 	}
 
