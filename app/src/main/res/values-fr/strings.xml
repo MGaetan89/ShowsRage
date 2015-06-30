@@ -18,6 +18,7 @@
 	<string name="casting">Casting</string>
 	<string name="change">Changer</string>
 	<string name="change_quality">Changer la qualité</string>
+	<string name="change_quality_info">Utilisez \"Ignorer\" pour les deux options ci-dessous afin d\'utiliser le paramètre de qualité par défaut de SickRage.</string>
 	<string name="clear">Effacer</string>
 	<string name="clear_history_confirm">Etes-vous sûr de vouloir effacer l\'historique de SickRage ?</string>
 	<string name="coming_episodes">Episodes à venir</string>

@@ -9,6 +9,13 @@
 	tools:context="com.mgaetan89.showsrage.fragment.ChangeQualityFragment">
 
 	<TextView
+		style="@style/TextAppearance.AppCompat.Caption"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/padding"
+		android:text="@string/change_quality_info"/>
+
+	<TextView
 		style="@style/TextAppearance.AppCompat"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
