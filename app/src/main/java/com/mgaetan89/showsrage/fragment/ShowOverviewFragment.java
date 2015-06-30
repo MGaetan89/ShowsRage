@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -126,6 +127,21 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	@Override
 	public void failure(RetrofitError error) {
 		error.printStackTrace();
+	}
+
+	@NonNull
+	public Callback<GenericResponse> getSetShowQualityCallback() {
+		return new Callback<GenericResponse>() {
+			@Override
+			public void failure(RetrofitError error) {
+				error.printStackTrace();
+			}
+
+			@Override
+			public void success(GenericResponse genericResponse, Response response) {
+				Toast.makeText(getActivity(), genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
+			}
+		};
 	}
 
 	@Override
@@ -275,6 +291,11 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case R.id.menu_change_quality:
+				this.changeQuality();
+
+				return true;
+
 			case R.id.menu_delete_show:
 				this.deleteShow();
 
@@ -503,6 +524,15 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			this.quality.setText(this.getString(R.string.quality, this.show.getQuality()));
 			this.quality.setVisibility(View.VISIBLE);
 		}
+	}
+
+	private void changeQuality() {
+		Bundle arguments = new Bundle();
+		arguments.putInt(Constants.Bundle.INDEXER_ID, this.show.getIndexerId());
+
+		ChangeQualityFragment fragment = new ChangeQualityFragment();
+		fragment.setArguments(arguments);
+		fragment.show(this.getChildFragmentManager(), "change_quality");
 	}
 
 	private void deleteShow() {

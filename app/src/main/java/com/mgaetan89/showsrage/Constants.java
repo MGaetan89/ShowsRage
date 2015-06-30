@@ -7,6 +7,7 @@ public abstract class Constants {
 		public static final String EPISODE_MODEL = "episode_model";
 		public static final String EPISODE_NUMBER = "episode_number";
 		public static final String EPISODES_COUNT = "episodes_count";
+		public static final String INDEXER_ID = "indexer_id";
 		public static final String SEASON_NUMBER = "season_number";
 		public static final String SHOW_MODEL = "show_model";
 	}

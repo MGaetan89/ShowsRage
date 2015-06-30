@@ -10,11 +10,14 @@
 	<string name="add_show">Add show</string>
 	<string name="address">Address</string>
 	<string name="airs">Airs: <xliff:g example="Monday 8:00 PM" id="airs">%1$s</xliff:g></string>
+	<string name="allowed_quality">Allowed quality</string>
 	<string name="api_key">API Key</string>
 	<string name="archived">Archived</string>
 	<string name="awards">Awards</string>
 	<string name="cancel">Cancel</string>
 	<string name="casting">Casting</string>
+	<string name="change">Change</string>
+	<string name="change_quality">Change quality</string>
 	<string name="clear">Clear</string>
 	<string name="clear_history_confirm">Are you sure you want to clear SickRage\'s history?</string>
 	<string name="coming_episodes">Coming Episodes</string>
@@ -45,6 +48,7 @@
 	<string name="get_api_key_error">Unable to get the API Key</string>
 	<string name="get_api_key_success">API Key successfully received</string>
 	<string name="history">History</string>
+	<string name="ignore">Ignore</string>
 	<string name="ignored">Ignored</string>
 	<string name="info">Info</string>
 	<string name="keep">Keep</string>
@@ -73,6 +77,7 @@
 	<string name="please_wait">Please wait…</string>
 	<string name="plot">Plot</string>
 	<string name="port_number">Port Number</string>
+	<string name="preferred_quality">Preferred Quality</string>
 	<string name="quality">Quality: <xliff:g example="HD1080p" id="quality">%1$s</xliff:g></string>
 	<string name="rated">Rated: <xliff:g example="TV-14" id="rated">%1$s</xliff:g></string>
 	<string name="rating">IMDb Rating: <xliff:g example="5.0" id="rating">%1$s</xliff:g>/10 (<xliff:g example="10000" id="votes">%2$s</xliff:g> votes)</string>
@@ -107,6 +112,7 @@
 	<string name="testing_server_settings">Testing server settings</string>
 	<string name="today">Today</string>
 	<string name="total">Total: <xliff:g example="1" id="total">%1$s</xliff:g></string>
+	<string name="unknown">Unknown</string>
 	<string name="use_https">Use HTTPS?</string>
 	<string name="username">Username</string>
 	<string name="version">Version</string>

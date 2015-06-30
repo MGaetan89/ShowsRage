@@ -10,11 +10,14 @@
 	<string name="add_show">Ajouter une série</string>
 	<string name="address">URL</string>
 	<string name="airs">Diffusion : <xliff:g example="Lundi 20:00" id="airs">%1$s</xliff:g></string>
+	<string name="allowed_quality">Qualité autorisée</string>
 	<string name="api_key">Clé de l\'API</string>
 	<string name="archived">Archivé</string>
 	<string name="awards">Récompenses</string>
 	<string name="cancel">Annuler</string>
 	<string name="casting">Casting</string>
+	<string name="change">Changer</string>
+	<string name="change_quality">Changer la qualité</string>
 	<string name="clear">Effacer</string>
 	<string name="clear_history_confirm">Etes-vous sûr de vouloir effacer l\'historique de SickRage ?</string>
 	<string name="coming_episodes">Episodes à venir</string>
@@ -45,6 +48,7 @@
 	<string name="get_api_key_error">Impossible de récupérer la clé de l\'API</string>
 	<string name="get_api_key_success">Clé de l\'API obtenue avec succès</string>
 	<string name="history">Historique</string>
+	<string name="ignore">Ignorer</string>
 	<string name="ignored">Ignoré</string>
 	<string name="info">Info</string>
 	<string name="keep">Conserver</string>
@@ -73,6 +77,7 @@
 	<string name="please_wait">Veuillez patienter…</string>
 	<string name="plot">Résumé</string>
 	<string name="port_number">Numéro de port</string>
+	<string name="preferred_quality">Qualité préférée</string>
 	<string name="quality">Qualité : <xliff:g example="HD1080p" id="quality">%1$s</xliff:g></string>
 	<string name="rated">Classification : <xliff:g example="TV-14" id="rated">%1$s</xliff:g></string>
 	<string name="rating">Evaluation IMDb : <xliff:g example="5.0" id="rating">%1$s</xliff:g>/10 (<xliff:g example="10000" id="votes">%2$s</xliff:g> votes)</string>
@@ -107,11 +112,12 @@
 	<string name="testing_server_settings">Test de la configuration du serveur</string>
 	<string name="today">Aujourd\'hui</string>
 	<string name="total">Total : <xliff:g example="1" id="total">%1$s</xliff:g></string>
+	<string name="unknown">Inconnue</string>
 	<string name="use_https">Connexion sécurisée ?</string>
 	<string name="username">Identifiant</string>
 	<string name="version">Version</string>
 	<string name="view_in_vlc">Voir les épisodes téléchargés dans VLC</string>
-	<string name="view_in_vlc_summary">Nécessite que VLC soit installé</string>
+	<string name="view_in_vlc_summary">Nécessite que VLC soit installée</string>
 	<string name="wanted">Voulu</string>
 	<string name="warning">Avertissement</string>
 	<string name="writers">Scénaristes : <xliff:g example="Whitney Cummings, Michael Patrick King" id="writers">%1$s</xliff:g></string>

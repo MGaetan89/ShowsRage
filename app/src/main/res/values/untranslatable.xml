@@ -4,4 +4,56 @@
 	<string name="imdb" translatable="false">IMDb</string>
 	<string name="the_tvdb" translatable="false">The TVDB</string>
 	<string name="tvrage" translatable="false">TVRage</string>
+
+	<string-array name="allowed_qualities_keys">
+		<item>sdtv</item>
+		<item>sddvd</item>
+		<item>hdtv</item>
+		<item>rawhdtv</item>
+		<item>fullhdtv</item>
+		<item>hdwebdl</item>
+		<item>fullhdwebdl</item>
+		<item>hdbluray</item>
+		<item>fullhdbluray</item>
+		<item>unknown</item>
+	</string-array>
+
+	<string-array name="allowed_qualities_values">
+		<item>@string/ignore</item>
+		<item>SDTV</item>
+		<item>SD DVD</item>
+		<item>HDTV</item>
+		<item>RawHD</item>
+		<item>1080p HDTV</item>
+		<item>720p WEB-DL</item>
+		<item>1080p WEB-DL</item>
+		<item>720p BluRay</item>
+		<item>1080p BluRay</item>
+		<item>@string/unknown</item>
+	</string-array>
+
+	<string-array name="preferred_qualities_keys">
+		<item>sdtv</item>
+		<item>sddvd</item>
+		<item>hdtv</item>
+		<item>rawhdtv</item>
+		<item>fullhdtv</item>
+		<item>hdwebdl</item>
+		<item>fullhdwebdl</item>
+		<item>hdbluray</item>
+		<item>fullhdbluray</item>
+	</string-array>
+
+	<string-array name="preferred_qualities_values">
+		<item>@string/ignore</item>
+		<item>SDTV</item>
+		<item>SD DVD</item>
+		<item>HDTV</item>
+		<item>RawHD</item>
+		<item>1080p HDTV</item>
+		<item>720p WEB-DL</item>
+		<item>1080p WEL-DL</item>
+		<item>720p BluRay</item>
+		<item>1080p BluRay</item>
+	</string-array>
 </resources>

@@ -79,4 +79,7 @@ public interface SickRageServices {
 
 	@GET("/{api_path}/{api_key}/?cmd=episode.setstatus")
 	void setEpisodeStatus(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, @Query("force") int force, @Query("status") String status, Callback<GenericResponse> callback);
+
+	@GET("/{api_path}/{api_key}/?cmd=show.setquality")
+	void setShowQuality(@Query("indexerid") int indexerId, @Query("initial") String allowed, @Query("archive") String preferred, Callback<GenericResponse> callback);
 }
