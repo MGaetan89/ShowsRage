@@ -79,6 +79,7 @@
 	<string name="port_number">Port Number</string>
 	<string name="preferred_quality">Preferred Quality</string>
 	<string name="quality">Quality: <xliff:g example="HD1080p" id="quality">%1$s</xliff:g></string>
+	<string name="quality_custom">Quality:\n- Allowed: <xliff:g example="HD1080p" id="allowed">%1$s</xliff:g>\n- Preferred: <xliff:g example="HD1080p" id="preferred">%2$s</xliff:g></string>
 	<string name="rated">Rated: <xliff:g example="TV-14" id="rated">%1$s</xliff:g></string>
 	<string name="rating">IMDb Rating: <xliff:g example="5.0" id="rating">%1$s</xliff:g>/10 (<xliff:g example="10000" id="votes">%2$s</xliff:g> votes)</string>
 	<string name="replace">Replace</string>

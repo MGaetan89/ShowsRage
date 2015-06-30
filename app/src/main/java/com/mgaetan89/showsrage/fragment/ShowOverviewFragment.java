@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,12 +31,15 @@ import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.model.Indexer;
+import com.mgaetan89.showsrage.model.Quality;
 import com.mgaetan89.showsrage.model.Serie;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.SingleShow;
 import com.mgaetan89.showsrage.network.OmDbApi;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit.Callback;
@@ -507,6 +511,20 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			this.poster.setContentDescription(this.show.getShowName());
 		}
 
+		if (this.quality != null) {
+			if ("custom".equalsIgnoreCase(this.show.getQuality())) {
+				Quality qualityDetails = this.show.getQualityDetails();
+				String allowed = listToString(this.getTranslatedQualities(qualityDetails.getInitial(), true));
+				String preferred = listToString(this.getTranslatedQualities(qualityDetails.getArchive(), false));
+
+				this.quality.setText(this.getString(R.string.quality_custom, allowed, preferred));
+			} else {
+				this.quality.setText(this.getString(R.string.quality, this.show.getQuality()));
+			}
+
+			this.quality.setVisibility(View.VISIBLE);
+		}
+
 		if (this.resumeMenu != null) {
 			this.resumeMenu.setVisible(this.show.getPaused() == 1);
 		}
@@ -518,11 +536,6 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			} else {
 				this.status.setVisibility(View.GONE);
 			}
-		}
-
-		if (this.quality != null) {
-			this.quality.setText(this.getString(R.string.quality, this.show.getQuality()));
-			this.quality.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -566,6 +579,57 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 				})//
 				.setNeutralButton(R.string.cancel, null)//
 				.show();
+	}
+
+	@NonNull
+	private List<String> getTranslatedQualities(@Nullable List<String> qualities, boolean allowed) {
+		List<String> translatedQualities = new ArrayList<>();
+
+		if (qualities == null || qualities.isEmpty()) {
+			return translatedQualities;
+		}
+
+		List<String> keys;
+		List<String> values;
+		Resources resources = this.getResources();
+
+		if (allowed) {
+			keys = Arrays.asList(resources.getStringArray(R.array.allowed_qualities_keys));
+			values = Arrays.asList(resources.getStringArray(R.array.allowed_qualities_values));
+		} else {
+			keys = Arrays.asList(resources.getStringArray(R.array.allowed_qualities_keys));
+			values = Arrays.asList(resources.getStringArray(R.array.allowed_qualities_values));
+		}
+
+		for (String quality : qualities) {
+			int position = keys.indexOf(quality);
+
+			if (position != -1) {
+				// Skip the "Ignore" first item
+				translatedQualities.add(values.get(position + 1));
+			}
+		}
+
+		return translatedQualities;
+	}
+
+	@NonNull
+	private static String listToString(@Nullable List<String> list) {
+		if (list == null || list.isEmpty()) {
+			return "";
+		}
+
+		StringBuilder builder = new StringBuilder();
+
+		for (int i = 0, n = list.size(); i < n; i++) {
+			builder.append(list.get(i));
+
+			if (i < n - 1) {
+				builder.append(", ");
+			}
+		}
+
+		return builder.toString();
 	}
 
 	private void pauseOrResumeShow(final boolean pause) {
