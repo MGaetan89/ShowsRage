@@ -237,9 +237,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 				this.startActivity(intent);
 			}
-		} else {
-			this.displayHomeAsUp(this.displayHomeAsUp());
 		}
+
+		this.displayHomeAsUp(this.displayHomeAsUp());
 	}
 
 	private void displayHomeAsUp(boolean displayHomeAsUp) {
