@@ -17,6 +17,16 @@ public class SettingsActivityTest {
 	}
 
 	@Test
+	public void displayHomeAsUp() {
+		assertThat(this.activity.displayHomeAsUp()).isTrue();
+	}
+
+	@Test
+	public void getFragment() {
+		assertThat(this.activity.getFragment()).isNull();
+	}
+
+	@Test
 	public void getSelectedMenuId() {
 		assertThat(this.activity.getSelectedMenuId()).isEqualTo(R.id.menu_settings);
 	}

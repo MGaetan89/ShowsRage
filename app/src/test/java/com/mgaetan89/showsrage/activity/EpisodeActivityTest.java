@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage.activity;
 
 import com.mgaetan89.showsrage.R;
+import com.mgaetan89.showsrage.fragment.EpisodeFragment;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,6 +15,16 @@ public class EpisodeActivityTest {
 	@Before
 	public void before() {
 		this.activity = new EpisodeActivity();
+	}
+
+	@Test
+	public void displayHomeAsUp() {
+		assertThat(this.activity.displayHomeAsUp()).isTrue();
+	}
+
+	@Test
+	public void getFragment() {
+		assertThat(this.activity.getFragment().getClass()).isEqualTo(EpisodeFragment.class);
 	}
 
 	@Test

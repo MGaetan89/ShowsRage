@@ -1,8 +1,8 @@
 package com.mgaetan89.showsrage.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
@@ -20,6 +20,16 @@ public class ShowsActivity extends BaseActivity implements ShowsAdapter.OnShowSe
 	}
 
 	@Override
+	protected boolean displayHomeAsUp() {
+		return false;
+	}
+
+	@Override
+	protected Fragment getFragment() {
+		return new ShowsFragment();
+	}
+
+	@Override
 	protected int getSelectedMenuId() {
 		return R.id.menu_shows;
 	}
@@ -27,23 +37,5 @@ public class ShowsActivity extends BaseActivity implements ShowsAdapter.OnShowSe
 	@Override
 	protected int getTitleResourceId() {
 		return R.string.shows;
-	}
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		if (savedInstanceState == null) {
-			this.getSupportFragmentManager().beginTransaction()
-					.replace(R.id.content, new ShowsFragment())
-					.commit();
-		}
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		this.displayHomeAsUp(false);
 	}
 }

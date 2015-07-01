@@ -10,6 +10,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.IntentCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -168,27 +169,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		Toast.makeText(this, genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
 	}
 
-	protected void displayHomeAsUp(boolean displayHomeAsUp) {
-		ActionBar actionBar = this.getSupportActionBar();
+	protected abstract boolean displayHomeAsUp();
 
-		if (displayHomeAsUp) {
-			if (this.drawerToggle != null) {
-				this.drawerToggle.setDrawerIndicatorEnabled(false);
-			}
-
-			if (actionBar != null) {
-				actionBar.setDisplayHomeAsUpEnabled(true);
-			}
-		} else {
-			if (actionBar != null) {
-				actionBar.setDisplayHomeAsUpEnabled(false);
-			}
-
-			if (this.drawerToggle != null) {
-				this.drawerToggle.setDrawerIndicatorEnabled(true);
-			}
-		}
-	}
+	protected abstract Fragment getFragment();
 
 	@IdRes
 	protected abstract int getSelectedMenuId();
@@ -230,6 +213,16 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		if (toolbar != null) {
 			this.setSupportActionBar(toolbar);
 		}
+
+		if (savedInstanceState == null) {
+			Fragment fragment = this.getFragment();
+
+			if (fragment != null) {
+				this.getSupportFragmentManager().beginTransaction()
+						.replace(R.id.content, fragment)
+						.commit();
+			}
+		}
 	}
 
 	@Override
@@ -243,6 +236,30 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 				Intent intent = new Intent(this, SettingsActivity.class);
 
 				this.startActivity(intent);
+			}
+		} else {
+			this.displayHomeAsUp(this.displayHomeAsUp());
+		}
+	}
+
+	private void displayHomeAsUp(boolean displayHomeAsUp) {
+		ActionBar actionBar = this.getSupportActionBar();
+
+		if (displayHomeAsUp) {
+			if (this.drawerToggle != null) {
+				this.drawerToggle.setDrawerIndicatorEnabled(false);
+			}
+
+			if (actionBar != null) {
+				actionBar.setDisplayHomeAsUpEnabled(true);
+			}
+		} else {
+			if (actionBar != null) {
+				actionBar.setDisplayHomeAsUpEnabled(false);
+			}
+
+			if (this.drawerToggle != null) {
+				this.drawerToggle.setDrawerIndicatorEnabled(true);
 			}
 		}
 	}

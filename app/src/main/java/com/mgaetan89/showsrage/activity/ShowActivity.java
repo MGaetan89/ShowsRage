@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -75,6 +76,16 @@ public class ShowActivity extends BaseActivity implements EpisodesAdapter.OnEpis
 	}
 
 	@Override
+	protected boolean displayHomeAsUp() {
+		return true;
+	}
+
+	@Override
+	protected Fragment getFragment() {
+		return new ShowFragment();
+	}
+
+	@Override
 	protected int getSelectedMenuId() {
 		return R.id.menu_shows;
 	}
@@ -89,19 +100,6 @@ public class ShowActivity extends BaseActivity implements EpisodesAdapter.OnEpis
 		super.onCreate(savedInstanceState);
 
 		this.show = (Show) this.getIntent().getSerializableExtra(Constants.Bundle.SHOW_MODEL);
-
-		if (savedInstanceState == null) {
-			this.getSupportFragmentManager().beginTransaction()
-					.replace(R.id.content, new ShowFragment())
-					.commit();
-		}
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		this.displayHomeAsUp(true);
 	}
 
 	private void searchEpisode(int seasonNumber, int episodeNumber) {

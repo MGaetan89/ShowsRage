@@ -1,7 +1,7 @@
 package com.mgaetan89.showsrage.activity;
 
 import android.content.DialogInterface;
-import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -51,6 +51,16 @@ public class ComingEpisodesActivity extends BaseActivity implements ComingEpisod
 	}
 
 	@Override
+	protected boolean displayHomeAsUp() {
+		return false;
+	}
+
+	@Override
+	protected Fragment getFragment() {
+		return new ComingEpisodesFragment();
+	}
+
+	@Override
 	protected int getSelectedMenuId() {
 		return R.id.menu_coming_episodes;
 	}
@@ -58,24 +68,6 @@ public class ComingEpisodesActivity extends BaseActivity implements ComingEpisod
 	@Override
 	protected int getTitleResourceId() {
 		return R.string.coming_episodes;
-	}
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		if (savedInstanceState == null) {
-			this.getSupportFragmentManager().beginTransaction()
-					.replace(R.id.content, new ComingEpisodesFragment())
-					.commit();
-		}
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		this.displayHomeAsUp(false);
 	}
 
 	private void searchEpisode(int seasonNumber, int episodeNumber, int indexerId) {
