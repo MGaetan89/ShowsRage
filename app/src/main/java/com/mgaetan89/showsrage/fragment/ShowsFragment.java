@@ -109,11 +109,6 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, View.OnC
 							swipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
 						}
 					}
-
-					@Override
-					public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-						super.onScrollStateChanged(recyclerView, newState);
-					}
 				});
 				this.recyclerView.setAdapter(this.adapter);
 				this.recyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), columnCount));

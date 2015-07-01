@@ -13,15 +13,8 @@ import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
-public class ComingEpisodesActivity extends BaseActivity implements Callback<GenericResponse>, ComingEpisodesAdapter.OnEpisodeActionSelectedListener {
-	@Override
-	public void failure(RetrofitError error) {
-		error.printStackTrace();
-	}
-
+public class ComingEpisodesActivity extends BaseActivity implements ComingEpisodesAdapter.OnEpisodeActionSelectedListener {
 	@Override
 	public void onEpisodeActionSelected(int seasonNumber, int episodeNumber, int indexerId, MenuItem action) {
 		switch (action.getItemId()) {
@@ -55,11 +48,6 @@ public class ComingEpisodesActivity extends BaseActivity implements Callback<Gen
 
 				break;
 		}
-	}
-
-	@Override
-	public void success(GenericResponse genericResponse, Response response) {
-		Toast.makeText(this, genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
 	}
 
 	@Override

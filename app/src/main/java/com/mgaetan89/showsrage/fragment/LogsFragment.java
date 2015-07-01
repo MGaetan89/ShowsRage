@@ -121,11 +121,6 @@ public class LogsFragment extends Fragment implements Callback<Logs>, SwipeRefre
 							swipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
 						}
 					}
-
-					@Override
-					public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-						super.onScrollStateChanged(recyclerView, newState);
-					}
 				});
 				this.recyclerView.setAdapter(this.adapter);
 				this.recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));

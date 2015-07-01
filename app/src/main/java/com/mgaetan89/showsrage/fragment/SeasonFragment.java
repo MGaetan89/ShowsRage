@@ -44,26 +44,6 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 	@Nullable
 	private RecyclerView recyclerView = null;
 
-	@NonNull
-	private final RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
-		@Override
-		public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-			super.onScrolled(recyclerView, dx, dy);
-
-			if (swipeRefreshLayout != null) {
-				int topRowVerticalPosition =
-						(recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
-
-				swipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
-			}
-		}
-
-		@Override
-		public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-			super.onScrollStateChanged(recyclerView, newState);
-		}
-	};
-
 	private int seasonNumber = 0;
 
 	@Nullable
@@ -108,7 +88,19 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 				int columnCount = this.getResources().getInteger(R.integer.shows_column_count);
 				this.adapter = new EpisodesAdapter(this.episodes, this.seasonNumber);
 
-				this.recyclerView.addOnScrollListener(this.scrollListener);
+				this.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+					@Override
+					public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+						super.onScrolled(recyclerView, dx, dy);
+
+						if (swipeRefreshLayout != null) {
+							int topRowVerticalPosition =
+									(recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
+
+							swipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
+						}
+					}
+				});
 				this.recyclerView.setAdapter(this.adapter);
 				this.recyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), columnCount));
 			}

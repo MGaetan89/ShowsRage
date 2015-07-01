@@ -19,20 +19,13 @@ import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 /**
  * Requires a {@link com.mgaetan89.showsrage.Constants.Bundle#SHOW_MODEL Constants.Bundle#SHOW_MODEL} associated with a non-{@code null} {@link com.mgaetan89.showsrage.model.Show Show} in its {@link android.content.Intent Intent}.
  */
-public class ShowActivity extends BaseActivity implements Callback<GenericResponse>, EpisodesAdapter.OnEpisodeActionSelectedListener, EpisodesAdapter.OnEpisodeSelectedListener {
+public class ShowActivity extends BaseActivity implements EpisodesAdapter.OnEpisodeActionSelectedListener, EpisodesAdapter.OnEpisodeSelectedListener {
 	@Nullable
 	private Show show = null;
-
-	@Override
-	public void failure(RetrofitError error) {
-		error.printStackTrace();
-	}
 
 	@Override
 	public void onEpisodeActionSelected(int seasonNumber, int episodeNumber, MenuItem action) {
@@ -79,11 +72,6 @@ public class ShowActivity extends BaseActivity implements Callback<GenericRespon
 		intent.putExtra(Constants.Bundle.SHOW_MODEL, this.show);
 
 		this.startActivity(intent);
-	}
-
-	@Override
-	public void success(GenericResponse genericResponse, Response response) {
-		Toast.makeText(this, genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
