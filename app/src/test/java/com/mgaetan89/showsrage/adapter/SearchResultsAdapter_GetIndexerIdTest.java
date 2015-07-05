@@ -27,13 +27,15 @@ public class SearchResultsAdapter_GetIndexerIdTest {
 
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
+		Gson gson = new Gson();
+
 		return Arrays.asList(new Object[][]{
 				{null, 0},
-				{new Gson().fromJson("{indexer: -1, tvdbid: 123, tvrageid: 456}", SearchResultItem.class), 0},
-				{new Gson().fromJson("{indexer: 0, tvdbid: 123, tvrageid: 456}", SearchResultItem.class), 0},
-				{new Gson().fromJson("{indexer: 1, tvdbid: 123, tvrageid: 456}", SearchResultItem.class), 123},
-				{new Gson().fromJson("{indexer: 2, tvdbid: 123, tvrageid: 456}", SearchResultItem.class), 456},
-				{new Gson().fromJson("{indexer: 3, tvdbid: 123, tvrageid: 456}", SearchResultItem.class), 0},
+				{gson.fromJson("{indexer: -1, tvdbid: 123, tvrageid: 456}", SearchResultItem.class), 0},
+				{gson.fromJson("{indexer: 0, tvdbid: 123, tvrageid: 456}", SearchResultItem.class), 0},
+				{gson.fromJson("{indexer: 1, tvdbid: 123, tvrageid: 456}", SearchResultItem.class), 123},
+				{gson.fromJson("{indexer: 2, tvdbid: 123, tvrageid: 456}", SearchResultItem.class), 456},
+				{gson.fromJson("{indexer: 3, tvdbid: 123, tvrageid: 456}", SearchResultItem.class), 0},
 		});
 	}
 }

@@ -9,15 +9,18 @@ import com.mgaetan89.showsrage.model.LogLevel;
 import com.mgaetan89.showsrage.model.Logs;
 import com.mgaetan89.showsrage.model.SearchResults;
 import com.mgaetan89.showsrage.model.Seasons;
-import com.mgaetan89.showsrage.model.ShowStats;
+import com.mgaetan89.showsrage.model.ShowStatsWrapper;
 import com.mgaetan89.showsrage.model.Shows;
 import com.mgaetan89.showsrage.model.ShowsStats;
 import com.mgaetan89.showsrage.model.SingleEpisode;
 import com.mgaetan89.showsrage.model.SingleShow;
 
+import java.util.Map;
+
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Query;
+import retrofit.http.QueryMap;
 
 public interface SickRageServices {
 	@GET("/{api_path}/{api_key}/?cmd=show.addnew")
@@ -59,8 +62,8 @@ public interface SickRageServices {
 	@GET("/{api_path}/{api_key}/?cmd=shows.stats")
 	void getShowsStats(Callback<ShowsStats> callback);
 
-	@GET("/{api_path}/{api_key}/?cmd=show.stats")
-	void getShowStats(@Query("indexerid") int indexerId, Callback<ShowStats> callback);
+	@GET("/{api_path}/{api_key}/")
+	void getShowStats(@Query("cmd") String commands, @QueryMap Map<String, Integer> parameters, Callback<ShowStatsWrapper> callback);
 
 	@GET("/{api_path}/{api_key}/?cmd=sb.ping")
 	void ping(Callback<GenericResponse> callback);

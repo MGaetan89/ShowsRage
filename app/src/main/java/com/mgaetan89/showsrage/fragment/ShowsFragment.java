@@ -19,12 +19,16 @@ import com.mgaetan89.showsrage.activity.AddShowActivity;
 import com.mgaetan89.showsrage.adapter.ShowsAdapter;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.ShowStat;
+import com.mgaetan89.showsrage.model.ShowStatWrapper;
 import com.mgaetan89.showsrage.model.ShowStats;
+import com.mgaetan89.showsrage.model.ShowStatsWrapper;
 import com.mgaetan89.showsrage.model.Shows;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -159,27 +163,40 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, View.OnC
 		if (shows != null) {
 			this.shows.addAll(shows.getData().values());
 
-			for (final Show show : this.shows) {
-				SickRageApi.getInstance().getServices().getShowStats(show.getIndexerId(), new Callback<ShowStats>() {
-					@Override
-					public void failure(RetrofitError error) {
-						error.printStackTrace();
-					}
+			String command = getCommand(this.shows);
+			Map<String, Integer> parameters = getCommandParameters(this.shows);
 
-					@Override
-					public void success(ShowStats showStats, Response response) {
-						ShowStat showStat = showStats.getData();
+			SickRageApi.getInstance().getServices().getShowStats(command, parameters, new Callback<ShowStatsWrapper>() {
+				@Override
+				public void failure(RetrofitError error) {
+					error.printStackTrace();
+				}
 
-						show.setEpisodesCount(showStat.getTotal());
-						show.setDownloaded(showStat.getTotalDone());
-						show.setSnatched(showStat.getTotalPending());
+				@Override
+				public void success(ShowStatsWrapper showStatsWrapper, Response response) {
+					ShowStatWrapper data = showStatsWrapper.getData();
+					Map<Integer, ShowStats> showStats = data.getShowStats();
 
-						if (adapter != null) {
-							adapter.notifyItemChanged(ShowsFragment.this.shows.indexOf(show));
+					for (Map.Entry<Integer, ShowStats> entry : showStats.entrySet()) {
+						ShowStat showStatsData = entry.getValue().getData();
+						int indexerId = entry.getKey();
+
+						for (Show show : ShowsFragment.this.shows) {
+							if (show.getIndexerId() == indexerId) {
+								show.setEpisodesCount(showStatsData.getTotal());
+								show.setDownloaded(showStatsData.getTotalDone());
+								show.setSnatched(showStatsData.getTotalPending());
+
+								break;
+							}
 						}
 					}
-				});
-			}
+
+					if (adapter != null) {
+						adapter.notifyDataSetChanged();
+					}
+				}
+			});
 		}
 
 		if (this.shows.isEmpty()) {
@@ -203,5 +220,58 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, View.OnC
 		if (this.adapter != null) {
 			this.adapter.notifyDataSetChanged();
 		}
+	}
+
+	@NonNull
+	/* package */ static String getCommand(@Nullable List<Show> shows) {
+		StringBuilder command = new StringBuilder();
+
+		if (shows != null) {
+			for (Show show : shows) {
+				if (!isShowValid(show)) {
+					continue;
+				}
+
+				if (command.length() > 0) {
+					command.append("|");
+				}
+
+				command.append("show.stats_").append(show.getIndexerId());
+			}
+		}
+
+		return command.toString();
+	}
+
+	@NonNull
+	/* package */ static Map<String, Integer> getCommandParameters(@Nullable List<Show> shows) {
+		Map<String, Integer> parameters = new HashMap<>();
+
+		if (shows != null) {
+			for (Show show : shows) {
+				if (!isShowValid(show)) {
+					continue;
+				}
+
+				int indexerId = show.getIndexerId();
+
+				parameters.put("show.stats_" + indexerId + ".indexerid", indexerId);
+			}
+		}
+
+		return parameters;
+	}
+
+	/* package */
+	static boolean isShowValid(@Nullable Show show) {
+		if (show == null) {
+			return false;
+		}
+
+		if (show.getIndexerId() <= 0) {
+			return false;
+		}
+
+		return true;
 	}
 }
