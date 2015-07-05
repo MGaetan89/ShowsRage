@@ -16,8 +16,22 @@ android:
     - platform-tools
     - tools
 
+env:
+  matrix:
+    - ANDROID_TARGET=android-15
+    - ANDROID_TARGET=android-16
+    - ANDROID_TARGET=android-17
+    - ANDROID_TARGET=android-18
+    - ANDROID_TARGET=android-19
+    - ANDROID_TARGET=android-20
+    - ANDROID_TARGET=android-21
+    - ANDROID_TARGET=android-22
+
 script:
   - ./gradlew build test
+
+after_failure:
+  - adb logcat -d
 
 sudo: false
 
