@@ -18,6 +18,22 @@ android {
 		targetCompatibility JavaVersion.VERSION_1_7
 	}
 
+	signingConfigs {
+		release {
+			try {
+				Properties properties = new Properties()
+				properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+				keyAlias properties.getProperty('signing.keyAlias', '')
+				keyPassword properties.getProperty('signing.keyPassword', '')
+				storeFile file(properties.getProperty('signing.storeFile', ''))
+				storePassword properties.getProperty('signing.storePassword', '')
+			} catch (FileNotFoundException ignore) {
+				System.out.println("local.properties file is missing. Signing is disabled")
+			}
+		}
+	}
+
 	buildTypes {
 		debug {
 			applicationIdSuffix '.dev'
@@ -26,6 +42,10 @@ android {
 		release {
 			minifyEnabled true
 			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+			if (project.rootProject.file('local.properties').exists()) {
+				signingConfig signingConfigs.release
+			}
 		}
 	}
 

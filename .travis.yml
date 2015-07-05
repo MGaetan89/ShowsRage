@@ -28,10 +28,7 @@ env:
     - ANDROID_TARGET=android-22
 
 script:
-  - ./gradlew build test
-
-after_failure:
-  - adb logcat -d
+  - ./gradlew build testDebugUnitTest
 
 sudo: false
 
