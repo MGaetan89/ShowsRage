@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.network;
 
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.mgaetan89.showsrage.BuildConfig;
 import com.mgaetan89.showsrage.model.Indexer;
@@ -36,7 +37,11 @@ public class SickRageApi implements RequestInterceptor {
 	}
 
 	@NonNull
-	public String getPosterUrl(int indexerId, Indexer indexer) {
+	public String getPosterUrl(int indexerId, @Nullable Indexer indexer) {
+		if (indexer == null) {
+			return this.getApiUrl() + "?cmd=show.getposter";
+		}
+
 		return String.format("%s?cmd=show.getposter&%s=%d", this.getApiUrl(), indexer.getParamName(), indexerId);
 	}
 

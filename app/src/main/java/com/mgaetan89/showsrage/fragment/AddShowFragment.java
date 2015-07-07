@@ -28,6 +28,7 @@ import com.mgaetan89.showsrage.model.SearchResults;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit.Callback;
@@ -125,18 +126,7 @@ public class AddShowFragment extends Fragment implements Callback<SearchResults>
 	@Override
 	public void success(SearchResults searchResults, Response response) {
 		this.searchResults.clear();
-
-		if (searchResults != null) {
-			SearchResult searchResult = searchResults.getData();
-
-			if (searchResult != null) {
-				List<SearchResultItem> results = searchResult.getResults();
-
-				if (results != null) {
-					this.searchResults.addAll(results);
-				}
-			}
-		}
+		this.searchResults.addAll(getSearchResults(searchResults));
 
 		if (this.searchResults.isEmpty()) {
 			if (this.emptyView != null) {
@@ -172,6 +162,23 @@ public class AddShowFragment extends Fragment implements Callback<SearchResults>
 		}
 
 		return intent.getStringExtra(SearchManager.QUERY);
+	}
+
+	@NonNull
+	/* package */ static List<SearchResultItem> getSearchResults(@Nullable SearchResults searchResults) {
+		if (searchResults != null) {
+			SearchResult searchResult = searchResults.getData();
+
+			if (searchResult != null) {
+				List<SearchResultItem> results = searchResult.getResults();
+
+				if (results != null) {
+					return results;
+				}
+			}
+		}
+
+		return Collections.emptyList();
 	}
 
 	/* package */

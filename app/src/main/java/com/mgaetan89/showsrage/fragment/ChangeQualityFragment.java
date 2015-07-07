@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -27,35 +28,13 @@ public class ChangeQualityFragment extends DialogFragment implements DialogInter
 			return;
 		}
 
-		String allowedQuality = null;
-		String preferredQuality = null;
-		int allowedQualityIndex = 0;
-		int preferredQualityIndex = 0;
 		Spinner allowedQualitySpinner = (Spinner) dialog.findViewById(R.id.allowed_quality);
+		String allowedQuality = this.getAllowedQuality(allowedQualitySpinner);
+
 		Spinner preferredQualitySpinner = (Spinner) dialog.findViewById(R.id.preferred_quality);
+		String preferredQuality = this.getPreferredQuality(preferredQualitySpinner);
+
 		Callback<GenericResponse> callback = ((ShowOverviewFragment) parentFragment).getSetShowQualityCallback();
-
-		if (allowedQualitySpinner != null) {
-			// Skip the "Ignore" first item
-			allowedQualityIndex = allowedQualitySpinner.getSelectedItemPosition() - 1;
-		}
-
-		if (preferredQualitySpinner != null) {
-			// Skip the "Ignore" first item
-			preferredQualityIndex = preferredQualitySpinner.getSelectedItemPosition() - 1;
-		}
-
-		if (allowedQualityIndex >= 0) {
-			String qualities[] = this.getResources().getStringArray(R.array.allowed_qualities_keys);
-
-			allowedQuality = qualities[allowedQualityIndex];
-		}
-
-		if (preferredQualityIndex >= 0) {
-			String qualities[] = this.getResources().getStringArray(R.array.preferred_qualities_keys);
-
-			preferredQuality = qualities[preferredQualityIndex];
-		}
 
 		SickRageApi.getInstance().getServices().setShowQuality(indexerId, allowedQuality, preferredQuality, callback);
 	}
@@ -70,5 +49,41 @@ public class ChangeQualityFragment extends DialogFragment implements DialogInter
 		builder.setPositiveButton(R.string.change, this);
 
 		return builder.show();
+	}
+
+	@Nullable
+	private String getAllowedQuality(@Nullable Spinner allowedQualitySpinner) {
+		int allowedQualityIndex = 0;
+
+		if (allowedQualitySpinner != null) {
+			// Skip the "Ignore" first item
+			allowedQualityIndex = allowedQualitySpinner.getSelectedItemPosition() - 1;
+		}
+
+		if (allowedQualityIndex >= 0) {
+			String qualities[] = this.getResources().getStringArray(R.array.allowed_qualities_keys);
+
+			return qualities[allowedQualityIndex];
+		}
+
+		return null;
+	}
+
+	@Nullable
+	private String getPreferredQuality(@Nullable Spinner preferredQualitySpinner) {
+		int preferredQualityIndex = 0;
+
+		if (preferredQualitySpinner != null) {
+			// Skip the "Ignore" first item
+			preferredQualityIndex = preferredQualitySpinner.getSelectedItemPosition() - 1;
+		}
+
+		if (preferredQualityIndex >= 0) {
+			String qualities[] = this.getResources().getStringArray(R.array.preferred_qualities_keys);
+
+			return qualities[preferredQualityIndex];
+		}
+
+		return null;
 	}
 }
