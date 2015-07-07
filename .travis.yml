@@ -28,7 +28,10 @@ env:
     - ANDROID_TARGET=android-22
 
 script:
-  - ./gradlew build testDebugUnitTest
+  - ./gradlew build testDebug
+
+after_success:
+  - if [[ "$ANDROID_TARGET" == "android-22" ]]; then ./gradlew jacocoTestReport coveralls; fi
 
 sudo: false
 

@@ -106,11 +106,11 @@
     <orderEntry type="library" exported="" name="support-annotations-22.2.0" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-22.2.0" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-22.2.0" level="project" />
-    <orderEntry type="library" exported="" name="leakcanary-watcher-1.3.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="assertj-core-1.6.1" level="project" />
-    <orderEntry type="library" exported="" name="okhttp-urlconnection-2.4.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
+    <orderEntry type="library" exported="" name="leakcanary-watcher-1.3.1" level="project" />
     <orderEntry type="library" exported="" name="retrofit-1.9.0" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-urlconnection-2.4.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="mockito-core-2.0.26-beta" level="project" />
     <orderEntry type="library" exported="" name="haha-1.3" level="project" />
