@@ -1,12 +1,14 @@
 package com.mgaetan89.showsrage.adapter;
 
-import android.app.Activity;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
+import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
+import com.mgaetan89.showsrage.fragment.SeasonFragment;
+import com.mgaetan89.showsrage.fragment.ShowOverviewFragment;
 
 import org.junit.After;
 import org.junit.Before;
@@ -29,21 +31,18 @@ public class ShowPagerAdapterTest {
 
 	@Before
 	public void before() {
-		Fragment fragment = new Fragment();
+		FragmentActivity activity = mock(FragmentActivity.class);
+		when(activity.getResources()).thenReturn(mock(Resources.class));
+
+		Fragment fragment = spy(new Fragment());
 
 		try {
-			FragmentActivity activity = mock(FragmentActivity.class);
-			when(activity.getResources()).thenReturn(mock(Resources.class));
-
-			Class<?> fragmentClass = fragment.getClass();
-			Field fragmentActivityField = fragmentClass.getDeclaredField("mActivity");
+			Field fragmentActivityField = Fragment.class.getDeclaredField("mActivity");
 			fragmentActivityField.setAccessible(true);
 			fragmentActivityField.set(fragment, activity);
 		} catch (IllegalAccessException ignored) {
 		} catch (NoSuchFieldException ignored) {
 		}
-
-		fragment = spy(fragment);
 
 		when(fragment.getString(R.string.season_number, 1)).thenReturn("Season 1");
 		when(fragment.getString(R.string.season_number, 2)).thenReturn("Season 2");
@@ -51,7 +50,7 @@ public class ShowPagerAdapterTest {
 		when(fragment.getString(R.string.show)).thenReturn("Show");
 		when(fragment.getString(R.string.specials)).thenReturn("Specials");
 
-		fragment.onAttach(mock(Activity.class));
+		fragment.onAttach(activity);
 
 		this.adapter = new ShowPagerAdapter(null, fragment, this.seasons);
 	}
@@ -59,6 +58,23 @@ public class ShowPagerAdapterTest {
 	@Test
 	public void getCount() {
 		assertThat(this.adapter.getCount()).isEqualTo(this.seasons.size() + 1);
+	}
+
+	@Test
+	public void getItem_Season() {
+		for (int i = 1; i < this.seasons.size(); i++) {
+			Fragment fragment = this.adapter.getItem(i);
+			assertThat(fragment).isInstanceOf(SeasonFragment.class);
+			assertThat(fragment.getArguments()).isNotNull();
+			assertThat(fragment.getArguments().containsKey(Constants.Bundle.SEASON_NUMBER));
+		}
+	}
+
+	@Test
+	public void getItem_ShowOverview() {
+		Fragment fragment = this.adapter.getItem(0);
+		assertThat(fragment).isInstanceOf(ShowOverviewFragment.class);
+		assertThat(fragment.getArguments()).isNull();
 	}
 
 	@Test

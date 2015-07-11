@@ -37,27 +37,11 @@ public class ShowActivity extends BaseActivity implements EpisodesAdapter.OnEpis
 				break;
 
 			case R.id.menu_episode_set_status_archived:
-				this.setEpisodeStatus(seasonNumber, episodeNumber, "archived");
-
-				break;
-
 			case R.id.menu_episode_set_status_failed:
-				this.setEpisodeStatus(seasonNumber, episodeNumber, "failed");
-
-				break;
-
 			case R.id.menu_episode_set_status_ignored:
-				this.setEpisodeStatus(seasonNumber, episodeNumber, "ignored");
-
-				break;
-
 			case R.id.menu_episode_set_status_skipped:
-				this.setEpisodeStatus(seasonNumber, episodeNumber, "skipped");
-
-				break;
-
 			case R.id.menu_episode_set_status_wanted:
-				this.setEpisodeStatus(seasonNumber, episodeNumber, "wanted");
+				this.setEpisodeStatus(seasonNumber, episodeNumber, getEpisodeStatus(action.getItemId()));
 
 				break;
 		}
@@ -100,6 +84,28 @@ public class ShowActivity extends BaseActivity implements EpisodesAdapter.OnEpis
 		super.onCreate(savedInstanceState);
 
 		this.show = (Show) this.getIntent().getSerializableExtra(Constants.Bundle.SHOW_MODEL);
+	}
+
+	@Nullable
+	/* package */ static String getEpisodeStatus(int menuId) {
+		switch (menuId) {
+			case R.id.menu_episode_set_status_archived:
+				return "archived";
+
+			case R.id.menu_episode_set_status_failed:
+				return "failed";
+
+			case R.id.menu_episode_set_status_ignored:
+				return "ignored";
+
+			case R.id.menu_episode_set_status_skipped:
+				return "skipped";
+
+			case R.id.menu_episode_set_status_wanted:
+				return "wanted";
+		}
+
+		return null;
 	}
 
 	private void searchEpisode(int seasonNumber, int episodeNumber) {

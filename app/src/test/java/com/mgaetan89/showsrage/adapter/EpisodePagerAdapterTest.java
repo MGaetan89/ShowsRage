@@ -1,12 +1,15 @@
 package com.mgaetan89.showsrage.adapter;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
+import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
+import com.mgaetan89.showsrage.fragment.EpisodeDetailFragment;
 
 import org.junit.After;
 import org.junit.Before;
@@ -29,21 +32,22 @@ public class EpisodePagerAdapterTest {
 
 	@Before
 	public void before() {
-		Fragment fragment = new Fragment();
+		Intent intent = mock(Intent.class);
+		when(intent.getExtras()).thenReturn(mock(Bundle.class));
+
+		FragmentActivity activity = mock(FragmentActivity.class);
+		when(activity.getIntent()).thenReturn(intent);
+		when(activity.getResources()).thenReturn(mock(Resources.class));
+
+		Fragment fragment = spy(new Fragment());
 
 		try {
-			FragmentActivity activity = mock(FragmentActivity.class);
-			when(activity.getResources()).thenReturn(mock(Resources.class));
-
-			Class<?> fragmentClass = fragment.getClass();
-			Field fragmentActivityField = fragmentClass.getDeclaredField("mActivity");
+			Field fragmentActivityField = Fragment.class.getDeclaredField("mActivity");
 			fragmentActivityField.setAccessible(true);
 			fragmentActivityField.set(fragment, activity);
 		} catch (IllegalAccessException ignored) {
 		} catch (NoSuchFieldException ignored) {
 		}
-
-		fragment = spy(fragment);
 
 		when(fragment.getString(R.string.episode_name_short, 1)).thenReturn("E1");
 		when(fragment.getString(R.string.episode_name_short, 2)).thenReturn("E2");
@@ -56,7 +60,7 @@ public class EpisodePagerAdapterTest {
 		when(fragment.getString(R.string.episode_name_short, 9)).thenReturn("E9");
 		when(fragment.getString(R.string.episode_name_short, 10)).thenReturn("E10");
 
-		fragment.onAttach(mock(Activity.class));
+		fragment.onAttach(activity);
 
 		this.adapter = new EpisodePagerAdapter(null, fragment, this.episodes);
 	}
@@ -64,6 +68,16 @@ public class EpisodePagerAdapterTest {
 	@Test
 	public void getCount() {
 		assertThat(this.adapter.getCount()).isEqualTo(this.episodes.size());
+	}
+
+	@Test
+	public void getItem() {
+		for (int i = 0; i < this.episodes.size(); i++) {
+			Fragment fragment = this.adapter.getItem(i);
+			assertThat(fragment).isInstanceOf(EpisodeDetailFragment.class);
+			assertThat(fragment.getArguments()).isNotNull();
+			assertThat(fragment.getArguments().containsKey(Constants.Bundle.EPISODE_NUMBER));
+		}
 	}
 
 	@Test
