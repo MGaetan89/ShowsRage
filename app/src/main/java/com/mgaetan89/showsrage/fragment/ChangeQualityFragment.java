@@ -52,7 +52,7 @@ public class ChangeQualityFragment extends DialogFragment implements DialogInter
 	}
 
 	@Nullable
-	private String getAllowedQuality(@Nullable Spinner allowedQualitySpinner) {
+	/* package */ String getAllowedQuality(@Nullable Spinner allowedQualitySpinner) {
 		int allowedQualityIndex = 0;
 
 		if (allowedQualitySpinner != null) {
@@ -63,14 +63,16 @@ public class ChangeQualityFragment extends DialogFragment implements DialogInter
 		if (allowedQualityIndex >= 0) {
 			String qualities[] = this.getResources().getStringArray(R.array.allowed_qualities_keys);
 
-			return qualities[allowedQualityIndex];
+			if (allowedQualityIndex < qualities.length) {
+				return qualities[allowedQualityIndex];
+			}
 		}
 
 		return null;
 	}
 
 	@Nullable
-	private String getPreferredQuality(@Nullable Spinner preferredQualitySpinner) {
+	/* package */ String getPreferredQuality(@Nullable Spinner preferredQualitySpinner) {
 		int preferredQualityIndex = 0;
 
 		if (preferredQualitySpinner != null) {
@@ -81,7 +83,9 @@ public class ChangeQualityFragment extends DialogFragment implements DialogInter
 		if (preferredQualityIndex >= 0) {
 			String qualities[] = this.getResources().getStringArray(R.array.preferred_qualities_keys);
 
-			return qualities[preferredQualityIndex];
+			if (preferredQualityIndex < qualities.length) {
+				return qualities[preferredQualityIndex];
+			}
 		}
 
 		return null;
