@@ -3,7 +3,6 @@ package com.mgaetan89.showsrage.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -52,14 +51,14 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 		}
 
 		if (holder.indexer != null) {
-			holder.indexer.setText(getIndexerName(searchResult.getIndexer()));
+			holder.indexer.setText(searchResult.getIndexerNameResource());
 		}
 
 		if (holder.logo != null) {
 			holder.logo.setContentDescription(searchResult.getName());
 
-			Indexer indexer = getIndexType(searchResult.getIndexer());
-			int indexerId = getIndexId(searchResult);
+			Indexer indexer = searchResult.getIndexerType();
+			int indexerId = searchResult.getIndexerId();
 
 			if (indexer != null && indexerId > 0) {
 				ImageLoader.load(
@@ -84,47 +83,6 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_search_result, parent, false);
 
 		return new ViewHolder(view);
-	}
-
-	/* package */
-	static int getIndexId(SearchResultItem searchResultItem) {
-		if (searchResultItem != null) {
-			switch (searchResultItem.getIndexer()) {
-				case 1:
-					return searchResultItem.getTvDbId();
-
-				case 2:
-					return searchResultItem.getTvRageId();
-			}
-		}
-
-		return 0;
-	}
-
-	@StringRes
-	/* package */ static int getIndexerName(int indexerId) {
-		switch (indexerId) {
-			case 1:
-				return R.string.the_tvdb;
-
-			case 2:
-				return R.string.tvrage;
-		}
-
-		return 0;
-	}
-
-	@Nullable
-	/* package */ static Indexer getIndexType(int indexerId) {
-		switch (indexerId) {
-			case 1:
-				return Indexer.TVDB;
-
-			case 2:
-				return Indexer.TVRAGE;
-		}
-
-		return null;
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

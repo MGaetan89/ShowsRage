@@ -1,4 +1,4 @@
-package com.mgaetan89.showsrage.activity;
+package com.mgaetan89.showsrage.model;
 
 import com.mgaetan89.showsrage.R;
 
@@ -12,7 +12,7 @@ import java.util.Collection;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(Parameterized.class)
-public class ComingEpisodesActivity_GetEpisodeStatusTest {
+public class Episode_GetStatusForMenuIdTest {
 	@Parameterized.Parameter(1)
 	public String episodeStatus;
 
@@ -20,8 +20,8 @@ public class ComingEpisodesActivity_GetEpisodeStatusTest {
 	public int menuId;
 
 	@Test
-	public void getEpisodeStatus() {
-		assertThat(ComingEpisodesActivity.getEpisodeStatus(this.menuId)).isEqualTo(this.episodeStatus);
+	public void getStatusForMenuId() {
+		assertThat(Episode.getStatusForMenuId(this.menuId)).isEqualTo(this.episodeStatus);
 	}
 
 	@Parameterized.Parameters

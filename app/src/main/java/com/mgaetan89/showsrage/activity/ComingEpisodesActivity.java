@@ -1,7 +1,6 @@
 package com.mgaetan89.showsrage.activity;
 
 import android.content.DialogInterface;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
@@ -10,6 +9,7 @@ import android.widget.Toast;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.adapter.ComingEpisodesAdapter;
 import com.mgaetan89.showsrage.fragment.ComingEpisodesFragment;
+import com.mgaetan89.showsrage.model.Episode;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
@@ -29,7 +29,7 @@ public class ComingEpisodesActivity extends BaseActivity implements ComingEpisod
 			case R.id.menu_episode_set_status_ignored:
 			case R.id.menu_episode_set_status_skipped:
 			case R.id.menu_episode_set_status_wanted:
-				this.setEpisodeStatus(seasonNumber, episodeNumber, indexerId, getEpisodeStatus(action.getItemId()));
+				this.setEpisodeStatus(seasonNumber, episodeNumber, indexerId, Episode.getStatusForMenuId(action.getItemId()));
 
 				break;
 		}
@@ -53,28 +53,6 @@ public class ComingEpisodesActivity extends BaseActivity implements ComingEpisod
 	@Override
 	protected int getTitleResourceId() {
 		return R.string.coming_episodes;
-	}
-
-	@Nullable
-	/* package */ static String getEpisodeStatus(int menuId) {
-		switch (menuId) {
-			case R.id.menu_episode_set_status_archived:
-				return "archived";
-
-			case R.id.menu_episode_set_status_failed:
-				return "failed";
-
-			case R.id.menu_episode_set_status_ignored:
-				return "ignored";
-
-			case R.id.menu_episode_set_status_skipped:
-				return "skipped";
-
-			case R.id.menu_episode_set_status_wanted:
-				return "wanted";
-		}
-
-		return null;
 	}
 
 	private void searchEpisode(int seasonNumber, int episodeNumber, int indexerId) {

@@ -1,6 +1,9 @@
 package com.mgaetan89.showsrage.model;
 
+import android.support.annotation.StringRes;
+
 import com.google.gson.annotations.SerializedName;
+import com.mgaetan89.showsrage.R;
 
 import java.io.Serializable;
 
@@ -62,6 +65,23 @@ public class History implements Serializable {
 
 	public String getStatus() {
 		return this.status;
+	}
+
+	@StringRes
+	public int getStatusTranslationResource() {
+		if (this.status != null) {
+			String normalizedStatus = this.status.toLowerCase();
+
+			switch (normalizedStatus) {
+				case "downloaded":
+					return R.string.downloaded;
+
+				case "snatched":
+					return R.string.snatched;
+			}
+		}
+
+		return 0;
 	}
 
 	public int getTvDbId() {

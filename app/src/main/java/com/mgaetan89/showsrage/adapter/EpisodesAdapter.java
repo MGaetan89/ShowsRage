@@ -2,7 +2,6 @@ package com.mgaetan89.showsrage.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -84,7 +83,8 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 		if (holder.status != null) {
 			holder.status.setText(episode.getStatus());
 
-			setStatusBackgroundColor(holder.status, episode.getStatus());
+			Drawable background = DrawableCompat.wrap(holder.status.getBackground());
+			DrawableCompat.setTint(background, holder.status.getResources().getColor(episode.getStatusBackgroundColor()));
 		}
 	}
 
@@ -93,40 +93,6 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_episodes_list, parent, false);
 
 		return new ViewHolder(view);
-	}
-
-	private static void setStatusBackgroundColor(@NonNull TextView view, String status) {
-		int color = getStatusBackgroundColor(status);
-
-		Drawable background = DrawableCompat.wrap(view.getBackground());
-		DrawableCompat.setTint(background, view.getResources().getColor(color));
-	}
-
-	@ColorRes
-	/* package */ static int getStatusBackgroundColor(String status) {
-		if (status != null) {
-			String normalizedStatus = status.toLowerCase();
-
-			switch (normalizedStatus) {
-				case "archived":
-				case "downloaded":
-					return R.color.green;
-
-				case "skipped":
-					return R.color.blue;
-
-				case "snatched":
-					return R.color.purple;
-
-				case "unaired":
-					return R.color.yellow;
-
-				case "wanted":
-					return R.color.red;
-			}
-		}
-
-		return android.R.color.transparent;
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
