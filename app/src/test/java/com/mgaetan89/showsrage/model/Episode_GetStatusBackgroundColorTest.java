@@ -37,6 +37,8 @@ public class Episode_GetStatusBackgroundColorTest {
 				{getJsonForStatus(gson, "Archived"), R.color.green},
 				{getJsonForStatus(gson, "downloaded"), R.color.green},
 				{getJsonForStatus(gson, "Downloaded"), R.color.green},
+				{getJsonForStatus(gson, "ignored"), R.color.blue},
+				{getJsonForStatus(gson, "Ignored"), R.color.blue},
 				{getJsonForStatus(gson, "skipped"), R.color.blue},
 				{getJsonForStatus(gson, "Skipped"), R.color.blue},
 				{getJsonForStatus(gson, "snatched"), R.color.purple},

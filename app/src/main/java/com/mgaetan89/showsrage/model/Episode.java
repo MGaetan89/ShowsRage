@@ -82,6 +82,7 @@ public class Episode implements Serializable {
 				case "downloaded":
 					return R.color.green;
 
+				case "ignored":
 				case "skipped":
 					return R.color.blue;
 
