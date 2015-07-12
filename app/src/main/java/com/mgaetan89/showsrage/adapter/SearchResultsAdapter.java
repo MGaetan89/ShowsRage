@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
+import com.mgaetan89.showsrage.helper.ImageLoader;
 import com.mgaetan89.showsrage.model.Indexer;
 import com.mgaetan89.showsrage.model.SearchResultItem;
 import com.mgaetan89.showsrage.network.SickRageApi;
@@ -62,9 +62,11 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 			int indexerId = getIndexId(searchResult);
 
 			if (indexer != null && indexerId > 0) {
-				Glide.with(holder.logo.getContext())//
-						.load(SickRageApi.getInstance().getPosterUrl(indexerId, indexer))//
-						.into(holder.logo);
+				ImageLoader.load(
+						holder.logo,
+						SickRageApi.getInstance().getPosterUrl(indexerId, indexer),
+						true
+				);
 
 				holder.logo.setVisibility(View.VISIBLE);
 			} else {

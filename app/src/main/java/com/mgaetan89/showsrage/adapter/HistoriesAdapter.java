@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
+import com.mgaetan89.showsrage.helper.ImageLoader;
 import com.mgaetan89.showsrage.model.History;
 import com.mgaetan89.showsrage.model.Indexer;
 import com.mgaetan89.showsrage.network.SickRageApi;
@@ -49,9 +49,11 @@ public class HistoriesAdapter extends RecyclerView.Adapter<HistoriesAdapter.View
 		if (holder.logo != null) {
 			holder.logo.setContentDescription(history.getShowName());
 
-			Glide.with(holder.logo.getContext())//
-					.load(SickRageApi.getInstance().getPosterUrl(history.getTvDbId(), Indexer.TVDB))//
-					.into(holder.logo);
+			ImageLoader.load(
+					holder.logo,
+					SickRageApi.getInstance().getPosterUrl(history.getTvDbId(), Indexer.TVDB),
+					true
+			);
 		}
 
 		if (holder.name != null) {

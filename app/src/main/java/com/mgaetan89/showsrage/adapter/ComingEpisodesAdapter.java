@@ -15,9 +15,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
+import com.mgaetan89.showsrage.helper.ImageLoader;
 import com.mgaetan89.showsrage.model.ComingEpisode;
 import com.mgaetan89.showsrage.model.Indexer;
 import com.mgaetan89.showsrage.network.SickRageApi;
@@ -200,9 +200,11 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 		if (holder.logo != null) {
 			holder.logo.setContentDescription(comingEpisode.getShowName());
 
-			Glide.with(holder.logo.getContext())//
-					.load(SickRageApi.getInstance().getPosterUrl(comingEpisode.getTvDbId(), Indexer.TVDB))//
-					.into(holder.logo);
+			ImageLoader.load(
+					holder.logo,
+					SickRageApi.getInstance().getPosterUrl(comingEpisode.getTvDbId(), Indexer.TVDB),
+					true
+			);
 		}
 
 		if (holder.name != null) {
