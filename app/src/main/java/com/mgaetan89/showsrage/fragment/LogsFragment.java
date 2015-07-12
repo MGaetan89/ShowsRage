@@ -3,6 +3,7 @@ package com.mgaetan89.showsrage.fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -73,26 +74,10 @@ public class LogsFragment extends Fragment implements Callback<Logs>, SwipeRefre
 
 		inflater.inflate(R.menu.logs, menu);
 
-		switch (this.getPreferredLogsLevel()) {
-			case DEBUG:
-				menu.findItem(R.id.menu_debug).setChecked(true);
+		int menuId = getMenuIdForLogLevel(this.getPreferredLogsLevel());
 
-				break;
-
-			case ERROR:
-				menu.findItem(R.id.menu_error).setChecked(true);
-
-				break;
-
-			case INFO:
-				menu.findItem(R.id.menu_info).setChecked(true);
-
-				break;
-
-			case WARNING:
-				menu.findItem(R.id.menu_warning).setChecked(true);
-
-				break;
+		if (menuId > 0) {
+			menu.findItem(menuId).setChecked(true);
 		}
 	}
 
@@ -204,6 +189,46 @@ public class LogsFragment extends Fragment implements Callback<Logs>, SwipeRefre
 		}
 	}
 
+	@Nullable
+	/* package */ static LogLevel getLogLevelForMenuId(@IdRes int menuId) {
+		switch (menuId) {
+			case R.id.menu_debug:
+				return LogLevel.DEBUG;
+
+			case R.id.menu_error:
+				return LogLevel.ERROR;
+
+			case R.id.menu_info:
+				return LogLevel.INFO;
+
+			case R.id.menu_warning:
+				return LogLevel.WARNING;
+		}
+
+		return null;
+	}
+
+	@IdRes
+	/* package */ static int getMenuIdForLogLevel(@Nullable LogLevel logLevel) {
+		if (logLevel != null) {
+			switch (logLevel) {
+				case DEBUG:
+					return R.id.menu_debug;
+
+				case ERROR:
+					return R.id.menu_error;
+
+				case INFO:
+					return R.id.menu_info;
+
+				case WARNING:
+					return R.id.menu_warning;
+			}
+		}
+
+		return 0;
+	}
+
 	@NonNull
 	private LogLevel getPreferredLogsLevel() {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
@@ -217,29 +242,7 @@ public class LogsFragment extends Fragment implements Callback<Logs>, SwipeRefre
 	}
 
 	private boolean handleLogsLevelSelection(MenuItem item) {
-		LogLevel logLevel = null;
-
-		switch (item.getItemId()) {
-			case R.id.menu_debug:
-				logLevel = LogLevel.DEBUG;
-
-				break;
-
-			case R.id.menu_error:
-				logLevel = LogLevel.ERROR;
-
-				break;
-
-			case R.id.menu_info:
-				logLevel = LogLevel.INFO;
-
-				break;
-
-			case R.id.menu_warning:
-				logLevel = LogLevel.WARNING;
-
-				break;
-		}
+		LogLevel logLevel = getLogLevelForMenuId(item.getItemId());
 
 		if (logLevel != null) {
 			// Check the selected menu item
