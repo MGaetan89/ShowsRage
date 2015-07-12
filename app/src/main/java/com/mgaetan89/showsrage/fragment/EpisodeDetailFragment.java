@@ -182,27 +182,11 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_episode_set_status_archived:
-				this.setEpisodeStatus(this.seasonNumber, this.episodeNumber, "archived");
-
-				break;
-
 			case R.id.menu_episode_set_status_failed:
-				this.setEpisodeStatus(this.seasonNumber, this.episodeNumber, "failed");
-
-				break;
-
 			case R.id.menu_episode_set_status_ignored:
-				this.setEpisodeStatus(this.seasonNumber, this.episodeNumber, "ignored");
-
-				break;
-
 			case R.id.menu_episode_set_status_skipped:
-				this.setEpisodeStatus(this.seasonNumber, this.episodeNumber, "skipped");
-
-				break;
-
 			case R.id.menu_episode_set_status_wanted:
-				this.setEpisodeStatus(this.seasonNumber, this.episodeNumber, "wanted");
+				this.setEpisodeStatus(this.seasonNumber, this.episodeNumber, Episode.getStatusForMenuId(item.getItemId()));
 
 				break;
 
