@@ -177,17 +177,19 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, View.OnC
 					ShowStatWrapper data = showStatsWrapper.getData();
 					Map<Integer, ShowStats> showStats = data.getShowStats();
 
-					for (Map.Entry<Integer, ShowStats> entry : showStats.entrySet()) {
-						ShowStat showStatsData = entry.getValue().getData();
-						int indexerId = entry.getKey();
+					if (showStats != null) {
+						for (Map.Entry<Integer, ShowStats> entry : showStats.entrySet()) {
+							ShowStat showStatsData = entry.getValue().getData();
+							int indexerId = entry.getKey();
 
-						for (Show show : ShowsFragment.this.shows) {
-							if (show.getIndexerId() == indexerId) {
-								show.setEpisodesCount(showStatsData.getTotal());
-								show.setDownloaded(showStatsData.getTotalDone());
-								show.setSnatched(showStatsData.getTotalPending());
+							for (Show show : ShowsFragment.this.shows) {
+								if (show.getIndexerId() == indexerId) {
+									show.setEpisodesCount(showStatsData.getTotal());
+									show.setDownloaded(showStatsData.getTotalDone());
+									show.setSnatched(showStatsData.getTotalPending());
 
-								break;
+									break;
+								}
 							}
 						}
 					}
