@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.adapter;
 
-import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -11,16 +10,12 @@ import android.widget.TextView;
 
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
+import com.mgaetan89.showsrage.model.LogEntry;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
-	@NonNull
-	private static final Pattern logPattern = Pattern.compile("^([0-9]{4}-[0-9]{2}-[0-9]{2}\\s+[0-9]{2}:[0-9]{2}:[0-9]{2})\\s+([A-Z]+)\\s+(.*)$");
-
 	@NonNull
 	private List<String> logs = Collections.emptyList();
 
@@ -39,28 +34,21 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
-		String log = this.logs.get(position);
-		Matcher matcher = logPattern.matcher(log);
+		LogEntry logEntry = new LogEntry(this.logs.get(position));
 
-		if (matcher.matches()) {
-			String dateTime = matcher.group(1);
-			String errorType = matcher.group(2);
-			String message = matcher.group(3);
+		if (holder.dateTime != null) {
+			holder.dateTime.setText(DateTimeHelper.getRelativeDate(logEntry.getDateTime(), "yyyy-MM-dd hh:mm:ss", 0));
+		}
 
-			if (holder.dateTime != null) {
-				holder.dateTime.setText(DateTimeHelper.getRelativeDate(dateTime, "yyyy-MM-dd hh:mm:ss", 0));
-			}
+		if (holder.errorType != null) {
+			int errorTypeColor = logEntry.getErrorColor();
 
-			if (holder.errorType != null) {
-				int errorTypeColor = getErrorColor(errorType);
+			holder.errorType.setText(logEntry.getErrorType());
+			holder.errorType.setTextColor(holder.errorType.getResources().getColor(errorTypeColor));
+		}
 
-				holder.errorType.setText(errorType);
-				holder.errorType.setTextColor(holder.errorType.getResources().getColor(errorTypeColor));
-			}
-
-			if (holder.message != null) {
-				holder.message.setText(message.trim());
-			}
+		if (holder.message != null) {
+			holder.message.setText(logEntry.getMessage().trim());
 		}
 	}
 
@@ -69,29 +57,6 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_logs_list, parent, false);
 
 		return new ViewHolder(view);
-	}
-
-	@ColorRes
-	/* package */ static int getErrorColor(String errorType) {
-		if (errorType != null) {
-			String normalizedErrorType = errorType.toLowerCase();
-
-			switch (normalizedErrorType) {
-				case "debug":
-					return R.color.green;
-
-				case "error":
-					return R.color.red;
-
-				case "info":
-					return R.color.blue;
-
-				case "warning":
-					return R.color.orange;
-			}
-		}
-
-		return android.R.color.black;
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
