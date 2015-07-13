@@ -14,6 +14,7 @@ import com.mgaetan89.showsrage.model.Shows;
 import com.mgaetan89.showsrage.model.ShowsStats;
 import com.mgaetan89.showsrage.model.SingleEpisode;
 import com.mgaetan89.showsrage.model.SingleShow;
+import com.mgaetan89.showsrage.model.UpdateResponseWrapper;
 
 import java.util.Map;
 
@@ -25,6 +26,9 @@ import retrofit.http.QueryMap;
 public interface SickRageServices {
 	@GET("/{api_path}/{api_key}/?cmd=show.addnew")
 	void addNewShow(@Query("indexerid") int indexerId, Callback<GenericResponse> callback);
+
+	@GET("/{api_path}/{api_key}/?cmd=sb.checkversion")
+	void checkForUpdate(Callback<UpdateResponseWrapper> callback);
 
 	@GET("/{api_path}/{api_key}/?cmd=history.clear")
 	void clearHistory(Callback<GenericResponse> callback);
@@ -85,4 +89,7 @@ public interface SickRageServices {
 
 	@GET("/{api_path}/{api_key}/?cmd=show.setquality")
 	void setShowQuality(@Query("indexerid") int indexerId, @Query("initial") String allowed, @Query("archive") String preferred, Callback<GenericResponse> callback);
+
+	@GET("/{api_path}/{api_key}/?cmd=sb.update")
+	void updateSickRage(Callback<GenericResponse> callback);
 }

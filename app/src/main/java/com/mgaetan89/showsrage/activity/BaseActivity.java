@@ -1,5 +1,8 @@
 package com.mgaetan89.showsrage.activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.IntentCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -22,9 +26,12 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.fragment.StatisticsFragment;
 import com.mgaetan89.showsrage.model.GenericResponse;
+import com.mgaetan89.showsrage.model.UpdateResponse;
+import com.mgaetan89.showsrage.model.UpdateResponseWrapper;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import retrofit.Callback;
@@ -240,6 +247,32 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		}
 
 		this.displayHomeAsUp(this.displayHomeAsUp());
+		this.checkForUpdate();
+	}
+
+	private void checkForUpdate() {
+		long lastVersionCheckTime = PreferenceManager.getDefaultSharedPreferences(this).getLong(Constants.Preferences.Fields.LAST_VERSION_CHECK_TIME, 0L);
+
+		if (System.currentTimeMillis() - lastVersionCheckTime > Constants.Preferences.Defaults.VERSION_CHECK_INTERVAL) {
+			// TODO Uncomment this
+			//return;
+		}
+
+		SickRageApi.getInstance().getServices().checkForUpdate(new Callback<UpdateResponseWrapper>() {
+			@Override
+			public void failure(RetrofitError error) {
+				// SickRage may not support this request
+				// SickRage version 4.0.30 is required
+				error.printStackTrace();
+			}
+
+			@Override
+			public void success(UpdateResponseWrapper updateResponseWrapper, Response response) {
+				if (updateResponseWrapper != null) {
+					handleCheckForUpdateResponse(updateResponseWrapper.getData());
+				}
+			}
+		});
 	}
 
 	private void displayHomeAsUp(boolean displayHomeAsUp) {
@@ -262,5 +295,46 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 				this.drawerToggle.setDrawerIndicatorEnabled(true);
 			}
 		}
+	}
+
+	private void handleCheckForUpdateResponse(@Nullable UpdateResponse update) {
+		if (update == null) {
+			return;
+		}
+
+		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+		editor.putLong(Constants.Preferences.Fields.LAST_VERSION_CHECK_TIME, System.currentTimeMillis());
+		editor.apply();
+
+		if (!update.needsUpdate()) {
+			return;
+		}
+
+		Intent intent = new Intent(this, UpdateActivity.class);
+		intent.putExtra(Constants.Bundle.UPDATE_MODEL, update);
+
+		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		Notification notification = new NotificationCompat.Builder(this)
+				.setAutoCancel(true)
+				.setColor(this.getResources().getColor(R.color.primary))
+				.setContentIntent(pendingIntent)
+				.setContentTitle(this.getString(R.string.app_name))
+				.setContentText(this.getString(R.string.update_available))
+				.setLocalOnly(true)
+				.setSmallIcon(R.mipmap.ic_launcher)
+				.setStyle(
+						new NotificationCompat.BigTextStyle()
+								.bigText(this.getString(
+										R.string.update_available_detailed,
+										update.getCurrentVersion().getVersion(),
+										update.getLatestVersion().getVersion(),
+										update.getCommitsOffset()
+								))
+				)
+				.build();
+
+		NotificationManager notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
+		notificationManager.notify(0, notification);
 	}
 }

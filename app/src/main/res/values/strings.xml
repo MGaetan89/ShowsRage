@@ -115,6 +115,10 @@
 	<string name="today">Today</string>
 	<string name="total">Total: <xliff:g example="1" id="total">%1$s</xliff:g></string>
 	<string name="unknown">Unknown</string>
+	<string name="update">Update</string>
+	<string name="update_available">A new version of SickRage is available</string>
+	<string name="update_available_detailed">Current version: <xliff:g example="v1.0.0" id="current_version">%1$s</xliff:g>\nLatest version: <xliff:g example="v2.0.0" id="latest_version">%2$s</xliff:g>\n<xliff:g example="42" id="commits_offsets">%3$s</xliff:g> new commits</string>
+	<string name="update_sickrage">Update SickRage</string>
 	<string name="use_https">Use HTTPS?</string>
 	<string name="username">Username</string>
 	<string name="version">Version</string>

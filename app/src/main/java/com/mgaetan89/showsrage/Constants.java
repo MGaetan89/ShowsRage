@@ -10,15 +10,18 @@ public abstract class Constants {
 		public static final String INDEXER_ID = "indexer_id";
 		public static final String SEASON_NUMBER = "season_number";
 		public static final String SHOW_MODEL = "show_model";
+		public static final String UPDATE_MODEL = "update_model";
 	}
 
 	public abstract static class Preferences {
 		public abstract static class Fields {
+			public static final String LAST_VERSION_CHECK_TIME = "last_version_check_time";
 			public static final String LOGS_LEVEL = "logs_level";
 		}
 
 		public abstract static class Defaults {
 			public static final LogLevel LOGS_LEVEL = LogLevel.ERROR;
+			public static final long VERSION_CHECK_INTERVAL = 12 * 60 * 60 * 1000;
 		}
 	}
 }
