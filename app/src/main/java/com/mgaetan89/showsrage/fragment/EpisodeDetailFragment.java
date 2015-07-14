@@ -99,7 +99,11 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 		this.seasonNumber = arguments.getInt(Constants.Bundle.SEASON_NUMBER, 0);
 
 		if (actionBar != null) {
-			actionBar.setTitle(this.getString(R.string.season_number, this.seasonNumber));
+			if (this.seasonNumber <= 0) {
+				actionBar.setTitle(R.string.specials);
+			} else {
+				actionBar.setTitle(this.getString(R.string.season_number, this.seasonNumber));
+			}
 		}
 
 		this.show = (Show) arguments.getSerializable(Constants.Bundle.SHOW_MODEL);
