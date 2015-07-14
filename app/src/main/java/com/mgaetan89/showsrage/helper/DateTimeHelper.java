@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.helper;
 
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import java.text.DateFormat;
@@ -10,6 +11,10 @@ import java.util.Locale;
 
 public abstract class DateTimeHelper {
 	public static CharSequence getRelativeDate(String dateTime, String format, long minResolution) {
+		if (TextUtils.isEmpty(dateTime)) {
+			return "N/A";
+		}
+
 		try {
 			DateFormat formatter = new SimpleDateFormat(format, Locale.getDefault());
 			Date date = formatter.parse(dateTime);

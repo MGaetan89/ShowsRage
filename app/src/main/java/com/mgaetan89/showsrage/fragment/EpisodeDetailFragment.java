@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.fragment;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -292,12 +293,14 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 	}
 
 	private void displayPlayVideoMenu(Episode episode) {
-		if (episode == null) {
+		Activity activity = this.getActivity();
+
+		if (activity == null || episode == null) {
 			return;
 		}
 
 		if (this.playVideoMenu != null) {
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 			boolean episodeDownloaded = "Downloaded".equalsIgnoreCase(episode.getStatus());
 			boolean viewInVlc = preferences.getBoolean("view_in_vlc", false);
 
