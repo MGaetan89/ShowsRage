@@ -213,7 +213,13 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		inflater.inflate(R.menu.show_overview, menu);
 
 		this.pauseMenu = menu.findItem(R.id.menu_pause_show);
+		this.pauseMenu.setVisible(false);
 		this.resumeMenu = menu.findItem(R.id.menu_resume_show);
+		this.resumeMenu.setVisible(false);
+
+		if (this.show != null) {
+			this.showHidePauseResumeMenus(this.show.getPaused() == 0);
+		}
 	}
 
 	@Nullable
@@ -324,6 +330,8 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	public void success(SingleShow singleShow, Response response) {
 		this.show = singleShow.getData();
 		String nextEpisodeAirDate = this.show.getNextEpisodeAirDate();
+
+		this.showHidePauseResumeMenus(this.show.getPaused() == 0);
 
 		this.omDbApi.getShow(this.show.getImdbId(), new Callback<Serie>() {
 			@Override
@@ -500,10 +508,6 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			this.network.setVisibility(View.VISIBLE);
 		}
 
-		if (this.pauseMenu != null) {
-			this.pauseMenu.setVisible(this.show.getPaused() == 0);
-		}
-
 		if (this.poster != null) {
 			ImageLoader.load(
 					this.poster,
@@ -526,10 +530,6 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			}
 
 			this.quality.setVisibility(View.VISIBLE);
-		}
-
-		if (this.resumeMenu != null) {
-			this.resumeMenu.setVisible(this.show.getPaused() == 1);
 		}
 
 		if (this.status != null) {
@@ -638,26 +638,14 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	}
 
 	private void pauseOrResumeShow(final boolean pause) {
-		if (this.pauseMenu != null) {
-			this.pauseMenu.setVisible(!pause);
-		}
-
-		if (this.resumeMenu != null) {
-			this.resumeMenu.setVisible(pause);
-		}
+		this.showHidePauseResumeMenus(!pause);
 
 		SickRageApi.getInstance().getServices().pauseShow(this.show.getIndexerId(), pause ? 1 : 0, new Callback<GenericResponse>() {
 			@Override
 			public void failure(RetrofitError error) {
 				error.printStackTrace();
 
-				if (pauseMenu != null) {
-					pauseMenu.setVisible(pause);
-				}
-
-				if (resumeMenu != null) {
-					resumeMenu.setVisible(!pause);
-				}
+				showHidePauseResumeMenus(pause);
 			}
 
 			@Override
@@ -665,5 +653,15 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 				Toast.makeText(getActivity(), genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
 			}
 		});
+	}
+
+	private void showHidePauseResumeMenus(boolean isPause) {
+		if (this.pauseMenu != null) {
+			this.pauseMenu.setVisible(isPause);
+		}
+
+		if (this.resumeMenu != null) {
+			this.resumeMenu.setVisible(!isPause);
+		}
 	}
 }
