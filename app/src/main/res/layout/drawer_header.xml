@@ -4,8 +4,8 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:background="?attr/colorPrimary"
-	android:gravity="bottom"
-	android:orientation="vertical"
+	android:gravity="center_vertical"
+	android:orientation="horizontal"
 	android:paddingBottom="@dimen/padding"
 	android:paddingEnd="@dimen/padding"
 	android:paddingLeft="@dimen/padding"
@@ -13,13 +13,18 @@
 	android:paddingStart="@dimen/padding"
 	android:paddingTop="40dp">
 
+	<ImageView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/padding"
+		android:layout_marginRight="@dimen/padding"
+		android:contentDescription="@string/app_name"
+		android:src="@mipmap/ic_launcher"
+		android:tint="@android:color/white"/>
+
 	<TextView
 		style="@style/TextAppearance.AppCompat.Title"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:drawableLeft="@mipmap/ic_launcher"
-		android:drawablePadding="@dimen/padding"
-		android:drawableStart="@mipmap/ic_launcher"
-		android:gravity="center_vertical"
 		android:text="@string/app_name"/>
 </LinearLayout>
