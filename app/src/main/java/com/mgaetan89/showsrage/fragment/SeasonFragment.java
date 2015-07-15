@@ -94,10 +94,7 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 						super.onScrolled(recyclerView, dx, dy);
 
 						if (swipeRefreshLayout != null) {
-							int topRowVerticalPosition =
-									(recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
-
-							swipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
+							swipeRefreshLayout.setEnabled(!recyclerView.canScrollVertically(-1));
 						}
 					}
 				});
