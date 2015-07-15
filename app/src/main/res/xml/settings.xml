@@ -98,7 +98,7 @@
 
 				<PreferenceScreen
 					android:key="glide"
-					android:summary="Version 3.6.0"
+					android:summary="Version 3.6.1"
 					android:title="Glide">
 
 					<intent
