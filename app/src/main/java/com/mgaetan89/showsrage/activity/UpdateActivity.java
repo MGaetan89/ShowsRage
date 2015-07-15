@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.model.UpdateResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
+import com.mgaetan89.showsrage.service.UpdateService;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -33,7 +35,7 @@ public class UpdateActivity extends AppCompatActivity implements Callback<Generi
 	public void onClick(DialogInterface dialog, int which) {
 		switch (which) {
 			case DialogInterface.BUTTON_POSITIVE:
-				SickRageApi.getInstance().getServices().updateSickRage(this);
+				this.updateSickRage();
 
 				break;
 
@@ -49,8 +51,6 @@ public class UpdateActivity extends AppCompatActivity implements Callback<Generi
 		Toast.makeText(this, genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
 		this.finish();
-
-		// TODO In case of success, display a progress dialog until the update is complete
 	}
 
 	@Override
@@ -74,5 +74,13 @@ public class UpdateActivity extends AppCompatActivity implements Callback<Generi
 		builder.setPositiveButton(R.string.update, this)
 				.setNegativeButton(R.string.ignore, this)
 				.show();
+	}
+
+	private void updateSickRage() {
+		SickRageApi.getInstance().getServices().updateSickRage(this);
+
+		this.startService(new Intent(this, UpdateService.class));
+
+		this.finish();
 	}
 }

@@ -101,6 +101,7 @@
 	<string name="show">Série</string>
 	<string name="show_name_episode"><xliff:g example="2 Broke Girls" id="show_name">%1$s</xliff:g> - S<xliff:g example="01" id="season">%2$02d</xliff:g>E<xliff:g example="01" id="episode">%3$02d</xliff:g></string>
 	<string name="shows">Séries</string>
+	<string name="sickrage_updated">SickRage a bien été mis à jour</string>
 	<string name="skipped">Passé</string>
 	<string name="snatched">Récupéré</string>
 	<string name="snatched_count">Récupérés : <xliff:g example="1" id="snatched">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
@@ -118,7 +119,9 @@
 	<string name="update">Mettre à jour</string>
 	<string name="update_available">Une nouvelle version de SickRage est disponible</string>
 	<string name="update_available_detailed">Version actuelle: <xliff:g example="v1.0.0" id="current_version">%1$s</xliff:g>\nDernière version: <xliff:g example="v2.0.0" id="latest_version">%2$s</xliff:g>\n<xliff:g example="42" id="commits_offsets">%3$s</xliff:g> nouveaux commits</string>
+	<string name="update_failed">La mise à jour de SickRage a échouée</string>
 	<string name="update_sickrage">Mette à jour SickRage</string>
+	<string name="updating_sickrage">Mise à jour de SickRage en cours…</string>
 	<string name="use_https">Connexion sécurisée ?</string>
 	<string name="username">Identifiant</string>
 	<string name="version">Version</string>

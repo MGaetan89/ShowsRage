@@ -254,8 +254,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		long lastVersionCheckTime = PreferenceManager.getDefaultSharedPreferences(this).getLong(Constants.Preferences.Fields.LAST_VERSION_CHECK_TIME, 0L);
 
 		if (System.currentTimeMillis() - lastVersionCheckTime > Constants.Preferences.Defaults.VERSION_CHECK_INTERVAL) {
-			// TODO Uncomment this
-			//return;
+			return;
 		}
 
 		SickRageApi.getInstance().getServices().checkForUpdate(new Callback<UpdateResponseWrapper>() {

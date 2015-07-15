@@ -48,5 +48,9 @@
 			android:name=".activity.UpdateActivity"
 			android:excludeFromRecents="true"
 			android:theme="@style/TransparentActivity"/>
+
+		<service
+			android:name=".service.UpdateService"
+			android:exported="false"/>
 	</application>
 </manifest>
