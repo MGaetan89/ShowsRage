@@ -3,6 +3,7 @@ package com.mgaetan89.showsrage.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -57,6 +58,8 @@ public class UpdateActivity extends AppCompatActivity implements Callback<Generi
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		SickRageApi.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this));
+
 		UpdateResponse update = (UpdateResponse) this.getIntent().getExtras().getSerializable(Constants.Bundle.UPDATE_MODEL);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this)
@@ -80,6 +83,8 @@ public class UpdateActivity extends AppCompatActivity implements Callback<Generi
 		SickRageApi.getInstance().getServices().updateSickRage(this);
 
 		this.startService(new Intent(this, UpdateService.class));
+
+		Toast.makeText(this, R.string.updating_sickrage, Toast.LENGTH_SHORT).show();
 
 		this.finish();
 	}
