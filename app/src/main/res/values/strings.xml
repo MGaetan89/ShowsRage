@@ -19,6 +19,7 @@
 	<string name="change">Change</string>
 	<string name="change_quality">Change quality</string>
 	<string name="change_quality_info">Set both to \"Ignore\" to use SickRage\'s default quality setting.</string>
+	<string name="check_update">Check for update</string>
 	<string name="clear">Clear</string>
 	<string name="clear_history_confirm">Are you sure you want to clear SickRage\'s history?</string>
 	<string name="coming_episodes">Coming Episodes</string>
@@ -64,6 +65,7 @@
 	<string name="more_information">More Information</string>
 	<string name="network">Network: <xliff:g example="CBS" id="network">%1$s</xliff:g></string>
 	<string name="never">Never</string>
+	<string name="new_update">New update available</string>
 	<string name="next_episode">Next episode: <xliff:g example="in 2 days" id="next_episode">%1$s</xliff:g></string>
 	<string name="no_coming_episodes">No coming episodes</string>
 	<string name="no_episodes">No episodes</string>
@@ -71,6 +73,7 @@
 	<string name="no_logs">No logs</string>
 	<string name="no_results">No results</string>
 	<string name="no_shows">No shows</string>
+	<string name="no_update">No new update</string>
 	<string name="password">Password</string>
 	<string name="path">Path</string>
 	<string name="pause_show">Pause show</string>

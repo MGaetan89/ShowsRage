@@ -134,6 +134,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 				return true;
 			}
 
+			case R.id.menu_check_update: {
+				this.checkForUpdate(true);
+
+				return true;
+			}
+
 			case R.id.menu_shows: {
 				Intent intent = new Intent(this, ShowsActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
@@ -247,10 +253,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		}
 
 		this.displayHomeAsUp(this.displayHomeAsUp());
-		this.checkForUpdate();
+		this.checkForUpdate(false);
 	}
 
-	private void checkForUpdate() {
+	private void checkForUpdate(final boolean manualCheck) {
 		long lastVersionCheckTime = PreferenceManager.getDefaultSharedPreferences(this).getLong(Constants.Preferences.Fields.LAST_VERSION_CHECK_TIME, 0L);
 
 		if (System.currentTimeMillis() - lastVersionCheckTime > Constants.Preferences.Defaults.VERSION_CHECK_INTERVAL) {
@@ -268,7 +274,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 			@Override
 			public void success(UpdateResponseWrapper updateResponseWrapper, Response response) {
 				if (updateResponseWrapper != null) {
-					handleCheckForUpdateResponse(updateResponseWrapper.getData());
+					handleCheckForUpdateResponse(updateResponseWrapper.getData(), manualCheck);
 				}
 			}
 		});
@@ -296,7 +302,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		}
 	}
 
-	private void handleCheckForUpdateResponse(@Nullable UpdateResponse update) {
+	private void handleCheckForUpdateResponse(@Nullable UpdateResponse update, boolean manualCheck) {
 		if (update == null) {
 			return;
 		}
@@ -306,7 +312,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		editor.apply();
 
 		if (!update.needsUpdate()) {
+			if (manualCheck) {
+				Toast.makeText(this, R.string.no_update, Toast.LENGTH_SHORT).show();
+			}
+
 			return;
+		}
+
+		if (manualCheck) {
+			Toast.makeText(this, R.string.new_update, Toast.LENGTH_SHORT).show();
 		}
 
 		Intent intent = new Intent(this, UpdateActivity.class);
