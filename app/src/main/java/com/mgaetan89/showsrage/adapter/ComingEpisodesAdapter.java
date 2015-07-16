@@ -3,7 +3,6 @@ package com.mgaetan89.showsrage.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -24,23 +23,18 @@ import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-public class ComingEpisodesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-	/* package */ static final int ITEM_TYPE_EPISODE = 0;
-	/* package */ static final int ITEM_TYPE_SECTION = 1;
-	/* package */ static final int ITEM_TYPE_UNKNOWN = 2;
-
+public class ComingEpisodesAdapter extends RecyclerView.Adapter<ComingEpisodesAdapter.ViewHolder> {
 	@NonNull
-	private Map<String, List<ComingEpisode>> comingEpisodes = Collections.emptyMap();
+	private List<ComingEpisode> comingEpisodes = Collections.emptyList();
 
 	public interface OnEpisodeActionSelectedListener {
 		void onEpisodeActionSelected(int seasonNumber, int episodeNumber, int indexerId, MenuItem action);
 	}
 
-	public ComingEpisodesAdapter(@Nullable Map<String, List<ComingEpisode>> comingEpisodes) {
+	public ComingEpisodesAdapter(@Nullable List<ComingEpisode> comingEpisodes) {
 		if (comingEpisodes == null) {
-			this.comingEpisodes = Collections.emptyMap();
+			this.comingEpisodes = Collections.emptyList();
 		} else {
 			this.comingEpisodes = comingEpisodes;
 		}
@@ -48,145 +42,13 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 	@Override
 	public int getItemCount() {
-		int itemCount = this.comingEpisodes.size();
-
-		for (List<ComingEpisode> episodes : this.comingEpisodes.values()) {
-			// If the section is empty, we just ignore it
-			if (episodes == null || episodes.isEmpty()) {
-				itemCount--;
-			} else {
-				itemCount += episodes.size();
-			}
-		}
-
-		return itemCount;
+		return this.comingEpisodes.size();
 	}
 
 	@Override
-	public int getItemViewType(int position) {
-		int index = 0;
+	public void onBindViewHolder(ViewHolder holder, int position) {
+		ComingEpisode comingEpisode = this.comingEpisodes.get(position);
 
-		for (Map.Entry<String, List<ComingEpisode>> entry : this.comingEpisodes.entrySet()) {
-			List<ComingEpisode> episodes = entry.getValue();
-
-			if (index == position) {
-				if (episodes == null || episodes.isEmpty()) {
-					continue;
-				}
-
-				return ITEM_TYPE_SECTION;
-			}
-
-			if (episodes != null) {
-				for (ComingEpisode ignored : episodes) {
-					index++;
-
-					if (index == position) {
-						return ITEM_TYPE_EPISODE;
-					}
-				}
-			}
-
-			// Only increment the index if the section is not empty
-			if (episodes != null && !episodes.isEmpty()) {
-				index++;
-			}
-		}
-
-		return ITEM_TYPE_UNKNOWN;
-	}
-
-	@Override
-	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-		Object item = this.getItemAtPosition(position);
-
-		if (item == null) {
-			return;
-		}
-
-		if (holder instanceof EpisodeViewHolder) {
-			this.onBindEpisodeViewHolder((EpisodeViewHolder) holder, (ComingEpisode) item);
-		} else if (holder instanceof SectionViewHolder) {
-			this.onBindSectionViewHolder((SectionViewHolder) holder, (String) item);
-		}
-	}
-
-	@Override
-	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		if (viewType == ITEM_TYPE_EPISODE) {
-			View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_coming_episodes_episode, parent, false);
-
-			return new EpisodeViewHolder(view);
-		}
-
-		if (viewType == ITEM_TYPE_SECTION) {
-			View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_coming_episodes_section, parent, false);
-
-			return new SectionViewHolder(view);
-		}
-
-
-		return null;
-	}
-
-	@Nullable
-	/* package */ Object getItemAtPosition(int position) {
-		int index = 0;
-
-		for (Map.Entry<String, List<ComingEpisode>> entry : this.comingEpisodes.entrySet()) {
-			List<ComingEpisode> episodes = entry.getValue();
-
-			if (index == position) {
-				if (episodes == null || episodes.isEmpty()) {
-					continue;
-				}
-
-				return entry.getKey();
-			}
-
-			if (episodes != null) {
-				for (ComingEpisode comingEpisode : episodes) {
-					index++;
-
-					if (index == position) {
-						return comingEpisode;
-					}
-				}
-			}
-
-			// Only increment the index if the section is not empty
-			if (episodes != null && !episodes.isEmpty()) {
-				index++;
-			}
-		}
-
-		return null;
-	}
-
-	@StringRes
-	/* package */ static int getSectionName(String sectionId) {
-		if (sectionId != null) {
-			String normalizedSectionId = sectionId.toLowerCase();
-
-			switch (normalizedSectionId) {
-				case "later":
-					return R.string.later;
-
-				case "missed":
-					return R.string.missed;
-
-				case "soon":
-					return R.string.soon;
-
-				case "today":
-					return R.string.today;
-			}
-		}
-
-		return 0;
-	}
-
-	private void onBindEpisodeViewHolder(EpisodeViewHolder holder, ComingEpisode comingEpisode) {
 		if (holder.date != null) {
 			String airDate = comingEpisode.getAirDate();
 
@@ -216,19 +78,14 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 		}
 	}
 
-	private void onBindSectionViewHolder(SectionViewHolder holder, String sectionId) {
-		if (holder.name != null) {
-			int sectionName = getSectionName(sectionId);
+	@Override
+	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_coming_episodes_list, parent, false);
 
-			if (sectionName == 0) {
-				holder.name.setText(sectionId);
-			} else {
-				holder.name.setText(sectionName);
-			}
-		}
+		return new ViewHolder(view);
 	}
 
-	public class EpisodeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 		@Nullable
 		public ImageView actions;
 
@@ -244,7 +101,7 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 		@Nullable
 		public TextView networkQuality;
 
-		public EpisodeViewHolder(View view) {
+		public ViewHolder(View view) {
 			super(view);
 
 			this.actions = (ImageView) view.findViewById(R.id.episode_actions);
@@ -272,7 +129,7 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 				Context context = this.actions.getContext();
 
 				if (context instanceof OnEpisodeActionSelectedListener) {
-					ComingEpisode comingEpisode = (ComingEpisode) getItemAtPosition(this.getAdapterPosition());
+					ComingEpisode comingEpisode = comingEpisodes.get(this.getAdapterPosition());
 
 					if (comingEpisode != null) {
 						((OnEpisodeActionSelectedListener) context).onEpisodeActionSelected(comingEpisode.getSeason(), comingEpisode.getEpisode(), comingEpisode.getIndexerId(), item);
@@ -283,17 +140,6 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 			}
 
 			return false;
-		}
-	}
-
-	public class SectionViewHolder extends RecyclerView.ViewHolder {
-		@Nullable
-		public TextView name;
-
-		public SectionViewHolder(View view) {
-			super(view);
-
-			this.name = (TextView) view.findViewById(R.id.section_name);
 		}
 	}
 }

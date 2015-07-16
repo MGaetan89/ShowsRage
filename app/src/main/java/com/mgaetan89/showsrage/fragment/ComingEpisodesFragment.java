@@ -3,22 +3,21 @@ package com.mgaetan89.showsrage.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.adapter.ComingEpisodesAdapter;
+import com.mgaetan89.showsrage.adapter.ComingEpisodesPagerAdapter;
 import com.mgaetan89.showsrage.model.ComingEpisode;
 import com.mgaetan89.showsrage.model.ComingEpisodes;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,39 +25,41 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class ComingEpisodesFragment extends Fragment implements Callback<ComingEpisodes>, SwipeRefreshLayout.OnRefreshListener {
+public class ComingEpisodesFragment extends Fragment implements Callback<ComingEpisodes> {
 	@Nullable
-	private ComingEpisodesAdapter adapter = null;
-
-	@Nullable
-	private TextView emptyView = null;
+	private ComingEpisodesPagerAdapter adapter = null;
 
 	@NonNull
-	private final Map<String, List<ComingEpisode>> comingEpisodes = new LinkedHashMap<>();
+	private final List<ArrayList<ComingEpisode>> comingEpisodes = new ArrayList<>();
+
+	@NonNull
+	private final List<String> sections = new ArrayList<>();
 
 	@Nullable
-	private RecyclerView recyclerView = null;
+	private TabLayout tabLayout = null;
 
 	@Nullable
-	private SwipeRefreshLayout swipeRefreshLayout = null;
+	private ViewPager viewPager = null;
 
 	public ComingEpisodesFragment() {
 	}
 
 	@Override
 	public void failure(RetrofitError error) {
-		if (this.swipeRefreshLayout != null) {
-			this.swipeRefreshLayout.setRefreshing(false);
-		}
-
 		error.printStackTrace();
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
+	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		this.onRefresh();
+		SickRageApi.getInstance().getServices().getComingEpisodes(this);
+
+		this.tabLayout = (TabLayout) this.getActivity().findViewById(R.id.tabs);
+
+		if (this.tabLayout != null && this.viewPager != null) {
+			this.tabLayout.setupWithViewPager(this.viewPager);
+		}
 	}
 
 	@Nullable
@@ -67,30 +68,12 @@ public class ComingEpisodesFragment extends Fragment implements Callback<ComingE
 		View view = inflater.inflate(R.layout.fragment_coming_episodes, container, false);
 
 		if (view != null) {
-			this.emptyView = (TextView) view.findViewById(android.R.id.empty);
-			this.recyclerView = (RecyclerView) view.findViewById(android.R.id.list);
-			this.swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+			this.viewPager = (ViewPager) view.findViewById(R.id.coming_episodes_pager);
 
-			if (this.recyclerView != null) {
-				this.adapter = new ComingEpisodesAdapter(this.comingEpisodes);
+			if (this.viewPager != null) {
+				this.adapter = new ComingEpisodesPagerAdapter(this.getChildFragmentManager(), this.sections, this.comingEpisodes);
 
-				this.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-					@Override
-					public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-						super.onScrolled(recyclerView, dx, dy);
-
-						if (swipeRefreshLayout != null) {
-							swipeRefreshLayout.setEnabled(!recyclerView.canScrollVertically(-1));
-						}
-					}
-				});
-				this.recyclerView.setAdapter(this.adapter);
-				this.recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-			}
-
-			if (this.swipeRefreshLayout != null) {
-				this.swipeRefreshLayout.setColorSchemeResources(R.color.accent);
-				this.swipeRefreshLayout.setOnRefreshListener(this);
+				this.viewPager.setAdapter(this.adapter);
 			}
 		}
 
@@ -100,70 +83,70 @@ public class ComingEpisodesFragment extends Fragment implements Callback<ComingE
 	@Override
 	public void onDestroy() {
 		this.comingEpisodes.clear();
+		this.sections.clear();
 
 		super.onDestroy();
 	}
 
 	@Override
 	public void onDestroyView() {
-		this.emptyView = null;
-		this.recyclerView = null;
-		this.swipeRefreshLayout = null;
+		this.tabLayout = null;
+		this.viewPager = null;
 
 		super.onDestroyView();
 	}
 
 	@Override
-	public void onRefresh() {
-		if (this.swipeRefreshLayout != null) {
-			this.swipeRefreshLayout.setRefreshing(true);
-		}
-
-		SickRageApi.getInstance().getServices().getComingEpisodes(this);
-	}
-
-	@Override
 	public void success(ComingEpisodes comingEpisodes, Response response) {
-		if (this.swipeRefreshLayout != null) {
-			this.swipeRefreshLayout.setRefreshing(false);
-		}
-
-		this.comingEpisodes.clear();
-
 		if (comingEpisodes != null) {
-			Map<String, List<ComingEpisode>> data = comingEpisodes.getData();
+			Map<String, ArrayList<ComingEpisode>> data = comingEpisodes.getData();
 
 			if (data != null) {
 				String statuses[] = {"missed", "today", "soon", "later"};
 
 				for (String status : statuses) {
 					if (data.containsKey(status)) {
-						this.comingEpisodes.put(status, data.get(status));
+						ArrayList<ComingEpisode> comingEpisodesForStatus = data.get(status);
+
+						if (!comingEpisodesForStatus.isEmpty()) {
+							this.comingEpisodes.add(comingEpisodesForStatus);
+							this.sections.add(this.getString(getSectionName(status)));
+						}
+					}
+				}
+
+				if (this.adapter != null) {
+					this.adapter.notifyDataSetChanged();
+
+					if (this.tabLayout != null) {
+						this.tabLayout.setTabsFromPagerAdapter(this.adapter);
+						this.tabLayout.setVisibility(View.VISIBLE);
 					}
 				}
 			}
 		}
+	}
 
-		if (this.comingEpisodes.isEmpty()) {
-			if (this.emptyView != null) {
-				this.emptyView.setVisibility(View.VISIBLE);
-			}
+	@StringRes
+	/* package */ static int getSectionName(String sectionId) {
+		if (sectionId != null) {
+			String normalizedSectionId = sectionId.toLowerCase();
 
-			if (this.recyclerView != null) {
-				this.recyclerView.setVisibility(View.GONE);
-			}
-		} else {
-			if (this.emptyView != null) {
-				this.emptyView.setVisibility(View.GONE);
-			}
+			switch (normalizedSectionId) {
+				case "later":
+					return R.string.later;
 
-			if (this.recyclerView != null) {
-				this.recyclerView.setVisibility(View.VISIBLE);
+				case "missed":
+					return R.string.missed;
+
+				case "soon":
+					return R.string.soon;
+
+				case "today":
+					return R.string.today;
 			}
 		}
 
-		if (this.adapter != null) {
-			this.adapter.notifyDataSetChanged();
-		}
+		return 0;
 	}
 }

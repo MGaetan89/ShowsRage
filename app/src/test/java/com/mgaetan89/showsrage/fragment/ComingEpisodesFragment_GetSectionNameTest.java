@@ -1,4 +1,4 @@
-package com.mgaetan89.showsrage.adapter;
+package com.mgaetan89.showsrage.fragment;
 
 import com.mgaetan89.showsrage.R;
 
@@ -12,7 +12,7 @@ import java.util.Collection;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(Parameterized.class)
-public class ComingEpisodesAdapter_GetSectionNameTest {
+public class ComingEpisodesFragment_GetSectionNameTest {
 	@Parameterized.Parameter(0)
 	public String sectionId;
 
@@ -21,7 +21,7 @@ public class ComingEpisodesAdapter_GetSectionNameTest {
 
 	@Test
 	public void getSectionName() {
-		assertThat(ComingEpisodesAdapter.getSectionName(this.sectionId)).isEqualTo(this.sectionName);
+		assertThat(ComingEpisodesFragment.getSectionName(this.sectionId)).isEqualTo(this.sectionName);
 	}
 
 	@Parameterized.Parameters

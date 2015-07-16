@@ -4,6 +4,7 @@ import com.mgaetan89.showsrage.model.LogLevel;
 
 public abstract class Constants {
 	public abstract static class Bundle {
+		public static final String COMING_EPISODES = "coming_episodes";
 		public static final String EPISODE_MODEL = "episode_model";
 		public static final String EPISODE_NUMBER = "episode_number";
 		public static final String EPISODES_COUNT = "episodes_count";
