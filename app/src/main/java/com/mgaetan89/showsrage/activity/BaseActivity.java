@@ -321,7 +321,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 				.setContentTitle(this.getString(R.string.app_name))
 				.setContentText(this.getString(R.string.update_available))
 				.setLocalOnly(true)
-				.setSmallIcon(R.mipmap.ic_launcher)
+				.setSmallIcon(R.drawable.ic_notification)
 				.setStyle(
 						new NotificationCompat.BigTextStyle()
 								.bigText(this.getString(

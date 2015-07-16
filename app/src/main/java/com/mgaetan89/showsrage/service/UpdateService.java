@@ -49,7 +49,7 @@ public class UpdateService extends Service implements Callback<GenericResponse>,
 				.setContentText(this.getString(R.string.updating_sickrage))
 				.setLocalOnly(true)
 				.setProgress(0, 0, true)
-				.setSmallIcon(R.mipmap.ic_launcher)
+				.setSmallIcon(R.drawable.ic_notification)
 				.build();
 
 		NotificationManager notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
@@ -84,7 +84,7 @@ public class UpdateService extends Service implements Callback<GenericResponse>,
 				.setContentText(this.getString(messageRes))
 				.setLocalOnly(true)
 				.setProgress(0, 0, false)
-				.setSmallIcon(R.mipmap.ic_launcher)
+				.setSmallIcon(R.drawable.ic_notification)
 				.build();
 
 		NotificationManager notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
