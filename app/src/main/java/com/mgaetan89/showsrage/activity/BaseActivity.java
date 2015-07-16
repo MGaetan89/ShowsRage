@@ -259,7 +259,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 	private void checkForUpdate(final boolean manualCheck) {
 		long lastVersionCheckTime = PreferenceManager.getDefaultSharedPreferences(this).getLong(Constants.Preferences.Fields.LAST_VERSION_CHECK_TIME, 0L);
 
-		if (System.currentTimeMillis() - lastVersionCheckTime > Constants.Preferences.Defaults.VERSION_CHECK_INTERVAL) {
+		if (!shouldCheckForUpdate(manualCheck, lastVersionCheckTime)) {
 			return;
 		}
 
@@ -349,5 +349,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 		NotificationManager notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
 		notificationManager.notify(0, notification);
+	}
+
+	/* package */
+	static boolean shouldCheckForUpdate(boolean manualCheck, long lastCheckTime) {
+		return manualCheck || System.currentTimeMillis() - lastCheckTime >= Constants.Preferences.Defaults.VERSION_CHECK_INTERVAL;
 	}
 }
