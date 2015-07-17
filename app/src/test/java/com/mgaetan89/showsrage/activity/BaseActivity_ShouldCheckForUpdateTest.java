@@ -39,6 +39,7 @@ public class BaseActivity_ShouldCheckForUpdateTest {
 				{false, System.currentTimeMillis() - offset, false},
 				{false, System.currentTimeMillis(), false},
 				{false, System.currentTimeMillis() + offset, false},
+				{false, 0, true},
 
 				// Manual check
 				{true, System.currentTimeMillis() - Constants.Preferences.Defaults.VERSION_CHECK_INTERVAL - offset, true},
@@ -47,6 +48,7 @@ public class BaseActivity_ShouldCheckForUpdateTest {
 				{true, System.currentTimeMillis() - offset, true},
 				{true, System.currentTimeMillis(), true},
 				{true, System.currentTimeMillis() + offset, true},
+				{true, 0, true},
 		});
 	}
 }
