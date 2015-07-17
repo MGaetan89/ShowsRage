@@ -64,7 +64,11 @@ public class EpisodeFragment extends Fragment {
 			}
 
 			if (this.tabLayout != null) {
-				this.tabLayout.getTabAt(episodesCount - episodeNumber).select();
+				TabLayout.Tab tab = this.tabLayout.getTabAt(episodesCount - episodeNumber);
+
+				if (tab != null) {
+					tab.select();
+				}
 			}
 		}
 	}

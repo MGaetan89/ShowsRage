@@ -109,7 +109,10 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 		this.show = (Show) arguments.getSerializable(Constants.Bundle.SHOW_MODEL);
 
 		this.displayEpisode(episode);
-		SickRageApi.getInstance().getServices().getEpisode(this.show.getIndexerId(), this.seasonNumber, this.episodeNumber, this);
+
+		if (this.show != null) {
+			SickRageApi.getInstance().getServices().getEpisode(this.show.getIndexerId(), this.seasonNumber, this.episodeNumber, this);
+		}
 	}
 
 	@Override

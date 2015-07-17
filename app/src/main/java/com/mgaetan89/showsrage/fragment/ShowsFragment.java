@@ -263,14 +263,6 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, View.OnC
 
 	/* package */
 	static boolean isShowValid(@Nullable Show show) {
-		if (show == null) {
-			return false;
-		}
-
-		if (show.getIndexerId() <= 0) {
-			return false;
-		}
-
-		return true;
+		return show != null && show.getIndexerId() > 0;
 	}
 }
