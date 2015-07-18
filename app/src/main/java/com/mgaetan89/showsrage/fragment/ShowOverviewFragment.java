@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -24,11 +25,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
+import com.mgaetan89.showsrage.helper.GenericCallback;
 import com.mgaetan89.showsrage.helper.ImageLoader;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.model.Indexer;
@@ -39,8 +40,10 @@ import com.mgaetan89.showsrage.model.SingleShow;
 import com.mgaetan89.showsrage.network.OmDbApi;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import retrofit.Callback;
@@ -136,17 +139,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 	@NonNull
 	public Callback<GenericResponse> getSetShowQualityCallback() {
-		return new Callback<GenericResponse>() {
-			@Override
-			public void failure(RetrofitError error) {
-				error.printStackTrace();
-			}
-
-			@Override
-			public void success(GenericResponse genericResponse, Response response) {
-				Toast.makeText(getActivity(), genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
-			}
-		};
+		return new GenericCallback(this.getActivity());
 	}
 
 	@Override
@@ -333,116 +326,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 		this.showHidePauseResumeMenus(this.show.getPaused() == 0);
 
-		this.omDbApi.getShow(this.show.getImdbId(), new Callback<Serie>() {
-			@Override
-			public void failure(RetrofitError error) {
-				error.printStackTrace();
-			}
-
-			@Override
-			public void success(Serie serie, Response response) {
-				String actors = serie.getActors();
-				String director = serie.getDirector();
-				String writer = serie.getWriter();
-				boolean hasActors = !"N/A".equalsIgnoreCase(actors);
-				boolean hasDirectors = !"N/A".equalsIgnoreCase(director);
-				boolean hasWriters = !"N/A".equalsIgnoreCase(writer);
-
-				if (hasActors || hasDirectors || hasWriters) {
-					if (awards != null) {
-						String awardsText = serie.getAwards();
-
-						if ("N/A".equalsIgnoreCase(awardsText)) {
-							if (awardsLayout != null) {
-								awardsLayout.setVisibility(View.GONE);
-							}
-						} else {
-							awards.setText(awardsText);
-
-							if (awardsLayout != null) {
-								awardsLayout.setVisibility(View.VISIBLE);
-							}
-						}
-					}
-
-					if (castingActors != null) {
-						if (hasActors) {
-							castingActors.setText(getString(R.string.actors, actors));
-							castingActors.setVisibility(View.VISIBLE);
-						} else {
-							castingActors.setVisibility(View.GONE);
-						}
-					}
-
-					if (castingDirectors != null) {
-						if (hasDirectors) {
-							castingDirectors.setText(getString(R.string.directors, director));
-							castingDirectors.setVisibility(View.VISIBLE);
-						} else {
-							castingDirectors.setVisibility(View.GONE);
-						}
-					}
-
-					if (castingLayout != null) {
-						castingLayout.setVisibility(View.VISIBLE);
-					}
-
-					if (castingWriters != null) {
-						if (hasWriters) {
-							castingWriters.setText(getString(R.string.writers, writer));
-							castingWriters.setVisibility(View.VISIBLE);
-						} else {
-							castingWriters.setVisibility(View.GONE);
-						}
-					}
-				} else {
-					if (castingLayout != null) {
-						castingLayout.setVisibility(View.GONE);
-					}
-				}
-
-				if (languageCountry != null) {
-					languageCountry.setText(getString(R.string.language_county, serie.getLanguage(), serie.getCountry()));
-					languageCountry.setVisibility(View.VISIBLE);
-				}
-
-				if (plot != null) {
-					String plotText = serie.getPlot();
-
-					if ("N/A".equalsIgnoreCase(plotText)) {
-						if (plotLayout != null) {
-							plotLayout.setVisibility(View.GONE);
-						}
-					} else {
-						plot.setText(plotText);
-
-						if (plotLayout != null) {
-							plotLayout.setVisibility(View.VISIBLE);
-						}
-					}
-				}
-
-				if (rated != null) {
-					rated.setText(getString(R.string.rated, serie.getRated()));
-					rated.setVisibility(View.VISIBLE);
-				}
-
-				if (rating != null) {
-					rating.setText(getString(R.string.rating, serie.getImdbRating(), serie.getImdbVotes()));
-					rating.setVisibility(View.VISIBLE);
-				}
-
-				if (runtime != null) {
-					runtime.setText(getString(R.string.runtime, serie.getRuntime()));
-					runtime.setVisibility(View.VISIBLE);
-				}
-
-				if (year != null) {
-					year.setText(getString(R.string.year, serie.getYear()));
-					year.setVisibility(View.VISIBLE);
-				}
-			}
-		});
+		this.omDbApi.getShow(this.show.getImdbId(), new OmdbShowCallback(this));
 
 		if (this.airs != null) {
 			String airs = this.show.getAirs();
@@ -553,19 +437,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 	private void deleteShow() {
 		final int indexerId = this.show.getIndexerId();
-		final Callback<GenericResponse> callback = new Callback<GenericResponse>() {
-			@Override
-			public void failure(RetrofitError error) {
-				error.printStackTrace();
-			}
-
-			@Override
-			public void success(GenericResponse genericResponse, Response response) {
-				Toast.makeText(getActivity(), genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
-
-				NavUtils.navigateUpFromSameTask(getActivity());
-			}
-		};
+		final Callback<GenericResponse> callback = new DeleteShowCallback(this.getActivity());
 
 		new AlertDialog.Builder(this.getActivity())//
 				.setTitle(this.getString(R.string.delete_show_title, this.show.getShowName()))//
@@ -587,7 +459,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	}
 
 	@NonNull
-	private List<String> getTranslatedQualities(@Nullable List<String> qualities, boolean allowed) {
+	private List<String> getTranslatedQualities(@Nullable Collection<String> qualities, boolean allowed) {
 		List<String> translatedQualities = new ArrayList<>();
 
 		if (qualities == null || qualities.isEmpty()) {
@@ -640,17 +512,12 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	private void pauseOrResumeShow(final boolean pause) {
 		this.showHidePauseResumeMenus(!pause);
 
-		SickRageApi.getInstance().getServices().pauseShow(this.show.getIndexerId(), pause ? 1 : 0, new Callback<GenericResponse>() {
+		SickRageApi.getInstance().getServices().pauseShow(this.show.getIndexerId(), pause ? 1 : 0, new GenericCallback(this.getActivity()) {
 			@Override
 			public void failure(RetrofitError error) {
-				error.printStackTrace();
+				super.failure(error);
 
-				showHidePauseResumeMenus(pause);
-			}
-
-			@Override
-			public void success(GenericResponse genericResponse, Response response) {
-				Toast.makeText(getActivity(), genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
+				ShowOverviewFragment.this.showHidePauseResumeMenus(pause);
 			}
 		});
 	}
@@ -662,6 +529,142 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 		if (this.resumeMenu != null) {
 			this.resumeMenu.setVisible(!isPause);
+		}
+	}
+
+	private static final class DeleteShowCallback extends GenericCallback {
+		private DeleteShowCallback(FragmentActivity activity) {
+			super(activity);
+		}
+
+		@Override
+		public void success(GenericResponse genericResponse, Response response) {
+			super.success(genericResponse, response);
+
+			NavUtils.navigateUpFromSameTask(this.getActivity());
+		}
+	}
+
+	private static final class OmdbShowCallback implements Callback<Serie> {
+		private WeakReference<ShowOverviewFragment> fragmentReference = null;
+
+		private OmdbShowCallback(ShowOverviewFragment fragment) {
+			this.fragmentReference = new WeakReference<>(fragment);
+		}
+
+		@Override
+		public void failure(RetrofitError error) {
+			error.printStackTrace();
+		}
+
+		@Override
+		public void success(Serie serie, Response response) {
+			ShowOverviewFragment fragment = this.fragmentReference.get();
+
+			if (fragment == null) {
+				return;
+			}
+
+			String actors = serie.getActors();
+			String director = serie.getDirector();
+			String writer = serie.getWriter();
+			boolean hasActors = !"N/A".equalsIgnoreCase(actors);
+			boolean hasDirectors = !"N/A".equalsIgnoreCase(director);
+			boolean hasWriters = !"N/A".equalsIgnoreCase(writer);
+
+			if (hasActors || hasDirectors || hasWriters) {
+				if (fragment.awards != null) {
+					String awardsText = serie.getAwards();
+
+					if ("N/A".equalsIgnoreCase(awardsText)) {
+						if (fragment.awardsLayout != null) {
+							fragment.awardsLayout.setVisibility(View.GONE);
+						}
+					} else {
+						fragment.awards.setText(awardsText);
+
+						if (fragment.awardsLayout != null) {
+							fragment.awardsLayout.setVisibility(View.VISIBLE);
+						}
+					}
+				}
+
+				if (fragment.castingActors != null) {
+					if (hasActors) {
+						fragment.castingActors.setText(fragment.getString(R.string.actors, actors));
+						fragment.castingActors.setVisibility(View.VISIBLE);
+					} else {
+						fragment.castingActors.setVisibility(View.GONE);
+					}
+				}
+
+				if (fragment.castingDirectors != null) {
+					if (hasDirectors) {
+						fragment.castingDirectors.setText(fragment.getString(R.string.directors, director));
+						fragment.castingDirectors.setVisibility(View.VISIBLE);
+					} else {
+						fragment.castingDirectors.setVisibility(View.GONE);
+					}
+				}
+
+				if (fragment.castingLayout != null) {
+					fragment.castingLayout.setVisibility(View.VISIBLE);
+				}
+
+				if (fragment.castingWriters != null) {
+					if (hasWriters) {
+						fragment.castingWriters.setText(fragment.getString(R.string.writers, writer));
+						fragment.castingWriters.setVisibility(View.VISIBLE);
+					} else {
+						fragment.castingWriters.setVisibility(View.GONE);
+					}
+				}
+			} else {
+				if (fragment.castingLayout != null) {
+					fragment.castingLayout.setVisibility(View.GONE);
+				}
+			}
+
+			if (fragment.languageCountry != null) {
+				fragment.languageCountry.setText(fragment.getString(R.string.language_county, serie.getLanguage(), serie.getCountry()));
+				fragment.languageCountry.setVisibility(View.VISIBLE);
+			}
+
+			if (fragment.plot != null) {
+				String plotText = serie.getPlot();
+
+				if ("N/A".equalsIgnoreCase(plotText)) {
+					if (fragment.plotLayout != null) {
+						fragment.plotLayout.setVisibility(View.GONE);
+					}
+				} else {
+					fragment.plot.setText(plotText);
+
+					if (fragment.plotLayout != null) {
+						fragment.plotLayout.setVisibility(View.VISIBLE);
+					}
+				}
+			}
+
+			if (fragment.rated != null) {
+				fragment.rated.setText(fragment.getString(R.string.rated, serie.getRated()));
+				fragment.rated.setVisibility(View.VISIBLE);
+			}
+
+			if (fragment.rating != null) {
+				fragment.rating.setText(fragment.getString(R.string.rating, serie.getImdbRating(), serie.getImdbVotes()));
+				fragment.rating.setVisibility(View.VISIBLE);
+			}
+
+			if (fragment.runtime != null) {
+				fragment.runtime.setText(fragment.getString(R.string.runtime, serie.getRuntime()));
+				fragment.runtime.setVisibility(View.VISIBLE);
+			}
+
+			if (fragment.year != null) {
+				fragment.year.setText(fragment.getString(R.string.year, serie.getYear()));
+				fragment.year.setVisibility(View.VISIBLE);
+			}
 		}
 	}
 }

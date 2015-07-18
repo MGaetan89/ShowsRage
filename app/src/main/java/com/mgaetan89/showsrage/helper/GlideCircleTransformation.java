@@ -29,7 +29,7 @@ public class GlideCircleTransformation implements Transformation<Bitmap> {
 		int width = (source.getWidth() - size) / 2;
 		int height = (source.getHeight() - size) / 2;
 
-		Bitmap bitmap = mBitmapPool.get(size, size, Bitmap.Config.ARGB_8888);
+		Bitmap bitmap = this.mBitmapPool.get(size, size, Bitmap.Config.ARGB_8888);
 		if (bitmap == null) {
 			bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
 		}
@@ -46,10 +46,11 @@ public class GlideCircleTransformation implements Transformation<Bitmap> {
 		paint.setShader(shader);
 		paint.setAntiAlias(true);
 
+		@SuppressWarnings("MagicNumber")
 		float r = size / 2f;
 		canvas.drawCircle(r, r, r, paint);
 
-		return BitmapResource.obtain(bitmap, mBitmapPool);
+		return BitmapResource.obtain(bitmap, this.mBitmapPool);
 	}
 
 	@Override

@@ -102,19 +102,20 @@ public class ShowActivity extends BaseActivity implements EpisodesAdapter.OnEpis
 		}
 
 		final Callback<GenericResponse> callback = this;
+		final int indexerId = this.show.getIndexerId();
 
 		new AlertDialog.Builder(this)
 				.setMessage(R.string.replace_existing_episode)
 				.setPositiveButton(R.string.replace, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						SickRageApi.getInstance().getServices().setEpisodeStatus(show.getIndexerId(), seasonNumber, episodeNumber, 1, status, callback);
+						SickRageApi.getInstance().getServices().setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 1, status, callback);
 					}
 				})
 				.setNegativeButton(R.string.keep, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						SickRageApi.getInstance().getServices().setEpisodeStatus(show.getIndexerId(), seasonNumber, episodeNumber, 0, status, callback);
+						SickRageApi.getInstance().getServices().setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 0, status, callback);
 					}
 				})
 				.show();

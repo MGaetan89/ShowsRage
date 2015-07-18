@@ -115,7 +115,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 
 			if (context instanceof OnSearchResultSelectedListener) {
 				int id = 0;
-				SearchResultItem searchResult = searchResults.get(this.getAdapterPosition());
+				SearchResultItem searchResult = SearchResultsAdapter.this.searchResults.get(this.getAdapterPosition());
 
 				if (searchResult.getIndexer() == 1) {
 					id = searchResult.getTvDbId();

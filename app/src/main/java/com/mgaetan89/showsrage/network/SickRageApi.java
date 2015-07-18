@@ -10,7 +10,7 @@ import com.mgaetan89.showsrage.model.Indexer;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 
-public class SickRageApi implements RequestInterceptor {
+public final class SickRageApi implements RequestInterceptor {
 	private String apiKey = "";
 
 	@NonNull

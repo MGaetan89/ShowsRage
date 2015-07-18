@@ -99,8 +99,8 @@ public class LogsFragment extends Fragment implements Callback<Logs>, SwipeRefre
 					public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 						super.onScrolled(recyclerView, dx, dy);
 
-						if (swipeRefreshLayout != null) {
-							swipeRefreshLayout.setEnabled(!recyclerView.canScrollVertically(-1));
+						if (LogsFragment.this.swipeRefreshLayout != null) {
+							LogsFragment.this.swipeRefreshLayout.setEnabled(!recyclerView.canScrollVertically(-1));
 						}
 					}
 				});

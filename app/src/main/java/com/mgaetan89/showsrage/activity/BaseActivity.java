@@ -34,6 +34,8 @@ import com.mgaetan89.showsrage.model.UpdateResponse;
 import com.mgaetan89.showsrage.model.UpdateResponseWrapper;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
+import java.lang.ref.WeakReference;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -213,7 +215,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 			this.drawerLayout.post(new Runnable() {
 				@Override
 				public void run() {
-					drawerToggle.syncState();
+					if (BaseActivity.this.drawerToggle != null) {
+						BaseActivity.this.drawerToggle.syncState();
+					}
 				}
 			});
 		}
@@ -263,21 +267,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 			return;
 		}
 
-		SickRageApi.getInstance().getServices().checkForUpdate(new Callback<UpdateResponseWrapper>() {
-			@Override
-			public void failure(RetrofitError error) {
-				// SickRage may not support this request
-				// SickRage version 4.0.30 is required
-				error.printStackTrace();
-			}
-
-			@Override
-			public void success(UpdateResponseWrapper updateResponseWrapper, Response response) {
-				if (updateResponseWrapper != null) {
-					handleCheckForUpdateResponse(updateResponseWrapper.getData(), manualCheck);
-				}
-			}
-		});
+		SickRageApi.getInstance().getServices().checkForUpdate(new CheckForUpdateCallback(this, manualCheck));
 	}
 
 	private void displayHomeAsUp(boolean displayHomeAsUp) {
@@ -302,57 +292,87 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		}
 	}
 
-	private void handleCheckForUpdateResponse(@Nullable UpdateResponse update, boolean manualCheck) {
-		if (update == null) {
-			return;
-		}
-
-		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-		editor.putLong(Constants.Preferences.Fields.LAST_VERSION_CHECK_TIME, System.currentTimeMillis());
-		editor.apply();
-
-		if (!update.needsUpdate()) {
-			if (manualCheck) {
-				Toast.makeText(this, R.string.no_update, Toast.LENGTH_SHORT).show();
-			}
-
-			return;
-		}
-
-		if (manualCheck) {
-			Toast.makeText(this, R.string.new_update, Toast.LENGTH_SHORT).show();
-		}
-
-		Intent intent = new Intent(this, UpdateActivity.class);
-		intent.putExtra(Constants.Bundle.UPDATE_MODEL, update);
-
-		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-		Notification notification = new NotificationCompat.Builder(this)
-				.setAutoCancel(true)
-				.setColor(this.getResources().getColor(R.color.primary))
-				.setContentIntent(pendingIntent)
-				.setContentTitle(this.getString(R.string.app_name))
-				.setContentText(this.getString(R.string.update_available))
-				.setLocalOnly(true)
-				.setSmallIcon(R.drawable.ic_notification)
-				.setStyle(
-						new NotificationCompat.BigTextStyle()
-								.bigText(this.getString(
-										R.string.update_available_detailed,
-										update.getCurrentVersion().getVersion(),
-										update.getLatestVersion().getVersion(),
-										update.getCommitsOffset()
-								))
-				)
-				.build();
-
-		NotificationManager notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
-		notificationManager.notify(0, notification);
-	}
-
 	/* package */
 	static boolean shouldCheckForUpdate(boolean manualCheck, long lastCheckTime) {
 		return manualCheck || System.currentTimeMillis() - lastCheckTime >= Constants.Preferences.Defaults.VERSION_CHECK_INTERVAL;
+	}
+
+	private static final class CheckForUpdateCallback implements Callback<UpdateResponseWrapper> {
+		private boolean manualCheck = false;
+		private WeakReference<AppCompatActivity> activityReference = null;
+
+		private CheckForUpdateCallback(AppCompatActivity activity, boolean manualCheck) {
+			this.activityReference = new WeakReference<>(activity);
+			this.manualCheck = manualCheck;
+		}
+
+		@Override
+		public void failure(RetrofitError error) {
+			// SickRage may not support this request
+			// SickRage version 4.0.30 is required
+			error.printStackTrace();
+		}
+
+		@Override
+		public void success(UpdateResponseWrapper updateResponseWrapper, Response response) {
+			if (updateResponseWrapper != null) {
+				this.handleCheckForUpdateResponse(updateResponseWrapper.getData(), this.manualCheck);
+			}
+		}
+
+		private void handleCheckForUpdateResponse(@Nullable UpdateResponse update, boolean manualCheck) {
+			if (update == null) {
+				return;
+			}
+
+			AppCompatActivity activity = this.activityReference.get();
+
+			if (activity == null) {
+				return;
+			}
+
+			SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(activity).edit();
+			editor.putLong(Constants.Preferences.Fields.LAST_VERSION_CHECK_TIME, System.currentTimeMillis());
+			editor.apply();
+
+			if (!update.needsUpdate()) {
+				if (manualCheck) {
+					Toast.makeText(activity, R.string.no_update, Toast.LENGTH_SHORT).show();
+				}
+
+				return;
+			}
+
+			if (manualCheck) {
+				Toast.makeText(activity, R.string.new_update, Toast.LENGTH_SHORT).show();
+			}
+
+			Intent intent = new Intent(activity, UpdateActivity.class);
+			intent.putExtra(Constants.Bundle.UPDATE_MODEL, update);
+
+			PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+			Notification notification = new NotificationCompat.Builder(activity)
+					.setAutoCancel(true)
+					.setColor(activity.getResources().getColor(R.color.primary))
+					.setContentIntent(pendingIntent)
+					.setContentTitle(activity.getString(R.string.app_name))
+					.setContentText(activity.getString(R.string.update_available))
+					.setLocalOnly(true)
+					.setSmallIcon(R.drawable.ic_notification)
+					.setStyle(
+							new NotificationCompat.BigTextStyle()
+									.bigText(activity.getString(
+											R.string.update_available_detailed,
+											update.getCurrentVersion().getVersion(),
+											update.getLatestVersion().getVersion(),
+											update.getCommitsOffset()
+									))
+					)
+					.build();
+
+			NotificationManager notificationManager = (NotificationManager) activity.getSystemService(NOTIFICATION_SERVICE);
+			notificationManager.notify(0, notification);
+		}
 	}
 }

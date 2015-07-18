@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,10 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.adapter.HistoriesAdapter;
+import com.mgaetan89.showsrage.helper.GenericCallback;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.model.Histories;
 import com.mgaetan89.showsrage.model.History;
@@ -83,31 +84,7 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
-		SickRageApi.getInstance().getServices().clearHistory(new Callback<GenericResponse>() {
-			@Override
-			public void failure(RetrofitError error) {
-				error.printStackTrace();
-			}
-
-			@Override
-			public void success(GenericResponse genericResponse, Response response) {
-				Toast.makeText(getActivity(), genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
-
-				histories.clear();
-
-				if (adapter != null) {
-					adapter.notifyDataSetChanged();
-				}
-
-				if (clearHistory != null) {
-					clearHistory.setVisibility(View.GONE);
-				}
-
-				if (emptyView != null) {
-					emptyView.setVisibility(View.VISIBLE);
-				}
-			}
-		});
+		SickRageApi.getInstance().getServices().clearHistory(new ClearHistoryCallback(this.getActivity()));
 	}
 
 	@Nullable
@@ -129,8 +106,8 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 					public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 						super.onScrolled(recyclerView, dx, dy);
 
-						if (swipeRefreshLayout != null) {
-							swipeRefreshLayout.setEnabled(!recyclerView.canScrollVertically(-1));
+						if (HistoryFragment.this.swipeRefreshLayout != null) {
+							HistoryFragment.this.swipeRefreshLayout.setEnabled(!recyclerView.canScrollVertically(-1));
 						}
 					}
 				});
@@ -226,5 +203,32 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 				.setPositiveButton(R.string.clear, this)
 				.setNegativeButton(android.R.string.cancel, null)
 				.show();
+	}
+
+	private final class ClearHistoryCallback extends GenericCallback {
+		private ClearHistoryCallback(FragmentActivity activity) {
+			super(activity);
+		}
+
+		@Override
+		public void success(GenericResponse genericResponse, Response response) {
+			super.success(genericResponse, response);
+
+			HistoryFragment fragment = HistoryFragment.this;
+
+			fragment.histories.clear();
+
+			if (fragment.adapter != null) {
+				fragment.adapter.notifyDataSetChanged();
+			}
+
+			if (fragment.clearHistory != null) {
+				fragment.clearHistory.setVisibility(View.GONE);
+			}
+
+			if (fragment.emptyView != null) {
+				fragment.emptyView.setVisibility(View.VISIBLE);
+			}
+		}
 	}
 }

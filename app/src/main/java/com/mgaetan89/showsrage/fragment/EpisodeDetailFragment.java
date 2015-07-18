@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
+import com.mgaetan89.showsrage.helper.GenericCallback;
 import com.mgaetan89.showsrage.model.Episode;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.model.Show;
@@ -123,17 +124,7 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 
 		Toast.makeText(this.getActivity(), this.getString(R.string.episode_search, this.episodeNumber, this.seasonNumber), Toast.LENGTH_SHORT).show();
 
-		SickRageApi.getInstance().getServices().searchEpisode(this.show.getIndexerId(), this.seasonNumber, this.episodeNumber, new Callback<GenericResponse>() {
-			@Override
-			public void failure(RetrofitError error) {
-				error.printStackTrace();
-			}
-
-			@Override
-			public void success(GenericResponse genericResponse, Response response) {
-				Toast.makeText(getActivity(), genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
-			}
-		});
+		SickRageApi.getInstance().getServices().searchEpisode(this.show.getIndexerId(), this.seasonNumber, this.episodeNumber, new GenericCallback(this.getActivity()));
 	}
 
 	@Override
@@ -320,30 +311,21 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 			return;
 		}
 
-		final Callback<GenericResponse> callback = new Callback<GenericResponse>() {
-			@Override
-			public void failure(RetrofitError error) {
-				error.printStackTrace();
-			}
-
-			@Override
-			public void success(GenericResponse genericResponse, Response response) {
-				Toast.makeText(getActivity(), genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
-			}
-		};
+		final Callback<GenericResponse> callback = new GenericCallback(this.getActivity());
+		final int indexerId = this.show.getIndexerId();
 
 		new AlertDialog.Builder(this.getActivity())
 				.setMessage(R.string.replace_existing_episode)
 				.setPositiveButton(R.string.replace, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						SickRageApi.getInstance().getServices().setEpisodeStatus(show.getIndexerId(), seasonNumber, episodeNumber, 1, status, callback);
+						SickRageApi.getInstance().getServices().setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 1, status, callback);
 					}
 				})
 				.setNegativeButton(R.string.keep, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						SickRageApi.getInstance().getServices().setEpisodeStatus(show.getIndexerId(), seasonNumber, episodeNumber, 0, status, callback);
+						SickRageApi.getInstance().getServices().setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 0, status, callback);
 					}
 				})
 				.show();

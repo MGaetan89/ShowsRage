@@ -106,8 +106,8 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, View.OnC
 					public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 						super.onScrolled(recyclerView, dx, dy);
 
-						if (swipeRefreshLayout != null) {
-							swipeRefreshLayout.setEnabled(!recyclerView.canScrollVertically(-1));
+						if (ShowsFragment.this.swipeRefreshLayout != null) {
+							ShowsFragment.this.swipeRefreshLayout.setEnabled(!recyclerView.canScrollVertically(-1));
 						}
 					}
 				});
@@ -163,39 +163,7 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, View.OnC
 			String command = getCommand(this.shows);
 			Map<String, Integer> parameters = getCommandParameters(this.shows);
 
-			SickRageApi.getInstance().getServices().getShowStats(command, parameters, new Callback<ShowStatsWrapper>() {
-				@Override
-				public void failure(RetrofitError error) {
-					error.printStackTrace();
-				}
-
-				@Override
-				public void success(ShowStatsWrapper showStatsWrapper, Response response) {
-					ShowStatWrapper data = showStatsWrapper.getData();
-					Map<Integer, ShowStats> showStats = data.getShowStats();
-
-					if (showStats != null) {
-						for (Map.Entry<Integer, ShowStats> entry : showStats.entrySet()) {
-							ShowStat showStatsData = entry.getValue().getData();
-							int indexerId = entry.getKey();
-
-							for (Show show : ShowsFragment.this.shows) {
-								if (show.getIndexerId() == indexerId) {
-									show.setEpisodesCount(showStatsData.getTotal());
-									show.setDownloaded(showStatsData.getTotalDone());
-									show.setSnatched(showStatsData.getTotalPending());
-
-									break;
-								}
-							}
-						}
-					}
-
-					if (adapter != null) {
-						adapter.notifyDataSetChanged();
-					}
-				}
-			});
+			SickRageApi.getInstance().getServices().getShowStats(command, parameters, new ShowStatsCallback());
 		}
 
 		if (this.shows.isEmpty()) {
@@ -222,7 +190,7 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, View.OnC
 	}
 
 	@NonNull
-	/* package */ static String getCommand(@Nullable List<Show> shows) {
+	/* package */ static String getCommand(@Nullable Iterable<Show> shows) {
 		StringBuilder command = new StringBuilder();
 
 		if (shows != null) {
@@ -243,7 +211,7 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, View.OnC
 	}
 
 	@NonNull
-	/* package */ static Map<String, Integer> getCommandParameters(@Nullable List<Show> shows) {
+	/* package */ static Map<String, Integer> getCommandParameters(@Nullable Iterable<Show> shows) {
 		Map<String, Integer> parameters = new HashMap<>();
 
 		if (shows != null) {
@@ -264,5 +232,39 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, View.OnC
 	/* package */
 	static boolean isShowValid(@Nullable Show show) {
 		return show != null && show.getIndexerId() > 0;
+	}
+
+	private final class ShowStatsCallback implements Callback<ShowStatsWrapper> {
+		@Override
+		public void failure(RetrofitError error) {
+			error.printStackTrace();
+		}
+
+		@Override
+		public void success(ShowStatsWrapper showStatsWrapper, Response response) {
+			ShowStatWrapper data = showStatsWrapper.getData();
+			Map<Integer, ShowStats> showStats = data.getShowStats();
+
+			if (showStats != null) {
+				for (Map.Entry<Integer, ShowStats> entry : showStats.entrySet()) {
+					ShowStat showStatsData = entry.getValue().getData();
+					int indexerId = entry.getKey();
+
+					for (Show show : ShowsFragment.this.shows) {
+						if (show.getIndexerId() == indexerId) {
+							show.setEpisodesCount(showStatsData.getTotal());
+							show.setDownloaded(showStatsData.getTotalDone());
+							show.setSnatched(showStatsData.getTotalPending());
+
+							break;
+						}
+					}
+				}
+			}
+
+			if (ShowsFragment.this.adapter != null) {
+				ShowsFragment.this.adapter.notifyDataSetChanged();
+			}
+		}
 	}
 }

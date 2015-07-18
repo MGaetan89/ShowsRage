@@ -129,7 +129,7 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<ComingEpisodesAd
 				Context context = this.actions.getContext();
 
 				if (context instanceof OnEpisodeActionSelectedListener) {
-					ComingEpisode comingEpisode = comingEpisodes.get(this.getAdapterPosition());
+					ComingEpisode comingEpisode = ComingEpisodesAdapter.this.comingEpisodes.get(this.getAdapterPosition());
 
 					if (comingEpisode != null) {
 						((OnEpisodeActionSelectedListener) context).onEpisodeActionSelected(comingEpisode.getSeason(), comingEpisode.getEpisode(), comingEpisode.getIndexerId(), item);

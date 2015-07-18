@@ -137,10 +137,13 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 				popupMenu.setOnMenuItemClickListener(this);
 				popupMenu.show();
 			} else {
-				Episode episode = episodes.get(this.getAdapterPosition());
+				EpisodesAdapter adapter = EpisodesAdapter.this;
+				Episode episode = adapter.episodes.get(this.getAdapterPosition());
 
 				if (context instanceof OnEpisodeSelectedListener && episode != null) {
-					((OnEpisodeSelectedListener) context).onEpisodeSelected(seasonNumber, getItemCount() - this.getAdapterPosition(), episode, getItemCount());
+					int itemCount = adapter.getItemCount();
+
+					((OnEpisodeSelectedListener) context).onEpisodeSelected(adapter.seasonNumber, itemCount - this.getAdapterPosition(), episode, itemCount);
 				}
 			}
 		}
@@ -151,7 +154,9 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 				Context context = this.actions.getContext();
 
 				if (context instanceof OnEpisodeActionSelectedListener) {
-					((OnEpisodeActionSelectedListener) context).onEpisodeActionSelected(seasonNumber, getItemCount() - this.getAdapterPosition(), item);
+					EpisodesAdapter adapter = EpisodesAdapter.this;
+
+					((OnEpisodeActionSelectedListener) context).onEpisodeActionSelected(adapter.seasonNumber, adapter.getItemCount() - this.getAdapterPosition(), item);
 
 					return true;
 				}

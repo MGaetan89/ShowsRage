@@ -121,7 +121,7 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 		@Override
 		public void onClick(View view) {
 			Context context = view.getContext();
-			Show show = shows.get(this.getAdapterPosition());
+			Show show = ShowsAdapter.this.shows.get(this.getAdapterPosition());
 
 			if (context instanceof OnShowSelectedListener && show != null) {
 				((OnShowSelectedListener) context).onShowSelected(show);

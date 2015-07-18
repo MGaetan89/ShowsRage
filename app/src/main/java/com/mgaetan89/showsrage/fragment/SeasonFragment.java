@@ -93,8 +93,8 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 					public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 						super.onScrolled(recyclerView, dx, dy);
 
-						if (swipeRefreshLayout != null) {
-							swipeRefreshLayout.setEnabled(!recyclerView.canScrollVertically(-1));
+						if (SeasonFragment.this.swipeRefreshLayout != null) {
+							SeasonFragment.this.swipeRefreshLayout.setEnabled(!recyclerView.canScrollVertically(-1));
 						}
 					}
 				});

@@ -23,6 +23,8 @@ import com.mgaetan89.showsrage.model.ApiKey;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
+import java.lang.ref.WeakReference;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -109,50 +111,11 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 		String username = this.getPreferenceValue("server_username", null);
 		String password = this.getPreferenceValue("server_password", null);
 
-		SickRageApi.getInstance().getServices().getApiKey(username, password, new Callback<ApiKey>() {
-			@Override
-			public void failure(RetrofitError error) {
-				showApiKeyResult(null);
-			}
-
-			@Override
-			public void success(ApiKey apiKey, Response response) {
-				if (apiKey.isSuccess()) {
-					showApiKeyResult(apiKey.getApiKey());
-				} else {
-					showApiKeyResult(null);
-				}
-			}
-		});
+		SickRageApi.getInstance().getServices().getApiKey(username, password, new ApiKeyCallback(this));
 	}
 
 	private String getPreferenceValue(String key, String defaultValue) {
 		return this.getPreferenceManager().getSharedPreferences().getString(key, defaultValue);
-	}
-
-	private void setPreferenceValue(String key, String value) {
-		SharedPreferences sharedPreferences = this.getPreferenceManager().getSharedPreferences();
-		sharedPreferences.edit().putString(key, value).apply();
-	}
-
-	private void showApiKeyResult(@Nullable String apiKey) {
-		int messageId;
-
-		if (TextUtils.isEmpty(apiKey)) {
-			messageId = R.string.get_api_key_error;
-		} else {
-			this.setPreferenceValue("api_key", apiKey);
-			this.findPreference("api_key").setSummary(apiKey);
-			this.findPreference("get_api_key").setSummary(apiKey);
-
-			messageId = R.string.get_api_key_success;
-		}
-
-		new AlertDialog.Builder(this.getActivity())
-				.setCancelable(true)
-				.setMessage(messageId)
-				.setPositiveButton(android.R.string.ok, null)
-				.show();
 	}
 
 	private void showTestResult(boolean successful) {
@@ -187,7 +150,7 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						canceled = true;
+						SettingsFragment.this.canceled = true;
 
 						dialog.dismiss();
 					}
@@ -228,6 +191,59 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 			} else {
 				updatePreference(preference);
 			}
+		}
+	}
+
+	private static final class ApiKeyCallback implements Callback<ApiKey> {
+		private WeakReference<SettingsFragment> fragmentReference = null;
+
+		private ApiKeyCallback(SettingsFragment fragment) {
+			this.fragmentReference = new WeakReference<>(fragment);
+		}
+
+		@Override
+		public void failure(RetrofitError error) {
+			this.showApiKeyResult(null);
+		}
+
+		@Override
+		public void success(ApiKey apiKey, Response response) {
+			if (apiKey.isSuccess()) {
+				this.showApiKeyResult(apiKey.getApiKey());
+			} else {
+				this.showApiKeyResult(null);
+			}
+		}
+
+		private void setPreferenceValue(SettingsFragment fragment, String key, String value) {
+			SharedPreferences sharedPreferences = fragment.getPreferenceManager().getSharedPreferences();
+			sharedPreferences.edit().putString(key, value).apply();
+		}
+
+		private void showApiKeyResult(@Nullable String apiKey) {
+			SettingsFragment fragment = this.fragmentReference.get();
+
+			if (fragment == null) {
+				return;
+			}
+
+			int messageId;
+
+			if (TextUtils.isEmpty(apiKey)) {
+				messageId = R.string.get_api_key_error;
+			} else {
+				this.setPreferenceValue(fragment, "api_key", apiKey);
+				fragment.findPreference("api_key").setSummary(apiKey);
+				fragment.findPreference("get_api_key").setSummary(apiKey);
+
+				messageId = R.string.get_api_key_success;
+			}
+
+			new AlertDialog.Builder(fragment.getActivity())
+					.setCancelable(true)
+					.setMessage(messageId)
+					.setPositiveButton(android.R.string.ok, null)
+					.show();
 		}
 	}
 }

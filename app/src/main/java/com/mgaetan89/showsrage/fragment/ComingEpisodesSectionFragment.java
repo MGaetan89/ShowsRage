@@ -17,6 +17,7 @@ import com.mgaetan89.showsrage.adapter.ComingEpisodesAdapter;
 import com.mgaetan89.showsrage.model.ComingEpisode;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ComingEpisodesSectionFragment extends Fragment {
@@ -42,7 +43,7 @@ public class ComingEpisodesSectionFragment extends Fragment {
 		Bundle arguments = this.getArguments();
 
 		if (arguments != null) {
-			ArrayList<ComingEpisode> comingEpisodes = (ArrayList<ComingEpisode>) arguments.getSerializable(Constants.Bundle.COMING_EPISODES);
+			Collection<ComingEpisode> comingEpisodes = (Collection<ComingEpisode>) arguments.getSerializable(Constants.Bundle.COMING_EPISODES);
 
 			if (comingEpisodes != null) {
 				this.comingEpisodes.addAll(comingEpisodes);
