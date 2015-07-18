@@ -23,34 +23,29 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 @RunWith(Parameterized.class)
-public class ChangeQualityFragment_GetPreferredQualityTest {
+public class AddShowOptionsFragment_GetStatusTest {
 	@Parameterized.Parameter(1)
-	public String preferresQuality;
+	public String status;
 
 	@Parameterized.Parameter(0)
 	public Spinner spinner;
 
-	private ChangeQualityFragment fragment;
+	private AddShowOptionsFragment fragment;
 
 	@Before
 	public void before() {
 		Resources resources = mock(Resources.class);
-		when(resources.getStringArray(R.array.preferred_qualities_keys)).thenReturn(new String[]{
-				"sdtv",
-				"sddvd",
-				"hdtv",
-				"rawhdtv",
-				"fullhdtv",
-				"hdwebdl",
-				"fullhdwebdl",
-				"hdbluray",
-				"fullhdbluray",
+		when(resources.getStringArray(R.array.status_keys)).thenReturn(new String[]{
+				"wanted",
+				"skipped",
+				"archived",
+				"ignored",
 		});
 
 		FragmentActivity activity = mock(FragmentActivity.class);
 		when(activity.getResources()).thenReturn(resources);
 
-		this.fragment = spy(new ChangeQualityFragment());
+		this.fragment = spy(new AddShowOptionsFragment());
 
 		try {
 			Field fragmentActivityField = Fragment.class.getDeclaredField("mActivity");
@@ -66,8 +61,8 @@ public class ChangeQualityFragment_GetPreferredQualityTest {
 	}
 
 	@Test
-	public void getPreferredQuality() {
-		assertThat(this.fragment.getPreferredQuality(this.spinner)).isEqualTo(this.preferresQuality);
+	public void getStatus() {
+		assertThat(this.fragment.getStatus(this.spinner)).isEqualTo(this.status);
 	}
 
 	@After
@@ -78,19 +73,13 @@ public class ChangeQualityFragment_GetPreferredQualityTest {
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][]{
-				{null, "sdtv"},
+				{null, "wanted"},
 				{getMockedSpinner(-1), null},
-				{getMockedSpinner(0), null},
-				{getMockedSpinner(1), "sdtv"},
-				{getMockedSpinner(2), "sddvd"},
-				{getMockedSpinner(3), "hdtv"},
-				{getMockedSpinner(4), "rawhdtv"},
-				{getMockedSpinner(5), "fullhdtv"},
-				{getMockedSpinner(6), "hdwebdl"},
-				{getMockedSpinner(7), "fullhdwebdl"},
-				{getMockedSpinner(8), "hdbluray"},
-				{getMockedSpinner(9), "fullhdbluray"},
-				{getMockedSpinner(10), null},
+				{getMockedSpinner(0), "wanted"},
+				{getMockedSpinner(1), "skipped"},
+				{getMockedSpinner(2), "archived"},
+				{getMockedSpinner(3), "ignored"},
+				{getMockedSpinner(4), null},
 		});
 	}
 

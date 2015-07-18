@@ -23,34 +23,48 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 @RunWith(Parameterized.class)
-public class ChangeQualityFragment_GetPreferredQualityTest {
+public class AddShowOptionsFragment_GetLanguageTest {
 	@Parameterized.Parameter(1)
-	public String preferresQuality;
+	public String language;
 
 	@Parameterized.Parameter(0)
 	public Spinner spinner;
 
-	private ChangeQualityFragment fragment;
+	private AddShowOptionsFragment fragment;
 
 	@Before
 	public void before() {
 		Resources resources = mock(Resources.class);
-		when(resources.getStringArray(R.array.preferred_qualities_keys)).thenReturn(new String[]{
-				"sdtv",
-				"sddvd",
-				"hdtv",
-				"rawhdtv",
-				"fullhdtv",
-				"hdwebdl",
-				"fullhdwebdl",
-				"hdbluray",
-				"fullhdbluray",
+		when(resources.getStringArray(R.array.languages_keys)).thenReturn(new String[]{
+				"en",
+				"fr",
+				"cs",
+				"da",
+				"de",
+				"el",
+				"es",
+				"fi",
+				"he",
+				"hr",
+				"hu",
+				"it",
+				"ja",
+				"ko",
+				"nl",
+				"no",
+				"pl",
+				"pt",
+				"ru",
+				"sl",
+				"sv",
+				"tr",
+				"zh",
 		});
 
 		FragmentActivity activity = mock(FragmentActivity.class);
 		when(activity.getResources()).thenReturn(resources);
 
-		this.fragment = spy(new ChangeQualityFragment());
+		this.fragment = spy(new AddShowOptionsFragment());
 
 		try {
 			Field fragmentActivityField = Fragment.class.getDeclaredField("mActivity");
@@ -66,8 +80,8 @@ public class ChangeQualityFragment_GetPreferredQualityTest {
 	}
 
 	@Test
-	public void getPreferredQuality() {
-		assertThat(this.fragment.getPreferredQuality(this.spinner)).isEqualTo(this.preferresQuality);
+	public void getLanguage() {
+		assertThat(this.fragment.getLanguage(this.spinner)).isEqualTo(this.language);
 	}
 
 	@After
@@ -78,19 +92,32 @@ public class ChangeQualityFragment_GetPreferredQualityTest {
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][]{
-				{null, "sdtv"},
+				{null, "en"},
 				{getMockedSpinner(-1), null},
-				{getMockedSpinner(0), null},
-				{getMockedSpinner(1), "sdtv"},
-				{getMockedSpinner(2), "sddvd"},
-				{getMockedSpinner(3), "hdtv"},
-				{getMockedSpinner(4), "rawhdtv"},
-				{getMockedSpinner(5), "fullhdtv"},
-				{getMockedSpinner(6), "hdwebdl"},
-				{getMockedSpinner(7), "fullhdwebdl"},
-				{getMockedSpinner(8), "hdbluray"},
-				{getMockedSpinner(9), "fullhdbluray"},
-				{getMockedSpinner(10), null},
+				{getMockedSpinner(0), "en"},
+				{getMockedSpinner(1), "fr"},
+				{getMockedSpinner(2), "cs"},
+				{getMockedSpinner(3), "da"},
+				{getMockedSpinner(4), "de"},
+				{getMockedSpinner(5), "el"},
+				{getMockedSpinner(6), "es"},
+				{getMockedSpinner(7), "fi"},
+				{getMockedSpinner(8), "he"},
+				{getMockedSpinner(9), "hr"},
+				{getMockedSpinner(10), "hu"},
+				{getMockedSpinner(11), "it"},
+				{getMockedSpinner(12), "ja"},
+				{getMockedSpinner(13), "ko"},
+				{getMockedSpinner(14), "nl"},
+				{getMockedSpinner(15), "no"},
+				{getMockedSpinner(16), "pl"},
+				{getMockedSpinner(17), "pt"},
+				{getMockedSpinner(18), "ru"},
+				{getMockedSpinner(19), "sl"},
+				{getMockedSpinner(20), "sv"},
+				{getMockedSpinner(21), "tr"},
+				{getMockedSpinner(22), "zh"},
+				{getMockedSpinner(23), null},
 		});
 	}
 

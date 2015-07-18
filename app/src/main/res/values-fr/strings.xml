@@ -7,10 +7,12 @@
 	<string name="actions">Actions</string>
 	<string name="active">En cours : <xliff:g example="1" id="active">%1$s</xliff:g></string>
 	<string name="actors">Acteurs : <xliff:g example="Kat Dennings, Beth Behrs, Garrett Morris, Jonathan Kite" id="actors">%1$s</xliff:g></string>
+	<string name="add">Ajouter</string>
 	<string name="add_show">Ajouter une série</string>
 	<string name="address">URL</string>
 	<string name="airs">Diffusion : <xliff:g example="Lundi 20:00" id="airs">%1$s</xliff:g></string>
 	<string name="allowed_quality">Qualité autorisée</string>
+	<string name="anime">Animé</string>
 	<string name="api_key">Clé de l\'API</string>
 	<string name="archived">Archivé</string>
 	<string name="awards">Récompenses</string>
@@ -54,8 +56,9 @@
 	<string name="ignored">Ignoré</string>
 	<string name="info">Info</string>
 	<string name="keep">Conserver</string>
-	<string name="language">Langue : <xliff:g example="Anglais" id="language">%1$s</xliff:g></string>
+	<string name="language">Langue</string>
 	<string name="language_county">Langue : <xliff:g example="Anglais" id="language">%1$s</xliff:g> (<xliff:g example="Etats-Unis" id="country">%2$s</xliff:g>)</string>
+	<string name="language_value">Langue : <xliff:g example="Anglais" id="language">%1$s</xliff:g></string>
 	<string name="later">A venir</string>
 	<string name="licenses">Licences</string>
 	<string name="location">Emplacement : <xliff:g example="/Séries/2 Broke Girls" id="location">%1$s</xliff:g></string>
@@ -111,8 +114,10 @@
 	<string name="source_code">Code source</string>
 	<string name="specials">Spéciaux</string>
 	<string name="statistics">Statistiques</string>
-	<string name="status">Status : <xliff:g example="En cours" id="status">%1$s</xliff:g></string>
+	<string name="status">Statut</string>
 	<string name="status_from"><xliff:g example="Téléchargé" id="status">%1$s</xliff:g> depuis <xliff:g example="KAT" id="provider">%2$s</xliff:g></string>
+	<string name="status_value">Statut : <xliff:g example="En cours" id="status">%1$s</xliff:g></string>
+	<string name="subtitles">Sous-titres</string>
 	<string name="test">Tester</string>
 	<string name="testing_server_settings">Test de la configuration du serveur</string>
 	<string name="today">Aujourd\'hui</string>

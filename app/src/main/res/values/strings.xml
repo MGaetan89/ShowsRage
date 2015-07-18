@@ -7,10 +7,12 @@
 	<string name="actions">Actions</string>
 	<string name="active">Active: <xliff:g example="1" id="active">%1$s</xliff:g></string>
 	<string name="actors">Actors: <xliff:g example="Kat Dennings, Beth Behrs, Garrett Morris, Jonathan Kite" id="actors">%1$s</xliff:g></string>
+	<string name="add">Add</string>
 	<string name="add_show">Add show</string>
 	<string name="address">Address</string>
 	<string name="airs">Airs: <xliff:g example="Monday 8:00 PM" id="airs">%1$s</xliff:g></string>
 	<string name="allowed_quality">Allowed quality</string>
+	<string name="anime">Anime</string>
 	<string name="api_key">API Key</string>
 	<string name="archived">Archived</string>
 	<string name="awards">Awards</string>
@@ -54,8 +56,9 @@
 	<string name="ignored">Ignored</string>
 	<string name="info">Info</string>
 	<string name="keep">Keep</string>
-	<string name="language">Language: <xliff:g example="English" id="language">%1$s</xliff:g></string>
+	<string name="language">Language</string>
 	<string name="language_county">Language: <xliff:g example="English" id="language">%1$s</xliff:g> (<xliff:g example="USA" id="country">%2$s</xliff:g>)</string>
+	<string name="language_value">Language: <xliff:g example="English" id="language">%1$s</xliff:g></string>
 	<string name="later">Later</string>
 	<string name="licenses">Licenses</string>
 	<string name="location">Location: <xliff:g example="/Shows/2 Broke Girls" id="location">%1$s</xliff:g></string>
@@ -111,8 +114,10 @@
 	<string name="source_code">Source code</string>
 	<string name="specials">Specials</string>
 	<string name="statistics">Statistics</string>
-	<string name="status">Status: <xliff:g example="Continuing" id="status">%1$s</xliff:g></string>
+	<string name="status">Status</string>
 	<string name="status_from"><xliff:g example="Downloaded" id="status">%1$s</xliff:g> from <xliff:g example="KAT" id="provider">%2$s</xliff:g></string>
+	<string name="status_value">Status: <xliff:g example="Continuing" id="status">%1$s</xliff:g></string>
+	<string name="subtitles">Subtitles</string>
 	<string name="test">Test</string>
 	<string name="testing_server_settings">Testing server settings</string>
 	<string name="today">Today</string>

@@ -23,19 +23,19 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 @RunWith(Parameterized.class)
-public class ChangeQualityFragment_GetPreferredQualityTest {
+public class AddShowOptionsFragment_GetAllowedQualityTest {
 	@Parameterized.Parameter(1)
-	public String preferresQuality;
+	public String allowedQuality;
 
 	@Parameterized.Parameter(0)
 	public Spinner spinner;
 
-	private ChangeQualityFragment fragment;
+	private AddShowOptionsFragment fragment;
 
 	@Before
 	public void before() {
 		Resources resources = mock(Resources.class);
-		when(resources.getStringArray(R.array.preferred_qualities_keys)).thenReturn(new String[]{
+		when(resources.getStringArray(R.array.allowed_qualities_keys)).thenReturn(new String[]{
 				"sdtv",
 				"sddvd",
 				"hdtv",
@@ -45,12 +45,13 @@ public class ChangeQualityFragment_GetPreferredQualityTest {
 				"fullhdwebdl",
 				"hdbluray",
 				"fullhdbluray",
+				"unknown",
 		});
 
 		FragmentActivity activity = mock(FragmentActivity.class);
 		when(activity.getResources()).thenReturn(resources);
 
-		this.fragment = spy(new ChangeQualityFragment());
+		this.fragment = spy(new AddShowOptionsFragment());
 
 		try {
 			Field fragmentActivityField = Fragment.class.getDeclaredField("mActivity");
@@ -66,8 +67,8 @@ public class ChangeQualityFragment_GetPreferredQualityTest {
 	}
 
 	@Test
-	public void getPreferredQuality() {
-		assertThat(this.fragment.getPreferredQuality(this.spinner)).isEqualTo(this.preferresQuality);
+	public void getAllowedQuality() {
+		assertThat(this.fragment.getAllowedQuality(this.spinner)).isEqualTo(this.allowedQuality);
 	}
 
 	@After
@@ -90,7 +91,8 @@ public class ChangeQualityFragment_GetPreferredQualityTest {
 				{getMockedSpinner(7), "fullhdwebdl"},
 				{getMockedSpinner(8), "hdbluray"},
 				{getMockedSpinner(9), "fullhdbluray"},
-				{getMockedSpinner(10), null},
+				{getMockedSpinner(10), "unknown"},
+				{getMockedSpinner(11), null},
 		});
 	}
 

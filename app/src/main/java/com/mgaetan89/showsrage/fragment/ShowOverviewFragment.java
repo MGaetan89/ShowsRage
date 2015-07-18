@@ -357,7 +357,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		}
 
 		if (this.languageCountry != null) {
-			this.languageCountry.setText(this.getString(R.string.language, this.show.getLanguage()));
+			this.languageCountry.setText(this.getString(R.string.language_value, this.show.getLanguage()));
 			this.languageCountry.setVisibility(View.VISIBLE);
 		}
 
@@ -418,7 +418,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 		if (this.status != null) {
 			if (TextUtils.isEmpty(nextEpisodeAirDate)) {
-				this.status.setText(this.getString(R.string.status, this.show.getStatus()));
+				this.status.setText(this.getString(R.string.status_value, this.show.getStatus()));
 				this.status.setVisibility(View.VISIBLE);
 			} else {
 				this.status.setVisibility(View.GONE);

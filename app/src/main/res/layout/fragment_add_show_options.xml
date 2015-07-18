@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical"
+	android:padding="@dimen/padding"
+	tools:context="com.mgaetan89.showsrage.fragment.AddShowOptionsFragment">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/padding"
+		android:orientation="horizontal">
+
+		<TextView
+			style="@style/TextAppearance.AppCompat"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/preferred_quality"/>
+
+		<Spinner
+			android:id="@+id/preferred_quality"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:entries="@array/preferred_qualities_values"
+			tools:listitem="@android:layout/simple_list_item_1"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/padding"
+		android:orientation="horizontal">
+
+		<TextView
+			style="@style/TextAppearance.AppCompat"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/allowed_quality"/>
+
+		<Spinner
+			android:id="@+id/allowed_quality"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:entries="@array/allowed_qualities_values"
+			tools:listitem="@android:layout/simple_list_item_1"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/padding"
+		android:orientation="horizontal">
+
+		<TextView
+			style="@style/TextAppearance.AppCompat"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/status"/>
+
+		<Spinner
+			android:id="@+id/status"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:entries="@array/status_values"
+			tools:listitem="@android:layout/simple_list_item_1"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/padding"
+		android:orientation="horizontal">
+
+		<TextView
+			style="@style/TextAppearance.AppCompat"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/language"/>
+
+		<Spinner
+			android:id="@+id/language"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:entries="@array/languages_values"
+			tools:listitem="@android:layout/simple_list_item_1"/>
+	</LinearLayout>
+
+	<android.support.v7.widget.SwitchCompat
+		android:id="@+id/anime"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/padding"
+		android:text="@string/anime"/>
+
+	<android.support.v7.widget.SwitchCompat
+		android:id="@+id/subtitles"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/subtitles"/>
+</LinearLayout>

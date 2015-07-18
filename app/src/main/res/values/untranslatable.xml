@@ -32,6 +32,58 @@
 		<item>@string/unknown</item>
 	</string-array>
 
+	<string-array name="languages_keys" translatable="false">
+		<item>en</item>
+		<item>fr</item>
+		<item>cs</item>
+		<item>da</item>
+		<item>de</item>
+		<item>el</item>
+		<item>es</item>
+		<item>fi</item>
+		<item>he</item>
+		<item>hr</item>
+		<item>hu</item>
+		<item>it</item>
+		<item>ja</item>
+		<item>ko</item>
+		<item>nl</item>
+		<item>no</item>
+		<item>pl</item>
+		<item>pt</item>
+		<item>ru</item>
+		<item>sl</item>
+		<item>sv</item>
+		<item>tr</item>
+		<item>zh</item>
+	</string-array>
+
+	<string-array name="languages_values" translatable="false">
+		<item>English</item>
+		<item>Français</item>
+		<item>čEština</item>
+		<item>Dansk</item>
+		<item>Deutsch</item>
+		<item>ελληνικά</item>
+		<item>Español</item>
+		<item>Suomi</item>
+		<item>עברית</item>
+		<item>Hrvatski Jezik</item>
+		<item>Magyar</item>
+		<item>Italiano</item>
+		<item>日本語 (にほんご)</item>
+		<item>한국어 (韓國語)</item>
+		<item>Nederlands</item>
+		<item>Norsk</item>
+		<item>Polski</item>
+		<item>Português</item>
+		<item>русский язык</item>
+		<item>Slovenski Jezik</item>
+		<item>Svenska</item>
+		<item>Türkçe</item>
+		<item>中文 (Zhōngwén)</item>
+	</string-array>
+
 	<string-array name="preferred_qualities_keys" translatable="false">
 		<item>sdtv</item>
 		<item>sddvd</item>
@@ -55,5 +107,19 @@
 		<item>1080p WEL-DL</item>
 		<item>720p BluRay</item>
 		<item>1080p BluRay</item>
+	</string-array>
+
+	<string-array name="status_keys" translatable="false">
+		<item>wanted</item>
+		<item>skipped</item>
+		<item>archived</item>
+		<item>ignored</item>
+	</string-array>
+
+	<string-array name="status_values">
+		<item>@string/wanted</item>
+		<item>@string/skipped</item>
+		<item>@string/archived</item>
+		<item>@string/ignored</item>
 	</string-array>
 </resources>

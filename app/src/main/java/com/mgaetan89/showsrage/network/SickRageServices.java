@@ -25,7 +25,7 @@ import retrofit.http.QueryMap;
 
 public interface SickRageServices {
 	@GET("/{api_path}/{api_key}/?cmd=show.addnew")
-	void addNewShow(@Query("indexerid") int indexerId, Callback<GenericResponse> callback);
+	void addNewShow(@Query("indexerid") int indexerId, @Query("archive") String preferredQuality, @Query("initial") String allowedQuality, @Query("status") String status, @Query("lang") String language, @Query("anime") int anime, @Query("subtitles") int subtitles, Callback<GenericResponse> callback);
 
 	@GET("/{api_path}/{api_key}/?cmd=sb.checkversion")
 	void checkForUpdate(Callback<UpdateResponseWrapper> callback);

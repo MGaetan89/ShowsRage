@@ -23,14 +23,14 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 @RunWith(Parameterized.class)
-public class ChangeQualityFragment_GetPreferredQualityTest {
+public class AddShowOptionsFragment_GetPreferredQualityTest {
 	@Parameterized.Parameter(1)
 	public String preferresQuality;
 
 	@Parameterized.Parameter(0)
 	public Spinner spinner;
 
-	private ChangeQualityFragment fragment;
+	private AddShowOptionsFragment fragment;
 
 	@Before
 	public void before() {
@@ -50,7 +50,7 @@ public class ChangeQualityFragment_GetPreferredQualityTest {
 		FragmentActivity activity = mock(FragmentActivity.class);
 		when(activity.getResources()).thenReturn(resources);
 
-		this.fragment = spy(new ChangeQualityFragment());
+		this.fragment = spy(new AddShowOptionsFragment());
 
 		try {
 			Field fragmentActivityField = Fragment.class.getDeclaredField("mActivity");
