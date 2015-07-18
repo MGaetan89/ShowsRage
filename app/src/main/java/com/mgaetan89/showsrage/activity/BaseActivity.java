@@ -6,24 +6,32 @@ import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.IntentCompat;
+import android.support.v4.graphics.ColorUtils;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.mgaetan89.showsrage.Constants;
@@ -41,6 +49,12 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public abstract class BaseActivity extends AppCompatActivity implements Callback<GenericResponse>, NavigationView.OnNavigationItemSelectedListener {
+	@Nullable
+	private AppBarLayout appBarLayout = null;
+
+	@Nullable
+	private LinearLayout drawerHeader = null;
+
 	@Nullable
 	private DrawerLayout drawerLayout = null;
 
@@ -179,6 +193,18 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		return super.onOptionsItemSelected(item);
 	}
 
+	public void setPalette(Palette palette) {
+		Palette.Swatch swatch = palette.getVibrantSwatch();
+
+		if (swatch == null) {
+			swatch = palette.getMutedSwatch();
+		}
+
+		if (swatch != null) {
+			this.setThemeColors(swatch.getRgb());
+		}
+	}
+
 	@Override
 	public void success(GenericResponse genericResponse, Response response) {
 		Toast.makeText(this, genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -204,6 +230,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 		this.setTitle(this.getTitleResourceId());
 
+		this.appBarLayout = (AppBarLayout) this.findViewById(R.id.app_bar);
+		this.drawerHeader = (LinearLayout) this.findViewById(R.id.drawer_header);
 		this.drawerLayout = (DrawerLayout) this.findViewById(R.id.drawer_layout);
 		this.navigationView = (NavigationView) this.findViewById(R.id.drawer_content);
 		Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
@@ -238,6 +266,17 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 				this.getSupportFragmentManager().beginTransaction()
 						.replace(R.id.content, fragment)
 						.commit();
+			}
+		}
+
+		// Set the colors of the Activity
+		Intent intent = this.getIntent();
+
+		if (intent != null) {
+			int colorPrimary = intent.getIntExtra(Constants.Bundle.COLOR_PRIMARY, 0);
+
+			if (colorPrimary != 0) {
+				this.setThemeColors(colorPrimary);
 			}
 		}
 	}
@@ -290,6 +329,44 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 				this.drawerToggle.setDrawerIndicatorEnabled(true);
 			}
 		}
+	}
+
+	private void setThemeColors(int colorPrimary) {
+		float colorPrimaryDark[] = new float[3];
+		ColorUtils.colorToHSL(colorPrimary, colorPrimaryDark);
+		colorPrimaryDark[2] *= 0.8f;
+
+		if (this.appBarLayout != null) {
+			ViewCompat.setBackgroundTintList(this.appBarLayout, ColorStateList.valueOf(colorPrimary));
+		}
+
+		if (this.drawerHeader != null) {
+			this.drawerHeader.setBackgroundColor(colorPrimary);
+		}
+
+		if (this.navigationView != null) {
+			int colors[] = {
+					colorPrimary,
+					Color.WHITE
+			};
+			int states[][] = {
+					{android.R.attr.state_checked},
+					{}
+			};
+			ColorStateList colorStateList = new ColorStateList(states, colors);
+
+			this.navigationView.setItemIconTintList(colorStateList);
+			this.navigationView.setItemTextColor(colorStateList);
+			// FIXME https://code.google.com/p/android/issues/detail?id=178205
+			this.navigationView.getMenu().setGroupVisible(R.id.menu_sections, false);
+			this.navigationView.getMenu().setGroupVisible(R.id.menu_sections, true);
+		}
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			this.getWindow().setStatusBarColor(ColorUtils.HSLToColor(colorPrimaryDark));
+		}
+
+		this.getIntent().putExtra(Constants.Bundle.COLOR_PRIMARY, colorPrimary);
 	}
 
 	/* package */

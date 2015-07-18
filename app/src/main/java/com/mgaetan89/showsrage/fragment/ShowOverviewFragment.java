@@ -13,6 +13,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -28,6 +29,7 @@ import android.widget.TextView;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
+import com.mgaetan89.showsrage.activity.BaseActivity;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
 import com.mgaetan89.showsrage.helper.GenericCallback;
 import com.mgaetan89.showsrage.helper.ImageLoader;
@@ -51,7 +53,7 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class ShowOverviewFragment extends Fragment implements Callback<SingleShow>, View.OnClickListener {
+public class ShowOverviewFragment extends Fragment implements Callback<SingleShow>, View.OnClickListener, Palette.PaletteAsyncListener {
 	@Nullable
 	private TextView airs = null;
 
@@ -293,6 +295,15 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	}
 
 	@Override
+	public void onGenerated(Palette palette) {
+		FragmentActivity activity = this.getActivity();
+
+		if (activity instanceof BaseActivity) {
+			((BaseActivity) activity).setPalette(palette);
+		}
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_change_quality:
@@ -396,7 +407,8 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			ImageLoader.load(
 					this.poster,
 					SickRageApi.getInstance().getPosterUrl(this.show.getTvDbId(), Indexer.TVDB),
-					false
+					false,
+					this
 			);
 
 			this.poster.setContentDescription(this.show.getShowName());

@@ -15,12 +15,12 @@
 		android:orientation="vertical">
 
 		<android.support.design.widget.AppBarLayout
+			android:id="@+id/app_bar"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
 			<android.support.v7.widget.Toolbar
 				android:id="@+id/toolbar"
-				style="@style/Toolbar"
 				android:layout_width="match_parent"
 				android:layout_height="?attr/actionBarSize"/>
 
@@ -28,7 +28,6 @@
 				android:id="@+id/tabs"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:background="?attr/colorPrimary"
 				android:clipToPadding="false"
 				android:visibility="gone"
 				app:tabMode="scrollable"
