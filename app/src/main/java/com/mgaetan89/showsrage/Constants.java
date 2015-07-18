@@ -22,7 +22,7 @@ public abstract class Constants {
 
 		public abstract static class Defaults {
 			public static final LogLevel LOGS_LEVEL = LogLevel.ERROR;
-			public static final long VERSION_CHECK_INTERVAL = 12 * 60 * 60 * 1000;
+			public static final long VERSION_CHECK_INTERVAL = 4 * 60 * 60 * 1000;
 		}
 	}
 }
