@@ -87,16 +87,16 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		@Nullable
-		public TextView firstAired;
+		public final TextView firstAired;
 
 		@Nullable
-		public TextView indexer;
+		public final TextView indexer;
 
 		@Nullable
-		public ImageView logo;
+		public final ImageView logo;
 
 		@Nullable
-		public TextView name;
+		public final TextView name;
 
 		public ViewHolder(View view) {
 			super(view);

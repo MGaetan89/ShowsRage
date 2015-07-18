@@ -5,7 +5,7 @@
 	<string name="the_tvdb" translatable="false">The TVDB</string>
 	<string name="tvrage" translatable="false">TVRage</string>
 
-	<string-array name="allowed_qualities_keys">
+	<string-array name="allowed_qualities_keys" translatable="false">
 		<item>sdtv</item>
 		<item>sddvd</item>
 		<item>hdtv</item>
@@ -18,7 +18,7 @@
 		<item>unknown</item>
 	</string-array>
 
-	<string-array name="allowed_qualities_values">
+	<string-array name="allowed_qualities_values" translatable="false">
 		<item>@string/ignore</item>
 		<item>SDTV</item>
 		<item>SD DVD</item>
@@ -32,7 +32,7 @@
 		<item>@string/unknown</item>
 	</string-array>
 
-	<string-array name="preferred_qualities_keys">
+	<string-array name="preferred_qualities_keys" translatable="false">
 		<item>sdtv</item>
 		<item>sddvd</item>
 		<item>hdtv</item>
@@ -44,7 +44,7 @@
 		<item>fullhdbluray</item>
 	</string-array>
 
-	<string-array name="preferred_qualities_values">
+	<string-array name="preferred_qualities_values" translatable="false">
 		<item>@string/ignore</item>
 		<item>SDTV</item>
 		<item>SD DVD</item>

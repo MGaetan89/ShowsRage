@@ -92,19 +92,19 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		@Nullable
-		public ImageView logo;
+		public final ImageView logo;
 
 		@Nullable
-		public TextView name;
+		public final TextView name;
 
 		@Nullable
-		public TextView networkQuality;
+		public final TextView networkQuality;
 
 		@Nullable
-		public TextView nextEpisodeDate;
+		public final TextView nextEpisodeDate;
 
 		@Nullable
-		public ProgressBar progress;
+		public final ProgressBar progress;
 
 		public ViewHolder(View view) {
 			super(view);

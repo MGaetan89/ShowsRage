@@ -87,19 +87,19 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<ComingEpisodesAd
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 		@Nullable
-		public ImageView actions;
+		public final ImageView actions;
 
 		@Nullable
-		public TextView date;
+		public final TextView date;
 
 		@Nullable
-		public ImageView logo;
+		public final ImageView logo;
 
 		@Nullable
-		public TextView name;
+		public final TextView name;
 
 		@Nullable
-		public TextView networkQuality;
+		public final TextView networkQuality;
 
 		public ViewHolder(View view) {
 			super(view);

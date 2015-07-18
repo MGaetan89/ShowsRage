@@ -27,7 +27,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 	@NonNull
 	private List<Episode> episodes = Collections.emptyList();
 
-	private int seasonNumber;
+	private final int seasonNumber;
 
 	public interface OnEpisodeActionSelectedListener {
 		void onEpisodeActionSelected(int seasonNumber, int episodeNumber, MenuItem action);
@@ -97,19 +97,19 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 		@Nullable
-		public ImageView actions;
+		public final ImageView actions;
 
 		@Nullable
-		public TextView date;
+		public final TextView date;
 
 		@Nullable
-		public TextView name;
+		public final TextView name;
 
 		@Nullable
-		public TextView quality;
+		public final TextView quality;
 
 		@Nullable
-		public TextView status;
+		public final TextView status;
 
 		public ViewHolder(View view) {
 			super(view);

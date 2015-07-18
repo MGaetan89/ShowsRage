@@ -5,7 +5,6 @@
 	<dimen name="fab_spacing">88dp</dimen>
 	<dimen name="grid_margin">0dp</dimen>
 	<dimen name="list_item_height">72dp</dimen>
-	<dimen name="list_item_height_small">48dp</dimen>
 	<dimen name="padding">16dp</dimen>
 	<dimen name="padding_half">8dp</dimen>
 </resources>

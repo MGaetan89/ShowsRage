@@ -46,7 +46,7 @@ public class AddShowFragment extends Fragment implements Callback<SearchResults>
 	private RecyclerView recyclerView = null;
 
 	@NonNull
-	private List<SearchResultItem> searchResults = new ArrayList<>();
+	private final List<SearchResultItem> searchResults = new ArrayList<>();
 
 	public AddShowFragment() {
 		this.setHasOptionsMenu(true);

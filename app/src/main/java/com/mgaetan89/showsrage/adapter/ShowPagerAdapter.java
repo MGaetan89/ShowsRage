@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ShowPagerAdapter extends FragmentStatePagerAdapter {
 	@NonNull
-	private Fragment fragment;
+	private final Fragment fragment;
 
 	@NonNull
 	private List<Integer> seasons = Collections.emptyList();

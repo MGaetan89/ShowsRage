@@ -17,6 +17,6 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="center"
-		android:text="@string/no_episodes"
+		android:text="@string/no_coming_episodes"
 		android:visibility="gone"/>
 </FrameLayout>

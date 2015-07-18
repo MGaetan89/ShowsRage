@@ -86,16 +86,16 @@ public class HistoriesAdapter extends RecyclerView.Adapter<HistoriesAdapter.View
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
 		@Nullable
-		public TextView date;
+		public final TextView date;
 
 		@Nullable
-		public ImageView logo;
+		public final ImageView logo;
 
 		@Nullable
-		public TextView name;
+		public final TextView name;
 
 		@Nullable
-		public TextView statusProvider;
+		public final TextView statusProvider;
 
 		public ViewHolder(View view) {
 			super(view);

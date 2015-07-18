@@ -16,7 +16,7 @@ import java.util.List;
 
 public class EpisodePagerAdapter extends FragmentStatePagerAdapter {
 	@NonNull
-	private Fragment fragment;
+	private final Fragment fragment;
 
 	@NonNull
 	private List<Integer> episodes = Collections.emptyList();

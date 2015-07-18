@@ -3,7 +3,7 @@ package com.mgaetan89.showsrage.model;
 public enum Indexer {
 	TVDB("tvdbid"), TVRAGE("tvrageid");
 
-	private String paramName;
+	private final String paramName;
 
 	Indexer(String paramName) {
 		this.paramName = paramName;

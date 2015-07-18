@@ -61,13 +61,13 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
 		@Nullable
-		public TextView dateTime;
+		public final TextView dateTime;
 
 		@Nullable
-		public TextView errorType;
+		public final TextView errorType;
 
 		@Nullable
-		public TextView message;
+		public final TextView message;
 
 		public ViewHolder(View view) {
 			super(view);

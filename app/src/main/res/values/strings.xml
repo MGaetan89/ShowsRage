@@ -90,7 +90,6 @@
 	<string name="replace_existing_episode">Replace the current episode if it was already downloaded?</string>
 	<string name="restart">Restart</string>
 	<string name="restart_confirm">Are you sure you want to restart SickRage?</string>
-	<string name="restart_sickrage">Restart SickRage</string>
 	<string name="resume_show">Resume show</string>
 	<string name="runtime">Runtime: <xliff:g example="22 min" id="runtime">%1$s</xliff:g></string>
 	<string name="search">Search</string>

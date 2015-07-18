@@ -15,7 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.BitmapResource;
 // Version: 1.0.5
 // Link: https://github.com/wasabeef/glide-transformations/blob/1.0.5/transformations/src/main/java/jp/wasabeef/glide/transformations/CropCircleTransformation.java
 public class GlideCircleTransformation implements Transformation<Bitmap> {
-	private BitmapPool mBitmapPool;
+	private final BitmapPool mBitmapPool;
 
 	public GlideCircleTransformation(BitmapPool pool) {
 		this.mBitmapPool = pool;
