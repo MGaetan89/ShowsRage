@@ -106,6 +106,7 @@
 	<string name="show">Série</string>
 	<string name="show_name_episode"><xliff:g example="2 Broke Girls" id="show_name">%1$s</xliff:g> - S<xliff:g example="01" id="season">%2$02d</xliff:g>E<xliff:g example="01" id="episode">%3$02d</xliff:g></string>
 	<string name="shows">Séries</string>
+	<string name="sickrage_4030_required">Cette fonctionnalité nécessite SickRage version 4.0.30</string>
 	<string name="sickrage_updated">SickRage a bien été mis à jour</string>
 	<string name="skipped">Passé</string>
 	<string name="snatched">Récupéré</string>
