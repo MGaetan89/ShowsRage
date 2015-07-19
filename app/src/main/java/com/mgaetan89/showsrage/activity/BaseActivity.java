@@ -390,10 +390,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		public void failure(RetrofitError error) {
 			// SickRage may not support this request
 			// SickRage version 4.0.30 is required
-			AppCompatActivity activity = this.activityReference.get();
+			if (this.manualCheck) {
+				AppCompatActivity activity = this.activityReference.get();
 
-			if (activity != null) {
-				Toast.makeText(activity, R.string.sickrage_4030_required, Toast.LENGTH_SHORT).show();
+				if (activity != null) {
+					Toast.makeText(activity, R.string.sickrage_4030_required, Toast.LENGTH_SHORT).show();
+				}
 			}
 
 			error.printStackTrace();
