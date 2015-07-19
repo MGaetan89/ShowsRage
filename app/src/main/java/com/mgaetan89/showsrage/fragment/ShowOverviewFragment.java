@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -79,6 +81,9 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	private TextView genre = null;
 
 	@Nullable
+	private Button imdb = null;
+
+	@Nullable
 	private TextView languageCountry = null;
 
 	@Nullable
@@ -126,6 +131,12 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 	@Nullable
 	private TextView status = null;
+
+	@Nullable
+	private Button theTvDb = null;
+
+	@Nullable
+	private Button tvRage = null;
 
 	@Nullable
 	private TextView year = null;
@@ -231,6 +242,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			this.castingLayout = (CardView) view.findViewById(R.id.show_casting_layout);
 			this.castingWriters = (TextView) view.findViewById(R.id.show_casting_writers);
 			this.genre = (TextView) view.findViewById(R.id.show_genre);
+			this.imdb = (Button) view.findViewById(R.id.show_imdb);
 			this.languageCountry = (TextView) view.findViewById(R.id.show_language_country);
 			this.location = (TextView) view.findViewById(R.id.show_location);
 			this.name = (TextView) view.findViewById(R.id.show_name);
@@ -244,22 +256,21 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			this.rating = (TextView) view.findViewById(R.id.show_rating);
 			this.runtime = (TextView) view.findViewById(R.id.show_runtime);
 			this.status = (TextView) view.findViewById(R.id.show_status);
+			this.theTvDb = (Button) view.findViewById(R.id.show_the_tvdb);
+			this.tvRage = (Button) view.findViewById(R.id.show_tvrage);
 			this.year = (TextView) view.findViewById(R.id.show_year);
 
-			Button imdb = (Button) view.findViewById(R.id.show_imdb);
-			Button theTvDb = (Button) view.findViewById(R.id.show_the_tvdb);
-			Button tvRage = (Button) view.findViewById(R.id.show_tvrage);
 
-			if (imdb != null) {
-				imdb.setOnClickListener(this);
+			if (this.imdb != null) {
+				this.imdb.setOnClickListener(this);
 			}
 
-			if (theTvDb != null) {
-				theTvDb.setOnClickListener(this);
+			if (this.theTvDb != null) {
+				this.theTvDb.setOnClickListener(this);
 			}
 
-			if (tvRage != null) {
-				tvRage.setOnClickListener(this);
+			if (this.tvRage != null) {
+				this.tvRage.setOnClickListener(this);
 			}
 		}
 
@@ -276,6 +287,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		this.castingLayout = null;
 		this.castingWriters = null;
 		this.genre = null;
+		this.imdb = null;
 		this.languageCountry = null;
 		this.location = null;
 		this.name = null;
@@ -289,6 +301,8 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		this.rating = null;
 		this.runtime = null;
 		this.status = null;
+		this.theTvDb = null;
+		this.tvRage = null;
 		this.year = null;
 
 		super.onDestroyView();
@@ -298,8 +312,30 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	public void onGenerated(Palette palette) {
 		FragmentActivity activity = this.getActivity();
 
-		if (activity instanceof BaseActivity) {
-			((BaseActivity) activity).setPalette(palette);
+		if (!(activity instanceof BaseActivity)) {
+			return;
+		}
+
+		((BaseActivity) activity).setPalette(palette);
+
+		int tintColor = this.getActivity().getIntent().getIntExtra(Constants.Bundle.COLOR_PRIMARY, 0);
+
+		if (tintColor == 0) {
+			return;
+		}
+
+		ColorStateList colorStateList = ColorStateList.valueOf(tintColor);
+
+		if (this.imdb != null) {
+			ViewCompat.setBackgroundTintList(this.imdb, colorStateList);
+		}
+
+		if (this.theTvDb != null) {
+			ViewCompat.setBackgroundTintList(this.theTvDb, colorStateList);
+		}
+
+		if (this.tvRage != null) {
+			ViewCompat.setBackgroundTintList(this.tvRage, colorStateList);
 		}
 	}
 
