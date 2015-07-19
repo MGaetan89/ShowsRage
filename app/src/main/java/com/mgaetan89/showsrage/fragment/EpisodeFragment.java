@@ -41,6 +41,7 @@ public class EpisodeFragment extends Fragment {
 		this.tabLayout = (TabLayout) this.getActivity().findViewById(R.id.tabs);
 
 		if (this.tabLayout != null && this.viewPager != null) {
+			this.tabLayout.setupWithViewPager(this.viewPager);
 			this.tabLayout.setVisibility(View.VISIBLE);
 		}
 
@@ -59,16 +60,12 @@ public class EpisodeFragment extends Fragment {
 
 				if (this.tabLayout != null) {
 					this.tabLayout.setTabsFromPagerAdapter(this.adapter);
-				}
-			}
 
-			if (this.tabLayout != null) {
-				this.tabLayout.setupWithViewPager(this.viewPager);
+					TabLayout.Tab tab = this.tabLayout.getTabAt(episodesCount - episodeNumber);
 
-				TabLayout.Tab tab = this.tabLayout.getTabAt(episodesCount - episodeNumber);
-
-				if (tab != null) {
-					tab.select();
+					if (tab != null) {
+						tab.select();
+					}
 				}
 			}
 		}

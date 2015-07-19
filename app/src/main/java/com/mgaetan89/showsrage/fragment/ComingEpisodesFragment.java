@@ -56,6 +56,10 @@ public class ComingEpisodesFragment extends Fragment implements Callback<ComingE
 		SickRageApi.getInstance().getServices().getComingEpisodes(this);
 
 		this.tabLayout = (TabLayout) this.getActivity().findViewById(R.id.tabs);
+
+		if (this.tabLayout != null && this.viewPager != null) {
+			this.tabLayout.setupWithViewPager(this.viewPager);
+		}
 	}
 
 	@Nullable
