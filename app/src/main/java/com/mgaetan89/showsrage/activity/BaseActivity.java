@@ -21,7 +21,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.IntentCompat;
 import android.support.v4.graphics.ColorUtils;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -341,7 +340,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		colorPrimaryDark[2] *= COLOR_DARK_FACTOR;
 
 		if (this.appBarLayout != null) {
-			ViewCompat.setBackgroundTintList(this.appBarLayout, ColorStateList.valueOf(colorPrimary));
+			this.appBarLayout.setBackgroundColor(colorPrimary);
 		}
 
 		if (this.drawerHeader != null) {
