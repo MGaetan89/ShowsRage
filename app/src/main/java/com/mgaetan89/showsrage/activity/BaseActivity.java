@@ -49,6 +49,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public abstract class BaseActivity extends AppCompatActivity implements Callback<GenericResponse>, NavigationView.OnNavigationItemSelectedListener {
+	private static final float COLOR_DARK_FACTOR = 0.8f;
+
 	@Nullable
 	private AppBarLayout appBarLayout = null;
 
@@ -194,6 +196,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 	}
 
 	public void setPalette(Palette palette) {
+		// TODO Handle accent color too once TabLayout can have dynamic indicator color
+		// https://code.google.com/p/android/issues/detail?id=175182
 		Palette.Swatch swatch = palette.getVibrantSwatch();
 
 		if (swatch == null) {
@@ -334,7 +338,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 	private void setThemeColors(int colorPrimary) {
 		float colorPrimaryDark[] = new float[3];
 		ColorUtils.colorToHSL(colorPrimary, colorPrimaryDark);
-		colorPrimaryDark[2] *= 0.8f;
+		colorPrimaryDark[2] *= COLOR_DARK_FACTOR;
 
 		if (this.appBarLayout != null) {
 			ViewCompat.setBackgroundTintList(this.appBarLayout, ColorStateList.valueOf(colorPrimary));
