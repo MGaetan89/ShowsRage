@@ -403,6 +403,14 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			this.genre.setVisibility(View.VISIBLE);
 		}
 
+		if (this.imdb != null) {
+			if (TextUtils.isEmpty(this.show.getImdbId())) {
+				this.imdb.setVisibility(View.GONE);
+			} else {
+				this.imdb.setVisibility(View.VISIBLE);
+			}
+		}
+
 		if (this.languageCountry != null) {
 			this.languageCountry.setText(this.getString(R.string.language_value, this.show.getLanguage()));
 			this.languageCountry.setVisibility(View.VISIBLE);
