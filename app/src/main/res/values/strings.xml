@@ -116,7 +116,7 @@
 	<string name="specials">Specials</string>
 	<string name="statistics">Statistics</string>
 	<string name="status">Status</string>
-	<string name="status_from"><xliff:g example="Downloaded" id="status">%1$s</xliff:g> from <xliff:g example="KAT" id="provider">%2$s</xliff:g></string>
+	<string name="status_from">From <xliff:g example="KAT" id="provider">%1$s</xliff:g> [<xliff:g example="1080p WEB-DL" id="quality">%2$s</xliff:g>]</string>
 	<string name="status_value">Status: <xliff:g example="Continuing" id="status">%1$s</xliff:g></string>
 	<string name="subtitles">Subtitles</string>
 	<string name="test">Test</string>

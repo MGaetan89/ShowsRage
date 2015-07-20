@@ -42,7 +42,14 @@ public class HistoriesAdapter extends RecyclerView.Adapter<HistoriesAdapter.View
 		History history = this.histories.get(position);
 
 		if (holder.date != null) {
-			holder.date.setText(DateTimeHelper.getRelativeDate(history.getDate(), "yyyy-MM-dd hh:mm", 0));
+			int status = history.getStatusTranslationResource();
+			String statusString = history.getStatus();
+
+			if (status != 0) {
+				statusString = holder.date.getResources().getString(status);
+			}
+
+			holder.date.setText(statusString + " " + DateTimeHelper.getRelativeDate(history.getDate(), "yyyy-MM-dd hh:mm", 0).toString().toLowerCase());
 		}
 
 		if (holder.logo != null) {
@@ -59,20 +66,15 @@ public class HistoriesAdapter extends RecyclerView.Adapter<HistoriesAdapter.View
 			holder.name.setText(holder.name.getResources().getString(R.string.show_name_episode, history.getShowName(), history.getSeason(), history.getEpisode()));
 		}
 
-		if (holder.statusProvider != null) {
+		if (holder.providerQuality != null) {
 			String provider = history.getProvider();
-			int status = history.getStatusTranslationResource();
 
 			if ("-1".equals(provider)) {
-				if (status == 0) {
-					holder.statusProvider.setText(history.getStatus());
-				} else {
-					holder.statusProvider.setText(status);
-				}
+				holder.providerQuality.setText(history.getQuality());
 			} else {
-				Resources resources = holder.statusProvider.getResources();
+				Resources resources = holder.providerQuality.getResources();
 
-				holder.statusProvider.setText(resources.getString(R.string.status_from, resources.getString(status), provider));
+				holder.providerQuality.setText(resources.getString(R.string.status_from, provider, history.getQuality()));
 			}
 		}
 	}
@@ -95,7 +97,7 @@ public class HistoriesAdapter extends RecyclerView.Adapter<HistoriesAdapter.View
 		public final TextView name;
 
 		@Nullable
-		public final TextView statusProvider;
+		public final TextView providerQuality;
 
 		public ViewHolder(View view) {
 			super(view);
@@ -103,7 +105,7 @@ public class HistoriesAdapter extends RecyclerView.Adapter<HistoriesAdapter.View
 			this.date = (TextView) view.findViewById(R.id.episode_date);
 			this.logo = (ImageView) view.findViewById(R.id.episode_logo);
 			this.name = (TextView) view.findViewById(R.id.episode_name);
-			this.statusProvider = (TextView) view.findViewById(R.id.episode_status_provider);
+			this.providerQuality = (TextView) view.findViewById(R.id.episode_provider_quality);
 		}
 	}
 }

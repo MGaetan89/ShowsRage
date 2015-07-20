@@ -46,7 +46,7 @@
 			tools:text="2011-09-19"/>
 
 		<TextView
-			android:id="@+id/episode_status_provider"
+			android:id="@+id/episode_provider_quality"
 			style="@style/TextAppearance.AppCompat.Caption"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
