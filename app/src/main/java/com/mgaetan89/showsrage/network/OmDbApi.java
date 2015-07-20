@@ -7,6 +7,6 @@ import retrofit.http.GET;
 import retrofit.http.Query;
 
 public interface OmDbApi {
-	@GET("/")
+	@GET("/?plot=full")
 	void getShow(@Query("i") String imDbId, Callback<Serie> callback);
 }
