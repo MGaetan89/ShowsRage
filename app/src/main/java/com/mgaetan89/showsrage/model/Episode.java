@@ -87,6 +87,7 @@ public class Episode implements Serializable {
 					return R.color.blue;
 
 				case "snatched":
+				case "snatched (proper)":
 					return R.color.purple;
 
 				case "unaired":
