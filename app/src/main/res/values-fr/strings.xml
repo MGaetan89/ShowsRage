@@ -85,6 +85,7 @@
 	<string name="plot">Résumé</string>
 	<string name="port_number">Numéro de port</string>
 	<string name="preferred_quality">Qualité préférée</string>
+	<string name="provider_quality">Depuis <xliff:g example="KAT" id="provider">%1$s</xliff:g> [<xliff:g example="1080p WEB-DL" id="quality">%2$s</xliff:g>]</string>
 	<string name="quality">Qualité : <xliff:g example="HD1080p" id="quality">%1$s</xliff:g></string>
 	<string name="quality_custom">Qualité :\n- Autorisées : <xliff:g example="HD1080p" id="allowed">%1$s</xliff:g>\n- Préférées : <xliff:g example="HD1080p" id="preferred">%2$s</xliff:g></string>
 	<string name="rated">Classification : <xliff:g example="TV-14" id="rated">%1$s</xliff:g></string>
@@ -116,7 +117,6 @@
 	<string name="specials">Spéciaux</string>
 	<string name="statistics">Statistiques</string>
 	<string name="status">Statut</string>
-	<string name="status_from">Depuis <xliff:g example="KAT" id="provider">%1$s</xliff:g> [<xliff:g example="1080p WEB-DL" id="quality">%2$s</xliff:g>]</string>
 	<string name="status_value">Statut : <xliff:g example="En cours" id="status">%1$s</xliff:g></string>
 	<string name="subtitles">Sous-titres</string>
 	<string name="test">Tester</string>

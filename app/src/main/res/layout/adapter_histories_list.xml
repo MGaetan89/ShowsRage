@@ -51,6 +51,6 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="end|right"
-			tools:text="@string/status_from"/>
+			tools:text="@string/provider_quality"/>
 	</LinearLayout>
 </RelativeLayout>

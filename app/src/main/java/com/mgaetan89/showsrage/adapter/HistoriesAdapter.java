@@ -74,7 +74,7 @@ public class HistoriesAdapter extends RecyclerView.Adapter<HistoriesAdapter.View
 			} else {
 				Resources resources = holder.providerQuality.getResources();
 
-				holder.providerQuality.setText(resources.getString(R.string.status_from, provider, history.getQuality()));
+				holder.providerQuality.setText(resources.getString(R.string.provider_quality, provider, history.getQuality()));
 			}
 		}
 	}
