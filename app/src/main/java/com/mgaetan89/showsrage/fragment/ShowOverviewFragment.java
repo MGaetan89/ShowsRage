@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -55,7 +57,7 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class ShowOverviewFragment extends Fragment implements Callback<SingleShow>, View.OnClickListener, Palette.PaletteAsyncListener {
+public class ShowOverviewFragment extends Fragment implements Callback<SingleShow>, View.OnClickListener, ImageLoader.OnImageResult, Palette.PaletteAsyncListener {
 	@Nullable
 	private TextView airs = null;
 
@@ -76,6 +78,12 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 	@Nullable
 	private TextView castingWriters = null;
+
+	@Nullable
+	private ImageView fanArt = null;
+
+	@Nullable
+	private CardView fanArtLayout = null;
 
 	@Nullable
 	private TextView genre = null;
@@ -241,6 +249,8 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			this.castingDirectors = (TextView) view.findViewById(R.id.show_casting_directors);
 			this.castingLayout = (CardView) view.findViewById(R.id.show_casting_layout);
 			this.castingWriters = (TextView) view.findViewById(R.id.show_casting_writers);
+			this.fanArt = (ImageView) view.findViewById(R.id.show_fan_art);
+			this.fanArtLayout = (CardView) view.findViewById(R.id.show_fan_art_layout);
 			this.genre = (TextView) view.findViewById(R.id.show_genre);
 			this.imdb = (Button) view.findViewById(R.id.show_imdb);
 			this.languageCountry = (TextView) view.findViewById(R.id.show_language_country);
@@ -286,6 +296,8 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		this.castingDirectors = null;
 		this.castingLayout = null;
 		this.castingWriters = null;
+		this.fanArt = null;
+		this.fanArtLayout = null;
 		this.genre = null;
 		this.imdb = null;
 		this.languageCountry = null;
@@ -340,6 +352,20 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	}
 
 	@Override
+	public void onImageError(@Nullable Exception exception, @Nullable Drawable errorDrawable) {
+		if (this.fanArtLayout != null) {
+			this.fanArtLayout.setVisibility(View.GONE);
+		}
+	}
+
+	@Override
+	public void onImageReady(Bitmap resource) {
+		if (this.fanArtLayout != null) {
+			this.fanArtLayout.setVisibility(View.VISIBLE);
+		}
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_change_quality:
@@ -385,6 +411,18 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			}
 
 			this.airs.setVisibility(View.VISIBLE);
+		}
+
+		if (this.fanArt != null) {
+			ImageLoader.load(
+					this.fanArt,
+					SickRageApi.getInstance().getFanArtUrl(this.show.getTvDbId(), Indexer.TVDB),
+					false,
+					null,
+					this
+			);
+
+			this.fanArt.setContentDescription(this.show.getShowName());
 		}
 
 		if (this.genre != null) {
@@ -452,7 +490,8 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 					this.poster,
 					SickRageApi.getInstance().getPosterUrl(this.show.getTvDbId(), Indexer.TVDB),
 					false,
-					this
+					this,
+					null
 			);
 
 			this.poster.setContentDescription(this.show.getShowName());

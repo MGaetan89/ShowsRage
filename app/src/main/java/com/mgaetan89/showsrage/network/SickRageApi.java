@@ -37,6 +37,15 @@ public final class SickRageApi implements RequestInterceptor {
 	}
 
 	@NonNull
+	public String getFanArtUrl(int indexerId, @Nullable Indexer indexer) {
+		if (indexer == null) {
+			return this.getApiUrl() + "?cmd=show.getfanart";
+		}
+
+		return String.format("%s?cmd=show.getfanart&%s=%d", this.getApiUrl(), indexer.getParamName(), indexerId);
+	}
+
+	@NonNull
 	public String getPosterUrl(int indexerId, @Nullable Indexer indexer) {
 		if (indexer == null) {
 			return this.getApiUrl() + "?cmd=show.getposter";
