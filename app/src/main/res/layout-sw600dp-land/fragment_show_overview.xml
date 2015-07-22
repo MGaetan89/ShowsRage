@@ -103,23 +103,15 @@
 			<android.support.v7.widget.CardView
 				android:id="@+id/show_fan_art_layout"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:visibility="gone"
-				tools:visibility="visible">
+				android:layout_height="wrap_content">
 
-				<LinearLayout
+				<ImageView
+					android:id="@+id/show_fan_art"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:orientation="horizontal">
-
-					<ImageView
-						android:id="@+id/show_fan_art"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:adjustViewBounds="true"
-						tools:ignore="ContentDescription"
-						tools:src="@mipmap/ic_launcher"/>
-				</LinearLayout>
+					android:adjustViewBounds="true"
+					tools:ignore="ContentDescription"
+					tools:src="@mipmap/ic_launcher"/>
 			</android.support.v7.widget.CardView>
 		</LinearLayout>
 
