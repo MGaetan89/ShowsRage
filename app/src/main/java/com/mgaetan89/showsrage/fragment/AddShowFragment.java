@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
@@ -82,10 +82,11 @@ public class AddShowFragment extends Fragment implements Callback<SearchResults>
 			this.recyclerView = (RecyclerView) view.findViewById(android.R.id.list);
 
 			if (this.recyclerView != null) {
+				int columnCount = this.getResources().getInteger(R.integer.shows_column_count);
 				this.adapter = new SearchResultsAdapter(this.searchResults);
 
 				this.recyclerView.setAdapter(this.adapter);
-				this.recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+				this.recyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), columnCount));
 			}
 		}
 
