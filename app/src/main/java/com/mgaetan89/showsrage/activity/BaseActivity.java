@@ -152,8 +152,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 				this.startActivity(intent);
 
-				menuItem.setChecked(true);
-
 				return true;
 			}
 
