@@ -1,6 +1,9 @@
 package com.mgaetan89.showsrage.model;
 
+import android.support.annotation.StringRes;
+
 import com.google.gson.annotations.SerializedName;
+import com.mgaetan89.showsrage.R;
 
 import java.io.Serializable;
 import java.util.List;
@@ -162,6 +165,23 @@ public class Show implements Serializable {
 
 	public String getStatus() {
 		return this.status;
+	}
+
+	@StringRes
+	public int getStatusTranslationResource() {
+		if (this.status != null) {
+			String normalizedStatus = this.status.toLowerCase();
+
+			switch (normalizedStatus) {
+				case "continuing":
+					return R.string.continuing;
+
+				case "ended":
+					return R.string.ended;
+			}
+		}
+
+		return 0;
 	}
 
 	public int getSubtitles() {

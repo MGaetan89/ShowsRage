@@ -81,7 +81,14 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 		}
 
 		if (holder.status != null) {
-			holder.status.setText(episode.getStatus());
+			int status = episode.getStatusTranslationResource();
+			String statusString = episode.getStatus();
+
+			if (status != 0) {
+				statusString = holder.status.getResources().getString(status);
+			}
+
+			holder.status.setText(statusString);
 
 			Drawable background = DrawableCompat.wrap(holder.status.getBackground());
 			DrawableCompat.setTint(background, holder.status.getResources().getColor(episode.getStatusBackgroundColor()));

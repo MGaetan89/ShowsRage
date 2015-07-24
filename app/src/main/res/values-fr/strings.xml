@@ -28,6 +28,7 @@
 	<string name="connecting_to">Connexion à <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g>…</string>
 	<string name="connection_failed">Connexion à <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g> impossible</string>
 	<string name="connection_successful">Connexion réussie !</string>
+	<string name="continuing">En cours</string>
 	<string name="debug">Debug</string>
 	<string name="delete">Supprimer</string>
 	<string name="delete_show">Supprimer la série</string>
@@ -37,6 +38,7 @@
 	<string name="directors">Réalisateurs : <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>
 	<string name="downloaded">Téléchargé</string>
 	<string name="downloaded_count">Téléchargés : <xliff:g example="1" id="downloaded">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
+	<string name="ended">Terminée</string>
 	<string name="episode">Episode</string>
 	<string name="episode_name">E<xliff:g example="01" id="number">%1$02d</xliff:g> - <xliff:g example="Pilot" id="name">%2$s</xliff:g></string>
 	<string name="episode_name_short">E<xliff:g example="01" id="number">%1$02d</xliff:g></string>
@@ -113,6 +115,7 @@
 	<string name="skipped">Passé</string>
 	<string name="snatched">Récupéré</string>
 	<string name="snatched_count">Récupérés : <xliff:g example="1" id="snatched">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
+	<string name="snatched_proper">Récupéré (correct)</string>
 	<string name="soon">Bientôt</string>
 	<string name="source_code">Code source</string>
 	<string name="specials">Spéciaux</string>
@@ -124,6 +127,7 @@
 	<string name="testing_server_settings">Test de la configuration du serveur</string>
 	<string name="today">Aujourd\'hui</string>
 	<string name="total">Total : <xliff:g example="1" id="total">%1$s</xliff:g></string>
+	<string name="unaired">Non diffusé</string>
 	<string name="unknown">Inconnue</string>
 	<string name="update">Mettre à jour</string>
 	<string name="update_available">Une nouvelle version de SickRage est disponible</string>

@@ -285,7 +285,14 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 		}
 
 		if (this.status != null) {
-			this.status.setText(this.getString(R.string.status_value, episode.getStatus()));
+			int status = episode.getStatusTranslationResource();
+			String statusString = episode.getStatus();
+
+			if (status != 0) {
+				statusString = this.getString(status);
+			}
+
+			this.status.setText(this.getString(R.string.status_value, statusString));
 			this.status.setVisibility(View.VISIBLE);
 		}
 	}

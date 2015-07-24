@@ -28,6 +28,7 @@
 	<string name="connecting_to">Connecting to <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g>…</string>
 	<string name="connection_failed">Connection to <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g> failed</string>
 	<string name="connection_successful">Connection successful!</string>
+	<string name="continuing">Continuing</string>
 	<string name="debug">Debug</string>
 	<string name="delete">Delete</string>
 	<string name="delete_show">Delete show</string>
@@ -37,6 +38,7 @@
 	<string name="directors">Directors: <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>
 	<string name="downloaded">Downloaded</string>
 	<string name="downloaded_count">Downloaded: <xliff:g example="1" id="downloaded">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
+	<string name="ended">Ended</string>
 	<string name="episode">Episode</string>
 	<string name="episode_name">E<xliff:g example="01" id="number">%1$02d</xliff:g> - <xliff:g example="Pilot" id="name">%2$s</xliff:g></string>
 	<string name="episode_name_short">E<xliff:g example="01" id="number">%1$02d</xliff:g></string>
@@ -113,6 +115,7 @@
 	<string name="skipped">Skipped</string>
 	<string name="snatched">Snatched</string>
 	<string name="snatched_count">Snatched: <xliff:g example="1" id="snatched">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
+	<string name="snatched_proper">Snatched (proper)</string>
 	<string name="soon">Soon</string>
 	<string name="source_code">Source code</string>
 	<string name="specials">Specials</string>
@@ -124,6 +127,7 @@
 	<string name="testing_server_settings">Testing server settings</string>
 	<string name="today">Today</string>
 	<string name="total">Total: <xliff:g example="1" id="total">%1$s</xliff:g></string>
+	<string name="unaired">Unaired</string>
 	<string name="unknown">Unknown</string>
 	<string name="update">Update</string>
 	<string name="update_available">A new version of SickRage is available</string>

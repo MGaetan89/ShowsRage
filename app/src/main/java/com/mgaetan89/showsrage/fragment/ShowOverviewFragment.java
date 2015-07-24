@@ -544,7 +544,14 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 		if (this.status != null) {
 			if (TextUtils.isEmpty(nextEpisodeAirDate)) {
-				this.status.setText(this.getString(R.string.status_value, this.show.getStatus()));
+				int status = this.show.getStatusTranslationResource();
+				String statusString = this.show.getStatus();
+
+				if (status != 0) {
+					statusString = this.getString(status);
+				}
+
+				this.status.setText(this.getString(R.string.status_value, statusString));
 				this.status.setVisibility(View.VISIBLE);
 			} else {
 				this.status.setVisibility(View.GONE);

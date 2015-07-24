@@ -3,6 +3,7 @@ package com.mgaetan89.showsrage.model;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 
 import com.google.gson.annotations.SerializedName;
 import com.mgaetan89.showsrage.R;
@@ -99,6 +100,41 @@ public class Episode implements Serializable {
 		}
 
 		return android.R.color.transparent;
+	}
+
+	@StringRes
+	public int getStatusTranslationResource() {
+		if (this.status != null) {
+			String normalizedStatus = this.status.toLowerCase();
+
+			switch (normalizedStatus) {
+				case "archived":
+					return R.string.archived;
+
+				case "downloaded":
+					return R.string.downloaded;
+
+				case "ignored":
+					return R.string.ignored;
+
+				case "skipped":
+					return R.string.skipped;
+
+				case "snatched":
+					return R.string.snatched;
+
+				case "snatched (proper)":
+					return R.string.snatched_proper;
+
+				case "unaired":
+					return R.string.unaired;
+
+				case "wanted":
+					return R.string.wanted;
+			}
+		}
+
+		return 0;
 	}
 
 	@Nullable

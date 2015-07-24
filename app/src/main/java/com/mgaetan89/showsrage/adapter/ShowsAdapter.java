@@ -70,7 +70,14 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 			String nextEpisodeAirDate = show.getNextEpisodeAirDate();
 
 			if (TextUtils.isEmpty(nextEpisodeAirDate)) {
-				holder.nextEpisodeDate.setText(show.getStatus());
+				int status = show.getStatusTranslationResource();
+				String statusString = show.getStatus();
+
+				if (status != 0) {
+					statusString = holder.nextEpisodeDate.getResources().getString(status);
+				}
+
+				holder.nextEpisodeDate.setText(statusString);
 			} else {
 				holder.nextEpisodeDate.setText(DateTimeHelper.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS));
 			}
