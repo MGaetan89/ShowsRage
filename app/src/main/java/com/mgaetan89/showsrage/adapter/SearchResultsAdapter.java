@@ -8,15 +8,11 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
-import com.mgaetan89.showsrage.helper.ImageLoader;
-import com.mgaetan89.showsrage.model.Indexer;
 import com.mgaetan89.showsrage.model.SearchResultItem;
-import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.Collections;
 import java.util.List;
@@ -54,25 +50,6 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 			holder.indexer.setText(searchResult.getIndexerNameResource());
 		}
 
-		if (holder.logo != null) {
-			holder.logo.setContentDescription(searchResult.getName());
-
-			Indexer indexer = searchResult.getIndexerType();
-			int indexerId = searchResult.getIndexerId();
-
-			if (indexer != null && indexerId > 0) {
-				ImageLoader.load(
-						holder.logo,
-						SickRageApi.getInstance().getPosterUrl(indexerId, indexer),
-						true
-				);
-
-				holder.logo.setVisibility(View.VISIBLE);
-			} else {
-				holder.logo.setVisibility(View.INVISIBLE);
-			}
-		}
-
 		if (holder.name != null) {
 			holder.name.setText(searchResult.getName());
 		}
@@ -93,9 +70,6 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 		public final TextView indexer;
 
 		@Nullable
-		public final ImageView logo;
-
-		@Nullable
 		public final TextView name;
 
 		public ViewHolder(View view) {
@@ -105,7 +79,6 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 
 			this.firstAired = (TextView) view.findViewById(R.id.show_first_aired);
 			this.indexer = (TextView) view.findViewById(R.id.show_indexer);
-			this.logo = (ImageView) view.findViewById(R.id.show_logo);
 			this.name = (TextView) view.findViewById(R.id.show_name);
 		}
 
