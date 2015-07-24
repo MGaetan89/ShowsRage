@@ -101,7 +101,20 @@
 			</android.support.v7.widget.CardView>
 
 			<android.support.v7.widget.CardView
-				android:id="@+id/show_fan_art_layout"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="@dimen/padding">
+
+				<ImageView
+					android:id="@+id/show_banner"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:adjustViewBounds="true"
+					tools:ignore="ContentDescription"
+					tools:src="@mipmap/ic_launcher"/>
+			</android.support.v7.widget.CardView>
+
+			<android.support.v7.widget.CardView
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 

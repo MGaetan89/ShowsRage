@@ -15,9 +15,9 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 public abstract class ImageLoader {
 	public interface OnImageResult {
-		void onImageError(@Nullable Exception exception, @Nullable Drawable errorDrawable);
+		void onImageError(ImageView imageView, @Nullable Exception exception, @Nullable Drawable errorDrawable);
 
-		void onImageReady(Bitmap resource);
+		void onImageReady(ImageView imageView, Bitmap resource);
 	}
 
 	public static void load(@Nullable ImageView imageView, String url, boolean circleTransform) {
@@ -59,7 +59,7 @@ public abstract class ImageLoader {
 			super.onLoadFailed(e, errorDrawable);
 
 			if (this.onImageResult != null) {
-				this.onImageResult.onImageError(e, errorDrawable);
+				this.onImageResult.onImageError(this.getView(), e, errorDrawable);
 			}
 		}
 
@@ -68,7 +68,7 @@ public abstract class ImageLoader {
 			super.onResourceReady(resource, glideAnimation);
 
 			if (this.onImageResult != null) {
-				this.onImageResult.onImageReady(resource);
+				this.onImageResult.onImageReady(this.getView(), resource);
 			}
 
 			if (this.paletteListener != null) {

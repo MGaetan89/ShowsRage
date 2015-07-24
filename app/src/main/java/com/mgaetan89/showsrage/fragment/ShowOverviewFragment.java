@@ -27,6 +27,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -68,6 +69,9 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	private CardView awardsLayout = null;
 
 	@Nullable
+	private ImageView banner = null;
+
+	@Nullable
 	private TextView castingActors = null;
 
 	@Nullable
@@ -81,9 +85,6 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 	@Nullable
 	private ImageView fanArt = null;
-
-	@Nullable
-	private CardView fanArtLayout = null;
 
 	@Nullable
 	private TextView genre = null;
@@ -245,12 +246,12 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			this.airs = (TextView) view.findViewById(R.id.show_airs);
 			this.awards = (TextView) view.findViewById(R.id.show_awards);
 			this.awardsLayout = (CardView) view.findViewById(R.id.show_awards_layout);
+			this.banner = (ImageView) view.findViewById(R.id.show_banner);
 			this.castingActors = (TextView) view.findViewById(R.id.show_casting_actors);
 			this.castingDirectors = (TextView) view.findViewById(R.id.show_casting_directors);
 			this.castingLayout = (CardView) view.findViewById(R.id.show_casting_layout);
 			this.castingWriters = (TextView) view.findViewById(R.id.show_casting_writers);
 			this.fanArt = (ImageView) view.findViewById(R.id.show_fan_art);
-			this.fanArtLayout = (CardView) view.findViewById(R.id.show_fan_art_layout);
 			this.genre = (TextView) view.findViewById(R.id.show_genre);
 			this.imdb = (Button) view.findViewById(R.id.show_imdb);
 			this.languageCountry = (TextView) view.findViewById(R.id.show_language_country);
@@ -292,12 +293,12 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		this.airs = null;
 		this.awards = null;
 		this.awardsLayout = null;
+		this.banner = null;
 		this.castingActors = null;
 		this.castingDirectors = null;
 		this.castingLayout = null;
 		this.castingWriters = null;
 		this.fanArt = null;
-		this.fanArtLayout = null;
 		this.genre = null;
 		this.imdb = null;
 		this.languageCountry = null;
@@ -352,16 +353,24 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	}
 
 	@Override
-	public void onImageError(@Nullable Exception exception, @Nullable Drawable errorDrawable) {
-		if (this.fanArtLayout != null) {
-			this.fanArtLayout.setVisibility(View.GONE);
+	public void onImageError(ImageView imageView, @Nullable Exception exception, @Nullable Drawable errorDrawable) {
+		if (imageView != null) {
+			ViewParent parent = imageView.getParent();
+
+			if (parent instanceof View) {
+				((View) parent).setVisibility(View.GONE);
+			}
 		}
 	}
 
 	@Override
-	public void onImageReady(Bitmap resource) {
-		if (this.fanArtLayout != null) {
-			this.fanArtLayout.setVisibility(View.VISIBLE);
+	public void onImageReady(ImageView imageView, Bitmap resource) {
+		if (imageView != null) {
+			ViewParent parent = imageView.getParent();
+
+			if (parent instanceof View) {
+				((View) parent).setVisibility(View.VISIBLE);
+			}
 		}
 	}
 
@@ -411,6 +420,18 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			}
 
 			this.airs.setVisibility(View.VISIBLE);
+		}
+
+		if (this.banner != null) {
+			ImageLoader.load(
+					this.banner,
+					SickRageApi.getInstance().getBannerUrl(this.show.getTvDbId(), Indexer.TVDB),
+					false,
+					null,
+					this
+			);
+
+			this.banner.setContentDescription(this.show.getShowName());
 		}
 
 		if (this.fanArt != null) {
