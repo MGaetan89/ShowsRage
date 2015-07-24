@@ -92,6 +92,7 @@
 	<string name="rating">Evaluation IMDb : <xliff:g example="5.0" id="rating">%1$s</xliff:g>/10 (<xliff:g example="10000" id="votes">%2$s</xliff:g> votes)</string>
 	<string name="replace">Replacer</string>
 	<string name="replace_existing_episode">Replacer l\'épisode actuel s\'il avait déjà été téléchargé ?</string>
+	<string name="rescan">Rescanner</string>
 	<string name="restart">Redémarrer</string>
 	<string name="restart_confirm">Etes-vous sûr de vouloir redémarrer SickRage ?</string>
 	<string name="resume_show">Reprendre la série</string>

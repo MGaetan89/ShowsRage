@@ -75,6 +75,9 @@ public interface SickRageServices {
 	@GET("/{api_path}/{api_key}/?cmd=show.pause")
 	void pauseShow(@Query("indexerid") int indexerId, @Query("pause") int pause, Callback<GenericResponse> callback);
 
+	@GET("/{api_path}/{api_key}/?cmd=show.refresh")
+	void rescanShow(@Query("indexerid") int indexerId, Callback<GenericResponse> callback);
+
 	@GET("/{api_path}/{api_key}/?cmd=sb.restart")
 	void restart(Callback<GenericResponse> callback);
 

@@ -392,6 +392,11 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 				return true;
 
+			case R.id.menu_rescan_show:
+				this.rescanShow();
+
+				return true;
+
 			case R.id.menu_resume_show:
 				this.pauseOrResumeShow(false);
 
@@ -641,6 +646,12 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 				ShowOverviewFragment.this.showHidePauseResumeMenus(pause);
 			}
 		});
+	}
+
+	private void rescanShow() {
+		if (this.show != null) {
+			SickRageApi.getInstance().getServices().rescanShow(this.show.getIndexerId(), new GenericCallback(this.getActivity()));
+		}
 	}
 
 	private void showHidePauseResumeMenus(boolean isPause) {

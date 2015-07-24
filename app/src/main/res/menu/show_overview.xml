@@ -32,6 +32,11 @@
 		app:showAsAction="ifRoom"/>
 
 	<item
+		android:id="@+id/menu_rescan_show"
+		android:title="@string/rescan"
+		app:showAsAction="never"/>
+
+	<item
 		android:id="@+id/menu_delete_show"
 		android:icon="@drawable/ic_delete_white_24dp"
 		android:title="@string/delete_show"

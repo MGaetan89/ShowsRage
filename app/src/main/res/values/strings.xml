@@ -92,6 +92,7 @@
 	<string name="rating">IMDb Rating: <xliff:g example="5.0" id="rating">%1$s</xliff:g>/10 (<xliff:g example="10000" id="votes">%2$s</xliff:g> votes)</string>
 	<string name="replace">Replace</string>
 	<string name="replace_existing_episode">Replace the current episode if it was already downloaded?</string>
+	<string name="rescan">Rescan</string>
 	<string name="restart">Restart</string>
 	<string name="restart_confirm">Are you sure you want to restart SickRage?</string>
 	<string name="resume_show">Resume show</string>
