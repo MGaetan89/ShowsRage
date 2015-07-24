@@ -9,7 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,6 +99,7 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 			this.swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
 
 			if (this.recyclerView != null) {
+				int columnCount = this.getResources().getInteger(R.integer.shows_column_count);
 				this.adapter = new HistoriesAdapter(this.histories);
 
 				this.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -112,7 +113,7 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 					}
 				});
 				this.recyclerView.setAdapter(this.adapter);
-				this.recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+				this.recyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), columnCount));
 			}
 
 			if (this.clearHistory != null) {
