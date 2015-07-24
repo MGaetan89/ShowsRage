@@ -90,6 +90,9 @@ public interface SickRageServices {
 	@GET("/{api_path}/{api_key}/?cmd=show.setquality")
 	void setShowQuality(@Query("indexerid") int indexerId, @Query("initial") String allowed, @Query("archive") String preferred, Callback<GenericResponse> callback);
 
+	@GET("/{api_path}/{api_key}/?cmd=show.update")
+	void updateShow(@Query("indexerid") int indexerId, Callback<GenericResponse> callback);
+
 	@GET("/{api_path}/{api_key}/?cmd=sb.update")
 	void updateSickRage(Callback<GenericResponse> callback);
 }

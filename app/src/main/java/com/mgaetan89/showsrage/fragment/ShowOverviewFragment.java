@@ -396,6 +396,11 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 				this.pauseOrResumeShow(false);
 
 				return true;
+
+			case R.id.menu_update_show:
+				this.updateShow();
+
+				return true;
 		}
 
 		return super.onOptionsItemSelected(item);
@@ -645,6 +650,12 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 		if (this.resumeMenu != null) {
 			this.resumeMenu.setVisible(!isPause);
+		}
+	}
+
+	private void updateShow() {
+		if (this.show != null) {
+			SickRageApi.getInstance().getServices().updateShow(this.show.getIndexerId(), new GenericCallback(this.getActivity()));
 		}
 	}
 

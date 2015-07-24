@@ -26,6 +26,12 @@
 		app:showAsAction="ifRoom"/>
 
 	<item
+		android:id="@+id/menu_update_show"
+		android:icon="@drawable/ic_refresh_white_24dp"
+		android:title="@string/update"
+		app:showAsAction="ifRoom"/>
+
+	<item
 		android:id="@+id/menu_delete_show"
 		android:title="@string/delete_show"
 		app:showAsAction="never"/>
