@@ -36,18 +36,6 @@
 		</activity>
 		<activity android:name=".activity.HistoryActivity"/>
 		<activity android:name=".activity.LogsActivity"/>
-		<activity
-			android:name=".activity.NewsActivity"
-			android:parentActivityName=".activity.SettingsActivity">
-			<meta-data
-				android:name="android.support.PARENT_ACTIVITY"
-				android:value=".activity.SettingsActivity"/>
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN"/>
-
-				<category android:name="android.intent.category.LAUNCHER"/>
-			</intent-filter>
-		</activity>
 		<activity android:name=".activity.SettingsActivity"/>
 		<activity
 			android:name=".activity.ShowActivity"
@@ -57,6 +45,11 @@
 				android:value=".activity.ShowsActivity"/>
 		</activity>
 		<activity android:name=".activity.ShowsActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
 		</activity>
 		<activity
 			android:name=".activity.UpdateActivity"

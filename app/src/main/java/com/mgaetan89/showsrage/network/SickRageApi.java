@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.mgaetan89.showsrage.Constants;
+import com.mgaetan89.showsrage.BuildConfig;
 import com.mgaetan89.showsrage.model.Indexer;
 
 import retrofit.RequestInterceptor;
@@ -85,7 +85,12 @@ public final class SickRageApi implements RequestInterceptor {
 		RestAdapter.Builder builder = new RestAdapter.Builder();
 		builder.setEndpoint(this.apiUrl);
 		builder.setRequestInterceptor(this);
-		builder.setLogLevel(Constants.NETWORK_LOG_LEVEL);
+
+		if (BuildConfig.DEBUG) {
+			builder.setLogLevel(RestAdapter.LogLevel.FULL);
+		} else {
+			builder.setLogLevel(RestAdapter.LogLevel.NONE);
+		}
 
 		this.services = builder.build().create(SickRageServices.class);
 	}
