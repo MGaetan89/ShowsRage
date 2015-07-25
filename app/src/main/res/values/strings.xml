@@ -71,6 +71,7 @@
 	<string name="network">Network: <xliff:g example="CBS" id="network">%1$s</xliff:g></string>
 	<string name="never">Never</string>
 	<string name="new_update">New update available</string>
+	<string name="news">News</string>
 	<string name="next_episode">Next episode: <xliff:g example="in 2 days" id="next_episode">%1$s</xliff:g></string>
 	<string name="no_coming_episodes">No coming episodes</string>
 	<string name="no_episodes">No episodes</string>

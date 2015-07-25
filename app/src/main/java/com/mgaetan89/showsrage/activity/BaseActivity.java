@@ -132,6 +132,17 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 				return true;
 			}
 
+			case R.id.menu_news: {
+				Intent intent = new Intent(this, NewsActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+
+				this.startActivity(intent);
+
+				menuItem.setChecked(true);
+
+				return true;
+			}
+
 			case R.id.menu_restart: {
 				new AlertDialog.Builder(this)
 						.setMessage(R.string.restart_confirm)

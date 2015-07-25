@@ -71,6 +71,7 @@
 	<string name="network">Chaîne : <xliff:g example="CBS" id="network">%1$s</xliff:g></string>
 	<string name="never">Jamais</string>
 	<string name="new_update">Nouvelle mise à jour disponible</string>
+	<string name="news">Nouveautés</string>
 	<string name="next_episode">Prochain épisode : <xliff:g example="dans 2 jours" id="next_episode">%1$s</xliff:g></string>
 	<string name="no_coming_episodes">Aucun épisode à venir</string>
 	<string name="no_episodes">Aucun épisode</string>
