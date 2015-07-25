@@ -7,12 +7,21 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.MediaRouteActionProvider;
+import android.support.v7.app.MediaRouteDiscoveryFragment;
+import android.support.v7.media.MediaControlIntent;
+import android.support.v7.media.MediaItemStatus;
+import android.support.v7.media.MediaRouteSelector;
+import android.support.v7.media.MediaRouter;
+import android.support.v7.media.MediaSessionStatus;
+import android.support.v7.media.RemotePlaybackClient;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -35,11 +44,13 @@ import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.SingleEpisode;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
+import java.lang.ref.WeakReference;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class EpisodeDetailFragment extends Fragment implements Callback<SingleEpisode>, View.OnClickListener {
+public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implements Callback<SingleEpisode>, View.OnClickListener {
 	@Nullable
 	private TextView airs = null;
 
@@ -82,6 +93,10 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 
 	public EpisodeDetailFragment() {
 		this.setHasOptionsMenu(true);
+
+		this.setRouteSelector(new MediaRouteSelector.Builder()
+				.addControlCategory(MediaControlIntent.CATEGORY_REMOTE_PLAYBACK)
+				.build());
 	}
 
 	@Override
@@ -128,10 +143,18 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 	}
 
 	@Override
+	public MediaRouter.Callback onCreateCallback() {
+		return new MediaRouterCallback(this);
+	}
+
+	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.episode, menu);
 
 		this.playVideoMenu = menu.findItem(R.id.menu_play_video);
+		MenuItem castMenu = menu.findItem(R.id.menu_cast);
+		MediaRouteActionProvider mediaRouteActionProvider = (MediaRouteActionProvider) MenuItemCompat.getActionProvider(castMenu);
+		mediaRouteActionProvider.setRouteSelector(this.getRouteSelector());
 
 		this.displayPlayVideoMenu(this.episode);
 	}
@@ -205,17 +228,7 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 	}
 
 	private void clickPlayVideo() {
-		String episodeUrl = SickRageApi.getInstance().getVideosUrl();
-
-		if (this.show != null) {
-			episodeUrl += this.show.getShowName().replace(" ", "%20") + "/";
-		}
-
-		if (this.episode != null) {
-			episodeUrl += this.episode.getLocation().replace(" ", "%20");
-		}
-
-		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(episodeUrl));
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(this.getEpisodeVideoUrl()));
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.setClassName("org.videolan.vlc", "org.videolan.vlc.gui.video.VideoPlayerActivity");
 
@@ -313,6 +326,20 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 		}
 	}
 
+	private String getEpisodeVideoUrl() {
+		String episodeUrl = SickRageApi.getInstance().getVideosUrl();
+
+		if (this.show != null) {
+			episodeUrl += this.show.getShowName().replace(" ", "%20") + "/";
+		}
+
+		if (this.episode != null) {
+			episodeUrl += this.episode.getLocation().replace(" ", "%20");
+		}
+
+		return episodeUrl;
+	}
+
 	private void setEpisodeStatus(final int seasonNumber, final int episodeNumber, final String status) {
 		if (this.show == null) {
 			return;
@@ -336,5 +363,52 @@ public class EpisodeDetailFragment extends Fragment implements Callback<SingleEp
 					}
 				})
 				.show();
+	}
+
+	private static final class MediaRouterCallback extends MediaRouter.Callback {
+		@NonNull
+		private WeakReference<EpisodeDetailFragment> fragmentReference = new WeakReference<>(null);
+
+		@Nullable
+		private RemotePlaybackClient remotePlaybackClient = null;
+
+		@Nullable
+		private MediaRouter.RouteInfo route = null;
+
+		private MediaRouterCallback(EpisodeDetailFragment fragment) {
+			this.fragmentReference = new WeakReference<>(fragment);
+		}
+
+		@Override
+		public void onRouteSelected(MediaRouter router, MediaRouter.RouteInfo route) {
+			this.updateRemotePlayer(route);
+		}
+
+		@Override
+		public void onRouteUnselected(MediaRouter router, MediaRouter.RouteInfo route) {
+			this.updateRemotePlayer(route);
+		}
+
+		private void updateRemotePlayer(MediaRouter.RouteInfo route) {
+			if (this.route != null && this.remotePlaybackClient != null) {
+				this.remotePlaybackClient.release();
+				this.remotePlaybackClient = null;
+			}
+
+			EpisodeDetailFragment fragment = this.fragmentReference.get();
+
+			if (fragment == null) {
+				return;
+			}
+
+			this.route = route;
+			this.remotePlaybackClient = new RemotePlaybackClient(fragment.getActivity(), this.route);
+			this.remotePlaybackClient.play(Uri.parse(fragment.getEpisodeVideoUrl()), "video/*", null, 0, null, new RemotePlaybackClient.ItemActionCallback() {
+				@Override
+				public void onResult(Bundle data, String sessionId, MediaSessionStatus sessionStatus, String itemId, MediaItemStatus itemStatus) {
+					super.onResult(data, sessionId, sessionStatus, itemId, itemStatus);
+				}
+			});
+		}
 	}
 }
