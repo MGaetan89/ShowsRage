@@ -45,6 +45,10 @@ import com.mgaetan89.showsrage.model.SingleEpisode;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.lang.ref.WeakReference;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -228,7 +232,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 	}
 
 	private void clickPlayVideo() {
-		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(this.getEpisodeVideoUrl()));
+		Intent intent = new Intent(Intent.ACTION_VIEW, this.getEpisodeVideoUrl());
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.setClassName("org.videolan.vlc", "org.videolan.vlc.gui.video.VideoPlayerActivity");
 
@@ -326,18 +330,28 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		}
 	}
 
-	private String getEpisodeVideoUrl() {
+	@NonNull
+	private Uri getEpisodeVideoUrl() {
 		String episodeUrl = SickRageApi.getInstance().getVideosUrl();
 
 		if (this.show != null) {
-			episodeUrl += this.show.getShowName().replace(" ", "%20") + "/";
+			episodeUrl += this.show.getShowName() + "/";
 		}
 
 		if (this.episode != null) {
-			episodeUrl += this.episode.getLocation().replace(" ", "%20");
+			episodeUrl += this.episode.getLocation();
 		}
 
-		return episodeUrl;
+		try {
+			URL url = new URL(episodeUrl);
+			URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
+
+			return Uri.parse(uri.toString());
+		} catch (MalformedURLException | URISyntaxException exception) {
+			exception.printStackTrace();
+		}
+
+		return Uri.parse(episodeUrl);
 	}
 
 	private void setEpisodeStatus(final int seasonNumber, final int episodeNumber, final String status) {
@@ -403,7 +417,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 
 			this.route = route;
 			this.remotePlaybackClient = new RemotePlaybackClient(fragment.getActivity(), this.route);
-			this.remotePlaybackClient.play(Uri.parse(fragment.getEpisodeVideoUrl()), "video/*", null, 0, null, new RemotePlaybackClient.ItemActionCallback() {
+			this.remotePlaybackClient.play(fragment.getEpisodeVideoUrl(), "video/*", null, 0, null, new RemotePlaybackClient.ItemActionCallback() {
 				@Override
 				public void onResult(Bundle data, String sessionId, MediaSessionStatus sessionStatus, String itemId, MediaItemStatus itemStatus) {
 					super.onResult(data, sessionId, sessionStatus, itemId, itemStatus);
