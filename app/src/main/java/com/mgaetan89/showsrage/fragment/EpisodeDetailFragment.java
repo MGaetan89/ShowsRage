@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.fragment;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -57,6 +57,9 @@ import retrofit.client.Response;
 public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implements Callback<SingleEpisode>, View.OnClickListener {
 	@Nullable
 	private TextView airs = null;
+
+	@Nullable
+	private MenuItem castMenu = null;
 
 	@Nullable
 	private Episode episode = null;
@@ -155,12 +158,13 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.episode, menu);
 
-		this.playVideoMenu = menu.findItem(R.id.menu_play_video);
-		MenuItem castMenu = menu.findItem(R.id.menu_cast);
-		MediaRouteActionProvider mediaRouteActionProvider = (MediaRouteActionProvider) MenuItemCompat.getActionProvider(castMenu);
+		this.castMenu = menu.findItem(R.id.menu_cast);
+		MediaRouteActionProvider mediaRouteActionProvider = (MediaRouteActionProvider) MenuItemCompat.getActionProvider(this.castMenu);
 		mediaRouteActionProvider.setRouteSelector(this.getRouteSelector());
 
-		this.displayPlayVideoMenu(this.episode);
+		this.playVideoMenu = menu.findItem(R.id.menu_play_video);
+
+		this.displayStreamingMenus(this.episode);
 	}
 
 	@Nullable
@@ -228,7 +232,21 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 	@Override
 	public void success(SingleEpisode singleEpisode, Response response) {
 		this.displayEpisode(singleEpisode.getData());
-		this.displayPlayVideoMenu(singleEpisode.getData());
+		this.displayStreamingMenus(singleEpisode.getData());
+	}
+
+	private boolean areStreamingMenusVisible(@Nullable Episode episode) {
+		FragmentActivity activity = this.getActivity();
+
+		if (activity == null || episode == null) {
+			return false;
+		}
+
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+		boolean episodeDownloaded = "Downloaded".equalsIgnoreCase(episode.getStatus());
+		boolean viewInVlc = preferences.getBoolean("view_in_vlc", false);
+
+		return episodeDownloaded && viewInVlc;
 	}
 
 	private void clickPlayVideo() {
@@ -314,19 +332,15 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		}
 	}
 
-	private void displayPlayVideoMenu(Episode episode) {
-		Activity activity = this.getActivity();
+	private void displayStreamingMenus(Episode episode) {
+		boolean displayStreamingMenu = this.areStreamingMenusVisible(episode);
 
-		if (activity == null || episode == null) {
-			return;
+		if (this.castMenu != null) {
+			this.castMenu.setVisible(displayStreamingMenu);
 		}
 
 		if (this.playVideoMenu != null) {
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-			boolean episodeDownloaded = "Downloaded".equalsIgnoreCase(episode.getStatus());
-			boolean viewInVlc = preferences.getBoolean("view_in_vlc", false);
-
-			this.playVideoMenu.setVisible(episodeDownloaded && viewInVlc);
+			this.playVideoMenu.setVisible(displayStreamingMenu);
 		}
 	}
 
