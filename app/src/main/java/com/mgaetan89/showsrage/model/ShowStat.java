@@ -62,7 +62,13 @@ public class ShowStat implements Serializable {
 			return this.archived;
 		}
 
-		return this.archived + this.downloaded.get("total");
+		Integer total = this.downloaded.get("total");
+
+		if (total == null) {
+			return this.archived;
+		}
+
+		return this.archived + total;
 	}
 
 	public int getTotalPending() {
@@ -70,7 +76,13 @@ public class ShowStat implements Serializable {
 			return this.snatchedBest;
 		}
 
-		return this.snatchedBest + this.snatched.get("total");
+		Integer total = this.snatched.get("total");
+
+		if (total == null) {
+			return this.snatchedBest;
+		}
+
+		return this.snatchedBest + total;
 	}
 
 	public int getUnaired() {
