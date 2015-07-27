@@ -171,7 +171,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 		RestAdapter restAdapter = new RestAdapter.Builder()
 				.setEndpoint("http://www.omdbapi.com/")
-				.setLogLevel(RestAdapter.LogLevel.FULL)
+				.setLogLevel(Constants.NETWORK_LOG_LEVEL)
 				.build();
 
 		this.omDbApi = restAdapter.create(OmDbApi.class);

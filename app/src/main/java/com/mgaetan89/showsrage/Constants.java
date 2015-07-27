@@ -2,7 +2,11 @@ package com.mgaetan89.showsrage;
 
 import com.mgaetan89.showsrage.model.LogLevel;
 
+import retrofit.RestAdapter;
+
 public abstract class Constants {
+	public static final RestAdapter.LogLevel NETWORK_LOG_LEVEL = BuildConfig.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE;
+
 	public abstract static class Bundle {
 		public static final String COLOR_PRIMARY = "color_primary";
 		public static final String COMING_EPISODES = "coming_episodes";
