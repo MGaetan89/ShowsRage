@@ -25,6 +25,8 @@ public class UpdateService extends Service implements Callback<GenericResponse>,
 
 	private final Handler handler = new Handler();
 
+	private boolean updating = true;
+
 	@Override
 	public void failure(RetrofitError error) {
 		error.printStackTrace();
@@ -60,16 +62,30 @@ public class UpdateService extends Service implements Callback<GenericResponse>,
 
 	@Override
 	public void run() {
-		SickRageApi.getInstance().getServices().ping(this);
+		if (this.updating) {
+			SickRageApi.getInstance().getServices().ping(this);
+		} else {
+			SickRageApi.getInstance().getServices().restart(this);
+		}
 
 		this.handler.postDelayed(this, RETRY_INTERVAL);
 	}
 
 	@Override
 	public void success(GenericResponse genericResponse, Response response) {
+		boolean isSuccess = "success".equalsIgnoreCase(genericResponse.getResult());
+
+		// We were updating, it's time to restart
+		// If the update failed, we don't restart and display an error message
+		if (this.updating && isSuccess) {
+			this.updating = false;
+
+			return;
+		}
+
 		int messageRes = R.string.update_failed;
 
-		if ("success".equalsIgnoreCase(genericResponse.getResult())) {
+		if (isSuccess) {
 			messageRes = R.string.sickrage_updated;
 		}
 
