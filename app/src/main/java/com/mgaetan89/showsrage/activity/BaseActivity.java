@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -446,6 +447,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 					.setContentText(activity.getString(R.string.update_available))
 					.setLocalOnly(true)
 					.setSmallIcon(R.drawable.ic_notification)
+					.setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
 					.setStyle(
 							new NotificationCompat.BigTextStyle()
 									.bigText(activity.getString(

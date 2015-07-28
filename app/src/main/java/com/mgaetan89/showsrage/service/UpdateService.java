@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
@@ -52,6 +53,7 @@ public class UpdateService extends Service implements Callback<GenericResponse>,
 				.setLocalOnly(true)
 				.setProgress(0, 0, true)
 				.setSmallIcon(R.drawable.ic_notification)
+				.setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
 				.build();
 
 		NotificationManager notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
@@ -101,6 +103,7 @@ public class UpdateService extends Service implements Callback<GenericResponse>,
 				.setLocalOnly(true)
 				.setProgress(0, 0, false)
 				.setSmallIcon(R.drawable.ic_notification)
+				.setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
 				.build();
 
 		NotificationManager notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
