@@ -92,6 +92,17 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 	public void onResume() {
 		super.onResume();
 
+		String serverAddress = this.getPreferenceValue("server_address", "");
+
+		if (TextUtils.isEmpty(serverAddress)) {
+			new AlertDialog.Builder(this.getActivity())
+					.setIcon(R.drawable.ic_notification)
+					.setTitle(R.string.app_name)
+					.setMessage(R.string.welcome_message)
+					.setPositiveButton(android.R.string.ok, null)
+					.show();
+		}
+
 		this.updatePreferenceGroup(this.getPreferenceScreen());
 	}
 

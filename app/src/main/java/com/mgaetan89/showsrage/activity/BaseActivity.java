@@ -294,6 +294,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 				Intent intent = new Intent(this, SettingsActivity.class);
 
 				this.startActivity(intent);
+
+				return;
 			}
 		}
 

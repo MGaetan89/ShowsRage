@@ -142,6 +142,7 @@
 	<string name="view_in_vlc_summary">Nécessite que VLC soit installée</string>
 	<string name="wanted">Voulu</string>
 	<string name="warning">Avertissement</string>
+	<string name="welcome_message">Vous êtes juste à quelques clics de vos séries.\n\nPour utiliser cette application, vous devez avoir accès à une installation fonctionnelle de SickRage.\nD\'autres solutions peuvent également fonctionner, mais elles ne sont officiellement supportées.</string>
 	<string name="writers">Scénaristes : <xliff:g example="Whitney Cummings, Michael Patrick King" id="writers">%1$s</xliff:g></string>
 	<string name="year">Diffusion : <xliff:g example="2005-" id="year">%1$s</xliff:g></string>
 </resources>
