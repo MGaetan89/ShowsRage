@@ -32,7 +32,9 @@ The following features are currently available:
 - Shows statistics
 - Update *SickRage* (requires *SickRage* 4.0.30)
 
-More features can be added in future releases upon [request](https://github.com/MGaetan89/ShowsRage/issues), but please search for an existing request first.
+## Contributing
+
+Want to help *ShowsRage* get better? See the [contribution guide](https://github.com/MGaetan89/ShowsRage/blob/master/Contributing.md) for some tips.
 
 ## Screenshots
 
