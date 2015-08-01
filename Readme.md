@@ -46,7 +46,7 @@ More features can be added in future releases upon [request](https://github.com/
 
 The application is not yet publicly available on the Play Store yet.
 
-However, it is possible to have an early access to the application. To do so, join the [Google+ Community](https://plus.google.com/communities/116042659322358505108) and following the instructions [here](https://play.google.com/apps/testing/com.mgaetan89.showsrage).
+However, it is possible to have an early access to the application. To do so, simply follow the instructions [here](https://play.google.com/apps/testing/com.mgaetan89.showsrage).
 
 All feedbacks/feature requests/bug reports are welcome and will be taken into account.
 
