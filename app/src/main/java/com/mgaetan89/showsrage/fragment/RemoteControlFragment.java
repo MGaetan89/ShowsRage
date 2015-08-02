@@ -2,15 +2,18 @@ package com.mgaetan89.showsrage.fragment;
 
 import android.app.Application;
 import android.app.Dialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.media.MediaControlIntent;
 import android.support.v7.media.MediaItemStatus;
+import android.support.v7.media.MediaRouter;
 import android.support.v7.media.MediaSessionStatus;
 import android.support.v7.media.RemotePlaybackClient;
 import android.text.TextUtils;
@@ -56,8 +59,13 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 
 	private long position = 0L;
 
+	private int savedVolume = 0;
+
 	@Nullable
 	private StatusCallback statusCallback = null;
+
+	@Nullable
+	private ImageView volumeMute = null;
 
 	public RemoteControlFragment() {
 	}
@@ -127,6 +135,7 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 			this.episodeDuration = (TextView) view.findViewById(R.id.episode_duration);
 			this.episodeSeekBar = (SeekBar) view.findViewById(R.id.episode_seek_bar);
 			this.play = (ImageView) view.findViewById(R.id.remote_play_pause);
+			this.volumeMute = (ImageView) view.findViewById(R.id.remote_volume_mute);
 
 			if (this.episodeSeekBar != null) {
 				this.episodeSeekBar.setOnSeekBarChangeListener(this);
@@ -136,11 +145,14 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 				this.play.setOnClickListener(this);
 			}
 
+			if (this.volumeMute != null) {
+				this.volumeMute.setOnClickListener(this);
+			}
+
 			TextView episodeName = (TextView) view.findViewById(R.id.episode_name);
 			ImageView fastForward = (ImageView) view.findViewById(R.id.remote_fast_forward);
 			ImageView fastRewind = (ImageView) view.findViewById(R.id.remote_fast_rewind);
 			ImageView volumeDown = (ImageView) view.findViewById(R.id.remote_volume_down);
-			ImageView volumeMute = (ImageView) view.findViewById(R.id.remote_volume_mute);
 			ImageView volumeUp = (ImageView) view.findViewById(R.id.remote_volume_up);
 			ImageView stop = (ImageView) view.findViewById(R.id.remote_stop);
 
@@ -169,10 +181,6 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 
 			if (volumeDown != null) {
 				volumeDown.setOnClickListener(this);
-			}
-
-			if (volumeMute != null) {
-				volumeMute.setOnClickListener(this);
 			}
 
 			if (volumeUp != null) {
@@ -206,6 +214,7 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 		this.episodeDuration = null;
 		this.episodeSeekBar = null;
 		this.play = null;
+		this.volumeMute = null;
 
 		super.onDestroyView();
 	}
@@ -219,7 +228,7 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-		if (!fromUser) {
+		if (!fromUser || !this.playing) {
 			return;
 		}
 
@@ -365,6 +374,20 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 		}
 	}
 
+	private void stop() {
+		PlayingVideoData playingVideo = this.getPlayingVideo();
+
+		if (playingVideo == null) {
+			return;
+		}
+
+		RemotePlaybackClient remotePlaybackClient = playingVideo.getRemotePlaybackClient();
+
+		if (remotePlaybackClient != null) {
+			remotePlaybackClient.stop(null, this.playPauseStopCallback);
+		}
+	}
+
 	private void updatePlayPauseIcon() {
 		if (this.play == null) {
 			return;
@@ -378,29 +401,77 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 	}
 
 	private void volumeDown() {
-		// TODO
-	}
-
-	private void volumeMute() {
-		// TODO
-	}
-
-	private void volumeUp() {
-		// TODO
-	}
-
-	private void stop() {
 		PlayingVideoData playingVideo = this.getPlayingVideo();
 
 		if (playingVideo == null) {
 			return;
 		}
 
-		RemotePlaybackClient remotePlaybackClient = playingVideo.getRemotePlaybackClient();
+		MediaRouter.RouteInfo route = playingVideo.getRoute();
 
-		if (remotePlaybackClient != null) {
-			remotePlaybackClient.stop(null, this.playPauseStopCallback);
+		if (route == null) {
+			return;
 		}
+
+		int volume = route.getVolume();
+		volume = volume - route.getVolumeMax() / 10;
+		volume = Math.max(volume, 0);
+
+		route.requestSetVolume(volume);
+	}
+
+	private void volumeMute() {
+		PlayingVideoData playingVideo = this.getPlayingVideo();
+
+		if (playingVideo == null) {
+			return;
+		}
+
+		MediaRouter.RouteInfo route = playingVideo.getRoute();
+
+		if (route == null) {
+			return;
+		}
+
+		int currentVolume = route.getVolume();
+		int iconColor;
+
+		if (currentVolume > 0) {
+			iconColor = R.color.accent;
+
+			route.requestSetVolume(0);
+		} else {
+			iconColor = android.R.color.white;
+
+			route.requestSetVolume(this.savedVolume);
+		}
+
+		this.savedVolume = currentVolume;
+
+		if (this.volumeMute != null) {
+			Drawable drawable = DrawableCompat.wrap(this.volumeMute.getDrawable());
+			DrawableCompat.setTint(drawable, this.getResources().getColor(iconColor));
+		}
+	}
+
+	private void volumeUp() {
+		PlayingVideoData playingVideo = this.getPlayingVideo();
+
+		if (playingVideo == null) {
+			return;
+		}
+
+		MediaRouter.RouteInfo route = playingVideo.getRoute();
+
+		if (route == null) {
+			return;
+		}
+
+		int volume = route.getVolume();
+		volume = volume + route.getVolumeMax() / 10;
+		volume = Math.min(volume, route.getVolumeMax());
+
+		route.requestSetVolume(volume);
 	}
 
 	private static final class PlayPauseStopCallback extends RemotePlaybackClient.SessionActionCallback {
@@ -453,16 +524,12 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 			fragment.updatePlayPauseIcon();
 
 			if (fragment.episodeCurrentTime != null) {
-				CharSequence currentTime = formatTime(status.getContentPosition());
-
-				fragment.episodeCurrentTime.setText(currentTime);
+				fragment.episodeCurrentTime.setText(formatTime(status.getContentPosition()));
 				fragment.episodeCurrentTime.setVisibility(View.VISIBLE);
 			}
 
 			if (fragment.episodeDuration != null) {
-				CharSequence duration = formatTime(status.getContentDuration());
-
-				fragment.episodeDuration.setText(duration);
+				fragment.episodeDuration.setText(formatTime(status.getContentDuration()));
 				fragment.episodeDuration.setVisibility(View.VISIBLE);
 			}
 
