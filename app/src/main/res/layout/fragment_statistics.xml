@@ -1,207 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:orientation="vertical"
-	android:padding="@dimen/padding">
+	tools:context="com.mgaetan89.showsrage.fragment.StatisticsFragment">
 
 	<LinearLayout
-		android:id="@+id/progress_layout"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:gravity="center_vertical"
-		android:orientation="horizontal">
-
-		<ProgressBar
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginEnd="@dimen/padding"
-			android:layout_marginRight="@dimen/padding"/>
-
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/please_wait"/>
-	</LinearLayout>
-
-	<LinearLayout
-		android:id="@+id/statistics_layout"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
-		android:visibility="gone"
-		tools:visibility="visible">
-
-		<TextView
-			style="@style/TextAppearance.AppCompat.Title"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="@dimen/padding"
-			android:text="@string/episodes"/>
+		android:padding="@dimen/padding">
 
 		<LinearLayout
+			android:id="@+id/progress_layout"
 			android:layout_width="match_parent"
-			android:layout_height="14dp"
-			android:layout_marginBottom="@dimen/padding"
-			android:orientation="horizontal">
-
-			<View
-				android:id="@+id/episodes_downloaded_bar"
-				android:layout_width="0dp"
-				android:layout_height="match_parent"
-				android:background="@color/green"
-				tools:layout_weight="3"/>
-
-			<View
-				android:id="@+id/episodes_snatched_bar"
-				android:layout_width="0dp"
-				android:layout_height="match_parent"
-				android:background="@color/purple"
-				tools:layout_weight="2"/>
-
-			<View
-				android:id="@+id/episodes_missing_bar"
-				android:layout_width="0dp"
-				android:layout_height="match_parent"
-				android:background="@color/red"
-				tools:layout_weight="1"/>
-		</LinearLayout>
-
-		<LinearLayout
-			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginBottom="@dimen/padding"
 			android:gravity="center_vertical"
 			android:orientation="horizontal">
 
-			<View
-				android:layout_width="14dp"
-				android:layout_height="14dp"
-				android:layout_marginEnd="@dimen/padding"
-				android:layout_marginRight="@dimen/padding"
-				android:background="@color/green"/>
-
-			<TextView
-				android:id="@+id/episodes_downloaded"
-				style="@style/TextAppearance.AppCompat.Body1"
+			<ProgressBar
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				tools:text="@string/downloaded_count"/>
-		</LinearLayout>
-
-		<LinearLayout
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="@dimen/padding"
-			android:gravity="center_vertical"
-			android:orientation="horizontal">
-
-			<View
-				android:layout_width="14dp"
-				android:layout_height="14dp"
-				android:layout_marginEnd="@dimen/padding"
-				android:layout_marginRight="@dimen/padding"
-				android:background="@color/purple"/>
-
-			<TextView
-				android:id="@+id/episodes_snatched"
-				style="@style/TextAppearance.AppCompat.Body1"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				tools:text="@string/snatched_count"/>
-		</LinearLayout>
-
-		<LinearLayout
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="@dimen/padding"
-			android:gravity="center_vertical"
-			android:orientation="horizontal">
-
-			<View
-				android:layout_width="14dp"
-				android:layout_height="14dp"
-				android:layout_marginEnd="@dimen/padding"
-				android:layout_marginRight="@dimen/padding"
-				android:background="@color/red"/>
-
-			<TextView
-				android:id="@+id/episodes_missing"
-				style="@style/TextAppearance.AppCompat.Body1"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				tools:text="@string/missing"/>
-		</LinearLayout>
-
-		<LinearLayout
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="@dimen/padding"
-			android:gravity="center_vertical"
-			android:orientation="horizontal">
-
-			<Space
-				android:layout_width="14dp"
-				android:layout_height="14dp"
 				android:layout_marginEnd="@dimen/padding"
 				android:layout_marginRight="@dimen/padding"/>
 
 			<TextView
-				android:id="@+id/episodes_total"
-				style="@style/TextAppearance.AppCompat.Body1"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				tools:text="@string/total"/>
-		</LinearLayout>
-
-		<TextView
-			style="@style/TextAppearance.AppCompat.Title"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="@dimen/padding"
-			android:text="@string/shows"/>
-
-		<LinearLayout
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="@dimen/padding"
-			android:gravity="center_vertical"
-			android:orientation="horizontal">
-
-			<Space
-				android:layout_width="14dp"
-				android:layout_height="14dp"
-				android:layout_marginEnd="@dimen/padding"
-				android:layout_marginRight="@dimen/padding"/>
-
-			<TextView
-				android:id="@+id/shows_active"
-				style="@style/TextAppearance.AppCompat.Body1"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				tools:text="@string/active"/>
+				android:text="@string/please_wait"/>
 		</LinearLayout>
 
 		<LinearLayout
-			android:layout_width="wrap_content"
+			android:id="@+id/statistics_layout"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:gravity="center_vertical"
-			android:orientation="horizontal">
-
-			<Space
-				android:layout_width="14dp"
-				android:layout_height="14dp"
-				android:layout_marginEnd="@dimen/padding"
-				android:layout_marginRight="@dimen/padding"/>
+			android:orientation="vertical"
+			android:visibility="gone"
+			tools:visibility="visible">
 
 			<TextView
-				android:id="@+id/shows_total"
-				style="@style/TextAppearance.AppCompat.Body1"
+				style="@style/TextAppearance.AppCompat.Title"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				tools:text="@string/total"/>
+				android:layout_marginBottom="@dimen/padding"
+				android:text="@string/episodes"/>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="14dp"
+				android:layout_marginBottom="@dimen/padding"
+				android:orientation="horizontal">
+
+				<View
+					android:id="@+id/episodes_downloaded_bar"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:background="@color/green"
+					tools:layout_weight="3"/>
+
+				<View
+					android:id="@+id/episodes_snatched_bar"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:background="@color/purple"
+					tools:layout_weight="2"/>
+
+				<View
+					android:id="@+id/episodes_missing_bar"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:background="@color/red"
+					tools:layout_weight="1"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="@dimen/padding"
+				android:gravity="center_vertical"
+				android:orientation="horizontal">
+
+				<View
+					android:layout_width="14dp"
+					android:layout_height="14dp"
+					android:layout_marginEnd="@dimen/padding"
+					android:layout_marginRight="@dimen/padding"
+					android:background="@color/green"/>
+
+				<TextView
+					android:id="@+id/episodes_downloaded"
+					style="@style/TextAppearance.AppCompat.Body1"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					tools:text="@string/downloaded_count"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="@dimen/padding"
+				android:gravity="center_vertical"
+				android:orientation="horizontal">
+
+				<View
+					android:layout_width="14dp"
+					android:layout_height="14dp"
+					android:layout_marginEnd="@dimen/padding"
+					android:layout_marginRight="@dimen/padding"
+					android:background="@color/purple"/>
+
+				<TextView
+					android:id="@+id/episodes_snatched"
+					style="@style/TextAppearance.AppCompat.Body1"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					tools:text="@string/snatched_count"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="@dimen/padding"
+				android:gravity="center_vertical"
+				android:orientation="horizontal">
+
+				<View
+					android:layout_width="14dp"
+					android:layout_height="14dp"
+					android:layout_marginEnd="@dimen/padding"
+					android:layout_marginRight="@dimen/padding"
+					android:background="@color/red"/>
+
+				<TextView
+					android:id="@+id/episodes_missing"
+					style="@style/TextAppearance.AppCompat.Body1"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					tools:text="@string/missing"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="@dimen/padding"
+				android:gravity="center_vertical"
+				android:orientation="horizontal">
+
+				<Space
+					android:layout_width="14dp"
+					android:layout_height="14dp"
+					android:layout_marginEnd="@dimen/padding"
+					android:layout_marginRight="@dimen/padding"/>
+
+				<TextView
+					android:id="@+id/episodes_total"
+					style="@style/TextAppearance.AppCompat.Body1"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					tools:text="@string/total"/>
+			</LinearLayout>
+
+			<TextView
+				style="@style/TextAppearance.AppCompat.Title"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="@dimen/padding"
+				android:text="@string/shows"/>
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="@dimen/padding"
+				android:gravity="center_vertical"
+				android:orientation="horizontal">
+
+				<Space
+					android:layout_width="14dp"
+					android:layout_height="14dp"
+					android:layout_marginEnd="@dimen/padding"
+					android:layout_marginRight="@dimen/padding"/>
+
+				<TextView
+					android:id="@+id/shows_active"
+					style="@style/TextAppearance.AppCompat.Body1"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					tools:text="@string/active"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:gravity="center_vertical"
+				android:orientation="horizontal">
+
+				<Space
+					android:layout_width="14dp"
+					android:layout_height="14dp"
+					android:layout_marginEnd="@dimen/padding"
+					android:layout_marginRight="@dimen/padding"/>
+
+				<TextView
+					android:id="@+id/shows_total"
+					style="@style/TextAppearance.AppCompat.Body1"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					tools:text="@string/total"/>
+			</LinearLayout>
 		</LinearLayout>
 	</LinearLayout>
-</LinearLayout>
+</ScrollView>
