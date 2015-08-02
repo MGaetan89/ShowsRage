@@ -36,6 +36,8 @@ import android.widget.Toast;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
+import com.mgaetan89.showsrage.ShowsRageApplication;
+import com.mgaetan89.showsrage.fragment.RemoteControlFragment;
 import com.mgaetan89.showsrage.fragment.StatisticsFragment;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.model.UpdateResponse;
@@ -129,6 +131,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 				this.startActivity(intent);
 
 				menuItem.setChecked(true);
+
+				return true;
+			}
+
+			case R.id.menu_remote_control: {
+				new RemoteControlFragment().show(this.getSupportFragmentManager(), "remote_control");
 
 				return true;
 			}
@@ -297,6 +305,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 				return;
 			}
+		}
+
+		if (this.navigationView != null) {
+			boolean hasRemotePlaybackClient = ((ShowsRageApplication) this.getApplication()).hasPlayingVideo();
+
+			this.navigationView.getMenu().findItem(R.id.menu_remote_control).setVisible(hasRemotePlaybackClient);
 		}
 
 		this.displayHomeAsUp(this.displayHomeAsUp());

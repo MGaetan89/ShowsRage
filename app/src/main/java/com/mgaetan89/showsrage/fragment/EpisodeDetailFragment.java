@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.fragment;
 
+import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,11 +18,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.MediaRouteActionProvider;
 import android.support.v7.app.MediaRouteDiscoveryFragment;
 import android.support.v7.media.MediaControlIntent;
-import android.support.v7.media.MediaItemStatus;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
-import android.support.v7.media.MediaSessionStatus;
-import android.support.v7.media.RemotePlaybackClient;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -36,10 +34,12 @@ import android.widget.Toast;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
+import com.mgaetan89.showsrage.ShowsRageApplication;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
 import com.mgaetan89.showsrage.helper.GenericCallback;
 import com.mgaetan89.showsrage.model.Episode;
 import com.mgaetan89.showsrage.model.GenericResponse;
+import com.mgaetan89.showsrage.model.PlayingVideoData;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.SingleEpisode;
 import com.mgaetan89.showsrage.network.SickRageApi;
@@ -397,12 +397,6 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		@NonNull
 		private WeakReference<EpisodeDetailFragment> fragmentReference = new WeakReference<>(null);
 
-		@Nullable
-		private RemotePlaybackClient remotePlaybackClient = null;
-
-		@Nullable
-		private MediaRouter.RouteInfo route = null;
-
 		private MediaRouterCallback(EpisodeDetailFragment fragment) {
 			this.fragmentReference = new WeakReference<>(fragment);
 		}
@@ -418,25 +412,23 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		}
 
 		private void updateRemotePlayer(MediaRouter.RouteInfo route) {
-			if (this.route != null && this.remotePlaybackClient != null) {
-				this.remotePlaybackClient.release();
-				this.remotePlaybackClient = null;
-			}
-
 			EpisodeDetailFragment fragment = this.fragmentReference.get();
 
 			if (fragment == null) {
 				return;
 			}
 
-			this.route = route;
-			this.remotePlaybackClient = new RemotePlaybackClient(fragment.getActivity(), this.route);
-			this.remotePlaybackClient.play(fragment.getEpisodeVideoUrl(), "video/*", null, 0, null, new RemotePlaybackClient.ItemActionCallback() {
-				@Override
-				public void onResult(Bundle data, String sessionId, MediaSessionStatus sessionStatus, String itemId, MediaItemStatus itemStatus) {
-					super.onResult(data, sessionId, sessionStatus, itemId, itemStatus);
-				}
-			});
+			Application application = fragment.getActivity().getApplication();
+
+			if (application instanceof ShowsRageApplication) {
+				PlayingVideoData playingVideo = new PlayingVideoData();
+				playingVideo.setEpisode(fragment.episode);
+				playingVideo.setRoute(route);
+				playingVideo.setShow(fragment.show);
+				playingVideo.setVideoUri(fragment.getEpisodeVideoUrl());
+
+				((ShowsRageApplication) application).setPlayingVideo(playingVideo);
+			}
 		}
 	}
 }
