@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -20,22 +19,19 @@ import android.support.v7.app.MediaRouteDiscoveryFragment;
 import android.support.v7.media.MediaControlIntent;
 import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
-import android.support.v7.widget.CardView;
-import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mgaetan89.showsrage.BR;
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.ShowsRageApplication;
-import com.mgaetan89.showsrage.helper.DateTimeHelper;
+import com.mgaetan89.showsrage.databinding.FragmentEpisodeDetailBinding;
 import com.mgaetan89.showsrage.helper.GenericCallback;
 import com.mgaetan89.showsrage.model.Episode;
 import com.mgaetan89.showsrage.model.GenericResponse;
@@ -43,6 +39,7 @@ import com.mgaetan89.showsrage.model.PlayingVideoData;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.SingleEpisode;
 import com.mgaetan89.showsrage.network.SickRageApi;
+import com.mgaetan89.showsrage.presenter.EpisodePresenter;
 
 import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
@@ -54,9 +51,9 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implements Callback<SingleEpisode>, View.OnClickListener {
+public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implements Callback<SingleEpisode> {
 	@Nullable
-	private TextView airs = null;
+	private FragmentEpisodeDetailBinding binding = null;
 
 	@Nullable
 	private MenuItem castMenu = null;
@@ -64,39 +61,18 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 	@Nullable
 	private Episode episode = null;
 
+	@Nullable
+	private EpisodePresenter episodePresenter = null;
+
 	private int episodeNumber = 0;
 
 	@Nullable
-	private TextView fileSize = null;
-
-	@Nullable
-	private TextView location = null;
-
-	@Nullable
-	private CardView moreInformationLayout = null;
-
-	@Nullable
-	private TextView name = null;
-
-	@Nullable
 	private MenuItem playVideoMenu = null;
-
-	@Nullable
-	private TextView plot = null;
-
-	@Nullable
-	private CardView plotLayout = null;
-
-	@Nullable
-	private TextView quality = null;
 
 	private int seasonNumber = 0;
 
 	@Nullable
 	private Show show = null;
-
-	@Nullable
-	private TextView status = null;
 
 	public EpisodeDetailFragment() {
 		this.setHasOptionsMenu(true);
@@ -139,17 +115,6 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (this.show == null) {
-			return;
-		}
-
-		Toast.makeText(this.getActivity(), this.getString(R.string.episode_search, this.episodeNumber, this.seasonNumber), Toast.LENGTH_SHORT).show();
-
-		SickRageApi.getInstance().getServices().searchEpisode(this.show.getIndexerId(), this.seasonNumber, this.episodeNumber, new GenericCallback(this.getActivity()));
-	}
-
-	@Override
 	public MediaRouter.Callback onCreateCallback() {
 		return new MediaRouterCallback(this);
 	}
@@ -170,42 +135,9 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_episode_detail, container, false);
+		this.binding = FragmentEpisodeDetailBinding.inflate(inflater);
 
-		if (view != null) {
-			this.airs = (TextView) view.findViewById(R.id.episode_airs);
-			this.fileSize = (TextView) view.findViewById(R.id.episode_file_size);
-			this.location = (TextView) view.findViewById(R.id.episode_location);
-			this.moreInformationLayout = (CardView) view.findViewById(R.id.episode_more_information_layout);
-			this.name = (TextView) view.findViewById(R.id.episode_name);
-			this.plot = (TextView) view.findViewById(R.id.episode_plot);
-			this.plotLayout = (CardView) view.findViewById(R.id.episode_plot_layout);
-			this.quality = (TextView) view.findViewById(R.id.episode_quality);
-			this.status = (TextView) view.findViewById(R.id.episode_status);
-
-			FloatingActionButton searchEpisode = (FloatingActionButton) view.findViewById(R.id.search_episode);
-
-			if (searchEpisode != null) {
-				searchEpisode.setOnClickListener(this);
-			}
-		}
-
-		return view;
-	}
-
-	@Override
-	public void onDestroyView() {
-		this.airs = null;
-		this.fileSize = null;
-		this.location = null;
-		this.moreInformationLayout = null;
-		this.name = null;
-		this.plot = null;
-		this.plotLayout = null;
-		this.quality = null;
-		this.status = null;
-
-		super.onDestroyView();
+		return this.binding.getRoot();
 	}
 
 	@Override
@@ -227,6 +159,16 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	public void searchEpisode() {
+		if (this.show == null) {
+			return;
+		}
+
+		Toast.makeText(this.getActivity(), this.getString(R.string.episode_search, this.episodeNumber, this.seasonNumber), Toast.LENGTH_SHORT).show();
+
+		SickRageApi.getInstance().getServices().searchEpisode(this.show.getIndexerId(), this.seasonNumber, this.episodeNumber, new GenericCallback(this.getActivity()));
 	}
 
 	@Override
@@ -264,71 +206,14 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 
 		this.episode = episode;
 
-		if (this.airs != null) {
-			this.airs.setText(this.getString(R.string.airs, DateTimeHelper.getRelativeDate(episode.getAirDate(), "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)));
-			this.airs.setVisibility(View.VISIBLE);
-		}
-
-		if (episode.getFileSize() == 0L) {
-			if (this.moreInformationLayout != null) {
-				this.moreInformationLayout.setVisibility(View.GONE);
-			}
-		} else {
-			if (this.fileSize != null) {
-				this.fileSize.setText(this.getString(R.string.file_size, episode.getFileSizeHuman()));
-			}
-
-			if (this.location != null) {
-				this.location.setText(this.getString(R.string.location, episode.getLocation()));
-			}
-
-			if (this.moreInformationLayout != null) {
-				this.moreInformationLayout.setVisibility(View.VISIBLE);
-			}
-		}
-
-		if (this.name != null) {
-			this.name.setText(episode.getName());
-			this.name.setVisibility(View.VISIBLE);
-		}
-
-		if (this.plot != null) {
-			String description = episode.getDescription();
-
-			if (TextUtils.isEmpty(description)) {
-				if (this.plotLayout != null) {
-					this.plotLayout.setVisibility(View.GONE);
-				}
+		if (this.binding != null) {
+			if (this.episodePresenter == null) {
+				this.episodePresenter = new EpisodePresenter(this.episode, this);
 			} else {
-				this.plot.setText(description);
-
-				if (this.plotLayout != null) {
-					this.plotLayout.setVisibility(View.VISIBLE);
-				}
-			}
-		}
-
-		if (this.quality != null) {
-			String quality = episode.getQuality();
-
-			if ("N/A".equalsIgnoreCase(quality)) {
-				this.quality.setVisibility(View.GONE);
-			} else {
-				this.quality.setText(this.getString(R.string.quality, quality));
-				this.quality.setVisibility(View.VISIBLE);
-			}
-		}
-
-		if (this.status != null) {
-			int status = episode.getStatusTranslationResource();
-			String statusString = episode.getStatus();
-
-			if (status != 0) {
-				statusString = this.getString(status);
+				this.episodePresenter.setEpisode(this.episode);
 			}
 
-			this.status.setText(this.getString(R.string.status_value, statusString));
-			this.status.setVisibility(View.VISIBLE);
+			this.binding.setVariable(BR.episode, this.episodePresenter);
 		}
 	}
 
