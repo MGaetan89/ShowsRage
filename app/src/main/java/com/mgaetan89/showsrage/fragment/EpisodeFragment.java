@@ -26,9 +26,6 @@ public class EpisodeFragment extends Fragment {
 	private final List<Integer> episodes = new ArrayList<>();
 
 	@Nullable
-	private TabLayout tabLayout = null;
-
-	@Nullable
 	private ViewPager viewPager = null;
 
 	public EpisodeFragment() {
@@ -38,12 +35,6 @@ public class EpisodeFragment extends Fragment {
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		this.tabLayout = (TabLayout) this.getActivity().findViewById(R.id.tabs);
-
-		if (this.tabLayout != null && this.viewPager != null) {
-			this.tabLayout.setupWithViewPager(this.viewPager);
-			this.tabLayout.setVisibility(View.VISIBLE);
-		}
 
 		Intent intent = this.getActivity().getIntent();
 
@@ -58,10 +49,13 @@ public class EpisodeFragment extends Fragment {
 			if (this.adapter != null) {
 				this.adapter.notifyDataSetChanged();
 
-				if (this.tabLayout != null) {
-					this.tabLayout.setTabsFromPagerAdapter(this.adapter);
+				TabLayout tabLayout = (TabLayout) this.getActivity().findViewById(R.id.tabs);
 
-					TabLayout.Tab tab = this.tabLayout.getTabAt(episodesCount - episodeNumber);
+				if (tabLayout != null && this.viewPager != null) {
+					tabLayout.setupWithViewPager(this.viewPager);
+					tabLayout.setVisibility(View.VISIBLE);
+
+					TabLayout.Tab tab = tabLayout.getTabAt(episodesCount - episodeNumber);
 
 					if (tab != null) {
 						tab.select();
@@ -98,7 +92,6 @@ public class EpisodeFragment extends Fragment {
 
 	@Override
 	public void onDestroyView() {
-		this.tabLayout = null;
 		this.viewPager = null;
 
 		super.onDestroyView();
