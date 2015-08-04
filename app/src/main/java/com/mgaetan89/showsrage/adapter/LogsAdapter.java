@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.mgaetan89.showsrage.BR;
 import com.mgaetan89.showsrage.databinding.AdapterLogsListBinding;
 import com.mgaetan89.showsrage.model.LogEntry;
 import com.mgaetan89.showsrage.presenter.LogEntryPresenter;
@@ -34,9 +33,8 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		LogEntry logEntry = new LogEntry(this.logs.get(position));
-		LogEntryPresenter presenter = new LogEntryPresenter(logEntry, holder.binding.getRoot());
 
-		holder.binding.setVariable(BR.log, presenter);
+		holder.binding.setLog(new LogEntryPresenter(logEntry, holder.binding.getRoot()));
 	}
 
 	@Override

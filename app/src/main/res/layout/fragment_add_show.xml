@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<layout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
 	tools:context="com.mgaetan89.showsrage.fragment.AddShowFragment">
 
-	<android.support.v7.widget.RecyclerView
-		android:id="@android:id/list"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:visibility="gone"/>
+	<data>
 
-	<TextView
-		android:id="@android:id/empty"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center"
-		android:text="@string/no_results"
-		android:visibility="gone"/>
-</FrameLayout>
+		<variable
+			name="addShow"
+			type="com.mgaetan89.showsrage.presenter.AddShowPresenter"/>
+	</data>
+
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<android.support.v7.widget.RecyclerView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:visibility="@{addShow.recyclerViewVisibility}"
+			app:adapter="@{addShow.adapter}"
+			app:layoutManager="@{addShow.layoutManager}"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:text="@string/no_results"
+			android:visibility="@{addShow.emptyViewVisibility}"/>
+	</FrameLayout>
+</layout>

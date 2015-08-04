@@ -9,8 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,14 +16,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.adapter.SearchResultsAdapter;
+import com.mgaetan89.showsrage.databinding.FragmentAddShowBinding;
 import com.mgaetan89.showsrage.model.SearchResult;
 import com.mgaetan89.showsrage.model.SearchResultItem;
 import com.mgaetan89.showsrage.model.SearchResults;
 import com.mgaetan89.showsrage.network.SickRageApi;
+import com.mgaetan89.showsrage.presenter.AddShowPresenter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,16 +35,13 @@ import retrofit.client.Response;
 
 public class AddShowFragment extends Fragment implements Callback<SearchResults>, SearchView.OnQueryTextListener {
 	@Nullable
-	private SearchResultsAdapter adapter = null;
-
-	@Nullable
-	private TextView emptyView = null;
-
-	@Nullable
-	private RecyclerView recyclerView = null;
+	private FragmentAddShowBinding binding = null;
 
 	@NonNull
 	private final List<SearchResultItem> searchResults = new ArrayList<>();
+
+	@NonNull
+	private final AddShowPresenter presenter = new AddShowPresenter(this.searchResults);
 
 	public AddShowFragment() {
 		this.setHasOptionsMenu(true);
@@ -75,22 +70,12 @@ public class AddShowFragment extends Fragment implements Callback<SearchResults>
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_add_show, container, false);
+		this.presenter.setContext(this.getActivity());
 
-		if (view != null) {
-			this.emptyView = (TextView) view.findViewById(android.R.id.empty);
-			this.recyclerView = (RecyclerView) view.findViewById(android.R.id.list);
+		this.binding = FragmentAddShowBinding.inflate(inflater, container, false);
+		this.binding.setAddShow(this.presenter);
 
-			if (this.recyclerView != null) {
-				int columnCount = this.getResources().getInteger(R.integer.shows_column_count);
-				this.adapter = new SearchResultsAdapter(this.searchResults);
-
-				this.recyclerView.setAdapter(this.adapter);
-				this.recyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), columnCount));
-			}
-		}
-
-		return view;
+		return this.binding.getRoot();
 	}
 
 	@Override
@@ -98,14 +83,6 @@ public class AddShowFragment extends Fragment implements Callback<SearchResults>
 		this.searchResults.clear();
 
 		super.onDestroy();
-	}
-
-	@Override
-	public void onDestroyView() {
-		this.emptyView = null;
-		this.recyclerView = null;
-
-		super.onDestroyView();
 	}
 
 	@Override
@@ -129,26 +106,10 @@ public class AddShowFragment extends Fragment implements Callback<SearchResults>
 		this.searchResults.clear();
 		this.searchResults.addAll(getSearchResults(searchResults));
 
-		if (this.searchResults.isEmpty()) {
-			if (this.emptyView != null) {
-				this.emptyView.setVisibility(View.VISIBLE);
-			}
+		this.presenter.notifyAdapter();
 
-			if (this.recyclerView != null) {
-				this.recyclerView.setVisibility(View.GONE);
-			}
-		} else {
-			if (this.emptyView != null) {
-				this.emptyView.setVisibility(View.GONE);
-			}
-
-			if (this.recyclerView != null) {
-				this.recyclerView.setVisibility(View.VISIBLE);
-			}
-		}
-
-		if (this.adapter != null) {
-			this.adapter.notifyDataSetChanged();
+		if (this.binding != null) {
+			this.binding.setAddShow(this.presenter);
 		}
 	}
 

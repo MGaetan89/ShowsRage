@@ -27,7 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.mgaetan89.showsrage.BR;
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.ShowsRageApplication;
@@ -61,8 +60,8 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 	@Nullable
 	private Episode episode = null;
 
-	@Nullable
-	private EpisodePresenter episodePresenter = null;
+	@NonNull
+	private final EpisodePresenter episodePresenter = new EpisodePresenter(this.episode, this);
 
 	private int episodeNumber = 0;
 
@@ -206,14 +205,10 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 
 		this.episode = episode;
 
-		if (this.binding != null) {
-			if (this.episodePresenter == null) {
-				this.episodePresenter = new EpisodePresenter(this.episode, this);
-			} else {
-				this.episodePresenter.setEpisode(this.episode);
-			}
+		this.episodePresenter.setEpisode(this.episode);
 
-			this.binding.setVariable(BR.episode, this.episodePresenter);
+		if (this.binding != null) {
+			this.binding.setEpisode(this.episodePresenter);
 		}
 	}
 
