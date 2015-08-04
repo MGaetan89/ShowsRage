@@ -135,7 +135,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		this.binding = FragmentEpisodeDetailBinding.inflate(inflater);
+		this.binding = FragmentEpisodeDetailBinding.inflate(inflater, container, false);
 
 		return this.binding.getRoot();
 	}
