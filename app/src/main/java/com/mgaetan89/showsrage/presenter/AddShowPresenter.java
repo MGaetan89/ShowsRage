@@ -34,17 +34,17 @@ public class AddShowPresenter {
 		return this.adapter;
 	}
 
-	@NonNull
-	public RecyclerView.LayoutManager getLayoutManager() {
-		return this.layoutManager;
-	}
-
 	public int getEmptyViewVisibility() {
 		if (this.searchResults.isEmpty()) {
 			return View.VISIBLE;
 		}
 
 		return View.GONE;
+	}
+
+	@NonNull
+	public RecyclerView.LayoutManager getLayoutManager() {
+		return this.layoutManager;
 	}
 
 	public int getRecyclerViewVisibility() {
