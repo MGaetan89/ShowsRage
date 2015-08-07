@@ -28,6 +28,8 @@ public class Episode implements Serializable {
 
 	private String name;
 
+	private int number;
+
 	private String quality;
 
 	@SerializedName("release_name")
@@ -59,6 +61,10 @@ public class Episode implements Serializable {
 
 	public String getName() {
 		return this.name;
+	}
+
+	public int getNumber() {
+		return this.number;
 	}
 
 	public String getQuality() {
@@ -161,5 +167,9 @@ public class Episode implements Serializable {
 
 	public String getSubtitles() {
 		return this.subtitles;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
 }

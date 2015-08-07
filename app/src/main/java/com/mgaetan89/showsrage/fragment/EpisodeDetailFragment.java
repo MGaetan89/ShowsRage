@@ -60,9 +60,6 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 	@Nullable
 	private Episode episode = null;
 
-	@NonNull
-	private final EpisodePresenter episodePresenter = new EpisodePresenter(this.episode, this);
-
 	private int episodeNumber = 0;
 
 	@Nullable
@@ -205,10 +202,11 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 
 		this.episode = episode;
 
-		this.episodePresenter.setEpisode(this.episode);
-
 		if (this.binding != null) {
-			this.binding.setEpisode(this.episodePresenter);
+			EpisodePresenter episodePresenter = new EpisodePresenter(this.episode, this.getActivity());
+			episodePresenter.setSearchListener(this);
+
+			this.binding.setEpisode(episodePresenter);
 		}
 	}
 
