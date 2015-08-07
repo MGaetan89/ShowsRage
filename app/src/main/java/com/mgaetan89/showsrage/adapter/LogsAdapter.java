@@ -34,7 +34,7 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		LogEntry logEntry = new LogEntry(this.logs.get(position));
 
-		holder.binding.setLog(new LogEntryPresenter(logEntry, holder.binding.getRoot()));
+		holder.binding.setLog(new LogEntryPresenter(logEntry, holder.binding.getRoot().getContext()));
 	}
 
 	@Override
