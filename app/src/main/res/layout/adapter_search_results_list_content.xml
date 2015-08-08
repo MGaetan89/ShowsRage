@@ -1,37 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<layout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="@dimen/list_item_height"
-	android:layout_centerVertical="true"
-	android:background="?selectableItemBackground"
-	android:gravity="center_vertical"
-	android:orientation="vertical"
-	android:paddingEnd="@dimen/padding"
-	android:paddingLeft="@dimen/padding"
-	android:paddingRight="@dimen/padding"
-	android:paddingStart="@dimen/padding">
+	xmlns:tools="http://schemas.android.com/tools">
 
-	<TextView
-		android:id="@+id/show_name"
-		style="@style/TextAppearance.AppCompat.Subhead"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		tools:text="2 Broke Girls"/>
+	<data>
 
-	<TextView
-		android:id="@+id/show_first_aired"
-		style="@style/TextAppearance.AppCompat.Caption"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		tools:text="2015-04-27"/>
+		<variable
+			name="result"
+			type="com.mgaetan89.showsrage.presenter.SearchResultItemPresenter"/>
+	</data>
 
-	<TextView
-		android:id="@+id/show_indexer"
-		style="@style/TextAppearance.AppCompat.Caption"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="end|right"
-		tools:text="TVRage"/>
-</LinearLayout>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/list_item_height"
+		android:background="?selectableItemBackground"
+		android:gravity="center_vertical"
+		android:orientation="vertical"
+		android:paddingEnd="@dimen/padding"
+		android:paddingLeft="@dimen/padding"
+		android:paddingRight="@dimen/padding"
+		android:paddingStart="@dimen/padding"
+		tools:showIn="@layout/adapter_search_results_list">
+
+		<TextView
+			style="@style/TextAppearance.AppCompat.Subhead"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@{result.showName}"
+			tools:text="2 Broke Girls"/>
+
+		<TextView
+			style="@style/TextAppearance.AppCompat.Caption"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@{result.firstAirDate}"
+			tools:text="2015-04-27"/>
+
+		<TextView
+			style="@style/TextAppearance.AppCompat.Caption"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="end|right"
+			android:text="@{result.indexer}"
+			tools:text="TVRage"/>
+	</LinearLayout>
+</layout>
