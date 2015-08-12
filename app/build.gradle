@@ -13,6 +13,8 @@ android {
 		targetSdkVersion 22
 		versionCode 12
 		versionName '0.9'
+		resConfigs 'en', 'fr'
+		resConfigs 'anydpi', 'hdpi', 'mdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi'
 	}
 
 	compileOptions {
