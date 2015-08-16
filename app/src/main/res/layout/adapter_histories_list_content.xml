@@ -30,6 +30,7 @@
 			android:layout_marginEnd="@dimen/padding"
 			android:layout_marginRight="@dimen/padding"
 			android:contentDescription="@{history.showName}"
+			app:circle="@{history.circleLogo}"
 			app:image="@{history.posterUrl}"
 			tools:src="@mipmap/ic_launcher"/>
 

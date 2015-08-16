@@ -30,6 +30,7 @@
 			android:layout_marginEnd="@dimen/padding"
 			android:layout_marginRight="@dimen/padding"
 			android:contentDescription="@{comingEpisode.showName}"
+			app:circle="@{comingEpisode.circleLogo}"
 			app:image="@{comingEpisode.posterUrl}"
 			tools:src="@mipmap/ic_launcher"/>
 

@@ -82,8 +82,12 @@ public class ComingEpisodePresenter {
 		return this.comingEpisode.getShowName();
 	}
 
-	@BindingAdapter({"bind:image"})
-	public static void loadImage(ImageView imageView, String url) {
-		ImageLoader.load(imageView, url, true);
+	public boolean isCircleLogo() {
+		return true;
+	}
+
+	@BindingAdapter({"bind:circle", "bind:image"})
+	public static void loadImage(ImageView imageView, String url, boolean circle) {
+		ImageLoader.load(imageView, url, circle);
 	}
 }

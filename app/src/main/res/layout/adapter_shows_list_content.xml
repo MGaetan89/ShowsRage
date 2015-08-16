@@ -35,6 +35,7 @@
 				android:layout_marginEnd="@dimen/padding"
 				android:layout_marginRight="@dimen/padding"
 				android:contentDescription="@{show.name}"
+				app:circle="@{show.circleLogo}"
 				app:image="@{show.posterUrl}"
 				tools:src="@mipmap/ic_launcher"/>
 
