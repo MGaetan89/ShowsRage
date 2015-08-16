@@ -1,69 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<layout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="@dimen/list_item_height"
-	android:background="?selectableItemBackground"
-	android:orientation="vertical">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
 
-	<RelativeLayout
+	<data>
+
+		<variable
+			name="show"
+			type="com.mgaetan89.showsrage.presenter.ShowPresenter"/>
+	</data>
+
+	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="0dp"
-		android:layout_weight="1"
-		android:paddingEnd="@dimen/padding"
-		android:paddingLeft="@dimen/padding"
-		android:paddingRight="@dimen/padding"
-		android:paddingStart="@dimen/padding">
+		android:layout_height="@dimen/list_item_height"
+		android:background="?selectableItemBackground"
+		android:orientation="vertical"
+		tools:showIn="@layout/adapter_shows_list">
 
-		<ImageView
-			android:id="@+id/show_logo"
-			android:layout_width="40dp"
-			android:layout_height="wrap_content"
-			android:layout_centerVertical="true"
-			android:layout_marginEnd="@dimen/padding"
-			android:layout_marginRight="@dimen/padding"
-			tools:ignore="ContentDescription"
-			tools:src="@mipmap/ic_launcher"/>
-
-		<LinearLayout
+		<RelativeLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_centerVertical="true"
-			android:layout_toEndOf="@+id/show_logo"
-			android:layout_toRightOf="@+id/show_logo"
-			android:orientation="vertical">
+			android:layout_height="0dp"
+			android:layout_weight="1"
+			android:paddingEnd="@dimen/padding"
+			android:paddingLeft="@dimen/padding"
+			android:paddingRight="@dimen/padding"
+			android:paddingStart="@dimen/padding">
 
-			<TextView
-				android:id="@+id/show_name"
-				style="@style/TextAppearance.AppCompat.Subhead"
-				android:layout_width="wrap_content"
+			<ImageView
+				android:id="@+id/show_logo"
+				android:layout_width="40dp"
 				android:layout_height="wrap_content"
-				tools:text="2 Broke Girls"/>
+				android:layout_centerVertical="true"
+				android:layout_marginEnd="@dimen/padding"
+				android:layout_marginRight="@dimen/padding"
+				android:contentDescription="@{show.name}"
+				app:circle="@{show.circleLogo}"
+				app:image="@{show.posterUrl}"
+				tools:src="@mipmap/ic_launcher"/>
 
-			<TextView
-				android:id="@+id/show_next_episode_date"
-				style="@style/TextAppearance.AppCompat.Caption"
-				android:layout_width="wrap_content"
+			<LinearLayout
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				tools:text="2015-04-27"/>
+				android:layout_centerVertical="true"
+				android:layout_toEndOf="@+id/show_logo"
+				android:layout_toRightOf="@+id/show_logo"
+				android:orientation="vertical">
 
-			<TextView
-				android:id="@+id/show_network_quality"
-				style="@style/TextAppearance.AppCompat.Caption"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="end|right"
-				tools:text="CBS / HD1080p"/>
-		</LinearLayout>
-	</RelativeLayout>
+				<TextView
+					style="@style/TextAppearance.AppCompat.Subhead"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@{show.name}"
+					tools:text="2 Broke Girls"/>
 
-	<ProgressBar
-		android:id="@+id/show_progress"
-		style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-		android:layout_width="match_parent"
-		android:layout_height="4dp"
-		android:layout_marginBottom="-2dp"
-		tools:progress="33"
-		tools:secondaryProgress="66"/>
-</LinearLayout>
+				<TextView
+					style="@style/TextAppearance.AppCompat.Caption"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@{show.nextEpisodeDateOrStatus}"
+					tools:text="2015-04-27"/>
+
+				<TextView
+					style="@style/TextAppearance.AppCompat.Caption"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="end|right"
+					android:text="@{show.networkAndQuality}"
+					tools:text="CBS / HD1080p"/>
+			</LinearLayout>
+		</RelativeLayout>
+
+		<ProgressBar
+			style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="4dp"
+			android:layout_marginBottom="-2dp"
+			android:max="@{show.episodesCount}"
+			android:progress="@{show.episodesDownloaded}"
+			android:secondaryProgress="@{show.episodesPending}"
+			tools:progress="33"
+			tools:secondaryProgress="66"/>
+	</LinearLayout>
+</layout>

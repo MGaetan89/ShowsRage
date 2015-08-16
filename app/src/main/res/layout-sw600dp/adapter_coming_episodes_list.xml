@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-	style="@style/CardView.Dark"
+<layout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:layout_margin="@dimen/padding_half">
+	xmlns:bind="http://schemas.android.com/apk/res-auto">
 
-	<include layout="@layout/adapter_coming_episodes_list_content"/>
-</android.support.v7.widget.CardView>
+	<data>
+
+		<variable
+			name="comingEpisode"
+			type="com.mgaetan89.showsrage.presenter.ComingEpisodePresenter"/>
+	</data>
+
+	<android.support.v7.widget.CardView
+		style="@style/CardView.Dark"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="@dimen/padding_half">
+
+		<include
+			android:id="@+id/list_content"
+			layout="@layout/adapter_coming_episodes_list_content"
+			bind:comingEpisode="@{comingEpisode}"/>
+	</android.support.v7.widget.CardView>
+</layout>

@@ -1,24 +1,19 @@
 package com.mgaetan89.showsrage.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.helper.DateTimeHelper;
+import com.mgaetan89.showsrage.databinding.AdapterEpisodesListBinding;
 import com.mgaetan89.showsrage.model.Episode;
+import com.mgaetan89.showsrage.presenter.EpisodePresenter;
 
 import java.util.Collections;
 import java.util.List;
@@ -55,82 +50,31 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		Episode episode = this.episodes.get(position);
+		episode.setNumber(this.getItemCount() - position);
 
-		if (holder.date != null) {
-			String airDate = episode.getAirDate();
-
-			if (TextUtils.isEmpty(airDate)) {
-				holder.date.setText(R.string.never);
-			} else {
-				holder.date.setText(DateTimeHelper.getRelativeDate(airDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS));
-			}
-		}
-
-		if (holder.name != null) {
-			holder.name.setText(holder.name.getResources().getString(R.string.episode_name, this.getItemCount() - position, episode.getName()));
-		}
-
-		if (holder.quality != null) {
-			String quality = episode.getQuality();
-
-			if ("N/A".equalsIgnoreCase(quality)) {
-				holder.quality.setText("");
-			} else {
-				holder.quality.setText(quality);
-			}
-		}
-
-		if (holder.status != null) {
-			int status = episode.getStatusTranslationResource();
-			String statusString = episode.getStatus();
-
-			if (status != 0) {
-				statusString = holder.status.getResources().getString(status);
-			}
-
-			holder.status.setText(statusString);
-
-			Drawable background = DrawableCompat.wrap(holder.status.getBackground());
-			DrawableCompat.setTint(background, holder.status.getResources().getColor(episode.getStatusBackgroundColor()));
-		}
+		holder.binding.setEpisode(new EpisodePresenter(episode, holder.binding.getRoot().getContext()));
 	}
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_episodes_list, parent, false);
+		AdapterEpisodesListBinding binding = AdapterEpisodesListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
 
-		return new ViewHolder(view);
+		return new ViewHolder(binding);
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
-		@Nullable
-		public final ImageView actions;
+		@NonNull
+		public final AdapterEpisodesListBinding binding;
 
-		@Nullable
-		public final TextView date;
+		public ViewHolder(@NonNull AdapterEpisodesListBinding binding) {
+			super(binding.getRoot());
 
-		@Nullable
-		public final TextView name;
+			binding.getRoot().setOnClickListener(this);
 
-		@Nullable
-		public final TextView quality;
+			this.binding = binding;
 
-		@Nullable
-		public final TextView status;
-
-		public ViewHolder(View view) {
-			super(view);
-
-			view.setOnClickListener(this);
-
-			this.actions = (ImageView) view.findViewById(R.id.episode_actions);
-			this.date = (TextView) view.findViewById(R.id.episode_date);
-			this.name = (TextView) view.findViewById(R.id.episode_name);
-			this.quality = (TextView) view.findViewById(R.id.episode_quality);
-			this.status = (TextView) view.findViewById(R.id.episode_status);
-
-			if (this.actions != null) {
-				this.actions.setOnClickListener(this);
+			if (this.binding.listContent.episodeActions != null) {
+				this.binding.listContent.episodeActions.setOnClickListener(this);
 			}
 		}
 
@@ -139,7 +83,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 			Context context = view.getContext();
 
 			if (view.getId() == R.id.episode_actions) {
-				PopupMenu popupMenu = new PopupMenu(context, this.actions);
+				PopupMenu popupMenu = new PopupMenu(context, view);
 				popupMenu.inflate(R.menu.episode_action);
 				popupMenu.setOnMenuItemClickListener(this);
 				popupMenu.show();
@@ -157,8 +101,8 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 
 		@Override
 		public boolean onMenuItemClick(MenuItem item) {
-			if (this.actions != null) {
-				Context context = this.actions.getContext();
+			if (this.binding.listContent.episodeActions != null) {
+				Context context = this.binding.listContent.episodeActions.getContext();
 
 				if (context instanceof OnEpisodeActionSelectedListener) {
 					EpisodesAdapter adapter = EpisodesAdapter.this;
