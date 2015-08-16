@@ -59,10 +59,10 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 
 	private long position = 0L;
 
-	private int savedVolume = 0;
-
 	@Nullable
 	private StatusCallback statusCallback = null;
+
+	private int volume = 0;
 
 	@Nullable
 	private ImageView volumeMute = null;
@@ -195,10 +195,15 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 		AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
 
 		if (playingVideo != null) {
+			MediaRouter.RouteInfo route = playingVideo.getRoute();
 			Show show = playingVideo.getShow();
 
 			if (show != null) {
 				builder.setTitle(show.getShowName());
+			}
+
+			if (route != null) {
+				this.volume = route.getVolume();
 			}
 		}
 
@@ -413,11 +418,10 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 			return;
 		}
 
-		int volume = route.getVolume();
-		volume = volume - route.getVolumeMax() / 10;
-		volume = Math.max(volume, 0);
+		this.volume -= route.getVolumeMax() / 10;
+		this.volume = Math.max(this.volume, 0);
 
-		route.requestSetVolume(volume);
+		route.requestSetVolume(this.volume);
 	}
 
 	private void volumeMute() {
@@ -443,10 +447,10 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 		} else {
 			iconColor = android.R.color.white;
 
-			route.requestSetVolume(this.savedVolume);
+			route.requestSetVolume(this.volume);
 		}
 
-		this.savedVolume = currentVolume;
+		this.volume = currentVolume;
 
 		if (this.volumeMute != null) {
 			Drawable drawable = DrawableCompat.wrap(this.volumeMute.getDrawable());
@@ -467,11 +471,10 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 			return;
 		}
 
-		int volume = route.getVolume();
-		volume = volume + route.getVolumeMax() / 10;
-		volume = Math.min(volume, route.getVolumeMax());
+		this.volume += route.getVolumeMax() / 10;
+		this.volume = Math.min(this.volume, route.getVolumeMax());
 
-		route.requestSetVolume(volume);
+		route.requestSetVolume(this.volume);
 	}
 
 	private static final class PlayPauseStopCallback extends RemotePlaybackClient.SessionActionCallback {
