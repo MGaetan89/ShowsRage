@@ -178,6 +178,9 @@ public class Show implements Serializable {
 
 				case "ended":
 					return R.string.ended;
+
+				case "unknown":
+					return R.string.unknown;
 			}
 		}
 

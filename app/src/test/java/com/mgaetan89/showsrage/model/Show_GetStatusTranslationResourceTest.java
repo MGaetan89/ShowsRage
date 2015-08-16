@@ -39,6 +39,8 @@ public class Show_GetStatusTranslationResourceTest {
 				{getJsonForStatus(gson, "Continuing"), R.string.continuing},
 				{getJsonForStatus(gson, "ended"), R.string.ended},
 				{getJsonForStatus(gson, "Ended"), R.string.ended},
+				{getJsonForStatus(gson, "unknown"), R.string.unknown},
+				{getJsonForStatus(gson, "Unknown"), R.string.unknown},
 				{gson.fromJson("{}", Show.class), 0},
 				{getJsonForStatus(gson, "status"), 0},
 				{getJsonForStatus(gson, "Status"), 0},
