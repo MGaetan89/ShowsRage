@@ -33,18 +33,18 @@ public class BaseActivity_ShouldCheckForUpdateTest {
 
 		return Arrays.asList(new Object[][]{
 				// Automatic check
-				{false, System.currentTimeMillis() - Constants.Preferences.Defaults.VERSION_CHECK_INTERVAL - offset, true},
-				{false, System.currentTimeMillis() - Constants.Preferences.Defaults.VERSION_CHECK_INTERVAL, true},
-				{false, System.currentTimeMillis() - Constants.Preferences.Defaults.VERSION_CHECK_INTERVAL + offset, false},
+				{false, System.currentTimeMillis() - Constants.VERSION_CHECK_INTERVAL - offset, true},
+				{false, System.currentTimeMillis() - Constants.VERSION_CHECK_INTERVAL, true},
+				{false, System.currentTimeMillis() - Constants.VERSION_CHECK_INTERVAL + offset, false},
 				{false, System.currentTimeMillis() - offset, false},
 				{false, System.currentTimeMillis(), false},
 				{false, System.currentTimeMillis() + offset, false},
 				{false, 0, true},
 
 				// Manual check
-				{true, System.currentTimeMillis() - Constants.Preferences.Defaults.VERSION_CHECK_INTERVAL - offset, true},
-				{true, System.currentTimeMillis() - Constants.Preferences.Defaults.VERSION_CHECK_INTERVAL, true},
-				{true, System.currentTimeMillis() - Constants.Preferences.Defaults.VERSION_CHECK_INTERVAL + offset, true},
+				{true, System.currentTimeMillis() - Constants.VERSION_CHECK_INTERVAL - offset, true},
+				{true, System.currentTimeMillis() - Constants.VERSION_CHECK_INTERVAL, true},
+				{true, System.currentTimeMillis() - Constants.VERSION_CHECK_INTERVAL + offset, true},
 				{true, System.currentTimeMillis() - offset, true},
 				{true, System.currentTimeMillis(), true},
 				{true, System.currentTimeMillis() + offset, true},

@@ -389,7 +389,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 	/* package */
 	static boolean shouldCheckForUpdate(boolean manualCheck, long lastCheckTime) {
-		return manualCheck || System.currentTimeMillis() - lastCheckTime >= Constants.Preferences.Defaults.VERSION_CHECK_INTERVAL;
+		return manualCheck || System.currentTimeMillis() - lastCheckTime >= Constants.VERSION_CHECK_INTERVAL;
 	}
 
 	private static final class CheckForUpdateCallback implements Callback<UpdateResponseWrapper> {
