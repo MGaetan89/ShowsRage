@@ -5,7 +5,7 @@ apply plugin: 'com.github.kt3k.coveralls'
 
 android {
 	compileSdkVersion 23
-	buildToolsVersion '23'
+	buildToolsVersion '22.0.1'
 
 	defaultConfig {
 		applicationId 'com.mgaetan89.showsrage'
