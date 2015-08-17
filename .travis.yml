@@ -9,8 +9,8 @@ jdk:
 
 android:
   components:
-    - android-22
-    - build-tools-22.0.1
+    - android-23
+    - build-tools-23
     - extra-android-m2repository
     - extra-google-m2repository
     - platform-tools
@@ -26,12 +26,13 @@ env:
     - ANDROID_TARGET=android-20
     - ANDROID_TARGET=android-21
     - ANDROID_TARGET=android-22
+    - ANDROID_TARGET=android-23
 
 script:
   - ./gradlew build testDebug
 
 after_success:
-  - if [[ "$ANDROID_TARGET" == "android-22" ]]; then ./gradlew jacocoTestReport coveralls; fi
+  - if [[ "$ANDROID_TARGET" == "android-23" ]]; then ./gradlew jacocoTestReport coveralls; fi
 
 sudo: false
 
