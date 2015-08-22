@@ -46,6 +46,7 @@ import com.mgaetan89.showsrage.model.PlayingVideoData;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.SingleEpisode;
 import com.mgaetan89.showsrage.network.SickRageApi;
+import com.mgaetan89.showsrage.view.ColoredMediaRouteActionProvider;
 
 import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
@@ -162,8 +163,17 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		inflater.inflate(R.menu.episode, menu);
 
 		this.castMenu = menu.findItem(R.id.menu_cast);
+		Intent intent = this.getActivity().getIntent();
 		MediaRouteActionProvider mediaRouteActionProvider = (MediaRouteActionProvider) MenuItemCompat.getActionProvider(this.castMenu);
 		mediaRouteActionProvider.setRouteSelector(this.getRouteSelector());
+
+		if (intent != null && mediaRouteActionProvider instanceof ColoredMediaRouteActionProvider) {
+			int colorPrimary = intent.getIntExtra(Constants.Bundle.COLOR_PRIMARY, 0);
+
+			if (colorPrimary != 0) {
+				((ColoredMediaRouteActionProvider) mediaRouteActionProvider).setButtonColor(Utils.getContrastColor(colorPrimary));
+			}
+		}
 
 		this.playVideoMenu = menu.findItem(R.id.menu_play_video);
 

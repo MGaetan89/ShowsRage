@@ -5,7 +5,7 @@
 	<item
 		android:id="@+id/menu_cast"
 		android:title="@string/mr_media_route_chooser_title"
-		app:actionProviderClass="android.support.v7.app.MediaRouteActionProvider"
+		app:actionProviderClass="com.mgaetan89.showsrage.view.ColoredMediaRouteActionProvider"
 		app:showAsAction="always"/>
 	<item
 		android:id="@+id/menu_play_video"

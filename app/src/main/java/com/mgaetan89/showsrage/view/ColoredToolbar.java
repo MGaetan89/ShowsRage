@@ -72,10 +72,22 @@ public class ColoredToolbar extends Toolbar {
 	private void setChildColor(View child) {
 		if (child instanceof ImageView) {
 			((ImageView) child).setColorFilter(this.colorFilter);
+			child.setAlpha(0.7f);
 		} else if (child instanceof TextView) {
 			((TextView) child).setTextColor(this.itemColor);
 		} else if (child instanceof ActionMenuView) {
 			ActionMenuView actionMenu = (ActionMenuView) child;
+			final Drawable overflowIcon = actionMenu.getOverflowIcon();
+
+			if (overflowIcon != null) {
+				actionMenu.post(new Runnable() {
+					@Override
+					public void run() {
+						overflowIcon.setColorFilter(ColoredToolbar.this.colorFilter);
+						overflowIcon.setAlpha((int) (0.7f * 255));
+					}
+				});
+			}
 
 			for (int i = 0; i < actionMenu.getChildCount(); i++) {
 				View actionMenuChild = actionMenu.getChildAt(i);
