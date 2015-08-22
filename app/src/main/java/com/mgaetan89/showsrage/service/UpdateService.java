@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.activity.ShowsActivity;
@@ -47,7 +48,7 @@ public class UpdateService extends Service implements Callback<GenericResponse>,
 
 		Notification notification = new NotificationCompat.Builder(this)
 				.setAutoCancel(true)
-				.setColor(this.getResources().getColor(R.color.primary))
+				.setColor(ContextCompat.getColor(this, R.color.primary))
 				.setContentTitle(this.getString(R.string.app_name))
 				.setContentText(this.getString(R.string.updating_sickrage))
 				.setLocalOnly(true)
@@ -96,7 +97,7 @@ public class UpdateService extends Service implements Callback<GenericResponse>,
 
 		Notification notification = new NotificationCompat.Builder(this)
 				.setAutoCancel(true)
-				.setColor(this.getResources().getColor(R.color.primary))
+				.setColor(ContextCompat.getColor(this, R.color.primary))
 				.setContentIntent(pendingIntent)
 				.setContentTitle(this.getString(R.string.app_name))
 				.setContentText(this.getString(messageRes))

@@ -18,8 +18,10 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.IntentCompat;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.widget.DrawerLayout;
@@ -28,7 +30,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -39,10 +40,12 @@ import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.ShowsRageApplication;
 import com.mgaetan89.showsrage.fragment.RemoteControlFragment;
 import com.mgaetan89.showsrage.fragment.StatisticsFragment;
+import com.mgaetan89.showsrage.helper.Utils;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.model.UpdateResponse;
 import com.mgaetan89.showsrage.model.UpdateResponseWrapper;
 import com.mgaetan89.showsrage.network.SickRageApi;
+import com.mgaetan89.showsrage.view.ColoredToolbar;
 
 import java.lang.ref.WeakReference;
 
@@ -67,6 +70,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 	@Nullable
 	private NavigationView navigationView = null;
+
+	@Nullable
+	private TabLayout tabLayout = null;
+
+	@Nullable
+	private ColoredToolbar toolbar = null;
 
 	@Override
 	public void failure(RetrofitError error) {
@@ -202,17 +211,52 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 	}
 
 	public void setPalette(Palette palette) {
-		// TODO Handle accent color too once TabLayout can have dynamic indicator color
-		// https://code.google.com/p/android/issues/detail?id=175182
-		Palette.Swatch swatch = palette.getVibrantSwatch();
+		Palette.Swatch accent = palette.getDarkMutedSwatch();
+		int accentColor;
+		Palette.Swatch primary = palette.getVibrantSwatch();
+		int primaryColor;
 
-		if (swatch == null) {
-			swatch = palette.getMutedSwatch();
+		if (accent == null) {
+			accent = palette.getMutedSwatch();
+
+			if (accent == null) {
+				accent = palette.getLightMutedSwatch();
+			}
 		}
 
-		if (swatch != null) {
-			this.setThemeColors(swatch.getRgb());
+		if (accent == null) {
+			accentColor = ContextCompat.getColor(this, R.color.accent);
+		} else {
+			accentColor = accent.getRgb();
 		}
+
+		if (primary == null) {
+			primary = palette.getLightVibrantSwatch();
+
+			if (primary == null) {
+				primary = palette.getDarkVibrantSwatch();
+
+				if (primary == null) {
+					primary = palette.getLightMutedSwatch();
+
+					if (primary == null) {
+						primary = palette.getMutedSwatch();
+
+						if (primary == null) {
+							primary = palette.getDarkMutedSwatch();
+						}
+					}
+				}
+			}
+		}
+
+		if (primary == null) {
+			primaryColor = ContextCompat.getColor(this, R.color.primary);
+		} else {
+			primaryColor = primary.getRgb();
+		}
+
+		this.setThemeColors(primaryColor, accentColor);
 	}
 
 	@Override
@@ -244,10 +288,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		this.drawerHeader = (LinearLayout) this.findViewById(R.id.drawer_header);
 		this.drawerLayout = (DrawerLayout) this.findViewById(R.id.drawer_layout);
 		this.navigationView = (NavigationView) this.findViewById(R.id.drawer_content);
-		Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
+		this.tabLayout = (TabLayout) this.findViewById(R.id.tabs);
+		this.toolbar = (ColoredToolbar) this.findViewById(R.id.toolbar);
 
 		if (this.drawerLayout != null) {
-			this.drawerToggle = new ActionBarDrawerToggle(this, this.drawerLayout, toolbar, R.string.abc_action_bar_home_description, R.string.abc_action_bar_home_description);
+			this.drawerToggle = new ActionBarDrawerToggle(this, this.drawerLayout, this.toolbar, R.string.abc_action_bar_home_description, R.string.abc_action_bar_home_description);
 
 			this.drawerLayout.setDrawerListener(this.drawerToggle);
 			this.drawerLayout.post(new Runnable() {
@@ -265,8 +310,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 			this.navigationView.getMenu().findItem(this.getSelectedMenuId()).setChecked(true);
 		}
 
-		if (toolbar != null) {
-			this.setSupportActionBar(toolbar);
+		if (this.toolbar != null) {
+			this.setSupportActionBar(this.toolbar);
 		}
 
 		if (savedInstanceState == null) {
@@ -283,10 +328,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		Intent intent = this.getIntent();
 
 		if (intent != null) {
+			int colorAccent = intent.getIntExtra(Constants.Bundle.COLOR_ACCENT, 0);
 			int colorPrimary = intent.getIntExtra(Constants.Bundle.COLOR_PRIMARY, 0);
 
 			if (colorPrimary != 0) {
-				this.setThemeColors(colorPrimary);
+				this.setThemeColors(colorPrimary, colorAccent);
 			}
 		}
 	}
@@ -349,10 +395,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		}
 	}
 
-	private void setThemeColors(int colorPrimary) {
-		float colorPrimaryDark[] = new float[3];
-		ColorUtils.colorToHSL(colorPrimary, colorPrimaryDark);
-		colorPrimaryDark[2] *= COLOR_DARK_FACTOR;
+	private void setThemeColors(int colorPrimary, int colorAccent) {
+		int textColor = Utils.getContrastColor(colorPrimary);
 
 		if (this.appBarLayout != null) {
 			this.appBarLayout.setBackgroundColor(colorPrimary);
@@ -375,15 +419,28 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 			this.navigationView.setItemIconTintList(colorStateList);
 			this.navigationView.setItemTextColor(colorStateList);
-			// FIXME https://code.google.com/p/android/issues/detail?id=178205
-			this.navigationView.getMenu().setGroupVisible(R.id.menu_sections, false);
-			this.navigationView.getMenu().setGroupVisible(R.id.menu_sections, true);
+		}
+
+		if (this.tabLayout != null) {
+			int selectedTextColor = ColorUtils.setAlphaComponent(textColor, (int) (0.7f * 255));
+
+			this.tabLayout.setSelectedTabIndicatorColor(colorAccent);
+			this.tabLayout.setTabTextColors(selectedTextColor, textColor);
+		}
+
+		if (this.toolbar != null) {
+			this.toolbar.setItemColor(textColor);
 		}
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			float colorPrimaryDark[] = new float[3];
+			ColorUtils.colorToHSL(colorPrimary, colorPrimaryDark);
+			colorPrimaryDark[2] *= COLOR_DARK_FACTOR;
+
 			this.getWindow().setStatusBarColor(ColorUtils.HSLToColor(colorPrimaryDark));
 		}
 
+		this.getIntent().putExtra(Constants.Bundle.COLOR_ACCENT, colorAccent);
 		this.getIntent().putExtra(Constants.Bundle.COLOR_PRIMARY, colorPrimary);
 	}
 
@@ -457,7 +514,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 			Notification notification = new NotificationCompat.Builder(activity)
 					.setAutoCancel(true)
-					.setColor(activity.getResources().getColor(R.color.primary))
+					.setColor(ContextCompat.getColor(activity, R.color.primary))
 					.setContentIntent(pendingIntent)
 					.setContentTitle(activity.getString(R.string.app_name))
 					.setContentText(activity.getString(R.string.update_available))

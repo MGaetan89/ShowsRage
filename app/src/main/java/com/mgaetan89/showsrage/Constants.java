@@ -9,6 +9,7 @@ public abstract class Constants {
 	public static final long VERSION_CHECK_INTERVAL = 4 * 60 * 60 * 1000;
 
 	public abstract static class Bundle {
+		public static final String COLOR_ACCENT = "color_accent";
 		public static final String COLOR_PRIMARY = "color_primary";
 		public static final String COMING_EPISODES = "coming_episodes";
 		public static final String EPISODE_MODEL = "episode_model";

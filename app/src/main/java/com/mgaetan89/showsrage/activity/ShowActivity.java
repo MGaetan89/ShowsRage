@@ -50,6 +50,7 @@ public class ShowActivity extends BaseActivity implements EpisodesAdapter.OnEpis
 	@Override
 	public void onEpisodeSelected(int seasonNumber, int episodeNumber, @NonNull Episode episode, int episodesCount) {
 		Intent intent = new Intent(this, EpisodeActivity.class);
+		intent.putExtra(Constants.Bundle.COLOR_ACCENT, this.getIntent().getIntExtra(Constants.Bundle.COLOR_ACCENT, 0));
 		intent.putExtra(Constants.Bundle.COLOR_PRIMARY, this.getIntent().getIntExtra(Constants.Bundle.COLOR_PRIMARY, 0));
 		intent.putExtra(Constants.Bundle.EPISODE_MODEL, episode);
 		intent.putExtra(Constants.Bundle.EPISODE_NUMBER, episodeNumber);

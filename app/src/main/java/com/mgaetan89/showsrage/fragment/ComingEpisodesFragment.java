@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,21 +57,8 @@ public class ComingEpisodesFragment extends Fragment implements Callback<ComingE
 
 		this.tabLayout = (TabLayout) this.getActivity().findViewById(R.id.tabs);
 
-		if (this.tabLayout != null) {
-			// FIXME: Update this once https://code.google.com/p/android/issues/detail?id=180462 is fixed
-			if (ViewCompat.isLaidOut(this.tabLayout) && this.viewPager != null) {
-				this.tabLayout.setupWithViewPager(this.viewPager);
-			} else {
-				this.tabLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-					@Override
-					public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-						if (ComingEpisodesFragment.this.tabLayout != null && ComingEpisodesFragment.this.viewPager != null) {
-							ComingEpisodesFragment.this.tabLayout.setupWithViewPager(ComingEpisodesFragment.this.viewPager);
-							ComingEpisodesFragment.this.tabLayout.removeOnLayoutChangeListener(this);
-						}
-					}
-				});
-			}
+		if (this.viewPager != null && this.tabLayout != null) {
+			this.tabLayout.setupWithViewPager(this.viewPager);
 		}
 	}
 

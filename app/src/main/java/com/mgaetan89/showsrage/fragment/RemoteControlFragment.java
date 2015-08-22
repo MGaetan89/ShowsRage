@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.media.MediaControlIntent;
@@ -454,7 +455,7 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 
 		if (this.volumeMute != null) {
 			Drawable drawable = DrawableCompat.wrap(this.volumeMute.getDrawable());
-			DrawableCompat.setTint(drawable, this.getResources().getColor(iconColor));
+			DrawableCompat.setTint(drawable, ContextCompat.getColor(this.getActivity(), iconColor));
 		}
 	}
 

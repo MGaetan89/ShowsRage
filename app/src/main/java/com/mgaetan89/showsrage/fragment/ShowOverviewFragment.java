@@ -39,6 +39,7 @@ import com.mgaetan89.showsrage.activity.BaseActivity;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
 import com.mgaetan89.showsrage.helper.GenericCallback;
 import com.mgaetan89.showsrage.helper.ImageLoader;
+import com.mgaetan89.showsrage.helper.Utils;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.model.Indexer;
 import com.mgaetan89.showsrage.model.Quality;
@@ -272,7 +273,6 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			this.tvRage = (Button) view.findViewById(R.id.show_tvrage);
 			this.year = (TextView) view.findViewById(R.id.show_year);
 
-
 			if (this.imdb != null) {
 				this.imdb.setOnClickListener(this);
 			}
@@ -339,17 +339,21 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		}
 
 		ColorStateList colorStateList = ColorStateList.valueOf(tintColor);
+		int textColor = Utils.getContrastColor(tintColor);
 
 		if (this.imdb != null) {
 			ViewCompat.setBackgroundTintList(this.imdb, colorStateList);
+			this.imdb.setTextColor(textColor);
 		}
 
 		if (this.theTvDb != null) {
 			ViewCompat.setBackgroundTintList(this.theTvDb, colorStateList);
+			this.theTvDb.setTextColor(textColor);
 		}
 
 		if (this.tvRage != null) {
 			ViewCompat.setBackgroundTintList(this.tvRage, colorStateList);
+			this.tvRage.setTextColor(textColor);
 		}
 	}
 
