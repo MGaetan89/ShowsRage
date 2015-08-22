@@ -5,7 +5,7 @@ apply plugin: 'com.github.kt3k.coveralls'
 
 android {
 	compileSdkVersion 23
-	buildToolsVersion '22.0.1'
+	buildToolsVersion '23'
 
 	defaultConfig {
 		applicationId 'com.mgaetan89.showsrage'
@@ -88,7 +88,9 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['test']) {
 	executionData = fileTree(dir: project.projectDir, includes: ['**/*.exec', '**/*.ec'])
 
 	reports {
-		csv.enabled false
+		csv {
+			enabled = false
+		}
 
 		html {
 			enabled = true
