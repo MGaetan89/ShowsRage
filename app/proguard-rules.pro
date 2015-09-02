@@ -17,6 +17,9 @@
 # Rules for Okio
 -dontwarn okio.**
 
+# Rules for Play Services
+-dontwarn com.google.android.gms.common.GooglePlayServicesUtil
+
 # Rules for Retrofit
 -dontwarn retrofit.**
 -keep class retrofit.** { *; }
