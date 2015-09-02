@@ -454,7 +454,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		private void updateRemotePlayer(MediaRouter.RouteInfo route) {
 			EpisodeDetailFragment fragment = this.fragmentReference.get();
 
-			if (fragment == null) {
+			if (fragment == null || !fragment.getUserVisibleHint()) {
 				return;
 			}
 
