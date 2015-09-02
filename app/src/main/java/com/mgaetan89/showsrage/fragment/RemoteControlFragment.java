@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -380,6 +381,13 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 		}
 	}
 
+	private void setVolumeUpIconColor(@ColorRes int iconColor) {
+		if (this.volumeMute != null) {
+			Drawable drawable = DrawableCompat.wrap(this.volumeMute.getDrawable());
+			DrawableCompat.setTint(drawable, ContextCompat.getColor(this.getActivity(), iconColor));
+		}
+	}
+
 	private void stop() {
 		PlayingVideoData playingVideo = this.getPlayingVideo();
 
@@ -423,6 +431,8 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 		this.volume = Math.max(this.volume, 0);
 
 		route.requestSetVolume(this.volume);
+
+		this.setVolumeUpIconColor(android.R.color.white);
 	}
 
 	private void volumeMute() {
@@ -453,10 +463,7 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 
 		this.volume = currentVolume;
 
-		if (this.volumeMute != null) {
-			Drawable drawable = DrawableCompat.wrap(this.volumeMute.getDrawable());
-			DrawableCompat.setTint(drawable, ContextCompat.getColor(this.getActivity(), iconColor));
-		}
+		this.setVolumeUpIconColor(iconColor);
 	}
 
 	private void volumeUp() {
@@ -476,6 +483,8 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 		this.volume = Math.min(this.volume, route.getVolumeMax());
 
 		route.requestSetVolume(this.volume);
+
+		this.setVolumeUpIconColor(android.R.color.white);
 	}
 
 	private static final class PlayPauseStopCallback extends RemotePlaybackClient.SessionActionCallback {
