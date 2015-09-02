@@ -37,6 +37,7 @@ import android.widget.Toast;
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.ShowsRageApplication;
+import com.mgaetan89.showsrage.activity.BaseActivity;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
 import com.mgaetan89.showsrage.helper.GenericCallback;
 import com.mgaetan89.showsrage.helper.Utils;
@@ -457,7 +458,13 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 				return;
 			}
 
-			Application application = fragment.getActivity().getApplication();
+			FragmentActivity activity = fragment.getActivity();
+
+			if (activity instanceof BaseActivity) {
+				((BaseActivity) activity).updateRemoteControlVisibility();
+			}
+
+			Application application = activity.getApplication();
 
 			if (application instanceof ShowsRageApplication) {
 				PlayingVideoData playingVideo = new PlayingVideoData();

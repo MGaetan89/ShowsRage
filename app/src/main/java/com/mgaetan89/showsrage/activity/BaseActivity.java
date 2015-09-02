@@ -264,6 +264,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		Toast.makeText(this, genericResponse.getMessage(), Toast.LENGTH_SHORT).show();
 	}
 
+	public void updateRemoteControlVisibility() {
+		if (this.navigationView != null) {
+			boolean hasRemotePlaybackClient = ((ShowsRageApplication) this.getApplication()).hasPlayingVideo();
+
+			this.navigationView.getMenu().findItem(R.id.menu_remote_control).setVisible(hasRemotePlaybackClient);
+		}
+	}
+
 	protected abstract boolean displayHomeAsUp();
 
 	protected abstract Fragment getFragment();
@@ -353,12 +361,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 			}
 		}
 
-		if (this.navigationView != null) {
-			boolean hasRemotePlaybackClient = ((ShowsRageApplication) this.getApplication()).hasPlayingVideo();
-
-			this.navigationView.getMenu().findItem(R.id.menu_remote_control).setVisible(hasRemotePlaybackClient);
-		}
-
+		this.updateRemoteControlVisibility();
 		this.displayHomeAsUp(this.displayHomeAsUp());
 		this.checkForUpdate(false);
 	}

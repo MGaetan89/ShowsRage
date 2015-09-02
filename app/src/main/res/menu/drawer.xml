@@ -37,7 +37,7 @@
 		<item
 			android:id="@+id/menu_remote_control"
 			android:icon="@drawable/ic_settings_remote_white_24dp"
-			android:title="Remote Control"
+			android:title="@string/remote_control"
 			android:visible="false"
 			tools:visible="true"/>
 
