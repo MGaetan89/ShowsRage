@@ -54,27 +54,27 @@ public class SickRageApi_GetVideosUrlTest {
 		assertThat(SickRageApi.getInstance().getVideosUrl()).isEqualTo(this.url);
 	}
 
-	@Parameterized.Parameters(name = "{index} - {0}://{1}:{2}/{3}/{4}/")
+	@Parameterized.Parameters(name = "{index} - {0}://{1}:{2}/{3}/{4}")
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][]{
-				{false, "", "", "", "", "http://127.0.0.1/videos/"},
-				{false, "127.0.0.1", "", "", "", "http://127.0.0.1/videos/"},
-				{false, "127.0.0.1", "8083", "", "", "http://127.0.0.1:8083/videos/"},
-				{false, "127.0.0.1", "8083", "api", "", "http://127.0.0.1:8083/videos/"},
-				{false, "127.0.0.1", "8083", "/api", "", "http://127.0.0.1:8083/videos/"},
-				{false, "127.0.0.1", "8083", "api/", "", "http://127.0.0.1:8083/videos/"},
-				{false, "127.0.0.1", "8083", "/api/", "", "http://127.0.0.1:8083/videos/"},
-				{false, "127.0.0.1", "8083", "/api1/api2/", "", "http://127.0.0.1:8083/videos/"},
-				{false, "127.0.0.1", "8083", "api", "apiKey", "http://127.0.0.1:8083/videos/"},
-				{true, "", "", "", "", "http://127.0.0.1/videos/"},
-				{true, "127.0.0.1", "", "", "", "https://127.0.0.1/videos/"},
-				{true, "127.0.0.1", "8083", "", "", "https://127.0.0.1:8083/videos/"},
-				{true, "127.0.0.1", "8083", "api", "", "https://127.0.0.1:8083/videos/"},
-				{true, "127.0.0.1", "8083", "/api", "", "https://127.0.0.1:8083/videos/"},
-				{true, "127.0.0.1", "8083", "api/", "", "https://127.0.0.1:8083/videos/"},
-				{true, "127.0.0.1", "8083", "/api/", "", "https://127.0.0.1:8083/videos/"},
-				{true, "127.0.0.1", "8083", "/api1/api2/", "", "https://127.0.0.1:8083/videos/"},
-				{true, "127.0.0.1", "8083", "api", "apiKey", "https://127.0.0.1:8083/videos/"},
+				{false, "", "", "", "", "http://127.0.0.1/videos"},
+				{false, "127.0.0.1", "", "", "", "http://127.0.0.1/videos"},
+				{false, "127.0.0.1", "8083", "", "", "http://127.0.0.1:8083/videos"},
+				{false, "127.0.0.1", "8083", "api", "", "http://127.0.0.1:8083/videos"},
+				{false, "127.0.0.1", "8083", "/api", "", "http://127.0.0.1:8083/videos"},
+				{false, "127.0.0.1", "8083", "api/", "", "http://127.0.0.1:8083/videos"},
+				{false, "127.0.0.1", "8083", "/api/", "", "http://127.0.0.1:8083/videos"},
+				{false, "127.0.0.1", "8083", "/api1/api2/", "", "http://127.0.0.1:8083/videos"},
+				{false, "127.0.0.1", "8083", "api", "apiKey", "http://127.0.0.1:8083/videos"},
+				{true, "", "", "", "", "http://127.0.0.1/videos"},
+				{true, "127.0.0.1", "", "", "", "https://127.0.0.1/videos"},
+				{true, "127.0.0.1", "8083", "", "", "https://127.0.0.1:8083/videos"},
+				{true, "127.0.0.1", "8083", "api", "", "https://127.0.0.1:8083/videos"},
+				{true, "127.0.0.1", "8083", "/api", "", "https://127.0.0.1:8083/videos"},
+				{true, "127.0.0.1", "8083", "api/", "", "https://127.0.0.1:8083/videos"},
+				{true, "127.0.0.1", "8083", "/api/", "", "https://127.0.0.1:8083/videos"},
+				{true, "127.0.0.1", "8083", "/api1/api2/", "", "https://127.0.0.1:8083/videos"},
+				{true, "127.0.0.1", "8083", "api", "apiKey", "https://127.0.0.1:8083/videos"},
 		});
 	}
 }

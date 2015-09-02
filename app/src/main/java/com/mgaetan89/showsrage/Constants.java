@@ -25,6 +25,7 @@ public abstract class Constants {
 		public abstract static class Fields {
 			public static final String LAST_VERSION_CHECK_TIME = "last_version_check_time";
 			public static final String LOGS_LEVEL = "logs_level";
+			public static final String ROOT_DIRS = "root_dirs";
 		}
 
 		public abstract static class Defaults {

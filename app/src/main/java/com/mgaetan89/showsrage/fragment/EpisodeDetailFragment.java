@@ -53,6 +53,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Set;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -376,12 +377,22 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 	private Uri getEpisodeVideoUrl() {
 		String episodeUrl = SickRageApi.getInstance().getVideosUrl();
 
-		if (this.show != null) {
-			episodeUrl += this.show.getShowName() + "/";
-		}
-
 		if (this.episode != null) {
-			episodeUrl += this.episode.getLocation();
+			String location = this.episode.getLocation();
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+			Set<String> rootDirs = preferences.getStringSet(Constants.Preferences.Fields.ROOT_DIRS, null);
+
+			if (rootDirs != null) {
+				for (String rootDir : rootDirs) {
+					if (location.startsWith(rootDir)) {
+						location = location.replaceFirst(rootDir, "");
+
+						break;
+					}
+				}
+			}
+
+			episodeUrl += location;
 		}
 
 		try {

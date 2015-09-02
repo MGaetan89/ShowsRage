@@ -69,7 +69,7 @@ public final class SickRageApi implements RequestInterceptor {
 
 	@NonNull
 	public String getVideosUrl() {
-		return this.apiUrl + "videos/";
+		return this.apiUrl + "videos";
 	}
 
 	public void init(@NonNull SharedPreferences preferences) {

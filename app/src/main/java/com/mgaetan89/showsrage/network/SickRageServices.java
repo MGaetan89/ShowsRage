@@ -7,6 +7,7 @@ import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.model.Histories;
 import com.mgaetan89.showsrage.model.LogLevel;
 import com.mgaetan89.showsrage.model.Logs;
+import com.mgaetan89.showsrage.model.RootDirs;
 import com.mgaetan89.showsrage.model.SearchResults;
 import com.mgaetan89.showsrage.model.Seasons;
 import com.mgaetan89.showsrage.model.ShowStatsWrapper;
@@ -42,7 +43,7 @@ public interface SickRageServices {
 	@GET("/{api_path}/{api_key}/?cmd=future")
 	void getComingEpisodes(Callback<ComingEpisodes> callback);
 
-	@GET("/{api_path}/{api_key}/?cmd=episode")
+	@GET("/{api_path}/{api_key}/?cmd=episode&full_path=1")
 	void getEpisode(@Query("indexerid") int indexerId, @Query("season") int season, @Query("episode") int episode, Callback<SingleEpisode> callback);
 
 	@GET("/{api_path}/{api_key}/?cmd=show.seasons")
@@ -53,6 +54,9 @@ public interface SickRageServices {
 
 	@GET("/{api_path}/{api_key}/?cmd=logs")
 	void getLogs(@Query("min_level") LogLevel minLevel, Callback<Logs> callback);
+
+	@GET("/{api_path}/{api_key}/?cmd=sb.getrootdirs")
+	void getRootDirs(Callback<RootDirs> callback);
 
 	@GET("/{api_path}/{api_key}/?cmd=show.seasonlist")
 	void getSeasons(@Query("indexerid") int indexerId, Callback<Seasons> callback);
