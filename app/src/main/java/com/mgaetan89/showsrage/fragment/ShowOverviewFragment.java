@@ -1,19 +1,26 @@
 package com.mgaetan89.showsrage.fragment;
 
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.customtabs.CustomTabsClient;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.customtabs.CustomTabsServiceConnection;
+import android.support.customtabs.CustomTabsSession;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -138,10 +145,16 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	@Nullable
 	private TextView runtime = null;
 
+	@Nullable
+	private ServiceConnection serviceConnection = null;
+
 	private Show show = null;
 
 	@Nullable
 	private TextView status = null;
+
+	@Nullable
+	private CustomTabsSession tabSession = null;
 
 	@Nullable
 	private Button theTvDb = null;
@@ -173,6 +186,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 				.build();
 
 		this.omDbApi = restAdapter.create(OmDbApi.class);
+		this.serviceConnection = new ServiceConnection(this);
 
 		AppCompatActivity activity = (AppCompatActivity) this.getActivity();
 		ActionBar actionBar = activity.getSupportActionBar();
@@ -184,6 +198,8 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 			SickRageApi.getInstance().getServices().getShow(this.show.getIndexerId(), this);
 		}
+
+		CustomTabsClient.bindCustomTabsService(this.getContext(), "com.android.chrome", this.serviceConnection);
 	}
 
 	@Override
@@ -192,25 +208,29 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			return;
 		}
 
+		String url;
+
 		switch (view.getId()) {
-			case R.id.show_imdb: {
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("http://www.imdb.com/title/" + this.show.getImdbId()));
-
-				this.startActivity(intent);
+			case R.id.show_imdb:
+				url = "http://www.imdb.com/title/" + this.show.getImdbId();
 
 				break;
-			}
 
-			case R.id.show_the_tvdb: {
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("http://thetvdb.com/?tab=series&id=" + this.show.getTvDbId()));
-
-				this.startActivity(intent);
+			case R.id.show_the_tvdb:
+				url = "http://thetvdb.com/?tab=series&id=" + this.show.getTvDbId();
 
 				break;
-			}
+
+			default:
+				return;
 		}
+
+		CustomTabsIntent tabIntent = new CustomTabsIntent.Builder(this.tabSession)//
+				.setCloseButtonIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_arrow_back_white_24dp))//
+				.setShowTitle(true)//
+				.setToolbarColor(ContextCompat.getColor(this.getContext(), R.color.primary))//
+				.build();
+		tabIntent.launchUrl(this.getActivity(), Uri.parse(url));
 	}
 
 	@Override
@@ -270,6 +290,15 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		}
 
 		return view;
+	}
+
+	@Override
+	public void onDestroy() {
+		if (this.serviceConnection != null) {
+			this.getContext().unbindService(this.serviceConnection);
+		}
+
+		super.onDestroy();
 	}
 
 	@Override
@@ -789,6 +818,38 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 					layout.setVisibility(View.GONE);
 				}
 			}
+		}
+	}
+
+	private static final class ServiceConnection extends CustomTabsServiceConnection {
+		@NonNull
+		private final WeakReference<ShowOverviewFragment> fragmentReference;
+
+		private ServiceConnection(@NonNull ShowOverviewFragment fragment) {
+			this.fragmentReference = new WeakReference<>(fragment);
+		}
+
+		@Override
+		public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient) {
+			customTabsClient.warmup(0L);
+
+			ShowOverviewFragment fragment = this.fragmentReference.get();
+
+			if (fragment == null) {
+				return;
+			}
+
+			fragment.tabSession = customTabsClient.newSession(null);
+
+			if (fragment.tabSession != null) {
+				fragment.tabSession.mayLaunchUrl(Uri.parse("http://www.imdb.com/title/" + fragment.show.getImdbId()), null, null);
+				fragment.tabSession.mayLaunchUrl(Uri.parse("http://thetvdb.com/?tab=series&id=" + fragment.show.getTvDbId()), null, null);
+			}
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			this.fragmentReference.clear();
 		}
 	}
 }
