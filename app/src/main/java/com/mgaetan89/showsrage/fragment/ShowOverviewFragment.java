@@ -147,9 +147,6 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	private Button theTvDb = null;
 
 	@Nullable
-	private Button tvRage = null;
-
-	@Nullable
 	private TextView year = null;
 
 	public ShowOverviewFragment() {
@@ -213,15 +210,6 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 				break;
 			}
-
-			case R.id.show_tvrage: {
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("http://www.tvrage.com/show/id-" + this.show.getTvRageId()));
-
-				this.startActivity(intent);
-
-				break;
-			}
 		}
 	}
 
@@ -270,7 +258,6 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			this.runtime = (TextView) view.findViewById(R.id.show_runtime);
 			this.status = (TextView) view.findViewById(R.id.show_status);
 			this.theTvDb = (Button) view.findViewById(R.id.show_the_tvdb);
-			this.tvRage = (Button) view.findViewById(R.id.show_tvrage);
 			this.year = (TextView) view.findViewById(R.id.show_year);
 
 			if (this.imdb != null) {
@@ -279,10 +266,6 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 			if (this.theTvDb != null) {
 				this.theTvDb.setOnClickListener(this);
-			}
-
-			if (this.tvRage != null) {
-				this.tvRage.setOnClickListener(this);
 			}
 		}
 
@@ -316,7 +299,6 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		this.runtime = null;
 		this.status = null;
 		this.theTvDb = null;
-		this.tvRage = null;
 		this.year = null;
 
 		super.onDestroyView();
@@ -349,11 +331,6 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		if (this.theTvDb != null) {
 			ViewCompat.setBackgroundTintList(this.theTvDb, colorStateList);
 			this.theTvDb.setTextColor(textColor);
-		}
-
-		if (this.tvRage != null) {
-			ViewCompat.setBackgroundTintList(this.tvRage, colorStateList);
-			this.tvRage.setTextColor(textColor);
 		}
 	}
 

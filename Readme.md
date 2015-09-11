@@ -16,7 +16,7 @@ The following features are currently available:
     - List your shows
     - Get detailed show information with *[OMDb](http://www.omdbapi.com/)* integration
     - List a show seasons and episodes
-    - Easy access to *[IMDb](http://www.imdb.com/)*, *[The TVDB](http://thetvdb.com/)* and *[TV Rage](http://www.tvrage.com/)*
+    - Easy access to *[IMDb](http://www.imdb.com/)* and *[The TVDB](http://thetvdb.com/)*
 - Shows management:
     - Add a new show
     - Pause/Resume a show
