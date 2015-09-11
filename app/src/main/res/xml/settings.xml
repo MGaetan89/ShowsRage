@@ -53,6 +53,11 @@
 			android:defaultValue="false"
 			android:key="view_in_external_video_player"
 			android:title="@string/view_in_external_video_player"/>
+
+		<CheckBoxPreference
+			android:defaultValue="false"
+			android:key="stream_in_chromecast"
+			android:title="@string/stream_in_chromecast"/>
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/about">

@@ -265,20 +265,6 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		this.displayStreamingMenus(singleEpisode.getData());
 	}
 
-	private boolean areStreamingMenusVisible(@Nullable Episode episode) {
-		FragmentActivity activity = this.getActivity();
-
-		if (activity == null || episode == null) {
-			return false;
-		}
-
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-		boolean episodeDownloaded = "Downloaded".equalsIgnoreCase(episode.getStatus());
-		boolean viewInExternalVideoPlayer = preferences.getBoolean("view_in_external_video_player", false);
-
-		return episodeDownloaded && viewInExternalVideoPlayer;
-	}
-
 	private void clickPlayVideo() {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.setDataAndType(this.getEpisodeVideoUrl(), "video/*");
@@ -363,14 +349,12 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 	}
 
 	private void displayStreamingMenus(Episode episode) {
-		boolean displayStreamingMenu = this.areStreamingMenusVisible(episode);
-
 		if (this.castMenu != null) {
-			this.castMenu.setVisible(displayStreamingMenu);
+			this.castMenu.setVisible(this.isCastMenuVisible(episode));
 		}
 
 		if (this.playVideoMenu != null) {
-			this.playVideoMenu.setVisible(displayStreamingMenu);
+			this.playVideoMenu.setVisible(this.isPlayMenuVisible(episode));
 		}
 	}
 
@@ -406,6 +390,38 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		}
 
 		return Uri.parse(episodeUrl);
+	}
+
+	private boolean isCastMenuVisible(@Nullable Episode episode) {
+		FragmentActivity activity = this.getActivity();
+
+		if (activity == null) {
+			return false;
+		}
+
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+		boolean episodeDownloaded = this.isEpisodeDownloaded(episode);
+		boolean viewInExternalVideoPlayer = preferences.getBoolean("stream_in_chromecast", false);
+
+		return episodeDownloaded && viewInExternalVideoPlayer;
+	}
+
+	private boolean isEpisodeDownloaded(@Nullable Episode episode) {
+		return episode != null && "Downloaded".equalsIgnoreCase(episode.getStatus());
+	}
+
+	private boolean isPlayMenuVisible(@Nullable Episode episode) {
+		FragmentActivity activity = this.getActivity();
+
+		if (activity == null) {
+			return false;
+		}
+
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+		boolean episodeDownloaded = this.isEpisodeDownloaded(episode);
+		boolean viewInExternalVideoPlayer = preferences.getBoolean("view_in_external_video_player", false);
+
+		return episodeDownloaded && viewInExternalVideoPlayer;
 	}
 
 	private void setEpisodeStatus(final int seasonNumber, final int episodeNumber, final String status) {

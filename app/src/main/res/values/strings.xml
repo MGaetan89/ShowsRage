@@ -123,6 +123,7 @@
 	<string name="statistics">Statistics</string>
 	<string name="status">Status</string>
 	<string name="status_value">Status: <xliff:g example="Continuing" id="status">%1$s</xliff:g></string>
+	<string name="stream_in_chromecast">Stream downloaded episodes over Google Cast™</string>
 	<string name="subtitles">Subtitles</string>
 	<string name="test">Test</string>
 	<string name="testing_server_settings">Testing server settings</string>
