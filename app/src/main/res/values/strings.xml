@@ -45,8 +45,8 @@
 	<string name="episode_search">Searching for episode <xliff:g example="1" id="episode">%1$d</xliff:g> in season <xliff:g example="1" id="season">%2$s</xliff:g></string>
 	<string name="episodes">Episodes</string>
 	<string name="error">Error</string>
+	<string name="experimental_feature">Experimental features</string>
 	<string name="external_links">External Links</string>
-	<string name="extra_features">Extra features</string>
 	<string name="failed">Failed</string>
 	<string name="file_size">File size: <xliff:g example="856.93 MB" id="file_size">%1$s</xliff:g></string>
 	<string name="genre">Genre: <xliff:g example="Comedy" id="genre">%1$s</xliff:g></string>
@@ -139,8 +139,7 @@
 	<string name="use_https">Use HTTPS?</string>
 	<string name="username">Username</string>
 	<string name="version">Version</string>
-	<string name="view_in_vlc">View downloaded episodes in VLC</string>
-	<string name="view_in_vlc_summary">Requires VLC to be installed</string>
+	<string name="view_in_external_video_player">View downloaded episodes in an external video player</string>
 	<string name="wanted">Wanted</string>
 	<string name="warning">Warning</string>
 	<string name="welcome_message">You are just a few clicks away from your shows.\n\nTo use this application, you need to have access to a working SickRage installation.\nOther forks may also work, but are not officially supported.</string>

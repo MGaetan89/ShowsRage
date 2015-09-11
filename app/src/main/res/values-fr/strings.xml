@@ -45,8 +45,8 @@
 	<string name="episode_search">Recherche de l\'épisode <xliff:g example="1" id="episode">%1$d</xliff:g> de la saison <xliff:g example="1" id="season">%2$s</xliff:g></string>
 	<string name="episodes">Episodes</string>
 	<string name="error">Erreur</string>
+	<string name="experimental_feature">Fonctionnalités expérimentales</string>
 	<string name="external_links">Liens Externes</string>
-	<string name="extra_features">Fonctionnalités supplémentaires</string>
 	<string name="failed">Echoué</string>
 	<string name="file_size">Taille du fichier : <xliff:g example="856.93 MB" id="file_size">%1$s</xliff:g></string>
 	<string name="genre">Genre : <xliff:g example="Comédie" id="genre">%1$s</xliff:g></string>
@@ -139,8 +139,7 @@
 	<string name="use_https">Connexion sécurisée ?</string>
 	<string name="username">Identifiant</string>
 	<string name="version">Version</string>
-	<string name="view_in_vlc">Voir les épisodes téléchargés dans VLC</string>
-	<string name="view_in_vlc_summary">Nécessite que VLC soit installée</string>
+	<string name="view_in_external_video_player">Voir les épisodes téléchargés dans un lecteur vidéo externe</string>
 	<string name="wanted">Voulu</string>
 	<string name="warning">Avertissement</string>
 	<string name="welcome_message">Vous êtes juste à quelques clics de vos séries.\n\nPour utiliser cette application, vous devez avoir accès à une installation fonctionnelle de SickRage.\nD\'autres solutions peuvent également fonctionner, mais elles ne sont officiellement supportées.</string>

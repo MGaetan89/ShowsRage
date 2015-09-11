@@ -47,13 +47,12 @@
 		</PreferenceScreen>
 	</PreferenceCategory>
 
-	<PreferenceCategory android:title="@string/extra_features">
+	<PreferenceCategory android:title="@string/experimental_feature">
 
 		<CheckBoxPreference
 			android:defaultValue="false"
-			android:key="view_in_vlc"
-			android:summary="@string/view_in_vlc_summary"
-			android:title="@string/view_in_vlc"/>
+			android:key="view_in_external_video_player"
+			android:title="@string/view_in_external_video_player"/>
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/about">

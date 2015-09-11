@@ -274,15 +274,15 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 		boolean episodeDownloaded = "Downloaded".equalsIgnoreCase(episode.getStatus());
-		boolean viewInVlc = preferences.getBoolean("view_in_vlc", false);
+		boolean viewInExternalVideoPlayer = preferences.getBoolean("view_in_external_video_player", false);
 
-		return episodeDownloaded && viewInVlc;
+		return episodeDownloaded && viewInExternalVideoPlayer;
 	}
 
 	private void clickPlayVideo() {
-		Intent intent = new Intent(Intent.ACTION_VIEW, this.getEpisodeVideoUrl());
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setDataAndType(this.getEpisodeVideoUrl(), "video/*");
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.setClassName("org.videolan.vlc", "org.videolan.vlc.gui.video.VideoPlayerActivity");
 
 		this.startActivity(intent);
 	}
