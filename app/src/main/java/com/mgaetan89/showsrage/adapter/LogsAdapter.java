@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,7 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsAdapter.ViewHolder> {
 			int errorTypeColor = logEntry.getErrorColor();
 
 			holder.errorType.setText(logEntry.getErrorType());
-			holder.errorType.setTextColor(holder.errorType.getResources().getColor(errorTypeColor));
+			holder.errorType.setTextColor(ContextCompat.getColor(holder.errorType.getContext(), errorTypeColor));
 		}
 
 		if (holder.message != null) {

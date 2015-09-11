@@ -74,7 +74,7 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<ComingEpisodesAd
 		}
 
 		if (holder.networkQuality != null) {
-			holder.networkQuality.setText(comingEpisode.getNetwork() + " / " + comingEpisode.getQuality());
+			holder.networkQuality.setText(holder.networkQuality.getResources().getString(R.string.separated_texts, comingEpisode.getNetwork(), comingEpisode.getQuality()));
 		}
 	}
 

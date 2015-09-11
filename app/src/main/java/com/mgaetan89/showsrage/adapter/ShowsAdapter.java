@@ -63,7 +63,7 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 		}
 
 		if (holder.networkQuality != null) {
-			holder.networkQuality.setText(show.getNetwork() + " / " + show.getQuality());
+			holder.networkQuality.setText(holder.networkQuality.getResources().getString(R.string.separated_texts, show.getNetwork(), show.getQuality()));
 		}
 
 		if (holder.nextEpisodeDate != null) {

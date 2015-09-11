@@ -49,7 +49,7 @@ public class HistoriesAdapter extends RecyclerView.Adapter<HistoriesAdapter.View
 				statusString = holder.date.getResources().getString(status);
 			}
 
-			holder.date.setText(statusString + " " + DateTimeHelper.getRelativeDate(history.getDate(), "yyyy-MM-dd hh:mm", 0).toString().toLowerCase());
+			holder.date.setText(holder.date.getResources().getString(R.string.spaced_texts, statusString, DateTimeHelper.getRelativeDate(history.getDate(), "yyyy-MM-dd hh:mm", 0).toString().toLowerCase()));
 		}
 
 		if (holder.logo != null) {

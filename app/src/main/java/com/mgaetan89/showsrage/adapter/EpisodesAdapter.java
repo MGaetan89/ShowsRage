@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -91,7 +92,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 			holder.status.setText(statusString);
 
 			Drawable background = DrawableCompat.wrap(holder.status.getBackground());
-			DrawableCompat.setTint(background, holder.status.getResources().getColor(episode.getStatusBackgroundColor()));
+			DrawableCompat.setTint(background, ContextCompat.getColor(holder.status.getContext(), episode.getStatusBackgroundColor()));
 		}
 	}
 
