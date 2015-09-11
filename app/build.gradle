@@ -5,7 +5,7 @@ apply plugin: 'com.github.kt3k.coveralls'
 
 android {
 	compileSdkVersion 23
-	buildToolsVersion '23'
+	buildToolsVersion '23.0.1'
 
 	defaultConfig {
 		applicationId 'com.mgaetan89.showsrage'
@@ -105,39 +105,21 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['test']) {
 }
 
 dependencies {
-	compile('com.android.support:appcompat-v7:23.0.0') {
-		exclude group: 'com.android.support', module: 'support-v4'
-	}
-	compile 'com.android.support:cardview-v7:23.0.0'
-	compile('com.android.support:design:23.0.0') {
-		exclude group: 'com.android.support', module: 'appcompat-v7'
-		exclude group: 'com.android.support', module: 'support-v4'
-	}
-	compile('com.android.support:mediarouter-v7:23.0.0') {
-		exclude group: 'com.android.support', module: 'appcompat-v7'
-	}
-	compile('com.android.support:palette-v7:23.0.0') {
-		exclude group: 'com.android.support', module: 'support-v4'
-	}
-	compile('com.android.support:recyclerview-v7:23.0.0') {
-		exclude group: 'com.android.support', module: 'support-annotations'
-		exclude group: 'com.android.support', module: 'support-v4'
-	}
-	compile 'com.android.support:support-annotations:23.0.0'
-	compile('com.android.support:support-v4:23.0.0') {
-		exclude group: 'com.android.support', module: 'support-annotations'
-	}
+	compile 'com.android.support:appcompat-v7:23.0.1'
+	compile 'com.android.support:cardview-v7:23.0.1'
+	compile 'com.android.support:design:23.0.1'
+	compile 'com.android.support:mediarouter-v7:23.0.1'
+	compile 'com.android.support:palette-v7:23.0.1'
+	compile 'com.android.support:recyclerview-v7:23.0.1'
+	compile 'com.android.support:support-annotations:23.0.1'
+	compile 'com.android.support:support-v4:23.0.1'
 	compile 'com.github.bumptech.glide:glide:3.6.1'
-	compile('com.google.android.gms:play-services-cast:7.5.0') {
-		exclude group: 'com.android.support', module: 'mediarouter-v7'
-	}
-	compile 'com.squareup.okhttp:okhttp:2.4.0'
-	compile('com.squareup.okhttp:okhttp-urlconnection:2.4.0') {
-		exclude group: 'com.squareup.okhttp', module: 'okhttp'
-	}
+	compile 'com.google.android.gms:play-services-cast:7.5.0'
+	compile 'com.squareup.okhttp:okhttp:2.5.0'
+	compile 'com.squareup.okhttp:okhttp-urlconnection:2.5.0'
 	compile 'com.squareup.retrofit:retrofit:1.9.0'
 
-	testCompile('com.squareup.assertj:assertj-android:1.0.1') {
+	testCompile('com.squareup.assertj:assertj-android:1.1.0') {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
 	testCompile 'junit:junit:4.12'

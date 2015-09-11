@@ -108,7 +108,7 @@
 
 				<PreferenceScreen
 					android:key="okhttp"
-					android:summary="Version 2.4.0"
+					android:summary="Version 2.5.0"
 					android:title="OkHttp">
 
 					<intent
