@@ -123,7 +123,7 @@
 	<string name="statistics">Statistiques</string>
 	<string name="status">Statut</string>
 	<string name="status_value">Statut : <xliff:g example="En cours" id="status">%1$s</xliff:g></string>
-	<string name="stream_in_chromecast">Caster les épisodes téléchargés via Google Cast™</string>
+	<string name="stream_in_chromecast">Caster via Google Cast™</string>
 	<string name="subtitles">Sous-titres</string>
 	<string name="test">Tester</string>
 	<string name="testing_server_settings">Test de la configuration du serveur</string>
@@ -140,7 +140,7 @@
 	<string name="use_https">Connexion sécurisée ?</string>
 	<string name="username">Identifiant</string>
 	<string name="version">Version</string>
-	<string name="view_in_external_video_player">Voir les épisodes téléchargés dans un lecteur vidéo externe</string>
+	<string name="view_in_external_video_player">Lire dans un lecteur vidéo externe</string>
 	<string name="wanted">Voulu</string>
 	<string name="warning">Avertissement</string>
 	<string name="welcome_message">Vous êtes juste à quelques clics de vos séries.\n\nPour utiliser cette application, vous devez avoir accès à une installation fonctionnelle de SickRage.\nD\'autres solutions peuvent également fonctionner, mais elles ne sont officiellement supportées.</string>
