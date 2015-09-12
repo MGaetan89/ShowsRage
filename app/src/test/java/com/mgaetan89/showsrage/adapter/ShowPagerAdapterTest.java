@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import com.mgaetan89.showsrage.Constants;
+import com.mgaetan89.showsrage.EmptyFragmentHostCallback;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.fragment.SeasonFragment;
 import com.mgaetan89.showsrage.fragment.ShowOverviewFragment;
@@ -20,7 +21,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 public class ShowPagerAdapterTest {
@@ -34,12 +34,12 @@ public class ShowPagerAdapterTest {
 		FragmentActivity activity = mock(FragmentActivity.class);
 		when(activity.getResources()).thenReturn(mock(Resources.class));
 
-		Fragment fragment = spy(new Fragment());
+		Fragment fragment = mock(Fragment.class);
 
 		try {
-			Field fragmentActivityField = Fragment.class.getDeclaredField("mActivity");
-			fragmentActivityField.setAccessible(true);
-			fragmentActivityField.set(fragment, activity);
+			Field fragmentHostField = Fragment.class.getDeclaredField("mHost");
+			fragmentHostField.setAccessible(true);
+			fragmentHostField.set(fragment, new EmptyFragmentHostCallback(activity));
 		} catch (IllegalAccessException ignored) {
 		} catch (NoSuchFieldException ignored) {
 		}
@@ -49,8 +49,6 @@ public class ShowPagerAdapterTest {
 		when(fragment.getString(R.string.season_number, 3)).thenReturn("Season 3");
 		when(fragment.getString(R.string.show)).thenReturn("Show");
 		when(fragment.getString(R.string.specials)).thenReturn("Specials");
-
-		fragment.onAttach(activity);
 
 		this.adapter = new ShowPagerAdapter(null, fragment, this.seasons);
 	}

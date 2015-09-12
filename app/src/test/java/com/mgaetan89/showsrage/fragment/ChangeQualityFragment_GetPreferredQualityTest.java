@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Spinner;
 
+import com.mgaetan89.showsrage.EmptyFragmentHostCallback;
 import com.mgaetan89.showsrage.R;
 
 import org.junit.After;
@@ -53,14 +54,12 @@ public class ChangeQualityFragment_GetPreferredQualityTest {
 		this.fragment = spy(new ChangeQualityFragment());
 
 		try {
-			Field fragmentActivityField = Fragment.class.getDeclaredField("mActivity");
-			fragmentActivityField.setAccessible(true);
-			fragmentActivityField.set(this.fragment, activity);
+			Field fragmentHostField = Fragment.class.getDeclaredField("mHost");
+			fragmentHostField.setAccessible(true);
+			fragmentHostField.set(this.fragment, new EmptyFragmentHostCallback(activity));
 		} catch (IllegalAccessException ignored) {
 		} catch (NoSuchFieldException ignored) {
 		}
-
-		this.fragment.onAttach(activity);
 
 		when(this.fragment.getResources()).thenReturn(resources);
 	}
