@@ -42,7 +42,13 @@ Want to help *ShowsRage* get better? See the [contribution guide](https://github
 
 ![Show overview](screenshots/2. Show overview.png)
 
-![Episode overview](screenshots/3. Episode overview.png)
+![Episodes list](screenshots/3. Episodes list.png)
+
+![Episode detail](screenshots/4. Episode detail.png)
+
+![Coming episodes](screenshots/5. Coming episodes.png)
+
+![History](screenshots/6. History.png)
 
 ## Trying the application
 
