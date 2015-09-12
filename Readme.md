@@ -38,17 +38,14 @@ Want to help *ShowsRage* get better? See the [contribution guide](https://github
 
 ## Screenshots
 
-![Shows list](screenshots/1. Shows list.png)
-
-![Show overview](screenshots/2. Show overview.png)
-
-![Episodes list](screenshots/3. Episodes list.png)
-
-![Episode detail](screenshots/4. Episode detail.png)
-
-![Coming episodes](screenshots/5. Coming episodes.png)
-
-![History](screenshots/6. History.png)
+Phone | Tablet
+-----|-----
+[Shows list](screenshots/Phone/1. Shows list.png) | [Shows list](screenshots/Tablet/1. Shows list.png)
+[Show overview](screenshots/Phone/2. Show overview.png) | [Show overview](screenshots/Tablet/2. Show overview.png)
+[Episodes list](screenshots/Phone/3. Episodes list.png) | [Episodes list](screenshots/Tablet/3. Episodes list.png)
+[Episode detail](screenshots/Phone/4. Episode detail.png) | [Episode detail](screenshots/Tablet/4. Episode detail.png)
+[Coming episodes](screenshots/Phone/5. Coming episodes.png) | [Coming episodes](screenshots/Tablet/5. Coming episodes.png)
+[History](screenshots/Phone/6. History.png) | [History](screenshots/Tablet/6. History.png)
 
 ## Trying the application
 
