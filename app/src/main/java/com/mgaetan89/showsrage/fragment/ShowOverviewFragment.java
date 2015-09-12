@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.fragment;
 
+import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -160,6 +161,9 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	private Button theTvDb = null;
 
 	@Nullable
+	private Button webSearch = null;
+
+	@Nullable
 	private TextView year = null;
 
 	public ShowOverviewFragment() {
@@ -221,6 +225,15 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 				break;
 
+			case R.id.show_web_search: {
+				Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+				intent.putExtra(SearchManager.QUERY, this.show.getShowName());
+
+				this.startActivity(intent);
+
+				return;
+			}
+
 			default:
 				return;
 		}
@@ -278,6 +291,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			this.runtime = (TextView) view.findViewById(R.id.show_runtime);
 			this.status = (TextView) view.findViewById(R.id.show_status);
 			this.theTvDb = (Button) view.findViewById(R.id.show_the_tvdb);
+			this.webSearch = (Button) view.findViewById(R.id.show_web_search);
 			this.year = (TextView) view.findViewById(R.id.show_year);
 
 			if (this.imdb != null) {
@@ -286,6 +300,10 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 			if (this.theTvDb != null) {
 				this.theTvDb.setOnClickListener(this);
+			}
+
+			if (this.webSearch != null) {
+				this.webSearch.setOnClickListener(this);
 			}
 		}
 
@@ -328,6 +346,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		this.runtime = null;
 		this.status = null;
 		this.theTvDb = null;
+		this.webSearch = null;
 		this.year = null;
 
 		super.onDestroyView();
@@ -360,6 +379,11 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		if (this.theTvDb != null) {
 			ViewCompat.setBackgroundTintList(this.theTvDb, colorStateList);
 			this.theTvDb.setTextColor(textColor);
+		}
+
+		if (this.webSearch != null) {
+			ViewCompat.setBackgroundTintList(this.webSearch, colorStateList);
+			this.webSearch.setTextColor(textColor);
 		}
 	}
 

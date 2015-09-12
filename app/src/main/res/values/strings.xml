@@ -143,6 +143,7 @@
 	<string name="view_in_external_video_player">Play in an external video player</string>
 	<string name="wanted">Wanted</string>
 	<string name="warning">Warning</string>
+	<string name="web_search">Web Search</string>
 	<string name="welcome_message">You are just a few clicks away from your shows.\n\nTo use this application, you need to have access to a working SickRage installation.\nOther forks may also work, but are not officially supported.</string>
 	<string name="writers">Writers: <xliff:g example="Whitney Cummings, Michael Patrick King" id="writers">%1$s</xliff:g></string>
 	<string name="year">Year: <xliff:g example="2005-" id="year">%1$s</xliff:g></string>
