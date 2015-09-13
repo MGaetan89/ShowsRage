@@ -20,8 +20,7 @@
 		android:layout_marginEnd="@dimen/padding"
 		android:layout_marginRight="@dimen/padding"
 		android:contentDescription="@string/app_name"
-		android:src="@mipmap/ic_launcher"
-		android:tint="@android:color/white"/>
+		android:src="@mipmap/ic_launcher_white"/>
 
 	<TextView
 		style="@style/TextAppearance.AppCompat.Title"
