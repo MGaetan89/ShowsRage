@@ -108,6 +108,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 			case R.id.menu_check_update: {
 				this.checkForUpdate(true);
 
+				menuItem.setChecked(false);
+
 				return true;
 			}
 
@@ -116,8 +118,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
 
 				this.startActivity(intent);
-
-				menuItem.setChecked(true);
 
 				return true;
 			}
@@ -128,8 +128,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 				this.startActivity(intent);
 
-				menuItem.setChecked(true);
-
 				return true;
 			}
 
@@ -139,13 +137,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 				this.startActivity(intent);
 
-				menuItem.setChecked(true);
-
 				return true;
 			}
 
 			case R.id.menu_remote_control: {
 				new RemoteControlFragment().show(this.getSupportFragmentManager(), "remote_control");
+
+				menuItem.setChecked(false);
 
 				return true;
 			}
@@ -161,6 +159,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 						})
 						.setNegativeButton(android.R.string.cancel, null)
 						.show();
+
+				menuItem.setChecked(false);
 
 				return true;
 			}
@@ -179,14 +179,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 				this.startActivity(intent);
 
-				menuItem.setChecked(true);
-
 				return true;
 			}
 
 			case R.id.menu_statistics: {
 				StatisticsFragment fragment = new StatisticsFragment();
 				fragment.show(this.getSupportFragmentManager(), "statistics");
+
+				menuItem.setChecked(false);
 
 				return true;
 			}
