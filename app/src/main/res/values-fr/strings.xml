@@ -15,6 +15,7 @@
 	<string name="anime">Animé</string>
 	<string name="api_key">Clé de l\'API</string>
 	<string name="archived">Archivé</string>
+	<string name="ascending">Croissant</string>
 	<string name="awards">Récompenses</string>
 	<string name="cancel">Annuler</string>
 	<string name="casting">Casting</string>
@@ -34,8 +35,10 @@
 	<string name="delete_show">Supprimer la série</string>
 	<string name="delete_show_message">Voulez-vous conserver les fichiers de cette série ?</string>
 	<string name="delete_show_title">Supprimer \"<xliff:g example="2 Broke Girls" id="show_name">%1$s</xliff:g>\"</string>
+	<string name="descending">Décroissant</string>
 	<string name="developer">Développeur</string>
 	<string name="directors">Réalisateurs : <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>
+	<string name="display">Affichage</string>
 	<string name="downloaded">Téléchargé</string>
 	<string name="downloaded_count">Téléchargés : <xliff:g example="1" id="downloaded">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
 	<string name="ended">Terminée</string>
@@ -105,6 +108,7 @@
 	<string name="search_show">Chercher une série</string>
 	<string name="season_episode_name">S<xliff:g example="01" id="season">%1$02d</xliff:g>E<xliff:g example="01" id="episode">%2$02d</xliff:g> - <xliff:g example="Pilot" id="name">%3$s</xliff:g></string>
 	<string name="season_number">Saison %1$d</string>
+	<string name="season_sort">Tri des saisons</string>
 	<string name="server_information">Information sur le serveur</string>
 	<string name="set_status">Définir le statut</string>
 	<string name="settings">Paramètres</string>

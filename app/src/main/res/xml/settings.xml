@@ -47,6 +47,16 @@
 		</PreferenceScreen>
 	</PreferenceCategory>
 
+	<PreferenceCategory android:title="@string/display">
+
+		<CheckBoxPreference
+			android:defaultValue="false"
+			android:key="display_season_sort"
+			android:summaryOff="@string/descending"
+			android:summaryOn="@string/ascending"
+			android:title="@string/season_sort"/>
+	</PreferenceCategory>
+
 	<PreferenceCategory android:title="@string/experimental_feature">
 
 		<CheckBoxPreference

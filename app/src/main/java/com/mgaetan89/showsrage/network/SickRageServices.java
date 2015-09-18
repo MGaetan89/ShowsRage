@@ -59,7 +59,7 @@ public interface SickRageServices {
 	void getRootDirs(Callback<RootDirs> callback);
 
 	@GET("/{api_path}/{api_key}/?cmd=show.seasonlist")
-	void getSeasons(@Query("indexerid") int indexerId, Callback<Seasons> callback);
+	void getSeasons(@Query("indexerid") int indexerId, @Query("sort") String sort, Callback<Seasons> callback);
 
 	@GET("/{api_path}/{api_key}/?cmd=show")
 	void getShow(@Query("indexerid") int indexerId, Callback<SingleShow> callback);
