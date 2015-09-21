@@ -129,12 +129,11 @@ public final class SickRageApi implements RequestInterceptor {
 
 	@NonNull
 	private static String buildFullApiUrl(String apiUrl, String path, String apiKey) {
-		String cleanPath = path.replaceAll("^/*|/*$", "");
 		StringBuilder builder = new StringBuilder();
 		builder.append(apiUrl);
 
-		if (!cleanPath.isEmpty()) {
-			builder.append(cleanPath).append("/");
+		if (!path.isEmpty()) {
+			builder.append(path).append("/");
 		}
 
 		if (!apiKey.isEmpty()) {
