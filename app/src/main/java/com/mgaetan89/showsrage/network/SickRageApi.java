@@ -23,6 +23,9 @@ public final class SickRageApi implements RequestInterceptor {
 
 	private SickRageServices services = null;
 
+	@NonNull
+	private String webRoot = "";
+
 	private SickRageApi() {
 	}
 
@@ -77,10 +80,10 @@ public final class SickRageApi implements RequestInterceptor {
 		String address = preferences.getString("server_address", "");
 		String portNumber = preferences.getString("server_port_number", "");
 
-		this.path = preferences.getString("server_path", "");
 		this.apiKey = preferences.getString("api_key", "");
-
 		this.apiUrl = buildApiUrl(useHttps, address, portNumber);
+		this.path = preferences.getString("server_path", "");
+		this.webRoot = getWebRoot(this.path);
 
 		RestAdapter.Builder builder = new RestAdapter.Builder();
 		builder.setEndpoint(this.apiUrl);
@@ -92,8 +95,9 @@ public final class SickRageApi implements RequestInterceptor {
 
 	@Override
 	public void intercept(RequestFacade request) {
-		request.addPathParam("api_path", this.path);
+		request.addEncodedPathParam("api_path", this.path);
 		request.addPathParam("api_key", this.apiKey);
+		request.addEncodedPathParam("web_root", this.webRoot);
 	}
 
 	@NonNull
@@ -138,5 +142,31 @@ public final class SickRageApi implements RequestInterceptor {
 		}
 
 		return builder.toString();
+	}
+
+	@NonNull
+	/* package */ static String getWebRoot(String apiPath) {
+		if (apiPath == null || apiPath.isEmpty()) {
+			return "";
+		}
+
+		String path = apiPath;
+
+		// Add a leading /
+		if (!path.startsWith("/")) {
+			path = "/" + path;
+		}
+
+		// Add a trailing /
+		if (!path.endsWith("/")) {
+			path += "/";
+		}
+
+		// If the path ends with /api/, we ignore that last segment
+		if (path.endsWith("/api/")) {
+			return path.substring(1, path.length() - 4);
+		}
+
+		return apiPath.replaceAll("^/|/$", "") + "/";
 	}
 }
