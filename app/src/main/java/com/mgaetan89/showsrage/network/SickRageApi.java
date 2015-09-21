@@ -82,7 +82,7 @@ public final class SickRageApi implements RequestInterceptor {
 
 		this.apiKey = preferences.getString("api_key", "");
 		this.apiUrl = buildApiUrl(useHttps, address, portNumber);
-		this.path = preferences.getString("server_path", "");
+		this.path = getApiPath(preferences.getString("server_path", ""));
 		this.webRoot = getWebRoot(this.path);
 
 		RestAdapter.Builder builder = new RestAdapter.Builder();
@@ -145,6 +145,15 @@ public final class SickRageApi implements RequestInterceptor {
 	}
 
 	@NonNull
+	/* package */ static String getApiPath(String apiPath) {
+		if (apiPath == null || apiPath.isEmpty()) {
+			return "";
+		}
+
+		return apiPath.replaceAll("^/+|/$+", "");
+	}
+
+	@NonNull
 	/* package */ static String getWebRoot(String apiPath) {
 		if (apiPath == null || apiPath.isEmpty()) {
 			return "";
@@ -167,6 +176,6 @@ public final class SickRageApi implements RequestInterceptor {
 			return path.substring(1, path.length() - 4);
 		}
 
-		return apiPath.replaceAll("^/|/$", "") + "/";
+		return apiPath.replaceAll("^/+|/$+", "") + "/";
 	}
 }
