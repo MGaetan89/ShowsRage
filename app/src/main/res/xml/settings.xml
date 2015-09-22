@@ -7,6 +7,10 @@
 			android:key="use_https"
 			android:title="@string/use_https"/>
 
+		<CheckBoxPreference
+			android:key="self_signed_certificate"
+			android:title="@string/self_signed_certificate"/>
+
 		<EditTextPreference
 			android:key="server_address"
 			android:title="@string/address"/>
