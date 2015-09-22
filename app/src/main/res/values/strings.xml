@@ -105,6 +105,7 @@
 	<string name="search_show">Search show</string>
 	<string name="season_episode_name">S<xliff:g example="01" id="season">%1$02d</xliff:g>E<xliff:g example="01" id="episode">%2$02d</xliff:g> - <xliff:g example="Pilot" id="name">%3$s</xliff:g></string>
 	<string name="season_number">Season %1$d</string>
+	<string name="self_signed_certificate">Self-signed certificate?</string>
 	<string name="server_information">Server Information</string>
 	<string name="set_status">Set status</string>
 	<string name="settings">Settings</string>
