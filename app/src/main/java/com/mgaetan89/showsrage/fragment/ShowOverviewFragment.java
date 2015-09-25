@@ -492,19 +492,24 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		}
 
 		if (this.genre != null) {
-			String genres = "";
 			List<String> genresList = this.show.getGenre();
 
-			for (int i = 0; i < genresList.size(); i++) {
-				genres += genresList.get(i);
+			if (genresList != null && !genresList.isEmpty()) {
+				String genres = "";
 
-				if (i + 1 < genresList.size()) {
-					genres += ", ";
+				for (int i = 0; i < genresList.size(); i++) {
+					genres += genresList.get(i);
+
+					if (i + 1 < genresList.size()) {
+						genres += ", ";
+					}
 				}
-			}
 
-			this.genre.setText(this.getString(R.string.genre, genres));
-			this.genre.setVisibility(View.VISIBLE);
+				this.genre.setText(this.getString(R.string.genre, genres));
+				this.genre.setVisibility(View.VISIBLE);
+			} else {
+				this.genre.setVisibility(View.GONE);
+			}
 		}
 
 		if (this.imdb != null) {
