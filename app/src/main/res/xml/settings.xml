@@ -4,10 +4,12 @@
 	<PreferenceCategory android:title="@string/server_information">
 
 		<CheckBoxPreference
+			android:defaultValue="false"
 			android:key="use_https"
 			android:title="@string/use_https"/>
 
 		<CheckBoxPreference
+			android:defaultValue="false"
 			android:key="self_signed_certificate"
 			android:title="@string/self_signed_certificate"/>
 
@@ -47,6 +49,11 @@
 				<Preference
 					android:key="get_api_key_action"
 					android:title="@string/get_api_key"/>
+
+				<CheckBoxPreference
+					android:defaultValue="false"
+					android:key="basic_auth"
+					android:title="@string/use_basic_auth"/>
 			</PreferenceCategory>
 		</PreferenceScreen>
 	</PreferenceCategory>

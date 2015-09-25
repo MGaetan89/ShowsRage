@@ -142,6 +142,7 @@
 	<string name="update_failed">La mise à jour de SickRage a échouée</string>
 	<string name="update_sickrage">Mette à jour SickRage</string>
 	<string name="updating_sickrage">Mise à jour de SickRage en cours…</string>
+	<string name="use_basic_auth">Authentication basique ?</string>
 	<string name="use_https">Connexion sécurisée ?</string>
 	<string name="username">Identifiant</string>
 	<string name="version">Version</string>

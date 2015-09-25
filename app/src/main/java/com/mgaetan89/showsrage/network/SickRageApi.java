@@ -3,9 +3,11 @@ package com.mgaetan89.showsrage.network;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.model.Indexer;
+import com.squareup.okhttp.Credentials;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.security.KeyManagementException;
@@ -27,6 +29,9 @@ public final class SickRageApi implements RequestInterceptor {
 
 	@NonNull
 	private String apiUrl = "";
+
+	@Nullable
+	private String credentials = null;
 
 	@NonNull
 	private static final SickRageApi INSTANCE = new SickRageApi();
@@ -139,6 +144,11 @@ public final class SickRageApi implements RequestInterceptor {
 
 		this.apiKey = preferences.getString("api_key", "");
 		this.apiUrl = buildApiUrl(useHttps, address, portNumber);
+		this.credentials = getCredentials(
+				preferences.getBoolean("basic_auth", false),
+				preferences.getString("server_username", null),
+				preferences.getString("server_password", null)
+		);
 		this.path = getApiPath(preferences.getString("server_path", ""));
 		this.webRoot = getWebRoot(this.path);
 
@@ -159,6 +169,10 @@ public final class SickRageApi implements RequestInterceptor {
 		request.addEncodedPathParam("api_path", this.path);
 		request.addPathParam("api_key", this.apiKey);
 		request.addEncodedPathParam("web_root", this.webRoot);
+
+		if (!TextUtils.isEmpty(this.credentials)) {
+			request.addHeader("Authorization", this.credentials);
+		}
 	}
 
 	@NonNull
@@ -211,6 +225,23 @@ public final class SickRageApi implements RequestInterceptor {
 		}
 
 		return apiPath.replaceAll("^/+|/$+", "");
+	}
+
+	@Nullable
+	/* package */ static String getCredentials(boolean useBasicAuthentication, String username, String password) {
+		if (!useBasicAuthentication) {
+			return null;
+		}
+
+		if (username == null || username.isEmpty()) {
+			return null;
+		}
+
+		if (password == null || password.isEmpty()) {
+			return null;
+		}
+
+		return Credentials.basic(username, password);
 	}
 
 	@NonNull

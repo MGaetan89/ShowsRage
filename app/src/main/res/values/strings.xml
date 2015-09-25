@@ -142,6 +142,7 @@
 	<string name="update_failed">SickRage\'s update failed</string>
 	<string name="update_sickrage">Update SickRage</string>
 	<string name="updating_sickrage">SickRage is updating…</string>
+	<string name="use_basic_auth">Use basic authentication?</string>
 	<string name="use_https">Use HTTPS?</string>
 	<string name="username">Username</string>
 	<string name="version">Version</string>
