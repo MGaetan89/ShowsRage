@@ -36,11 +36,15 @@ public class SickRageApi_GetCredentialsTest {
 				{false, null, "password", null},
 				{false, "", "password", null},
 				{false, "username", "password", null},
+				{false, "username", "", null},
+				{false, "username", null, null},
 				{true, null, null, null},
 				{true, null, "", null},
 				{true, null, "password", null},
 				{true, "", "password", null},
 				{true, "username", "password", "Basic dXNlcm5hbWU6cGFzc3dvcmQ="},
+				{true, "username", "", null},
+				{true, "username", null, null},
 		});
 	}
 }
