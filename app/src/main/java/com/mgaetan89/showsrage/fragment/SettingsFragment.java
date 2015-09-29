@@ -135,7 +135,9 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 		}
 
 		if (this.alertDialog != null) {
-			this.alertDialog.dismiss();
+			if (this.alertDialog.isShowing()) {
+				this.alertDialog.dismiss();
+			}
 
 			this.alertDialog = null;
 		}
