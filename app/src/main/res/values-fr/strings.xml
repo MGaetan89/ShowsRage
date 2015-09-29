@@ -107,7 +107,6 @@
 	<string name="search">Chercher</string>
 	<string name="search_episode">Chercher l\'épisode</string>
 	<string name="search_show">Chercher une série</string>
-	<string name="season_episode_name">S<xliff:g example="01" id="season">%1$02d</xliff:g>E<xliff:g example="01" id="episode">%2$02d</xliff:g> - <xliff:g example="Pilot" id="name">%3$s</xliff:g></string>
 	<string name="season_number">Saison %1$d</string>
 	<string name="seasons_sort">Tri des saisons</string>
 	<string name="self_signed_certificate">Certificat auto-signé ?</string>

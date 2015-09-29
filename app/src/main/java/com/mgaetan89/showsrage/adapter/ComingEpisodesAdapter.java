@@ -70,7 +70,7 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<ComingEpisodesAd
 		}
 
 		if (holder.name != null) {
-			holder.name.setText(holder.name.getResources().getString(R.string.season_episode_name, comingEpisode.getSeason(), comingEpisode.getEpisode(), comingEpisode.getEpisodeName()));
+			holder.name.setText(holder.name.getResources().getString(R.string.show_name_episode, comingEpisode.getShowName(), comingEpisode.getSeason(), comingEpisode.getEpisode()));
 		}
 
 		if (holder.networkQuality != null) {
