@@ -1,30 +1,40 @@
 # Contributing to *ShowsRage*
 
-You can contribute to *ShowsRage* in various ways. Any kind of contribution is welcome.
+You can contribute to *ShowsRage* in various ways. Any kind of contribution is welcome. The simplest one: use, share and talk about *ShowsRage* :smile:
 
-## Use and share the application
+1. [Bug Report](#bug-report)
+2. [New Feature](#new-feature)
+3. [Translation](#translation)
 
-The easiest contribution you can do. What is the purpose of an application that has no users? :smile:
+## Bug Report
 
-## Report bugs
+It is possible that you find a bug while using *ShowsRage*. To help me fix it as fast as possible, try to provide as many information as you can when [creating an issue](https://github.com/MGaetan89/ShowsRage/issues/new).
 
-If you find something that is broken in the application, I will do my best to fix it in the next version.
+Try to answer the following questions:
+- Am I using the latest version of *ShowsRage*?
+- Did someone already reported this issue?
+- What is not working?
+- What should have happened?
+- How can I reproduce the issue?
+- What is my device?
+- What is my Android version?
+- What is my *ShowsRage* version?
 
-Here are a few tips to take into account, before [creating a new issue](https://github.com/MGaetan89/ShowsRage/issues/new):
+## New Feature
 
-- Make sure that you are using the latest version of the application. Maybe the bug is already fixed
-- Make sure that the issue was not [already reported](https://github.com/MGaetan89/ShowsRage/issues)
-- Provide as many details as possible:
- - How to reproduce the issue?
- - What is the expected behaviour?
- - What is your device and Android version?
+If you think that something is missing from *ShowsRage*, you can [open a new issue](https://github.com/MGaetan89/ShowsRage/issues/new) to explain it. As for bug report, try to give as many detail as you can.
 
-## Suggest new features
+- How should this new feature work?
+- What will it bring to *ShowsRage* and all the users?
 
-Do you have an amazing idea that you would like to see in *ShowsRage*? [Tell me](https://github.com/MGaetan89/ShowsRage/issues/new) about it, and maybe it will find its way into a future version of the application.
+## Translation
 
-## Translate the application
+While not everything can be translated, *ShowsRage* aim to localized as much as possible.
 
-While not everything in the application can be translated (for example, the show/episode plots), I tried to internationalize as much as possible.
+The following languages are currently supported:
+- [English](https://github.com/MGaetan89/ShowsRage/blob/master/app/src/main/res/values/strings.xml)
+- [French](https://github.com/MGaetan89/ShowsRage/blob/master/app/src/main/res/values-fr/strings.xml)
 
-*ShowsRage* is currently available in [English](https://github.com/MGaetan89/ShowsRage/blob/master/app/src/main/res/values/strings.xml) and [French](https://github.com/MGaetan89/ShowsRage/blob/master/app/src/main/res/values-fr/strings.xml). If you wish, and are able, to see *ShowsRage* in your language, feel free to [submit a Pull Request](https://help.github.com/articles/creating-a-pull-request/) with the appropriate changes.
+To provide a new translation, copy one of the above file into its own folder, localized, and translate it. You can add it in the list above and update the `resConfigs` field in [`app/build.gradle`](https://github.com/MGaetan89/ShowsRage/blob/master/app/build.gradle).
+
+Once ready, send a new Pull Request so it can be included in the next version of *ShowsRage*.

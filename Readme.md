@@ -11,6 +11,7 @@ Support for *[SickBeard](http://www.sickbeard.com/)* (or any other variant) is n
 The following features are currently available:
 
 - Support Android 4.0.3 and up
+- Support phone and tablet devices
 - Based on [Material Design](http://www.google.com/design/)
 - Shows information:
     - List your shows
@@ -27,7 +28,7 @@ The following features are currently available:
     - Set episode status
     - Stream a downloaded episode
 - List of coming episodes
-- history
+- History
 - Logs
 - Shows statistics
 - Update *SickRage* (requires *SickRage* 4.0.30)
@@ -49,9 +50,9 @@ Phone | Tablet
 
 ## Trying the application
 
-The application is not yet publicly available on the Play Store yet.
+The application can be found on the [Play Store](https://play.google.com/store/apps/details?id=com.mgaetan89.showsrage),
 
-However, it is possible to have an early access to the application. To do so, simply follow the instructions [here](https://play.google.com/apps/testing/com.mgaetan89.showsrage).
+If you wish to have early access to the next versions of *ShowsRage*, you can subscribe to the beta program [here](https://play.google.com/apps/testing/com.mgaetan89.showsrage). New releases will be published a few days before being made public and will be available in the Play Store, like a normal update.
 
 All feedbacks/feature requests/bug reports are welcome and will be taken into account.
 
