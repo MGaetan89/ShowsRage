@@ -5,7 +5,6 @@
 	android:layout_width="match_parent"
 	android:layout_height="@dimen/list_item_height"
 	android:background="?selectableItemBackground"
-	android:clickable="true"
 	android:paddingEnd="@dimen/padding"
 	android:paddingLeft="@dimen/padding"
 	android:paddingRight="@dimen/padding"

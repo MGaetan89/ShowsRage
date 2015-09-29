@@ -3,6 +3,7 @@ package com.mgaetan89.showsrage.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
@@ -104,6 +106,8 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<ComingEpisodesAd
 		public ViewHolder(View view) {
 			super(view);
 
+			view.setOnClickListener(this);
+
 			this.actions = (ImageView) view.findViewById(R.id.episode_actions);
 			this.date = (TextView) view.findViewById(R.id.episode_date);
 			this.logo = (ImageView) view.findViewById(R.id.episode_logo);
@@ -117,10 +121,31 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<ComingEpisodesAd
 
 		@Override
 		public void onClick(View view) {
-			PopupMenu popupMenu = new PopupMenu(view.getContext(), this.actions);
-			popupMenu.inflate(R.menu.episode_action);
-			popupMenu.setOnMenuItemClickListener(this);
-			popupMenu.show();
+			Context context = view.getContext();
+
+			if (view.getId() == R.id.episode_actions) {
+				PopupMenu popupMenu = new PopupMenu(context, this.actions);
+				popupMenu.inflate(R.menu.episode_action);
+				popupMenu.setOnMenuItemClickListener(this);
+				popupMenu.show();
+			} else {
+				ComingEpisode comingEpisode = ComingEpisodesAdapter.this.comingEpisodes.get(this.getAdapterPosition());
+				String plot = comingEpisode.getEpisodePlot();
+
+				if (plot != null) {
+					String message = context.getString(R.string.season_episode_name, comingEpisode.getSeason(), comingEpisode.getEpisode(), comingEpisode.getEpisodeName());
+					message += "\n\n";
+					message += plot;
+
+					new AlertDialog.Builder(context)
+							.setTitle(comingEpisode.getShowName())
+							.setMessage(message)
+							.setPositiveButton(R.string.close, null)
+							.show();
+				} else {
+					Toast.makeText(context, R.string.no_plot, Toast.LENGTH_SHORT).show();
+				}
+			}
 		}
 
 		@Override

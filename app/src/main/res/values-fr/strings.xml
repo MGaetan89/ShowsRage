@@ -25,6 +25,7 @@
 	<string name="check_update">Vérifier les mises à jour</string>
 	<string name="clear">Effacer</string>
 	<string name="clear_history_confirm">Etes-vous sûr de vouloir effacer l\'historique de SickRage ?</string>
+	<string name="close">Fermer</string>
 	<string name="coming_episodes">Episodes à venir</string>
 	<string name="connecting_to">Connexion à <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g>…</string>
 	<string name="connection_failed">Connexion à <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g> impossible</string>
@@ -80,6 +81,7 @@
 	<string name="no_episodes">Aucun épisode</string>
 	<string name="no_history">Aucun historique</string>
 	<string name="no_logs">Aucun log</string>
+	<string name="no_plot">Aucun résumé</string>
 	<string name="no_results">Aucun résultat</string>
 	<string name="no_shows">Aucune série</string>
 	<string name="no_update">Aucune nouvelle mise à jour</string>
@@ -107,6 +109,7 @@
 	<string name="search">Chercher</string>
 	<string name="search_episode">Chercher l\'épisode</string>
 	<string name="search_show">Chercher une série</string>
+	<string name="season_episode_name">S<xliff:g example="01" id="season">%1$02d</xliff:g>E<xliff:g example="01" id="episode">%2$02d</xliff:g> - <xliff:g example="Pilot" id="name">%3$s</xliff:g></string>
 	<string name="season_number">Saison %1$d</string>
 	<string name="seasons_sort">Tri des saisons</string>
 	<string name="self_signed_certificate">Certificat auto-signé ?</string>

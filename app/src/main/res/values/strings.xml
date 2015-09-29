@@ -25,6 +25,7 @@
 	<string name="check_update">Check for update</string>
 	<string name="clear">Clear</string>
 	<string name="clear_history_confirm">Are you sure you want to clear SickRage\'s history?</string>
+	<string name="close">Close</string>
 	<string name="coming_episodes">Coming Episodes</string>
 	<string name="connecting_to">Connecting to <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g>…</string>
 	<string name="connection_failed">Connection to <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g> failed</string>
@@ -81,6 +82,7 @@
 	<string name="no_history">No history</string>
 	<string name="no_logs">No logs</string>
 	<string name="no_results">No results</string>
+	<string name="no_plot">No plot</string>
 	<string name="no_shows">No shows</string>
 	<string name="no_update">No new update</string>
 	<string name="password">Password</string>
@@ -107,6 +109,7 @@
 	<string name="search">Search</string>
 	<string name="search_episode">Search episode</string>
 	<string name="search_show">Search show</string>
+	<string name="season_episode_name">S<xliff:g example="01" id="season">%1$02d</xliff:g>E<xliff:g example="01" id="episode">%2$02d</xliff:g> - <xliff:g example="Pilot" id="name">%3$s</xliff:g></string>
 	<string name="season_number">Season %1$d</string>
 	<string name="seasons_sort">Seasons sort</string>
 	<string name="self_signed_certificate">Self-signed certificate?</string>
