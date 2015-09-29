@@ -119,6 +119,6 @@ public class ShowFragment extends Fragment implements Callback<Seasons> {
 			return "desc";
 		}
 
-		return preferences.getBoolean("display_season_sort", false) ? "asc" : "desc";
+		return preferences.getBoolean("display_seasons_sort", false) ? "asc" : "desc";
 	}
 }

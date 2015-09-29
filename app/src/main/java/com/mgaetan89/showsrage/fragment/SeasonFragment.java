@@ -1,7 +1,9 @@
 package com.mgaetan89.showsrage.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,7 +24,6 @@ import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import retrofit.Callback;
@@ -88,6 +89,10 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 				int columnCount = this.getResources().getInteger(R.integer.shows_column_count);
 				this.adapter = new EpisodesAdapter(this.episodes, this.seasonNumber);
 
+				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+				GridLayoutManager layoutManager = new GridLayoutManager(this.getActivity(), columnCount);
+				layoutManager.setReverseLayout(!preferences.getBoolean("display_episodes_sort", false));
+
 				this.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 					@Override
 					public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -99,7 +104,7 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 					}
 				});
 				this.recyclerView.setAdapter(this.adapter);
-				this.recyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), columnCount));
+				this.recyclerView.setLayoutManager(layoutManager);
 			}
 
 			if (this.swipeRefreshLayout != null) {
@@ -146,8 +151,6 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 
 		if (episodes != null) {
 			this.episodes.addAll(episodes.getData().values());
-
-			Collections.reverse(this.episodes);
 		}
 
 		if (this.episodes.isEmpty()) {

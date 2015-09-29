@@ -68,7 +68,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 		}
 
 		if (holder.name != null) {
-			holder.name.setText(holder.name.getResources().getString(R.string.episode_name, this.getItemCount() - position, episode.getName()));
+			holder.name.setText(holder.name.getResources().getString(R.string.episode_name, position + 1, episode.getName()));
 		}
 
 		if (holder.quality != null) {
@@ -151,7 +151,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 				if (context instanceof OnEpisodeSelectedListener && episode != null) {
 					int itemCount = adapter.getItemCount();
 
-					((OnEpisodeSelectedListener) context).onEpisodeSelected(adapter.seasonNumber, itemCount - this.getAdapterPosition(), episode, itemCount);
+					((OnEpisodeSelectedListener) context).onEpisodeSelected(adapter.seasonNumber, this.getAdapterPosition() + 1, episode, itemCount);
 				}
 			}
 		}
@@ -164,7 +164,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 				if (context instanceof OnEpisodeActionSelectedListener) {
 					EpisodesAdapter adapter = EpisodesAdapter.this;
 
-					((OnEpisodeActionSelectedListener) context).onEpisodeActionSelected(adapter.seasonNumber, adapter.getItemCount() - this.getAdapterPosition(), item);
+					((OnEpisodeActionSelectedListener) context).onEpisodeActionSelected(adapter.seasonNumber, this.getAdapterPosition() + 1, item);
 
 					return true;
 				}

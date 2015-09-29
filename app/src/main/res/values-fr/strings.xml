@@ -47,6 +47,7 @@
 	<string name="episode_name_short">E<xliff:g example="01" id="number">%1$02d</xliff:g></string>
 	<string name="episode_search">Recherche de l\'épisode <xliff:g example="1" id="episode">%1$d</xliff:g> de la saison <xliff:g example="1" id="season">%2$s</xliff:g></string>
 	<string name="episodes">Episodes</string>
+	<string name="episodes_sort">Tri des épisodes</string>
 	<string name="error">Erreur</string>
 	<string name="experimental_feature">Fonctionnalités expérimentales</string>
 	<string name="external_links">Liens Externes</string>
@@ -108,7 +109,7 @@
 	<string name="search_show">Chercher une série</string>
 	<string name="season_episode_name">S<xliff:g example="01" id="season">%1$02d</xliff:g>E<xliff:g example="01" id="episode">%2$02d</xliff:g> - <xliff:g example="Pilot" id="name">%3$s</xliff:g></string>
 	<string name="season_number">Saison %1$d</string>
-	<string name="season_sort">Tri des saisons</string>
+	<string name="seasons_sort">Tri des saisons</string>
 	<string name="self_signed_certificate">Certificat auto-signé ?</string>
 	<string name="server_information">Information sur le serveur</string>
 	<string name="set_status">Définir le statut</string>

@@ -28,7 +28,7 @@ public class ShowFragment_GetSeasonsSortTest {
 	@Before
 	public void before() {
 		this.preferences = mock(SharedPreferences.class);
-		when(this.preferences.getBoolean("display_season_sort", false)).thenReturn(this.status);
+		when(this.preferences.getBoolean("display_seasons_sort", false)).thenReturn(this.status);
 	}
 
 	@Test

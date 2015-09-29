@@ -62,10 +62,17 @@
 
 		<CheckBoxPreference
 			android:defaultValue="false"
-			android:key="display_season_sort"
+			android:key="display_seasons_sort"
 			android:summaryOff="@string/descending"
 			android:summaryOn="@string/ascending"
-			android:title="@string/season_sort"/>
+			android:title="@string/seasons_sort"/>
+
+		<CheckBoxPreference
+			android:defaultValue="false"
+			android:key="display_episodes_sort"
+			android:summaryOff="@string/descending"
+			android:summaryOn="@string/ascending"
+			android:title="@string/episodes_sort"/>
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/experimental_feature">
