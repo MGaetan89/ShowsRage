@@ -14,7 +14,6 @@ android {
 		versionCode 16
 		versionName '1.1'
 		resConfigs 'en', 'fr'
-		resConfigs 'anydpi', 'hdpi', 'mdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi'
 	}
 
 	compileOptions {
