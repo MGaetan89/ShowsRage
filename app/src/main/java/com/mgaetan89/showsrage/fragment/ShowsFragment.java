@@ -1,7 +1,9 @@
 package com.mgaetan89.showsrage.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -26,6 +28,8 @@ import com.mgaetan89.showsrage.model.Shows;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -164,6 +168,25 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, View.OnC
 			Map<String, Integer> parameters = getCommandParameters(this.shows);
 
 			SickRageApi.getInstance().getServices().getShowStats(command, parameters, new ShowStatsCallback());
+
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+			String showsGrouping = preferences.getString("display_group_shows_animes", "merge");
+			final int groupFactor = "animes".equals(showsGrouping) ? 1 : ("merge".equals(showsGrouping) ? 0 : -1);
+
+			Collections.sort(this.shows, new Comparator<Show>() {
+				@Override
+				public int compare(Show first, Show second) {
+					if (first.getAnime() == second.getAnime()) {
+						return 0;
+					}
+
+					if (first.getAnime() < second.getAnime()) {
+						return groupFactor;
+					}
+
+					return -1 * groupFactor;
+				}
+			});
 		}
 
 		if (this.shows.isEmpty()) {
