@@ -32,6 +32,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -441,6 +442,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 			colorPrimaryDark[2] *= COLOR_DARK_FACTOR;
 
 			this.getWindow().setStatusBarColor(ColorUtils.HSLToColor(colorPrimaryDark));
+		}
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			if (textColor == Color.BLACK) {
+				this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+			}
 		}
 
 		this.getIntent().putExtra(Constants.Bundle.COLOR_ACCENT, colorAccent);
