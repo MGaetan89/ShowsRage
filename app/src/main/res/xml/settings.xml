@@ -10,6 +10,7 @@
 
 		<CheckBoxPreference
 			android:defaultValue="false"
+			android:dependency="use_https"
 			android:key="self_signed_certificate"
 			android:title="@string/self_signed_certificate"/>
 
@@ -52,6 +53,7 @@
 
 				<CheckBoxPreference
 					android:defaultValue="false"
+					android:dependency="server_username"
 					android:key="basic_auth"
 					android:title="@string/use_basic_auth"/>
 			</PreferenceCategory>
