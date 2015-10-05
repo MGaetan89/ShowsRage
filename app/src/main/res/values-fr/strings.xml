@@ -27,7 +27,6 @@
 	<string name="clear">Effacer</string>
 	<string name="clear_history_confirm">Etes-vous sûr de vouloir effacer l\'historique de SickRage ?</string>
 	<string name="close">Fermer</string>
-	<string name="coming_episodes">Episodes à venir</string>
 	<string name="connecting_to">Connexion à <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g>…</string>
 	<string name="connection_failed">Connexion à <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g> impossible</string>
 	<string name="connection_successful">Connexion réussie !</string>
@@ -108,6 +107,7 @@
 	<string name="restart_confirm">Etes-vous sûr de vouloir redémarrer SickRage ?</string>
 	<string name="resume_show">Reprendre la série</string>
 	<string name="runtime">Durée : <xliff:g example="22 min" id="runtime">%1$s</xliff:g></string>
+	<string name="schedule">Calendrier</string>
 	<string name="search">Chercher</string>
 	<string name="search_episode">Chercher l\'épisode</string>
 	<string name="search_show">Chercher une série</string>

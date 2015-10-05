@@ -114,15 +114,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 				return true;
 			}
 
-			case R.id.menu_coming_episodes: {
-				Intent intent = new Intent(this, ComingEpisodesActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-
-				this.startActivity(intent);
-
-				return true;
-			}
-
 			case R.id.menu_history: {
 				Intent intent = new Intent(this, HistoryActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
@@ -162,6 +153,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 						.show();
 
 				menuItem.setChecked(false);
+
+				return true;
+			}
+
+			case R.id.menu_schedule: {
+				Intent intent = new Intent(this, ScheduleActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+
+				this.startActivity(intent);
 
 				return true;
 			}

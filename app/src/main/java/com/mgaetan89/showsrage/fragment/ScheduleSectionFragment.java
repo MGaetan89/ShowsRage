@@ -13,27 +13,27 @@ import android.widget.TextView;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.adapter.ComingEpisodesAdapter;
-import com.mgaetan89.showsrage.model.ComingEpisode;
+import com.mgaetan89.showsrage.adapter.ScheduleAdapter;
+import com.mgaetan89.showsrage.model.Schedule;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ComingEpisodesSectionFragment extends Fragment {
+public class ScheduleSectionFragment extends Fragment {
 	@Nullable
-	private ComingEpisodesAdapter adapter = null;
+	private ScheduleAdapter adapter = null;
 
 	@Nullable
 	private TextView emptyView = null;
 
-	@NonNull
-	private final List<ComingEpisode> comingEpisodes = new ArrayList<>();
-
 	@Nullable
 	private RecyclerView recyclerView = null;
 
-	public ComingEpisodesSectionFragment() {
+	@NonNull
+	private final List<Schedule> schedules = new ArrayList<>();
+
+	public ScheduleSectionFragment() {
 	}
 
 	@Override
@@ -43,14 +43,14 @@ public class ComingEpisodesSectionFragment extends Fragment {
 		Bundle arguments = this.getArguments();
 
 		if (arguments != null) {
-			Collection<ComingEpisode> comingEpisodes = (Collection<ComingEpisode>) arguments.getSerializable(Constants.Bundle.COMING_EPISODES);
+			Collection<Schedule> schedules = (Collection<Schedule>) arguments.getSerializable(Constants.Bundle.SCHEDULES);
 
-			if (comingEpisodes != null) {
-				this.comingEpisodes.addAll(comingEpisodes);
+			if (schedules != null) {
+				this.schedules.addAll(schedules);
 			}
 		}
 
-		if (this.comingEpisodes.isEmpty()) {
+		if (this.schedules.isEmpty()) {
 			if (this.emptyView != null) {
 				this.emptyView.setVisibility(View.VISIBLE);
 			}
@@ -76,7 +76,7 @@ public class ComingEpisodesSectionFragment extends Fragment {
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_coming_episodes_section, container, false);
+		View view = inflater.inflate(R.layout.fragment_schedule_section, container, false);
 
 		if (view != null) {
 			this.emptyView = (TextView) view.findViewById(android.R.id.empty);
@@ -84,7 +84,7 @@ public class ComingEpisodesSectionFragment extends Fragment {
 
 			if (this.recyclerView != null) {
 				int columnCount = this.getResources().getInteger(R.integer.shows_column_count);
-				this.adapter = new ComingEpisodesAdapter(this.comingEpisodes);
+				this.adapter = new ScheduleAdapter(this.schedules);
 
 				this.recyclerView.setAdapter(this.adapter);
 				this.recyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), columnCount));
@@ -96,7 +96,7 @@ public class ComingEpisodesSectionFragment extends Fragment {
 
 	@Override
 	public void onDestroy() {
-		this.comingEpisodes.clear();
+		this.schedules.clear();
 
 		super.onDestroy();
 	}

@@ -27,7 +27,6 @@
 	<string name="clear">Clear</string>
 	<string name="clear_history_confirm">Are you sure you want to clear SickRage\'s history?</string>
 	<string name="close">Close</string>
-	<string name="coming_episodes">Coming Episodes</string>
 	<string name="connecting_to">Connecting to <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g>…</string>
 	<string name="connection_failed">Connection to <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g> failed</string>
 	<string name="connection_successful">Connection successful!</string>
@@ -108,6 +107,7 @@
 	<string name="restart_confirm">Are you sure you want to restart SickRage?</string>
 	<string name="resume_show">Resume show</string>
 	<string name="runtime">Runtime: <xliff:g example="22 min" id="runtime">%1$s</xliff:g></string>
+	<string name="schedule">Schedule</string>
 	<string name="search">Search</string>
 	<string name="search_episode">Search episode</string>
 	<string name="search_show">Search show</string>

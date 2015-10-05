@@ -4,5 +4,5 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content">
 
-	<include layout="@layout/adapter_coming_episodes_list_content"/>
+	<include layout="@layout/adapter_schedule_list_content"/>
 </FrameLayout>

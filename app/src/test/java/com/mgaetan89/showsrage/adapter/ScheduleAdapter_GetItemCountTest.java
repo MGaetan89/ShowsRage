@@ -1,6 +1,6 @@
 package com.mgaetan89.showsrage.adapter;
 
-import com.mgaetan89.showsrage.model.ComingEpisode;
+import com.mgaetan89.showsrage.model.Schedule;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,18 +16,18 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(Parameterized.class)
-public class ComingEpisodesAdapter_GetItemCountTest {
+public class ScheduleAdapter_GetItemCountTest {
 	@Parameterized.Parameter(0)
-	public List<ComingEpisode> comingEpisodes;
+	public List<Schedule> schedules;
 
 	@Parameterized.Parameter(1)
 	public int itemCount;
 
-	private ComingEpisodesAdapter adapter;
+	private ScheduleAdapter adapter;
 
 	@Before
 	public void before() {
-		this.adapter = new ComingEpisodesAdapter(this.comingEpisodes);
+		this.adapter = new ScheduleAdapter(this.schedules);
 	}
 
 	@Test
@@ -45,8 +45,8 @@ public class ComingEpisodesAdapter_GetItemCountTest {
 		return Arrays.asList(new Object[][]{
 				{null, 0},
 				{Collections.emptyList(), 0},
-				{Collections.singletonList(new ComingEpisode()), 1},
-				{Arrays.asList(new ComingEpisode(), new ComingEpisode(), new ComingEpisode()), 3},
+				{Collections.singletonList(new Schedule()), 1},
+				{Arrays.asList(new Schedule(), new Schedule(), new Schedule()), 3},
 		});
 	}
 }

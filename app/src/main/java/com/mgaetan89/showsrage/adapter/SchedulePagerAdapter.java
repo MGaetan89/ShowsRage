@@ -8,27 +8,27 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.mgaetan89.showsrage.Constants;
-import com.mgaetan89.showsrage.fragment.ComingEpisodesSectionFragment;
-import com.mgaetan89.showsrage.model.ComingEpisode;
+import com.mgaetan89.showsrage.fragment.ScheduleSectionFragment;
+import com.mgaetan89.showsrage.model.Schedule;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ComingEpisodesPagerAdapter extends FragmentStatePagerAdapter {
+public class SchedulePagerAdapter extends FragmentStatePagerAdapter {
 	@NonNull
-	private List<ArrayList<ComingEpisode>> comingEpisodes = Collections.emptyList();
+	private List<ArrayList<Schedule>> schedules = Collections.emptyList();
 
 	@NonNull
 	private List<String> sections = Collections.emptyList();
 
-	public ComingEpisodesPagerAdapter(FragmentManager fragmentManager, @Nullable List<String> sections, @Nullable List<ArrayList<ComingEpisode>> comingEpisodes) {
+	public SchedulePagerAdapter(FragmentManager fragmentManager, @Nullable List<String> sections, @Nullable List<ArrayList<Schedule>> schedules) {
 		super(fragmentManager);
 
-		if (comingEpisodes == null) {
-			this.comingEpisodes = Collections.emptyList();
+		if (schedules == null) {
+			this.schedules = Collections.emptyList();
 		} else {
-			this.comingEpisodes = comingEpisodes;
+			this.schedules = schedules;
 		}
 
 		if (sections == null) {
@@ -46,9 +46,9 @@ public class ComingEpisodesPagerAdapter extends FragmentStatePagerAdapter {
 	@Override
 	public Fragment getItem(int position) {
 		Bundle arguments = new Bundle();
-		arguments.putSerializable(Constants.Bundle.COMING_EPISODES, this.comingEpisodes.get(position));
+		arguments.putSerializable(Constants.Bundle.SCHEDULES, this.schedules.get(position));
 
-		ComingEpisodesSectionFragment fragment = new ComingEpisodesSectionFragment();
+		ScheduleSectionFragment fragment = new ScheduleSectionFragment();
 		fragment.setArguments(arguments);
 
 		return fragment;

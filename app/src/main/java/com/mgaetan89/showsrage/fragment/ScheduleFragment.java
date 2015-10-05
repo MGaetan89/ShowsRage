@@ -12,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.adapter.ComingEpisodesPagerAdapter;
-import com.mgaetan89.showsrage.model.ComingEpisode;
-import com.mgaetan89.showsrage.model.ComingEpisodes;
+import com.mgaetan89.showsrage.adapter.SchedulePagerAdapter;
+import com.mgaetan89.showsrage.model.Schedule;
+import com.mgaetan89.showsrage.model.Schedules;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.ArrayList;
@@ -25,12 +25,12 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class ComingEpisodesFragment extends Fragment implements Callback<ComingEpisodes> {
+public class ScheduleFragment extends Fragment implements Callback<Schedules> {
 	@Nullable
-	private ComingEpisodesPagerAdapter adapter = null;
+	private SchedulePagerAdapter adapter = null;
 
 	@NonNull
-	private final List<ArrayList<ComingEpisode>> comingEpisodes = new ArrayList<>();
+	private final List<ArrayList<Schedule>> schedule = new ArrayList<>();
 
 	@NonNull
 	private final List<String> sections = new ArrayList<>();
@@ -41,7 +41,7 @@ public class ComingEpisodesFragment extends Fragment implements Callback<ComingE
 	@Nullable
 	private ViewPager viewPager = null;
 
-	public ComingEpisodesFragment() {
+	public ScheduleFragment() {
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class ComingEpisodesFragment extends Fragment implements Callback<ComingE
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		SickRageApi.getInstance().getServices().getComingEpisodes(this);
+		SickRageApi.getInstance().getServices().getSchedule(this);
 
 		this.tabLayout = (TabLayout) this.getActivity().findViewById(R.id.tabs);
 
@@ -65,13 +65,13 @@ public class ComingEpisodesFragment extends Fragment implements Callback<ComingE
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_coming_episodes, container, false);
+		View view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
 		if (view != null) {
-			this.viewPager = (ViewPager) view.findViewById(R.id.coming_episodes_pager);
+			this.viewPager = (ViewPager) view.findViewById(R.id.schedule_pager);
 
 			if (this.viewPager != null) {
-				this.adapter = new ComingEpisodesPagerAdapter(this.getChildFragmentManager(), this.sections, this.comingEpisodes);
+				this.adapter = new SchedulePagerAdapter(this.getChildFragmentManager(), this.sections, this.schedule);
 
 				this.viewPager.setAdapter(this.adapter);
 			}
@@ -82,7 +82,7 @@ public class ComingEpisodesFragment extends Fragment implements Callback<ComingE
 
 	@Override
 	public void onDestroy() {
-		this.comingEpisodes.clear();
+		this.schedule.clear();
 		this.sections.clear();
 
 		super.onDestroy();
@@ -97,19 +97,19 @@ public class ComingEpisodesFragment extends Fragment implements Callback<ComingE
 	}
 
 	@Override
-	public void success(ComingEpisodes comingEpisodes, Response response) {
-		if (comingEpisodes != null) {
-			Map<String, ArrayList<ComingEpisode>> data = comingEpisodes.getData();
+	public void success(Schedules schedules, Response response) {
+		if (schedules != null) {
+			Map<String, ArrayList<Schedule>> data = schedules.getData();
 
 			if (data != null) {
 				String statuses[] = {"missed", "today", "soon", "later"};
 
 				for (String status : statuses) {
 					if (data.containsKey(status)) {
-						ArrayList<ComingEpisode> comingEpisodesForStatus = data.get(status);
+						ArrayList<Schedule> scheduleForStatus = data.get(status);
 
-						if (!comingEpisodesForStatus.isEmpty()) {
-							this.comingEpisodes.add(comingEpisodesForStatus);
+						if (!scheduleForStatus.isEmpty()) {
+							this.schedule.add(scheduleForStatus);
 
 							if (this.isAdded()) {
 								this.sections.add(this.getString(getSectionName(status)));

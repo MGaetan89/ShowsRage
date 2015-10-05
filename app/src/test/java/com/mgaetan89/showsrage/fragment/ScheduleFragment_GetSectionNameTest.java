@@ -12,7 +12,7 @@ import java.util.Collection;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(Parameterized.class)
-public class ComingEpisodesFragment_GetSectionNameTest {
+public class ScheduleFragment_GetSectionNameTest {
 	@Parameterized.Parameter(0)
 	public String sectionId;
 
@@ -21,7 +21,7 @@ public class ComingEpisodesFragment_GetSectionNameTest {
 
 	@Test
 	public void getSectionName() {
-		assertThat(ComingEpisodesFragment.getSectionName(this.sectionId)).isEqualTo(this.sectionName);
+		assertThat(ScheduleFragment.getSectionName(this.sectionId)).isEqualTo(this.sectionName);
 	}
 
 	@Parameterized.Parameters

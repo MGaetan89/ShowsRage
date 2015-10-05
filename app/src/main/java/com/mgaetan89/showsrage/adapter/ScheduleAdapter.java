@@ -19,40 +19,40 @@ import android.widget.Toast;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
 import com.mgaetan89.showsrage.helper.ImageLoader;
-import com.mgaetan89.showsrage.model.ComingEpisode;
+import com.mgaetan89.showsrage.model.Schedule;
 import com.mgaetan89.showsrage.model.Indexer;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.Collections;
 import java.util.List;
 
-public class ComingEpisodesAdapter extends RecyclerView.Adapter<ComingEpisodesAdapter.ViewHolder> {
+public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder> {
 	@NonNull
-	private List<ComingEpisode> comingEpisodes = Collections.emptyList();
+	private List<Schedule> schedules = Collections.emptyList();
 
 	public interface OnEpisodeActionSelectedListener {
 		void onEpisodeActionSelected(int seasonNumber, int episodeNumber, int indexerId, MenuItem action);
 	}
 
-	public ComingEpisodesAdapter(@Nullable List<ComingEpisode> comingEpisodes) {
-		if (comingEpisodes == null) {
-			this.comingEpisodes = Collections.emptyList();
+	public ScheduleAdapter(@Nullable List<Schedule> schedules) {
+		if (schedules == null) {
+			this.schedules = Collections.emptyList();
 		} else {
-			this.comingEpisodes = comingEpisodes;
+			this.schedules = schedules;
 		}
 	}
 
 	@Override
 	public int getItemCount() {
-		return this.comingEpisodes.size();
+		return this.schedules.size();
 	}
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
-		ComingEpisode comingEpisode = this.comingEpisodes.get(position);
+		Schedule schedule = this.schedules.get(position);
 
 		if (holder.date != null) {
-			String airDate = comingEpisode.getAirDate();
+			String airDate = schedule.getAirDate();
 
 			if (TextUtils.isEmpty(airDate)) {
 				holder.date.setText(R.string.never);
@@ -62,27 +62,27 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<ComingEpisodesAd
 		}
 
 		if (holder.logo != null) {
-			holder.logo.setContentDescription(comingEpisode.getShowName());
+			holder.logo.setContentDescription(schedule.getShowName());
 
 			ImageLoader.load(
 					holder.logo,
-					SickRageApi.getInstance().getPosterUrl(comingEpisode.getTvDbId(), Indexer.TVDB),
+					SickRageApi.getInstance().getPosterUrl(schedule.getTvDbId(), Indexer.TVDB),
 					true
 			);
 		}
 
 		if (holder.name != null) {
-			holder.name.setText(holder.name.getResources().getString(R.string.show_name_episode, comingEpisode.getShowName(), comingEpisode.getSeason(), comingEpisode.getEpisode()));
+			holder.name.setText(holder.name.getResources().getString(R.string.show_name_episode, schedule.getShowName(), schedule.getSeason(), schedule.getEpisode()));
 		}
 
 		if (holder.networkQuality != null) {
-			holder.networkQuality.setText(holder.networkQuality.getResources().getString(R.string.separated_texts, comingEpisode.getNetwork(), comingEpisode.getQuality()));
+			holder.networkQuality.setText(holder.networkQuality.getResources().getString(R.string.separated_texts, schedule.getNetwork(), schedule.getQuality()));
 		}
 	}
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_coming_episodes_list, parent, false);
+		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_schedule_list, parent, false);
 
 		return new ViewHolder(view);
 	}
@@ -129,16 +129,16 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<ComingEpisodesAd
 				popupMenu.setOnMenuItemClickListener(this);
 				popupMenu.show();
 			} else {
-				ComingEpisode comingEpisode = ComingEpisodesAdapter.this.comingEpisodes.get(this.getAdapterPosition());
-				String plot = comingEpisode.getEpisodePlot();
+				Schedule schedule = ScheduleAdapter.this.schedules.get(this.getAdapterPosition());
+				String plot = schedule.getEpisodePlot();
 
 				if (plot != null) {
-					String message = context.getString(R.string.season_episode_name, comingEpisode.getSeason(), comingEpisode.getEpisode(), comingEpisode.getEpisodeName());
+					String message = context.getString(R.string.season_episode_name, schedule.getSeason(), schedule.getEpisode(), schedule.getEpisodeName());
 					message += "\n\n";
 					message += plot;
 
 					new AlertDialog.Builder(context)
-							.setTitle(comingEpisode.getShowName())
+							.setTitle(schedule.getShowName())
 							.setMessage(message)
 							.setPositiveButton(R.string.close, null)
 							.show();
@@ -154,10 +154,10 @@ public class ComingEpisodesAdapter extends RecyclerView.Adapter<ComingEpisodesAd
 				Context context = this.actions.getContext();
 
 				if (context instanceof OnEpisodeActionSelectedListener) {
-					ComingEpisode comingEpisode = ComingEpisodesAdapter.this.comingEpisodes.get(this.getAdapterPosition());
+					Schedule schedule = ScheduleAdapter.this.schedules.get(this.getAdapterPosition());
 
-					if (comingEpisode != null) {
-						((OnEpisodeActionSelectedListener) context).onEpisodeActionSelected(comingEpisode.getSeason(), comingEpisode.getEpisode(), comingEpisode.getIndexerId(), item);
+					if (schedule != null) {
+						((OnEpisodeActionSelectedListener) context).onEpisodeActionSelected(schedule.getSeason(), schedule.getEpisode(), schedule.getIndexerId(), item);
 					}
 
 					return true;

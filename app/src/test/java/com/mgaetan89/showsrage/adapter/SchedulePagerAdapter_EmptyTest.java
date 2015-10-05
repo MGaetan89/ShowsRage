@@ -6,15 +6,15 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ComingEpisodesPagerAdapter_EmptyTest {
-	private ComingEpisodesPagerAdapter adapter;
+public class SchedulePagerAdapter_EmptyTest {
+	private SchedulePagerAdapter adapter;
 
-	public ComingEpisodesPagerAdapter_EmptyTest() {
+	public SchedulePagerAdapter_EmptyTest() {
 	}
 
 	@Before
 	public void before() {
-		this.adapter = new ComingEpisodesPagerAdapter(null, null, null);
+		this.adapter = new SchedulePagerAdapter(null, null, null);
 	}
 
 	@Test

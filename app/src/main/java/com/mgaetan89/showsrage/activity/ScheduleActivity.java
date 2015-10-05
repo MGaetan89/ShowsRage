@@ -7,15 +7,15 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.adapter.ComingEpisodesAdapter;
-import com.mgaetan89.showsrage.fragment.ComingEpisodesFragment;
+import com.mgaetan89.showsrage.adapter.ScheduleAdapter;
+import com.mgaetan89.showsrage.fragment.ScheduleFragment;
 import com.mgaetan89.showsrage.model.Episode;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import retrofit.Callback;
 
-public class ComingEpisodesActivity extends BaseActivity implements ComingEpisodesAdapter.OnEpisodeActionSelectedListener {
+public class ScheduleActivity extends BaseActivity implements ScheduleAdapter.OnEpisodeActionSelectedListener {
 	@Override
 	public void onEpisodeActionSelected(int seasonNumber, int episodeNumber, int indexerId, MenuItem action) {
 		switch (action.getItemId()) {
@@ -42,17 +42,17 @@ public class ComingEpisodesActivity extends BaseActivity implements ComingEpisod
 
 	@Override
 	protected Fragment getFragment() {
-		return new ComingEpisodesFragment();
+		return new ScheduleFragment();
 	}
 
 	@Override
 	protected int getSelectedMenuId() {
-		return R.id.menu_coming_episodes;
+		return R.id.menu_schedule;
 	}
 
 	@Override
 	protected int getTitleResourceId() {
-		return R.string.coming_episodes;
+		return R.string.schedule;
 	}
 
 	private void searchEpisode(int seasonNumber, int episodeNumber, int indexerId) {

@@ -11,9 +11,9 @@
 			android:title="@string/shows"/>
 
 		<item
-			android:id="@+id/menu_coming_episodes"
+			android:id="@+id/menu_schedule"
 			android:icon="@drawable/ic_event_white_24dp"
-			android:title="@string/coming_episodes"/>
+			android:title="@string/schedule"/>
 
 		<item
 			android:id="@+id/menu_history"

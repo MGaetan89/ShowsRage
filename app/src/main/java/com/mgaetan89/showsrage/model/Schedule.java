@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class ComingEpisode implements Serializable {
+public class Schedule implements Serializable {
 	private static final long serialVersionUID = -4883158127180444453L;
 
 	@SerializedName("airdate")
