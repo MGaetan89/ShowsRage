@@ -110,7 +110,12 @@ public class ComingEpisodesFragment extends Fragment implements Callback<ComingE
 
 						if (!comingEpisodesForStatus.isEmpty()) {
 							this.comingEpisodes.add(comingEpisodesForStatus);
-							this.sections.add(this.getString(getSectionName(status)));
+
+							if (this.isAdded()) {
+								this.sections.add(this.getString(getSectionName(status)));
+							} else {
+								this.sections.add(status);
+							}
 						}
 					}
 				}
