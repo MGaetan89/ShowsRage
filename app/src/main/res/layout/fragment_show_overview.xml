@@ -118,6 +118,7 @@
 					style="@style/TextAppearance.AppCompat.Inverse"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:textIsSelectable="true"
 					tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet nisi et arcu gravida dictum. Vestibulum vitae odio quis augue porta tincidunt eu pulvinar odio."/>
 			</LinearLayout>
 		</android.support.v7.widget.CardView>

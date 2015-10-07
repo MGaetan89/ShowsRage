@@ -19,8 +19,8 @@ import android.widget.Toast;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
 import com.mgaetan89.showsrage.helper.ImageLoader;
-import com.mgaetan89.showsrage.model.Schedule;
 import com.mgaetan89.showsrage.model.Indexer;
+import com.mgaetan89.showsrage.model.Schedule;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.Collections;
@@ -137,11 +137,19 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 					message += "\n\n";
 					message += plot;
 
-					new AlertDialog.Builder(context)
+					AlertDialog dialog = new AlertDialog.Builder(context)
 							.setTitle(schedule.getShowName())
 							.setMessage(message)
 							.setPositiveButton(R.string.close, null)
 							.show();
+
+					try {
+						TextView textView = (TextView) dialog.getWindow().getDecorView().findViewById(android.R.id.message);
+						textView.setTextIsSelectable(true);
+					} catch (Exception exception) {
+						exception.printStackTrace();
+						// The TextView was not found
+					}
 				} else {
 					Toast.makeText(context, R.string.no_plot, Toast.LENGTH_SHORT).show();
 				}
