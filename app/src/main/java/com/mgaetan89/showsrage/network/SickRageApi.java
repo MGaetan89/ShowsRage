@@ -3,16 +3,22 @@ package com.mgaetan89.showsrage.network;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.model.Indexer;
+import com.squareup.okhttp.Authenticator;
 import com.squareup.okhttp.Credentials;
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
+import java.io.IOException;
+import java.net.Proxy;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
@@ -31,10 +37,12 @@ public final class SickRageApi implements RequestInterceptor {
 	private String apiUrl = "";
 
 	@Nullable
-	private String credentials = null;
+	/* package */ String credentials = null;
 
 	@NonNull
 	private static final SickRageApi INSTANCE = new SickRageApi();
+
+	private OkHttpClient okHttpClient = null;
 
 	@NonNull
 	private String path = "";
@@ -76,46 +84,16 @@ public final class SickRageApi implements RequestInterceptor {
 	}
 
 	@NonNull
-	public static OkHttpClient getOkHttpClient() {
-		TrustManager[] trustAllCerts = new TrustManager[]{
-				new X509TrustManager() {
-					@Override
-					public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-					}
+	public OkHttpClient getOkHttpClient(boolean useSelfSignedCertificate) {
+		if (this.okHttpClient == null) {
+			this.okHttpClient = new OkHttpClient();
 
-					@Override
-					public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-					}
-
-					@Override
-					public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-						return null;
-					}
-				}
-		};
-
-		SSLContext sslContext = null;
-		try {
-			sslContext = SSLContext.getInstance("SSL");
-			sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-		} catch (KeyManagementException | NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			this.setAuthenticator();
 		}
 
-		OkHttpClient client = new OkHttpClient();
+		this.trustAllCertificates(useSelfSignedCertificate);
 
-		if (sslContext != null) {
-			client.setSslSocketFactory(sslContext.getSocketFactory());
-		}
-
-		client.setHostnameVerifier(new HostnameVerifier() {
-			@Override
-			public boolean verify(String hostname, SSLSession session) {
-				return true;
-			}
-		});
-
-		return client;
+		return this.okHttpClient;
 	}
 
 	@NonNull
@@ -153,13 +131,10 @@ public final class SickRageApi implements RequestInterceptor {
 		this.webRoot = getWebRoot(this.path);
 
 		RestAdapter.Builder builder = new RestAdapter.Builder();
+		builder.setClient(new OkClient(this.getOkHttpClient(selfSignedCertificate)));
 		builder.setEndpoint(this.apiUrl);
 		builder.setRequestInterceptor(this);
 		builder.setLogLevel(Constants.NETWORK_LOG_LEVEL);
-
-		if (selfSignedCertificate) {
-			builder.setClient(new OkClient(getOkHttpClient()));
-		}
 
 		this.services = builder.build().create(SickRageServices.class);
 	}
@@ -169,10 +144,6 @@ public final class SickRageApi implements RequestInterceptor {
 		request.addEncodedPathParam("api_path", this.path);
 		request.addPathParam("api_key", this.apiKey);
 		request.addEncodedPathParam("web_root", this.webRoot);
-
-		if (!TextUtils.isEmpty(this.credentials)) {
-			request.addHeader("Authorization", this.credentials);
-		}
 	}
 
 	@NonNull
@@ -268,5 +239,69 @@ public final class SickRageApi implements RequestInterceptor {
 		}
 
 		return apiPath.replaceAll("^/+|/$+", "") + "/";
+	}
+
+	private void setAuthenticator() {
+		this.okHttpClient.setAuthenticator(new Authenticator() {
+			@Override
+			public Request authenticate(Proxy proxy, Response response) throws IOException {
+				String credentials = SickRageApi.this.credentials;
+
+				if (credentials != null && !credentials.isEmpty()) {
+					return response.request().newBuilder()
+							.header("Authorization", credentials)
+							.build();
+				}
+
+				return null;
+			}
+
+			@Override
+			public Request authenticateProxy(Proxy proxy, Response response) throws IOException {
+				return null;
+			}
+		});
+	}
+
+	private void trustAllCertificates(boolean useSelfSignedCertificate) {
+		if (!useSelfSignedCertificate) {
+			return;
+		}
+
+		TrustManager[] trustAllCerts = new TrustManager[]{
+				new X509TrustManager() {
+					@Override
+					public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+					}
+
+					@Override
+					public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+					}
+
+					@Override
+					public X509Certificate[] getAcceptedIssuers() {
+						return null;
+					}
+				}
+		};
+
+		SSLContext sslContext = null;
+		try {
+			sslContext = SSLContext.getInstance("SSL");
+			sslContext.init(null, trustAllCerts, new SecureRandom());
+		} catch (KeyManagementException | NoSuchAlgorithmException exception) {
+			exception.printStackTrace();
+		}
+
+		if (sslContext != null) {
+			this.okHttpClient.setSslSocketFactory(sslContext.getSocketFactory());
+		}
+
+		this.okHttpClient.setHostnameVerifier(new HostnameVerifier() {
+			@Override
+			public boolean verify(String hostname, SSLSession session) {
+				return true;
+			}
+		});
 	}
 }
