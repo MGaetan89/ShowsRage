@@ -87,10 +87,9 @@ public final class SickRageApi implements RequestInterceptor {
 	public OkHttpClient getOkHttpClient(boolean useSelfSignedCertificate) {
 		if (this.okHttpClient == null) {
 			this.okHttpClient = new OkHttpClient();
-
-			this.setAuthenticator();
 		}
 
+		this.setAuthenticator();
 		this.trustAllCertificates(useSelfSignedCertificate);
 
 		return this.okHttpClient;
