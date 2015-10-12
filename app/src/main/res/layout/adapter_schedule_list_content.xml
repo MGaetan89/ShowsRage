@@ -5,10 +5,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="@dimen/list_item_height"
 	android:background="?selectableItemBackground"
-	android:paddingEnd="@dimen/padding"
-	android:paddingLeft="@dimen/padding"
-	android:paddingRight="@dimen/padding"
-	android:paddingStart="@dimen/padding">
+	android:padding="@dimen/padding_half">
 
 	<ImageView
 		android:id="@+id/episode_logo"
@@ -16,7 +13,9 @@
 		android:layout_height="wrap_content"
 		android:layout_centerVertical="true"
 		android:layout_marginEnd="@dimen/padding"
+		android:layout_marginLeft="@dimen/padding_half"
 		android:layout_marginRight="@dimen/padding"
+		android:layout_marginStart="@dimen/padding_half"
 		tools:ignore="ContentDescription"
 		tools:src="@mipmap/ic_launcher"/>
 
@@ -62,8 +61,7 @@
 		android:layout_alignParentEnd="true"
 		android:layout_alignParentRight="true"
 		android:layout_centerVertical="true"
-		android:layout_marginLeft="@dimen/padding"
-		android:layout_marginStart="@dimen/padding"
 		android:contentDescription="@string/actions"
+		android:padding="@dimen/padding_half"
 		android:src="@drawable/ic_more_vert_white_24dp"/>
 </RelativeLayout>
