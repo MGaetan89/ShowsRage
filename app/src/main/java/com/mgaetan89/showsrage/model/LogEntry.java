@@ -20,7 +20,7 @@ public class LogEntry implements Serializable {
 
 	private String message = "";
 
-	public LogEntry(String log) {
+	public LogEntry(CharSequence log) {
 		if (log != null) {
 			Matcher matcher = PATTERN.matcher(log);
 
