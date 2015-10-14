@@ -1,67 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<layout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="@dimen/list_item_height"
-	android:background="?selectableItemBackground"
-	android:padding="@dimen/padding_half">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
 
-	<ImageView
-		android:id="@+id/episode_logo"
-		android:layout_width="40dp"
-		android:layout_height="wrap_content"
-		android:layout_centerVertical="true"
-		android:layout_marginEnd="@dimen/padding"
-		android:layout_marginLeft="@dimen/padding_half"
-		android:layout_marginRight="@dimen/padding"
-		android:layout_marginStart="@dimen/padding_half"
-		tools:ignore="ContentDescription"
-		tools:src="@mipmap/ic_launcher"/>
+	<data>
 
-	<LinearLayout
+		<variable
+			name="schedule"
+			type="com.mgaetan89.showsrage.presenter.SchedulePresenter"/>
+	</data>
+
+	<RelativeLayout
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_centerVertical="true"
-		android:layout_toEndOf="@+id/episode_logo"
-		android:layout_toLeftOf="@+id/episode_actions"
-		android:layout_toRightOf="@+id/episode_logo"
-		android:layout_toStartOf="@+id/episode_actions"
-		android:orientation="vertical">
+		android:layout_height="@dimen/list_item_height"
+		android:background="?selectableItemBackground"
+		android:padding="@dimen/padding_half">
 
-		<TextView
-			android:id="@+id/episode_name"
-			style="@style/TextAppearance.AppCompat.Subhead"
+		<ImageView
+			android:id="@+id/episode_logo"
+			android:layout_width="40dp"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:layout_marginEnd="@dimen/padding"
+			android:layout_marginLeft="@dimen/padding_half"
+			android:layout_marginRight="@dimen/padding"
+			android:layout_marginStart="@dimen/padding_half"
+			android:contentDescription="@{schedule.showName}"
+			app:circle="@{true}"
+			app:imageUrl="@{schedule.posterUrl}"
+			tools:ignore="ContentDescription"
+			tools:src="@mipmap/ic_launcher"/>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:layout_toEndOf="@+id/episode_logo"
+			android:layout_toLeftOf="@+id/episode_actions"
+			android:layout_toRightOf="@+id/episode_logo"
+			android:layout_toStartOf="@+id/episode_actions"
+			android:orientation="vertical">
+
+			<TextView
+				style="@style/TextAppearance.AppCompat.Subhead"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:ellipsize="end"
+				android:singleLine="true"
+				android:text="@{@string/show_name_episode(schedule.showName, schedule.season, schedule.episode)}"
+				tools:text="@string/episode_name"/>
+
+			<TextView
+				style="@style/TextAppearance.AppCompat.Caption"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@{schedule.airDate ?? @string/never}"
+				tools:text="2011-09-19"/>
+
+			<TextView
+				style="@style/TextAppearance.AppCompat.Caption"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="end|right"
+				android:text="@{@string/separated_texts(schedule.network, schedule.quality)}"
+				tools:text="CBS / HD1080p"/>
+		</LinearLayout>
+
+		<ImageView
+			android:id="@+id/episode_actions"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:ellipsize="end"
-			android:singleLine="true"
-			tools:text="@string/episode_name"/>
-
-		<TextView
-			android:id="@+id/episode_date"
-			style="@style/TextAppearance.AppCompat.Caption"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			tools:text="2011-09-19"/>
-
-		<TextView
-			android:id="@+id/episode_network_quality"
-			style="@style/TextAppearance.AppCompat.Caption"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="end|right"
-			tools:text="CBS / HD1080p"/>
-	</LinearLayout>
-
-	<ImageView
-		android:id="@+id/episode_actions"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentEnd="true"
-		android:layout_alignParentRight="true"
-		android:layout_centerVertical="true"
-		android:contentDescription="@string/actions"
-		android:padding="@dimen/padding_half"
-		android:src="@drawable/ic_more_vert_white_24dp"/>
-</RelativeLayout>
+			android:layout_alignParentEnd="true"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:contentDescription="@string/actions"
+			android:padding="@dimen/padding_half"
+			android:src="@drawable/ic_more_vert_white_24dp"/>
+	</RelativeLayout>
+</layout>
