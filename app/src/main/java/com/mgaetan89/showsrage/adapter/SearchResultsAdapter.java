@@ -1,18 +1,18 @@
 package com.mgaetan89.showsrage.adapter;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.helper.DateTimeHelper;
+import com.mgaetan89.showsrage.databinding.AdapterSearchResultsListBinding;
 import com.mgaetan89.showsrage.model.SearchResultItem;
+import com.mgaetan89.showsrage.presenter.SearchResultPresenter;
 
 import java.util.Collections;
 import java.util.List;
@@ -42,17 +42,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		SearchResultItem searchResult = this.searchResults.get(position);
 
-		if (holder.firstAired != null) {
-			holder.firstAired.setText(DateTimeHelper.getRelativeDate(searchResult.getFirstAired(), "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS));
-		}
-
-		if (holder.indexer != null) {
-			holder.indexer.setText(searchResult.getIndexerNameResource());
-		}
-
-		if (holder.name != null) {
-			holder.name.setText(searchResult.getName());
-		}
+		holder.bind(new SearchResultPresenter(searchResult));
 	}
 
 	@Override
@@ -63,23 +53,18 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		@Nullable
-		public final TextView firstAired;
-
-		@Nullable
-		public final TextView indexer;
-
-		@Nullable
-		public final TextView name;
+		private final AdapterSearchResultsListBinding binding;
 
 		public ViewHolder(View view) {
 			super(view);
 
 			view.setOnClickListener(this);
 
-			this.firstAired = (TextView) view.findViewById(R.id.show_first_aired);
-			this.indexer = (TextView) view.findViewById(R.id.show_indexer);
-			this.name = (TextView) view.findViewById(R.id.show_name);
+			this.binding = DataBindingUtil.bind(view);
+		}
+
+		public void bind(SearchResultPresenter searchResult) {
+			this.binding.setResult(searchResult);
 		}
 
 		@Override
