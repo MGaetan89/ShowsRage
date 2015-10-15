@@ -239,6 +239,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		}
 
 		CustomTabsIntent tabIntent = new CustomTabsIntent.Builder(this.tabSession)//
+				.enableUrlBarHiding()//
 				.setCloseButtonIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_arrow_back_white_24dp))//
 				.setShowTitle(true)//
 				.setToolbarColor(ContextCompat.getColor(this.getContext(), R.color.primary))//
