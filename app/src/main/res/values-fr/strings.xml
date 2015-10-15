@@ -9,7 +9,6 @@
 	<string name="actors">Acteurs : <xliff:g example="Kat Dennings, Beth Behrs, Garrett Morris, Jonathan Kite" id="actors">%1$s</xliff:g></string>
 	<string name="add">Ajouter</string>
 	<string name="add_show">Ajouter une série</string>
-	<string name="address">URL</string>
 	<string name="airs">Diffusion : <xliff:g example="Lundi 20:00" id="airs">%1$s</xliff:g></string>
 	<string name="allowed_quality">Qualité autorisée</string>
 	<string name="anime">Animé</string>
@@ -59,6 +58,7 @@
 	<string name="get_api_key_error">Impossible de récupérer la clé de l\'API</string>
 	<string name="get_api_key_success">Clé de l\'API obtenue avec succès</string>
 	<string name="history">Historique</string>
+	<string name="hostname">Nom d\'hôte</string>
 	<string name="ignore">Ignorer</string>
 	<string name="ignored">Ignoré</string>
 	<string name="info">Info</string>

@@ -16,7 +16,7 @@
 
 		<EditTextPreference
 			android:key="server_address"
-			android:title="@string/address"/>
+			android:title="@string/hostname"/>
 
 		<EditTextPreference
 			android:inputType="number"

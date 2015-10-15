@@ -9,7 +9,6 @@
 	<string name="actors">Actors: <xliff:g example="Kat Dennings, Beth Behrs, Garrett Morris, Jonathan Kite" id="actors">%1$s</xliff:g></string>
 	<string name="add">Add</string>
 	<string name="add_show">Add show</string>
-	<string name="address">Address</string>
 	<string name="airs">Airs: <xliff:g example="Monday 8:00 PM" id="airs">%1$s</xliff:g></string>
 	<string name="allowed_quality">Allowed quality</string>
 	<string name="anime">Anime</string>
@@ -59,6 +58,7 @@
 	<string name="get_api_key_error">Unable to get the API Key</string>
 	<string name="get_api_key_success">API Key successfully received</string>
 	<string name="history">History</string>
+	<string name="hostname">Hostname</string>
 	<string name="ignore">Ignore</string>
 	<string name="ignored">Ignored</string>
 	<string name="info">Info</string>
