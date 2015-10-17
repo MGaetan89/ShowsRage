@@ -4,7 +4,7 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
 		android:id="@+id/menu_cast"
-		android:title="@string/mr_media_route_chooser_title"
+		android:title="@string/mr_chooser_title"
 		app:actionProviderClass="com.mgaetan89.showsrage.view.ColoredMediaRouteActionProvider"
 		app:showAsAction="always"/>
 	<item

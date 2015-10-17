@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.presenter;
 
+import com.google.gson.Gson;
 import com.mgaetan89.showsrage.model.Schedule;
 
 import org.junit.Before;
@@ -80,11 +81,15 @@ public class SchedulePresenterTest {
 		assertThat(this.presenter.getShowName()).isEqualTo(this.showName);
 	}
 
-	// TODO Add more test cases
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
+		Gson gson = new Gson();
+
 		return Arrays.asList(new Object[][]{
 				{null, null, 0, "", "", "", 0, ""},
+				{gson.fromJson("{airdate: null, episode: 1, network: \"ABC\", quality: \"HD1080p\", season: 10, show_name: \"Show 1\", tvdbid: 123}", Schedule.class), null, 1, "ABC", "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=123", "HD1080p", 10, "Show 1"},
+				{gson.fromJson("{airdate: \"\", episode: 2, network: \"CBS\", quality: \"HD\", season: 11, show_name: \"Show 2\", tvdbid: 456}", Schedule.class), null, 2, "CBS", "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=456", "HD", 11, "Show 2"},
+				{gson.fromJson("{airdate: \"2015-01-01\", episode: 3, network: \"TBS\", quality: \"Any\", season: 12, show_name: \"Show 3\", tvdbid: 789}", Schedule.class), null, 3, "TBS", "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=789", "Any", 12, "Show 3"},
 		});
 	}
 }
