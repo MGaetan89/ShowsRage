@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage.adapter;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -9,16 +10,13 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mgaetan89.showsrage.R;
+import com.mgaetan89.showsrage.databinding.AdapterShowsListBinding;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
-import com.mgaetan89.showsrage.helper.ImageLoader;
-import com.mgaetan89.showsrage.model.Indexer;
 import com.mgaetan89.showsrage.model.Show;
-import com.mgaetan89.showsrage.network.SickRageApi;
+import com.mgaetan89.showsrage.presenter.ShowPresenter;
 
 import java.util.Collections;
 import java.util.List;
@@ -48,23 +46,7 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		Show show = this.shows.get(position);
 
-		if (holder.logo != null) {
-			holder.logo.setContentDescription(show.getShowName());
-
-			ImageLoader.load(
-					holder.logo,
-					SickRageApi.getInstance().getPosterUrl(show.getTvDbId(), Indexer.TVDB),
-					true
-			);
-		}
-
-		if (holder.name != null) {
-			holder.name.setText(show.getShowName());
-		}
-
-		if (holder.networkQuality != null) {
-			holder.networkQuality.setText(holder.networkQuality.getResources().getString(R.string.separated_texts, show.getNetwork(), show.getQuality()));
-		}
+		holder.bind(new ShowPresenter(show));
 
 		if (holder.nextEpisodeDate != null) {
 			String nextEpisodeAirDate = show.getNextEpisodeAirDate();
@@ -82,12 +64,6 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 				holder.nextEpisodeDate.setText(DateTimeHelper.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS));
 			}
 		}
-
-		if (holder.progress != null) {
-			holder.progress.setMax(show.getEpisodesCount());
-			holder.progress.setProgress(show.getDownloaded());
-			holder.progress.setSecondaryProgress(show.getDownloaded() + show.getSnatched());
-		}
 	}
 
 	@Override
@@ -99,30 +75,22 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		@Nullable
-		public final ImageView logo;
-
-		@Nullable
-		public final TextView name;
-
-		@Nullable
-		public final TextView networkQuality;
-
-		@Nullable
 		public final TextView nextEpisodeDate;
 
-		@Nullable
-		public final ProgressBar progress;
+		private final AdapterShowsListBinding binding;
 
 		public ViewHolder(View view) {
 			super(view);
 
 			view.setOnClickListener(this);
 
-			this.logo = (ImageView) view.findViewById(R.id.show_logo);
-			this.name = (TextView) view.findViewById(R.id.show_name);
-			this.networkQuality = (TextView) view.findViewById(R.id.show_network_quality);
-			this.nextEpisodeDate = (TextView) view.findViewById(R.id.show_next_episode_date);
-			this.progress = (ProgressBar) view.findViewById(R.id.show_progress);
+			this.binding = DataBindingUtil.bind(view);
+
+			this.nextEpisodeDate = this.binding.includeContent.showNextEpisodeDate;
+		}
+
+		public void bind(ShowPresenter show) {
+			this.binding.setShow(show);
 		}
 
 		@Override
