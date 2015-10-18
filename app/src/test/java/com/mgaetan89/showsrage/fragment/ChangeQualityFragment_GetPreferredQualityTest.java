@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 @RunWith(Parameterized.class)
 public class ChangeQualityFragment_GetPreferredQualityTest {
 	@Parameterized.Parameter(1)
-	public String preferresQuality;
+	public String preferredQuality;
 
 	@Parameterized.Parameter(0)
 	public Spinner spinner;
@@ -37,7 +37,6 @@ public class ChangeQualityFragment_GetPreferredQualityTest {
 	public void before() {
 		Resources resources = mock(Resources.class);
 		when(resources.getStringArray(R.array.preferred_qualities_keys)).thenReturn(new String[]{
-				"sdtv",
 				"sddvd",
 				"hdtv",
 				"rawhdtv",
@@ -66,7 +65,7 @@ public class ChangeQualityFragment_GetPreferredQualityTest {
 
 	@Test
 	public void getPreferredQuality() {
-		assertThat(this.fragment.getPreferredQuality(this.spinner)).isEqualTo(this.preferresQuality);
+		assertThat(this.fragment.getPreferredQuality(this.spinner)).isEqualTo(this.preferredQuality);
 	}
 
 	@After
@@ -77,19 +76,18 @@ public class ChangeQualityFragment_GetPreferredQualityTest {
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][]{
-				{null, "sdtv"},
+				{null, "sddvd"},
 				{getMockedSpinner(-1), null},
 				{getMockedSpinner(0), null},
-				{getMockedSpinner(1), "sdtv"},
-				{getMockedSpinner(2), "sddvd"},
-				{getMockedSpinner(3), "hdtv"},
-				{getMockedSpinner(4), "rawhdtv"},
-				{getMockedSpinner(5), "fullhdtv"},
-				{getMockedSpinner(6), "hdwebdl"},
-				{getMockedSpinner(7), "fullhdwebdl"},
-				{getMockedSpinner(8), "hdbluray"},
-				{getMockedSpinner(9), "fullhdbluray"},
-				{getMockedSpinner(10), null},
+				{getMockedSpinner(1), "sddvd"},
+				{getMockedSpinner(2), "hdtv"},
+				{getMockedSpinner(3), "rawhdtv"},
+				{getMockedSpinner(4), "fullhdtv"},
+				{getMockedSpinner(5), "hdwebdl"},
+				{getMockedSpinner(6), "fullhdwebdl"},
+				{getMockedSpinner(7), "hdbluray"},
+				{getMockedSpinner(8), "fullhdbluray"},
+				{getMockedSpinner(9), null},
 		});
 	}
 

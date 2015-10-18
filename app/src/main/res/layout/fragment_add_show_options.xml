@@ -19,14 +19,14 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="@string/preferred_quality"/>
+			android:text="@string/allowed_quality"/>
 
 		<Spinner
-			android:id="@+id/preferred_quality"
+			android:id="@+id/allowed_quality"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:entries="@array/preferred_qualities_values"
+			android:entries="@array/allowed_qualities_values"
 			tools:listitem="@android:layout/simple_list_item_1"/>
 	</LinearLayout>
 
@@ -41,14 +41,14 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="@string/allowed_quality"/>
+			android:text="@string/preferred_quality"/>
 
 		<Spinner
-			android:id="@+id/allowed_quality"
+			android:id="@+id/preferred_quality"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:entries="@array/allowed_qualities_values"
+			android:entries="@array/preferred_qualities_values"
 			tools:listitem="@android:layout/simple_list_item_1"/>
 	</LinearLayout>
 
