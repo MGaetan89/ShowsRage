@@ -27,7 +27,6 @@ public class Episode_GetStatusForMenuIdTest {
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][]{
-				{R.id.menu_episode_set_status_archived, "archived"},
 				{R.id.menu_episode_set_status_failed, "failed"},
 				{R.id.menu_episode_set_status_ignored, "ignored"},
 				{R.id.menu_episode_set_status_skipped, "skipped"},

@@ -241,7 +241,6 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_episode_set_status_archived:
 			case R.id.menu_episode_set_status_failed:
 			case R.id.menu_episode_set_status_ignored:
 			case R.id.menu_episode_set_status_skipped:

@@ -25,9 +25,6 @@
 					android:id="@+id/menu_episode_set_status_skipped"
 					android:title="@string/skipped"/>
 				<item
-					android:id="@+id/menu_episode_set_status_archived"
-					android:title="@string/archived"/>
-				<item
 					android:id="@+id/menu_episode_set_status_ignored"
 					android:title="@string/ignored"/>
 				<item

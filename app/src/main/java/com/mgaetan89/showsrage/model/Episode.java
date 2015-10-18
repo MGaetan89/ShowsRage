@@ -140,9 +140,6 @@ public class Episode implements Serializable {
 	@Nullable
 	public static String getStatusForMenuId(@IdRes int menuId) {
 		switch (menuId) {
-			case R.id.menu_episode_set_status_archived:
-				return "archived";
-
 			case R.id.menu_episode_set_status_failed:
 				return "failed";
 

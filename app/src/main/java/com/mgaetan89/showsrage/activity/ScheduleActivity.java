@@ -24,7 +24,6 @@ public class ScheduleActivity extends BaseActivity implements ScheduleAdapter.On
 
 				break;
 
-			case R.id.menu_episode_set_status_archived:
 			case R.id.menu_episode_set_status_failed:
 			case R.id.menu_episode_set_status_ignored:
 			case R.id.menu_episode_set_status_skipped:

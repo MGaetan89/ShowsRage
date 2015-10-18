@@ -36,7 +36,6 @@ public class ShowActivity extends BaseActivity implements EpisodesAdapter.OnEpis
 
 				break;
 
-			case R.id.menu_episode_set_status_archived:
 			case R.id.menu_episode_set_status_failed:
 			case R.id.menu_episode_set_status_ignored:
 			case R.id.menu_episode_set_status_skipped:
