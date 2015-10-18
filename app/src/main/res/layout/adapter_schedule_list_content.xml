@@ -29,7 +29,6 @@
 			android:contentDescription="@{schedule.showName}"
 			app:circle="@{true}"
 			app:imageUrl="@{schedule.posterUrl}"
-			tools:ignore="ContentDescription"
 			tools:src="@mipmap/ic_launcher"/>
 
 		<LinearLayout

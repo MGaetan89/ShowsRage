@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +59,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+		@Nullable
+		private final ImageView actions;
+
 		private final AdapterScheduleListBinding binding;
 
 		public ViewHolder(View view) {
@@ -67,8 +71,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
 			this.binding = DataBindingUtil.bind(view);
 
-			if (this.binding.includeContent.episodeActions != null) {
-				this.binding.includeContent.episodeActions.setOnClickListener(this);
+			this.actions = this.binding.includeContent.episodeActions;
+
+			if (this.actions != null) {
+				this.actions.setOnClickListener(this);
 			}
 		}
 
@@ -81,7 +87,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 			Context context = view.getContext();
 
 			if (view.getId() == R.id.episode_actions) {
-				PopupMenu popupMenu = new PopupMenu(context, this.binding.includeContent.episodeActions);
+				PopupMenu popupMenu = new PopupMenu(context, this.actions);
 				popupMenu.inflate(R.menu.episode_action);
 				popupMenu.setOnMenuItemClickListener(this);
 				popupMenu.show();
@@ -115,8 +121,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
 		@Override
 		public boolean onMenuItemClick(MenuItem item) {
-			if (this.binding.includeContent.episodeActions != null) {
-				Context context = this.binding.includeContent.episodeActions.getContext();
+			if (this.actions != null) {
+				Context context = this.actions.getContext();
 
 				if (context instanceof OnEpisodeActionSelectedListener) {
 					Schedule schedule = ScheduleAdapter.this.schedules.get(this.getAdapterPosition());
