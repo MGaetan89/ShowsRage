@@ -18,6 +18,7 @@ public abstract class Constants {
 		public static final String SCHEDULES = "schedules";
 		public static final String SEASON_NUMBER = "season_number";
 		public static final String SHOW_MODEL = "show_model";
+		public static final String SHOWS = "shows";
 		public static final String UPDATE_MODEL = "update_model";
 	}
 

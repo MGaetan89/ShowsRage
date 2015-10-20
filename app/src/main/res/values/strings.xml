@@ -12,7 +12,7 @@
 	<string name="airs">Airs: <xliff:g example="Monday 8:00 PM" id="airs">%1$s</xliff:g></string>
 	<string name="allowed_quality">Allowed quality</string>
 	<string name="anime">Anime</string>
-	<string name="animes_first">Animes first</string>
+	<string name="animes">Animes</string>
 	<string name="api_key">API Key</string>
 	<string name="archived">Archived</string>
 	<string name="ascending">Ascending</string>
@@ -70,7 +70,6 @@
 	<string name="licenses">Licenses</string>
 	<string name="location">Location: <xliff:g example="/Shows/2 Broke Girls" id="location">%1$s</xliff:g></string>
 	<string name="logs">Logs</string>
-	<string name="merge_shows_animes">Merge shows &amp; animes</string>
 	<string name="missed">Missed</string>
 	<string name="missing">Missing: <xliff:g example="1" id="missing">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
 	<string name="more_information">More Information</string>
@@ -121,8 +120,6 @@
 	<string name="show">Show</string>
 	<string name="show_name_episode"><xliff:g example="2 Broke Girls" id="show_name">%1$s</xliff:g> - S<xliff:g example="01" id="season">%2$02d</xliff:g>E<xliff:g example="01" id="episode">%3$02d</xliff:g></string>
 	<string name="shows">Shows</string>
-	<string name="shows_first">Shows first</string>
-	<string name="shows_grouping">Shows grouping</string>
 	<string name="sickrage_4030_required">This feature requires SickRage version 4.0.30</string>
 	<string name="sickrage_updated">SickRage was successfully updated</string>
 	<string name="skipped">Skipped</string>
@@ -132,6 +129,7 @@
 	<string name="soon">Soon</string>
 	<string name="source_code">Source code</string>
 	<string name="specials">Specials</string>
+	<string name="split_shows_animes">Split shows &amp; animes</string>
 	<string name="statistics">Statistics</string>
 	<string name="status">Status</string>
 	<string name="status_value">Status: <xliff:g example="Continuing" id="status">%1$s</xliff:g></string>

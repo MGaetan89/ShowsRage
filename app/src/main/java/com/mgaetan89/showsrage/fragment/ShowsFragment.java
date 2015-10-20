@@ -1,68 +1,46 @@
 package com.mgaetan89.showsrage.fragment;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.ViewPager;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.activity.AddShowActivity;
-import com.mgaetan89.showsrage.adapter.ShowsAdapter;
+import com.mgaetan89.showsrage.adapter.ShowsPagerAdapter;
 import com.mgaetan89.showsrage.model.Show;
-import com.mgaetan89.showsrage.model.ShowStat;
-import com.mgaetan89.showsrage.model.ShowStatWrapper;
-import com.mgaetan89.showsrage.model.ShowStats;
-import com.mgaetan89.showsrage.model.ShowStatsWrapper;
 import com.mgaetan89.showsrage.model.Shows;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class ShowsFragment extends Fragment implements Callback<Shows>, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class ShowsFragment extends Fragment implements Callback<Shows> {
 	@Nullable
-	private ShowsAdapter adapter = null;
-
-	@Nullable
-	private TextView emptyView = null;
-
-	@Nullable
-	private RecyclerView recyclerView = null;
+	private ShowsPagerAdapter adapter = null;
 
 	@NonNull
-	private final List<Show> shows = new ArrayList<>();
+	private final SparseArray<ArrayList<Show>> shows = new SparseArray<>();
 
 	@Nullable
-	private SwipeRefreshLayout swipeRefreshLayout = null;
+	private TabLayout tabLayout = null;
 
-	public ShowsFragment() {
-	}
+	@Nullable
+	private ViewPager viewPager = null;
 
 	@Override
 	public void failure(RetrofitError error) {
-		if (this.swipeRefreshLayout != null) {
-			this.swipeRefreshLayout.setRefreshing(false);
-		}
-
 		error.printStackTrace();
 	}
 
@@ -70,58 +48,28 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, View.OnC
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		this.onRefresh();
-	}
+		SickRageApi.getInstance().getServices().getShows(this);
 
-	@Override
-	public void onClick(View view) {
-		if (view == null) {
-			return;
-		}
+		this.tabLayout = (TabLayout) this.getActivity().findViewById(R.id.tabs);
 
-		if (view.getId() == R.id.add_show) {
-			Intent intent = new Intent(this.getActivity(), AddShowActivity.class);
-
-			this.startActivity(intent);
+		if (this.viewPager != null && this.tabLayout != null) {
+			this.tabLayout.setTabMode(TabLayout.MODE_FIXED);
+			this.tabLayout.setupWithViewPager(this.viewPager);
 		}
 	}
 
+	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_shows, container, false);
 
 		if (view != null) {
-			this.emptyView = (TextView) view.findViewById(android.R.id.empty);
-			this.recyclerView = (RecyclerView) view.findViewById(android.R.id.list);
-			this.swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+			this.viewPager = (ViewPager) view.findViewById(R.id.shows_pager);
 
-			FloatingActionButton addShow = (FloatingActionButton) view.findViewById(R.id.add_show);
+			if (this.viewPager != null) {
+				this.adapter = new ShowsPagerAdapter(this.getChildFragmentManager(), this, this.shows);
 
-			if (addShow != null) {
-				addShow.setOnClickListener(this);
-			}
-
-			if (this.recyclerView != null) {
-				int columnCount = this.getResources().getInteger(R.integer.shows_column_count);
-				this.adapter = new ShowsAdapter(this.shows);
-
-				this.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-					@Override
-					public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-						super.onScrolled(recyclerView, dx, dy);
-
-						if (ShowsFragment.this.swipeRefreshLayout != null) {
-							ShowsFragment.this.swipeRefreshLayout.setEnabled(!recyclerView.canScrollVertically(-1));
-						}
-					}
-				});
-				this.recyclerView.setAdapter(this.adapter);
-				this.recyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), columnCount));
-			}
-
-			if (this.swipeRefreshLayout != null) {
-				this.swipeRefreshLayout.setColorSchemeResources(R.color.accent);
-				this.swipeRefreshLayout.setOnRefreshListener(this);
+				this.viewPager.setAdapter(this.adapter);
 			}
 		}
 
@@ -137,156 +85,54 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, View.OnC
 
 	@Override
 	public void onDestroyView() {
-		this.emptyView = null;
-		this.recyclerView = null;
-		this.swipeRefreshLayout = null;
+		if (this.tabLayout != null) {
+			this.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+		}
+
+		this.tabLayout = null;
+		this.viewPager = null;
 
 		super.onDestroyView();
 	}
 
 	@Override
-	public void onRefresh() {
-		if (this.swipeRefreshLayout != null) {
-			this.swipeRefreshLayout.setRefreshing(true);
-		}
-
-		SickRageApi.getInstance().getServices().getShows(this);
-	}
-
-	@Override
 	public void success(Shows shows, Response response) {
-		if (this.swipeRefreshLayout != null) {
-			this.swipeRefreshLayout.setRefreshing(false);
-		}
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+		boolean splitShowsAnimes = preferences.getBoolean("display_split_shows_animes", false);
+		Collection<Show> showsList = shows.getData().values();
 
-		this.shows.clear();
+		if (splitShowsAnimes) {
+			for (Show show : showsList) {
+				ArrayList<Show> showSection = this.shows.get(show.getAnime());
 
-		if (shows != null) {
-			this.shows.addAll(shows.getData().values());
+				if (showSection == null) {
+					showSection = new ArrayList<>();
 
-			String command = getCommand(this.shows);
-			Map<String, Integer> parameters = getCommandParameters(this.shows);
-
-			SickRageApi.getInstance().getServices().getShowStats(command, parameters, new ShowStatsCallback());
-
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-			String showsGrouping = preferences.getString("display_group_shows_animes", "merge");
-			final int groupFactor = "animes".equals(showsGrouping) ? 1 : ("merge".equals(showsGrouping) ? 0 : -1);
-
-			Collections.sort(this.shows, new Comparator<Show>() {
-				@Override
-				public int compare(Show first, Show second) {
-					if (first.getAnime() == second.getAnime()) {
-						return 0;
-					}
-
-					if (first.getAnime() < second.getAnime()) {
-						return groupFactor;
-					}
-
-					return -1 * groupFactor;
+					this.shows.put(show.getAnime(), showSection);
 				}
-			});
-		}
 
-		if (this.shows.isEmpty()) {
-			if (this.emptyView != null) {
-				this.emptyView.setVisibility(View.VISIBLE);
+				showSection.add(show);
 			}
 
-			if (this.recyclerView != null) {
-				this.recyclerView.setVisibility(View.GONE);
+			if (this.tabLayout != null) {
+				this.tabLayout.setVisibility(View.VISIBLE);
 			}
 		} else {
-			if (this.emptyView != null) {
-				this.emptyView.setVisibility(View.GONE);
-			}
+			ArrayList<Show> showsWrapper = new ArrayList<>();
+			showsWrapper.addAll(showsList);
 
-			if (this.recyclerView != null) {
-				this.recyclerView.setVisibility(View.VISIBLE);
+			this.shows.put(0, showsWrapper);
+
+			if (this.tabLayout != null) {
+				this.tabLayout.setVisibility(View.GONE);
 			}
 		}
 
 		if (this.adapter != null) {
 			this.adapter.notifyDataSetChanged();
-		}
-	}
 
-	@NonNull
-	/* package */ static String getCommand(@Nullable Iterable<Show> shows) {
-		StringBuilder command = new StringBuilder();
-
-		if (shows != null) {
-			for (Show show : shows) {
-				if (!isShowValid(show)) {
-					continue;
-				}
-
-				if (command.length() > 0) {
-					command.append("|");
-				}
-
-				command.append("show.stats_").append(show.getIndexerId());
-			}
-		}
-
-		return command.toString();
-	}
-
-	@NonNull
-	/* package */ static Map<String, Integer> getCommandParameters(@Nullable Iterable<Show> shows) {
-		Map<String, Integer> parameters = new HashMap<>();
-
-		if (shows != null) {
-			for (Show show : shows) {
-				if (!isShowValid(show)) {
-					continue;
-				}
-
-				int indexerId = show.getIndexerId();
-
-				parameters.put("show.stats_" + indexerId + ".indexerid", indexerId);
-			}
-		}
-
-		return parameters;
-	}
-
-	/* package */
-	static boolean isShowValid(@Nullable Show show) {
-		return show != null && show.getIndexerId() > 0;
-	}
-
-	private final class ShowStatsCallback implements Callback<ShowStatsWrapper> {
-		@Override
-		public void failure(RetrofitError error) {
-			error.printStackTrace();
-		}
-
-		@Override
-		public void success(ShowStatsWrapper showStatsWrapper, Response response) {
-			ShowStatWrapper data = showStatsWrapper.getData();
-			Map<Integer, ShowStats> showStats = data.getShowStats();
-
-			if (showStats != null) {
-				for (Map.Entry<Integer, ShowStats> entry : showStats.entrySet()) {
-					ShowStat showStatsData = entry.getValue().getData();
-					int indexerId = entry.getKey();
-
-					for (Show show : ShowsFragment.this.shows) {
-						if (show.getIndexerId() == indexerId) {
-							show.setEpisodesCount(showStatsData.getTotal());
-							show.setDownloaded(showStatsData.getTotalDone());
-							show.setSnatched(showStatsData.getTotalPending());
-
-							break;
-						}
-					}
-				}
-			}
-
-			if (ShowsFragment.this.adapter != null) {
-				ShowsFragment.this.adapter.notifyDataSetChanged();
+			if (this.tabLayout != null) {
+				this.tabLayout.setTabsFromPagerAdapter(this.adapter);
 			}
 		}
 	}

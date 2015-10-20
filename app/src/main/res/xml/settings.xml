@@ -62,12 +62,10 @@
 
 	<PreferenceCategory android:title="@string/display">
 
-		<ListPreference
-			android:defaultValue="merge"
-			android:entries="@array/shows_grouping_keys"
-			android:entryValues="@array/shows_grouping_values"
-			android:key="display_group_shows_animes"
-			android:title="@string/shows_grouping"/>
+		<CheckBoxPreference
+			android:defaultValue="false"
+			android:key="display_split_shows_animes"
+			android:title="@string/split_shows_animes"/>
 
 		<CheckBoxPreference
 			android:defaultValue="false"

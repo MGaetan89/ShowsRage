@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 
 @RunWith(Parameterized.class)
-public class ShowsFragment_GetCommandParametersTest {
+public class ShowsSectionFragment_GetCommandParametersTest {
 	@Parameterized.Parameter(1)
 	public MapEntry commandParameters[];
 
@@ -26,7 +26,7 @@ public class ShowsFragment_GetCommandParametersTest {
 
 	@Test
 	public void getCommandParameters() {
-		assertThat(ShowsFragment.getCommandParameters(this.shows)).containsOnly(this.commandParameters);
+		assertThat(ShowsSectionFragment.getCommandParameters(this.shows)).containsOnly(this.commandParameters);
 	}
 
 	@Parameterized.Parameters

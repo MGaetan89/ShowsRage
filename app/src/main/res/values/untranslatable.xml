@@ -109,18 +109,6 @@
 		<item>1080p BluRay</item>
 	</string-array>
 
-	<string-array name="shows_grouping_keys">
-		<item>@string/merge_shows_animes</item>
-		<item>@string/shows_first</item>
-		<item>@string/animes_first</item>
-	</string-array>
-
-	<string-array name="shows_grouping_values" translatable="false">
-		<item>merge</item>
-		<item>shows</item>
-		<item>animes</item>
-	</string-array>
-
 	<string-array name="status_keys" translatable="false">
 		<item>wanted</item>
 		<item>skipped</item>

@@ -13,7 +13,7 @@ import java.util.Collection;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(Parameterized.class)
-public class ShowsFragment_IsShowValidTest {
+public class ShowsSectionFragment_IsShowValidTest {
 	@Parameterized.Parameter(1)
 	public boolean valid;
 
@@ -22,7 +22,7 @@ public class ShowsFragment_IsShowValidTest {
 
 	@Test
 	public void isShowValid() {
-		assertThat(ShowsFragment.isShowValid(this.show)).isEqualTo(this.valid);
+		assertThat(ShowsSectionFragment.isShowValid(this.show)).isEqualTo(this.valid);
 	}
 
 	@Parameterized.Parameters

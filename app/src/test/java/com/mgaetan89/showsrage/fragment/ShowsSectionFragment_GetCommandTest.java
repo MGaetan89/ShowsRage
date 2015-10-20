@@ -15,7 +15,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(Parameterized.class)
-public class ShowsFragment_GetCommandTest {
+public class ShowsSectionFragment_GetCommandTest {
 	@Parameterized.Parameter(1)
 	public String command;
 
@@ -24,7 +24,7 @@ public class ShowsFragment_GetCommandTest {
 
 	@Test
 	public void getCommand() {
-		assertThat(ShowsFragment.getCommand(this.shows)).isEqualTo(this.command);
+		assertThat(ShowsSectionFragment.getCommand(this.shows)).isEqualTo(this.command);
 	}
 
 	@Parameterized.Parameters
