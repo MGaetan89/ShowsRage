@@ -69,6 +69,7 @@
 	<string name="later">Later</string>
 	<string name="licenses">Licenses</string>
 	<string name="location">Location: <xliff:g example="/Shows/2 Broke Girls" id="location">%1$s</xliff:g></string>
+	<string name="logo_designer">Logo designer</string>
 	<string name="logs">Logs</string>
 	<string name="missed">Missed</string>
 	<string name="missing">Missing: <xliff:g example="1" id="missing">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>

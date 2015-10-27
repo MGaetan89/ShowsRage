@@ -126,6 +126,16 @@
 						android:action="android.intent.action.VIEW"
 						android:data="https://github.com/MGaetan89"/>
 				</PreferenceScreen>
+
+				<PreferenceScreen
+					android:key="application_logo"
+					android:summary="Concept211"
+					android:title="@string/logo_designer">
+
+					<intent
+						android:action="android.intent.action.VIEW"
+						android:data="http://www.concept211.com/"/>
+				</PreferenceScreen>
 			</PreferenceCategory>
 		</PreferenceScreen>
 
