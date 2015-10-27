@@ -55,6 +55,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -369,7 +370,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 			if (rootDirs != null) {
 				for (String rootDir : rootDirs) {
 					if (location.startsWith(rootDir)) {
-						location = location.replaceFirst(rootDir, "");
+						location = location.replaceFirst(Pattern.quote(rootDir), "");
 
 						break;
 					}
