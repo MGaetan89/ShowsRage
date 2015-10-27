@@ -1,4 +1,6 @@
-# ShowsRage [![Build Status](https://travis-ci.org/MGaetan89/ShowsRage.svg?branch=master)](https://travis-ci.org/MGaetan89/ShowsRage) [![Coverage Status](https://coveralls.io/repos/MGaetan89/ShowsRage/badge.svg?branch=master&service=github)](https://coveralls.io/github/MGaetan89/ShowsRage?branch=master)
+# ![ShowsRage](app/src/main/res/mipmap-mdpi/ic_launcher.png) ShowsRage
+
+[![Build Status](https://travis-ci.org/MGaetan89/ShowsRage.svg?branch=master)](https://travis-ci.org/MGaetan89/ShowsRage) [![Coverage Status](https://coveralls.io/repos/MGaetan89/ShowsRage/badge.svg?branch=master&service=github)](https://coveralls.io/github/MGaetan89/ShowsRage?branch=master)
 
 **ShowsRage** is an Android application that allows you to manage your *[SickRage](https://www.sickrage.tv/)* installation.
 
@@ -36,6 +38,12 @@ The following features are currently available:
 ## Contributing
 
 Want to help *ShowsRage* get better? See the [contribution guide](https://github.com/MGaetan89/ShowsRage/blob/master/Contributing.md) for some tips.
+
+### Contributors
+
+Special thanks to:
+
+- [Concept211](https://github.com/Concept211) for the new logo of *ShowsRage*
 
 ## Screenshots
 
