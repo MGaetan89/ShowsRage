@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.fragment;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -153,11 +154,17 @@ public class SettingsFragment extends PreferenceFragment implements Callback<Gen
 	}
 
 	private void testConnection() {
+		Activity activity = this.getActivity();
+
+		if (activity == null) {
+			return;
+		}
+
 		this.canceled = false;
 
-		SickRageApi.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this.getActivity()));
+		SickRageApi.getInstance().init(PreferenceManager.getDefaultSharedPreferences(activity));
 
-		this.alertDialog = new AlertDialog.Builder(this.getActivity())
+		this.alertDialog = new AlertDialog.Builder(activity)
 				.setCancelable(true)
 				.setTitle(R.string.testing_server_settings)
 				.setMessage(this.getString(R.string.connecting_to, SickRageApi.getInstance().getApiUrl()))
