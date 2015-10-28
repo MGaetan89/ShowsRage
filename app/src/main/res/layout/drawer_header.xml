@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-	android:id="@+id/drawer_header"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
@@ -15,6 +14,7 @@
 	android:paddingTop="40dp">
 
 	<ImageView
+		android:id="@+id/app_logo"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/padding"
@@ -23,6 +23,7 @@
 		android:src="@mipmap/ic_launcher_white"/>
 
 	<TextView
+		android:id="@+id/app_name"
 		style="@style/TextAppearance.AppCompat.Title"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"

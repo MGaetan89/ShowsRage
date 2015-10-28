@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -24,6 +25,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.IntentCompat;
 import android.support.v4.graphics.ColorUtils;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -33,7 +35,9 @@ import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mgaetan89.showsrage.Constants;
@@ -294,7 +298,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		this.setTitle(this.getTitleResourceId());
 
 		this.appBarLayout = (AppBarLayout) this.findViewById(R.id.app_bar);
-		this.drawerHeader = (LinearLayout) this.findViewById(R.id.drawer_header);
 		this.drawerLayout = (DrawerLayout) this.findViewById(R.id.drawer_layout);
 		this.navigationView = (NavigationView) this.findViewById(R.id.drawer_content);
 		this.tabLayout = (TabLayout) this.findViewById(R.id.tabs);
@@ -315,6 +318,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		}
 
 		if (this.navigationView != null) {
+			this.drawerHeader = (LinearLayout) this.navigationView.inflateHeaderView(R.layout.drawer_header);
+
 			this.navigationView.setNavigationItemSelectedListener(this);
 			this.navigationView.getMenu().findItem(this.getSelectedMenuId()).setChecked(true);
 		}
@@ -408,6 +413,18 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 		if (this.drawerHeader != null) {
 			this.drawerHeader.setBackgroundColor(colorPrimary);
+
+			ImageView logo = (ImageView) this.drawerHeader.findViewById(R.id.app_logo);
+			TextView name = (TextView) this.drawerHeader.findViewById(R.id.app_name);
+
+			if (logo != null) {
+				Drawable drawable = DrawableCompat.wrap(logo.getDrawable());
+				DrawableCompat.setTint(drawable, textColor);
+			}
+
+			if (name != null) {
+				name.setTextColor(textColor);
+			}
 		}
 
 		if (this.navigationView != null) {
