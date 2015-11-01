@@ -95,7 +95,7 @@ public class StatisticsFragment extends DialogFragment implements Callback<Shows
 		AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
 		builder.setTitle(R.string.statistics);
 		builder.setView(view);
-		builder.setPositiveButton(android.R.string.ok, null);
+		builder.setPositiveButton(R.string.close, null);
 
 		return builder.create();
 	}
