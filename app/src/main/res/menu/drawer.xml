@@ -12,7 +12,7 @@
 
 		<item
 			android:id="@+id/menu_schedule"
-			android:icon="@drawable/ic_event_white_24dp"
+			android:icon="@drawable/ic_schedule_white_24dp"
 			android:title="@string/schedule"/>
 
 		<item
