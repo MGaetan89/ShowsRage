@@ -48,7 +48,11 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		Schedule schedule = this.schedules.get(position);
 
-		holder.bind(new SchedulePresenter(schedule));
+		if (holder.actions == null) {
+			holder.bind(new SchedulePresenter(schedule, null));
+		} else {
+			holder.bind(new SchedulePresenter(schedule, holder.actions.getContext()));
+		}
 	}
 
 	@Override
