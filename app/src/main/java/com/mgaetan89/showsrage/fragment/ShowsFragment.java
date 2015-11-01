@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.fragment;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -10,6 +11,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -39,6 +43,10 @@ public class ShowsFragment extends Fragment implements Callback<Shows> {
 	@Nullable
 	private ViewPager viewPager = null;
 
+	public ShowsFragment() {
+		this.setHasOptionsMenu(true);
+	}
+
 	@Override
 	public void failure(RetrofitError error) {
 		error.printStackTrace();
@@ -56,6 +64,11 @@ public class ShowsFragment extends Fragment implements Callback<Shows> {
 			this.tabLayout.setTabMode(TabLayout.MODE_FIXED);
 			this.tabLayout.setupWithViewPager(this.viewPager);
 		}
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.shows, menu);
 	}
 
 	@Nullable
@@ -96,10 +109,29 @@ public class ShowsFragment extends Fragment implements Callback<Shows> {
 	}
 
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.menu_refresh) {
+			SickRageApi.getInstance().getServices().getShows(this);
+
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
 	public void success(Shows shows, Response response) {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+		Context context = this.getContext();
+
+		if (context == null) {
+			return;
+		}
+
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		boolean splitShowsAnimes = preferences.getBoolean("display_split_shows_animes", false);
 		Collection<Show> showsList = shows.getData().values();
+
+		this.shows.clear();
 
 		if (splitShowsAnimes) {
 			for (Show show : showsList) {
@@ -131,7 +163,7 @@ public class ShowsFragment extends Fragment implements Callback<Shows> {
 		if (this.adapter != null) {
 			this.adapter.notifyDataSetChanged();
 
-			if (this.tabLayout != null) {
+			if (this.tabLayout != null && this.tabLayout.getTabCount() == 0) {
 				this.tabLayout.setTabsFromPagerAdapter(this.adapter);
 			}
 		}

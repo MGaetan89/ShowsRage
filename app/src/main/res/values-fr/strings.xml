@@ -99,6 +99,7 @@
 	<string name="quality_custom">Qualité :\n- Autorisées : <xliff:g example="HD1080p" id="allowed">%1$s</xliff:g>\n- Préférées : <xliff:g example="HD1080p" id="preferred">%2$s</xliff:g></string>
 	<string name="rated">Classification : <xliff:g example="TV-14" id="rated">%1$s</xliff:g></string>
 	<string name="rating">Evaluation IMDb : <xliff:g example="5.0" id="rating">%1$s</xliff:g>/10 (<xliff:g example="10000" id="votes">%2$s</xliff:g> votes)</string>
+	<string name="refresh">Actualiser</string>
 	<string name="remote_control">Télécommande</string>
 	<string name="replace">Replacer</string>
 	<string name="replace_existing_episode">Replacer l\'épisode actuel s\'il avait déjà été téléchargé ?</string>
