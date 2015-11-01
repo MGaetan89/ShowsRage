@@ -373,9 +373,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 	}
 
 	private void checkForUpdate(final boolean manualCheck) {
-		long lastVersionCheckTime = PreferenceManager.getDefaultSharedPreferences(this).getLong(Constants.Preferences.Fields.LAST_VERSION_CHECK_TIME, 0L);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		long lastVersionCheckTime = preferences.getLong(Constants.Preferences.Fields.LAST_VERSION_CHECK_TIME, 0L);
+		long checkInterval = Long.valueOf(preferences.getString("behavior_version_check", "0"));
 
-		if (!shouldCheckForUpdate(manualCheck, lastVersionCheckTime)) {
+		if (!shouldCheckForUpdate(checkInterval, manualCheck, lastVersionCheckTime)) {
 			return;
 		}
 
@@ -472,8 +474,19 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 	}
 
 	/* package */
-	static boolean shouldCheckForUpdate(boolean manualCheck, long lastCheckTime) {
-		return manualCheck || System.currentTimeMillis() - lastCheckTime >= Constants.VERSION_CHECK_INTERVAL;
+	static boolean shouldCheckForUpdate(long checkInterval, boolean manualCheck, long lastCheckTime) {
+		// Always check for new version if the user triggered the version check himself
+		if (manualCheck) {
+			return true;
+		}
+
+		// The automatic version check is disabled
+		if (checkInterval == 0L) {
+			return false;
+		}
+
+		// Check if we need to look for new update, depending on the user preferences
+		return System.currentTimeMillis() - lastCheckTime >= checkInterval;
 	}
 
 	private static final class CheckForUpdateCallback implements Callback<UpdateResponseWrapper> {

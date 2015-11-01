@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="version_check_label">
+		<item>@string/never</item>
+		<item>@string/hours_6</item>
+		<item>@string/hours_12</item>
+		<item>@string/day_1</item>
+	</string-array>
+
+	<string-array name="version_check_values">
+		<item>0</item>
+		<item>21600000</item>
+		<item>43200000</item>
+		<item>86400000</item>
+	</string-array>
+</resources>

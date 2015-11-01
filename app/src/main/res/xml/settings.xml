@@ -82,6 +82,16 @@
 			android:title="@string/episodes_sort"/>
 	</PreferenceCategory>
 
+	<PreferenceCategory android:title="@string/behavior">
+
+		<ListPreference
+			android:defaultValue="21600000"
+			android:entries="@array/version_check_label"
+			android:entryValues="@array/version_check_values"
+			android:key="behavior_version_check"
+			android:title="@string/version_check"/>
+	</PreferenceCategory>
+
 	<PreferenceCategory android:title="@string/experimental_feature">
 
 		<CheckBoxPreference

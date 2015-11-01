@@ -17,6 +17,7 @@
 	<string name="archived">Archivé</string>
 	<string name="ascending">Croissant</string>
 	<string name="awards">Récompenses</string>
+	<string name="behavior">Comportement</string>
 	<string name="cancel">Annuler</string>
 	<string name="casting">Casting</string>
 	<string name="change">Changer</string>
@@ -30,6 +31,7 @@
 	<string name="connection_failed">Connexion à <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g> impossible</string>
 	<string name="connection_successful">Connexion réussie !</string>
 	<string name="continuing">En cours</string>
+	<string name="day_1">Une fois par jour</string>
 	<string name="debug">Debug</string>
 	<string name="delete">Supprimer</string>
 	<string name="delete_show">Supprimer la série</string>
@@ -59,6 +61,8 @@
 	<string name="get_api_key_success">Clé de l\'API obtenue avec succès</string>
 	<string name="history">Historique</string>
 	<string name="hostname">Nom d\'hôte</string>
+	<string name="hours_6">Toutes les 6 heures</string>
+	<string name="hours_12">Toutes les 12 hours</string>
 	<string name="ignore">Ignorer</string>
 	<string name="ignored">Ignoré</string>
 	<string name="info">Info</string>
@@ -153,6 +157,7 @@
 	<string name="use_https">Connexion sécurisée ?</string>
 	<string name="username">Identifiant</string>
 	<string name="version">Version</string>
+	<string name="version_check">Vérification de version de SickRage</string>
 	<string name="view_in_external_video_player">Lire dans un lecteur vidéo externe</string>
 	<string name="wanted">Voulu</string>
 	<string name="warning">Avertissement</string>

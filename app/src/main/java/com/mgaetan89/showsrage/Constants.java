@@ -6,7 +6,6 @@ import retrofit.RestAdapter;
 
 public abstract class Constants {
 	public static final RestAdapter.LogLevel NETWORK_LOG_LEVEL = BuildConfig.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE;
-	public static final long VERSION_CHECK_INTERVAL = 4 * 60 * 60 * 1000;
 
 	public abstract static class Bundle {
 		public static final String COLOR_ACCENT = "color_accent";
