@@ -57,6 +57,9 @@ public class StatisticsFragment extends DialogFragment implements Callback<Shows
 	@Nullable
 	private LinearLayout statisticsLayout = null;
 
+	public StatisticsFragment() {
+	}
+
 	@Override
 	public void failure(RetrofitError error) {
 		error.printStackTrace();

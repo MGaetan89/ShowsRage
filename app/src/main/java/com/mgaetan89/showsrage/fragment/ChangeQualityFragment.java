@@ -18,6 +18,9 @@ import com.mgaetan89.showsrage.network.SickRageApi;
 import retrofit.Callback;
 
 public class ChangeQualityFragment extends DialogFragment implements DialogInterface.OnClickListener {
+	public ChangeQualityFragment() {
+	}
+
 	@Override
 	public void onClick(DialogInterface dialogInterface, int which) {
 		Dialog dialog = this.getDialog();
