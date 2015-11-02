@@ -43,6 +43,7 @@ import android.widget.Toast;
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.ShowsRageApplication;
+import com.mgaetan89.showsrage.fragment.PostProcessingFragment;
 import com.mgaetan89.showsrage.fragment.RemoteControlFragment;
 import com.mgaetan89.showsrage.fragment.StatisticsFragment;
 import com.mgaetan89.showsrage.helper.Utils;
@@ -132,6 +133,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
 
 				this.startActivity(intent);
+
+				return true;
+			}
+
+			case R.id.menu_post_processing: {
+				new PostProcessingFragment().show(this.getSupportFragmentManager(), "post_processing");
+
+				menuItem.setChecked(false);
 
 				return true;
 			}

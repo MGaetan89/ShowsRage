@@ -79,6 +79,9 @@ public interface SickRageServices {
 	@GET("/{api_path}/{api_key}/?cmd=show.pause")
 	void pauseShow(@Query("indexerid") int indexerId, @Query("pause") int pause, Callback<GenericResponse> callback);
 
+	@GET("/{api_path}/{api_key}/?cmd=postprocess&type=manual")
+	void postProcess(@Query("is_priority") int replace, @Query("force_replace") int forceProcessing, @Query("process_method") String processingMethod, Callback<GenericResponse> callback);
+
 	@GET("/{api_path}/{api_key}/?cmd=show.refresh")
 	void rescanShow(@Query("indexerid") int indexerId, Callback<GenericResponse> callback);
 

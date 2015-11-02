@@ -31,8 +31,10 @@
 	<string name="connection_failed">Connection to <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g> failed</string>
 	<string name="connection_successful">Connection successful!</string>
 	<string name="continuing">Continuing</string>
+	<string name="copy">Copy</string>
 	<string name="day_1">Once a day</string>
 	<string name="debug">Debug</string>
+	<string name="default_">Default</string>
 	<string name="delete">Delete</string>
 	<string name="delete_show">Delete show</string>
 	<string name="delete_show_message">Do you want to keep the files related to this show?</string>
@@ -55,10 +57,12 @@
 	<string name="external_links">External Links</string>
 	<string name="failed">Failed</string>
 	<string name="file_size">File size: <xliff:g example="856.93 MB" id="file_size">%1$s</xliff:g></string>
+	<string name="force_processing">Force processing</string>
 	<string name="genre">Genre: <xliff:g example="Comedy" id="genre">%1$s</xliff:g></string>
 	<string name="get_api_key">Get API Key</string>
 	<string name="get_api_key_error">Unable to get the API Key</string>
 	<string name="get_api_key_success">API Key successfully received</string>
+	<string name="hard_link">Hard link</string>
 	<string name="history">History</string>
 	<string name="hostname">Hostname</string>
 	<string name="hours_6">Every 3 hours</string>
@@ -78,6 +82,7 @@
 	<string name="missed">Missed</string>
 	<string name="missing">Missing: <xliff:g example="1" id="missing">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
 	<string name="more_information">More Information</string>
+	<string name="move">Move</string>
 	<string name="network">Network: <xliff:g example="CBS" id="network">%1$s</xliff:g></string>
 	<string name="never">Never</string>
 	<string name="new_update">New update available</string>
@@ -97,7 +102,10 @@
 	<string name="please_wait">Please wait…</string>
 	<string name="plot">Plot</string>
 	<string name="port_number">Port Number</string>
-	<string name="preferred_quality">Preferred Quality</string>
+	<string name="post_processing">Post Processing</string>
+	<string name="preferred_quality">Preferred quality</string>
+	<string name="process">Process</string>
+	<string name="processing_method">Processing method</string>
 	<string name="provider_quality">From <xliff:g example="KAT" id="provider">%1$s</xliff:g> [<xliff:g example="1080p WEB-DL" id="quality">%2$s</xliff:g>]</string>
 	<string name="quality">Quality: <xliff:g example="HD1080p" id="quality">%1$s</xliff:g></string>
 	<string name="quality_custom">Quality:\n- Allowed: <xliff:g example="HD1080p" id="allowed">%1$s</xliff:g>\n- Preferred: <xliff:g example="HD1080p" id="preferred">%2$s</xliff:g></string>
@@ -107,6 +115,7 @@
 	<string name="remote_control">Remote Control</string>
 	<string name="replace">Replace</string>
 	<string name="replace_existing_episode">Replace the current episode if it was already downloaded?</string>
+	<string name="replace_existing_files">Replace existing files</string>
 	<string name="rescan">Rescan</string>
 	<string name="restart">Restart</string>
 	<string name="restart_confirm">Are you sure you want to restart SickRage?</string>
@@ -141,6 +150,7 @@
 	<string name="status_value">Status: <xliff:g example="Continuing" id="status">%1$s</xliff:g></string>
 	<string name="stream_in_chromecast">Stream over Google Cast™</string>
 	<string name="subtitles">Subtitles</string>
+	<string name="symbolic_link">Symbolic link</string>
 	<string name="test">Test</string>
 	<string name="testing_server_settings">Testing server settings</string>
 	<string name="today">Today</string>

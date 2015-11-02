@@ -47,6 +47,11 @@
 			android:title="@string/settings"/>
 
 		<item
+			android:id="@+id/menu_post_processing"
+			android:icon="@drawable/ic_tune_white_24dp"
+			android:title="@string/post_processing"/>
+
+		<item
 			android:id="@+id/menu_check_update"
 			android:icon="@drawable/ic_system_update_white_24dp"
 			android:title="@string/check_update"/>

@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string-array name="version_check_label">
+	<string-array name="processing_methods_keys">
+		<item>@string/default_</item>
+		<item>@string/copy</item>
+		<item>@string/move</item>
+		<item>@string/hard_link</item>
+		<item>@string/symbolic_link</item>
+	</string-array>
+
+	<string-array name="processing_methods_values" translatable="false">
+		<item/>
+		<item>copy</item>
+		<item>move</item>
+		<item>hardlink</item>
+		<item>symlink</item>
+	</string-array>
+
+	<string-array name="version_check_keys">
 		<item>@string/never</item>
 		<item>@string/hours_6</item>
 		<item>@string/hours_12</item>
 		<item>@string/day_1</item>
 	</string-array>
 
-	<string-array name="version_check_values">
+	<string-array name="version_check_values" translatable="false">
 		<item>0</item>
 		<item>21600000</item>
 		<item>43200000</item>

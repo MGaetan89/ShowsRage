@@ -86,7 +86,7 @@
 
 		<ListPreference
 			android:defaultValue="21600000"
-			android:entries="@array/version_check_label"
+			android:entries="@array/version_check_keys"
 			android:entryValues="@array/version_check_values"
 			android:key="behavior_version_check"
 			android:title="@string/version_check"/>
