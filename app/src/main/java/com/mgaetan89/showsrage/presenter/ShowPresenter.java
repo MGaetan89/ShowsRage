@@ -1,7 +1,9 @@
 package com.mgaetan89.showsrage.presenter;
 
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 
+import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.model.Indexer;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.network.SickRageApi;
@@ -36,6 +38,19 @@ public class ShowPresenter {
 		}
 
 		return this.show.getNetwork();
+	}
+
+	@StringRes
+	public int getPauseActiveStatusRes() {
+		if (this.show == null) {
+			return 0;
+		}
+
+		if (this.show.getPaused() == 0) {
+			return R.string.active;
+		}
+
+		return R.string.paused;
 	}
 
 	public String getPosterUrl() {

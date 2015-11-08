@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage.presenter;
 
 import com.google.gson.Gson;
+import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.model.Show;
 
 import org.junit.Before;
@@ -25,18 +26,21 @@ public class ShowPresenterTest {
 	public String network;
 
 	@Parameterized.Parameter(4)
-	public String posterUrl;
+	public int pauseActiveStatusRes;
 
 	@Parameterized.Parameter(5)
+	public String posterUrl;
+
+	@Parameterized.Parameter(6)
 	public String quality;
 
 	@Parameterized.Parameter(0)
 	public Show show;
 
-	@Parameterized.Parameter(6)
+	@Parameterized.Parameter(7)
 	public String showName;
 
-	@Parameterized.Parameter(7)
+	@Parameterized.Parameter(8)
 	public int snatched;
 
 	private ShowPresenter presenter;
@@ -59,6 +63,11 @@ public class ShowPresenterTest {
 	@Test
 	public void getNetwork() {
 		assertThat(this.presenter.getNetwork()).isEqualTo(this.network);
+	}
+
+	@Test
+	public void getPauseActiveStatusRes() {
+		assertThat(this.presenter.getPauseActiveStatusRes()).isEqualTo(this.pauseActiveStatusRes);
 	}
 
 	@Test
@@ -86,8 +95,9 @@ public class ShowPresenterTest {
 		Gson gson = new Gson();
 
 		return Arrays.asList(new Object[][]{
-				{null, 0, 0, "", "", "", "", 0},
-				{gson.fromJson("{downloaded: 10, episodesCount: 20, network: \"CBS\", quality: \"HD1080p\", show_name: \"Show 1\", snatched: 5, tvdbid: 123}", Show.class), 10, 20, "CBS", "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=123", "HD1080p", "Show 1", 5},
+				{null, 0, 0, "", 0, "", "", "", 0},
+				{gson.fromJson("{downloaded: 10, episodesCount: 20, network: \"ABC\", paused: 0, quality: \"HD\", show_name: \"Show 1\", snatched: 5, tvdbid: 123}", Show.class), 10, 20, "ABC", R.string.active, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=123", "HD", "Show 1", 5},
+				{gson.fromJson("{downloaded: 20, episodesCount: 30, network: \"CBS\", paused: 1, quality: \"HD1080p\", show_name: \"Show 2\", snatched: 10, tvdbid: 456}", Show.class), 20, 30, "CBS", R.string.paused, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=456", "HD1080p", "Show 2", 10},
 		});
 	}
 }

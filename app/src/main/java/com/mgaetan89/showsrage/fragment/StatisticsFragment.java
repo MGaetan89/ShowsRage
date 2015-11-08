@@ -174,7 +174,7 @@ public class StatisticsFragment extends DialogFragment implements Callback<Shows
 		}
 
 		if (this.showsActive != null) {
-			this.showsActive.setText(this.getString(R.string.active, numberFormat.format(showsStat.getShowsActive())));
+			this.showsActive.setText(this.getString(R.string.active_count, numberFormat.format(showsStat.getShowsActive())));
 		}
 
 		if (this.showsTotal != null) {

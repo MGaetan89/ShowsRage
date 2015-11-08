@@ -38,7 +38,7 @@
 				app:imageUrl="@{show.posterUrl}"
 				tools:src="@mipmap/ic_launcher"/>
 
-			<LinearLayout
+			<RelativeLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
@@ -59,16 +59,29 @@
 					style="@style/TextAppearance.AppCompat.Caption"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:layout_below="@+id/show_name"
 					tools:text="2015-04-27"/>
 
 				<TextView
 					style="@style/TextAppearance.AppCompat.Caption"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_gravity="end|right"
+					android:layout_alignParentLeft="true"
+					android:layout_alignParentStart="true"
+					android:layout_below="@+id/show_next_episode_date"
+					app:textRes="@{show.pauseActiveStatusRes}"
+					tools:text="@string/active"/>
+
+				<TextView
+					style="@style/TextAppearance.AppCompat.Caption"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentEnd="true"
+					android:layout_alignParentRight="true"
+					android:layout_below="@+id/show_next_episode_date"
 					android:text="@{@string/separated_texts(show.network, show.quality)}"
 					tools:text="CBS / HD1080p"/>
-			</LinearLayout>
+			</RelativeLayout>
 		</RelativeLayout>
 
 		<ProgressBar

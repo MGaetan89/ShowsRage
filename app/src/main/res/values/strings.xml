@@ -5,7 +5,8 @@
 	tools:locale="en">
 	<string name="about">About</string>
 	<string name="actions">Actions</string>
-	<string name="active">Active: <xliff:g example="1" id="active">%1$s</xliff:g></string>
+	<string name="active">Active</string>
+	<string name="active_count">Active: <xliff:g example="1" id="active">%1$s</xliff:g></string>
 	<string name="actors">Actors: <xliff:g example="Kat Dennings, Beth Behrs, Garrett Morris, Jonathan Kite" id="actors">%1$s</xliff:g></string>
 	<string name="add">Add</string>
 	<string name="add_show">Add show</string>
@@ -98,6 +99,7 @@
 	<string name="password">Password</string>
 	<string name="path">Path</string>
 	<string name="pause_show">Pause show</string>
+	<string name="paused">Paused</string>
 	<string name="play_video">Play video</string>
 	<string name="please_wait">Please wait…</string>
 	<string name="plot">Plot</string>
