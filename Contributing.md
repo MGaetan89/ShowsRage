@@ -31,10 +31,12 @@ If you think that something is missing from *ShowsRage*, you can [open a new iss
 
 While not everything can be translated, *ShowsRage* aim to localized as much as possible.
 
+You can contribute to *ShowsRage* translations on [localise.biz](https://localise.biz/mgaetan89/showsrage). If you wish to add a new language, just [create an issue](https://github.com/MGaetan89/ShowsRage/issues/new) with the language you want to add.
+
 The following languages are currently supported:
 - [English](https://github.com/MGaetan89/ShowsRage/blob/master/app/src/main/res/values/strings.xml)
 - [French](https://github.com/MGaetan89/ShowsRage/blob/master/app/src/main/res/values-fr/strings.xml)
 
-To provide a new translation, copy one of the above file into its own folder, localized, and translate it. You can add it in the list above and update the `resConfigs` field in [`app/build.gradle`](https://github.com/MGaetan89/ShowsRage/blob/master/app/build.gradle).
+If you don't want to use [localise.biz](https://localise.biz/mgaetan89/showsrage), you can submit a new translation here, on GitHub. To do so, copy one of the above file into its own localized folder, and translate it. You can add it in the list above and update the `resConfigs` field in [`app/build.gradle`](https://github.com/MGaetan89/ShowsRage/blob/master/app/build.gradle).
 
 Once ready, send a new Pull Request so it can be included in the next version of *ShowsRage*.
