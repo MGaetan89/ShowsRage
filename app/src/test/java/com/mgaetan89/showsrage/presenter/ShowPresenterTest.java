@@ -53,6 +53,11 @@ public class ShowPresenterTest {
 	}
 
 	@Test
+	public void getBannerUrl() {
+		assertThat(this.presenter.getBannerUrl()).isEqualTo(this.bannerUrl);
+	}
+
+	@Test
 	public void getDownloaded() {
 		assertThat(this.presenter.getDownloaded()).isEqualTo(this.downloaded);
 	}
