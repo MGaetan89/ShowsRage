@@ -2,6 +2,8 @@ package com.mgaetan89.showsrage.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -122,8 +124,9 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 			}
 
 			if (this.recyclerView != null) {
+				String showsListLayout = PreferenceManager.getDefaultSharedPreferences(this.getContext()).getString("display_shows_list_layout", "poster");
 				int columnCount = this.getResources().getInteger(R.integer.shows_column_count);
-				this.adapter = new ShowsAdapter(this.shows);
+				this.adapter = new ShowsAdapter(this.shows, getAdapterLayoutResource(showsListLayout));
 
 				this.recyclerView.setAdapter(this.adapter);
 				this.recyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), columnCount));
@@ -146,6 +149,15 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 		this.recyclerView = null;
 
 		super.onDestroyView();
+	}
+
+	@LayoutRes
+	/* package */ static int getAdapterLayoutResource(String preferedLayout) {
+		if ("banner".equals(preferedLayout)) {
+			return R.layout.adapter_shows_list_content_banner;
+		}
+
+		return R.layout.adapter_shows_list_content_poster;
 	}
 
 	@NonNull

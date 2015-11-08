@@ -17,6 +17,7 @@
 	<string name="archived">Archivé</string>
 	<string name="ascending">Croissant</string>
 	<string name="awards">Récompenses</string>
+	<string name="banner">Bannière</string>
 	<string name="behavior">Comportement</string>
 	<string name="cancel">Annuler</string>
 	<string name="casting">Casting</string>
@@ -104,6 +105,7 @@
 	<string name="plot">Résumé</string>
 	<string name="port_number">Numéro de port</string>
 	<string name="post_processing">Post Traitement</string>
+	<string name="poster">Poster</string>
 	<string name="preferred_quality">Qualité préférée</string>
 	<string name="process">Traiter</string>
 	<string name="processing_method">Méthode de traitement</string>
@@ -136,6 +138,7 @@
 	<string name="show">Série</string>
 	<string name="show_name_episode"><xliff:g example="2 Broke Girls" id="show_name">%1$s</xliff:g> - S<xliff:g example="01" id="season">%2$02d</xliff:g>E<xliff:g example="01" id="episode">%3$02d</xliff:g></string>
 	<string name="shows">Séries</string>
+	<string name="shows_list_layout">Affichage de la liste des séries</string>
 	<string name="sickrage_4030_required">Cette fonctionnalité nécessite SickRage version 4.0.30</string>
 	<string name="sickrage_updated">SickRage a bien été mis à jour</string>
 	<string name="skipped">Passé</string>

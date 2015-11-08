@@ -14,9 +14,10 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 
-		<include
-			android:id="@+id/include_content"
-			layout="@layout/adapter_shows_list_content"
+		<ViewStub
+			android:id="@+id/stub"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
 			bind:show="@{show}"/>
 	</FrameLayout>
 </layout>

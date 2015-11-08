@@ -27,7 +27,7 @@ public class ShowsAdapter_GetItemCountTest {
 
 	@Before
 	public void before() {
-		this.adapter = new ShowsAdapter(this.shows);
+		this.adapter = new ShowsAdapter(this.shows, 0);
 	}
 
 	@Test

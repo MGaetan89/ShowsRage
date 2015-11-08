@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+		<variable
+			name="show"
+			type="com.mgaetan89.showsrage.presenter.ShowPresenter"/>
+	</data>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:foreground="?selectableItemBackground"
+		android:orientation="vertical">
+
+		<ImageView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:adjustViewBounds="true"
+			android:contentDescription="@{show.showName}"
+			app:circle="@{false}"
+			app:imageUrl="@{show.bannerUrl}"
+			tools:src="@mipmap/ic_launcher"/>
+
+		<ProgressBar
+			style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="4dp"
+			android:layout_marginBottom="-2dp"
+			android:max="@{show.episodesCount}"
+			android:progress="@{show.downloaded}"
+			android:secondaryProgress="@{show.downloaded + show.snatched}"
+			tools:progress="33"
+			tools:secondaryProgress="66"/>
+	</LinearLayout>
+</layout>

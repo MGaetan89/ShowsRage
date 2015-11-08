@@ -16,30 +16,33 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(Parameterized.class)
 public class ShowPresenterTest {
 	@Parameterized.Parameter(1)
-	public int downloaded;
+	public String bannerUrl;
 
 	@Parameterized.Parameter(2)
-	public int episodesCount;
+	public int downloaded;
 
 	@Parameterized.Parameter(3)
-	public String network;
+	public int episodesCount;
 
 	@Parameterized.Parameter(4)
-	public boolean paused;
+	public String network;
 
 	@Parameterized.Parameter(5)
-	public String posterUrl;
+	public boolean paused;
 
 	@Parameterized.Parameter(6)
+	public String posterUrl;
+
+	@Parameterized.Parameter(7)
 	public String quality;
 
 	@Parameterized.Parameter(0)
 	public Show show;
 
-	@Parameterized.Parameter(7)
+	@Parameterized.Parameter(8)
 	public String showName;
 
-	@Parameterized.Parameter(8)
+	@Parameterized.Parameter(9)
 	public int snatched;
 
 	private ShowPresenter presenter;
@@ -94,9 +97,9 @@ public class ShowPresenterTest {
 		Gson gson = new Gson();
 
 		return Arrays.asList(new Object[][]{
-				{null, 0, 0, "", false, "", "", "", 0},
-				{gson.fromJson("{downloaded: 10, episodesCount: 20, network: \"ABC\", paused: 0, quality: \"HD\", show_name: \"Show 1\", snatched: 5, tvdbid: 123}", Show.class), 10, 20, "ABC", false, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=123", "HD", "Show 1", 5},
-				{gson.fromJson("{downloaded: 20, episodesCount: 30, network: \"CBS\", paused: 1, quality: \"HD1080p\", show_name: \"Show 2\", snatched: 10, tvdbid: 456}", Show.class), 20, 30, "CBS", true, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=456", "HD1080p", "Show 2", 10},
+				{null, "", 0, 0, "", false, "", "", "", 0},
+				{gson.fromJson("{downloaded: 10, episodesCount: 20, network: \"ABC\", paused: 0, quality: \"HD\", show_name: \"Show 1\", snatched: 5, tvdbid: 123}", Show.class), "https://127.0.0.1:8083/api/apiKey/?cmd=show.getbanner&tvdbid=123", 10, 20, "ABC", false, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=123", "HD", "Show 1", 5},
+				{gson.fromJson("{downloaded: 20, episodesCount: 30, network: \"CBS\", paused: 1, quality: \"HD1080p\", show_name: \"Show 2\", snatched: 10, tvdbid: 456}", Show.class), "https://127.0.0.1:8083/api/apiKey/?cmd=show.getbanner&tvdbid=456", 20, 30, "CBS", true, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=456", "HD1080p", "Show 2", 10},
 		});
 	}
 }

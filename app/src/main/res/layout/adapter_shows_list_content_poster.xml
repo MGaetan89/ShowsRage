@@ -13,16 +13,15 @@
 			type="com.mgaetan89.showsrage.presenter.ShowPresenter"/>
 	</data>
 
-	<LinearLayout
+	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/list_item_height"
-		android:background="?selectableItemBackground"
+		android:foreground="?selectableItemBackground"
 		android:orientation="vertical">
 
 		<RelativeLayout
 			android:layout_width="match_parent"
-			android:layout_height="0dp"
-			android:layout_weight="1"
+			android:layout_height="@dimen/list_item_height"
 			android:paddingEnd="@dimen/padding"
 			android:paddingLeft="@dimen/padding"
 			android:paddingRight="@dimen/padding"
@@ -90,11 +89,12 @@
 			style="@style/Widget.AppCompat.ProgressBar.Horizontal"
 			android:layout_width="match_parent"
 			android:layout_height="4dp"
+			android:layout_gravity="bottom"
 			android:layout_marginBottom="-2dp"
 			android:max="@{show.episodesCount}"
 			android:progress="@{show.downloaded}"
 			android:secondaryProgress="@{show.downloaded + show.snatched}"
 			tools:progress="33"
 			tools:secondaryProgress="66"/>
-	</LinearLayout>
+	</FrameLayout>
 </layout>

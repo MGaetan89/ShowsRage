@@ -16,6 +16,16 @@
 		<item>symlink</item>
 	</string-array>
 
+	<string-array name="shows_list_layout_keys">
+		<item>@string/poster</item>
+		<item>@string/banner</item>
+	</string-array>
+
+	<string-array name="shows_list_layout_values" translatable="false">
+		<item>poster</item>
+		<item>banner</item>
+	</string-array>
+
 	<string-array name="version_check_keys">
 		<item>@string/never</item>
 		<item>@string/hours_6</item>

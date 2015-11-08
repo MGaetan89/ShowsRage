@@ -14,6 +14,14 @@ public class ShowPresenter {
 		this.show = show;
 	}
 
+	public String getBannerUrl() {
+		if (this.show == null) {
+			return "";
+		}
+
+		return SickRageApi.getInstance().getBannerUrl(this.show.getTvDbId(), Indexer.TVDB);
+	}
+
 	public int getDownloaded() {
 		if (this.show == null) {
 			return 0;

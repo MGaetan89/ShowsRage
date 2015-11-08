@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.adapter;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.TextView;
 
 import com.mgaetan89.showsrage.R;
@@ -22,6 +24,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> {
+	@LayoutRes
+	private int itemLayoutResource = R.layout.adapter_shows_list_content_poster;
+
 	@NonNull
 	private List<Show> shows = Collections.emptyList();
 
@@ -29,7 +34,9 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 		void onShowSelected(@NonNull Show show);
 	}
 
-	public ShowsAdapter(@Nullable List<Show> shows) {
+	public ShowsAdapter(@Nullable List<Show> shows, int itemLayoutResource) {
+		this.itemLayoutResource = itemLayoutResource;
+
 		if (shows == null) {
 			this.shows = Collections.emptyList();
 		} else {
@@ -86,7 +93,13 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 
 			this.binding = DataBindingUtil.bind(view);
 
-			this.nextEpisodeDate = this.binding.includeContent.showNextEpisodeDate;
+			if (!this.binding.stub.isInflated()) {
+				ViewStub viewStub = this.binding.stub.getViewStub();
+				viewStub.setLayoutResource(ShowsAdapter.this.itemLayoutResource);
+				viewStub.inflate();
+			}
+
+			this.nextEpisodeDate = (TextView) this.binding.stub.getRoot().findViewById(R.id.show_next_episode_date);
 		}
 
 		public void bind(ShowPresenter show) {
