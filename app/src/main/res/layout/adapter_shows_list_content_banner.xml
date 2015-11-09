@@ -6,16 +6,17 @@
 
 	<data>
 
+		<import type="android.view.View"/>
+
 		<variable
 			name="show"
 			type="com.mgaetan89.showsrage.presenter.ShowPresenter"/>
 	</data>
 
-	<LinearLayout
+	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:foreground="?selectableItemBackground"
-		android:orientation="vertical">
+		android:foreground="?selectableItemBackground">
 
 		<ImageView
 			android:layout_width="match_parent"
@@ -26,15 +27,24 @@
 			app:imageUrl="@{show.bannerUrl}"
 			tools:src="@mipmap/ic_launcher"/>
 
+		<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="@dimen/padding_half"
+			android:contentDescription="@string/paused"
+			android:src="@drawable/ic_pause_white_24dp"
+			android:visibility="@{show.paused ? View.VISIBLE : View.GONE}"/>
+
 		<ProgressBar
 			style="@style/Widget.AppCompat.ProgressBar.Horizontal"
 			android:layout_width="match_parent"
 			android:layout_height="4dp"
+			android:layout_gravity="bottom"
 			android:layout_marginBottom="-2dp"
 			android:max="@{show.episodesCount}"
 			android:progress="@{show.downloaded}"
 			android:secondaryProgress="@{show.downloaded + show.snatched}"
 			tools:progress="33"
 			tools:secondaryProgress="66"/>
-	</LinearLayout>
+	</FrameLayout>
 </layout>

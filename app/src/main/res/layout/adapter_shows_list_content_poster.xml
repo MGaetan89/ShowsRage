@@ -16,8 +16,7 @@
 	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/list_item_height"
-		android:foreground="?selectableItemBackground"
-		android:orientation="vertical">
+		android:foreground="?selectableItemBackground">
 
 		<RelativeLayout
 			android:layout_width="match_parent"
