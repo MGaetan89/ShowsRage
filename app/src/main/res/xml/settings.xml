@@ -91,6 +91,11 @@
 
 	<PreferenceCategory android:title="@string/behavior">
 
+		<CheckBoxPreference
+			android:defaultValue="false"
+			android:key="view_in_external_video_player"
+			android:title="@string/view_in_external_video_player"/>
+
 		<ListPreference
 			android:defaultValue="21600000"
 			android:entries="@array/version_check_keys"
@@ -100,11 +105,6 @@
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/experimental_feature">
-
-		<CheckBoxPreference
-			android:defaultValue="false"
-			android:key="view_in_external_video_player"
-			android:title="@string/view_in_external_video_player"/>
 
 		<CheckBoxPreference
 			android:defaultValue="false"
