@@ -10,7 +10,7 @@ jdk:
 android:
   components:
     - android-23
-    - build-tools-23.0.1
+    - build-tools-23.0.2
     - extra-android-m2repository
     - extra-google-m2repository
     - platform-tools
@@ -29,7 +29,7 @@ env:
     - ANDROID_TARGET=android-23
 
 before_install:
-  - echo y | android update sdk --all --no-ui --force --filter build-tools-23.0.1
+  - echo y | android update sdk --all --no-ui --force --filter build-tools-23.0.2
 
 script:
   - ./gradlew build testDebug
