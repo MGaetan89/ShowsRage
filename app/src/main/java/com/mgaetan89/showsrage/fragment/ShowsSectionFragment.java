@@ -83,7 +83,7 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 			String command = getCommand(this.shows);
 			Map<String, Integer> parameters = getCommandParameters(this.shows);
 
-			SickRageApi.getInstance().getServices().getShowStats(command, parameters, new ShowStatsCallback());
+			SickRageApi.getInstance().getServices().getShowStats(command, parameters, new ShowStatsCallback(this));
 		}
 
 		this.updateLayout();
@@ -312,7 +312,13 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 		}
 	}
 
-	private final class ShowStatsCallback implements Callback<ShowStatsWrapper> {
+	private static final class ShowStatsCallback implements Callback<ShowStatsWrapper> {
+		private final WeakReference<ShowsSectionFragment> fragmentReference;
+
+		ShowStatsCallback(ShowsSectionFragment fragment) {
+			this.fragmentReference = new WeakReference<>(fragment);
+		}
+
 		@Override
 		public void failure(RetrofitError error) {
 			error.printStackTrace();
@@ -320,6 +326,12 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 
 		@Override
 		public void success(ShowStatsWrapper showStatsWrapper, Response response) {
+			ShowsSectionFragment fragment = this.fragmentReference.get();
+
+			if (fragment == null) {
+				return;
+			}
+
 			ShowStatWrapper data = showStatsWrapper.getData();
 			Map<Integer, ShowStats> showStats = data.getShowStats();
 
@@ -328,7 +340,7 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 					ShowStat showStatsData = entry.getValue().getData();
 					int indexerId = entry.getKey();
 
-					for (Show show : ShowsSectionFragment.this.filteredShows) {
+					for (Show show : fragment.filteredShows) {
 						if (show.getIndexerId() == indexerId) {
 							show.setEpisodesCount(showStatsData.getTotal());
 							show.setDownloaded(showStatsData.getTotalDone());
@@ -338,7 +350,7 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 						}
 					}
 
-					for (Show show : ShowsSectionFragment.this.shows) {
+					for (Show show : fragment.shows) {
 						if (show.getIndexerId() == indexerId) {
 							show.setEpisodesCount(showStatsData.getTotal());
 							show.setDownloaded(showStatsData.getTotalDone());
@@ -350,7 +362,7 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 				}
 			}
 
-			ShowsSectionFragment.this.updateLayout();
+			fragment.updateLayout();
 		}
 	}
 }
