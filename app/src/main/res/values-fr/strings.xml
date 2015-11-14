@@ -5,11 +5,13 @@
 	tools:locale="fr">
 	<string name="about">A propos</string>
 	<string name="actions">Actions</string>
-	<string name="active">En cours : <xliff:g example="1" id="active">%1$s</xliff:g></string>
+	<string name="active">En cours</string>
+	<string name="active_count">En cours : <xliff:g example="1" id="active">%1$s</xliff:g></string>
 	<string name="actors">Acteurs : <xliff:g example="Kat Dennings, Beth Behrs, Garrett Morris, Jonathan Kite" id="actors">%1$s</xliff:g></string>
 	<string name="add">Ajouter</string>
 	<string name="add_show">Ajouter une série</string>
 	<string name="airs">Diffusion : <xliff:g example="Lundi 20:00" id="airs">%1$s</xliff:g></string>
+	<string name="all">Toutes</string>
 	<string name="allowed_quality">Qualité autorisée</string>
 	<string name="anime">Animé</string>
 	<string name="animes">Animés</string>
@@ -58,6 +60,7 @@
 	<string name="external_links">Liens Externes</string>
 	<string name="failed">Echoué</string>
 	<string name="file_size">Taille du fichier : <xliff:g example="856.93 MB" id="file_size">%1$s</xliff:g></string>
+	<string name="filter">Filtrer</string>
 	<string name="force_processing">Forcer le traitement</string>
 	<string name="genre">Genre : <xliff:g example="Comédie" id="genre">%1$s</xliff:g></string>
 	<string name="get_api_key">Récupérer la clé de l\'API</string>

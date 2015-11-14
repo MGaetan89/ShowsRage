@@ -1,6 +1,9 @@
 package com.mgaetan89.showsrage.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
@@ -8,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,11 +47,17 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 	@Nullable
 	private TextView emptyView = null;
 
+	@NonNull
+	private final List<Show> filteredShows = new ArrayList<>();
+
+	@NonNull
+	private final FilterReceiver receiver = new FilterReceiver();
+
 	@Nullable
 	private RecyclerView recyclerView = null;
 
 	@NonNull
-	private final List<Show> shows = new ArrayList<>();
+	private final Collection<Show> shows = new ArrayList<>();
 
 	public ShowsSectionFragment() {
 	}
@@ -62,6 +72,7 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 			Collection<Show> shows = (Collection<Show>) arguments.getSerializable(Constants.Bundle.SHOWS);
 
 			if (shows != null) {
+				this.filteredShows.addAll(shows);
 				this.shows.addAll(shows);
 			}
 		}
@@ -73,27 +84,7 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 			SickRageApi.getInstance().getServices().getShowStats(command, parameters, new ShowStatsCallback());
 		}
 
-		if (this.shows.isEmpty()) {
-			if (this.emptyView != null) {
-				this.emptyView.setVisibility(View.VISIBLE);
-			}
-
-			if (this.recyclerView != null) {
-				this.recyclerView.setVisibility(View.GONE);
-			}
-		} else {
-			if (this.emptyView != null) {
-				this.emptyView.setVisibility(View.GONE);
-			}
-
-			if (this.recyclerView != null) {
-				this.recyclerView.setVisibility(View.VISIBLE);
-			}
-		}
-
-		if (this.adapter != null) {
-			this.adapter.notifyDataSetChanged();
-		}
+		this.updateLayout();
 	}
 
 	@Override
@@ -126,7 +117,7 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 			if (this.recyclerView != null) {
 				String showsListLayout = PreferenceManager.getDefaultSharedPreferences(this.getContext()).getString("display_shows_list_layout", "poster");
 				int columnCount = this.getResources().getInteger(R.integer.shows_column_count);
-				this.adapter = new ShowsAdapter(this.shows, getAdapterLayoutResource(showsListLayout));
+				this.adapter = new ShowsAdapter(this.filteredShows, getAdapterLayoutResource(showsListLayout));
 
 				this.recyclerView.setAdapter(this.adapter);
 				this.recyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), columnCount));
@@ -138,6 +129,7 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 
 	@Override
 	public void onDestroy() {
+		this.filteredShows.clear();
 		this.shows.clear();
 
 		super.onDestroy();
@@ -149,6 +141,22 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 		this.recyclerView = null;
 
 		super.onDestroyView();
+	}
+
+	@Override
+	public void onPause() {
+		LocalBroadcastManager.getInstance(this.getContext()).unregisterReceiver(this.receiver);
+
+		super.onPause();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		IntentFilter intentFilter = new IntentFilter(Constants.Intents.ACTION_FILTER_SHOWS);
+
+		LocalBroadcastManager.getInstance(this.getContext()).registerReceiver(this.receiver, intentFilter);
 	}
 
 	@LayoutRes
@@ -205,6 +213,51 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 		return show != null && show.getIndexerId() > 0;
 	}
 
+	private void updateLayout() {
+		if (this.filteredShows.isEmpty()) {
+			if (this.emptyView != null) {
+				this.emptyView.setVisibility(View.VISIBLE);
+			}
+
+			if (this.recyclerView != null) {
+				this.recyclerView.setVisibility(View.GONE);
+			}
+		} else {
+			if (this.emptyView != null) {
+				this.emptyView.setVisibility(View.GONE);
+			}
+
+			if (this.recyclerView != null) {
+				this.recyclerView.setVisibility(View.VISIBLE);
+			}
+		}
+
+		if (this.adapter != null) {
+			this.adapter.notifyDataSetChanged();
+		}
+	}
+
+	private final class FilterReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			int filterMode = intent.getIntExtra(Constants.Bundle.FILTER_MODE, ShowsFragment.FILTER_PAUSED_ACTIVE_BOTH);
+
+			ShowsSectionFragment.this.filteredShows.clear();
+
+			for (Show show : ShowsSectionFragment.this.shows) {
+				if (filterMode == ShowsFragment.FILTER_PAUSED_ACTIVE_ACTIVE && show.getPaused() == 0) {
+					ShowsSectionFragment.this.filteredShows.add(show);
+				} else if (filterMode == ShowsFragment.FILTER_PAUSED_ACTIVE_BOTH) {
+					ShowsSectionFragment.this.filteredShows.add(show);
+				} else if (filterMode == ShowsFragment.FILTER_PAUSED_ACTIVE_PAUSED && show.getPaused() == 1) {
+					ShowsSectionFragment.this.filteredShows.add(show);
+				}
+			}
+
+			ShowsSectionFragment.this.updateLayout();
+		}
+	}
+
 	private final class ShowStatsCallback implements Callback<ShowStatsWrapper> {
 		@Override
 		public void failure(RetrofitError error) {
@@ -221,6 +274,16 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 					ShowStat showStatsData = entry.getValue().getData();
 					int indexerId = entry.getKey();
 
+					for (Show show : ShowsSectionFragment.this.filteredShows) {
+						if (show.getIndexerId() == indexerId) {
+							show.setEpisodesCount(showStatsData.getTotal());
+							show.setDownloaded(showStatsData.getTotalDone());
+							show.setSnatched(showStatsData.getTotalPending());
+
+							break;
+						}
+					}
+
 					for (Show show : ShowsSectionFragment.this.shows) {
 						if (show.getIndexerId() == indexerId) {
 							show.setEpisodesCount(showStatsData.getTotal());
@@ -233,9 +296,7 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 				}
 			}
 
-			if (ShowsSectionFragment.this.adapter != null) {
-				ShowsSectionFragment.this.adapter.notifyDataSetChanged();
-			}
+			ShowsSectionFragment.this.updateLayout();
 		}
 	}
 }

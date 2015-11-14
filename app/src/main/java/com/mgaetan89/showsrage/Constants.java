@@ -13,12 +13,17 @@ public abstract class Constants {
 		public static final String EPISODE_MODEL = "episode_model";
 		public static final String EPISODE_NUMBER = "episode_number";
 		public static final String EPISODES_COUNT = "episodes_count";
+		public static final String FILTER_MODE = "filter_mode";
 		public static final String INDEXER_ID = "indexer_id";
 		public static final String SCHEDULES = "schedules";
 		public static final String SEASON_NUMBER = "season_number";
 		public static final String SHOW_MODEL = "show_model";
 		public static final String SHOWS = "shows";
 		public static final String UPDATE_MODEL = "update_model";
+	}
+
+	public abstract static class Intents {
+		public static final String ACTION_FILTER_SHOWS = BuildConfig.APPLICATION_ID + ".action.filter_shows";
 	}
 
 	public abstract static class Preferences {
