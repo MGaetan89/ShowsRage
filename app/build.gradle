@@ -4,7 +4,7 @@ apply plugin: 'com.github.kt3k.coveralls'
 
 android {
 	compileSdkVersion 23
-	buildToolsVersion '23.0.1'
+	buildToolsVersion '23.0.2'
 
 	defaultConfig {
 		applicationId 'com.mgaetan89.showsrage'
@@ -44,7 +44,6 @@ android {
 
 		release {
 			minifyEnabled false
-			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
 			if (project.rootProject.file('local.properties').exists()) {
 				signingConfig signingConfigs.release
@@ -106,7 +105,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['test']) {
 	}
 }
 
-def supportLibraryVersion = '23.1.0'
+def supportLibraryVersion = '23.1.1'
 
 dependencies {
 	compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
@@ -120,12 +119,12 @@ dependencies {
 	compile "com.android.support:support-v4:${supportLibraryVersion}"
 	compile 'com.github.bumptech.glide:glide:3.6.1'
 	compile 'com.github.bumptech.glide:okhttp-integration:1.3.1'
-	compile 'com.google.android.gms:play-services-cast:8.1.0'
+	compile 'com.google.android.gms:play-services-cast:8.3.0'
 	compile 'com.squareup.okhttp:okhttp:2.5.0'
 	compile 'com.squareup.okhttp:okhttp-urlconnection:2.5.0'
 	compile 'com.squareup.retrofit:retrofit:1.9.0'
 
-	testCompile('com.squareup.assertj:assertj-android:1.1.0') {
+	testCompile('com.squareup.assertj:assertj-android:1.1.1') {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
 	testCompile 'junit:junit:4.12'
