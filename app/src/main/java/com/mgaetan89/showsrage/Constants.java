@@ -14,6 +14,7 @@ public abstract class Constants {
 		public static final String EPISODE_NUMBER = "episode_number";
 		public static final String EPISODES_COUNT = "episodes_count";
 		public static final String FILTER_MODE = "filter_mode";
+		public static final String FILTER_STATUS = "filter_status";
 		public static final String INDEXER_ID = "indexer_id";
 		public static final String SCHEDULES = "schedules";
 		public static final String SEASON_NUMBER = "season_number";

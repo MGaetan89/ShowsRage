@@ -46,9 +46,19 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 	private @interface FilterMode {
 	}
 
-	/* package */ static final int FILTER_PAUSED_ACTIVE_ACTIVE = 2;
-	/* package */ static final int FILTER_PAUSED_ACTIVE_BOTH = 0;
-	/* package */ static final int FILTER_PAUSED_ACTIVE_PAUSED = 1;
+	@IntDef({FILTER_STATUS_ALL, FILTER_STATUS_ENDED, FILTER_STATUS_CONTINUING, FILTER_STATUS_UNKNOWN})
+	@Retention(RetentionPolicy.SOURCE)
+	private @interface FilterStatus {
+	}
+
+	/* package */ static final int FILTER_PAUSED_ACTIVE_ACTIVE = 0;
+	/* package */ static final int FILTER_PAUSED_ACTIVE_BOTH = 1;
+	/* package */ static final int FILTER_PAUSED_ACTIVE_PAUSED = 2;
+
+	/* package */ static final int FILTER_STATUS_ALL = 0;
+	/* package */ static final int FILTER_STATUS_ENDED = 1;
+	/* package */ static final int FILTER_STATUS_CONTINUING = 2;
+	/* package */ static final int FILTER_STATUS_UNKNOWN = 3;
 
 	@Nullable
 	private ShowsPagerAdapter adapter = null;
@@ -58,6 +68,9 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 
 	@FilterMode
 	private int filterPausedActiveMode = FILTER_PAUSED_ACTIVE_BOTH;
+
+	@FilterStatus
+	private int filterStatus = FILTER_STATUS_ALL;
 
 	@NonNull
 	private final SparseArray<ArrayList<Show>> shows = new SparseArray<>();
@@ -153,7 +166,9 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 
 		// Filter by show status
 		if (item.getGroupId() == R.id.filter_status) {
-			// TODO
+			this.filterStatus = getFilterStatus(item.getItemId());
+
+			this.sendFilterMessage();
 
 			return true;
 		}
@@ -250,9 +265,29 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 		return FILTER_PAUSED_ACTIVE_BOTH;
 	}
 
+	@FilterStatus
+	/* package */ static int getFilterStatus(@IdRes int filterId) {
+		switch (filterId) {
+			case R.id.filter_status_all:
+				return FILTER_STATUS_ALL;
+
+			case R.id.filter_status_continuing:
+				return FILTER_STATUS_CONTINUING;
+
+			case R.id.filter_status_ended:
+				return FILTER_STATUS_ENDED;
+
+			case R.id.filter_status_unknown:
+				return FILTER_STATUS_UNKNOWN;
+		}
+
+		return FILTER_STATUS_ALL;
+	}
+
 	private void sendFilterMessage() {
 		Intent intent = new Intent(Constants.Intents.ACTION_FILTER_SHOWS);
 		intent.putExtra(Constants.Bundle.FILTER_MODE, this.filterPausedActiveMode);
+		intent.putExtra(Constants.Bundle.FILTER_STATUS, this.filterStatus);
 
 		LocalBroadcastManager.getInstance(this.getContext()).sendBroadcast(intent);
 	}

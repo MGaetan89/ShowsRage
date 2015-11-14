@@ -30,6 +30,7 @@ import com.mgaetan89.showsrage.model.ShowStats;
 import com.mgaetan89.showsrage.model.ShowStatsWrapper;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -51,7 +52,7 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 	private final List<Show> filteredShows = new ArrayList<>();
 
 	@NonNull
-	private final FilterReceiver receiver = new FilterReceiver();
+	private final FilterReceiver receiver = new FilterReceiver(this);
 
 	@Nullable
 	private RecyclerView recyclerView = null;
@@ -69,6 +70,7 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 		Bundle arguments = this.getArguments();
 
 		if (arguments != null) {
+			@SuppressWarnings("unchecked")
 			Collection<Show> shows = (Collection<Show>) arguments.getSerializable(Constants.Bundle.SHOWS);
 
 			if (shows != null) {
@@ -237,24 +239,76 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 		}
 	}
 
-	private final class FilterReceiver extends BroadcastReceiver {
+	/* package */ static final class FilterReceiver extends BroadcastReceiver {
+		private final WeakReference<ShowsSectionFragment> fragmentReference;
+
+		FilterReceiver(ShowsSectionFragment fragment) {
+			this.fragmentReference = new WeakReference<>(fragment);
+		}
+
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			ShowsSectionFragment fragment = this.fragmentReference.get();
+
+			if (fragment == null) {
+				return;
+			}
+
 			int filterMode = intent.getIntExtra(Constants.Bundle.FILTER_MODE, ShowsFragment.FILTER_PAUSED_ACTIVE_BOTH);
+			int filterStatus = intent.getIntExtra(Constants.Bundle.FILTER_STATUS, ShowsFragment.FILTER_STATUS_ALL);
 
-			ShowsSectionFragment.this.filteredShows.clear();
+			Collection<Show> filteredShows = new ArrayList<>();
+			Collection<Show> shows = fragment.shows;
 
-			for (Show show : ShowsSectionFragment.this.shows) {
-				if (filterMode == ShowsFragment.FILTER_PAUSED_ACTIVE_ACTIVE && show.getPaused() == 0) {
-					ShowsSectionFragment.this.filteredShows.add(show);
-				} else if (filterMode == ShowsFragment.FILTER_PAUSED_ACTIVE_BOTH) {
-					ShowsSectionFragment.this.filteredShows.add(show);
-				} else if (filterMode == ShowsFragment.FILTER_PAUSED_ACTIVE_PAUSED && show.getPaused() == 1) {
-					ShowsSectionFragment.this.filteredShows.add(show);
+			for (Show show : shows) {
+				if (match(show, filterMode, filterStatus)) {
+					filteredShows.add(show);
 				}
 			}
 
-			ShowsSectionFragment.this.updateLayout();
+			fragment.filteredShows.clear();
+			fragment.filteredShows.addAll(filteredShows);
+			fragment.updateLayout();
+		}
+
+		/* package */
+		static boolean match(@Nullable Show show, int filterMode, int filterStatus) {
+			return show != null && matchFilterMode(show, filterMode) && matchFilterStatus(show, filterStatus);
+		}
+
+		/* package */
+		static boolean matchFilterMode(@NonNull Show show, int filterMode) {
+			switch (filterMode) {
+				case ShowsFragment.FILTER_PAUSED_ACTIVE_ACTIVE:
+					return show.getPaused() == 0;
+
+				case ShowsFragment.FILTER_PAUSED_ACTIVE_BOTH:
+					return true;
+
+				case ShowsFragment.FILTER_PAUSED_ACTIVE_PAUSED:
+					return show.getPaused() == 1;
+			}
+
+			return false;
+		}
+
+		/* package */
+		static boolean matchFilterStatus(@NonNull Show show, int filterStatus) {
+			switch (filterStatus) {
+				case ShowsFragment.FILTER_STATUS_ALL:
+					return true;
+
+				case ShowsFragment.FILTER_STATUS_CONTINUING:
+					return "continuing".equalsIgnoreCase(show.getStatus());
+
+				case ShowsFragment.FILTER_STATUS_ENDED:
+					return "ended".equalsIgnoreCase(show.getStatus());
+
+				case ShowsFragment.FILTER_STATUS_UNKNOWN:
+					return "unknown".equalsIgnoreCase(show.getStatus());
+			}
+
+			return false;
 		}
 	}
 
