@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.fragment;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,10 +13,13 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.SearchView;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,7 +44,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class ShowsFragment extends Fragment implements Callback<Shows>, NavigationView.OnNavigationItemSelectedListener {
+public class ShowsFragment extends Fragment implements Callback<Shows>, NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener {
 	@IntDef({FILTER_PAUSED_ACTIVE_ACTIVE, FILTER_PAUSED_ACTIVE_BOTH, FILTER_PAUSED_ACTIVE_PAUSED})
 	@Retention(RetentionPolicy.SOURCE)
 	private @interface FilterMode {
@@ -71,6 +75,9 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 
 	@FilterStatus
 	private int filterStatus = FILTER_STATUS_ALL;
+
+	@Nullable
+	private String searchQuery = null;
 
 	@NonNull
 	private final SparseArray<ArrayList<Show>> shows = new SparseArray<>();
@@ -107,6 +114,14 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.shows, menu);
+
+		FragmentActivity activity = this.getActivity();
+		SearchManager searchManager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
+		MenuItem searchMenu = menu.findItem(R.id.menu_search);
+
+		SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
+		searchView.setOnQueryTextListener(this);
+		searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
 	}
 
 	@Nullable
@@ -200,6 +215,24 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 	}
 
 	@Override
+	public boolean onQueryTextChange(String newText) {
+		this.searchQuery = newText;
+
+		this.sendFilterMessage();
+
+		return true;
+	}
+
+	@Override
+	public boolean onQueryTextSubmit(String query) {
+		this.searchQuery = query;
+
+		this.sendFilterMessage();
+
+		return true;
+	}
+
+	@Override
 	public void success(Shows shows, Response response) {
 		Context context = this.getContext();
 
@@ -284,10 +317,11 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 		return FILTER_STATUS_ALL;
 	}
 
-	private void sendFilterMessage() {
+	/* package */ void sendFilterMessage() {
 		Intent intent = new Intent(Constants.Intents.ACTION_FILTER_SHOWS);
 		intent.putExtra(Constants.Bundle.FILTER_MODE, this.filterPausedActiveMode);
 		intent.putExtra(Constants.Bundle.FILTER_STATUS, this.filterStatus);
+		intent.putExtra(Constants.Bundle.SEARCH_QUERY, this.searchQuery);
 
 		LocalBroadcastManager.getInstance(this.getContext()).sendBroadcast(intent);
 	}

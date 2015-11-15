@@ -17,6 +17,7 @@ public abstract class Constants {
 		public static final String FILTER_STATUS = "filter_status";
 		public static final String INDEXER_ID = "indexer_id";
 		public static final String SCHEDULES = "schedules";
+		public static final String SEARCH_QUERY = "search_query";
 		public static final String SEASON_NUMBER = "season_number";
 		public static final String SHOW_MODEL = "show_model";
 		public static final String SHOWS = "shows";

@@ -12,6 +12,7 @@ import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+// TODO Include search query
 @RunWith(Parameterized.class)
 public class ShowsSectionFragment_FilterReceiver_MatchTest {
 	@Parameterized.Parameter(1)
@@ -28,7 +29,7 @@ public class ShowsSectionFragment_FilterReceiver_MatchTest {
 
 	@Test
 	public void match() {
-		assertThat(ShowsSectionFragment.FilterReceiver.match(this.show, this.filterMode, this.filterStatus)).isEqualTo(this.match);
+		assertThat(ShowsSectionFragment.FilterReceiver.match(this.show, this.filterMode, this.filterStatus, "")).isEqualTo(this.match);
 	}
 
 	@Parameterized.Parameters(name = "{index} - mode: {1}, status: {2}, match: {3}")

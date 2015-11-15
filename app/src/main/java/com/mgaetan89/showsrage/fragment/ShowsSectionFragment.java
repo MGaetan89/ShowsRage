@@ -256,12 +256,13 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 
 			int filterMode = intent.getIntExtra(Constants.Bundle.FILTER_MODE, ShowsFragment.FILTER_PAUSED_ACTIVE_BOTH);
 			int filterStatus = intent.getIntExtra(Constants.Bundle.FILTER_STATUS, ShowsFragment.FILTER_STATUS_ALL);
+			String searchQuery = intent.getStringExtra(Constants.Bundle.SEARCH_QUERY);
 
 			Collection<Show> filteredShows = new ArrayList<>();
 			Collection<Show> shows = fragment.shows;
 
 			for (Show show : shows) {
-				if (match(show, filterMode, filterStatus)) {
+				if (match(show, filterMode, filterStatus, searchQuery)) {
 					filteredShows.add(show);
 				}
 			}
@@ -272,8 +273,11 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 		}
 
 		/* package */
-		static boolean match(@Nullable Show show, int filterMode, int filterStatus) {
-			return show != null && matchFilterMode(show, filterMode) && matchFilterStatus(show, filterStatus);
+		static boolean match(@Nullable Show show, int filterMode, int filterStatus, String searchQuery) {
+			return show != null &&
+					matchFilterMode(show, filterMode) &&
+					matchFilterStatus(show, filterStatus) &&
+					matchSearchQuery(show, searchQuery);
 		}
 
 		/* package */
@@ -309,6 +313,24 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 			}
 
 			return false;
+		}
+
+		/* package */
+		static boolean matchSearchQuery(@NonNull Show show, @Nullable String searchQuery) {
+			if (searchQuery == null || searchQuery.isEmpty()) {
+				return true;
+			}
+
+			searchQuery = searchQuery.trim();
+
+			if (searchQuery.isEmpty()) {
+				return true;
+			}
+
+			String showName = show.getShowName().toLowerCase();
+			searchQuery = searchQuery.toLowerCase();
+
+			return showName.contains(searchQuery);
 		}
 	}
 
