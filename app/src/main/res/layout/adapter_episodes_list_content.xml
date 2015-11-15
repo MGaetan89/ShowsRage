@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools">
 
 	<data>
@@ -25,8 +26,11 @@
 			style="@style/TextAppearance.AppCompat.Subhead"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:ellipsize="end"
+			android:ellipsize="marquee"
+			android:marqueeRepeatLimit="marquee_forever"
+			android:scrollHorizontally="true"
 			android:singleLine="true"
+			app:selected="@{true}"
 			tools:text="@string/episode_name"/>
 
 		<TextView

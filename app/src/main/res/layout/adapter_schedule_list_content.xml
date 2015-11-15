@@ -45,10 +45,13 @@
 				style="@style/TextAppearance.AppCompat.Subhead"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:ellipsize="end"
+				android:ellipsize="marquee"
+				android:marqueeRepeatLimit="marquee_forever"
+				android:scrollHorizontally="true"
 				android:singleLine="true"
 				android:text="@{@string/show_name_episode(schedule.showName, schedule.season, schedule.episode)}"
-				tools:text="@string/episode_name"/>
+				app:selected="@{true}"
+				tools:text="@string/show_name_episode"/>
 
 			<TextView
 				style="@style/TextAppearance.AppCompat.Caption"

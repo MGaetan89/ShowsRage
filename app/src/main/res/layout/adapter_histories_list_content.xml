@@ -45,9 +45,12 @@
 				style="@style/TextAppearance.AppCompat.Subhead"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:ellipsize="end"
+				android:ellipsize="marquee"
+				android:marqueeRepeatLimit="marquee_forever"
+				android:scrollHorizontally="true"
 				android:singleLine="true"
 				android:text="@{@string/show_name_episode(history.showName, history.season, history.episode)}"
+				app:selected="@{true}"
 				tools:text="@string/show_name_episode"/>
 
 			<TextView

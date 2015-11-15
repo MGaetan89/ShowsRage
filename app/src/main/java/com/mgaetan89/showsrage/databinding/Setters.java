@@ -25,6 +25,11 @@ public class Setters {
 		ImageLoader.load(imageView, imageUrl, circle);
 	}
 
+	@BindingAdapter("bind:selected")
+	public static void setSelected(TextView textView, boolean selected) {
+		textView.setSelected(selected);
+	}
+
 	@BindingAdapter("bind:textColorRes")
 	public static void setTextColorRes(TextView textView, @ColorRes int colorRes) {
 		textView.setTextColor(ContextCompat.getColor(textView.getContext(), colorRes));
