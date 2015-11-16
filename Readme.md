@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/MGaetan89/ShowsRage.png?label=ready&title=Ready)](https://waffle.io/MGaetan89/ShowsRage)
 # ![ShowsRage](app/src/main/res/mipmap-mdpi/ic_launcher.png) ShowsRage
 
 [![Build Status](https://travis-ci.org/MGaetan89/ShowsRage.svg?branch=master)](https://travis-ci.org/MGaetan89/ShowsRage) [![Coverage Status](https://coveralls.io/repos/MGaetan89/ShowsRage/badge.svg?branch=master&service=github)](https://coveralls.io/github/MGaetan89/ShowsRage?branch=master)
