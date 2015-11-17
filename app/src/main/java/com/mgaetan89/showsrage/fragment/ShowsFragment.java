@@ -131,7 +131,7 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 
 		if (view != null) {
 			NavigationView filterContent = (NavigationView) view.findViewById(R.id.drawer_filter_content);
-			this.filterLayout = (DrawerLayout) view.findViewById(R.id.drawer_filter_layout);
+			//this.filterLayout = (DrawerLayout) view.findViewById(R.id.drawer_filter_layout);
 			this.viewPager = (ViewPager) view.findViewById(R.id.shows_pager);
 
 			if (filterContent != null) {
