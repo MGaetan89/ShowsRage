@@ -9,7 +9,11 @@ import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.fragment.SeasonFragment
 import com.mgaetan89.showsrage.fragment.ShowOverviewFragment
 
-class ShowPagerAdapter(fragmentManager: FragmentManager?, val fragment: Fragment, val season: List<Int>?) : FragmentStatePagerAdapter(fragmentManager) {
+class ShowPagerAdapter(
+        fragmentManager: FragmentManager?,
+        private val fragment: Fragment,
+        private val season: List<Int>?
+) : FragmentStatePagerAdapter(fragmentManager) {
     override fun getCount(): Int {
         // We have at least a tab for the show overview
         return (this.season?.size ?: 0) + 1

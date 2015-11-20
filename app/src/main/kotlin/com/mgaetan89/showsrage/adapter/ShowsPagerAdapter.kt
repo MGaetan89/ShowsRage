@@ -11,7 +11,11 @@ import com.mgaetan89.showsrage.fragment.ShowsSectionFragment
 import com.mgaetan89.showsrage.model.Show
 import java.util.*
 
-class ShowsPagerAdapter(fragmentManager: FragmentManager?, val fragment: Fragment, val shows: SparseArray<ArrayList<Show>>?) : FragmentStatePagerAdapter(fragmentManager) {
+class ShowsPagerAdapter(
+        fragmentManager: FragmentManager?,
+        private val fragment: Fragment,
+        private val shows: SparseArray<ArrayList<Show>>?
+) : FragmentStatePagerAdapter(fragmentManager) {
     override fun getCount(): Int {
         return this.shows?.size() ?: 0
     }

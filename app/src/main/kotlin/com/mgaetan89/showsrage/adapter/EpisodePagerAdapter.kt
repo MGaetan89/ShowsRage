@@ -8,7 +8,11 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.fragment.EpisodeDetailFragment
 
-class EpisodePagerAdapter(fragmentManager: FragmentManager?, val fragment: Fragment, val episodes: List<Int>?) : FragmentStatePagerAdapter(fragmentManager) {
+class EpisodePagerAdapter(
+        fragmentManager: FragmentManager?,
+        private val fragment: Fragment,
+        private val episodes: List<Int>?
+) : FragmentStatePagerAdapter(fragmentManager) {
     override fun getCount(): Int {
         return this.episodes?.size ?: 0
     }

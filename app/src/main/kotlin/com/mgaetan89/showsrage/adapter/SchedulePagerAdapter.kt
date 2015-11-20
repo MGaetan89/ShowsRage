@@ -9,7 +9,11 @@ import com.mgaetan89.showsrage.fragment.ScheduleSectionFragment
 import com.mgaetan89.showsrage.model.Schedule
 import java.util.*
 
-class SchedulePagerAdapter(fragmentManager: FragmentManager?, val sections: List<String>?, val schedules: List<ArrayList<Schedule>>?) : FragmentStatePagerAdapter(fragmentManager) {
+class SchedulePagerAdapter(
+        fragmentManager: FragmentManager?,
+        private val sections: List<String>?,
+        private val schedules: List<ArrayList<Schedule>>?
+) : FragmentStatePagerAdapter(fragmentManager) {
     override fun getCount(): Int {
         return this.sections?.size ?: 0
     }
