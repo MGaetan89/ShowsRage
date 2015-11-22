@@ -35,7 +35,7 @@ script:
   - ./gradlew build testDebug
 
 after_success:
-  - if [[ "$ANDROID_TARGET" == "android-23" ]]; then ./gradlew jacocoTestReport coveralls; fi
+  - ./gradlew jacocoTestReport coveralls
 
 sudo: false
 
