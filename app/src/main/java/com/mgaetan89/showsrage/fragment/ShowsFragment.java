@@ -116,12 +116,15 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 		inflater.inflate(R.menu.shows, menu);
 
 		FragmentActivity activity = this.getActivity();
-		SearchManager searchManager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
 		MenuItem searchMenu = menu.findItem(R.id.menu_search);
 
-		SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
-		searchView.setOnQueryTextListener(this);
-		searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
+		if (activity != null && searchMenu != null) {
+			SearchManager searchManager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
+
+			SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
+			searchView.setOnQueryTextListener(this);
+			searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
+		}
 	}
 
 	@Nullable
