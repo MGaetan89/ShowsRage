@@ -64,7 +64,7 @@ public interface SickRageServices {
 	@GET("/{api_path}/{api_key}/?cmd=show")
 	void getShow(@Query("indexerid") int indexerId, Callback<SingleShow> callback);
 
-	@GET("/{api_path}/{api_key}/?cmd=shows&sort=name")
+	@GET("/{api_path}/{api_key}/?cmd=shows&sort=name&paused=1")
 	void getShows(Callback<Shows> callback);
 
 	@GET("/{api_path}/{api_key}/?cmd=shows.stats")
