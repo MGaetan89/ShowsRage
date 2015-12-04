@@ -1,6 +1,7 @@
 apply plugin: 'jacoco'
 apply plugin: 'com.android.application'
 apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'kotlin-android'
 
 android {
 	compileSdkVersion 23
@@ -49,6 +50,10 @@ android {
 				signingConfig signingConfigs.release
 			}
 		}
+	}
+
+	sourceSets {
+		main.java.srcDirs += 'src/main/kotlin'
 	}
 
 	dataBinding {
@@ -123,6 +128,7 @@ dependencies {
 	compile 'com.squareup.okhttp:okhttp:2.5.0'
 	compile 'com.squareup.okhttp:okhttp-urlconnection:2.5.0'
 	compile 'com.squareup.retrofit:retrofit:1.9.0'
+	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0-beta-2423'
 
 	testCompile('com.squareup.assertj:assertj-android:1.1.1') {
 		exclude group: 'com.android.support', module: 'support-annotations'
