@@ -5,14 +5,12 @@ import android.support.annotation.NonNull;
 
 import com.mgaetan89.showsrage.R;
 
-import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LogEntry implements Serializable {
+public class LogEntry {
 	@NonNull
 	private static final Pattern PATTERN = Pattern.compile("^((?:[0-9]{4}-[0-9]{2}-[0-9]{2}\\s+)?[0-9]{2}:[0-9]{2}:[0-9]{2})\\s+([A-Z]+)\\s+(.*)$");
-	private static final long serialVersionUID = 3467021288553342027L;
 
 	private String dateTime = "";
 

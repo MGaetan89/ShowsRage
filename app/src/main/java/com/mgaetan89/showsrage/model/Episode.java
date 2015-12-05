@@ -1,5 +1,7 @@
 package com.mgaetan89.showsrage.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -8,34 +10,51 @@ import android.support.annotation.StringRes;
 import com.google.gson.annotations.SerializedName;
 import com.mgaetan89.showsrage.R;
 
-import java.io.Serializable;
-
-public class Episode implements Serializable {
-	private static final long serialVersionUID = -7301513909240986546L;
-
+public class Episode implements Parcelable {
 	@SerializedName("airdate")
-	private String airDate;
+	private String airDate = "";
 
-	private String description;
+	private String description = "";
 
 	@SerializedName("file_size")
-	private long fileSize;
+	private long fileSize = 0L;
 
 	@SerializedName("file_size_human")
-	private String fileSizeHuman;
+	private String fileSizeHuman = "";
 
-	private String location;
+	private String location = "";
 
-	private String name;
+	private String name = "";
 
-	private String quality;
+	private String quality = "";
 
 	@SerializedName("release_name")
-	private String releaseName;
+	private String releaseName = "";
 
-	private String status;
+	private String status = "";
 
-	private String subtitles;
+	private String subtitles = "";
+
+	public Episode() {
+	}
+
+	protected Episode(Parcel in) {
+		this.airDate = in.readString();
+		this.description = in.readString();
+		this.fileSize = in.readLong();
+		this.fileSizeHuman = in.readString();
+		this.location = in.readString();
+		this.name = in.readString();
+		this.quality = in.readString();
+		this.releaseName = in.readString();
+		this.status = in.readString();
+		this.subtitles = in.readString();
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
 
 	public String getAirDate() {
 		return this.airDate;
@@ -159,4 +178,30 @@ public class Episode implements Serializable {
 	public String getSubtitles() {
 		return this.subtitles;
 	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(this.airDate);
+		dest.writeString(this.description);
+		dest.writeLong(this.fileSize);
+		dest.writeString(this.fileSizeHuman);
+		dest.writeString(this.location);
+		dest.writeString(this.name);
+		dest.writeString(this.quality);
+		dest.writeString(this.releaseName);
+		dest.writeString(this.status);
+		dest.writeString(this.subtitles);
+	}
+
+	public static final Creator<Episode> CREATOR = new Creator<Episode>() {
+		@Override
+		public Episode createFromParcel(Parcel in) {
+			return new Episode(in);
+		}
+
+		@Override
+		public Episode[] newArray(int size) {
+			return new Episode[size];
+		}
+	};
 }

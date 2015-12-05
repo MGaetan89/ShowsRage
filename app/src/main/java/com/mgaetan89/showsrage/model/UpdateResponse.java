@@ -1,23 +1,37 @@
 package com.mgaetan89.showsrage.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class UpdateResponse implements Serializable {
-	private static final long serialVersionUID = -2029310491059530061L;
-
+public class UpdateResponse implements Parcelable {
 	@SerializedName("commits_offset")
-	private int commitsOffset;
+	private int commitsOffset = 0;
 
 	@SerializedName("current_version")
-	private Version currentVersion;
+	private Version currentVersion = null;
 
 	@SerializedName("latest_version")
-	private Version latestVersion;
+	private Version latestVersion = null;
 
 	@SerializedName("needs_update")
-	private boolean needsUpdate;
+	private boolean needsUpdate = false;
+
+	public UpdateResponse() {
+	}
+
+	protected UpdateResponse(Parcel in) {
+		this.commitsOffset = in.readInt();
+		this.currentVersion = (Version) in.readValue(Version.class.getClassLoader());
+		this.latestVersion = (Version) in.readValue(Version.class.getClassLoader());
+		this.needsUpdate = in.readByte() != 0;
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
 
 	public int getCommitsOffset() {
 		return this.commitsOffset;
@@ -34,4 +48,24 @@ public class UpdateResponse implements Serializable {
 	public boolean needsUpdate() {
 		return this.needsUpdate;
 	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(this.commitsOffset);
+		dest.writeValue(this.currentVersion);
+		dest.writeValue(this.latestVersion);
+		dest.writeByte(this.needsUpdate ? (byte) 1 : (byte) 0);
+	}
+
+	public static final Creator<UpdateResponse> CREATOR = new Creator<UpdateResponse>() {
+		@Override
+		public UpdateResponse createFromParcel(Parcel in) {
+			return new UpdateResponse(in);
+		}
+
+		@Override
+		public UpdateResponse[] newArray(int size) {
+			return new UpdateResponse[size];
+		}
+	};
 }

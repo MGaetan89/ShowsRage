@@ -1,63 +1,105 @@
 package com.mgaetan89.showsrage.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.StringRes;
 
 import com.google.gson.annotations.SerializedName;
 import com.mgaetan89.showsrage.R;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class Show implements Serializable {
-	private static final long serialVersionUID = 2761152554452275886L;
-
+public class Show implements Parcelable {
 	@SerializedName("air_by_date")
-	private int airByDate;
-	private String airs;
-	private int anime;
+	private int airByDate = 0;
+	private String airs = "";
+	private int anime = 0;
 	@SerializedName("archive_firstmatch")
-	private int archiveFirstmatch;
-	private Map<String, Integer> cache;
-	private int downloaded;
+	private int archiveFirstmatch = 0;
+	private HashMap<String, Integer> cache = null;
+	private int downloaded = 0;
 	@SerializedName("dvdorder")
-	private int dvdOrder;
-	private int episodesCount;
+	private int dvdOrder = 0;
+	private int episodesCount = 0;
 	@SerializedName("flatten_folders")
-	private int flattenFolders;
-	private List<String> genre;
+	private int flattenFolders = 0;
+	private List<String> genre = null;
 	@SerializedName("imdbid")
-	private String imdbId;
+	private String imdbId = "";
 	@SerializedName("indexerid")
-	private int indexerId;
-	private String language;
-	private String location;
-	private String network;
+	private int indexerId = 0;
+	private String language = "";
+	private String location = "";
+	private String network = "";
 	@SerializedName("next_ep_airdate")
-	private String nextEpisodeAirDate;
-	private int paused;
-	private String quality;
+	private String nextEpisodeAirDate = "";
+	private int paused = 0;
+	private String quality = "";
 	@SerializedName("quality_details")
-	private Quality qualityDetails;
+	private Quality qualityDetails = null;
 	@SerializedName("rls_ignore_words")
-	private List<String> rlsIgnoreWords;
+	private List<String> rlsIgnoreWords = null;
 	@SerializedName("rls_require_words")
-	private List<String> rlsRequireWords;
-	private int scene;
+	private List<String> rlsRequireWords = null;
+	private int scene = 0;
 	@SerializedName("season_list")
-	private List<Integer> seasonList;
+	private List<Integer> seasonList = new ArrayList<>();
 	@SerializedName("show_name")
-	private String showName;
-	private int snatched;
-	private int sports;
-	private String status;
-	private int subtitles;
+	private String showName = "";
+	private int snatched = 0;
+	private int sports = 0;
+	private String status = "";
+	private int subtitles = 0;
 	@SerializedName("tvdbid")
-	private int tvDbId;
+	private int tvDbId = 0;
 	@SerializedName("tvrage_id")
-	private int tvRageId;
+	private int tvRageId = 0;
 	@SerializedName("tvrage_name")
-	private String tvRageName;
+	private String tvRageName = "";
+
+	public Show() {
+	}
+
+	protected Show(Parcel in) {
+		this.airByDate = in.readInt();
+		this.airs = in.readString();
+		this.anime = in.readInt();
+		this.archiveFirstmatch = in.readInt();
+		this.cache = (HashMap<String, Integer>) in.readSerializable();
+		this.downloaded = in.readInt();
+		this.dvdOrder = in.readInt();
+		this.episodesCount = in.readInt();
+		this.flattenFolders = in.readInt();
+		this.genre = in.createStringArrayList();
+		this.imdbId = in.readString();
+		this.indexerId = in.readInt();
+		this.language = in.readString();
+		this.location = in.readString();
+		this.network = in.readString();
+		this.nextEpisodeAirDate = in.readString();
+		this.paused = in.readInt();
+		this.quality = in.readString();
+		this.qualityDetails = (Quality) in.readValue(Quality.class.getClassLoader());
+		this.rlsIgnoreWords = in.createStringArrayList();
+		this.rlsRequireWords = in.createStringArrayList();
+		this.scene = in.readInt();
+		in.readList(this.seasonList, null);
+		this.showName = in.readString();
+		this.snatched = in.readInt();
+		this.sports = in.readInt();
+		this.status = in.readString();
+		this.subtitles = in.readInt();
+		this.tvDbId = in.readInt();
+		this.tvRageId = in.readInt();
+		this.tvRageName = in.readString();
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
 
 	public int getAirByDate() {
 		return this.airByDate;
@@ -75,7 +117,7 @@ public class Show implements Serializable {
 		return this.archiveFirstmatch;
 	}
 
-	public Map<String, Integer> getCache() {
+	public HashMap<String, Integer> getCache() {
 		return this.cache;
 	}
 
@@ -214,4 +256,51 @@ public class Show implements Serializable {
 	public void setSnatched(int snatched) {
 		this.snatched = snatched;
 	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(this.airByDate);
+		dest.writeString(this.airs);
+		dest.writeInt(this.anime);
+		dest.writeInt(this.archiveFirstmatch);
+		dest.writeSerializable(this.cache);
+		dest.writeInt(this.downloaded);
+		dest.writeInt(this.dvdOrder);
+		dest.writeInt(this.episodesCount);
+		dest.writeInt(this.flattenFolders);
+		dest.writeStringList(this.genre);
+		dest.writeString(this.imdbId);
+		dest.writeInt(this.indexerId);
+		dest.writeString(this.language);
+		dest.writeString(this.location);
+		dest.writeString(this.network);
+		dest.writeString(this.nextEpisodeAirDate);
+		dest.writeInt(this.paused);
+		dest.writeString(this.quality);
+		dest.writeValue(this.qualityDetails);
+		dest.writeStringList(this.rlsIgnoreWords);
+		dest.writeStringList(this.rlsRequireWords);
+		dest.writeInt(this.scene);
+		dest.writeList(this.seasonList);
+		dest.writeString(this.showName);
+		dest.writeInt(this.snatched);
+		dest.writeInt(this.sports);
+		dest.writeString(this.status);
+		dest.writeInt(this.subtitles);
+		dest.writeInt(this.tvDbId);
+		dest.writeInt(this.tvRageId);
+		dest.writeString(this.tvRageName);
+	}
+
+	public static final Parcelable.Creator<Show> CREATOR = new Parcelable.Creator<Show>() {
+		@Override
+		public Show createFromParcel(Parcel in) {
+			return new Show(in);
+		}
+
+		@Override
+		public Show[] newArray(int size) {
+			return new Show[size];
+		}
+	};
 }

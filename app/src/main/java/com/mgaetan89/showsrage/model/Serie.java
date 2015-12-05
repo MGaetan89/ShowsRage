@@ -2,11 +2,7 @@ package com.mgaetan89.showsrage.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class Serie implements Serializable {
-	private static final long serialVersionUID = 2676294120265160465L;
-
+public class Serie {
 	@SerializedName("Actors")
 	private String actors;
 

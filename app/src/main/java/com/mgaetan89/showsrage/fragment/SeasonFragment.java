@@ -67,7 +67,7 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 		super.onActivityCreated(savedInstanceState);
 
 		Intent intent = this.getActivity().getIntent();
-		Show show = (Show) intent.getSerializableExtra(Constants.Bundle.SHOW_MODEL);
+		Show show = intent.getParcelableExtra(Constants.Bundle.SHOW_MODEL);
 
 		this.indexerId = show.getIndexerId();
 

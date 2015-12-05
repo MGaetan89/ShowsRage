@@ -195,7 +195,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		AppCompatActivity activity = (AppCompatActivity) this.getActivity();
 		ActionBar actionBar = activity.getSupportActionBar();
 		Intent intent = activity.getIntent();
-		this.show = (Show) intent.getSerializableExtra(Constants.Bundle.SHOW_MODEL);
+		this.show = intent.getParcelableExtra(Constants.Bundle.SHOW_MODEL);
 
 		if (actionBar != null) {
 			actionBar.setTitle(this.show.getShowName());

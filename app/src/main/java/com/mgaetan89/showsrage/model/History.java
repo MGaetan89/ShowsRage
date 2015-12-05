@@ -5,11 +5,7 @@ import android.support.annotation.StringRes;
 import com.google.gson.annotations.SerializedName;
 import com.mgaetan89.showsrage.R;
 
-import java.io.Serializable;
-
-public class History implements Serializable {
-	private static final long serialVersionUID = 421953291471416097L;
-
+public class History {
 	private String date;
 	private int episode;
 	@SerializedName("indexerid")

@@ -2,11 +2,7 @@ package com.mgaetan89.showsrage.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class ApiKey implements Serializable {
-	private static final long serialVersionUID = -2281295947978326582L;
-
+public class ApiKey {
 	@SerializedName("api_key")
 	private String apiKey;
 

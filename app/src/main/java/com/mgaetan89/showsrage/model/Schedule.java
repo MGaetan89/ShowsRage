@@ -2,11 +2,7 @@ package com.mgaetan89.showsrage.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class Schedule implements Serializable {
-	private static final long serialVersionUID = -4883158127180444453L;
-
+public class Schedule {
 	@SerializedName("airdate")
 	private String airDate;
 	private String airs;

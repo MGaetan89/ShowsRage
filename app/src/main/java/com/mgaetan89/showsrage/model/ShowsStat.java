@@ -2,11 +2,7 @@ package com.mgaetan89.showsrage.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class ShowsStat implements Serializable {
-	private static final long serialVersionUID = -8576185192599102401L;
-
+public class ShowsStat {
 	@SerializedName("ep_downloaded")
 	private int episodesDownloaded;
 	@SerializedName("ep_snatched")

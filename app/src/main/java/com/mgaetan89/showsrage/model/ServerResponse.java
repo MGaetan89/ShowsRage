@@ -1,10 +1,6 @@
 package com.mgaetan89.showsrage.model;
 
-import java.io.Serializable;
-
-public class ServerResponse<DATA> implements Serializable {
-	private static final long serialVersionUID = -3290908098594350721L;
-
+public class ServerResponse<DATA> {
 	private DATA data;
 	private String message;
 	private String result;

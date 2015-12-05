@@ -6,11 +6,7 @@ import android.support.annotation.StringRes;
 import com.google.gson.annotations.SerializedName;
 import com.mgaetan89.showsrage.R;
 
-import java.io.Serializable;
-
-public class SearchResultItem implements Serializable {
-	private static final long serialVersionUID = -2543517162206194921L;
-
+public class SearchResultItem {
 	@SerializedName("first_aired")
 	private String firstAired;
 	private int indexer;

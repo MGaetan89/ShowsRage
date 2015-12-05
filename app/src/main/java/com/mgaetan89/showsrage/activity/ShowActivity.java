@@ -84,7 +84,7 @@ public class ShowActivity extends BaseActivity implements EpisodesAdapter.OnEpis
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.show = (Show) this.getIntent().getSerializableExtra(Constants.Bundle.SHOW_MODEL);
+		this.show = this.getIntent().getParcelableExtra(Constants.Bundle.SHOW_MODEL);
 	}
 
 	private void searchEpisode(int seasonNumber, int episodeNumber) {

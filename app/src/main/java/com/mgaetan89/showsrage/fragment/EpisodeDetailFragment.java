@@ -124,7 +124,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 
 		ActionBar actionBar = ((AppCompatActivity) this.getActivity()).getSupportActionBar();
 		Bundle arguments = this.getArguments();
-		Episode episode = (Episode) arguments.getSerializable(Constants.Bundle.EPISODE_MODEL);
+		Episode episode = arguments.getParcelable(Constants.Bundle.EPISODE_MODEL);
 		this.episodeNumber = arguments.getInt(Constants.Bundle.EPISODE_NUMBER, 0);
 		this.seasonNumber = arguments.getInt(Constants.Bundle.SEASON_NUMBER, 0);
 
@@ -136,7 +136,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 			}
 		}
 
-		this.show = (Show) arguments.getSerializable(Constants.Bundle.SHOW_MODEL);
+		this.show = arguments.getParcelable(Constants.Bundle.SHOW_MODEL);
 
 		this.displayEpisode(episode);
 
