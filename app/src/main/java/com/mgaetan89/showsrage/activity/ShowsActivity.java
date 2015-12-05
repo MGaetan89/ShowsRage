@@ -76,7 +76,9 @@ public class ShowsActivity extends BaseActivity implements ShowsAdapter.OnShowSe
 
 		@Override
 		public void success(RootDirs rootDirs, Response response) {
-			if (rootDirs == null) {
+			Activity activity = this.activityReference.get();
+
+			if (activity == null || rootDirs == null) {
 				return;
 			}
 
@@ -87,7 +89,7 @@ public class ShowsActivity extends BaseActivity implements ShowsAdapter.OnShowSe
 				rootPaths.add(rootDir.getLocation());
 			}
 
-			SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this.activityReference.get()).edit();
+			SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(activity).edit();
 			editor.putStringSet(Constants.Preferences.Fields.ROOT_DIRS, rootPaths);
 			editor.apply();
 		}
