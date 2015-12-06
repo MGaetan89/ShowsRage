@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<PreferenceCategory android:title="@string/server_information">
+	<PreferenceScreen
+		android:icon="@drawable/ic_wifi_black_24dp"
+		android:title="@string/network">
 
 		<CheckBoxPreference
 			android:defaultValue="false"
@@ -58,9 +60,11 @@
 					android:title="@string/use_basic_auth"/>
 			</PreferenceCategory>
 		</PreferenceScreen>
-	</PreferenceCategory>
+	</PreferenceScreen>
 
-	<PreferenceCategory android:title="@string/display">
+	<PreferenceScreen
+		android:icon="@drawable/ic_device_android_white_24dp"
+		android:title="@string/display">
 
 		<CheckBoxPreference
 			android:defaultValue="false"
@@ -87,9 +91,11 @@
 			android:summaryOff="@string/descending"
 			android:summaryOn="@string/ascending"
 			android:title="@string/episodes_sort"/>
-	</PreferenceCategory>
+	</PreferenceScreen>
 
-	<PreferenceCategory android:title="@string/behavior">
+	<PreferenceScreen
+		android:icon="@drawable/ic_widgets_black_24dp"
+		android:title="@string/behavior">
 
 		<CheckBoxPreference
 			android:defaultValue="false"
@@ -102,17 +108,21 @@
 			android:entryValues="@array/version_check_values"
 			android:key="behavior_version_check"
 			android:title="@string/version_check"/>
-	</PreferenceCategory>
+	</PreferenceScreen>
 
-	<PreferenceCategory android:title="@string/experimental_feature">
+	<PreferenceScreen
+		android:icon="@drawable/ic_explore_white_24dp"
+		android:title="@string/experimental_feature">
 
 		<CheckBoxPreference
 			android:defaultValue="false"
 			android:key="stream_in_chromecast"
 			android:title="@string/stream_in_chromecast"/>
-	</PreferenceCategory>
+	</PreferenceScreen>
 
-	<PreferenceCategory android:title="@string/about">
+	<PreferenceScreen
+		android:icon="@drawable/ic_help_outline_white_24dp"
+		android:title="@string/about">
 
 		<PreferenceScreen
 			android:key="application"
@@ -206,5 +216,5 @@
 				</PreferenceScreen>
 			</PreferenceCategory>
 		</PreferenceScreen>
-	</PreferenceCategory>
+	</PreferenceScreen>
 </PreferenceScreen>

@@ -87,7 +87,8 @@
 	<string name="missing">Missing: <xliff:g example="1" id="missing">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
 	<string name="more_information">More Information</string>
 	<string name="move">Move</string>
-	<string name="network">Network: <xliff:g example="CBS" id="network">%1$s</xliff:g></string>
+	<string name="network">Network</string>
+	<string name="network_name">Network: <xliff:g example="CBS" id="network">%1$s</xliff:g></string>
 	<string name="never">Never</string>
 	<string name="new_update">New update available</string>
 	<string name="next_episode">Next episode: <xliff:g example="in 2 days" id="next_episode">%1$s</xliff:g></string>
