@@ -3,8 +3,10 @@ package com.mgaetan89.showsrage.activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
@@ -15,6 +17,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
@@ -24,6 +27,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.IntentCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -46,6 +50,7 @@ import com.mgaetan89.showsrage.ShowsRageApplication;
 import com.mgaetan89.showsrage.fragment.PostProcessingFragment;
 import com.mgaetan89.showsrage.fragment.RemoteControlFragment;
 import com.mgaetan89.showsrage.fragment.StatisticsFragment;
+import com.mgaetan89.showsrage.helper.ShowsRageReceiver;
 import com.mgaetan89.showsrage.helper.Utils;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.model.UpdateResponse;
@@ -76,6 +81,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 	@Nullable
 	private NavigationView navigationView = null;
+
+	@NonNull
+	private final BroadcastReceiver receiver = new ShowsRageReceiver(this);
 
 	@Nullable
 	private TabLayout tabLayout = null;
@@ -361,6 +369,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 	}
 
 	@Override
+	protected void onPause() {
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(this.receiver);
+
+		super.onPause();
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 
@@ -375,6 +390,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 				return;
 			}
 		}
+
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED);
+		intentFilter.addAction(Constants.Intents.ACTION_EPISODE_SELECTED);
+		intentFilter.addAction(Constants.Intents.ACTION_SEARCH_RESULT_SELECTED);
+		intentFilter.addAction(Constants.Intents.ACTION_SHOW_SELECTED);
+
+		LocalBroadcastManager.getInstance(this).registerReceiver(this.receiver, intentFilter);
 
 		this.updateRemoteControlVisibility();
 		this.displayHomeAsUp(this.displayHomeAsUp());

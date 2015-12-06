@@ -1,7 +1,6 @@
 package com.mgaetan89.showsrage.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -9,11 +8,9 @@ import android.support.v4.app.Fragment;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.adapter.ShowsAdapter;
 import com.mgaetan89.showsrage.fragment.ShowsFragment;
 import com.mgaetan89.showsrage.model.RootDir;
 import com.mgaetan89.showsrage.model.RootDirs;
-import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.lang.ref.WeakReference;
@@ -25,15 +22,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class ShowsActivity extends BaseActivity implements ShowsAdapter.OnShowSelectedListener {
-	@Override
-	public void onShowSelected(@NonNull Show show) {
-		Intent intent = new Intent(this, ShowActivity.class);
-		intent.putExtra(Constants.Bundle.SHOW_MODEL, show);
-
-		this.startActivity(intent);
-	}
-
+public class ShowsActivity extends BaseActivity {
 	@Override
 	protected boolean displayHomeAsUp() {
 		return false;

@@ -1,14 +1,17 @@
 package com.mgaetan89.showsrage.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.databinding.AdapterSearchResultsListBinding;
 import com.mgaetan89.showsrage.model.SearchResultItem;
@@ -20,10 +23,6 @@ import java.util.List;
 public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdapter.ViewHolder> {
 	@NonNull
 	private List<SearchResultItem> searchResults = Collections.emptyList();
-
-	public interface OnSearchResultSelectedListener {
-		void onSearchResultSelected(int indexerId);
-	}
 
 	public SearchResultsAdapter(@Nullable List<SearchResultItem> searchResults) {
 		if (searchResults == null) {
@@ -70,14 +69,14 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 		@Override
 		public void onClick(View view) {
 			Context context = view.getContext();
+			SearchResultItem searchResult = SearchResultsAdapter.this.searchResults.get(this.getAdapterPosition());
+			int id = searchResult.getIndexerId();
 
-			if (context instanceof OnSearchResultSelectedListener) {
-				SearchResultItem searchResult = SearchResultsAdapter.this.searchResults.get(this.getAdapterPosition());
-				int id = searchResult.getIndexerId();
+			if (context != null && id != 0) {
+				Intent intent = new Intent(Constants.Intents.ACTION_SEARCH_RESULT_SELECTED);
+				intent.putExtra(Constants.Bundle.INDEXER_ID, id);
 
-				if (id != 0) {
-					((OnSearchResultSelectedListener) context).onSearchResultSelected(id);
-				}
+				LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 			}
 		}
 	}

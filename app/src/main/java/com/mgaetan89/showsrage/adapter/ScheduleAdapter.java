@@ -1,9 +1,11 @@
 package com.mgaetan89.showsrage.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.databinding.AdapterScheduleListBinding;
 import com.mgaetan89.showsrage.model.Schedule;
@@ -26,10 +29,6 @@ import java.util.List;
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder> {
 	@NonNull
 	private List<Schedule> schedules = Collections.emptyList();
-
-	public interface OnEpisodeActionSelectedListener {
-		void onEpisodeActionSelected(int seasonNumber, int episodeNumber, int indexerId, MenuItem action);
-	}
 
 	public ScheduleAdapter(@Nullable List<Schedule> schedules) {
 		if (schedules == null) {
@@ -128,12 +127,15 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 			if (this.actions != null) {
 				Context context = this.actions.getContext();
 
-				if (context instanceof OnEpisodeActionSelectedListener) {
+				if (context != null) {
 					Schedule schedule = ScheduleAdapter.this.schedules.get(this.getAdapterPosition());
+					Intent intent = new Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED);
+					intent.putExtra(Constants.Bundle.EPISODE_NUMBER, schedule.getEpisode());
+					intent.putExtra(Constants.Bundle.INDEXER_ID, schedule.getIndexerId());
+					intent.putExtra(Constants.Bundle.MENU_ID, item.getItemId());
+					intent.putExtra(Constants.Bundle.SEASON_NUMBER, schedule.getSeason());
 
-					if (schedule != null) {
-						((OnEpisodeActionSelectedListener) context).onEpisodeActionSelected(schedule.getSeason(), schedule.getEpisode(), schedule.getIndexerId(), item);
-					}
+					LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 
 					return true;
 				}

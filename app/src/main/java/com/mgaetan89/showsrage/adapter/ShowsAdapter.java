@@ -1,10 +1,12 @@
 package com.mgaetan89.showsrage.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.TextView;
 
+import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.databinding.AdapterShowsListBinding;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
@@ -29,10 +32,6 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 
 	@NonNull
 	private List<Show> shows = Collections.emptyList();
-
-	public interface OnShowSelectedListener {
-		void onShowSelected(@NonNull Show show);
-	}
 
 	public ShowsAdapter(@Nullable List<Show> shows, int itemLayoutResource) {
 		this.itemLayoutResource = itemLayoutResource;
@@ -109,10 +108,13 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 		@Override
 		public void onClick(View view) {
 			Context context = view.getContext();
-			Show show = ShowsAdapter.this.shows.get(this.getAdapterPosition());
 
-			if (context instanceof OnShowSelectedListener && show != null) {
-				((OnShowSelectedListener) context).onShowSelected(show);
+			if (context != null) {
+				Show show = ShowsAdapter.this.shows.get(this.getAdapterPosition());
+				Intent intent = new Intent(Constants.Intents.ACTION_SHOW_SELECTED);
+				intent.putExtra(Constants.Bundle.SHOW_MODEL, show);
+
+				LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 			}
 		}
 	}

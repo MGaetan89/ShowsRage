@@ -27,7 +27,7 @@ public class EpisodesAdapter_GetItemCountTest {
 
 	@Before
 	public void before() {
-		this.adapter = new EpisodesAdapter(this.episodes, 1);
+		this.adapter = new EpisodesAdapter(this.episodes, 1, null);
 	}
 
 	@Test

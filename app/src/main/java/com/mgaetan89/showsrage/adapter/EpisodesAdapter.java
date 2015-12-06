@@ -1,9 +1,11 @@
 package com.mgaetan89.showsrage.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,9 +15,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.databinding.AdapterEpisodesListBinding;
 import com.mgaetan89.showsrage.model.Episode;
+import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.presenter.EpisodePresenter;
 
 import java.util.Collections;
@@ -27,15 +31,9 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 
 	private final int seasonNumber;
 
-	public interface OnEpisodeActionSelectedListener {
-		void onEpisodeActionSelected(int seasonNumber, int episodeNumber, MenuItem action);
-	}
+	private final Show show;
 
-	public interface OnEpisodeSelectedListener {
-		void onEpisodeSelected(int seasonNumber, int episodeNumber, @NonNull Episode episode, int episodesCount);
-	}
-
-	public EpisodesAdapter(@Nullable List<Episode> episodes, int seasonNumber) {
+	public EpisodesAdapter(@Nullable List<Episode> episodes, int seasonNumber, Show show) {
 		if (episodes == null) {
 			this.episodes = Collections.emptyList();
 		} else {
@@ -43,6 +41,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 		}
 
 		this.seasonNumber = seasonNumber;
+		this.show = show;
 	}
 
 	@Override
@@ -124,10 +123,15 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 				EpisodesAdapter adapter = EpisodesAdapter.this;
 				Episode episode = adapter.episodes.get(this.getAdapterPosition());
 
-				if (context instanceof OnEpisodeSelectedListener && episode != null) {
-					int itemCount = adapter.getItemCount();
+				if (context != null) {
+					Intent intent = new Intent(Constants.Intents.ACTION_EPISODE_SELECTED);
+					intent.putExtra(Constants.Bundle.EPISODE_MODEL, episode);
+					intent.putExtra(Constants.Bundle.EPISODE_NUMBER, this.getAdapterPosition() + 1);
+					intent.putExtra(Constants.Bundle.EPISODES_COUNT, adapter.getItemCount());
+					intent.putExtra(Constants.Bundle.SEASON_NUMBER, adapter.seasonNumber);
+					intent.putExtra(Constants.Bundle.SHOW_MODEL, adapter.show);
 
-					((OnEpisodeSelectedListener) context).onEpisodeSelected(adapter.seasonNumber, this.getAdapterPosition() + 1, episode, itemCount);
+					LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 				}
 			}
 		}
@@ -137,10 +141,14 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 			if (this.actions != null) {
 				Context context = this.actions.getContext();
 
-				if (context instanceof OnEpisodeActionSelectedListener) {
-					EpisodesAdapter adapter = EpisodesAdapter.this;
+				if (context != null) {
+					Intent intent = new Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED);
+					intent.putExtra(Constants.Bundle.EPISODE_NUMBER, this.getAdapterPosition() + 1);
+					intent.putExtra(Constants.Bundle.INDEXER_ID, EpisodesAdapter.this.show.getIndexerId());
+					intent.putExtra(Constants.Bundle.MENU_ID, item.getItemId());
+					intent.putExtra(Constants.Bundle.SEASON_NUMBER, EpisodesAdapter.this.seasonNumber);
 
-					((OnEpisodeActionSelectedListener) context).onEpisodeActionSelected(adapter.seasonNumber, this.getAdapterPosition() + 1, item);
+					LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 
 					return true;
 				}

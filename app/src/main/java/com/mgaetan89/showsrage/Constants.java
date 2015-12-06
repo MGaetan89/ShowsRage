@@ -16,6 +16,7 @@ public abstract class Constants {
 		public static final String FILTER_MODE = "filter_mode";
 		public static final String FILTER_STATUS = "filter_status";
 		public static final String INDEXER_ID = "indexer_id";
+		public static final String MENU_ID = "menu_id";
 		public static final String SCHEDULES = "schedules";
 		public static final String SEARCH_QUERY = "search_query";
 		public static final String SEASON_NUMBER = "season_number";
@@ -25,7 +26,11 @@ public abstract class Constants {
 	}
 
 	public abstract static class Intents {
+		public static final String ACTION_EPISODE_ACTION_SELECTED = BuildConfig.APPLICATION_ID + ".action.episode_action_selected";
+		public static final String ACTION_EPISODE_SELECTED = BuildConfig.APPLICATION_ID + ".action.episode_selected";
 		public static final String ACTION_FILTER_SHOWS = BuildConfig.APPLICATION_ID + ".action.filter_shows";
+		public static final String ACTION_SEARCH_RESULT_SELECTED = BuildConfig.APPLICATION_ID + ".action.search_result_selected";
+		public static final String ACTION_SHOW_SELECTED = BuildConfig.APPLICATION_ID + ".action.show_selected";
 	}
 
 	public abstract static class Preferences {

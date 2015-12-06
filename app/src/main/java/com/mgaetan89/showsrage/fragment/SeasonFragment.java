@@ -40,12 +40,12 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 	@NonNull
 	private final List<Episode> episodes = new ArrayList<>();
 
-	private int indexerId = 0;
-
 	@Nullable
 	private RecyclerView recyclerView = null;
 
 	private int seasonNumber = 0;
+
+	private Show show = null;
 
 	@Nullable
 	private SwipeRefreshLayout swipeRefreshLayout = null;
@@ -67,9 +67,8 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 		super.onActivityCreated(savedInstanceState);
 
 		Intent intent = this.getActivity().getIntent();
-		Show show = intent.getParcelableExtra(Constants.Bundle.SHOW_MODEL);
 
-		this.indexerId = show.getIndexerId();
+		this.show = intent.getParcelableExtra(Constants.Bundle.SHOW_MODEL);
 
 		this.onRefresh();
 	}
@@ -87,7 +86,7 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 
 			if (this.recyclerView != null) {
 				int columnCount = this.getResources().getInteger(R.integer.shows_column_count);
-				this.adapter = new EpisodesAdapter(this.episodes, this.seasonNumber);
+				this.adapter = new EpisodesAdapter(this.episodes, this.seasonNumber, this.show);
 
 				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
 				GridLayoutManager layoutManager = new GridLayoutManager(this.getActivity(), columnCount);
@@ -138,7 +137,7 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 			this.swipeRefreshLayout.setRefreshing(true);
 		}
 
-		SickRageApi.getInstance().getServices().getEpisodes(this.indexerId, this.seasonNumber, this);
+		SickRageApi.getInstance().getServices().getEpisodes(this.show.getIndexerId(), this.seasonNumber, this);
 	}
 
 	@Override
