@@ -52,14 +52,24 @@
 				<Preference
 					android:key="get_api_key_action"
 					android:title="@string/get_api_key"/>
-
-				<CheckBoxPreference
-					android:defaultValue="false"
-					android:dependency="server_username"
-					android:key="basic_auth"
-					android:title="@string/use_basic_auth"/>
 			</PreferenceCategory>
 		</PreferenceScreen>
+
+		<CheckBoxPreference
+			android:defaultValue="false"
+			android:key="basic_auth"
+			android:title="@string/use_basic_auth"/>
+
+		<EditTextPreference
+			android:dependency="basic_auth"
+			android:key="server_username"
+			android:title="@string/username"/>
+
+		<EditTextPreference
+			android:dependency="basic_auth"
+			android:inputType="textPassword"
+			android:key="server_password"
+			android:title="@string/password"/>
 	</PreferenceScreen>
 
 	<PreferenceScreen
