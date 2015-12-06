@@ -87,6 +87,10 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 		}
 
 		this.updateLayout();
+
+		if (this.adapter != null) {
+			this.adapter.notifyDataSetChanged();
+		}
 	}
 
 	@Override
@@ -233,10 +237,6 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 				this.recyclerView.setVisibility(View.VISIBLE);
 			}
 		}
-
-		if (this.adapter != null) {
-			this.adapter.notifyDataSetChanged();
-		}
 	}
 
 	/* package */ static final class FilterReceiver extends BroadcastReceiver {
@@ -270,6 +270,10 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 			fragment.filteredShows.clear();
 			fragment.filteredShows.addAll(filteredShows);
 			fragment.updateLayout();
+
+			if (fragment.adapter != null) {
+				fragment.adapter.notifyDataSetChanged();
+			}
 		}
 
 		/* package */
@@ -359,14 +363,21 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 
 			if (showStats != null) {
 				for (Map.Entry<Integer, ShowStats> entry : showStats.entrySet()) {
+					List<Show> filteredShows = fragment.filteredShows;
 					ShowStat showStatsData = entry.getValue().getData();
 					int indexerId = entry.getKey();
 
-					for (Show show : fragment.filteredShows) {
+					for (int i = 0; i < filteredShows.size(); i++) {
+						Show show = filteredShows.get(i);
+
 						if (show.getIndexerId() == indexerId) {
 							show.setEpisodesCount(showStatsData.getTotal());
 							show.setDownloaded(showStatsData.getTotalDone());
 							show.setSnatched(showStatsData.getTotalPending());
+
+							if (fragment.adapter != null) {
+								fragment.adapter.notifyItemChanged(i);
+							}
 
 							break;
 						}
