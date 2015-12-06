@@ -69,6 +69,11 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 		Intent intent = this.getActivity().getIntent();
 
 		this.show = intent.getParcelableExtra(Constants.Bundle.SHOW_MODEL);
+		this.adapter = new EpisodesAdapter(this.episodes, this.seasonNumber, this.show);
+
+		if (this.recyclerView != null) {
+			this.recyclerView.setAdapter(this.adapter);
+		}
 
 		this.onRefresh();
 	}
@@ -86,7 +91,6 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 
 			if (this.recyclerView != null) {
 				int columnCount = this.getResources().getInteger(R.integer.shows_column_count);
-				this.adapter = new EpisodesAdapter(this.episodes, this.seasonNumber, this.show);
 
 				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
 				GridLayoutManager layoutManager = new GridLayoutManager(this.getActivity(), columnCount);
@@ -102,7 +106,6 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 						}
 					}
 				});
-				this.recyclerView.setAdapter(this.adapter);
 				this.recyclerView.setLayoutManager(layoutManager);
 			}
 
