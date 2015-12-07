@@ -1,10 +1,13 @@
 package com.mgaetan89.showsrage.activity;
 
 import com.mgaetan89.showsrage.fragment.SettingsAboutFragment;
+import com.mgaetan89.showsrage.fragment.SettingsAboutLicensesFragment;
+import com.mgaetan89.showsrage.fragment.SettingsAboutShowsRageFragment;
 import com.mgaetan89.showsrage.fragment.SettingsBehaviorFragment;
 import com.mgaetan89.showsrage.fragment.SettingsDisplayFragment;
 import com.mgaetan89.showsrage.fragment.SettingsExperimentalFeaturesFragment;
 import com.mgaetan89.showsrage.fragment.SettingsFragment;
+import com.mgaetan89.showsrage.fragment.SettingsNetworkApiKeyFragment;
 import com.mgaetan89.showsrage.fragment.SettingsNetworkFragment;
 
 import org.junit.Test;
@@ -38,10 +41,14 @@ public class SettingsActivity_GetFragmentForPathTest {
 				{"/", SettingsFragment.class},
 				{"/wrong_path", SettingsFragment.class},
 				{"/about", SettingsAboutFragment.class},
+				{"/about/licenses", SettingsAboutLicensesFragment.class},
+				{"/about/showsrage", SettingsAboutShowsRageFragment.class},
+				{"/about", SettingsAboutFragment.class},
 				{"/behavior", SettingsBehaviorFragment.class},
 				{"/display", SettingsDisplayFragment.class},
 				{"/experimental_features", SettingsExperimentalFeaturesFragment.class},
 				{"/network", SettingsNetworkFragment.class},
+				{"/network/api_key", SettingsNetworkApiKeyFragment.class},
 		});
 	}
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory android:title="Apache License, Version 2.0">
+
+		<PreferenceScreen
+			android:key="glide"
+			android:summary="Version 3.6.1"
+			android:title="Glide">
+
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:data="https://github.com/bumptech/glide"/>
+		</PreferenceScreen>
+
+		<PreferenceScreen
+			android:key="okhttp"
+			android:summary="Version 2.5.0"
+			android:title="OkHttp">
+
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:data="http://square.github.io/okhttp/"/>
+		</PreferenceScreen>
+
+		<PreferenceScreen
+			android:key="retrofit"
+			android:summary="Version 1.9.0"
+			android:title="Retrofit">
+
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:data="http://square.github.io/retrofit/"/>
+		</PreferenceScreen>
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="Creative Common Attribution 4.0 International License">
+
+		<PreferenceScreen
+			android:key="google_material_design_icons"
+			android:summary="Version 2.1.0"
+			android:title="Material Design Icons">
+
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:data="https://github.com/google/material-design-icons"/>
+		</PreferenceScreen>
+	</PreferenceCategory>
+</PreferenceScreen>

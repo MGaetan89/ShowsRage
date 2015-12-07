@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceScreen
+		android:key="application_version"
+		android:title="@string/version"/>
+
+	<PreferenceScreen
+		android:key="application_source"
+		android:summary="GitHub"
+		android:title="@string/source_code">
+
+		<intent
+			android:action="android.intent.action.VIEW"
+			android:data="https://github.com/MGaetan89/ShowsRage"/>
+	</PreferenceScreen>
+
+	<PreferenceScreen
+		android:key="application_developer"
+		android:summary="MGaetan89"
+		android:title="@string/developer">
+
+		<intent
+			android:action="android.intent.action.VIEW"
+			android:data="https://github.com/MGaetan89"/>
+	</PreferenceScreen>
+
+	<PreferenceScreen
+		android:key="application_logo"
+		android:summary="Concept211"
+		android:title="@string/logo_designer">
+
+		<intent
+			android:action="android.intent.action.VIEW"
+			android:data="http://www.concept211.com/"/>
+	</PreferenceScreen>
+</PreferenceScreen>

@@ -7,10 +7,13 @@ import android.support.v4.app.Fragment;
 
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.fragment.SettingsAboutFragment;
+import com.mgaetan89.showsrage.fragment.SettingsAboutLicensesFragment;
+import com.mgaetan89.showsrage.fragment.SettingsAboutShowsRageFragment;
 import com.mgaetan89.showsrage.fragment.SettingsBehaviorFragment;
 import com.mgaetan89.showsrage.fragment.SettingsDisplayFragment;
 import com.mgaetan89.showsrage.fragment.SettingsExperimentalFeaturesFragment;
 import com.mgaetan89.showsrage.fragment.SettingsFragment;
+import com.mgaetan89.showsrage.fragment.SettingsNetworkApiKeyFragment;
 import com.mgaetan89.showsrage.fragment.SettingsNetworkFragment;
 
 public class SettingsActivity extends BaseActivity {
@@ -55,6 +58,12 @@ public class SettingsActivity extends BaseActivity {
 				case "/about":
 					return new SettingsAboutFragment();
 
+				case "/about/licenses":
+					return new SettingsAboutLicensesFragment();
+
+				case "/about/showsrage":
+					return new SettingsAboutShowsRageFragment();
+
 				case "/behavior":
 					return new SettingsBehaviorFragment();
 
@@ -66,6 +75,9 @@ public class SettingsActivity extends BaseActivity {
 
 				case "/network":
 					return new SettingsNetworkFragment();
+
+				case "/network/api_key":
+					return new SettingsNetworkApiKeyFragment();
 			}
 		}
 
