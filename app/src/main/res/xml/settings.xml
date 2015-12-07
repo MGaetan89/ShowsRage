@@ -2,229 +2,52 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<PreferenceScreen
+		android:fragment="com.mgaetan89.showsrage.fragment.SettingsNetworkFragment"
 		android:icon="@drawable/ic_wifi_white_24dp"
 		android:title="@string/network">
 
-		<CheckBoxPreference
-			android:defaultValue="false"
-			android:key="use_https"
-			android:title="@string/use_https"/>
-
-		<CheckBoxPreference
-			android:defaultValue="false"
-			android:dependency="use_https"
-			android:key="self_signed_certificate"
-			android:title="@string/self_signed_certificate"/>
-
-		<EditTextPreference
-			android:key="server_address"
-			android:title="@string/hostname"/>
-
-		<EditTextPreference
-			android:inputType="number"
-			android:key="server_port_number"
-			android:title="@string/port_number"/>
-
-		<EditTextPreference
-			android:defaultValue="api"
-			android:key="server_path"
-			android:title="@string/path"/>
-
-		<PreferenceScreen
-			android:key="get_api_key"
-			android:title="@string/api_key">
-
-			<EditTextPreference
-				android:key="api_key"
-				android:title="@string/api_key"/>
-
-			<PreferenceCategory android:title="@string/get_api_key">
-
-				<EditTextPreference
-					android:key="server_username"
-					android:title="@string/username"/>
-
-				<EditTextPreference
-					android:inputType="textPassword"
-					android:key="server_password"
-					android:title="@string/password"/>
-
-				<Preference
-					android:key="get_api_key_action"
-					android:title="@string/get_api_key"/>
-			</PreferenceCategory>
-		</PreferenceScreen>
-
-		<CheckBoxPreference
-			android:defaultValue="false"
-			android:key="basic_auth"
-			android:title="@string/use_basic_auth"/>
-
-		<EditTextPreference
-			android:dependency="basic_auth"
-			android:key="server_username"
-			android:title="@string/username"/>
-
-		<EditTextPreference
-			android:dependency="basic_auth"
-			android:inputType="textPassword"
-			android:key="server_password"
-			android:title="@string/password"/>
+		<intent
+			android:action="android.intent.action.VIEW"
+			android:data="showsrage://settings/network"/>
 	</PreferenceScreen>
 
 	<PreferenceScreen
+		android:fragment="com.mgaetan89.showsrage.fragment.SettingsDisplayFragment"
 		android:icon="@drawable/ic_device_android_white_24dp"
 		android:title="@string/display">
 
-		<CheckBoxPreference
-			android:defaultValue="false"
-			android:key="display_split_shows_animes"
-			android:title="@string/split_shows_animes"/>
-
-		<ListPreference
-			android:defaultValue="poster"
-			android:entries="@array/shows_list_layout_keys"
-			android:entryValues="@array/shows_list_layout_values"
-			android:key="display_shows_list_layout"
-			android:title="@string/shows_list_layout"/>
-
-		<CheckBoxPreference
-			android:defaultValue="false"
-			android:key="display_seasons_sort"
-			android:summaryOff="@string/descending"
-			android:summaryOn="@string/ascending"
-			android:title="@string/seasons_sort"/>
-
-		<CheckBoxPreference
-			android:defaultValue="false"
-			android:key="display_episodes_sort"
-			android:summaryOff="@string/descending"
-			android:summaryOn="@string/ascending"
-			android:title="@string/episodes_sort"/>
+		<intent
+			android:action="android.intent.action.VIEW"
+			android:data="showsrage://settings/display"/>
 	</PreferenceScreen>
 
 	<PreferenceScreen
+		android:fragment="com.mgaetan89.showsrage.fragment.SettingsBehaviorFragment"
 		android:icon="@drawable/ic_widgets_white_24dp"
 		android:title="@string/behavior">
 
-		<CheckBoxPreference
-			android:defaultValue="false"
-			android:key="view_in_external_video_player"
-			android:title="@string/view_in_external_video_player"/>
-
-		<ListPreference
-			android:defaultValue="21600000"
-			android:entries="@array/version_check_keys"
-			android:entryValues="@array/version_check_values"
-			android:key="behavior_version_check"
-			android:title="@string/version_check"/>
+		<intent
+			android:action="android.intent.action.VIEW"
+			android:data="showsrage://settings/behavior"/>
 	</PreferenceScreen>
 
 	<PreferenceScreen
+		android:fragment="com.mgaetan89.showsrage.fragment.SettingsExperimentalFeaturesFragment"
 		android:icon="@drawable/ic_explore_white_24dp"
-		android:title="@string/experimental_feature">
+		android:title="@string/experimental_features">
 
-		<CheckBoxPreference
-			android:defaultValue="false"
-			android:key="stream_in_chromecast"
-			android:title="@string/stream_in_chromecast"/>
+		<intent
+			android:action="android.intent.action.VIEW"
+			android:data="showsrage://settings/experimental_features"/>
 	</PreferenceScreen>
 
 	<PreferenceScreen
+		android:fragment="com.mgaetan89.showsrage.fragment.SettingsAboutFragment"
 		android:icon="@drawable/ic_help_outline_white_24dp"
 		android:title="@string/about">
 
-		<PreferenceScreen
-			android:key="application"
-			android:title="@string/app_name">
-
-			<PreferenceCategory android:title="@string/app_name">
-
-				<PreferenceScreen
-					android:key="application_version"
-					android:title="@string/version"/>
-
-				<PreferenceScreen
-					android:key="application_source"
-					android:summary="GitHub"
-					android:title="@string/source_code">
-
-					<intent
-						android:action="android.intent.action.VIEW"
-						android:data="https://github.com/MGaetan89/ShowsRage"/>
-				</PreferenceScreen>
-
-				<PreferenceScreen
-					android:key="application_developer"
-					android:summary="MGaetan89"
-					android:title="@string/developer">
-
-					<intent
-						android:action="android.intent.action.VIEW"
-						android:data="https://github.com/MGaetan89"/>
-				</PreferenceScreen>
-
-				<PreferenceScreen
-					android:key="application_logo"
-					android:summary="Concept211"
-					android:title="@string/logo_designer">
-
-					<intent
-						android:action="android.intent.action.VIEW"
-						android:data="http://www.concept211.com/"/>
-				</PreferenceScreen>
-			</PreferenceCategory>
-		</PreferenceScreen>
-
-		<PreferenceScreen
-			android:key="licenses"
-			android:title="@string/licenses">
-
-			<PreferenceCategory android:title="Apache License, Version 2.0">
-
-				<PreferenceScreen
-					android:key="glide"
-					android:summary="Version 3.6.1"
-					android:title="Glide">
-
-					<intent
-						android:action="android.intent.action.VIEW"
-						android:data="https://github.com/bumptech/glide"/>
-				</PreferenceScreen>
-
-				<PreferenceScreen
-					android:key="okhttp"
-					android:summary="Version 2.5.0"
-					android:title="OkHttp">
-
-					<intent
-						android:action="android.intent.action.VIEW"
-						android:data="http://square.github.io/okhttp/"/>
-				</PreferenceScreen>
-
-				<PreferenceScreen
-					android:key="retrofit"
-					android:summary="Version 1.9.0"
-					android:title="Retrofit">
-
-					<intent
-						android:action="android.intent.action.VIEW"
-						android:data="http://square.github.io/retrofit/"/>
-				</PreferenceScreen>
-			</PreferenceCategory>
-
-			<PreferenceCategory android:title="Creative Common Attribution 4.0 International License">
-
-				<PreferenceScreen
-					android:key="google_material_design_icons"
-					android:summary="Version 2.1.0"
-					android:title="Material Design Icons">
-
-					<intent
-						android:action="android.intent.action.VIEW"
-						android:data="https://github.com/google/material-design-icons"/>
-				</PreferenceScreen>
-			</PreferenceCategory>
-		</PreferenceScreen>
+		<intent
+			android:action="android.intent.action.VIEW"
+			android:data="showsrage://settings/about"/>
 	</PreferenceScreen>
 </PreferenceScreen>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<CheckBoxPreference
+		android:defaultValue="false"
+		android:key="display_split_shows_animes"
+		android:title="@string/split_shows_animes"/>
+
+	<ListPreference
+		android:defaultValue="poster"
+		android:entries="@array/shows_list_layout_keys"
+		android:entryValues="@array/shows_list_layout_values"
+		android:key="display_shows_list_layout"
+		android:title="@string/shows_list_layout"/>
+
+	<CheckBoxPreference
+		android:defaultValue="false"
+		android:key="display_seasons_sort"
+		android:summaryOff="@string/descending"
+		android:summaryOn="@string/ascending"
+		android:title="@string/seasons_sort"/>
+
+	<CheckBoxPreference
+		android:defaultValue="false"
+		android:key="display_episodes_sort"
+		android:summaryOff="@string/descending"
+		android:summaryOn="@string/ascending"
+		android:title="@string/episodes_sort"/>
+</PreferenceScreen>

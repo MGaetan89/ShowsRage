@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<CheckBoxPreference
+		android:defaultValue="false"
+		android:key="use_https"
+		android:title="@string/use_https"/>
+
+	<CheckBoxPreference
+		android:defaultValue="false"
+		android:dependency="use_https"
+		android:key="self_signed_certificate"
+		android:title="@string/self_signed_certificate"/>
+
+	<EditTextPreference
+		android:key="server_address"
+		android:title="@string/hostname"/>
+
+	<EditTextPreference
+		android:inputType="number"
+		android:key="server_port_number"
+		android:title="@string/port_number"/>
+
+	<EditTextPreference
+		android:defaultValue="api"
+		android:key="server_path"
+		android:title="@string/path"/>
+
+	<PreferenceScreen
+		android:key="get_api_key"
+		android:title="@string/api_key">
+
+		<EditTextPreference
+			android:key="api_key"
+			android:title="@string/api_key"/>
+
+		<PreferenceCategory android:title="@string/get_api_key">
+
+			<EditTextPreference
+				android:key="server_username"
+				android:title="@string/username"/>
+
+			<EditTextPreference
+				android:inputType="textPassword"
+				android:key="server_password"
+				android:title="@string/password"/>
+
+			<Preference
+				android:key="get_api_key_action"
+				android:title="@string/get_api_key"/>
+		</PreferenceCategory>
+	</PreferenceScreen>
+
+	<CheckBoxPreference
+		android:defaultValue="false"
+		android:key="basic_auth"
+		android:title="@string/use_basic_auth"/>
+
+	<EditTextPreference
+		android:dependency="basic_auth"
+		android:key="server_username"
+		android:title="@string/username"/>
+
+	<EditTextPreference
+		android:dependency="basic_auth"
+		android:inputType="textPassword"
+		android:key="server_password"
+		android:title="@string/password"/>
+</PreferenceScreen>

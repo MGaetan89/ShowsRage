@@ -39,7 +39,18 @@
 		<activity android:name=".activity.HistoryActivity"/>
 		<activity android:name=".activity.LogsActivity"/>
 		<activity android:name=".activity.ScheduleActivity"/>
-		<activity android:name=".activity.SettingsActivity"/>
+		<activity android:name=".activity.SettingsActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW"/>
+
+				<category android:name="android.intent.category.DEFAULT"/>
+				<category android:name="android.intent.category.BROWSABLE"/>
+
+				<data
+					android:host="settings"
+					android:scheme="showsrage"/>
+			</intent-filter>
+		</activity>
 		<activity
 			android:name=".activity.ShowActivity"
 			android:parentActivityName=".activity.ShowsActivity">

@@ -56,7 +56,7 @@
 	<string name="episodes">Episodes</string>
 	<string name="episodes_sort">Tri des épisodes</string>
 	<string name="error">Erreur</string>
-	<string name="experimental_feature">Fonctionnalités expérimentales</string>
+	<string name="experimental_features">Fonctionnalités expérimentales</string>
 	<string name="external_links">Liens Externes</string>
 	<string name="failed">Echoué</string>
 	<string name="file_size">Taille du fichier : <xliff:g example="856.93 MB" id="file_size">%1$s</xliff:g></string>

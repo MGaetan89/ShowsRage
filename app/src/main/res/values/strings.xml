@@ -56,7 +56,7 @@
 	<string name="episodes">Episodes</string>
 	<string name="episodes_sort">Episodes sort</string>
 	<string name="error">Error</string>
-	<string name="experimental_feature">Experimental features</string>
+	<string name="experimental_features">Experimental features</string>
 	<string name="external_links">External Links</string>
 	<string name="failed">Failed</string>
 	<string name="file_size">File size: <xliff:g example="856.93 MB" id="file_size">%1$s</xliff:g></string>
