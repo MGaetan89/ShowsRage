@@ -41,15 +41,17 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
 		this.getActivity().setTitle(this.getTitleResourceId());
 
-		String serverAddress = this.getPreferenceValue("server_address", "");
+		if ("SettingsFragment".equals(this.getClass().getSimpleName())) {
+			String serverAddress = this.getPreferenceValue("server_address", "");
 
-		if (TextUtils.isEmpty(serverAddress)) {
-			new AlertDialog.Builder(this.getActivity())
-					.setIcon(R.drawable.ic_notification)
-					.setTitle(R.string.app_name)
-					.setMessage(R.string.welcome_message)
-					.setPositiveButton(android.R.string.ok, null)
-					.show();
+			if (TextUtils.isEmpty(serverAddress)) {
+				new AlertDialog.Builder(this.getActivity())
+						.setIcon(R.drawable.ic_notification)
+						.setTitle(R.string.app_name)
+						.setMessage(R.string.welcome_message)
+						.setPositiveButton(android.R.string.ok, null)
+						.show();
+			}
 		}
 
 		this.updatePreferenceGroup(this.getPreferenceScreen());
