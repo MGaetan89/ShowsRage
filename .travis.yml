@@ -28,6 +28,9 @@ env:
     - ANDROID_TARGET=android-22
     - ANDROID_TARGET=android-23
 
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
 before_install:
   - echo y | android update sdk --all --no-ui --force --filter build-tools-23.0.2
 
@@ -41,4 +44,5 @@ sudo: false
 
 cache:
   directories:
-    - $HOME/.gradle
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
