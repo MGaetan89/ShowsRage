@@ -75,7 +75,7 @@ public class SettingsNetworkFragment extends SettingsFragment implements Callbac
 
 	@Override
 	protected int getTitleResourceId() {
-		return R.string.network;
+		return R.string.server;
 	}
 
 	@Override

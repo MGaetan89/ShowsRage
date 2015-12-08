@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SettingsNetworkFragmentTest {
 	@Test
 	public void getTitleResourceId() {
-		assertThat(new SettingsNetworkFragment().getTitleResourceId()).isEqualTo(R.string.network);
+		assertThat(new SettingsNetworkFragment().getTitleResourceId()).isEqualTo(R.string.server);
 	}
 
 	@Test

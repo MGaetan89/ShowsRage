@@ -553,7 +553,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		}
 
 		if (this.network != null) {
-			this.network.setText(this.getString(R.string.network_name, this.show.getNetwork()));
+			this.network.setText(this.getString(R.string.network, this.show.getNetwork()));
 			this.network.setVisibility(View.VISIBLE);
 		}
 

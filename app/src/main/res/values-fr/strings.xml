@@ -87,8 +87,7 @@
 	<string name="missing">Manquant : <xliff:g example="1" id="missing">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
 	<string name="more_information">Plus d\'informations</string>
 	<string name="move">Déplacer</string>
-	<string name="network">Réseau</string>
-	<string name="network_name">Chaîne : <xliff:g example="CBS" id="network">%1$s</xliff:g></string>
+	<string name="network">Chaîne : <xliff:g example="CBS" id="network">%1$s</xliff:g></string>
 	<string name="never">Jamais</string>
 	<string name="new_update">Nouvelle mise à jour disponible</string>
 	<string name="next_episode">Prochain épisode : <xliff:g example="dans 2 jours" id="next_episode">%1$s</xliff:g></string>
@@ -136,6 +135,7 @@
 	<string name="season_number">Saison %1$d</string>
 	<string name="seasons_sort">Tri des saisons</string>
 	<string name="self_signed_certificate">Certificat auto-signé ?</string>
+	<string name="server">Serveur</string>
 	<string name="server_information">Information sur le serveur</string>
 	<string name="set_status">Définir le statut</string>
 	<string name="settings">Paramètres</string>

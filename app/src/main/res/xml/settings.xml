@@ -4,7 +4,7 @@
 	<PreferenceScreen
 		android:fragment="com.mgaetan89.showsrage.fragment.SettingsNetworkFragment"
 		android:icon="@drawable/ic_wifi_white_24dp"
-		android:title="@string/network">
+		android:title="@string/server">
 
 		<intent
 			android:action="android.intent.action.VIEW"

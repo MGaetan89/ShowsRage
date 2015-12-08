@@ -75,7 +75,7 @@
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
 							android:visibility="gone"
-							tools:text="@string/network_name"
+							tools:text="@string/network"
 							tools:visibility="visible"/>
 
 						<TextView
