@@ -2,24 +2,16 @@ package com.mgaetan89.showsrage.fragment;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.model.ApiKey;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
-
-import java.lang.ref.WeakReference;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -58,17 +50,6 @@ public class SettingsNetworkFragment extends SettingsFragment implements Callbac
 	}
 
 	@Override
-	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, @NonNull Preference preference) {
-		if ("get_api_key_action".equals(preference.getKey())) {
-			this.getApiKey();
-
-			return true;
-		}
-
-		return super.onPreferenceTreeClick(preferenceScreen, preference);
-	}
-
-	@Override
 	public void success(GenericResponse genericResponse, Response response) {
 		this.showTestResult(true);
 	}
@@ -81,15 +62,6 @@ public class SettingsNetworkFragment extends SettingsFragment implements Callbac
 	@Override
 	protected int getXmlResourceFile() {
 		return R.xml.settings_network;
-	}
-
-	private void getApiKey() {
-		SickRageApi.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this.getActivity()));
-
-		String username = this.getPreferenceValue("server_username", null);
-		String password = this.getPreferenceValue("server_password", null);
-
-		SickRageApi.getInstance().getServices().getApiKey(username, password, new ApiKeyCallback(this));
 	}
 
 	private void showTestResult(boolean successful) {
@@ -140,58 +112,5 @@ public class SettingsNetworkFragment extends SettingsFragment implements Callbac
 				.show();
 
 		SickRageApi.getInstance().getServices().ping(this);
-	}
-
-	private static final class ApiKeyCallback implements Callback<ApiKey> {
-		private WeakReference<SettingsFragment> fragmentReference = null;
-
-		private ApiKeyCallback(SettingsFragment fragment) {
-			this.fragmentReference = new WeakReference<>(fragment);
-		}
-
-		@Override
-		public void failure(RetrofitError error) {
-			this.showApiKeyResult(null);
-		}
-
-		@Override
-		public void success(ApiKey apiKey, Response response) {
-			if (apiKey.isSuccess()) {
-				this.showApiKeyResult(apiKey.getApiKey());
-			} else {
-				this.showApiKeyResult(null);
-			}
-		}
-
-		private void setPreferenceValue(SettingsFragment fragment, String key, String value) {
-			SharedPreferences sharedPreferences = fragment.getPreferenceManager().getSharedPreferences();
-			sharedPreferences.edit().putString(key, value).apply();
-		}
-
-		private void showApiKeyResult(@Nullable String apiKey) {
-			SettingsFragment fragment = this.fragmentReference.get();
-
-			if (fragment == null) {
-				return;
-			}
-
-			int messageId;
-
-			if (TextUtils.isEmpty(apiKey)) {
-				messageId = R.string.get_api_key_error;
-			} else {
-				this.setPreferenceValue(fragment, "api_key", apiKey);
-				fragment.findPreference("api_key").setSummary(apiKey);
-				fragment.findPreference("get_api_key").setSummary(apiKey);
-
-				messageId = R.string.get_api_key_success;
-			}
-
-			new AlertDialog.Builder(fragment.getActivity())
-					.setCancelable(true)
-					.setMessage(messageId)
-					.setPositiveButton(android.R.string.ok, null)
-					.show();
-		}
 	}
 }
