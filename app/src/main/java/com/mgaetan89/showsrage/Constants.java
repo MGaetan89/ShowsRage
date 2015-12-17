@@ -6,6 +6,7 @@ import retrofit.RestAdapter;
 
 public abstract class Constants {
 	public static final RestAdapter.LogLevel NETWORK_LOG_LEVEL = BuildConfig.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE;
+	public static final String OMDB_URL = "http://www.omdbapi.com/";
 
 	public abstract static class Bundle {
 		public static final String COLOR_ACCENT = "color_accent";

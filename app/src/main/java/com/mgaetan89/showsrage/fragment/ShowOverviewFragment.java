@@ -185,7 +185,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		super.onActivityCreated(savedInstanceState);
 
 		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint("http://www.omdbapi.com/")
+				.setEndpoint(Constants.OMDB_URL)
 				.setLogLevel(Constants.NETWORK_LOG_LEVEL)
 				.build();
 

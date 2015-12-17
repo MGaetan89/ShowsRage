@@ -107,6 +107,88 @@
 			</android.support.v7.widget.CardView>
 
 			<android.support.v7.widget.CardView
+				android:id="@+id/episode_casting_layout"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="@dimen/padding"
+				android:visibility="gone"
+				tools:visibility="visible">
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/padding"
+					android:orientation="vertical">
+
+					<TextView
+						style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="@dimen/padding_half"
+						android:text="@string/casting"/>
+
+					<TextView
+						android:id="@+id/episode_casting_directors"
+						style="@style/TextAppearance.AppCompat.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="@dimen/padding_half"
+						android:visibility="gone"
+						tools:text="@string/directors"
+						tools:visibility="visible"/>
+
+					<TextView
+						android:id="@+id/episode_casting_writers"
+						style="@style/TextAppearance.AppCompat.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="@dimen/padding_half"
+						android:visibility="gone"
+						tools:text="@string/writers"
+						tools:visibility="visible"/>
+
+					<TextView
+						android:id="@+id/episode_casting_actors"
+						style="@style/TextAppearance.AppCompat.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:visibility="gone"
+						tools:text="@string/actors"
+						tools:visibility="visible"/>
+				</LinearLayout>
+			</android.support.v7.widget.CardView>
+
+			<android.support.v7.widget.CardView
+				android:id="@+id/episode_awards_layout"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="@dimen/padding"
+				android:visibility="gone"
+				tools:visibility="visible">
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/padding"
+					android:orientation="vertical">
+
+					<TextView
+						style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="@dimen/padding_half"
+						android:text="@string/awards"/>
+
+					<TextView
+						android:id="@+id/episode_awards"
+						style="@style/TextAppearance.AppCompat.Inverse"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet nisi et arcu gravida dictum. Vestibulum vitae odio quis augue porta tincidunt eu pulvinar odio."/>
+				</LinearLayout>
+			</android.support.v7.widget.CardView>
+
+			<android.support.v7.widget.CardView
 				android:id="@+id/episode_more_information_layout"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -125,6 +207,66 @@
 						android:layout_height="wrap_content"
 						android:layout_marginBottom="@dimen/padding_half"
 						android:text="@string/more_information"/>
+
+					<TextView
+						android:id="@+id/episode_language_country"
+						style="@style/TextAppearance.AppCompat.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="@dimen/padding_half"
+						android:visibility="gone"
+						tools:text="@string/language_county"
+						tools:visibility="visible"/>
+
+					<TextView
+						android:id="@+id/episode_year"
+						style="@style/TextAppearance.AppCompat.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="@dimen/padding_half"
+						android:visibility="gone"
+						tools:text="@string/year"
+						tools:visibility="visible"/>
+
+					<TextView
+						android:id="@+id/episode_rated"
+						style="@style/TextAppearance.AppCompat.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="@dimen/padding_half"
+						android:visibility="gone"
+						tools:text="@string/rated"
+						tools:visibility="visible"/>
+
+					<TextView
+						android:id="@+id/episode_runtime"
+						style="@style/TextAppearance.AppCompat.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="@dimen/padding_half"
+						android:visibility="gone"
+						tools:text="@string/runtime"
+						tools:visibility="visible"/>
+
+					<TextView
+						android:id="@+id/episode_rating"
+						style="@style/TextAppearance.AppCompat.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="@dimen/padding_half"
+						android:visibility="gone"
+						tools:text="@string/rating"
+						tools:visibility="visible"/>
+
+					<TextView
+						android:id="@+id/episode_genre"
+						style="@style/TextAppearance.AppCompat.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="@dimen/padding_half"
+						android:visibility="gone"
+						tools:text="@string/genre"
+						tools:visibility="visible"/>
 
 					<TextView
 						android:id="@+id/episode_file_size"
