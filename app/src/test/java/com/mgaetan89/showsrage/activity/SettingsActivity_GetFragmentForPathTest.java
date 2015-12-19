@@ -29,7 +29,7 @@ public class SettingsActivity_GetFragmentForPathTest {
 
 	@Test
 	public void getFragmentForPath() {
-		assertThat(SettingsActivity.getFragmentForPath(this.path)).isExactlyInstanceOf(this.fragmentClass);
+		assertThat(SettingsActivity.Companion.getFragmentForPath(this.path)).isExactlyInstanceOf(this.fragmentClass);
 	}
 
 	@Parameterized.Parameters
