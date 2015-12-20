@@ -194,6 +194,6 @@ public class AddShowFragment extends Fragment implements Callback<SearchResults>
 	}
 
 	private void searchShows(String query) {
-		SickRageApi.getInstance().getServices().search(query, this);
+		SickRageApi.Companion.getInstance().getServices().search(query, this);
 	}
 }

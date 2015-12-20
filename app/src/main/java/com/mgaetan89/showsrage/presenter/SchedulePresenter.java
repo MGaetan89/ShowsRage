@@ -93,7 +93,7 @@ public class SchedulePresenter {
 			return "";
 		}
 
-		return SickRageApi.getInstance().getPosterUrl(this.schedule.getTvDbId(), Indexer.TVDB);
+		return SickRageApi.Companion.getInstance().getPosterUrl(this.schedule.getTvDbId(), Indexer.TVDB);
 	}
 
 	public String getQuality() {

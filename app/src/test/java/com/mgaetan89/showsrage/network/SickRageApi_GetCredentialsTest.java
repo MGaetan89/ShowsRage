@@ -25,7 +25,7 @@ public class SickRageApi_GetCredentialsTest {
 
 	@Test
 	public void getCredentials() {
-		assertThat(SickRageApi.getCredentials(this.useBasicAuthentication, this.username, this.password)).isEqualTo(this.credentials);
+		assertThat(SickRageApi.Companion.getCredentials(this.useBasicAuthentication, this.username, this.password)).isEqualTo(this.credentials);
 	}
 
 	@Parameterized.Parameters(name = "{index}: {0} [{1}:{2}]")

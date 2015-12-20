@@ -167,7 +167,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 						.setPositiveButton(R.string.restart, new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
-								SickRageApi.getInstance().getServices().restart(BaseActivity.this);
+								SickRageApi.Companion.getInstance().getServices().restart(BaseActivity.this);
 							}
 						})
 						.setNegativeButton(android.R.string.cancel, null)
@@ -310,7 +310,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 		this.setContentView(R.layout.activity_main);
 
-		SickRageApi.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this));
+		SickRageApi.Companion.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this));
 
 		this.setTitle(this.getTitleResourceId());
 
@@ -413,7 +413,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 			return;
 		}
 
-		SickRageApi.getInstance().getServices().checkForUpdate(new CheckForUpdateCallback(this, manualCheck));
+		SickRageApi.Companion.getInstance().getServices().checkForUpdate(new CheckForUpdateCallback(this, manualCheck));
 	}
 
 	private void displayHomeAsUp(boolean displayHomeAsUp) {

@@ -19,7 +19,7 @@ public class SickRageApi_GetWebRootTest {
 
 	@Test
 	public void getWebRoot() {
-		assertThat(SickRageApi.getWebRoot(this.apiPath)).isEqualTo(this.webRoot);
+		assertThat(SickRageApi.Companion.getWebRoot(this.apiPath)).isEqualTo(this.webRoot);
 	}
 
 	@Parameterized.Parameters(name = "{index}: {0} -> {1}")

@@ -39,7 +39,7 @@ public class ChangeQualityFragment extends DialogFragment implements DialogInter
 
 		Callback<GenericResponse> callback = ((ShowOverviewFragment) parentFragment).getSetShowQualityCallback();
 
-		SickRageApi.getInstance().getServices().setShowQuality(indexerId, allowedQuality, preferredQuality, callback);
+		SickRageApi.Companion.getInstance().getServices().setShowQuality(indexerId, allowedQuality, preferredQuality, callback);
 	}
 
 	@NonNull

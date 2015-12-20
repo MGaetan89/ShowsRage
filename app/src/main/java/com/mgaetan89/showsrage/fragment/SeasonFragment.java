@@ -140,7 +140,7 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 			this.swipeRefreshLayout.setRefreshing(true);
 		}
 
-		SickRageApi.getInstance().getServices().getEpisodes(this.show.getIndexerId(), this.seasonNumber, this);
+		SickRageApi.Companion.getInstance().getServices().getEpisodes(this.show.getIndexerId(), this.seasonNumber, this);
 	}
 
 	@Override

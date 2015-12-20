@@ -46,12 +46,12 @@ public class SickRageApi_GetApiUrlTest {
 		when(preferences.getString(eq("server_path"), anyString())).thenReturn(this.path);
 		when(preferences.getString(eq("api_key"), anyString())).thenReturn(this.apiKey);
 
-		SickRageApi.getInstance().init(preferences);
+		SickRageApi.Companion.getInstance().init(preferences);
 	}
 
 	@Test
 	public void getApiUrl() {
-		assertThat(SickRageApi.getInstance().getApiUrl()).isEqualTo(this.url);
+		assertThat(SickRageApi.Companion.getInstance().getApiUrl()).isEqualTo(this.url);
 	}
 
 	@Parameterized.Parameters(name = "{index} - {0}://{1}:{2}/{3}/{4}/")

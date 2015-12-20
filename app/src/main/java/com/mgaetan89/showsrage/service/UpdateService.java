@@ -44,7 +44,7 @@ public class UpdateService extends Service implements Callback<GenericResponse>,
 	public void onCreate() {
 		super.onCreate();
 
-		SickRageApi.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this));
+		SickRageApi.Companion.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this));
 
 		Notification notification = new NotificationCompat.Builder(this)
 				.setAutoCancel(true)
@@ -66,9 +66,9 @@ public class UpdateService extends Service implements Callback<GenericResponse>,
 	@Override
 	public void run() {
 		if (this.updating) {
-			SickRageApi.getInstance().getServices().ping(this);
+			SickRageApi.Companion.getInstance().getServices().ping(this);
 		} else {
-			SickRageApi.getInstance().getServices().restart(this);
+			SickRageApi.Companion.getInstance().getServices().restart(this);
 		}
 
 		this.handler.postDelayed(this, RETRY_INTERVAL);

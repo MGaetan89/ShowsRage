@@ -54,12 +54,12 @@ public class SickRageApi_GetPosterUrlTest {
 		when(preferences.getString(eq("server_path"), anyString())).thenReturn(this.path);
 		when(preferences.getString(eq("api_key"), anyString())).thenReturn(this.apiKey);
 
-		SickRageApi.getInstance().init(preferences);
+		SickRageApi.Companion.getInstance().init(preferences);
 	}
 
 	@Test
 	public void getPosterUrl() {
-		assertThat(SickRageApi.getInstance().getPosterUrl(this.indexerId, this.indexer)).isEqualTo(this.url);
+		assertThat(SickRageApi.Companion.getInstance().getPosterUrl(this.indexerId, this.indexer)).isEqualTo(this.url);
 	}
 
 	@Parameterized.Parameters(name = "[{6}] {index} - {0}://{1}:{2}/{3}/{4}/")

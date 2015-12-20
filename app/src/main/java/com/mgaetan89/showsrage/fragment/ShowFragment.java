@@ -56,7 +56,7 @@ public class ShowFragment extends Fragment implements Callback<Seasons> {
 		Show show = intent.getParcelableExtra(Constants.Bundle.SHOW_MODEL);
 		String sort = getSeasonsSort(PreferenceManager.getDefaultSharedPreferences(this.getContext()));
 
-		SickRageApi.getInstance().getServices().getSeasons(show.getIndexerId(), sort, this);
+		SickRageApi.Companion.getInstance().getServices().getSeasons(show.getIndexerId(), sort, this);
 
 		this.tabLayout = (TabLayout) this.getActivity().findViewById(R.id.tabs);
 

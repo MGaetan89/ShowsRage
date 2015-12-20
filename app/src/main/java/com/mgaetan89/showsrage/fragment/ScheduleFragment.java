@@ -53,7 +53,7 @@ public class ScheduleFragment extends Fragment implements Callback<Schedules> {
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		SickRageApi.getInstance().getServices().getSchedule(this);
+		SickRageApi.Companion.getInstance().getServices().getSchedule(this);
 
 		this.tabLayout = (TabLayout) this.getActivity().findViewById(R.id.tabs);
 

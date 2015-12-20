@@ -83,7 +83,7 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 			String command = getCommand(this.shows);
 			Map<String, Integer> parameters = getCommandParameters(this.shows);
 
-			SickRageApi.getInstance().getServices().getShowStats(command, parameters, new ShowStatsCallback(this));
+			SickRageApi.Companion.getInstance().getServices().getShowStats(command, parameters, new ShowStatsCallback(this));
 		}
 
 		this.updateLayout();

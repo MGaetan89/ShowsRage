@@ -58,7 +58,7 @@ public class UpdateActivity extends AppCompatActivity implements Callback<Generi
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		SickRageApi.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this));
+		SickRageApi.Companion.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this));
 
 		UpdateResponse update = this.getIntent().getExtras().getParcelable(Constants.Bundle.UPDATE_MODEL);
 
@@ -80,7 +80,7 @@ public class UpdateActivity extends AppCompatActivity implements Callback<Generi
 	}
 
 	private void updateSickRage() {
-		SickRageApi.getInstance().getServices().updateSickRage(this);
+		SickRageApi.Companion.getInstance().getServices().updateSickRage(this);
 
 		this.startService(new Intent(this, UpdateService.class));
 

@@ -19,7 +19,7 @@ public class ShowPresenter {
 			return "";
 		}
 
-		return SickRageApi.getInstance().getBannerUrl(this.show.getTvDbId(), Indexer.TVDB);
+		return SickRageApi.Companion.getInstance().getBannerUrl(this.show.getTvDbId(), Indexer.TVDB);
 	}
 
 	public int getDownloaded() {
@@ -51,7 +51,7 @@ public class ShowPresenter {
 			return "";
 		}
 
-		return SickRageApi.getInstance().getPosterUrl(this.show.getTvDbId(), Indexer.TVDB);
+		return SickRageApi.Companion.getInstance().getPosterUrl(this.show.getTvDbId(), Indexer.TVDB);
 	}
 
 	public String getQuality() {

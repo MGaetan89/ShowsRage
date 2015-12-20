@@ -36,7 +36,7 @@ public class PostProcessingFragment extends DialogFragment implements DialogInte
 		String method = this.getProcessingMethod(this.processingMethod);
 		int replace = checkableToInteger(this.replaceFiles);
 
-		SickRageApi.getInstance().getServices().postProcess(replace, force, method, new GenericCallback(this.getActivity()));
+		SickRageApi.Companion.getInstance().getServices().postProcess(replace, force, method, new GenericCallback(this.getActivity()));
 	}
 
 	@NonNull

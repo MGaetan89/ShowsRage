@@ -32,7 +32,7 @@ public class AddShowFragment_OnQueryTextSubmitTest {
 		SharedPreferences preferences = mock(SharedPreferences.class);
 		when(preferences.getString(anyString(), anyString())).thenReturn("");
 
-		SickRageApi.getInstance().init(preferences);
+		SickRageApi.Companion.getInstance().init(preferences);
 
 		this.fragment = new AddShowFragment();
 	}

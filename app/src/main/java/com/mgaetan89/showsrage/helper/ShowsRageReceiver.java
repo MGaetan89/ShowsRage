@@ -144,7 +144,7 @@ public class ShowsRageReceiver extends BroadcastReceiver {
 
 		Toast.makeText(activity, activity.getString(R.string.episode_search, episodeNumber, seasonNumber), Toast.LENGTH_SHORT).show();
 
-		SickRageApi.getInstance().getServices().searchEpisode(indexerId, seasonNumber, episodeNumber, activity);
+		SickRageApi.Companion.getInstance().getServices().searchEpisode(indexerId, seasonNumber, episodeNumber, activity);
 	}
 
 	private void setEpisodeStatus(final int seasonNumber, final int episodeNumber, final int indexerId, final String status) {
@@ -161,13 +161,13 @@ public class ShowsRageReceiver extends BroadcastReceiver {
 				.setPositiveButton(R.string.replace, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						SickRageApi.getInstance().getServices().setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 1, status, callback);
+						SickRageApi.Companion.getInstance().getServices().setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 1, status, callback);
 					}
 				})
 				.setNegativeButton(R.string.keep, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						SickRageApi.getInstance().getServices().setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 0, status, callback);
+						SickRageApi.Companion.getInstance().getServices().setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 0, status, callback);
 					}
 				})
 				.show();

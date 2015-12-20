@@ -19,7 +19,7 @@ public class SickRageApi_GetApiPathTest {
 
 	@Test
 	public void getApiPath() {
-		assertThat(SickRageApi.getApiPath(this.apiPath)).isEqualTo(this.expected);
+		assertThat(SickRageApi.Companion.getApiPath(this.apiPath)).isEqualTo(this.expected);
 	}
 
 	@Parameterized.Parameters(name = "{index}: {0} -> {1}")

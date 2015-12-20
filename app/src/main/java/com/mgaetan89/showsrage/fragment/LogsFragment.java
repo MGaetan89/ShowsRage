@@ -148,7 +148,7 @@ public class LogsFragment extends Fragment implements Callback<Logs>, SwipeRefre
 			this.swipeRefreshLayout.setRefreshing(true);
 		}
 
-		SickRageApi.getInstance().getServices().getLogs(this.getPreferredLogsLevel(), this);
+		SickRageApi.Companion.getInstance().getServices().getLogs(this.getPreferredLogsLevel(), this);
 	}
 
 	@Override

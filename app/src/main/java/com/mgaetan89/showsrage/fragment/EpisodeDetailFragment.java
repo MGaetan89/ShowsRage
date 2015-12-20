@@ -188,7 +188,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		this.displayEpisode(episode);
 
 		if (this.show != null) {
-			SickRageApi.getInstance().getServices().getEpisode(this.show.getIndexerId(), this.seasonNumber, this.episodeNumber, this);
+			SickRageApi.Companion.getInstance().getServices().getEpisode(this.show.getIndexerId(), this.seasonNumber, this.episodeNumber, this);
 
 
 			String imdbId = this.show.getImdbId();
@@ -211,7 +211,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 
 		Toast.makeText(this.getActivity(), this.getString(R.string.episode_search, this.episodeNumber, this.seasonNumber), Toast.LENGTH_SHORT).show();
 
-		SickRageApi.getInstance().getServices().searchEpisode(this.show.getIndexerId(), this.seasonNumber, this.episodeNumber, new GenericCallback(this.getActivity()));
+		SickRageApi.Companion.getInstance().getServices().searchEpisode(this.show.getIndexerId(), this.seasonNumber, this.episodeNumber, new GenericCallback(this.getActivity()));
 	}
 
 	@Override
@@ -445,7 +445,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 
 	@NonNull
 	private Uri getEpisodeVideoUrl() {
-		String episodeUrl = SickRageApi.getInstance().getVideosUrl();
+		String episodeUrl = SickRageApi.Companion.getInstance().getVideosUrl();
 
 		if (this.episode != null) {
 			String location = this.episode.getLocation();
@@ -522,13 +522,13 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 				.setPositiveButton(R.string.replace, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						SickRageApi.getInstance().getServices().setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 1, status, callback);
+						SickRageApi.Companion.getInstance().getServices().setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 1, status, callback);
 					}
 				})
 				.setNegativeButton(R.string.keep, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						SickRageApi.getInstance().getServices().setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 0, status, callback);
+						SickRageApi.Companion.getInstance().getServices().setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 0, status, callback);
 					}
 				})
 				.show();

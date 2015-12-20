@@ -84,7 +84,7 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
-		SickRageApi.getInstance().getServices().clearHistory(new ClearHistoryCallback(this.getActivity()));
+		SickRageApi.Companion.getInstance().getServices().clearHistory(new ClearHistoryCallback(this.getActivity()));
 	}
 
 	@Nullable
@@ -152,7 +152,7 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 			this.swipeRefreshLayout.setRefreshing(true);
 		}
 
-		SickRageApi.getInstance().getServices().getHistory(this);
+		SickRageApi.Companion.getInstance().getServices().getHistory(this);
 	}
 
 	@Override

@@ -69,7 +69,7 @@ public class StatisticsFragment extends DialogFragment implements Callback<Shows
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		SickRageApi.getInstance().getServices().getShowsStats(this);
+		SickRageApi.Companion.getInstance().getServices().getShowsStats(this);
 	}
 
 	@NonNull

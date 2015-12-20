@@ -28,15 +28,15 @@ public class SickRageApi_GetOkHttpClientTest {
 	@Before
 	public void before() {
 		if (this.useBasicAuthentication) {
-			SickRageApi.getInstance().credentials = "dXNlcm5hbWU6cGFzc3dvcmQ=";
+			SickRageApi.Companion.setCredentials("dXNlcm5hbWU6cGFzc3dvcmQ=");
 		} else {
-			SickRageApi.getInstance().credentials = null;
+			SickRageApi.Companion.setCredentials(null);
 		}
 	}
 
 	@Test
 	public void getOkHttpClient() throws IOException {
-		OkHttpClient client = SickRageApi.getInstance().getOkHttpClient(this.useSelfSignedCertificate);
+		OkHttpClient client = SickRageApi.Companion.getInstance().getOkHttpClient(this.useSelfSignedCertificate);
 		Response response = new Response.Builder()
 				.code(200)
 				.protocol(Protocol.HTTP_2)
@@ -68,7 +68,7 @@ public class SickRageApi_GetOkHttpClientTest {
 
 	@After
 	public void after() {
-		SickRageApi.getInstance().credentials = null;
+		SickRageApi.Companion.setCredentials(null);
 	}
 
 	@Parameterized.Parameters(name = "{index}: {0} -> {1}")

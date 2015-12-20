@@ -17,7 +17,7 @@ public class OkHttpGlideModule extends com.bumptech.glide.integration.okhttp.OkH
 	public void registerComponents(Context context, Glide glide) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		boolean selfSignedCertificate = preferences.getBoolean("self_signed_certificate", false);
-		OkHttpClient client = SickRageApi.getInstance().getOkHttpClient(selfSignedCertificate);
+		OkHttpClient client = SickRageApi.Companion.getInstance().getOkHttpClient(selfSignedCertificate);
 
 		glide.register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(client));
 	}

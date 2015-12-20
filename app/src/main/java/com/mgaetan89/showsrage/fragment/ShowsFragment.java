@@ -101,7 +101,7 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		SickRageApi.getInstance().getServices().getShows(this);
+		SickRageApi.Companion.getInstance().getServices().getShows(this);
 
 		this.tabLayout = (TabLayout) this.getActivity().findViewById(R.id.tabs);
 
@@ -209,7 +209,7 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 		}
 
 		if (item.getItemId() == R.id.menu_refresh) {
-			SickRageApi.getInstance().getServices().getShows(this);
+			SickRageApi.Companion.getInstance().getServices().getShows(this);
 
 			return true;
 		}

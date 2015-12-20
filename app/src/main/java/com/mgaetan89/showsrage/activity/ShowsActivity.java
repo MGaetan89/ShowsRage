@@ -47,7 +47,7 @@ public class ShowsActivity extends BaseActivity {
 	protected void onResume() {
 		super.onResume();
 
-		SickRageApi.getInstance().getServices().getRootDirs(new RootDirsCallback(this));
+		SickRageApi.Companion.getInstance().getServices().getRootDirs(new RootDirsCallback(this));
 	}
 
 	private static final class RootDirsCallback implements Callback<RootDirs> {

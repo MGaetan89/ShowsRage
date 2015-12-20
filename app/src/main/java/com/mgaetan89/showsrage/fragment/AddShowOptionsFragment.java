@@ -61,7 +61,7 @@ public class AddShowOptionsFragment extends DialogFragment implements DialogInte
 
 		Callback<GenericResponse> callback = ((AddShowActivity) activity).getAddShowCallback();
 
-		SickRageApi.getInstance().getServices()
+		SickRageApi.Companion.getInstance().getServices()
 				.addNewShow(indexerId, preferredQuality, allowedQuality, status, language, anime, subtitles, callback);
 	}
 

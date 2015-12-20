@@ -77,7 +77,7 @@ public class SettingsNetworkFragment extends SettingsFragment implements Callbac
 			this.alertDialog = null;
 		}
 
-		String url = SickRageApi.getInstance().getApiUrl();
+		String url = SickRageApi.Companion.getInstance().getApiUrl();
 
 		new AlertDialog.Builder(this.getActivity())
 				.setCancelable(true)
@@ -95,12 +95,12 @@ public class SettingsNetworkFragment extends SettingsFragment implements Callbac
 
 		this.canceled = false;
 
-		SickRageApi.getInstance().init(PreferenceManager.getDefaultSharedPreferences(activity));
+		SickRageApi.Companion.getInstance().init(PreferenceManager.getDefaultSharedPreferences(activity));
 
 		this.alertDialog = new AlertDialog.Builder(activity)
 				.setCancelable(true)
 				.setTitle(R.string.testing_server_settings)
-				.setMessage(this.getString(R.string.connecting_to, SickRageApi.getInstance().getApiUrl()))
+				.setMessage(this.getString(R.string.connecting_to, SickRageApi.Companion.getInstance().getApiUrl()))
 				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -111,6 +111,6 @@ public class SettingsNetworkFragment extends SettingsFragment implements Callbac
 				})
 				.show();
 
-		SickRageApi.getInstance().getServices().ping(this);
+		SickRageApi.Companion.getInstance().getServices().ping(this);
 	}
 }

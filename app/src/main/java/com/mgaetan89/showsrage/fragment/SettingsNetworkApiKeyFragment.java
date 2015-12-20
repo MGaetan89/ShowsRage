@@ -42,12 +42,12 @@ public class SettingsNetworkApiKeyFragment extends SettingsNetworkFragment {
 	}
 
 	private void getApiKey() {
-		SickRageApi.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this.getActivity()));
+		SickRageApi.Companion.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this.getActivity()));
 
 		String username = this.getPreferenceValue("server_username", null);
 		String password = this.getPreferenceValue("server_password", null);
 
-		SickRageApi.getInstance().getServices().getApiKey(username, password, new ApiKeyCallback(this));
+		SickRageApi.Companion.getInstance().getServices().getApiKey(username, password, new ApiKeyCallback(this));
 	}
 
 	private static final class ApiKeyCallback implements Callback<ApiKey> {

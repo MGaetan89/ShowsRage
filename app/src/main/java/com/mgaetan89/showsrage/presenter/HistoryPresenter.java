@@ -27,7 +27,7 @@ public class HistoryPresenter {
 			return "";
 		}
 
-		return SickRageApi.getInstance().getPosterUrl(this.history.getTvDbId(), Indexer.TVDB);
+		return SickRageApi.Companion.getInstance().getPosterUrl(this.history.getTvDbId(), Indexer.TVDB);
 	}
 
 	public String getProvider() {

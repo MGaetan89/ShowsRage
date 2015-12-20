@@ -200,7 +200,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		if (actionBar != null) {
 			actionBar.setTitle(this.show.getShowName());
 
-			SickRageApi.getInstance().getServices().getShow(this.show.getIndexerId(), this);
+			SickRageApi.Companion.getInstance().getServices().getShow(this.show.getIndexerId(), this);
 		}
 
 		CustomTabsClient.bindCustomTabsService(this.getContext(), "com.android.chrome", this.serviceConnection);
@@ -471,7 +471,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		if (this.banner != null) {
 			ImageLoader.load(
 					this.banner,
-					SickRageApi.getInstance().getBannerUrl(this.show.getTvDbId(), Indexer.TVDB),
+					SickRageApi.Companion.getInstance().getBannerUrl(this.show.getTvDbId(), Indexer.TVDB),
 					false,
 					null,
 					this
@@ -483,7 +483,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		if (this.fanArt != null) {
 			ImageLoader.load(
 					this.fanArt,
-					SickRageApi.getInstance().getFanArtUrl(this.show.getTvDbId(), Indexer.TVDB),
+					SickRageApi.Companion.getInstance().getFanArtUrl(this.show.getTvDbId(), Indexer.TVDB),
 					false,
 					null,
 					this
@@ -560,7 +560,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		if (this.poster != null) {
 			ImageLoader.load(
 					this.poster,
-					SickRageApi.getInstance().getPosterUrl(this.show.getTvDbId(), Indexer.TVDB),
+					SickRageApi.Companion.getInstance().getPosterUrl(this.show.getTvDbId(), Indexer.TVDB),
 					false,
 					this,
 					null
@@ -619,13 +619,13 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 				.setPositiveButton(R.string.keep, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						SickRageApi.getInstance().getServices().deleteShow(indexerId, 0, callback);
+						SickRageApi.Companion.getInstance().getServices().deleteShow(indexerId, 0, callback);
 					}
 				})//
 				.setNegativeButton(R.string.delete, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						SickRageApi.getInstance().getServices().deleteShow(indexerId, 1, callback);
+						SickRageApi.Companion.getInstance().getServices().deleteShow(indexerId, 1, callback);
 					}
 				})//
 				.setNeutralButton(R.string.cancel, null)//
@@ -686,7 +686,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	private void pauseOrResumeShow(final boolean pause) {
 		this.showHidePauseResumeMenus(!pause);
 
-		SickRageApi.getInstance().getServices().pauseShow(this.show.getIndexerId(), pause ? 1 : 0, new GenericCallback(this.getActivity()) {
+		SickRageApi.Companion.getInstance().getServices().pauseShow(this.show.getIndexerId(), pause ? 1 : 0, new GenericCallback(this.getActivity()) {
 			@Override
 			public void failure(RetrofitError error) {
 				super.failure(error);
@@ -698,7 +698,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 	private void rescanShow() {
 		if (this.show != null) {
-			SickRageApi.getInstance().getServices().rescanShow(this.show.getIndexerId(), new GenericCallback(this.getActivity()));
+			SickRageApi.Companion.getInstance().getServices().rescanShow(this.show.getIndexerId(), new GenericCallback(this.getActivity()));
 		}
 	}
 
@@ -714,7 +714,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 	private void updateShow() {
 		if (this.show != null) {
-			SickRageApi.getInstance().getServices().updateShow(this.show.getIndexerId(), new GenericCallback(this.getActivity()));
+			SickRageApi.Companion.getInstance().getServices().updateShow(this.show.getIndexerId(), new GenericCallback(this.getActivity()));
 		}
 	}
 
