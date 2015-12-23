@@ -46,4 +46,17 @@
 				android:data="https://github.com/google/material-design-icons"/>
 		</PreferenceScreen>
 	</PreferenceCategory>
+
+	<PreferenceCategory android:title="MIT License">
+
+		<PreferenceScreen
+			android:key="db_flow"
+			android:summary="Version 3.0.0-beta1"
+			android:title="DBFlow">
+
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:data="https://github.com/Raizlabs/DBFlow"/>
+		</PreferenceScreen>
+	</PreferenceCategory>
 </PreferenceScreen>
