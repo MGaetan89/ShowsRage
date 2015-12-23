@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.io.IOException;
+import java.net.Proxy;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -51,9 +52,9 @@ public class SickRageApi_GetOkHttpClientTest {
 		assertThat(client.getAuthenticator()).isNotNull();
 
 		if (this.useBasicAuthentication) {
-			assertThat(client.getAuthenticator().authenticate(null, response)).isNotNull();
+			assertThat(client.getAuthenticator().authenticate(Proxy.NO_PROXY, response)).isNotNull();
 		} else {
-			assertThat(client.getAuthenticator().authenticate(null, response)).isNull();
+			assertThat(client.getAuthenticator().authenticate(Proxy.NO_PROXY, response)).isNull();
 		}
 
 		if (this.useSelfSignedCertificate) {

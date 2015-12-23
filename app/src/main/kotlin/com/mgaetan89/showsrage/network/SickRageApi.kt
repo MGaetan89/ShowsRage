@@ -197,7 +197,7 @@ class SickRageApi private constructor() : RequestInterceptor {
             return builder.toString()
         }
 
-        internal fun getApiPath(apiPath: String?): String {
+        fun getApiPath(apiPath: String?): String {
             if (apiPath == null || apiPath.isEmpty()) {
                 return ""
             }
@@ -205,7 +205,7 @@ class SickRageApi private constructor() : RequestInterceptor {
             return apiPath.replace("^/+|/$+".toRegex(), "")
         }
 
-        internal fun getCredentials(useBasicAuthentication: Boolean, username: String?, password: String?): String? {
+        fun getCredentials(useBasicAuthentication: Boolean, username: String?, password: String?): String? {
             if (!useBasicAuthentication) {
                 return null
             }
@@ -221,7 +221,7 @@ class SickRageApi private constructor() : RequestInterceptor {
             return Credentials.basic(username, password)
         }
 
-        internal fun getWebRoot(apiPath: String?): String {
+        fun getWebRoot(apiPath: String?): String {
             if (apiPath == null || apiPath.isEmpty()) {
                 return ""
             }
@@ -244,6 +244,10 @@ class SickRageApi private constructor() : RequestInterceptor {
             }
 
             return apiPath.replace("^/+|/$+".toRegex(), "") + "/"
+        }
+
+        fun setCredentials(credentials: String?) {
+            SickRageApi.instance.credentials = credentials
         }
     }
 }
