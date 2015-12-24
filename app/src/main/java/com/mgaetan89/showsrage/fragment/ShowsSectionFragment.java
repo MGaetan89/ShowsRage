@@ -359,6 +359,11 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 			}
 
 			ShowStatWrapper data = showStatsWrapper.getData();
+
+			if (data == null) {
+				return;
+			}
+
 			Map<Integer, ShowStats> showStats = data.getShowStats();
 
 			if (showStats != null) {
