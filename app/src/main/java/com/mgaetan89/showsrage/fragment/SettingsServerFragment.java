@@ -17,13 +17,13 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class SettingsNetworkFragment extends SettingsFragment implements Callback<GenericResponse> {
+public class SettingsServerFragment extends SettingsFragment implements Callback<GenericResponse> {
 	@Nullable
 	private AlertDialog alertDialog = null;
 
 	private boolean canceled = false;
 
-	public SettingsNetworkFragment() {
+	public SettingsServerFragment() {
 		this.setHasOptionsMenu(true);
 	}
 
@@ -61,7 +61,7 @@ public class SettingsNetworkFragment extends SettingsFragment implements Callbac
 
 	@Override
 	protected int getXmlResourceFile() {
-		return R.xml.settings_network;
+		return R.xml.settings_server;
 	}
 
 	private void showTestResult(boolean successful) {
@@ -104,7 +104,7 @@ public class SettingsNetworkFragment extends SettingsFragment implements Callbac
 				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						SettingsNetworkFragment.this.canceled = true;
+						SettingsServerFragment.this.canceled = true;
 
 						dialog.dismiss();
 					}

@@ -33,7 +33,7 @@
 
 		<intent
 			android:action="android.intent.action.VIEW"
-			android:data="showsrage://settings/network/api_key"/>
+			android:data="showsrage://settings/server/api_key"/>
 	</PreferenceScreen>
 
 	<CheckBoxPreference

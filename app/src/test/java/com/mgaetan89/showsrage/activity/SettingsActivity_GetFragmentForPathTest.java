@@ -7,8 +7,8 @@ import com.mgaetan89.showsrage.fragment.SettingsBehaviorFragment;
 import com.mgaetan89.showsrage.fragment.SettingsDisplayFragment;
 import com.mgaetan89.showsrage.fragment.SettingsExperimentalFeaturesFragment;
 import com.mgaetan89.showsrage.fragment.SettingsFragment;
-import com.mgaetan89.showsrage.fragment.SettingsNetworkApiKeyFragment;
-import com.mgaetan89.showsrage.fragment.SettingsNetworkFragment;
+import com.mgaetan89.showsrage.fragment.SettingsServerApiKeyFragment;
+import com.mgaetan89.showsrage.fragment.SettingsServerFragment;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,8 +47,8 @@ public class SettingsActivity_GetFragmentForPathTest {
 				{"/behavior", SettingsBehaviorFragment.class},
 				{"/display", SettingsDisplayFragment.class},
 				{"/experimental_features", SettingsExperimentalFeaturesFragment.class},
-				{"/network", SettingsNetworkFragment.class},
-				{"/network/api_key", SettingsNetworkApiKeyFragment.class},
+				{"/server", SettingsServerFragment.class},
+				{"/server/api_key", SettingsServerApiKeyFragment.class},
 		});
 	}
 }

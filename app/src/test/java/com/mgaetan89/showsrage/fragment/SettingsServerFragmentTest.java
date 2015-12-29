@@ -6,14 +6,14 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SettingsNetworkFragmentTest {
+public class SettingsServerFragmentTest {
 	@Test
 	public void getTitleResourceId() {
-		assertThat(new SettingsNetworkFragment().getTitleResourceId()).isEqualTo(R.string.server);
+		assertThat(new SettingsServerFragment().getTitleResourceId()).isEqualTo(R.string.server);
 	}
 
 	@Test
 	public void getXmlResourceFile() {
-		assertThat(new SettingsNetworkFragment().getXmlResourceFile()).isEqualTo(R.xml.settings_network);
+		assertThat(new SettingsServerFragment().getXmlResourceFile()).isEqualTo(R.xml.settings_server);
 	}
 }

@@ -2,13 +2,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<PreferenceScreen
-		android:fragment="com.mgaetan89.showsrage.fragment.SettingsNetworkFragment"
+		android:fragment="com.mgaetan89.showsrage.fragment.SettingsServerFragment"
 		android:icon="@drawable/ic_wifi_white_24dp"
 		android:title="@string/server">
 
 		<intent
 			android:action="android.intent.action.VIEW"
-			android:data="showsrage://settings/network"/>
+			android:data="showsrage://settings/server"/>
 	</PreferenceScreen>
 
 	<PreferenceScreen

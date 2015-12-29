@@ -34,8 +34,8 @@ class SettingsActivity : BaseActivity() {
                 "/behavior" -> SettingsBehaviorFragment()
                 "/display" -> SettingsDisplayFragment()
                 "/experimental_features" -> SettingsExperimentalFeaturesFragment()
-                "/network" -> SettingsNetworkFragment()
-                "/network/api_key" -> SettingsNetworkApiKeyFragment()
+                "/server" -> SettingsServerFragment()
+                "/server/api_key" -> SettingsServerApiKeyFragment()
                 else -> SettingsFragment()
             }
         }

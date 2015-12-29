@@ -19,7 +19,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class SettingsNetworkApiKeyFragment extends SettingsNetworkFragment {
+public class SettingsServerApiKeyFragment extends SettingsServerFragment {
 	@Override
 	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, @NonNull Preference preference) {
 		if ("get_api_key_action".equals(preference.getKey())) {
@@ -38,7 +38,7 @@ public class SettingsNetworkApiKeyFragment extends SettingsNetworkFragment {
 
 	@Override
 	protected int getXmlResourceFile() {
-		return R.xml.settings_network_api_key;
+		return R.xml.settings_server_api_key;
 	}
 
 	private void getApiKey() {
