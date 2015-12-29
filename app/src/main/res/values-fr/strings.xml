@@ -101,6 +101,7 @@
 	<string name="no_update">Aucune nouvelle mise à jour</string>
 	<string name="password">Mot de passe</string>
 	<string name="path">Chemin</string>
+	<string name="path_help">Si vous n\'êtes pas sûr, utilisez la valeur par défaut : \"api\".</string>
 	<string name="pause_show">Suspendre la série</string>
 	<string name="paused">Suspendue</string>
 	<string name="play_video">Lire la vidéo</string>

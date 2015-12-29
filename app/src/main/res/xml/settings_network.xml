@@ -23,6 +23,7 @@
 
 	<EditTextPreference
 		android:defaultValue="api"
+		android:dialogMessage="@string/path_help"
 		android:key="server_path"
 		android:title="@string/path"/>
 

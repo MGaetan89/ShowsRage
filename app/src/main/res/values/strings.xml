@@ -101,6 +101,7 @@
 	<string name="no_update">No new update</string>
 	<string name="password">Password</string>
 	<string name="path">Path</string>
+	<string name="path_help">If not sure, keep the default value: \"api\".</string>
 	<string name="pause_show">Pause show</string>
 	<string name="paused">Paused</string>
 	<string name="play_video">Play video</string>
