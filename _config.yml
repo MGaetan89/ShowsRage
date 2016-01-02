@@ -10,8 +10,8 @@ title: ShowsRage
 email: m.gaetan89@gmail.com
 description: >
   Android application to manage your SickRage/SickBeard installation.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://yourdomain.com" # the base hostname & protocol for your site
+baseurl: "ShowsRage" # the subpath of your site, e.g. /blog
+url: "https://MGaetan89.github.io" # the base hostname & protocol for your site
 sass:
   style: compressed
 
