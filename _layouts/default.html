@@ -3,7 +3,7 @@
 <head>
     <link href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-yellow.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="{{ '/css/main.css' | prepend: site.baseurl }}" rel="stylesheet">
+    <link href="{{ '/css/main.css' | prepend: site.baseurl | prepend: site.url }}" rel="stylesheet">
     <link href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" rel="canonical">
 
     <meta charset="utf-8">
@@ -23,7 +23,7 @@
 
     <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">
-            <img alt="{{ site.title }}" src="{{ '/assets/ShowsRage.png' | prepend: site.baseurl }}" title="{{ site.title }}"/>
+            <img alt="{{ site.title }}" src="https://raw.githubusercontent.com/MGaetan89/ShowsRage/master/app/src/main/res/mipmap-mdpi/ic_launcher.png" title="{{ site.title }}"/>
             {{ site.title }}
         </span>
 
@@ -31,7 +31,7 @@
             {% assign pages = site.pages | sort:"weight" %}
             {% for my_page in pages reversed %}
                 {% if my_page.title %}
-                    <a class="mdl-navigation__link" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a>
+                    <a class="mdl-navigation__link" href="{{ my_page.url | prepend: site.baseurl | prepend: site.url }}">{{ my_page.title }}</a>
                 {% endif %}
             {% endfor %}
 
