@@ -2,6 +2,7 @@ language: android
 
 branches:
   only:
+    - gh-pages
     - master
 
 jdk:
