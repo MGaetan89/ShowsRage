@@ -1,0 +1,9 @@
+---
+name: Version 1.0.1
+release_date: 2015-09-22
+current_tag: v1.0.1
+previous_tag: v1.0
+fixes:
+- Using <em>ShowsRage</em> was not possible if <em>SickRage</em> was installed in a subfolder
+- It is now possible to use HTTPS and self-signed certificate (new option in the <em>Settings</em>)
+---

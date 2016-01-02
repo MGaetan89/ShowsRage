@@ -1,0 +1,15 @@
+---
+name: Version 1.1
+release_date: 2015-09-29
+current_tag: v1.1
+previous_tag: v1.0.1
+features:
+- New setting to revert the order of the seasons
+- New setting to revert the order of the episodes
+- New setting to use Basic Authentication
+- Display episode plot on click in <em>Coming Episodes</em>
+changes:
+- Display show name in <em>Coming Episodes</em>
+fixes:
+- Fix navigation between episodes of a specific season
+---

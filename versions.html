@@ -1,0 +1,66 @@
+---
+layout: default
+permalink: /versions
+title: Versions history
+weight: 9
+---
+
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
+        <ul class="table-of-content">
+            {% for version in site.versions reversed %}
+                <li><a href="#{{ version.current_tag }}">{{ version.name }}</a></li>
+            {% endfor %}
+
+            <li><a href="https://github.com/MGaetan89/ShowsRage/releases" target="_blank">All releases</a></li>
+        </ul>
+    </div>
+</div>
+
+{% for version in site.versions reversed %}
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--12-col">
+            <h3><a class="mdl-color-text--black" name="{{ version.current_tag }}">{{ version.name }} <small>{{ version.release_date | date_to_long_string }}</small></a></h3>
+
+            <ul class="table-of-content">
+                <li><a href="https://github.com/MGaetan89/ShowsRage/releases/tag/{{ version.current_tag }}" target="_blank">Release</a></li>
+
+                {% if version.previous_tag %}
+                    <li><a href="https://github.com/MGaetan89/ShowsRage/compare/{{ version.previous_tag }}...{{ version.current_tag }}" target="_blank">Changes since {{ version.previous_tag }}</a></li>
+                {% endif %}
+            </ul>
+
+            <p>{{ version.description }}</p>
+
+            {% if version.features %}
+                <h4>Features</h4>
+
+                <ul>
+                    {% for feature in version.features %}
+                        <li>{{ feature }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if version.changes %}
+                <h4>Changes</h4>
+
+                <ul>
+                    {% for change in version.changes %}
+                        <li>{{ change }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if version.fixes %}
+                <h4>Fixes</h4>
+
+                <ul>
+                    {% for fix in version.fixes %}
+                        <li>{{ fix }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}

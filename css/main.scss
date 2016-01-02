@@ -1,0 +1,26 @@
+---
+---
+
+@charset "utf-8";
+
+.responsive-table {
+    margin-bottom: 10px;
+    overflow-x: scroll;
+    padding-bottom: 10px;
+}
+
+.table-of-content {
+    border-left: 4px solid #FFFF00;
+    list-style-type: none;
+    margin-left: 24px;
+    padding-left: 20px;
+
+    & a {
+        color: #000000;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

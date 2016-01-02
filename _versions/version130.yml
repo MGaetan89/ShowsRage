@@ -1,0 +1,17 @@
+---
+name: Version 1.3
+release_date: 2015-11-17
+current_tag: v1.3
+previous_tag: v1.2
+features:
+- Manual post-processing
+- Search for a show by its name on the list of shows
+- New setting to disable the automatic version check or customize the check interval
+- New setting to display the banner on the list of shows
+changes:
+- Display the air time of episodes in <em>Schedule</em>
+- Display "Paused" status on the list of shows
+- Long show/episode name now automatically scrolls horizontally
+- \"Play in an external video player" is no longer considered as an experimental feature
+- Design update
+---

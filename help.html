@@ -1,0 +1,26 @@
+---
+layout: default
+permalink: /help
+title: Help & Info
+weight: 8
+---
+
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
+        <ul class="table-of-content">
+            {% for help in site.help %}
+                <li><a href="#{{ help.name | strip_html | slugify }}">{{ help.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% for help in site.help %}
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--12-col">
+            <h3><a class="mdl-color-text--black" name="{{ help.name | strip_html | slugify }}">{{ help.name }}</a></h3>
+
+            {{ help.content }}
+        </div>
+    </div>
+{% endfor %}

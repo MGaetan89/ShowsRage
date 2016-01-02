@@ -1,0 +1,18 @@
+---
+name: Version 1.2
+release_date: 2015-11-01
+current_tag: v1.2
+previous_tag: v1.1
+features:
+- New setting to group the shows together and the animes together
+- Show plot and episode plot can be selected and translated (requires Android 6.0)
+changes:
+- New logo and colors thanks to <a class="mdl-color-text--accent-contrast" href="http://www.concept211.com/" target="_blank">Concept211</a>
+- Rename <em>Coming episodes</em> to <em>Schedule</em>
+- Design update
+fixes:
+- Images can now be loaded when using Basic Authentication
+- Increase touch area of the menu of each episode in <em>Schedule</em>
+- Remove "SD TV" quality option from <em>Preferred quality</em>
+- Remove "Archived" episode status
+---
