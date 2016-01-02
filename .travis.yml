@@ -1,3 +1,8 @@
 language: ruby
 
+branches:
+  only:
+    - gh-pages
+    - master
+
 script: "bundle exec jekyll build"
