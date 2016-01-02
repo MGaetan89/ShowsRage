@@ -16,5 +16,6 @@ sass:
   style: compressed
 
 collections:
+- features
 - help
 - versions

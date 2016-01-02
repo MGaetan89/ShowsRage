@@ -6,9 +6,64 @@ weight: 10
 ---
 
 <div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--12-col">Introduction</div>
+    <div class="mdl-cell mdl-cell--12-col">
+        <p class="mdl-typography--subhead"><em>ShowsRage</em> is an Android application that makes it easy to access and use your <em>SickRage</em> installation.</p>
+        <p><em>ShowsRage</em> aims to provide the same features as the Web user interface.
+    </div>
 </div>
+
+{% for feature in site.features %}
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--12-col">
+            <h2>{{ feature.name }}</h2>
+        </div>
+    </div>
+
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet">
+            <a href="{{ feature.left.image }}" target="_blank">
+                <img alt="{{ feature.left.name }}" class="mdl-cell--12-col" src="{{ feature.left.image }}"/>
+            </a>
+        </div>
+        <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet">
+            <h3><span class="mdl-cell--hide-phone mdl-cell--hide-tablet">&larr;</span> {{ feature.left.name }}</h3>
+
+            <ul>
+                {% for entry in feature.left.entries %}
+                    <li>{{ entry }}</li>
+                {% endfor %}
+            </ul>
+
+            <hr>
+
+            <h3>{{ feature.right.name }} <span class="mdl-cell--hide-phone mdl-cell--hide-tablet">&rarr;</span></h3>
+
+            <ul>
+                {% for entry in feature.right.entries %}
+                    <li>{{ entry }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet">
+            <a href="{{ feature.right.image }}" target="_blank">
+                <img alt="{{ feature.right.name }}" class="mdl-cell--12-col" src="{{ feature.right.image }}"/>
+            </a>
+        </div>
+    </div>
+{% endfor %}
+
 <div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--4-col">Screenshot</div>
-    <div class="mdl-cell mdl-cell--8-col">Description</div>
+    <div class="mdl-cell mdl-cell--12-col">
+        <h3>Miscellaneous</h3>
+
+        <ul>
+            <li>Support Android 4.0.3 and up</li>
+            <li>Take advantage of Google's Material Design</li>
+            <li>Tablet support</li>
+            <li>Manual post processing</li>
+            <li>View <em>SickRage</em>'s logs</li>
+            <li>Restart <em>SickRage</em></li>
+            <li>... and more to come with each new releases</li>
+        </ul>
+    </div>
 </div>

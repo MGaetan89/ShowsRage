@@ -1,0 +1,17 @@
+---
+name: Episodes
+left:
+  name: Episodes list
+  image: https://raw.githubusercontent.com/MGaetan89/ShowsRage/master/screenshots/Phone/3.%20Episodes%20list.png
+  entries:
+  - Search episode
+  - Set episode status
+right:
+  name: Episode detail
+  image: https://raw.githubusercontent.com/MGaetan89/ShowsRage/master/screenshots/Phone/4.%20Episode%20detail.png
+  entries:
+  - Stream episode on your device
+  - Cast episode on your Google Cast™
+  - Set episode status
+  - Detailed episode information
+---

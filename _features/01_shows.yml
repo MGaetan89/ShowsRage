@@ -1,0 +1,25 @@
+---
+name: Shows
+left:
+  name: Shows list
+  image: https://raw.githubusercontent.com/MGaetan89/ShowsRage/master/screenshots/Phone/1.%20Shows%20list.png
+  entries:
+  - Access your list of shows
+  - Separate shows and animes
+  - Filter by status and active state
+  - Search by show name
+  - Show download/snatch statistics
+  - Display show poster or banner
+  - Add new show
+right:
+  name: Show detail
+  image: https://raw.githubusercontent.com/MGaetan89/ShowsRage/master/screenshots/Phone/2.%20Show%20overview.png
+  entries:
+  - Pause/resume show
+  - Set show's quality
+  - Update show
+  - Rescan show
+  - Delete show
+  - Search show on <a class="mdl-color-text--accent-contrast" href="http://www.imdb.com/" target="_blank">IMDb</a>/<a class="mdl-color-text--accent-contrast" href="http://thetvdb.com/" target="_blank">The TVDB</a>/Internet
+  - Detailed show information
+---

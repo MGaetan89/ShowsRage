@@ -1,0 +1,15 @@
+---
+name: Schedule & History
+left:
+  name: Schedule
+  image: https://raw.githubusercontent.com/MGaetan89/ShowsRage/master/screenshots/Phone/5.%20Coming%20episodes.png
+  entries:
+  - See missed, today and future episodes
+  - Search episode
+  - Set episode status
+right:
+  name: History
+  image: https://raw.githubusercontent.com/MGaetan89/ShowsRage/master/screenshots/Phone/6.%20History.png
+  entries:
+  - See snatch and download history
+---
