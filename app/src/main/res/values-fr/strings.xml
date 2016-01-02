@@ -151,7 +151,6 @@
 	<string name="snatched_count">Récupérés : <xliff:g example="1" id="snatched">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
 	<string name="snatched_proper">Récupéré (correct)</string>
 	<string name="soon">Bientôt</string>
-	<string name="source_code">Code source</string>
 	<string name="specials">Spéciaux</string>
 	<string name="split_shows_animes">Séparer les séries et les animés</string>
 	<string name="statistics">Statistiques</string>
@@ -181,6 +180,7 @@
 	<string name="wanted">Voulu</string>
 	<string name="warning">Avertissement</string>
 	<string name="web_search">Chercher sur Internet</string>
+	<string name="website">Site Web</string>
 	<string name="welcome_message">Vous êtes juste à quelques clics de vos séries.\n\nPour utiliser cette application, vous devez avoir accès à une installation fonctionnelle de SickRage.\nD\'autres solutions peuvent également fonctionner, mais elles ne sont officiellement supportées.</string>
 	<string name="writers">Scénaristes : <xliff:g example="Whitney Cummings, Michael Patrick King" id="writers">%1$s</xliff:g></string>
 	<string name="year">Diffusion : <xliff:g example="2005-" id="year">%1$s</xliff:g></string>

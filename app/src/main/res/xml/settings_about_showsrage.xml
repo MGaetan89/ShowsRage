@@ -7,12 +7,12 @@
 
 	<PreferenceScreen
 		android:key="application_source"
-		android:summary="GitHub"
-		android:title="@string/source_code">
+		android:summary="@string/app_name"
+		android:title="@string/website">
 
 		<intent
 			android:action="android.intent.action.VIEW"
-			android:data="https://github.com/MGaetan89/ShowsRage"/>
+			android:data="https://MGaetan89.github.io/ShowsRage/"/>
 	</PreferenceScreen>
 
 	<PreferenceScreen

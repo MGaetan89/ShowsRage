@@ -151,7 +151,6 @@
 	<string name="snatched_count">Snatched: <xliff:g example="1" id="snatched">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
 	<string name="snatched_proper">Snatched (proper)</string>
 	<string name="soon">Soon</string>
-	<string name="source_code">Source code</string>
 	<string name="specials">Specials</string>
 	<string name="split_shows_animes">Split shows &amp; animes</string>
 	<string name="statistics">Statistics</string>
@@ -181,6 +180,7 @@
 	<string name="wanted">Wanted</string>
 	<string name="warning">Warning</string>
 	<string name="web_search">Web Search</string>
+	<string name="website">Website</string>
 	<string name="welcome_message">You are just a few clicks away from your shows.\n\nTo use this application, you need to have access to a working SickRage installation.\nOther forks may also work, but are not officially supported.</string>
 	<string name="writers">Writers: <xliff:g example="Whitney Cummings, Michael Patrick King" id="writers">%1$s</xliff:g></string>
 	<string name="year">Year: <xliff:g example="2005-" id="year">%1$s</xliff:g></string>
