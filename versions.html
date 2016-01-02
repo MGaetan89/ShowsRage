@@ -20,7 +20,7 @@ weight: 9
 {% for version in site.versions reversed %}
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--12-col">
-            <h3><a class="mdl-color-text--black" name="{{ version.current_tag }}">{{ version.name }} <small>{{ version.release_date | date_to_long_string }}</small></a></h3>
+            <h3><a class="mdl-color-text--black" name="{{ version.current_tag }}">{{ version.name }} <small>{{ version.release_date }}</small></a></h3>
 
             <ul class="table-of-content">
                 <li><a href="https://github.com/MGaetan89/ShowsRage/releases/tag/{{ version.current_tag }}" target="_blank">Release</a></li>
