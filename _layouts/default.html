@@ -8,11 +8,12 @@
     <link href="{{ '/assets/favicon.ico' | prepend: site.baseurl | prepend: site.url }}" rel="icon" type="image/x-icon">
 
     <meta charset="utf-8">
+    <meta name="theme-color" content="#3F51B5">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
 
-    <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+    <title>{{ page.title }} | {{ site.title }}</title>
 </head>
 <body>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
