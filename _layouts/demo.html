@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-yellow.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{{ '/css/main.css' | prepend: site.baseurl | prepend: site.url }}" rel="stylesheet">
+    <link href="{{ '/css/demo.css' | prepend: site.baseurl | prepend: site.url }}" rel="stylesheet">
+    <link href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" rel="canonical">
+    <link href="{{ '/assets/favicon.ico' | prepend: site.baseurl | prepend: site.url }}" rel="icon" type="image/x-icon">
+
+    <meta charset="utf-8">
+    <meta name="theme-color" content="#09769F">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+
+    <title>{{ page.title }} | {{ site.title }}</title>
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">{{ page.title }}</span>
+
+            <div class="mdl-layout-spacer"></div>
+
+            {% if page.menu %}
+                <nav class="mdl-navigation">
+                    {% for menu in page.menu %}
+                        <a class="material-icons mdl-navigation__link" href="">{{ menu }}</a>
+                    {% endfor %}
+                </nav>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">ShowsRage</span>
+
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="">
+                <span class="material-icons">tv</span>
+                Shows
+            </a>
+            <a class="mdl-navigation__link" href="">
+                <span class="material-icons">schedule</span>
+                Schedule
+            </a>
+            <a class="mdl-navigation__link" href="">
+                <span class="material-icons">history</span>
+                History
+            </a>
+            <a class="mdl-navigation__link" href="">
+                <span class="material-icons">list</span>
+                Logs
+            </a>
+            <a class="mdl-navigation__link" href="">
+                <span class="material-icons">trending_up</span>
+                Statistics
+            </a>
+
+            <hr>
+
+            <a class="mdl-navigation__link" href="">
+                <span class="material-icons">settings</span>
+                Settings
+            </a>
+            <a class="mdl-navigation__link" href="">
+                <span class="material-icons">tune</span>
+                Post Processing
+            </a>
+            <a class="mdl-navigation__link" href="">
+                <span class="material-icons">system_update</span>
+                Check for update
+            </a>
+            <a class="mdl-navigation__link" href="">
+                <span class="material-icons">replay</span>
+                Restart
+            </a>
+        </nav>
+    </div>
+
+    <main class="mdl-layout__content">
+        {{ content }}
+    </main>
+</div>
+
+<script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
+</body>
+</html>

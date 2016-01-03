@@ -1,0 +1,60 @@
+---
+---
+
+@charset "utf-8";
+
+@import "variables";
+
+$padding: 8px;
+$poster-color: #FF0000;
+$poster-size: 40px;
+$progress-height: 2px;
+
+body {
+    background-color: #424242;
+    color: #FFFFFF;
+}
+
+.mdl-layout__header-row {
+    padding-right: 0;
+}
+
+.mdl-progress {
+    height: $progress-height;
+    width: 100%;
+
+    > .bufferbar {
+        background: #888888;
+    }
+
+    > .progressbar {
+        background-color: $accent-color;
+    }
+}
+
+.show-entry {
+    display: table;
+    width: 100%;
+
+    .show-data, .show-poster {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .show-data {
+        padding: $padding 2 * $padding $padding 0;
+    }
+
+    .show-poster {
+        height: $poster-size;
+        padding: 2 * $padding;
+        width: $poster-size;
+
+        div {
+            background-color: $poster-color;
+            border-radius: $poster-size / 2;
+            height: $poster-size;
+            width: $poster-size;
+        }
+    }
+}

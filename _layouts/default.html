@@ -32,7 +32,7 @@
         <nav class="mdl-navigation">
             {% assign pages = site.pages | sort:"weight" %}
             {% for my_page in pages reversed %}
-                {% if my_page.title %}
+                {% if my_page.title and my_page.layout != 'demo' %}
                     <a class="mdl-navigation__link" href="{{ my_page.url | prepend: site.baseurl | prepend: site.url }}">{{ my_page.title }}</a>
                 {% endif %}
             {% endfor %}

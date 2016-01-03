@@ -3,8 +3,7 @@
 
 @charset "utf-8";
 
-$accent-color: #FFFF00;
-$primary-color: #09769F;
+@import "variables";
 
 .mdl-layout__header {
     background-color: $primary-color;
@@ -33,57 +32,12 @@ $primary-color: #09769F;
 }
 
 #demo-app {
-    $padding: 8px;
-    $poster-color: #FF0000;
-    $poster-size: 40px;
-    $progress-height: 2px;
-
-    background-color: #424242;
-    color: #FFFFFF;
     margin: 0 auto 40px auto;
     width: 50%;
+}
 
-    .mdl-layout__header-row {
-        padding-right: 0;
-    }
-
-    .mdl-progress {
-        height: $progress-height;
+@media screen and (max-width:1024px) {
+    #demo-app {
         width: 100%;
-
-        > .bufferbar {
-            background: #888888;
-        }
-
-        > .progressbar {
-            background-color: $accent-color;
-        }
-    }
-
-    .show-entry {
-        display: table;
-        width: 100%;
-
-        .show-data, .show-poster {
-            display: table-cell;
-            vertical-align: middle;
-        }
-
-        .show-data {
-            padding: $padding 2 * $padding $padding 0;
-        }
-
-        .show-poster {
-            height: $poster-size;
-            padding: 2 * $padding;
-            width: $poster-size;
-
-            div {
-                background-color: $poster-color;
-                border-radius: $poster-size / 2;
-                height: $poster-size;
-                width: $poster-size;
-            }
-        }
     }
 }
