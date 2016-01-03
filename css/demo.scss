@@ -14,6 +14,34 @@ a {
     text-decoration: none;
 }
 
+.mdl-layout__drawer {
+    background-color: $background-color;
+    color: $text-color;
+
+    .mdl-layout-title {
+        background-color: $primary-color;
+
+        img {
+            padding: 2 * $padding $padding;
+        }
+    }
+
+    .mdl-navigation .mdl-navigation__link {
+        color: $text-color;
+
+        &:hover {
+            color: $primary-color;
+            background-color: #595959;
+        }
+
+        .material-icons {
+            padding-left: $padding;
+            padding-right: 2 * $padding;
+            vertical-align: middle;
+        }
+    }
+}
+
 .mdl-layout__header-row {
     padding-right: 0;
 }
