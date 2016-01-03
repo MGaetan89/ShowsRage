@@ -1,0 +1,111 @@
+---
+layout: default
+permalink: /demo.html
+title: Demo
+weight: 9
+---
+
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
+        <p>Here you can try <em>ShowsRage</em> from your Web browser without having to install anything.</p>
+        <p>Note that this demo may not be up to date with the latest version available on the <a class="mdl-color-text--accent-contrast" href="https://play.google.com/store/apps/details?id=com.mgaetan89.showsrage" target="_blank">Play Store</a> and that the data presented in it are all fake.</p>
+    </div>
+</div>
+
+<div class="mdl-shadow--8dp" id="demo-app">
+    <div class="mdl-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <span class="mdl-layout-title">Shows</span>
+
+                <div class="mdl-layout-spacer"></div>
+
+                <nav class="mdl-navigation mdl-layout--large-screen-only">
+                    <a class="material-icons mdl-navigation__link" href="">search</a>
+                    <a class="material-icons mdl-navigation__link" href="">refresh</a>
+                </nav>
+            </div>
+        </header>
+
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">ShowsRage</span>
+
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" href="">
+                    <span class="material-icons">tv</span>
+                    Shows
+                </a>
+                <a class="mdl-navigation__link" href="">
+                    <span class="material-icons">schedule</span>
+                    Schedule
+                </a>
+                <a class="mdl-navigation__link" href="">
+                    <span class="material-icons">history</span>
+                    History
+                </a>
+                <a class="mdl-navigation__link" href="">
+                    <span class="material-icons">list</span>
+                    Logs
+                </a>
+                <a class="mdl-navigation__link" href="">
+                    <span class="material-icons">trending_up</span>
+                    Statistics
+                </a>
+
+                <hr>
+
+                <a class="mdl-navigation__link" href="">
+                    <span class="material-icons">settings</span>
+                    Settings
+                </a>
+                <a class="mdl-navigation__link" href="">
+                    <span class="material-icons">tune</span>
+                    Post Processing
+                </a>
+                <a class="mdl-navigation__link" href="">
+                    <span class="material-icons">system_update</span>
+                    Check for update
+                </a>
+                <a class="mdl-navigation__link" href="">
+                    <span class="material-icons">replay</span>
+                    Restart
+                </a>
+            </nav>
+        </div>
+
+        <main class="mdl-layout__content">
+            {% for i in (1..20) %}
+                <div class="show-entry">
+                    <div class="show-poster">
+                        <div></div>
+                    </div>
+                    <div class="show-data">
+                        <div class="mdl-typography--subhead">Show Name {{ i }}</div>
+                        <div class="mdl-typography--caption">
+                            {% cycle 'in 2 days', 'Today', 'Ended', 'Tomorrow', 'in 3 days', 'Jan 20 2016', 'Continuing' %}
+                        </div>
+                        <div class="mdl-typography--caption mdl-typography--text-right">
+                            {% cycle 'AMC', 'TBS', 'CBS', 'HBO', 'FOX' %}
+                            &nbsp;/&nbsp;
+                            {% cycle 'HD', 'Any', 'HD1080p', 'Custom' %}
+                        </div>
+                    </div>
+                </div>
+                <div id="p1" class="mdl-progress mdl-js-progress"></div>
+            {% endfor %}
+        </main>
+    </div>
+</div>
+
+<script type="text/javascript">
+var app = document.querySelector('#demo-app');
+var progresses = app.querySelectorAll('.mdl-progress');
+
+app.style.height = (app.offsetWidth * 1.33) + 'px';
+
+for (var index in progresses) {
+    progresses[index].addEventListener('mdl-componentupgraded', function() {
+        this.MaterialProgress.setProgress(Math.floor(Math.random() * 100));
+    });
+}
+</script>
