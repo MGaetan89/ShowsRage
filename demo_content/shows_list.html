@@ -7,7 +7,7 @@ menu:
 ---
 
 {% for i in (1..20) %}
-    <div class="show-entry">
+    <a class="mdl-js-ripple-effect show-entry" href="{{ '/demo_content/show_detail.html' | prepend: site.baseurl | prepend: site.url }}">
         <div class="show-poster">
             <div></div>
         </div>
@@ -22,12 +22,12 @@ menu:
                 {% cycle 'HD', 'Any', 'HD1080p', 'Custom' %}
             </div>
         </div>
-    </div>
+    </a>
     <div id="p1" class="mdl-progress mdl-js-progress"></div>
 {% endfor %}
 
 <script type="text/javascript">
-var progresses = app.querySelectorAll('.mdl-progress');
+var progresses = document.querySelectorAll('.mdl-progress');
 
 for (var index in progresses) {
     progresses[index].addEventListener('mdl-componentupgraded', function() {
