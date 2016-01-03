@@ -7,7 +7,7 @@ features:
 - New setting to group the shows together and the animes together
 - Show plot and episode plot can be selected and translated (requires Android 6.0)
 changes:
-- New logo and colors thanks to <a class="mdl-color-text--accent-contrast" href="http://www.concept211.com/" target="_blank">Concept211</a>
+- New logo and colors thanks to <a href="http://www.concept211.com/" target="_blank">Concept211</a>
 - Rename <em>Coming episodes</em> to <em>Schedule</em>
 - Design update
 fixes:

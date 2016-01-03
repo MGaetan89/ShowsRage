@@ -18,7 +18,7 @@ weight: 7
 {% for help in site.help %}
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--12-col">
-            <h3><a class="mdl-color-text--black" name="{{ help.name | strip_html | slugify }}">{{ help.name }}</a></h3>
+            <h3><a name="{{ help.name | strip_html | slugify }}">{{ help.name }}</a></h3>
 
             {{ help.content }}
         </div>

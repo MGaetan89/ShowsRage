@@ -5,8 +5,21 @@
 
 @import "variables";
 
+a {
+    color: $text-color;
+}
+
+body {
+    background-color: $background-color;
+    color: $text-color;
+}
+
 .mdl-layout__header {
     background-color: $primary-color;
+}
+
+.mdl-data-table tr td, .mdl-data-table tr td a {
+    color: $text-color-invert;
 }
 
 .responsive-table {
@@ -16,13 +29,16 @@
 }
 
 .table-of-content {
-    border-left: 4px solid $accent-color;
+    $toc-border-width: 4px;
+    $toc-padding: 20px;
+
+    border-left: $toc-border-width solid $accent-color;
     list-style-type: none;
-    margin-left: 24px;
-    padding-left: 20px;
+    margin-left: $toc-border-width + $toc-padding;
+    padding-left: $toc-padding;
 
     & a {
-        color: #000000;
+        color: $text-color;
         text-decoration: none;
 
         &:hover {
