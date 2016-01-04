@@ -40,7 +40,7 @@ a {
 
         &:hover {
             color: $primary-color;
-            background-color: #595959;
+            background-color: $hover-color;
         }
 
         .material-icons {
@@ -53,6 +53,18 @@ a {
 
 .mdl-layout__header-row {
     padding-right: 0;
+
+    .mdl-menu {
+        background-color: $background-color;
+
+        .mdl-menu__item {
+            color: $text-color;
+
+            &:hover {
+                background-color: $hover-color;
+            }
+        }
+    }
 }
 
 .mdl-progress {

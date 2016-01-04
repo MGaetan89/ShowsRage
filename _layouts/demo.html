@@ -27,9 +27,23 @@
             {% if page.menu %}
                 <nav class="mdl-navigation">
                     {% for menu in page.menu %}
-                        <a class="material-icons mdl-navigation__link" href="">{{ menu }}</a>
+                        <a class="material-icons mdl-navigation__link" href="" title="{{ menu.title }}">
+                            {{ menu.icon }}
+                        </a>
                     {% endfor %}
                 </nav>
+            {% endif %}
+
+            {% if page.overflow %}
+                <button class="mdl-button mdl-js-button mdl-button--icon" id="menu-overflow">
+                    <i class="material-icons">more_vert</i>
+                </button>
+
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="menu-overflow">
+                    {% for menu in page.overflow %}
+                        <li class="mdl-menu__item">{{ menu.title }}</li>
+                    {% endfor %}
+                </ul>
             {% endif %}
         </div>
     </header>
