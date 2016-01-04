@@ -9,9 +9,17 @@ $padding: 8px;
 $poster-color: #FF0000;
 $poster-size: 40px;
 $progress-height: 2px;
+$fab-spacing: 2 * $padding;
+$fab-height: 56px + 2 * $fab-spacing;
 
 a {
     text-decoration: none;
+}
+
+.mdl-button.mdl-button--fab {
+    bottom: $fab-spacing;
+    position: fixed;
+    right: $fab-spacing;
 }
 
 .mdl-layout__drawer {
@@ -85,4 +93,8 @@ a {
             width: $poster-size;
         }
     }
+}
+
+.shows-list {
+    margin-bottom: $fab-height;
 }
