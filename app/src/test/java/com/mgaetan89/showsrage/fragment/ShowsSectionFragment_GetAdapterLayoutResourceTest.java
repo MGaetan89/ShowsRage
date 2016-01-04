@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.fragment;
 
-import com.google.gson.Gson;
 import com.mgaetan89.showsrage.R;
 
 import org.junit.Test;
@@ -18,17 +17,15 @@ public class ShowsSectionFragment_GetAdapterLayoutResourceTest {
 	public int layoutId;
 
 	@Parameterized.Parameter(0)
-	public String preferedShowLayout;
+	public String preferredShowLayout;
 
 	@Test
 	public void getAdapterLayoutResource() {
-		assertThat(ShowsSectionFragment.getAdapterLayoutResource(this.preferedShowLayout)).isEqualTo(this.layoutId);
+		assertThat(ShowsSectionFragment.getAdapterLayoutResource(this.preferredShowLayout)).isEqualTo(this.layoutId);
 	}
 
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
-		Gson gson = new Gson();
-
 		return Arrays.asList(new Object[][]{
 				{null, R.layout.adapter_shows_list_content_poster},
 				{"", R.layout.adapter_shows_list_content_poster},
