@@ -27,7 +27,7 @@
             {% if page.menu %}
                 <nav class="mdl-navigation">
                     {% for menu in page.menu %}
-                        <a class="material-icons mdl-navigation__link" href="" id="menu-{{ menu.icon }}">
+                        <a class="material-icons mdl-navigation__link" id="menu-{{ menu.icon }}">
                             {{ menu.icon }}
                         </a>
                         <div class="mdl-tooltip" for="menu-{{ menu.icon }}">{{ menu.title }}</div>

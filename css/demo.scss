@@ -13,6 +13,8 @@ $fab-spacing: 2 * $padding;
 $fab-height: 56px + 2 * $fab-spacing;
 
 a {
+    cursor: pointer;
+    outline: none;
     text-decoration: none;
 }
 
