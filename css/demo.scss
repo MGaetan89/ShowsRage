@@ -5,6 +5,18 @@
 
 @import "variables";
 
+// From: https://css-tricks.com/snippets/sass/mixin-prefix-properties/
+@mixin prefix($property, $value, $prefixes: ()) {
+    @each $prefix in $prefixes {
+        #{'-' + $prefix + '-' + $property}: $value;
+    }
+
+    // Output standard non-prefixed declaration
+    #{$property}: $value;
+}
+
+$drawer-width: 300px;
+$logo-size: 48px;
 $padding: 8px;
 $poster-color: #FF0000;
 $poster-size: 40px;
@@ -28,12 +40,17 @@ a {
     background-color: $background-color;
     border-right: none;
     color: $text-color;
+    width: $drawer-width;
+
+    @include prefix(transform, translateX(-$drawer-width), webkit ms);
 
     .mdl-layout-title {
         background-color: $primary-color;
 
         img {
+            height: $logo-size;
             padding: 2 * $padding $padding;
+            width: $logo-size;
         }
     }
 
