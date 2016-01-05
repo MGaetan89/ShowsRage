@@ -46,7 +46,7 @@ interface SickRageServices {
     @GET("/{api_path}/{api_key}/?cmd=show")
     fun getShow(@Query("indexerid") indexerId: Int, callback: Callback<SingleShow>)
 
-    @GET("/{api_path}/{api_key}/?cmd=shows&sort=name&paused=1")
+    @GET("/{api_path}/{api_key}/?cmd=shows&sort=name")
     fun getShows(callback: Callback<Shows>)
 
     @GET("/{api_path}/{api_key}/?cmd=shows.stats")
