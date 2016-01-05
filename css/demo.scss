@@ -15,6 +15,7 @@
     #{$property}: $value;
 }
 
+$card-width: 95%;
 $drawer-width: 300px;
 $padding: 8px;
 $poster-color: #FF0000;
@@ -33,6 +34,22 @@ a {
     bottom: $fab-spacing;
     position: fixed;
     right: $fab-spacing;
+}
+
+.mdl-card {
+    color: $text-color-invert;
+    min-height: 0;
+    margin: 2 * $padding auto;
+    padding: 2 * $padding;
+    width: $card-width;
+
+    &.show-summary {
+        padding: 0;
+    }
+
+    p {
+        margin: $padding / 2 0 $padding / 2 0;
+    }
 }
 
 .mdl-layout__drawer {
@@ -96,7 +113,7 @@ a {
     }
 }
 
-.show-entry {
+.show-entry, .show-summary {
     display: table;
     width: 100%;
 
@@ -125,4 +142,22 @@ a {
 
 .shows-list {
     margin-bottom: $fab-height;
+}
+
+.show-summary {
+    height: 100%;
+    width: $card-width;
+
+    .show-poster {
+        height: 100%;
+        padding: 0;
+        padding-right: 2 * $padding;
+        width: 30%;
+
+        div {
+            border-radius: 0;
+            height: 100%;
+            width: 100%;
+        }
+    }
 }
