@@ -47,6 +47,14 @@
                 </ul>
             {% endif %}
         </div>
+
+        {% if page.tabs %}
+            <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+                {% for tab in page.tabs %}
+                    <a href="#{{ tab.id }}" class="mdl-layout__tab{% if forloop.first %} is-active{% endif %}">{{ tab.title }}</a>
+                {% endfor %}
+            </div>
+        {% endif %}
     </header>
 
     <div class="mdl-layout__drawer">

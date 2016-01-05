@@ -21,7 +21,7 @@ body {
     width: $logo-size;
 }
 
-.mdl-layout__header {
+.mdl-layout__header, .mdl-layout__tab-bar {
     background-color: $primary-color;
 }
 
