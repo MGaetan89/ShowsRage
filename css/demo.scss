@@ -16,7 +16,6 @@
 }
 
 $drawer-width: 300px;
-$logo-size: 48px;
 $padding: 8px;
 $poster-color: #FF0000;
 $poster-size: 40px;
@@ -48,9 +47,7 @@ a {
         background-color: $primary-color;
 
         img {
-            height: $logo-size;
             padding: 2 * $padding $padding;
-            width: $logo-size;
         }
     }
 

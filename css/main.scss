@@ -5,6 +5,8 @@
 
 @import "variables";
 
+$logo-size: 48px;
+
 a {
     color: $text-color;
 }
@@ -12,6 +14,11 @@ a {
 body {
     background-color: $background-color;
     color: $text-color;
+}
+
+.mdl-layout__drawer .mdl-layout-title img {
+    height: $logo-size;
+    width: $logo-size;
 }
 
 .mdl-layout__header {
