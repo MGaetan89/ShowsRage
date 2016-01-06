@@ -30,6 +30,31 @@ a {
     text-decoration: none;
 }
 
+.episode-entry, .show-entry, .show-summary {
+    display: table;
+    width: 100%;
+
+    .episode-actions, .episode-date, .show-data, .show-poster {
+        display: table-cell;
+        vertical-align: middle;
+    }
+}
+
+.episode-entry {
+    padding: $padding 0 $padding 2 * $padding;
+
+    .episode-actions {
+        padding: 0 2 * $padding;
+        width: $poster-size;
+    }
+}
+
+.episode-quality {
+    border-radius: 3px;
+    float: left;
+    padding: 3px 5px;
+}
+
 .mdl-button.mdl-button--fab {
     bottom: $fab-spacing;
     position: fixed;
@@ -86,16 +111,16 @@ a {
 
 .mdl-layout__header-row {
     padding-right: 0;
+}
 
-    .mdl-menu {
-        background-color: $background-color;
+.mdl-menu {
+    background-color: $background-color;
 
-        .mdl-menu__item {
-            color: $text-color;
+    .mdl-menu__item {
+        color: $text-color;
 
-            &:hover {
-                background-color: $hover-color;
-            }
+        &:hover {
+            background-color: $hover-color;
         }
     }
 }
@@ -114,18 +139,6 @@ a {
 }
 
 .show-entry, .show-summary {
-    display: table;
-    width: 100%;
-
-    .show-data, .show-poster {
-        display: table-cell;
-        vertical-align: middle;
-    }
-
-    .show-data {
-        padding: $padding 2 * $padding $padding 0;
-    }
-
     .show-poster {
         height: $poster-size;
         padding: 2 * $padding;
@@ -137,6 +150,10 @@ a {
             height: $poster-size;
             width: $poster-size;
         }
+    }
+
+    .show-data {
+        padding: $padding 2 * $padding $padding 0;
     }
 }
 
@@ -156,8 +173,15 @@ a {
 
         div {
             border-radius: 0;
+            display: table;
             height: 100%;
             width: 100%;
+
+            span {
+                display: table-cell;
+                text-align: center;
+                vertical-align: middle;
+            }
         }
     }
 }

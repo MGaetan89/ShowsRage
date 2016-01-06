@@ -26,27 +26,19 @@ tabs:
     title: Show
 }
 - {
-    id: season,
-    title: Season 5
-}
-- {
-    id: season,
-    title: Season 4
-}
-- {
-    id: season,
+    id: season3,
     title: Season 3
 }
 - {
-    id: season,
+    id: season2,
     title: Season 2
 }
 - {
-    id: season,
+    id: season1,
     title: Season 1
 }
 - {
-    id: season,
+    id: season0,
     title: Specials
 }
 ---
@@ -54,7 +46,7 @@ tabs:
 <section class="mdl-layout__tab-panel is-active" id="show">
     <div class="mdl-card mdl-shadow--4dp show-summary">
         <div class="show-poster">
-            <div></div>
+            <div><span>[Poster]</span></div>
         </div>
         <div class="show-data">
             <span class="mdl-typography--subhead">Show Name</span>
@@ -116,6 +108,29 @@ tabs:
     </div>
 </section>
 
-<section class="mdl-layout__tab-panel" id="season">
-    Episodes list
-</section>
+{% for i in (0..3) reversed %}
+    <section class="mdl-layout__tab-panel" id="season{{ i }}">
+        {% for j in (1..24) reversed %}
+            <div class="mdl-js-ripple-effect episode-entry">
+                <a class="episode-data" href="{{ '/demo/episodes/detail.html' | prepend: site.baseurl | prepend: site.url }}">
+                    <div class="mdl-typography--subhead">E{{ j }} - Episode Name</div>
+                    <div class="mdl-typography--caption">Episode date</div>
+                    <div class="mdl-typography--caption episode-quality" style="background-color: {% cycle '#4CAF50', '#2196F3', '#673AB7', '#FFEB3B', '#F44336', '#4CAF50', '#2196F3', '#673AB7' %};">
+                        {% cycle 'Downloaded', 'Ignored', 'Snatched', 'Unaired', 'Wanted', 'Archived', 'Skipped', 'Snatched (proper)' %}
+                    </div>
+                    <div class="mdl-typography--caption mdl-typography--text-right">1080p WEB-DL</div>
+                </a>
+                <div class="episode-actions">
+                    <button class="mdl-button mdl-js-button mdl-button--icon" id="episode-actions-{{ i }}-{{ j }}">
+                        <i class="material-icons">more_vert</i>
+                    </button>
+
+                    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="episode-actions-{{ i }}-{{ j }}">
+                        <li class="mdl-menu__item">Search episode</li>
+                        <li class="mdl-menu__item">Set status</li>
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+{% endfor %}
