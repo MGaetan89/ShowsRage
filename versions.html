@@ -20,17 +20,30 @@ weight: 8
 {% for version in site.versions reversed %}
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--12-col">
-            <h3><a name="{{ version.name | slugify }}">{{ version.name }} <small>{{ version.release_date | date_to_long_string }}</small></a></h3>
+            <h3><a name="{{ version.name | slugify }}">
+                {{ version.name }}
+                <small>
+                    {% if version.release_date %}
+                        {{ version.release_date | date_to_long_string }}
+                    {% else %}
+                        Work in progress
+                    {% endif %}
+                </small>
+            </a></h3>
 
             <ul class="table-of-content">
-                <li><a href="https://github.com/MGaetan89/ShowsRage/releases/tag/{{ version.current_tag }}" target="_blank">Release</a></li>
+                {% if version.current_tag != 'master' %}
+                    <li><a href="https://github.com/MGaetan89/ShowsRage/releases/tag/{{ version.current_tag }}" target="_blank">Release</a></li>
+                {% endif %}
 
                 {% if version.previous_tag %}
                     <li><a href="https://github.com/MGaetan89/ShowsRage/compare/{{ version.previous_tag }}...{{ version.current_tag }}" target="_blank">Changes since {{ version.previous_tag }}</a></li>
                 {% endif %}
             </ul>
 
-            <p>{{ version.description }}</p>
+            {% if version.description %}
+                <blockquote>{{ version.description }}</blockquote>
+            {% endif %}
 
             {% if version.features %}
                 <h4>Features</h4>

@@ -1,0 +1,12 @@
+---
+name: Version 1.4
+current_tag: master
+previous_tag: v1.3
+description: <em>ShowsRage</em> now has its <a href="https://MGaetan89.github.io/ShowsRage/" target="_blank">dedicated website</a>.
+features:
+- Filter the list of shows
+- More information are available on the detail of an episode
+changes:
+- Reorganized <em>Settings</em> section
+- Performance improvements
+---
