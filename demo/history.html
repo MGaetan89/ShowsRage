@@ -1,0 +1,27 @@
+---
+layout: demo
+title: History
+---
+
+<div class="has-fab">
+    {% for i in (1..10) %}
+        <div class="mdl-js-ripple-effect show-entry">
+            <div class="show-poster">
+                <div></div>
+            </div>
+            <div class="show-data">
+                <div class="mdl-typography--subhead">Show Name {{ i }} - S23E15</div>
+                <div class="mdl-typography--caption">
+                    {% cycle 'Downloaded', 'Snatched' %} {% cycle '6 hours ago', '6 hours ago', '10 hours ago', '11 hours ago', 'yesterday', 'yesterday', 'yesterday', '2 days ago', '3 day ago', 'Jan 20 2016' %}
+                </div>
+                <div class="mdl-typography--caption mdl-typography--text-right">
+                    From <q>provider</q> [1080p WEB-DL]
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+    <i class="material-icons">clear_all</i>
+</button>
