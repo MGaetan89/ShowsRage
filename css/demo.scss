@@ -55,10 +55,15 @@ a {
     padding: 3px 5px;
 }
 
+.has-fab {
+    margin-bottom: $fab-height;
+}
+
 .mdl-button.mdl-button--fab {
     bottom: $fab-spacing;
     position: fixed;
     right: $fab-spacing;
+    z-index: 9999;
 }
 
 .mdl-card {
@@ -155,10 +160,6 @@ a {
     .show-data {
         padding: $padding 2 * $padding $padding 0;
     }
-}
-
-.shows-list {
-    margin-bottom: $fab-height;
 }
 
 .show-summary {
