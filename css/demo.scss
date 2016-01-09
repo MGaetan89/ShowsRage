@@ -59,6 +59,10 @@ a {
     margin-bottom: $fab-height;
 }
 
+.log-entry {
+    padding: $padding 2 * $padding;
+}
+
 .mdl-button.mdl-button--fab {
     bottom: $fab-spacing;
     position: fixed;

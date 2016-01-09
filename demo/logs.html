@@ -1,0 +1,34 @@
+---
+layout: demo
+title: Logs
+overflow:
+- {
+    checkable: true,
+    title: Debug
+}
+- {
+    checkable: true,
+    title: Info
+}
+- {
+    checkable: true,
+    title: Warning
+}
+- {
+    checkable: true,
+    checked: true,
+    title: Error
+}
+---
+
+{% for i in (1..15) %}
+    <div class="mdl-js-ripple-effect log-entry">
+        <div class="mdl-typography--subhead" style="color: {% cycle '#4CAF50', '#2196F3', '#FF9800', '#F44336' %}; float: left;">
+            {% cycle 'DEBUG', 'INFO', 'WARNING', 'ERROR' %}
+        </div>
+        <div class="mdl-typography--caption mdl-typography--text-right">
+            {% cycle '1 minute ago', '2 minutes ago', '2 minutes ago', '5 minutes ago', '14 minutes ago', '33 minutes ago', '47 minutes ago', '59 minutes ago', ' 1 hour ago', '1 hour ago', '2 hours ago', '2 hours ago', '3 hours ago', '4 hours ago', '5 hours ago' %}
+        </div>
+        <div class="mdl-typography--body-1" style="clear: both;">{% cycle 'Debug', 'Info', 'Warning', 'Error' %} message</div>
+    </div>
+{% endfor %}

@@ -42,7 +42,16 @@
 
                 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="menu-overflow">
                     {% for menu in page.overflow %}
-                        <li class="mdl-menu__item">{{ menu.title }}</li>
+                        <li class="mdl-menu__item">
+                            {% if menu.checkable %}
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" style="width: 100%;">
+                                <input{% if menu.checked %} checked{% endif %} class="mdl-radio__button" name="overflow" type="radio">
+                                    <span class="mdl-radio__label">{{ menu.title }}</span>
+                                </label>
+                            {% else %}
+                                {{ menu.title }}
+                            {% endif %}
+                        </li>
                     {% endfor %}
                 </ul>
             {% endif %}
@@ -76,7 +85,7 @@
                 <span class="material-icons">history</span>
                 History
             </a>
-            <a class="mdl-navigation__link" href="">
+            <a class="mdl-navigation__link" href="{{ '/demo/logs.html' | prepend: site.baseurl | prepend: site.url }}">
                 <span class="material-icons">list</span>
                 Logs
             </a>

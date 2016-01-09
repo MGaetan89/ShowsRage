@@ -112,7 +112,7 @@ tabs:
         {% for j in (1..24) reversed %}
             <div class="mdl-js-ripple-effect episode-entry">
                 <a class="episode-data" href="{{ '/demo/episodes/detail.html' | prepend: site.baseurl | prepend: site.url }}">
-                    <div class="mdl-typography--subhead">E{{ j }} - Episode Name</div>
+                    <div class="mdl-typography--subhead">E{{ j }} - Episode Name {{ j }}</div>
                     <div class="mdl-typography--caption">Episode date</div>
                     <div class="mdl-typography--caption episode-quality" style="background-color: {% cycle '#4CAF50', '#2196F3', '#673AB7', '#FFEB3B', '#F44336', '#4CAF50', '#2196F3', '#673AB7' %};">
                         {% cycle 'Downloaded', 'Ignored', 'Snatched', 'Unaired', 'Wanted', 'Archived', 'Skipped', 'Snatched (proper)' %}
