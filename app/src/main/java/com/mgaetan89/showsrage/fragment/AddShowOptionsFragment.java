@@ -2,7 +2,9 @@ package com.mgaetan89.showsrage.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -11,13 +13,17 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.activity.AddShowActivity;
+import com.mgaetan89.showsrage.adapter.RootDirectoriesAdapter;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
+
+import java.util.Set;
 
 import retrofit.Callback;
 
@@ -33,6 +39,9 @@ public class AddShowOptionsFragment extends DialogFragment implements DialogInte
 
 	@Nullable
 	private Spinner preferredQuality = null;
+
+	@Nullable
+	private Spinner rootDirectory = null;
 
 	@Nullable
 	private Spinner status = null;
@@ -55,6 +64,7 @@ public class AddShowOptionsFragment extends DialogFragment implements DialogInte
 		String allowedQuality = this.getAllowedQuality(this.allowedQuality);
 		int anime = (this.anime != null && this.anime.isChecked()) ? 1 : 0;
 		String language = this.getLanguage(this.language);
+		String location = getLocation(this.rootDirectory);
 		String preferredQuality = this.getPreferredQuality(this.preferredQuality);
 		String status = this.getStatus(this.status);
 		int subtitles = (this.subtitles != null && this.subtitles.isChecked()) ? 1 : 0;
@@ -62,7 +72,7 @@ public class AddShowOptionsFragment extends DialogFragment implements DialogInte
 		Callback<GenericResponse> callback = ((AddShowActivity) activity).getAddShowCallback();
 
 		SickRageApi.Companion.getInstance().getServices()
-				.addNewShow(indexerId, preferredQuality, allowedQuality, status, language, anime, subtitles, callback);
+				.addNewShow(indexerId, preferredQuality, allowedQuality, status, language, anime, subtitles, location, callback);
 	}
 
 	@NonNull
@@ -77,6 +87,25 @@ public class AddShowOptionsFragment extends DialogFragment implements DialogInte
 			this.preferredQuality = (Spinner) view.findViewById(R.id.preferred_quality);
 			this.status = (Spinner) view.findViewById(R.id.status);
 			this.subtitles = (SwitchCompat) view.findViewById(R.id.subtitles);
+
+			LinearLayout rootDirectoryLayout = (LinearLayout) view.findViewById(R.id.root_directory_layout);
+
+			if (rootDirectoryLayout != null) {
+				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+				Set<String> rootDirectories = preferences.getStringSet(Constants.Preferences.Fields.ROOT_DIRS, null);
+
+				if (rootDirectories == null || rootDirectories.size() < 2) {
+					rootDirectoryLayout.setVisibility(View.GONE);
+				} else {
+					this.rootDirectory = (Spinner) view.findViewById(R.id.root_directory);
+
+					if (this.rootDirectory != null) {
+						this.rootDirectory.setAdapter(new RootDirectoriesAdapter(this.getContext(), rootDirectories));
+					}
+
+					rootDirectoryLayout.setVisibility(View.VISIBLE);
+				}
+			}
 		}
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
@@ -94,6 +123,7 @@ public class AddShowOptionsFragment extends DialogFragment implements DialogInte
 		this.anime = null;
 		this.language = null;
 		this.preferredQuality = null;
+		this.rootDirectory = null;
 		this.status = null;
 		this.subtitles = null;
 
@@ -133,6 +163,19 @@ public class AddShowOptionsFragment extends DialogFragment implements DialogInte
 
 			if (languageIndex < languages.length) {
 				return languages[languageIndex];
+			}
+		}
+
+		return null;
+	}
+
+	@Nullable
+	/* package */ static String getLocation(@Nullable Spinner rootDirectorySpinner) {
+		if (rootDirectorySpinner != null) {
+			Object rootDirectory = rootDirectorySpinner.getSelectedItem();
+
+			if (rootDirectory != null) {
+				return rootDirectory.toString();
 			}
 		}
 

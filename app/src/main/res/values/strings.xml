@@ -127,6 +127,7 @@
 	<string name="restart">Restart</string>
 	<string name="restart_confirm">Are you sure you want to restart SickRage?</string>
 	<string name="resume_show">Resume show</string>
+	<string name="root_directory">Root directory</string>
 	<string name="runtime">Runtime: <xliff:g example="22 min" id="runtime">%1$s</xliff:g></string>
 	<string name="schedule">Schedule</string>
 	<string name="search">Search</string>

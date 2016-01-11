@@ -9,6 +9,28 @@
 	tools:context="com.mgaetan89.showsrage.fragment.AddShowOptionsFragment">
 
 	<LinearLayout
+		android:id="@+id/root_directory_layout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:visibility="gone"
+		tools:visibility="visible">
+
+		<TextView
+			style="@style/TextAppearance.AppCompat"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/root_directory"/>
+
+		<Spinner
+			android:id="@+id/root_directory"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:entries="@array/allowed_qualities_values"
+			tools:listitem="@android:layout/simple_list_item_1"/>
+	</LinearLayout>
+
+	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="@dimen/padding"
