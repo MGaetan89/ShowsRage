@@ -13,6 +13,6 @@ changes:
 fixes:
 - Images can now be loaded when using Basic Authentication
 - Increase touch area of the menu of each episode in <em>Schedule</em>
-- Remove "SD TV" quality option from <em>Preferred quality</em>
-- Remove "Archived" episode status
+- Remove <q>SD TV</q> quality option from <em>Preferred quality</em>
+- Remove <q>Archived</q> episode status
 ---

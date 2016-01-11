@@ -5,8 +5,12 @@ previous_tag: v1.3
 description: <em>ShowsRage</em> now has its <a href="https://MGaetan89.github.io/ShowsRage/" target="_blank">dedicated website</a>.
 features:
 - Filter the list of shows
+- (<abbr title="Work in Progress">WIP</abbr>) The data you you downloaded in <em>ShowsRage</em> can be seen while offline
+- (<abbr title="Work in Progress">WIP</abbr>) When adding a show, you can now select in which root directory it will be created
 - More information are available on the detail of an episode
 changes:
 - Reorganized <em>Settings</em> section
 - Performance improvements
+fixes:
+- (<abbr title="Work in Progress">WIP</abbr>) Episodes are now correctly listed when the sort is descending
 ---

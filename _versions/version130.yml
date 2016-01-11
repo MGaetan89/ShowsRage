@@ -12,6 +12,6 @@ changes:
 - Display the air time of episodes in <em>Schedule</em>
 - Display "Paused" status on the list of shows
 - Long show/episode name now automatically scrolls horizontally
-- \"Play in an external video player" is no longer considered as an experimental feature
+- <q>Play in an external video player</q> is no longer considered as an experimental feature
 - Design update
 ---
