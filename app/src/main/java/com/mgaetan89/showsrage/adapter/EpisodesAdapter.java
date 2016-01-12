@@ -85,7 +85,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 		return new ViewHolder(view);
 	}
 
-	private int getEpisodeNumber(int position) {
+	/* package */ int getEpisodeNumber(int position) {
 		if (this.reversed) {
 			return this.getItemCount() - position;
 		}

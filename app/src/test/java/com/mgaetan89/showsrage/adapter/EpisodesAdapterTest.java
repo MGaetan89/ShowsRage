@@ -16,18 +16,29 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(Parameterized.class)
-public class EpisodesAdapter_GetItemCountTest {
+public class EpisodesAdapterTest {
+	@Parameterized.Parameter(3)
+	public int episodeNumber;
+
 	@Parameterized.Parameter(0)
 	public List<Episode> episodes;
 
 	@Parameterized.Parameter(1)
 	public int itemCount;
 
+	@Parameterized.Parameter(2)
+	public int position;
+
 	private EpisodesAdapter adapter;
 
 	@Before
 	public void before() {
-		this.adapter = new EpisodesAdapter(this.episodes, 1, null);
+		this.adapter = new EpisodesAdapter(this.episodes, 1, null, false);
+	}
+
+	@Test
+	public void getEpisodeNumber() {
+		assertThat(this.adapter.getEpisodeNumber(this.position)).isEqualTo(this.episodeNumber);
 	}
 
 	@Test
@@ -43,10 +54,16 @@ public class EpisodesAdapter_GetItemCountTest {
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][]{
-				{null, 0},
-				{Collections.emptyList(), 0},
-				{Collections.singletonList(new Episode()), 1},
-				{Arrays.asList(new Episode(), new Episode(), new Episode()), 3},
+				{null, 0, 0, 1},
+				{null, 0, 1, 2},
+				{Collections.emptyList(), 0, 0, 1},
+				{Collections.emptyList(), 0, 1, 2},
+				{Collections.singletonList(new Episode()), 1, 0, 1},
+				{Collections.singletonList(new Episode()), 1, 1, 2},
+				{Arrays.asList(new Episode(), new Episode(), new Episode()), 3, 0, 1},
+				{Arrays.asList(new Episode(), new Episode(), new Episode()), 3, 1, 2},
+				{Arrays.asList(new Episode(), new Episode(), new Episode()), 3, 2, 3},
+				{Arrays.asList(new Episode(), new Episode(), new Episode()), 3, 3, 4},
 		});
 	}
 }
