@@ -46,6 +46,11 @@ public class EpisodesAdapterReversedTest {
 		assertThat(this.adapter.getItemCount()).isEqualTo(this.itemCount);
 	}
 
+	@Test
+	public void isReversed() {
+		assertThat(this.adapter.isReversed()).isTrue();
+	}
+
 	@After
 	public void after() {
 		this.adapter = null;
