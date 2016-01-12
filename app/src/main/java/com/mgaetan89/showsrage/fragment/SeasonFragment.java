@@ -24,6 +24,7 @@ import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit.Callback;
@@ -67,9 +68,10 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 		super.onActivityCreated(savedInstanceState);
 
 		Intent intent = this.getActivity().getIntent();
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
 
 		this.show = intent.getParcelableExtra(Constants.Bundle.SHOW_MODEL);
-		this.adapter = new EpisodesAdapter(this.episodes, this.seasonNumber, this.show);
+		this.adapter = new EpisodesAdapter(this.episodes, this.seasonNumber, this.show, !preferences.getBoolean("display_episodes_sort", false));
 
 		if (this.recyclerView != null) {
 			this.recyclerView.setAdapter(this.adapter);
@@ -92,9 +94,7 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 			if (this.recyclerView != null) {
 				int columnCount = this.getResources().getInteger(R.integer.shows_column_count);
 
-				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
 				GridLayoutManager layoutManager = new GridLayoutManager(this.getActivity(), columnCount);
-				layoutManager.setReverseLayout(!preferences.getBoolean("display_episodes_sort", false));
 
 				this.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 					@Override
@@ -153,6 +153,10 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 
 		if (episodes != null) {
 			this.episodes.addAll(episodes.getData().values());
+
+			if (this.adapter != null && this.adapter.isReversed()) {
+				Collections.reverse(this.episodes);
+			}
 		}
 
 		if (this.episodes.isEmpty()) {

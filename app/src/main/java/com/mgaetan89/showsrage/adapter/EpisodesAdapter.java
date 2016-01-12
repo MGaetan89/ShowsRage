@@ -29,17 +29,20 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 	@NonNull
 	private List<Episode> episodes = Collections.emptyList();
 
+	private final boolean reversed;
+
 	private final int seasonNumber;
 
 	private final Show show;
 
-	public EpisodesAdapter(@Nullable List<Episode> episodes, int seasonNumber, Show show) {
+	public EpisodesAdapter(@Nullable List<Episode> episodes, int seasonNumber, Show show, boolean reversed) {
 		if (episodes == null) {
 			this.episodes = Collections.emptyList();
 		} else {
 			this.episodes = episodes;
 		}
 
+		this.reversed = reversed;
 		this.seasonNumber = seasonNumber;
 		this.show = show;
 	}
@@ -49,6 +52,10 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 		return this.episodes.size();
 	}
 
+	public boolean isReversed() {
+		return this.reversed;
+	}
+
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		Episode episode = this.episodes.get(position);
@@ -56,7 +63,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 		holder.bind(new EpisodePresenter(episode));
 
 		if (holder.name != null) {
-			holder.name.setText(holder.name.getResources().getString(R.string.episode_name, position + 1, episode.getName()));
+			holder.name.setText(holder.name.getResources().getString(R.string.episode_name, this.getEpisodeNumber(position), episode.getName()));
 		}
 
 		if (holder.status != null) {
@@ -76,6 +83,14 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_episodes_list, parent, false);
 
 		return new ViewHolder(view);
+	}
+
+	private int getEpisodeNumber(int position) {
+		if (this.reversed) {
+			return this.getItemCount() - position;
+		}
+
+		return position + 1;
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
@@ -126,7 +141,7 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 				if (context != null) {
 					Intent intent = new Intent(Constants.Intents.ACTION_EPISODE_SELECTED);
 					intent.putExtra(Constants.Bundle.EPISODE_MODEL, episode);
-					intent.putExtra(Constants.Bundle.EPISODE_NUMBER, this.getAdapterPosition() + 1);
+					intent.putExtra(Constants.Bundle.EPISODE_NUMBER, adapter.getEpisodeNumber(this.getAdapterPosition()));
 					intent.putExtra(Constants.Bundle.EPISODES_COUNT, adapter.getItemCount());
 					intent.putExtra(Constants.Bundle.SEASON_NUMBER, adapter.seasonNumber);
 					intent.putExtra(Constants.Bundle.SHOW_MODEL, adapter.show);
@@ -142,11 +157,12 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 				Context context = this.actions.getContext();
 
 				if (context != null) {
+					EpisodesAdapter adapter = EpisodesAdapter.this;
 					Intent intent = new Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED);
-					intent.putExtra(Constants.Bundle.EPISODE_NUMBER, this.getAdapterPosition() + 1);
-					intent.putExtra(Constants.Bundle.INDEXER_ID, EpisodesAdapter.this.show.getIndexerId());
+					intent.putExtra(Constants.Bundle.EPISODE_NUMBER, adapter.getEpisodeNumber(this.getAdapterPosition()));
+					intent.putExtra(Constants.Bundle.INDEXER_ID, adapter.show.getIndexerId());
 					intent.putExtra(Constants.Bundle.MENU_ID, item.getItemId());
-					intent.putExtra(Constants.Bundle.SEASON_NUMBER, EpisodesAdapter.this.seasonNumber);
+					intent.putExtra(Constants.Bundle.SEASON_NUMBER, adapter.seasonNumber);
 
 					LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 
