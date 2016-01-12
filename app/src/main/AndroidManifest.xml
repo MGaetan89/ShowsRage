@@ -36,9 +36,6 @@
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value=".activity.ShowActivity"/>
 		</activity>
-		<activity android:name=".activity.HistoryActivity"/>
-		<activity android:name=".activity.LogsActivity"/>
-		<activity android:name=".activity.ScheduleActivity"/>
 		<activity android:name=".activity.SettingsActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW"/>

@@ -47,8 +47,11 @@ import android.widget.Toast;
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.ShowsRageApplication;
+import com.mgaetan89.showsrage.fragment.HistoryFragment;
+import com.mgaetan89.showsrage.fragment.LogsFragment;
 import com.mgaetan89.showsrage.fragment.PostProcessingFragment;
 import com.mgaetan89.showsrage.fragment.RemoteControlFragment;
+import com.mgaetan89.showsrage.fragment.ScheduleFragment;
 import com.mgaetan89.showsrage.fragment.StatisticsFragment;
 import com.mgaetan89.showsrage.helper.ShowsRageReceiver;
 import com.mgaetan89.showsrage.helper.Utils;
@@ -91,6 +94,28 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 	@Nullable
 	private ColoredToolbar toolbar = null;
 
+	public void displayHomeAsUp(boolean displayHomeAsUp) {
+		ActionBar actionBar = this.getSupportActionBar();
+
+		if (displayHomeAsUp) {
+			if (this.drawerToggle != null) {
+				this.drawerToggle.setDrawerIndicatorEnabled(false);
+			}
+
+			if (actionBar != null) {
+				actionBar.setDisplayHomeAsUpEnabled(true);
+			}
+		} else {
+			if (actionBar != null) {
+				actionBar.setDisplayHomeAsUpEnabled(false);
+			}
+
+			if (this.drawerToggle != null) {
+				this.drawerToggle.setDrawerIndicatorEnabled(true);
+			}
+		}
+	}
+
 	@Override
 	public void failure(RetrofitError error) {
 		error.printStackTrace();
@@ -116,52 +141,50 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 	@Override
 	public boolean onNavigationItemSelected(MenuItem menuItem) {
+		boolean eventHandled = true;
+		Fragment fragment = null;
 		int id = menuItem.getItemId();
 
 		switch (id) {
 			case R.id.menu_check_update: {
+				eventHandled = false;
+
 				this.checkForUpdate(true);
 
-				menuItem.setChecked(false);
-
-				return true;
+				break;
 			}
 
 			case R.id.menu_history: {
-				Intent intent = new Intent(this, HistoryActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+				fragment = new HistoryFragment();
 
-				this.startActivity(intent);
-
-				return true;
+				break;
 			}
 
 			case R.id.menu_logs: {
-				Intent intent = new Intent(this, LogsActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+				fragment = new LogsFragment();
 
-				this.startActivity(intent);
-
-				return true;
+				break;
 			}
 
 			case R.id.menu_post_processing: {
+				eventHandled = false;
+
 				new PostProcessingFragment().show(this.getSupportFragmentManager(), "post_processing");
 
-				menuItem.setChecked(false);
-
-				return true;
+				break;
 			}
 
 			case R.id.menu_remote_control: {
+				eventHandled = false;
+
 				new RemoteControlFragment().show(this.getSupportFragmentManager(), "remote_control");
 
-				menuItem.setChecked(false);
-
-				return true;
+				break;
 			}
 
 			case R.id.menu_restart: {
+				eventHandled = false;
+
 				new AlertDialog.Builder(this)
 						.setMessage(R.string.restart_confirm)
 						.setPositiveButton(R.string.restart, new DialogInterface.OnClickListener() {
@@ -173,18 +196,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 						.setNegativeButton(android.R.string.cancel, null)
 						.show();
 
-				menuItem.setChecked(false);
-
-				return true;
+				break;
 			}
 
 			case R.id.menu_schedule: {
-				Intent intent = new Intent(this, ScheduleActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+				fragment = new ScheduleFragment();
 
-				this.startActivity(intent);
-
-				return true;
+				break;
 			}
 
 			case R.id.menu_settings: {
@@ -205,16 +223,32 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 			}
 
 			case R.id.menu_statistics: {
-				StatisticsFragment fragment = new StatisticsFragment();
-				fragment.show(this.getSupportFragmentManager(), "statistics");
+				eventHandled = false;
 
-				menuItem.setChecked(false);
+				new StatisticsFragment().show(this.getSupportFragmentManager(), "statistics");
 
-				return true;
+				break;
 			}
 		}
 
-		return false;
+		if (this.drawerLayout != null && this.navigationView != null) {
+			this.drawerLayout.closeDrawer(this.navigationView);
+		}
+
+		if (eventHandled) {
+			if (this.tabLayout != null) {
+				this.tabLayout.removeAllTabs();
+				this.tabLayout.setVisibility(View.GONE);
+			}
+		}
+
+		if (fragment != null) {
+			this.getSupportFragmentManager().beginTransaction()
+					.replace(R.id.content, fragment)
+					.commit();
+		}
+
+		return eventHandled;
 	}
 
 	@Override
@@ -414,28 +448,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		}
 
 		SickRageApi.Companion.getInstance().getServices().checkForUpdate(new CheckForUpdateCallback(this, manualCheck));
-	}
-
-	private void displayHomeAsUp(boolean displayHomeAsUp) {
-		ActionBar actionBar = this.getSupportActionBar();
-
-		if (displayHomeAsUp) {
-			if (this.drawerToggle != null) {
-				this.drawerToggle.setDrawerIndicatorEnabled(false);
-			}
-
-			if (actionBar != null) {
-				actionBar.setDisplayHomeAsUpEnabled(true);
-			}
-		} else {
-			if (actionBar != null) {
-				actionBar.setDisplayHomeAsUpEnabled(false);
-			}
-
-			if (this.drawerToggle != null) {
-				this.drawerToggle.setDrawerIndicatorEnabled(true);
-			}
-		}
 	}
 
 	private void setThemeColors(int colorPrimary, int colorAccent) {

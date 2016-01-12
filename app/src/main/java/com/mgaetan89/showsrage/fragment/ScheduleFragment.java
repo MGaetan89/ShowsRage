@@ -6,12 +6,14 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mgaetan89.showsrage.R;
+import com.mgaetan89.showsrage.activity.BaseActivity;
 import com.mgaetan89.showsrage.adapter.SchedulePagerAdapter;
 import com.mgaetan89.showsrage.model.Schedule;
 import com.mgaetan89.showsrage.model.Schedules;
@@ -52,6 +54,13 @@ public class ScheduleFragment extends Fragment implements Callback<Schedules> {
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+
+		FragmentActivity activity = this.getActivity();
+
+		if (activity instanceof BaseActivity) {
+			((BaseActivity) activity).displayHomeAsUp(false);
+			activity.setTitle(R.string.schedule);
+		}
 
 		SickRageApi.Companion.getInstance().getServices().getSchedule(this);
 
