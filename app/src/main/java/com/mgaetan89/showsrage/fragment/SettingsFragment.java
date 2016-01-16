@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.fragment;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -14,10 +15,22 @@ import android.text.TextUtils;
 
 import com.mgaetan89.showsrage.BuildConfig;
 import com.mgaetan89.showsrage.R;
+import com.mgaetan89.showsrage.activity.BaseActivity;
 
 // Code to display preferences values from: http://stackoverflow.com/a/18807490/1914223
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 	public SettingsFragment() {
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
+		Activity activity = this.getActivity();
+
+		if (activity instanceof BaseActivity) {
+			((BaseActivity) activity).displayHomeAsUp(true);
+		}
 	}
 
 	@Override

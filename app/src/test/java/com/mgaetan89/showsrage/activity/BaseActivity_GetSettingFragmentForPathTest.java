@@ -20,7 +20,7 @@ import java.util.Collection;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(Parameterized.class)
-public class SettingsActivity_GetFragmentForPathTest {
+public class BaseActivity_GetSettingFragmentForPathTest {
 	@Parameterized.Parameter(1)
 	public Class<SettingsFragment> fragmentClass;
 
@@ -28,18 +28,22 @@ public class SettingsActivity_GetFragmentForPathTest {
 	public String path;
 
 	@Test
-	public void getFragmentForPath() {
-		assertThat(SettingsActivity.Companion.getFragmentForPath(this.path)).isExactlyInstanceOf(this.fragmentClass);
+	public void getSettingFragmentForPath() {
+		if (this.fragmentClass == null) {
+			assertThat(BaseActivity.getSettingFragmentForPath(this.path)).isNull();
+		} else {
+			assertThat(BaseActivity.getSettingFragmentForPath(this.path)).isExactlyInstanceOf(this.fragmentClass);
+		}
 	}
 
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][]{
-				{null, SettingsFragment.class},
-				{"", SettingsFragment.class},
-				{" ", SettingsFragment.class},
+				{null, null},
+				{"", null},
+				{" ", null},
 				{"/", SettingsFragment.class},
-				{"/wrong_path", SettingsFragment.class},
+				{"/wrong_path", null},
 				{"/about", SettingsAboutFragment.class},
 				{"/about/licenses", SettingsAboutLicensesFragment.class},
 				{"/about/showsrage", SettingsAboutShowsRageFragment.class},

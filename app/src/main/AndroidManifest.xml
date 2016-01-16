@@ -29,7 +29,8 @@
 				android:name="android.app.searchable"
 				android:resource="@xml/searchable"/>
 		</activity>
-		<activity android:name=".activity.SettingsActivity">
+		<!-- TODO Set this on the future new default Activity -->
+		<!--activity android:name=".activity.SettingsActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW"/>
 
@@ -40,7 +41,7 @@
 					android:host="settings"
 					android:scheme="showsrage"/>
 			</intent-filter>
-		</activity>
+		</activity-->
 		<activity
 			android:name=".activity.ShowsActivity"
 			android:launchMode="singleTop">

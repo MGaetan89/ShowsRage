@@ -12,6 +12,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -24,6 +25,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.IntentCompat;
@@ -36,7 +38,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -52,6 +53,15 @@ import com.mgaetan89.showsrage.fragment.LogsFragment;
 import com.mgaetan89.showsrage.fragment.PostProcessingFragment;
 import com.mgaetan89.showsrage.fragment.RemoteControlFragment;
 import com.mgaetan89.showsrage.fragment.ScheduleFragment;
+import com.mgaetan89.showsrage.fragment.SettingsAboutFragment;
+import com.mgaetan89.showsrage.fragment.SettingsAboutLicensesFragment;
+import com.mgaetan89.showsrage.fragment.SettingsAboutShowsRageFragment;
+import com.mgaetan89.showsrage.fragment.SettingsBehaviorFragment;
+import com.mgaetan89.showsrage.fragment.SettingsDisplayFragment;
+import com.mgaetan89.showsrage.fragment.SettingsExperimentalFeaturesFragment;
+import com.mgaetan89.showsrage.fragment.SettingsFragment;
+import com.mgaetan89.showsrage.fragment.SettingsServerApiKeyFragment;
+import com.mgaetan89.showsrage.fragment.SettingsServerFragment;
 import com.mgaetan89.showsrage.fragment.StatisticsFragment;
 import com.mgaetan89.showsrage.helper.ShowsRageReceiver;
 import com.mgaetan89.showsrage.helper.Utils;
@@ -206,11 +216,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 			}
 
 			case R.id.menu_settings: {
-				Intent intent = new Intent(this, SettingsActivity.class);
+				SettingsFragment settingsFragment = new SettingsFragment();
 
-				this.startActivity(intent);
+				this.removeCurrentSupportFragment();
 
-				return true;
+				this.getFragmentManager().beginTransaction()
+						.replace(R.id.content, settingsFragment)
+						.commit();
+
+				break;
 			}
 
 			case R.id.menu_shows: {
@@ -243,6 +257,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		}
 
 		if (fragment != null) {
+			this.removeCurrentFragment();
+
 			this.getSupportFragmentManager().beginTransaction()
 					.replace(R.id.content, fragment)
 					.commit();
@@ -389,15 +405,28 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 			}
 		}
 
-		// Set the colors of the Activity
 		Intent intent = this.getIntent();
 
 		if (intent != null) {
+			// Set the colors of the Activity
 			int colorAccent = intent.getIntExtra(Constants.Bundle.COLOR_ACCENT, 0);
 			int colorPrimary = intent.getIntExtra(Constants.Bundle.COLOR_PRIMARY, 0);
 
 			if (colorPrimary != 0) {
 				this.setThemeColors(colorPrimary, colorAccent);
+			}
+
+			// Start the correct Setting Fragment, if necessary
+			Uri data = intent.getData();
+
+			if (data != null) {
+				SettingsFragment settingFragment = getSettingFragmentForPath(data.getPath());
+
+				if (settingFragment != null) {
+					this.getFragmentManager().beginTransaction()
+							.replace(R.id.content, settingFragment)
+							.commit();
+				}
 			}
 		}
 	}
@@ -412,18 +441,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		if (!(this instanceof SettingsActivity)) {
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-			if (TextUtils.isEmpty(preferences.getString("server_address", ""))) {
-				Intent intent = new Intent(this, SettingsActivity.class);
-
-				this.startActivity(intent);
-
-				return;
-			}
-		}
 
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED);
@@ -448,6 +465,42 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		}
 
 		SickRageApi.Companion.getInstance().getServices().checkForUpdate(new CheckForUpdateCallback(this, manualCheck));
+	}
+
+	@Nullable
+	/* package */ static SettingsFragment getSettingFragmentForPath(@Nullable String path) {
+		if (path != null) {
+			switch (path) {
+				case "/":
+					return new SettingsFragment();
+
+				case "/about":
+					return new SettingsAboutFragment();
+
+				case "/about/licenses":
+					return new SettingsAboutLicensesFragment();
+
+				case "/about/showsrage":
+					return new SettingsAboutShowsRageFragment();
+
+				case "/behavior":
+					return new SettingsBehaviorFragment();
+
+				case "/display":
+					return new SettingsDisplayFragment();
+
+				case "/experimental_features":
+					return new SettingsExperimentalFeaturesFragment();
+
+				case "/server":
+					return new SettingsServerFragment();
+
+				case "/server/api_key":
+					return new SettingsServerApiKeyFragment();
+			}
+		}
+
+		return null;
 	}
 
 	private void setThemeColors(int colorPrimary, int colorAccent) {
@@ -515,6 +568,28 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 		this.getIntent().putExtra(Constants.Bundle.COLOR_ACCENT, colorAccent);
 		this.getIntent().putExtra(Constants.Bundle.COLOR_PRIMARY, colorPrimary);
+	}
+
+	private void removeCurrentFragment() {
+		android.app.FragmentManager fragmentManager = this.getFragmentManager();
+		android.app.Fragment fragment = fragmentManager.findFragmentById(R.id.content);
+
+		if (fragment != null) {
+			fragmentManager.beginTransaction()
+					.remove(fragment)
+					.commit();
+		}
+	}
+
+	private void removeCurrentSupportFragment() {
+		FragmentManager fragmentManager = this.getSupportFragmentManager();
+		Fragment fragment = fragmentManager.findFragmentById(R.id.content);
+
+		if (fragment != null) {
+			fragmentManager.beginTransaction()
+					.remove(fragment)
+					.commit();
+		}
 	}
 
 	/* package */
