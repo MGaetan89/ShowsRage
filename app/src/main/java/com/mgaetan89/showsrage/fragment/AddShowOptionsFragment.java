@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,14 +19,16 @@ import android.widget.Spinner;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.activity.AddShowActivity;
+import com.mgaetan89.showsrage.activity.BaseActivity;
 import com.mgaetan89.showsrage.adapter.RootDirectoriesAdapter;
+import com.mgaetan89.showsrage.helper.GenericCallback;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.util.Set;
 
 import retrofit.Callback;
+import retrofit.client.Response;
 
 public class AddShowOptionsFragment extends DialogFragment implements DialogInterface.OnClickListener {
 	@Nullable
@@ -55,9 +58,8 @@ public class AddShowOptionsFragment extends DialogFragment implements DialogInte
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		int indexerId = this.getArguments().getInt(Constants.Bundle.INDEXER_ID, 0);
-		FragmentActivity activity = this.getActivity();
 
-		if (indexerId <= 0 || !(activity instanceof AddShowActivity)) {
+		if (indexerId <= 0) {
 			return;
 		}
 
@@ -69,7 +71,7 @@ public class AddShowOptionsFragment extends DialogFragment implements DialogInte
 		String status = this.getStatus(this.status);
 		int subtitles = (this.subtitles != null && this.subtitles.isChecked()) ? 1 : 0;
 
-		Callback<GenericResponse> callback = ((AddShowActivity) activity).getAddShowCallback();
+		Callback<GenericResponse> callback = new AddShowCallback(this.getActivity());
 
 		SickRageApi.Companion.getInstance().getServices()
 				.addNewShow(indexerId, preferredQuality, allowedQuality, status, language, anime, subtitles, location, callback);
@@ -219,5 +221,24 @@ public class AddShowOptionsFragment extends DialogFragment implements DialogInte
 		}
 
 		return null;
+	}
+
+	private static class AddShowCallback extends GenericCallback {
+		private AddShowCallback(FragmentActivity activity) {
+			super(activity);
+		}
+
+		@Override
+		public void success(GenericResponse genericResponse, Response response) {
+			super.success(genericResponse, response);
+
+			FragmentActivity activity = this.getActivity();
+
+			if (activity != null) {
+				Intent intent = new Intent(activity, BaseActivity.class);
+
+				activity.startActivity(intent);
+			}
+		}
 	}
 }

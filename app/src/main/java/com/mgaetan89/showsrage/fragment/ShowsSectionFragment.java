@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.activity.AddShowActivity;
 import com.mgaetan89.showsrage.adapter.ShowsAdapter;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.ShowStat;
@@ -100,9 +99,17 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 		}
 
 		if (view.getId() == R.id.add_show) {
-			Intent intent = new Intent(this.getActivity(), AddShowActivity.class);
+			AddShowFragment fragment = new AddShowFragment();
+			View tabLayout = this.getActivity().findViewById(R.id.tabs);
 
-			this.startActivity(intent);
+			if (tabLayout != null) {
+				tabLayout.setVisibility(View.GONE);
+			}
+
+			this.getActivity().getSupportFragmentManager().beginTransaction()
+					.addToBackStack("add_show")
+					.replace(R.id.content, fragment)
+					.commit();
 		}
 	}
 
