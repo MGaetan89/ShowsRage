@@ -67,7 +67,7 @@ All feedbacks/feature requests/bug reports are welcome and will be taken into ac
 # License
 
 ```
-Copyright 2015 MGaetan89
+Copyright 2015-2016 MGaetan89
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
