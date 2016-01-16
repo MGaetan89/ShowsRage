@@ -194,10 +194,9 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 		AppCompatActivity activity = (AppCompatActivity) this.getActivity();
 		ActionBar actionBar = activity.getSupportActionBar();
-		Intent intent = activity.getIntent();
-		this.show = intent.getParcelableExtra(Constants.Bundle.SHOW_MODEL);
+		this.show = this.getArguments().getParcelable(Constants.Bundle.SHOW_MODEL);
 
-		if (actionBar != null) {
+		if (actionBar != null && this.show != null) {
 			actionBar.setTitle(this.show.getShowName());
 
 			SickRageApi.Companion.getInstance().getServices().getShow(this.show.getIndexerId(), this);
@@ -363,7 +362,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 		((BaseActivity) activity).setPalette(palette);
 
-		int tintColor = this.getActivity().getIntent().getIntExtra(Constants.Bundle.COLOR_PRIMARY, 0);
+		int tintColor = activity.getIntent().getIntExtra(Constants.Bundle.COLOR_PRIMARY, 0);
 
 		if (tintColor == 0) {
 			return;

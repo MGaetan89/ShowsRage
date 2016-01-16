@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.fragment;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -67,10 +66,9 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		Intent intent = this.getActivity().getIntent();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
 
-		this.show = intent.getParcelableExtra(Constants.Bundle.SHOW_MODEL);
+		this.show = this.getArguments().getParcelable(Constants.Bundle.SHOW_MODEL);
 		this.adapter = new EpisodesAdapter(this.episodes, this.seasonNumber, this.show, !preferences.getBoolean("display_episodes_sort", false));
 
 		if (this.recyclerView != null) {

@@ -12,9 +12,9 @@ import android.widget.Toast;
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.activity.BaseActivity;
-import com.mgaetan89.showsrage.activity.EpisodeActivity;
-import com.mgaetan89.showsrage.activity.ShowActivity;
 import com.mgaetan89.showsrage.fragment.AddShowOptionsFragment;
+import com.mgaetan89.showsrage.fragment.EpisodeFragment;
+import com.mgaetan89.showsrage.fragment.ShowFragment;
 import com.mgaetan89.showsrage.model.Episode;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
@@ -95,16 +95,20 @@ public class ShowsRageReceiver extends BroadcastReceiver {
 			return;
 		}
 
-		Intent newIntent = new Intent(activity, EpisodeActivity.class);
-		newIntent.putExtra(Constants.Bundle.COLOR_ACCENT, activity.getIntent().getIntExtra(Constants.Bundle.COLOR_ACCENT, 0));
-		newIntent.putExtra(Constants.Bundle.COLOR_PRIMARY, activity.getIntent().getIntExtra(Constants.Bundle.COLOR_PRIMARY, 0));
-		newIntent.putExtra(Constants.Bundle.EPISODE_MODEL, intent.getParcelableExtra(Constants.Bundle.EPISODE_MODEL));
-		newIntent.putExtra(Constants.Bundle.EPISODE_NUMBER, intent.getIntExtra(Constants.Bundle.EPISODE_NUMBER, 0));
-		newIntent.putExtra(Constants.Bundle.EPISODES_COUNT, intent.getIntExtra(Constants.Bundle.EPISODES_COUNT, 0));
-		newIntent.putExtra(Constants.Bundle.SEASON_NUMBER, intent.getIntExtra(Constants.Bundle.SEASON_NUMBER, 0));
-		newIntent.putExtra(Constants.Bundle.SHOW_MODEL, intent.getParcelableExtra(Constants.Bundle.SHOW_MODEL));
+		Bundle arguments = new Bundle();
+		arguments.putParcelable(Constants.Bundle.EPISODE_MODEL, intent.getParcelableExtra(Constants.Bundle.EPISODE_MODEL));
+		arguments.putInt(Constants.Bundle.EPISODE_NUMBER, intent.getIntExtra(Constants.Bundle.EPISODE_NUMBER, 0));
+		arguments.putInt(Constants.Bundle.EPISODES_COUNT, intent.getIntExtra(Constants.Bundle.EPISODES_COUNT, 0));
+		arguments.putInt(Constants.Bundle.SEASON_NUMBER, intent.getIntExtra(Constants.Bundle.SEASON_NUMBER, 0));
+		arguments.putParcelable(Constants.Bundle.SHOW_MODEL, intent.getParcelableExtra(Constants.Bundle.SHOW_MODEL));
 
-		activity.startActivity(newIntent);
+		EpisodeFragment fragment = new EpisodeFragment();
+		fragment.setArguments(arguments);
+
+		activity.getSupportFragmentManager().beginTransaction()
+				.addToBackStack("episode")
+				.replace(R.id.content, fragment)
+				.commit();
 	}
 
 	private void handleSearchResultSelected(@NonNull Intent intent) {
@@ -129,10 +133,16 @@ public class ShowsRageReceiver extends BroadcastReceiver {
 			return;
 		}
 
-		Intent newIntent = new Intent(activity, ShowActivity.class);
-		newIntent.putExtra(Constants.Bundle.SHOW_MODEL, intent.getParcelableExtra(Constants.Bundle.SHOW_MODEL));
+		Bundle arguments = new Bundle();
+		arguments.putParcelable(Constants.Bundle.SHOW_MODEL, intent.getParcelableExtra(Constants.Bundle.SHOW_MODEL));
 
-		activity.startActivity(newIntent);
+		ShowFragment fragment = new ShowFragment();
+		fragment.setArguments(arguments);
+
+		activity.getSupportFragmentManager().beginTransaction()
+				.addToBackStack("show")
+				.replace(R.id.content, fragment)
+				.commit();
 	}
 
 	private void searchEpisode(int seasonNumber, int episodeNumber, int indexerId) {

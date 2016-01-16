@@ -43,10 +43,13 @@ public class ShowPagerAdapter extends FragmentStatePagerAdapter {
 	@Override
 	public Fragment getItem(int position) {
 		if (position == 0) {
-			return new ShowOverviewFragment();
+			ShowOverviewFragment fragment = new ShowOverviewFragment();
+			fragment.setArguments(this.fragment.getArguments());
+
+			return fragment;
 		}
 
-		Bundle arguments = new Bundle();
+		Bundle arguments = new Bundle(this.fragment.getArguments());
 		arguments.putInt(Constants.Bundle.SEASON_NUMBER, this.seasons.get(position - 1));
 
 		SeasonFragment fragment = new SeasonFragment();

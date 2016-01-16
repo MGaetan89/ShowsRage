@@ -190,7 +190,6 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		if (this.show != null) {
 			SickRageApi.Companion.getInstance().getServices().getEpisode(this.show.getIndexerId(), this.seasonNumber, this.episodeNumber, this);
 
-
 			String imdbId = this.show.getImdbId();
 
 			if (imdbId != null && !imdbId.isEmpty()) {

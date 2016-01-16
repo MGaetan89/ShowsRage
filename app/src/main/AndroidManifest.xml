@@ -29,13 +29,6 @@
 				android:name="android.app.searchable"
 				android:resource="@xml/searchable"/>
 		</activity>
-		<activity
-			android:name=".activity.EpisodeActivity"
-			android:parentActivityName=".activity.ShowActivity">
-			<meta-data
-				android:name="android.support.PARENT_ACTIVITY"
-				android:value=".activity.ShowActivity"/>
-		</activity>
 		<activity android:name=".activity.SettingsActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW"/>
@@ -47,13 +40,6 @@
 					android:host="settings"
 					android:scheme="showsrage"/>
 			</intent-filter>
-		</activity>
-		<activity
-			android:name=".activity.ShowActivity"
-			android:parentActivityName=".activity.ShowsActivity">
-			<meta-data
-				android:name="android.support.PARENT_ACTIVITY"
-				android:value=".activity.ShowsActivity"/>
 		</activity>
 		<activity
 			android:name=".activity.ShowsActivity"

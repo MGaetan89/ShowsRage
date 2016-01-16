@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.fragment;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -8,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
+import com.mgaetan89.showsrage.activity.BaseActivity;
 import com.mgaetan89.showsrage.adapter.EpisodePagerAdapter;
 
 import java.util.ArrayList;
@@ -38,12 +39,18 @@ public class EpisodeFragment extends Fragment {
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
+		FragmentActivity activity = this.getActivity();
 
-		Intent intent = this.getActivity().getIntent();
+		if (activity instanceof BaseActivity) {
+			((BaseActivity) activity).displayHomeAsUp(true);
+			activity.setTitle(R.string.episode);
+		}
 
-		if (intent != null) {
-			int episodeNumber = intent.getIntExtra(Constants.Bundle.EPISODE_NUMBER, 0);
-			int episodesCount = intent.getIntExtra(Constants.Bundle.EPISODES_COUNT, 0);
+		Bundle arguments = this.getArguments();
+
+		if (arguments != null) {
+			int episodeNumber = arguments.getInt(Constants.Bundle.EPISODE_NUMBER, 0);
+			int episodesCount = arguments.getInt(Constants.Bundle.EPISODES_COUNT, 0);
 
 			for (int i = episodesCount; i > 0; i--) {
 				this.episodes.add(i);
@@ -59,7 +66,7 @@ public class EpisodeFragment extends Fragment {
 			if (this.adapter != null) {
 				this.adapter.notifyDataSetChanged();
 
-				TabLayout tabLayout = (TabLayout) this.getActivity().findViewById(R.id.tabs);
+				TabLayout tabLayout = (TabLayout) activity.findViewById(R.id.tabs);
 
 				if (tabLayout != null && this.viewPager != null) {
 					tabLayout.setupWithViewPager(this.viewPager);
