@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.activity;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -28,7 +29,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.IntentCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -62,16 +62,22 @@ import com.mgaetan89.showsrage.fragment.SettingsExperimentalFeaturesFragment;
 import com.mgaetan89.showsrage.fragment.SettingsFragment;
 import com.mgaetan89.showsrage.fragment.SettingsServerApiKeyFragment;
 import com.mgaetan89.showsrage.fragment.SettingsServerFragment;
+import com.mgaetan89.showsrage.fragment.ShowsFragment;
 import com.mgaetan89.showsrage.fragment.StatisticsFragment;
 import com.mgaetan89.showsrage.helper.ShowsRageReceiver;
 import com.mgaetan89.showsrage.helper.Utils;
 import com.mgaetan89.showsrage.model.GenericResponse;
+import com.mgaetan89.showsrage.model.RootDir;
+import com.mgaetan89.showsrage.model.RootDirs;
 import com.mgaetan89.showsrage.model.UpdateResponse;
 import com.mgaetan89.showsrage.model.UpdateResponseWrapper;
 import com.mgaetan89.showsrage.network.SickRageApi;
 import com.mgaetan89.showsrage.view.ColoredToolbar;
 
 import java.lang.ref.WeakReference;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -228,12 +234,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 			}
 
 			case R.id.menu_shows: {
-				Intent intent = new Intent(this, ShowsActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+				fragment = new ShowsFragment();
 
-				this.startActivity(intent);
-
-				return true;
+				break;
 			}
 
 			case R.id.menu_statistics: {
@@ -366,6 +369,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		this.setContentView(R.layout.activity_main);
 
 		SickRageApi.Companion.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this));
+		SickRageApi.Companion.getInstance().getServices().getRootDirs(new RootDirsCallback(this));
 
 		this.setTitle(this.getTitleResourceId());
 
@@ -705,6 +709,40 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 			NotificationManager notificationManager = (NotificationManager) activity.getSystemService(NOTIFICATION_SERVICE);
 			notificationManager.notify(0, notification);
+		}
+	}
+
+	private static final class RootDirsCallback implements Callback<RootDirs> {
+		@NonNull
+		private WeakReference<Activity> activityReference = new WeakReference<>(null);
+
+		private RootDirsCallback(Activity activity) {
+			this.activityReference = new WeakReference<>(activity);
+		}
+
+		@Override
+		public void failure(RetrofitError error) {
+			error.printStackTrace();
+		}
+
+		@Override
+		public void success(RootDirs rootDirs, Response response) {
+			Activity activity = this.activityReference.get();
+
+			if (activity == null || rootDirs == null) {
+				return;
+			}
+
+			List<RootDir> data = rootDirs.getData();
+			Set<String> rootPaths = new HashSet<>(data.size());
+
+			for (RootDir rootDir : data) {
+				rootPaths.add(rootDir.getLocation());
+			}
+
+			SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(activity).edit();
+			editor.putStringSet(Constants.Preferences.Fields.ROOT_DIRS, rootPaths);
+			editor.apply();
 		}
 	}
 }

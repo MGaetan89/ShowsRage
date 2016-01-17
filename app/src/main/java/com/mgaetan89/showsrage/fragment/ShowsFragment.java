@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
+import com.mgaetan89.showsrage.activity.BaseActivity;
 import com.mgaetan89.showsrage.adapter.ShowsPagerAdapter;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.Shows;
@@ -101,9 +102,16 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
+		FragmentActivity activity = this.getActivity();
+
+		if (activity instanceof BaseActivity) {
+			((BaseActivity) activity).displayHomeAsUp(false);
+			activity.setTitle(R.string.shows);
+		}
+
 		SickRageApi.Companion.getInstance().getServices().getShows(this);
 
-		this.tabLayout = (TabLayout) this.getActivity().findViewById(R.id.tabs);
+		this.tabLayout = (TabLayout) activity.findViewById(R.id.tabs);
 
 		if (this.viewPager != null && this.tabLayout != null) {
 			this.tabLayout.setTabMode(TabLayout.MODE_FIXED);

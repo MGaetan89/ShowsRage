@@ -41,7 +41,7 @@
 					android:host="settings"
 					android:scheme="showsrage"/>
 			</intent-filter>
-		</activity-->
+		</activity>
 		<activity
 			android:name=".activity.ShowsActivity"
 			android:launchMode="singleTop">
@@ -58,7 +58,7 @@
 			<meta-data
 				android:name="android.app.searchable"
 				android:resource="@xml/searchable"/>
-		</activity>
+		</activity-->
 		<activity
 			android:name=".activity.UpdateActivity"
 			android:excludeFromRecents="true"
