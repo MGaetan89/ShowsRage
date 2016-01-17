@@ -64,7 +64,7 @@ public class SettingsServerApiKeyFragment extends SettingsServerFragment {
 
 		@Override
 		public void success(ApiKey apiKey, Response response) {
-			if (apiKey.isSuccess()) {
+			if (apiKey.getSuccess()) {
 				this.showApiKeyResult(apiKey.getApiKey());
 			} else {
 				this.showApiKeyResult(null);
