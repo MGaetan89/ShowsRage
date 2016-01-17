@@ -23,7 +23,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
@@ -197,11 +196,12 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		this.serviceConnection = new ServiceConnection(this);
 
 		AppCompatActivity activity = (AppCompatActivity) this.getActivity();
-		ActionBar actionBar = activity.getSupportActionBar();
 		this.show = this.getArguments().getParcelable(Constants.Bundle.SHOW_MODEL);
 
-		if (actionBar != null && this.show != null) {
-			actionBar.setTitle(this.show.getShowName());
+		if (this.show != null) {
+			if (activity != null) {
+				activity.setTitle(this.show.getShowName());
+			}
 
 			SickRageApi.Companion.getInstance().getServices().getShow(this.show.getIndexerId(), this);
 		}

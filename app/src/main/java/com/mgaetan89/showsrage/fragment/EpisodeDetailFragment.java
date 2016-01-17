@@ -16,9 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.MediaRouteActionProvider;
 import android.support.v7.app.MediaRouteDiscoveryFragment;
 import android.support.v7.media.MediaControlIntent;
@@ -173,17 +171,17 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 				.build();
 		OmDbApi omDbApi = restAdapter.create(OmDbApi.class);
 
-		ActionBar actionBar = ((AppCompatActivity) this.getActivity()).getSupportActionBar();
+		FragmentActivity activity = this.getActivity();
 		Bundle arguments = this.getArguments();
 		Episode episode = arguments.getParcelable(Constants.Bundle.EPISODE_MODEL);
 		this.episodeNumber = arguments.getInt(Constants.Bundle.EPISODE_NUMBER, 0);
 		this.seasonNumber = arguments.getInt(Constants.Bundle.SEASON_NUMBER, 0);
 
-		if (actionBar != null) {
+		if (activity != null) {
 			if (this.seasonNumber <= 0) {
-				actionBar.setTitle(R.string.specials);
+				activity.setTitle(R.string.specials);
 			} else {
-				actionBar.setTitle(this.getString(R.string.season_number, this.seasonNumber));
+				activity.setTitle(this.getString(R.string.season_number, this.seasonNumber));
 			}
 		}
 
