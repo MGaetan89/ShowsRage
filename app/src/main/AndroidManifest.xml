@@ -18,19 +18,12 @@
 		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
 		android:theme="@style/AppTheme">
-		<!-- TODO Set this on the future new default Activity -->
-		<!--activity
-			android:name=".activity.AddShowActivity"
-			android:launchMode="singleTop">
+		<activity android:name=".activity.MainActivity">
 			<intent-filter>
-				<action android:name="android.intent.action.SEARCH"/>
-			</intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
 
-			<meta-data
-				android:name="android.app.searchable"
-				android:resource="@xml/searchable"/>
-		</activity>
-		<activity android:name=".activity.SettingsActivity">
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW"/>
 
@@ -41,16 +34,6 @@
 					android:host="settings"
 					android:scheme="showsrage"/>
 			</intent-filter>
-		</activity>
-		<activity
-			android:name=".activity.ShowsActivity"
-			android:launchMode="singleTop">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN"/>
-
-				<category android:name="android.intent.category.LAUNCHER"/>
-			</intent-filter>
-
 			<intent-filter>
 				<action android:name="android.intent.action.SEARCH"/>
 			</intent-filter>
@@ -58,7 +41,7 @@
 			<meta-data
 				android:name="android.app.searchable"
 				android:resource="@xml/searchable"/>
-		</activity-->
+		</activity>
 		<activity
 			android:name=".activity.UpdateActivity"
 			android:excludeFromRecents="true"

@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.activity.BaseActivity;
+import com.mgaetan89.showsrage.activity.MainActivity;
 import com.mgaetan89.showsrage.fragment.AddShowOptionsFragment;
 import com.mgaetan89.showsrage.fragment.EpisodeFragment;
 import com.mgaetan89.showsrage.fragment.ShowFragment;
@@ -25,9 +25,9 @@ import retrofit.Callback;
 
 public class ShowsRageReceiver extends BroadcastReceiver {
 	@NonNull
-	private final WeakReference<BaseActivity> activityReference;
+	private final WeakReference<MainActivity> activityReference;
 
-	public ShowsRageReceiver(BaseActivity activity) {
+	public ShowsRageReceiver(MainActivity activity) {
 		this.activityReference = new WeakReference<>(activity);
 	}
 
@@ -89,7 +89,7 @@ public class ShowsRageReceiver extends BroadcastReceiver {
 	}
 
 	private void handleEpisodeSelected(@NonNull Intent intent) {
-		BaseActivity activity = this.activityReference.get();
+		MainActivity activity = this.activityReference.get();
 
 		if (activity == null) {
 			return;
@@ -112,7 +112,7 @@ public class ShowsRageReceiver extends BroadcastReceiver {
 	}
 
 	private void handleSearchResultSelected(@NonNull Intent intent) {
-		BaseActivity activity = this.activityReference.get();
+		MainActivity activity = this.activityReference.get();
 
 		if (activity == null) {
 			return;
@@ -127,7 +127,7 @@ public class ShowsRageReceiver extends BroadcastReceiver {
 	}
 
 	private void handleShowSelected(@NonNull Intent intent) {
-		BaseActivity activity = this.activityReference.get();
+		MainActivity activity = this.activityReference.get();
 
 		if (activity == null) {
 			return;
@@ -146,7 +146,7 @@ public class ShowsRageReceiver extends BroadcastReceiver {
 	}
 
 	private void searchEpisode(int seasonNumber, int episodeNumber, int indexerId) {
-		BaseActivity activity = this.activityReference.get();
+		MainActivity activity = this.activityReference.get();
 
 		if (activity == null) {
 			return;
@@ -158,7 +158,7 @@ public class ShowsRageReceiver extends BroadcastReceiver {
 	}
 
 	private void setEpisodeStatus(final int seasonNumber, final int episodeNumber, final int indexerId, final String status) {
-		BaseActivity activity = this.activityReference.get();
+		MainActivity activity = this.activityReference.get();
 
 		if (activity == null) {
 			return;

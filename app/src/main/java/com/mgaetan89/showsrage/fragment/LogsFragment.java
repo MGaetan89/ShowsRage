@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.activity.BaseActivity;
+import com.mgaetan89.showsrage.activity.MainActivity;
 import com.mgaetan89.showsrage.adapter.LogsAdapter;
 import com.mgaetan89.showsrage.model.LogLevel;
 import com.mgaetan89.showsrage.model.Logs;
@@ -69,8 +69,8 @@ public class LogsFragment extends Fragment implements Callback<Logs>, SwipeRefre
 
 		FragmentActivity activity = this.getActivity();
 
-		if (activity instanceof BaseActivity) {
-			((BaseActivity) activity).displayHomeAsUp(false);
+		if (activity instanceof MainActivity) {
+			((MainActivity) activity).displayHomeAsUp(false);
 			activity.setTitle(R.string.logs);
 		}
 

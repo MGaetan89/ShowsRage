@@ -7,7 +7,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:fitsSystemWindows="true"
-	tools:context="com.mgaetan89.showsrage.activity.BaseActivity">
+	tools:context="com.mgaetan89.showsrage.activity.MainActivity">
 
 	<LinearLayout
 		android:layout_width="match_parent"

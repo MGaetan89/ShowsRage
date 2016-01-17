@@ -19,7 +19,7 @@ import android.widget.Spinner;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.activity.BaseActivity;
+import com.mgaetan89.showsrage.activity.MainActivity;
 import com.mgaetan89.showsrage.adapter.RootDirectoriesAdapter;
 import com.mgaetan89.showsrage.helper.GenericCallback;
 import com.mgaetan89.showsrage.model.GenericResponse;
@@ -235,7 +235,7 @@ public class AddShowOptionsFragment extends DialogFragment implements DialogInte
 			FragmentActivity activity = this.getActivity();
 
 			if (activity != null) {
-				Intent intent = new Intent(activity, BaseActivity.class);
+				Intent intent = new Intent(activity, MainActivity.class);
 
 				activity.startActivity(intent);
 			}

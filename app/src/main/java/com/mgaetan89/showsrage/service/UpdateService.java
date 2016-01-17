@@ -14,7 +14,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.activity.BaseActivity;
+import com.mgaetan89.showsrage.activity.MainActivity;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
@@ -92,7 +92,7 @@ public class UpdateService extends Service implements Callback<GenericResponse>,
 			messageRes = R.string.sickrage_updated;
 		}
 
-		Intent intent = new Intent(this, BaseActivity.class);
+		Intent intent = new Intent(this, MainActivity.class);
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		Notification notification = new NotificationCompat.Builder(this)

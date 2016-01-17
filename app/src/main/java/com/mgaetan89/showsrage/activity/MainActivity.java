@@ -18,10 +18,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -83,7 +81,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public abstract class BaseActivity extends AppCompatActivity implements Callback<GenericResponse>, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements Callback<GenericResponse>, NavigationView.OnNavigationItemSelectedListener {
 	private static final float COLOR_DARK_FACTOR = 0.8f;
 
 	@Nullable
@@ -206,7 +204,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 						.setPositiveButton(R.string.restart, new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
-								SickRageApi.Companion.getInstance().getServices().restart(BaseActivity.this);
+								SickRageApi.Companion.getInstance().getServices().restart(MainActivity.this);
 							}
 						})
 						.setNegativeButton(android.R.string.cancel, null)
@@ -352,16 +350,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		}
 	}
 
-	protected abstract boolean displayHomeAsUp();
-
-	protected abstract Fragment getFragment();
-
-	@IdRes
-	protected abstract int getSelectedMenuId();
-
-	@StringRes
-	protected abstract int getTitleResourceId();
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -370,8 +358,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 		SickRageApi.Companion.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this));
 		SickRageApi.Companion.getInstance().getServices().getRootDirs(new RootDirsCallback(this));
-
-		this.setTitle(this.getTitleResourceId());
 
 		this.appBarLayout = (AppBarLayout) this.findViewById(R.id.app_bar);
 		this.drawerLayout = (DrawerLayout) this.findViewById(R.id.drawer_layout);
@@ -386,8 +372,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 			this.drawerLayout.post(new Runnable() {
 				@Override
 				public void run() {
-					if (BaseActivity.this.drawerToggle != null) {
-						BaseActivity.this.drawerToggle.syncState();
+					if (MainActivity.this.drawerToggle != null) {
+						MainActivity.this.drawerToggle.syncState();
 					}
 				}
 			});
@@ -397,21 +383,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 			this.drawerHeader = (LinearLayout) this.navigationView.inflateHeaderView(R.layout.drawer_header);
 
 			this.navigationView.setNavigationItemSelectedListener(this);
-			this.navigationView.getMenu().findItem(this.getSelectedMenuId()).setChecked(true);
 		}
 
 		if (this.toolbar != null) {
 			this.setSupportActionBar(this.toolbar);
-		}
-
-		if (savedInstanceState == null) {
-			Fragment fragment = this.getFragment();
-
-			if (fragment != null) {
-				this.getSupportFragmentManager().beginTransaction()
-						.replace(R.id.content, fragment)
-						.commit();
-			}
 		}
 
 		Intent intent = this.getIntent();
@@ -424,20 +399,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 			if (colorPrimary != 0) {
 				this.setThemeColors(colorPrimary, colorAccent);
 			}
-
-			// Start the correct Setting Fragment, if necessary
-			Uri data = intent.getData();
-
-			if (data != null) {
-				SettingsFragment settingFragment = getSettingFragmentForPath(data.getPath());
-
-				if (settingFragment != null) {
-					this.getFragmentManager().beginTransaction()
-							.replace(R.id.content, settingFragment)
-							.commit();
-				}
-			}
 		}
+
+		this.displayStartFragment();
 	}
 
 	@Override
@@ -460,7 +424,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		LocalBroadcastManager.getInstance(this).registerReceiver(this.receiver, intentFilter);
 
 		this.updateRemoteControlVisibility();
-		this.displayHomeAsUp(this.displayHomeAsUp());
 		this.checkForUpdate(false);
 	}
 
@@ -474,6 +437,29 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		}
 
 		SickRageApi.Companion.getInstance().getServices().checkForUpdate(new CheckForUpdateCallback(this, manualCheck));
+	}
+
+	private void displayStartFragment() {
+		Intent intent = this.getIntent();
+
+		Uri data = intent.getData();
+
+		if (data != null) {
+			// Start the correct Setting Fragment, if necessary
+			SettingsFragment settingFragment = getSettingFragmentForPath(data.getPath());
+
+			if (settingFragment != null) {
+				this.getFragmentManager().beginTransaction()
+						.replace(R.id.content, settingFragment)
+						.commit();
+
+				return;
+			}
+		}
+
+		if (this.navigationView != null) {
+			this.navigationView.getMenu().performIdentifierAction(R.id.menu_shows, 0);
+		}
 	}
 
 	@Nullable

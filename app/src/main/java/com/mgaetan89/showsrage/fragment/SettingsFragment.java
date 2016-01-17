@@ -15,7 +15,7 @@ import android.text.TextUtils;
 
 import com.mgaetan89.showsrage.BuildConfig;
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.activity.BaseActivity;
+import com.mgaetan89.showsrage.activity.MainActivity;
 
 // Code to display preferences values from: http://stackoverflow.com/a/18807490/1914223
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -28,8 +28,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
 		Activity activity = this.getActivity();
 
-		if (activity instanceof BaseActivity) {
-			((BaseActivity) activity).displayHomeAsUp(true);
+		if (activity instanceof MainActivity) {
+			((MainActivity) activity).displayHomeAsUp(true);
 		}
 	}
 

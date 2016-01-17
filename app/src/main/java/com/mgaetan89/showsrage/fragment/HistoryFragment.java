@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.activity.BaseActivity;
+import com.mgaetan89.showsrage.activity.MainActivity;
 import com.mgaetan89.showsrage.adapter.HistoriesAdapter;
 import com.mgaetan89.showsrage.helper.GenericCallback;
 import com.mgaetan89.showsrage.model.GenericResponse;
@@ -69,8 +69,8 @@ public class HistoryFragment extends Fragment implements Callback<Histories>, Di
 
 		FragmentActivity activity = this.getActivity();
 
-		if (activity instanceof BaseActivity) {
-			((BaseActivity) activity).displayHomeAsUp(false);
+		if (activity instanceof MainActivity) {
+			((MainActivity) activity).displayHomeAsUp(false);
 			activity.setTitle(R.string.history);
 		}
 

@@ -10,7 +10,7 @@ import java.util.Collection;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(Parameterized.class)
-public class BaseActivity_ShouldCheckForUpdateTest {
+public class MainActivity_ShouldCheckForUpdateTest {
 	@Parameterized.Parameter(0)
 	public long checkInterval;
 
@@ -25,7 +25,7 @@ public class BaseActivity_ShouldCheckForUpdateTest {
 
 	@Test
 	public void shouldCheckForUpdate() {
-		assertThat(BaseActivity.shouldCheckForUpdate(this.checkInterval, this.manualCheck, this.lastCheckTime)).isEqualTo(this.result);
+		assertThat(MainActivity.shouldCheckForUpdate(this.checkInterval, this.manualCheck, this.lastCheckTime)).isEqualTo(this.result);
 	}
 
 	@Parameterized.Parameters

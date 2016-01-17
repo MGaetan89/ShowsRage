@@ -43,7 +43,7 @@ import android.widget.TextView;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.activity.BaseActivity;
+import com.mgaetan89.showsrage.activity.MainActivity;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
 import com.mgaetan89.showsrage.helper.GenericCallback;
 import com.mgaetan89.showsrage.helper.ImageLoader;
@@ -362,11 +362,11 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	public void onGenerated(Palette palette) {
 		FragmentActivity activity = this.getActivity();
 
-		if (!(activity instanceof BaseActivity)) {
+		if (!(activity instanceof MainActivity)) {
 			return;
 		}
 
-		((BaseActivity) activity).setPalette(palette);
+		((MainActivity) activity).setPalette(palette);
 
 		int tintColor = activity.getIntent().getIntExtra(Constants.Bundle.COLOR_PRIMARY, 0);
 

@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.activity.BaseActivity;
+import com.mgaetan89.showsrage.activity.MainActivity;
 import com.mgaetan89.showsrage.adapter.SearchResultsAdapter;
 import com.mgaetan89.showsrage.model.SearchResult;
 import com.mgaetan89.showsrage.model.SearchResultItem;
@@ -64,8 +64,8 @@ public class AddShowFragment extends Fragment implements Callback<SearchResults>
 
 		FragmentActivity activity = this.getActivity();
 
-		if (activity instanceof BaseActivity) {
-			((BaseActivity) activity).displayHomeAsUp(true);
+		if (activity instanceof MainActivity) {
+			((MainActivity) activity).displayHomeAsUp(true);
 		}
 	}
 

@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mgaetan89.showsrage.R;
-import com.mgaetan89.showsrage.activity.BaseActivity;
+import com.mgaetan89.showsrage.activity.MainActivity;
 import com.mgaetan89.showsrage.adapter.SchedulePagerAdapter;
 import com.mgaetan89.showsrage.model.Schedule;
 import com.mgaetan89.showsrage.model.Schedules;
@@ -57,8 +57,8 @@ public class ScheduleFragment extends Fragment implements Callback<Schedules> {
 
 		FragmentActivity activity = this.getActivity();
 
-		if (activity instanceof BaseActivity) {
-			((BaseActivity) activity).displayHomeAsUp(false);
+		if (activity instanceof MainActivity) {
+			((MainActivity) activity).displayHomeAsUp(false);
 			activity.setTitle(R.string.schedule);
 		}
 

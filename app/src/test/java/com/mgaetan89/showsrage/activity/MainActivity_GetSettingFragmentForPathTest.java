@@ -20,7 +20,7 @@ import java.util.Collection;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(Parameterized.class)
-public class BaseActivity_GetSettingFragmentForPathTest {
+public class MainActivity_GetSettingFragmentForPathTest {
 	@Parameterized.Parameter(1)
 	public Class<SettingsFragment> fragmentClass;
 
@@ -30,9 +30,9 @@ public class BaseActivity_GetSettingFragmentForPathTest {
 	@Test
 	public void getSettingFragmentForPath() {
 		if (this.fragmentClass == null) {
-			assertThat(BaseActivity.getSettingFragmentForPath(this.path)).isNull();
+			assertThat(MainActivity.getSettingFragmentForPath(this.path)).isNull();
 		} else {
-			assertThat(BaseActivity.getSettingFragmentForPath(this.path)).isExactlyInstanceOf(this.fragmentClass);
+			assertThat(MainActivity.getSettingFragmentForPath(this.path)).isExactlyInstanceOf(this.fragmentClass);
 		}
 	}
 
