@@ -263,15 +263,35 @@
 					tools:text="@string/runtime"
 					tools:visibility="visible"/>
 
-				<TextView
-					android:id="@+id/show_rating"
-					style="@style/TextAppearance.AppCompat.Inverse"
+				<RelativeLayout
 					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="@dimen/padding_half"
-					android:visibility="gone"
-					tools:text="@string/rating"
-					tools:visibility="visible"/>
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:id="@+id/show_rating"
+						style="@style/TextAppearance.AppCompat.Inverse"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="@dimen/padding_half"
+						android:visibility="gone"
+						tools:text="@string/rating"
+						tools:visibility="visible"/>
+
+					<RatingBar
+						android:id="@+id/show_rating_stars"
+						style="?android:attr/ratingBarStyleSmall"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_below="@+id/show_rating"
+						android:layout_centerHorizontal="true"
+						android:layout_marginBottom="@dimen/padding_half"
+						android:isIndicator="true"
+						android:numStars="10"
+						android:stepSize="0.1"
+						android:visibility="gone"
+						tools:rating="5"
+						tools:visibility="visible"/>
+				</RelativeLayout>
 
 				<TextView
 					android:id="@+id/show_location"

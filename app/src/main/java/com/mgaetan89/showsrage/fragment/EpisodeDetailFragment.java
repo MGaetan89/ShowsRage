@@ -33,6 +33,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -131,6 +132,9 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 
 	@Nullable
 	private TextView rating = null;
+
+	@Nullable
+	private RatingBar ratingStars = null;
 
 	@Nullable
 	private TextView runtime = null;
@@ -267,6 +271,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 			this.quality = (TextView) view.findViewById(R.id.episode_quality);
 			this.rated = (TextView) view.findViewById(R.id.episode_rated);
 			this.rating = (TextView) view.findViewById(R.id.episode_rating);
+			this.ratingStars = (RatingBar) view.findViewById(R.id.episode_rating_stars);
 			this.runtime = (TextView) view.findViewById(R.id.episode_runtime);
 			this.status = (TextView) view.findViewById(R.id.episode_status);
 			this.year = (TextView) view.findViewById(R.id.episode_year);
@@ -316,6 +321,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		this.quality = null;
 		this.rated = null;
 		this.rating = null;
+		this.ratingStars = null;
 		this.runtime = null;
 		this.status = null;
 		this.year = null;
@@ -662,6 +668,15 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 					fragment.rating.setVisibility(View.VISIBLE);
 				} else {
 					fragment.rating.setVisibility(View.GONE);
+				}
+			}
+
+			if (fragment.ratingStars != null) {
+				try {
+					fragment.ratingStars.setRating(Float.valueOf(episode.getImdbRating()));
+					fragment.ratingStars.setVisibility(View.VISIBLE);
+				} catch (Exception exception) {
+					fragment.ratingStars.setVisibility(View.GONE);
 				}
 			}
 

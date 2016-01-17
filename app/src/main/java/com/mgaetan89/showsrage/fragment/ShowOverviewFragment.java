@@ -39,6 +39,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.mgaetan89.showsrage.Constants;
@@ -139,6 +140,9 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 	@Nullable
 	private TextView rating = null;
+
+	@Nullable
+	private RatingBar ratingStars = null;
 
 	@Nullable
 	private MenuItem resumeMenu = null;
@@ -288,6 +292,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			this.quality = (TextView) view.findViewById(R.id.show_quality);
 			this.rated = (TextView) view.findViewById(R.id.show_rated);
 			this.rating = (TextView) view.findViewById(R.id.show_rating);
+			this.ratingStars = (RatingBar) view.findViewById(R.id.show_rating_stars);
 			this.runtime = (TextView) view.findViewById(R.id.show_runtime);
 			this.status = (TextView) view.findViewById(R.id.show_status);
 			this.theTvDb = (Button) view.findViewById(R.id.show_the_tvdb);
@@ -343,6 +348,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		this.quality = null;
 		this.rated = null;
 		this.rating = null;
+		this.ratingStars = null;
 		this.runtime = null;
 		this.status = null;
 		this.theTvDb = null;
@@ -814,6 +820,15 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 					fragment.rating.setVisibility(View.VISIBLE);
 				} else {
 					fragment.rating.setVisibility(View.GONE);
+				}
+			}
+
+			if (fragment.ratingStars != null) {
+				try {
+					fragment.ratingStars.setRating(Float.valueOf(serie.getImdbRating()));
+					fragment.ratingStars.setVisibility(View.VISIBLE);
+				} catch (Exception exception) {
+					fragment.ratingStars.setVisibility(View.GONE);
 				}
 			}
 
