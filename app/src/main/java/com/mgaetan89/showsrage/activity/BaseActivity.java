@@ -258,6 +258,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 
 		if (fragment != null) {
 			this.removeCurrentFragment();
+			this.resetThemeColors();
+
+			if (this.toolbar != null) {
+				this.toolbar.getMenu().clear();
+			}
 
 			this.getSupportFragmentManager().beginTransaction()
 					.replace(R.id.content, fragment)
@@ -501,6 +506,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Callback
 		}
 
 		return null;
+	}
+
+	private void resetThemeColors() {
+		int colorAccent = ContextCompat.getColor(this, R.color.accent);
+		int colorPrimary = ContextCompat.getColor(this, R.color.primary);
+
+		this.setThemeColors(colorPrimary, colorAccent);
 	}
 
 	private void setThemeColors(int colorPrimary, int colorAccent) {
