@@ -1,16 +1,14 @@
 ---
-name: Version 1.4
-current_tag: master
+name: Version 1.4-beta1
+release_date: 18/01/2016
+current_tag: v1.4-beta1
 previous_tag: v1.3
 description: <em>ShowsRage</em> now has its <a href="https://MGaetan89.github.io/ShowsRage/" target="_blank">dedicated website</a>.
 features:
-- Filter the list of shows
-- (<abbr title="Work in Progress">WIP</abbr>) The data you download in <em>ShowsRage</em> can be seen while offline
-- Specify a root directory when adding a new show
 - More information are available on the detail of an episode
+- Specify a root directory when adding a new show
 changes:
 - Reorganized <em>Settings</em> section
-- Performance improvements
 fixes:
 - Episodes are now correctly listed when sorted in descending order
 ---
