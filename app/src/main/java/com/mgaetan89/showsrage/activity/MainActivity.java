@@ -251,6 +251,8 @@ public class MainActivity extends AppCompatActivity implements Callback<GenericR
 		}
 
 		if (eventHandled) {
+			menuItem.setChecked(true);
+
 			if (this.tabLayout != null) {
 				this.tabLayout.removeAllTabs();
 				this.tabLayout.setVisibility(View.GONE);
