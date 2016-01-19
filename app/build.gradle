@@ -128,6 +128,7 @@ dependencies {
 	compile 'com.squareup.okhttp:okhttp:2.5.0'
 	compile 'com.squareup.okhttp:okhttp-urlconnection:2.5.0'
 	compile 'com.squareup.retrofit:retrofit:1.9.0'
+	compile 'io.realm:realm-android:0.87.2'
 	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0-beta-4589'
 
 	testCompile('com.squareup.assertj:assertj-android:1.1.1') {

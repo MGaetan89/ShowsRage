@@ -24,6 +24,16 @@
 		</PreferenceScreen>
 
 		<PreferenceScreen
+			android:key="realm_java"
+			android:summary="Version 0.87.2"
+			android:title="Realm Java">
+
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:data="https://realm.io/"/>
+		</PreferenceScreen>
+
+		<PreferenceScreen
 			android:key="retrofit"
 			android:summary="Version 1.9.0"
 			android:title="Retrofit">
