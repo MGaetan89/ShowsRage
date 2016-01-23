@@ -67,6 +67,7 @@
 	<string name="get_api_key_error">Unable to get the API Key</string>
 	<string name="get_api_key_success">API Key successfully received</string>
 	<string name="hard_link">Hard link</string>
+	<string name="help">Help</string>
 	<string name="history">History</string>
 	<string name="hostname">Hostname</string>
 	<string name="hours_6">Every 3 hours</string>

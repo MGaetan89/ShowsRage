@@ -2,6 +2,8 @@ package com.mgaetan89.showsrage.fragment;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -34,12 +36,17 @@ public class SettingsServerFragment extends SettingsFragment implements Callback
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.settings_network, menu);
+		inflater.inflate(R.menu.settings_server, menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case R.id.menu_help:
+				this.displayConfigurationHelp();
+
+				return true;
+
 			case R.id.menu_test:
 				this.testConnection();
 
@@ -62,6 +69,13 @@ public class SettingsServerFragment extends SettingsFragment implements Callback
 	@Override
 	protected int getXmlResourceFile() {
 		return R.xml.settings_server;
+	}
+
+	private void displayConfigurationHelp() {
+		Intent helpIntent = new Intent(Intent.ACTION_VIEW);
+		helpIntent.setData(Uri.parse("https://MGaetan89.github.io/ShowsRage/help.html#how-to-configure-showsrage"));
+
+		this.startActivity(helpIntent);
 	}
 
 	private void showTestResult(boolean successful) {

@@ -67,6 +67,7 @@
 	<string name="get_api_key_error">Impossible de récupérer la clé de l\'API</string>
 	<string name="get_api_key_success">Clé de l\'API obtenue avec succès</string>
 	<string name="hard_link">Lien en dur</string>
+	<string name="help">Aide</string>
 	<string name="history">Historique</string>
 	<string name="hostname">Nom d\'hôte</string>
 	<string name="hours_6">Toutes les 6 heures</string>
