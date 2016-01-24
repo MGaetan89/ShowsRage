@@ -12,7 +12,7 @@ weight: 8
                 <li><a href="#{{ version.name | slugify }}">{{ version.name }}</a></li>
             {% endfor %}
 
-            <li><a href="https://github.com/MGaetan89/ShowsRage/releases" target="_blank">All releases</a></li>
+            <li><a href="{{ site.github.releases_url }}" target="_blank">All releases</a></li>
         </ul>
     </div>
 </div>
@@ -33,11 +33,11 @@ weight: 8
 
             <ul class="table-of-content">
                 {% if version.current_tag != 'master' %}
-                    <li><a href="https://github.com/MGaetan89/ShowsRage/releases/tag/{{ version.current_tag }}" target="_blank">Release</a></li>
+                    <li><a href="{{ site.github.releases_url }}/tag/{{ version.current_tag }}" target="_blank">Release</a></li>
                 {% endif %}
 
                 {% if version.previous_tag %}
-                    <li><a href="https://github.com/MGaetan89/ShowsRage/compare/{{ version.previous_tag }}...{{ version.current_tag }}" target="_blank">Changes since {{ version.previous_tag }}</a></li>
+                    <li><a href="{{ site.github.repository_url }}/compare/{{ version.previous_tag }}...{{ version.current_tag }}" target="_blank">Changes since {{ version.previous_tag }}</a></li>
                 {% endif %}
             </ul>
 

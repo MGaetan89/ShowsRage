@@ -14,6 +14,10 @@ baseurl: "ShowsRage" # the subpath of your site, e.g. /blog
 url: "https://MGaetan89.github.io/" # the base hostname & protocol for your site
 sass:
   style: compressed
+play_store:
+  test: https://play.google.com/apps/testing/com.mgaetan89.showsrage
+  url: https://play.google.com/store/apps/details?id=com.mgaetan89.showsrage
+google_plus_community_url: https://plus.google.com/communities/116042659322358505108
 
 collections:
 - features

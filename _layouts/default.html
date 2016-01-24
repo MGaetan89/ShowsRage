@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
 
-    <title>{{ page.title }} | {{ site.title }}</title>
+    <title>{{ page.title }} | {{ site.github.project_title }}</title>
 </head>
 <body>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
@@ -39,8 +39,8 @@
 
             <hr>
 
-            <a class="mdl-navigation__link" href="https://play.google.com/store/apps/details?id=com.mgaetan89.showsrage" target="_blank">Play Store</a>
-            <a class="mdl-navigation__link" href="https://github.com/MGaetan89/ShowsRage" target="_blank">GitHub</a>
+            <a class="mdl-navigation__link" href="{{ site.play_store.url }}" target="_blank">Play Store</a>
+            <a class="mdl-navigation__link" href="{{ site.github.repository_url }}" target="_blank">GitHub</a>
             <a class="mdl-navigation__link" href="https://www.paypal.me/MGaetan89" target="_blank">Donate</a>
         </nav>
     </div>
