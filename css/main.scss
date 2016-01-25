@@ -16,6 +16,11 @@ body {
     color: $text-color;
 }
 
+.mdl-card a {
+    color: $text-color-invert;
+    text-decoration: none;
+}
+
 .mdl-layout__drawer .mdl-layout-title img {
     height: $logo-size;
     width: $logo-size;

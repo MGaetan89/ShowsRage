@@ -1,0 +1,25 @@
+---
+name: Contributors
+---
+
+<div class="mdl-grid">
+    {% for contributor in site.github.contributors %}
+        <div class="mdl-cell mdl-cell--4-col">
+            <div class="mdl-card mdl-shadow--2dp" style="width: 250px;">
+                <div class="mdl-card__title">
+                    <h2 class="mdl-card__title-text">
+                        <a href="{{ contributor.html_url }}" target="_blank">{{ contributor.login }}</a>
+                    </h2>
+                </div>
+                <div class="mdl-card__media">
+                    <div style="background: url({{ contributor.avatar_url }}) center / cover; height: 187px; width: 250px;"></div>
+                </div>
+                <div class="mdl-card__supporting-text">
+                    <a href="{{ site.github.repository_url }}/commits?author={{ contributor.login }}" target="_blank">
+                        <strong>{{ contributor.contributions }}</strong> commits
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
