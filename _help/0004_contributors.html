@@ -16,7 +16,7 @@ name: Contributors
                 </div>
                 <div class="mdl-card__supporting-text">
                     <a href="{{ site.github.repository_url }}/commits?author={{ contributor.login }}" target="_blank">
-                        <strong>{{ contributor.contributions }}</strong> commits
+                        <strong>{{ contributor.contributions }}</strong> commit{% if contributor.contributions > 1 %}s{% endif %}
                     </a>
                 </div>
             </div>
