@@ -1,12 +1,23 @@
 package com.mgaetan89.showsrage.network
 
 import android.content.SharedPreferences
+import com.google.gson.ExclusionStrategy
+import com.google.gson.FieldAttributes
+import com.google.gson.GsonBuilder
+import com.google.gson.TypeAdapter
+import com.google.gson.reflect.TypeToken
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonWriter
 import com.mgaetan89.showsrage.Constants
+import com.mgaetan89.showsrage.db_model.RealmString
 import com.mgaetan89.showsrage.model.Indexer
 import com.squareup.okhttp.*
+import io.realm.RealmList
+import io.realm.RealmObject
 import retrofit.RequestInterceptor
 import retrofit.RestAdapter
 import retrofit.client.OkClient
+import retrofit.converter.GsonConverter
 import java.io.IOException
 import java.net.Proxy
 import java.security.KeyManagementException
@@ -84,6 +95,7 @@ class SickRageApi private constructor() : RequestInterceptor {
 
         val builder = RestAdapter.Builder()
         builder.setClient(OkClient(this.getOkHttpClient(selfSignedCertificate)))
+        builder.setConverter(this.getConverter())
         builder.setEndpoint(this.apiUrl)
         builder.setRequestInterceptor(this)
         builder.setLogLevel(Constants.NETWORK_LOG_LEVEL)
@@ -95,6 +107,40 @@ class SickRageApi private constructor() : RequestInterceptor {
         request.addEncodedPathParam("api_path", this.path)
         request.addPathParam("api_key", this.apiKey)
         request.addEncodedPathParam("web_root", this.webRoot)
+    }
+
+    private fun getConverter(): GsonConverter {
+        val token = object : TypeToken<RealmString>() {}.type
+        val gson = GsonBuilder()
+                .setExclusionStrategies(object : ExclusionStrategy {
+                    override fun shouldSkipField(f: FieldAttributes): Boolean {
+                        return f.declaringClass.equals(RealmObject::class.java)
+                    }
+
+                    override fun shouldSkipClass(clazz: Class<*>): Boolean {
+                        return false;
+                    }
+                })
+                .registerTypeAdapter(token, object : TypeAdapter<RealmList<RealmString>>() {
+                    @Throws(IOException::class)
+                    override fun write(writer: JsonWriter, value: RealmList<RealmString>) {
+                        // Ignore
+                    }
+
+                    @Throws(IOException::class)
+                    override fun read(reader: JsonReader): RealmList<RealmString> {
+                        val list = RealmList<RealmString>()
+                        reader.beginArray()
+                        while (reader.hasNext()) {
+                            list.add(RealmString(reader.nextString()))
+                        }
+                        reader.endArray()
+                        return list
+                    }
+                })
+                .create();
+
+        return GsonConverter(gson)
     }
 
     private fun setAuthenticator() {

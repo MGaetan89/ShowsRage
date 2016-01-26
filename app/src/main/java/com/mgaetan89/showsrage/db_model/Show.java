@@ -11,7 +11,7 @@ public class Show extends RealmObject {
 	private int anime = 0;
 	private int downloaded = 0;
 	private int episodesCount = 0;
-	private RealmList<RealmString> genre = null; // TODO This should be RealmList<String>
+	private RealmList<RealmString> genre = null;
 	@SerializedName("imdbid")
 	private String imdbId = "";
 	@PrimaryKey

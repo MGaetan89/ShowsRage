@@ -4,13 +4,20 @@ import io.realm.RealmObject;
 
 // Temp class until the following issue is addressed: https://github.com/realm/realm-java/issues/575
 public class RealmString extends RealmObject {
-	private String name = "";
+	private String value = "";
 
-	public String getName() {
-		return this.name;
+	public RealmString() {
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public RealmString(String value) {
+		this.value = value;
+	}
+
+	public String getValue() {
+		return this.value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
 	}
 }

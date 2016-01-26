@@ -4,8 +4,8 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 
 public class Quality extends RealmObject {
-	private RealmList<RealmString> archive = null; // TODO This should be RealmList<String>
-	private RealmList<RealmString> initial = null; // TODO This should be RealmList<String>
+	private RealmList<RealmString> archive = null;
+	private RealmList<RealmString> initial = null;
 
 	public RealmList<RealmString> getArchive() {
 		return this.archive;
