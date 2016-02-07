@@ -22,6 +22,9 @@ weight: 8
         <div class="mdl-cell mdl-cell--12-col">
             <h3><a name="{{ version.name | slugify }}">
                 {{ version.name }}
+
+                <br class="mdl-cell--hide-desktop mdl-cell--hide-tablet">
+
                 <small>
                     {% if version.release_date %}
                         {{ version.release_date | date_to_long_string }}
