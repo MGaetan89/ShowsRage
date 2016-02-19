@@ -42,7 +42,7 @@ public class ShowsPagerAdapter extends FragmentStatePagerAdapter {
 	@Override
 	public Fragment getItem(int position) {
 		Bundle arguments = new Bundle();
-		arguments.putSerializable(Constants.Bundle.SHOWS, this.shows.get(position));
+		arguments.putSerializable(Constants.Bundle.INSTANCE.getSHOWS(), this.shows.get(position));
 
 		ShowsSectionFragment fragment = new ShowsSectionFragment();
 		fragment.setArguments(arguments);

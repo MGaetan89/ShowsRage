@@ -60,7 +60,7 @@ public class UpdateActivity extends AppCompatActivity implements Callback<Generi
 
 		SickRageApi.Companion.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this));
 
-		UpdateResponse update = this.getIntent().getExtras().getParcelable(Constants.Bundle.UPDATE_MODEL);
+		UpdateResponse update = this.getIntent().getExtras().getParcelable(Constants.Bundle.INSTANCE.getUPDATE_MODEL());
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this)
 				.setTitle(R.string.update_sickrage);

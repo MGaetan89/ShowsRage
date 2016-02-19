@@ -60,7 +60,7 @@ public class ShowFragment extends Fragment implements Callback<Seasons> {
 			activity.setTitle(R.string.show);
 		}
 
-		Show show = this.getArguments().getParcelable(Constants.Bundle.SHOW_MODEL);
+		Show show = this.getArguments().getParcelable(Constants.Bundle.INSTANCE.getSHOW_MODEL());
 		String sort = getSeasonsSort(PreferenceManager.getDefaultSharedPreferences(this.getContext()));
 
 		SickRageApi.Companion.getInstance().getServices().getSeasons(show.getIndexerId(), sort, this);

@@ -166,16 +166,16 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		super.onActivityCreated(savedInstanceState);
 
 		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(Constants.OMDB_URL)
-				.setLogLevel(Constants.NETWORK_LOG_LEVEL)
+				.setEndpoint(Constants.INSTANCE.getOMDB_URL())
+				.setLogLevel(Constants.INSTANCE.getNETWORK_LOG_LEVEL())
 				.build();
 		OmDbApi omDbApi = restAdapter.create(OmDbApi.class);
 
 		FragmentActivity activity = this.getActivity();
 		Bundle arguments = this.getArguments();
-		Episode episode = arguments.getParcelable(Constants.Bundle.EPISODE_MODEL);
-		this.episodeNumber = arguments.getInt(Constants.Bundle.EPISODE_NUMBER, 0);
-		this.seasonNumber = arguments.getInt(Constants.Bundle.SEASON_NUMBER, 0);
+		Episode episode = arguments.getParcelable(Constants.Bundle.INSTANCE.getEPISODE_MODEL());
+		this.episodeNumber = arguments.getInt(Constants.Bundle.INSTANCE.getEPISODE_NUMBER(), 0);
+		this.seasonNumber = arguments.getInt(Constants.Bundle.INSTANCE.getSEASON_NUMBER(), 0);
 
 		if (activity != null) {
 			if (this.seasonNumber <= 0) {
@@ -185,7 +185,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 			}
 		}
 
-		this.show = arguments.getParcelable(Constants.Bundle.SHOW_MODEL);
+		this.show = arguments.getParcelable(Constants.Bundle.INSTANCE.getSHOW_MODEL());
 
 		this.displayEpisode(episode);
 
@@ -233,7 +233,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		}
 
 		if (intent != null && mediaRouteActionProvider instanceof ColoredMediaRouteActionProvider) {
-			int colorPrimary = intent.getIntExtra(Constants.Bundle.COLOR_PRIMARY, 0);
+			int colorPrimary = intent.getIntExtra(Constants.Bundle.INSTANCE.getCOLOR_PRIMARY(), 0);
 
 			if (colorPrimary != 0) {
 				((ColoredMediaRouteActionProvider) mediaRouteActionProvider).setButtonColor(Utils.getContrastColor(colorPrimary));
@@ -283,7 +283,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 					Intent intent = activity.getIntent();
 
 					if (intent != null) {
-						int colorPrimary = intent.getIntExtra(Constants.Bundle.COLOR_PRIMARY, 0);
+						int colorPrimary = intent.getIntExtra(Constants.Bundle.INSTANCE.getCOLOR_PRIMARY(), 0);
 
 						if (colorPrimary != 0) {
 							searchEpisode.setBackgroundTintList(ColorStateList.valueOf(colorPrimary));
@@ -453,7 +453,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		if (this.episode != null) {
 			String location = this.episode.getLocation();
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-			Set<String> rootDirs = preferences.getStringSet(Constants.Preferences.Fields.ROOT_DIRS, null);
+			Set<String> rootDirs = preferences.getStringSet(Constants.Preferences.Fields.INSTANCE.getROOT_DIRS(), null);
 
 			if (rootDirs != null) {
 				for (String rootDir : rootDirs) {

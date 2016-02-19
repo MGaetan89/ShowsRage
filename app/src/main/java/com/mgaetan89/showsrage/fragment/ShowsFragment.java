@@ -329,10 +329,10 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 	}
 
 	/* package */ void sendFilterMessage() {
-		Intent intent = new Intent(Constants.Intents.ACTION_FILTER_SHOWS);
-		intent.putExtra(Constants.Bundle.FILTER_MODE, this.filterPausedActiveMode);
-		intent.putExtra(Constants.Bundle.FILTER_STATUS, this.filterStatus);
-		intent.putExtra(Constants.Bundle.SEARCH_QUERY, this.searchQuery);
+		Intent intent = new Intent(Constants.Intents.INSTANCE.getACTION_FILTER_SHOWS());
+		intent.putExtra(Constants.Bundle.INSTANCE.getFILTER_MODE(), this.filterPausedActiveMode);
+		intent.putExtra(Constants.Bundle.INSTANCE.getFILTER_STATUS(), this.filterStatus);
+		intent.putExtra(Constants.Bundle.INSTANCE.getSEARCH_QUERY(), this.searchQuery);
 
 		LocalBroadcastManager.getInstance(this.getContext()).sendBroadcast(intent);
 	}

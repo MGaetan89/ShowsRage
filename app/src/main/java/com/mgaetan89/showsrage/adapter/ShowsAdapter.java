@@ -111,8 +111,8 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 
 			if (context != null) {
 				Show show = ShowsAdapter.this.shows.get(this.getAdapterPosition());
-				Intent intent = new Intent(Constants.Intents.ACTION_SHOW_SELECTED);
-				intent.putExtra(Constants.Bundle.SHOW_MODEL, show);
+				Intent intent = new Intent(Constants.Intents.INSTANCE.getACTION_SHOW_SELECTED());
+				intent.putExtra(Constants.Bundle.INSTANCE.getSHOW_MODEL(), show);
 
 				LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 			}

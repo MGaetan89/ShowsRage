@@ -5,7 +5,7 @@ import com.mgaetan89.showsrage.model.LogLevel
 import retrofit.RestAdapter
 
 object Constants {
-    val NETWORK_LOG_LEVEL: RestAdapter.LogLevel = if (BuildConfig.DEBUG) RestAdapter.LogLevel.FULL else RestAdapter.LogLevel.NONE
+    val NETWORK_LOG_LEVEL = if (BuildConfig.DEBUG) RestAdapter.LogLevel.FULL else RestAdapter.LogLevel.NONE
     val OMDB_URL = "http://www.omdbapi.com/"
 
     object Bundle {

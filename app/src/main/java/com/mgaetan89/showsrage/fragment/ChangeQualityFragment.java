@@ -24,7 +24,7 @@ public class ChangeQualityFragment extends DialogFragment implements DialogInter
 	@Override
 	public void onClick(DialogInterface dialogInterface, int which) {
 		Dialog dialog = this.getDialog();
-		int indexerId = this.getArguments().getInt(Constants.Bundle.INDEXER_ID, 0);
+		int indexerId = this.getArguments().getInt(Constants.Bundle.INSTANCE.getINDEXER_ID(), 0);
 		Fragment parentFragment = this.getParentFragment();
 
 		if (dialog == null || indexerId <= 0 || !(parentFragment instanceof ShowOverviewFragment)) {

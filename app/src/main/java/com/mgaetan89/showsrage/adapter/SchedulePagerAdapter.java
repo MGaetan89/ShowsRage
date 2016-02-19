@@ -46,7 +46,7 @@ public class SchedulePagerAdapter extends FragmentStatePagerAdapter {
 	@Override
 	public Fragment getItem(int position) {
 		Bundle arguments = new Bundle();
-		arguments.putSerializable(Constants.Bundle.SCHEDULES, this.schedules.get(position));
+		arguments.putSerializable(Constants.Bundle.INSTANCE.getSCHEDULES(), this.schedules.get(position));
 
 		ScheduleSectionFragment fragment = new ScheduleSectionFragment();
 		fragment.setArguments(arguments);

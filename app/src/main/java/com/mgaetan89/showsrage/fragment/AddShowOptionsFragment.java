@@ -57,7 +57,7 @@ public class AddShowOptionsFragment extends DialogFragment implements DialogInte
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
-		int indexerId = this.getArguments().getInt(Constants.Bundle.INDEXER_ID, 0);
+		int indexerId = this.getArguments().getInt(Constants.Bundle.INSTANCE.getINDEXER_ID(), 0);
 
 		if (indexerId <= 0) {
 			return;
@@ -94,7 +94,7 @@ public class AddShowOptionsFragment extends DialogFragment implements DialogInte
 
 			if (rootDirectoryLayout != null) {
 				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-				Set<String> rootDirectories = preferences.getStringSet(Constants.Preferences.Fields.ROOT_DIRS, null);
+				Set<String> rootDirectories = preferences.getStringSet(Constants.Preferences.Fields.INSTANCE.getROOT_DIRS(), null);
 
 				if (rootDirectories == null || rootDirectories.size() < 2) {
 					rootDirectoryLayout.setVisibility(View.GONE);

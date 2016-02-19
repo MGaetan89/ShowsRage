@@ -43,34 +43,22 @@ public class ShowsRageReceiver extends BroadcastReceiver {
 			return;
 		}
 
-		switch (action) {
-			case Constants.Intents.ACTION_EPISODE_ACTION_SELECTED:
-				this.handleEpisodeActionSelected(intent);
-
-				return;
-
-			case Constants.Intents.ACTION_EPISODE_SELECTED:
-				this.handleEpisodeSelected(intent);
-
-				return;
-
-			case Constants.Intents.ACTION_SEARCH_RESULT_SELECTED:
-				this.handleSearchResultSelected(intent);
-
-				return;
-
-			case Constants.Intents.ACTION_SHOW_SELECTED:
-				this.handleShowSelected(intent);
-
-				return;
+		if (action.equals(Constants.Intents.INSTANCE.getACTION_EPISODE_ACTION_SELECTED())) {
+			this.handleEpisodeActionSelected(intent);
+		} else if (action.equals(Constants.Intents.INSTANCE.getACTION_EPISODE_SELECTED())) {
+			this.handleEpisodeSelected(intent);
+		} else if (action.equals(Constants.Intents.INSTANCE.getACTION_SEARCH_RESULT_SELECTED())) {
+			this.handleSearchResultSelected(intent);
+		} else if (action.equals(Constants.Intents.INSTANCE.getACTION_SHOW_SELECTED())) {
+			this.handleShowSelected(intent);
 		}
 	}
 
 	private void handleEpisodeActionSelected(@NonNull Intent intent) {
-		int episodeNumber = intent.getIntExtra(Constants.Bundle.EPISODE_NUMBER, 0);
-		int indexerId = intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0);
-		int menuId = intent.getIntExtra(Constants.Bundle.MENU_ID, 0);
-		int seasonNumber = intent.getIntExtra(Constants.Bundle.SEASON_NUMBER, 0);
+		int episodeNumber = intent.getIntExtra(Constants.Bundle.INSTANCE.getEPISODE_NUMBER(), 0);
+		int indexerId = intent.getIntExtra(Constants.Bundle.INSTANCE.getINDEXER_ID(), 0);
+		int menuId = intent.getIntExtra(Constants.Bundle.INSTANCE.getMENU_ID(), 0);
+		int seasonNumber = intent.getIntExtra(Constants.Bundle.INSTANCE.getSEASON_NUMBER(), 0);
 
 		switch (menuId) {
 			case R.id.menu_episode_search:
@@ -96,11 +84,11 @@ public class ShowsRageReceiver extends BroadcastReceiver {
 		}
 
 		Bundle arguments = new Bundle();
-		arguments.putParcelable(Constants.Bundle.EPISODE_MODEL, intent.getParcelableExtra(Constants.Bundle.EPISODE_MODEL));
-		arguments.putInt(Constants.Bundle.EPISODE_NUMBER, intent.getIntExtra(Constants.Bundle.EPISODE_NUMBER, 0));
-		arguments.putInt(Constants.Bundle.EPISODES_COUNT, intent.getIntExtra(Constants.Bundle.EPISODES_COUNT, 0));
-		arguments.putInt(Constants.Bundle.SEASON_NUMBER, intent.getIntExtra(Constants.Bundle.SEASON_NUMBER, 0));
-		arguments.putParcelable(Constants.Bundle.SHOW_MODEL, intent.getParcelableExtra(Constants.Bundle.SHOW_MODEL));
+		arguments.putParcelable(Constants.Bundle.INSTANCE.getSHOW_MODEL(), intent.getParcelableExtra(Constants.Bundle.INSTANCE.getEPISODE_MODEL()));
+		arguments.putInt(Constants.Bundle.INSTANCE.getEPISODE_NUMBER(), intent.getIntExtra(Constants.Bundle.INSTANCE.getEPISODE_NUMBER(), 0));
+		arguments.putInt(Constants.Bundle.INSTANCE.getEPISODES_COUNT(), intent.getIntExtra(Constants.Bundle.INSTANCE.getEPISODES_COUNT(), 0));
+		arguments.putInt(Constants.Bundle.INSTANCE.getSEASON_NUMBER(), intent.getIntExtra(Constants.Bundle.INSTANCE.getSEASON_NUMBER(), 0));
+		arguments.putParcelable(Constants.Bundle.INSTANCE.getSHOW_MODEL(), intent.getParcelableExtra(Constants.Bundle.INSTANCE.getSHOW_MODEL()));
 
 		EpisodeFragment fragment = new EpisodeFragment();
 		fragment.setArguments(arguments);
@@ -119,7 +107,7 @@ public class ShowsRageReceiver extends BroadcastReceiver {
 		}
 
 		Bundle arguments = new Bundle();
-		arguments.putInt(Constants.Bundle.INDEXER_ID, intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0));
+		arguments.putInt(Constants.Bundle.INSTANCE.getINDEXER_ID(), intent.getIntExtra(Constants.Bundle.INSTANCE.getINDEXER_ID(), 0));
 
 		AddShowOptionsFragment fragment = new AddShowOptionsFragment();
 		fragment.setArguments(arguments);
@@ -134,7 +122,7 @@ public class ShowsRageReceiver extends BroadcastReceiver {
 		}
 
 		Bundle arguments = new Bundle();
-		arguments.putParcelable(Constants.Bundle.SHOW_MODEL, intent.getParcelableExtra(Constants.Bundle.SHOW_MODEL));
+		arguments.putParcelable(Constants.Bundle.INSTANCE.getSHOW_MODEL(), intent.getParcelableExtra(Constants.Bundle.INSTANCE.getSHOW_MODEL()));
 
 		ShowFragment fragment = new ShowFragment();
 		fragment.setArguments(arguments);

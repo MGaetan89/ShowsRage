@@ -129,11 +129,11 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
 				if (context != null) {
 					Schedule schedule = ScheduleAdapter.this.schedules.get(this.getAdapterPosition());
-					Intent intent = new Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED);
-					intent.putExtra(Constants.Bundle.EPISODE_NUMBER, schedule.getEpisode());
-					intent.putExtra(Constants.Bundle.INDEXER_ID, schedule.getIndexerId());
-					intent.putExtra(Constants.Bundle.MENU_ID, item.getItemId());
-					intent.putExtra(Constants.Bundle.SEASON_NUMBER, schedule.getSeason());
+					Intent intent = new Intent(Constants.Intents.INSTANCE.getACTION_EPISODE_ACTION_SELECTED());
+					intent.putExtra(Constants.Bundle.INSTANCE.getEPISODE_NUMBER(), schedule.getEpisode());
+					intent.putExtra(Constants.Bundle.INSTANCE.getINDEXER_ID(), schedule.getIndexerId());
+					intent.putExtra(Constants.Bundle.INSTANCE.getMENU_ID(), item.getItemId());
+					intent.putExtra(Constants.Bundle.INSTANCE.getSEASON_NUMBER(), schedule.getSeason());
 
 					LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 

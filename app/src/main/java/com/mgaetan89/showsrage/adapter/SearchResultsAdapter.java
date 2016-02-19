@@ -73,8 +73,8 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 			int id = searchResult.getIndexerId();
 
 			if (context != null && id != 0) {
-				Intent intent = new Intent(Constants.Intents.ACTION_SEARCH_RESULT_SELECTED);
-				intent.putExtra(Constants.Bundle.INDEXER_ID, id);
+				Intent intent = new Intent(Constants.Intents.INSTANCE.getACTION_SEARCH_RESULT_SELECTED());
+				intent.putExtra(Constants.Bundle.INSTANCE.getINDEXER_ID(), id);
 
 				LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 			}

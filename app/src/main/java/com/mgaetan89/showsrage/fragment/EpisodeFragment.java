@@ -49,8 +49,8 @@ public class EpisodeFragment extends Fragment {
 		Bundle arguments = this.getArguments();
 
 		if (arguments != null) {
-			int episodeNumber = arguments.getInt(Constants.Bundle.EPISODE_NUMBER, 0);
-			int episodesCount = arguments.getInt(Constants.Bundle.EPISODES_COUNT, 0);
+			int episodeNumber = arguments.getInt(Constants.Bundle.INSTANCE.getEPISODE_NUMBER(), 0);
+			int episodesCount = arguments.getInt(Constants.Bundle.INSTANCE.getEPISODES_COUNT(), 0);
 
 			for (int i = episodesCount; i > 0; i--) {
 				this.episodes.add(i);

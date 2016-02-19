@@ -238,12 +238,12 @@ public class LogsFragment extends Fragment implements Callback<Logs>, SwipeRefre
 	@NonNull
 	private LogLevel getPreferredLogsLevel() {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
-		String logsLevelString = preferences.getString(Constants.Preferences.Fields.LOGS_LEVEL, Constants.Preferences.Defaults.LOGS_LEVEL.name());
+		String logsLevelString = preferences.getString(Constants.Preferences.Fields.INSTANCE.getLOGS_LEVEL(), Constants.Preferences.Defaults.INSTANCE.getLOGS_LEVEL().name());
 
 		try {
 			return LogLevel.valueOf(logsLevelString);
 		} catch (IllegalArgumentException ignored) {
-			return Constants.Preferences.Defaults.LOGS_LEVEL;
+			return Constants.Preferences.Defaults.INSTANCE.getLOGS_LEVEL();
 		}
 	}
 
@@ -256,7 +256,7 @@ public class LogsFragment extends Fragment implements Callback<Logs>, SwipeRefre
 
 			// Save the selected logs level
 			SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this.getActivity()).edit();
-			editor.putString(Constants.Preferences.Fields.LOGS_LEVEL, logLevel.name());
+			editor.putString(Constants.Preferences.Fields.INSTANCE.getLOGS_LEVEL(), logLevel.name());
 			editor.apply();
 
 			// Refresh the list of logs

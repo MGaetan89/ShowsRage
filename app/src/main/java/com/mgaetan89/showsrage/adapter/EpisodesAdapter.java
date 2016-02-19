@@ -139,12 +139,12 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 				Episode episode = adapter.episodes.get(this.getAdapterPosition());
 
 				if (context != null) {
-					Intent intent = new Intent(Constants.Intents.ACTION_EPISODE_SELECTED);
-					intent.putExtra(Constants.Bundle.EPISODE_MODEL, episode);
-					intent.putExtra(Constants.Bundle.EPISODE_NUMBER, adapter.getEpisodeNumber(this.getAdapterPosition()));
-					intent.putExtra(Constants.Bundle.EPISODES_COUNT, adapter.getItemCount());
-					intent.putExtra(Constants.Bundle.SEASON_NUMBER, adapter.seasonNumber);
-					intent.putExtra(Constants.Bundle.SHOW_MODEL, adapter.show);
+					Intent intent = new Intent(Constants.Intents.INSTANCE.getACTION_EPISODE_SELECTED());
+					intent.putExtra(Constants.Bundle.INSTANCE.getEPISODE_MODEL(), episode);
+					intent.putExtra(Constants.Bundle.INSTANCE.getEPISODE_NUMBER(), adapter.getEpisodeNumber(this.getAdapterPosition()));
+					intent.putExtra(Constants.Bundle.INSTANCE.getEPISODES_COUNT(), adapter.getItemCount());
+					intent.putExtra(Constants.Bundle.INSTANCE.getSEASON_NUMBER(), adapter.seasonNumber);
+					intent.putExtra(Constants.Bundle.INSTANCE.getSHOW_MODEL(), adapter.show);
 
 					LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 				}
@@ -158,11 +158,11 @@ public class EpisodesAdapter extends RecyclerView.Adapter<EpisodesAdapter.ViewHo
 
 				if (context != null) {
 					EpisodesAdapter adapter = EpisodesAdapter.this;
-					Intent intent = new Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED);
-					intent.putExtra(Constants.Bundle.EPISODE_NUMBER, adapter.getEpisodeNumber(this.getAdapterPosition()));
-					intent.putExtra(Constants.Bundle.INDEXER_ID, adapter.show.getIndexerId());
-					intent.putExtra(Constants.Bundle.MENU_ID, item.getItemId());
-					intent.putExtra(Constants.Bundle.SEASON_NUMBER, adapter.seasonNumber);
+					Intent intent = new Intent(Constants.Intents.INSTANCE.getACTION_EPISODE_ACTION_SELECTED());
+					intent.putExtra(Constants.Bundle.INSTANCE.getEPISODE_NUMBER(), adapter.getEpisodeNumber(this.getAdapterPosition()));
+					intent.putExtra(Constants.Bundle.INSTANCE.getINDEXER_ID(), adapter.show.getIndexerId());
+					intent.putExtra(Constants.Bundle.INSTANCE.getMENU_ID(), item.getItemId());
+					intent.putExtra(Constants.Bundle.INSTANCE.getSEASON_NUMBER(), adapter.seasonNumber);
 
 					LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 

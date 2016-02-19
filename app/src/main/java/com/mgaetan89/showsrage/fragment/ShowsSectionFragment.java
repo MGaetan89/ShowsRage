@@ -70,7 +70,7 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 
 		if (arguments != null) {
 			@SuppressWarnings("unchecked")
-			Collection<Show> shows = (Collection<Show>) arguments.getSerializable(Constants.Bundle.SHOWS);
+			Collection<Show> shows = (Collection<Show>) arguments.getSerializable(Constants.Bundle.INSTANCE.getSHOWS());
 
 			if (shows != null) {
 				this.filteredShows.addAll(shows);
@@ -167,7 +167,7 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 	public void onResume() {
 		super.onResume();
 
-		IntentFilter intentFilter = new IntentFilter(Constants.Intents.ACTION_FILTER_SHOWS);
+		IntentFilter intentFilter = new IntentFilter(Constants.Intents.INSTANCE.getACTION_FILTER_SHOWS());
 
 		LocalBroadcastManager.getInstance(this.getContext()).registerReceiver(this.receiver, intentFilter);
 	}
@@ -261,9 +261,9 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 				return;
 			}
 
-			int filterMode = intent.getIntExtra(Constants.Bundle.FILTER_MODE, ShowsFragment.FILTER_PAUSED_ACTIVE_BOTH);
-			int filterStatus = intent.getIntExtra(Constants.Bundle.FILTER_STATUS, ShowsFragment.FILTER_STATUS_ALL);
-			String searchQuery = intent.getStringExtra(Constants.Bundle.SEARCH_QUERY);
+			int filterMode = intent.getIntExtra(Constants.Bundle.INSTANCE.getFILTER_MODE(), ShowsFragment.FILTER_PAUSED_ACTIVE_BOTH);
+			int filterStatus = intent.getIntExtra(Constants.Bundle.INSTANCE.getFILTER_STATUS(), ShowsFragment.FILTER_STATUS_ALL);
+			String searchQuery = intent.getStringExtra(Constants.Bundle.INSTANCE.getSEARCH_QUERY());
 
 			Collection<Show> filteredShows = new ArrayList<>();
 			Collection<Show> shows = fragment.shows;

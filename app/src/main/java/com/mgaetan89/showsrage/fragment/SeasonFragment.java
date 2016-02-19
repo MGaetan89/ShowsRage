@@ -68,7 +68,7 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
 
-		this.show = this.getArguments().getParcelable(Constants.Bundle.SHOW_MODEL);
+		this.show = this.getArguments().getParcelable(Constants.Bundle.INSTANCE.getSHOW_MODEL());
 		this.adapter = new EpisodesAdapter(this.episodes, this.seasonNumber, this.show, !preferences.getBoolean("display_episodes_sort", false));
 
 		if (this.recyclerView != null) {
@@ -82,7 +82,7 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_season, container, false);
 
-		this.seasonNumber = this.getArguments().getInt(Constants.Bundle.SEASON_NUMBER, 0);
+		this.seasonNumber = this.getArguments().getInt(Constants.Bundle.INSTANCE.getSEASON_NUMBER(), 0);
 
 		if (view != null) {
 			this.emptyView = (TextView) view.findViewById(android.R.id.empty);

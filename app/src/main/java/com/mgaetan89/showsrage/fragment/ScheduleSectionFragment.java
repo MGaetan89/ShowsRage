@@ -43,7 +43,7 @@ public class ScheduleSectionFragment extends Fragment {
 		Bundle arguments = this.getArguments();
 
 		if (arguments != null) {
-			Collection<Schedule> schedules = (Collection<Schedule>) arguments.getSerializable(Constants.Bundle.SCHEDULES);
+			Collection<Schedule> schedules = (Collection<Schedule>) arguments.getSerializable(Constants.Bundle.INSTANCE.getSCHEDULES());
 
 			if (schedules != null) {
 				this.schedules.addAll(schedules);

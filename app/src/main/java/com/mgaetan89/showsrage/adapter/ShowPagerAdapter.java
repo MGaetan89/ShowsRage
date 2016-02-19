@@ -50,7 +50,7 @@ public class ShowPagerAdapter extends FragmentStatePagerAdapter {
 		}
 
 		Bundle arguments = new Bundle(this.fragment.getArguments());
-		arguments.putInt(Constants.Bundle.SEASON_NUMBER, this.seasons.get(position - 1));
+		arguments.putInt(Constants.Bundle.INSTANCE.getSEASON_NUMBER(), this.seasons.get(position - 1));
 
 		SeasonFragment fragment = new SeasonFragment();
 		fragment.setArguments(arguments);

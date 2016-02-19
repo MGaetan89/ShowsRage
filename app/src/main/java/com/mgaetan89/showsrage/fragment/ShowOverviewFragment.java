@@ -188,15 +188,15 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		super.onActivityCreated(savedInstanceState);
 
 		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(Constants.OMDB_URL)
-				.setLogLevel(Constants.NETWORK_LOG_LEVEL)
+				.setEndpoint(Constants.INSTANCE.getOMDB_URL())
+				.setLogLevel(Constants.INSTANCE.getNETWORK_LOG_LEVEL())
 				.build();
 
 		this.omDbApi = restAdapter.create(OmDbApi.class);
 		this.serviceConnection = new ServiceConnection(this);
 
 		AppCompatActivity activity = (AppCompatActivity) this.getActivity();
-		this.show = this.getArguments().getParcelable(Constants.Bundle.SHOW_MODEL);
+		this.show = this.getArguments().getParcelable(Constants.Bundle.INSTANCE.getSHOW_MODEL());
 
 		if (this.show != null) {
 			if (activity != null) {
@@ -368,7 +368,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 		((MainActivity) activity).setPalette(palette);
 
-		int tintColor = activity.getIntent().getIntExtra(Constants.Bundle.COLOR_PRIMARY, 0);
+		int tintColor = activity.getIntent().getIntExtra(Constants.Bundle.INSTANCE.getCOLOR_PRIMARY(), 0);
 
 		if (tintColor == 0) {
 			return;
@@ -607,7 +607,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 	private void changeQuality() {
 		Bundle arguments = new Bundle();
-		arguments.putInt(Constants.Bundle.INDEXER_ID, this.show.getIndexerId());
+		arguments.putInt(Constants.Bundle.INSTANCE.getINDEXER_ID(), this.show.getIndexerId());
 
 		ChangeQualityFragment fragment = new ChangeQualityFragment();
 		fragment.setArguments(arguments);

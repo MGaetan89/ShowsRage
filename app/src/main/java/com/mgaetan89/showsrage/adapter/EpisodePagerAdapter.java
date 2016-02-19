@@ -41,7 +41,7 @@ public class EpisodePagerAdapter extends FragmentStatePagerAdapter {
 	@Override
 	public Fragment getItem(int position) {
 		Bundle arguments = new Bundle(this.fragment.getArguments());
-		arguments.putInt(Constants.Bundle.EPISODE_NUMBER, this.episodes.get(position));
+		arguments.putInt(Constants.Bundle.INSTANCE.getEPISODE_NUMBER(), this.episodes.get(position));
 
 		EpisodeDetailFragment fragment = new EpisodeDetailFragment();
 		fragment.setArguments(arguments);

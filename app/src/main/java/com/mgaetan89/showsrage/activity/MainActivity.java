@@ -395,8 +395,8 @@ public class MainActivity extends AppCompatActivity implements Callback<GenericR
 
 		if (intent != null) {
 			// Set the colors of the Activity
-			int colorAccent = intent.getIntExtra(Constants.Bundle.COLOR_ACCENT, 0);
-			int colorPrimary = intent.getIntExtra(Constants.Bundle.COLOR_PRIMARY, 0);
+			int colorAccent = intent.getIntExtra(Constants.Bundle.INSTANCE.getCOLOR_ACCENT(), 0);
+			int colorPrimary = intent.getIntExtra(Constants.Bundle.INSTANCE.getCOLOR_PRIMARY(), 0);
 
 			if (colorPrimary != 0) {
 				this.setThemeColors(colorPrimary, colorAccent);
@@ -418,10 +418,10 @@ public class MainActivity extends AppCompatActivity implements Callback<GenericR
 		super.onResume();
 
 		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED);
-		intentFilter.addAction(Constants.Intents.ACTION_EPISODE_SELECTED);
-		intentFilter.addAction(Constants.Intents.ACTION_SEARCH_RESULT_SELECTED);
-		intentFilter.addAction(Constants.Intents.ACTION_SHOW_SELECTED);
+		intentFilter.addAction(Constants.Intents.INSTANCE.getACTION_EPISODE_ACTION_SELECTED());
+		intentFilter.addAction(Constants.Intents.INSTANCE.getACTION_EPISODE_SELECTED());
+		intentFilter.addAction(Constants.Intents.INSTANCE.getACTION_SEARCH_RESULT_SELECTED());
+		intentFilter.addAction(Constants.Intents.INSTANCE.getACTION_SHOW_SELECTED());
 
 		LocalBroadcastManager.getInstance(this).registerReceiver(this.receiver, intentFilter);
 
@@ -431,7 +431,7 @@ public class MainActivity extends AppCompatActivity implements Callback<GenericR
 
 	private void checkForUpdate(final boolean manualCheck) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		long lastVersionCheckTime = preferences.getLong(Constants.Preferences.Fields.LAST_VERSION_CHECK_TIME, 0L);
+		long lastVersionCheckTime = preferences.getLong(Constants.Preferences.Fields.INSTANCE.getLAST_VERSION_CHECK_TIME(), 0L);
 		long checkInterval = Long.valueOf(preferences.getString("behavior_version_check", "0"));
 
 		if (!shouldCheckForUpdate(checkInterval, manualCheck, lastVersionCheckTime)) {
@@ -570,8 +570,8 @@ public class MainActivity extends AppCompatActivity implements Callback<GenericR
 			}
 		}
 
-		this.getIntent().putExtra(Constants.Bundle.COLOR_ACCENT, colorAccent);
-		this.getIntent().putExtra(Constants.Bundle.COLOR_PRIMARY, colorPrimary);
+		this.getIntent().putExtra(Constants.Bundle.INSTANCE.getCOLOR_ACCENT(), colorAccent);
+		this.getIntent().putExtra(Constants.Bundle.INSTANCE.getCOLOR_PRIMARY(), colorPrimary);
 	}
 
 	private void removeCurrentFragment() {
@@ -655,7 +655,7 @@ public class MainActivity extends AppCompatActivity implements Callback<GenericR
 			}
 
 			SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(activity).edit();
-			editor.putLong(Constants.Preferences.Fields.LAST_VERSION_CHECK_TIME, System.currentTimeMillis());
+			editor.putLong(Constants.Preferences.Fields.INSTANCE.getLAST_VERSION_CHECK_TIME(), System.currentTimeMillis());
 			editor.apply();
 
 			if (!update.needsUpdate()) {
@@ -671,7 +671,7 @@ public class MainActivity extends AppCompatActivity implements Callback<GenericR
 			}
 
 			Intent intent = new Intent(activity, UpdateActivity.class);
-			intent.putExtra(Constants.Bundle.UPDATE_MODEL, update);
+			intent.putExtra(Constants.Bundle.INSTANCE.getUPDATE_MODEL(), update);
 
 			PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -729,7 +729,7 @@ public class MainActivity extends AppCompatActivity implements Callback<GenericR
 			}
 
 			SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(activity).edit();
-			editor.putStringSet(Constants.Preferences.Fields.ROOT_DIRS, rootPaths);
+			editor.putStringSet(Constants.Preferences.Fields.INSTANCE.getROOT_DIRS(), rootPaths);
 			editor.apply();
 		}
 	}
