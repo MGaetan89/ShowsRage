@@ -247,7 +247,7 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 	public void success(Shows shows, Response response) {
 		Context context = this.getContext();
 
-		if (context == null) {
+		if (context == null || shows == null) {
 			return;
 		}
 
