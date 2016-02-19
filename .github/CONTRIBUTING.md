@@ -8,24 +8,11 @@ You can contribute to *ShowsRage* in various ways. Any kind of contribution is w
 
 ## Bug Report
 
-It is possible that you find a bug while using *ShowsRage*. To help me fix it as fast as possible, try to provide as many information as you can when [creating an issue](https://github.com/MGaetan89/ShowsRage/issues/new).
-
-Try to answer the following questions:
-- Am I using the latest version of *ShowsRage*?
-- Did someone already reported this issue?
-- What is not working?
-- What should have happened?
-- How can I reproduce the issue?
-- What is my device?
-- What is my Android version?
-- What is my *ShowsRage* version?
+It is possible that you find a bug while using *ShowsRage*. To help me fix it as fast as possible, try to provide as many information as you can when [creating an issue](https://github.com/MGaetan89/ShowsRage/issues/new). Also make sure that the issue was not yet reported.
 
 ## New Feature
 
 If you think that something is missing from *ShowsRage*, you can [open a new issue](https://github.com/MGaetan89/ShowsRage/issues/new) to explain it. As for bug report, try to give as many detail as you can.
-
-- How should this new feature work?
-- What will it bring to *ShowsRage* and all the users?
 
 ## Translation
 
