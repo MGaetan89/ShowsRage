@@ -19,7 +19,7 @@ public class LogPresenter {
 			return "";
 		}
 
-		return DateTimeHelper.getRelativeDate(this.logEntry.getDateTime(), "yyyy-MM-dd hh:mm:ss", 0);
+		return DateTimeHelper.INSTANCE.getRelativeDate(this.logEntry.getDateTime(), "yyyy-MM-dd hh:mm:ss", 0);
 	}
 
 	@ColorRes

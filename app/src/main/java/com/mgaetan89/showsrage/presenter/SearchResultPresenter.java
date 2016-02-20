@@ -20,7 +20,7 @@ public class SearchResultPresenter {
 			return "";
 		}
 
-		return DateTimeHelper.getRelativeDate(this.searchResult.getFirstAired(), "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS);
+		return DateTimeHelper.INSTANCE.getRelativeDate(this.searchResult.getFirstAired(), "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS);
 	}
 
 	@StringRes

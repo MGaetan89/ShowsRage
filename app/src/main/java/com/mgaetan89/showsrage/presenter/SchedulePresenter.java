@@ -33,7 +33,7 @@ public class SchedulePresenter {
 			return null;
 		}
 
-		return DateTimeHelper.getRelativeDate(airDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS);
+		return DateTimeHelper.INSTANCE.getRelativeDate(airDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS);
 	}
 
 	@Nullable
@@ -69,7 +69,7 @@ public class SchedulePresenter {
 			return null;
 		}
 
-		return DateTimeHelper.getLocalizedTime(this.context, airDate + " " + airTime, "yyyy-MM-dd K:mm a");
+		return DateTimeHelper.INSTANCE.getLocalizedTime(this.context, airDate + " " + airTime, "yyyy-MM-dd K:mm a");
 	}
 
 	public int getEpisode() {

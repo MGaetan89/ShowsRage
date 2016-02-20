@@ -552,7 +552,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 			if (TextUtils.isEmpty(nextEpisodeAirDate)) {
 				this.nextEpisodeDate.setVisibility(View.GONE);
 			} else {
-				this.nextEpisodeDate.setText(this.getString(R.string.next_episode, DateTimeHelper.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)));
+				this.nextEpisodeDate.setText(this.getString(R.string.next_episode, DateTimeHelper.INSTANCE.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)));
 				this.nextEpisodeDate.setVisibility(View.VISIBLE);
 			}
 		}

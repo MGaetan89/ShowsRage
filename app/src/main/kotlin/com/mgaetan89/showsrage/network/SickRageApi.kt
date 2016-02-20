@@ -144,7 +144,7 @@ class SickRageApi private constructor() : RequestInterceptor {
     }
 
     private fun setAuthenticator() {
-        this.okHttpClient!!.setAuthenticator(object : Authenticator {
+        this.okHttpClient!!.authenticator = object : Authenticator {
             @Throws(IOException::class)
             override fun authenticate(proxy: Proxy, response: Response): Request? {
                 val credentials = this@SickRageApi.credentials
@@ -160,7 +160,7 @@ class SickRageApi private constructor() : RequestInterceptor {
             override fun authenticateProxy(proxy: Proxy, response: Response): Request? {
                 return null
             }
-        })
+        }
     }
 
     private fun trustAllCertificates(useSelfSignedCertificate: Boolean) {
@@ -193,7 +193,7 @@ class SickRageApi private constructor() : RequestInterceptor {
         }
 
         if (sslContext != null) {
-            this.okHttpClient!!.setSslSocketFactory(sslContext.socketFactory)
+            this.okHttpClient!!.sslSocketFactory = sslContext.socketFactory
         }
 
         this.okHttpClient!!.setHostnameVerifier { hostname, session -> true }

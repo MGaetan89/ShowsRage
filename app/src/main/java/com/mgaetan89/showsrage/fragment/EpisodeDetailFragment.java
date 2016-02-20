@@ -369,7 +369,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		this.episode = episode;
 
 		if (this.airs != null) {
-			this.airs.setText(this.getString(R.string.airs, DateTimeHelper.getRelativeDate(episode.getAirDate(), "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)));
+			this.airs.setText(this.getString(R.string.airs, DateTimeHelper.INSTANCE.getRelativeDate(episode.getAirDate(), "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)));
 			this.airs.setVisibility(View.VISIBLE);
 		}
 

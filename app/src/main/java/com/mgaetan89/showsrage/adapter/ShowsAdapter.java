@@ -67,7 +67,7 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ViewHolder> 
 
 				holder.nextEpisodeDate.setText(statusString);
 			} else {
-				holder.nextEpisodeDate.setText(DateTimeHelper.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS));
+				holder.nextEpisodeDate.setText(DateTimeHelper.INSTANCE.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS));
 			}
 		}
 	}

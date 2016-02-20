@@ -27,7 +27,7 @@ public class EpisodePresenter {
 			return null;
 		}
 
-		return DateTimeHelper.getRelativeDate(airDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS);
+		return DateTimeHelper.INSTANCE.getRelativeDate(airDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS);
 	}
 
 	public String getQuality() {
