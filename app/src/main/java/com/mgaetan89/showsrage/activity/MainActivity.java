@@ -508,7 +508,7 @@ public class MainActivity extends AppCompatActivity implements Callback<GenericR
 	}
 
 	private void setThemeColors(int colorPrimary, int colorAccent) {
-		int textColor = Utils.getContrastColor(colorPrimary);
+		int textColor = Utils.INSTANCE.getContrastColor(colorPrimary);
 
 		if (this.appBarLayout != null) {
 			this.appBarLayout.setBackgroundColor(colorPrimary);

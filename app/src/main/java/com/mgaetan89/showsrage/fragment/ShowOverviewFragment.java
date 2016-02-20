@@ -375,7 +375,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		}
 
 		ColorStateList colorStateList = ColorStateList.valueOf(tintColor);
-		int textColor = Utils.getContrastColor(tintColor);
+		int textColor = Utils.INSTANCE.getContrastColor(tintColor);
 
 		if (this.imdb != null) {
 			ViewCompat.setBackgroundTintList(this.imdb, colorStateList);

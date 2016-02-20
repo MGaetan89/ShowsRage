@@ -236,7 +236,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 			int colorPrimary = intent.getIntExtra(Constants.Bundle.INSTANCE.getCOLOR_PRIMARY(), 0);
 
 			if (colorPrimary != 0) {
-				((ColoredMediaRouteActionProvider) mediaRouteActionProvider).setButtonColor(Utils.getContrastColor(colorPrimary));
+				((ColoredMediaRouteActionProvider) mediaRouteActionProvider).setButtonColor(Utils.INSTANCE.getContrastColor(colorPrimary));
 			}
 		}
 
@@ -287,7 +287,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 
 						if (colorPrimary != 0) {
 							searchEpisode.setBackgroundTintList(ColorStateList.valueOf(colorPrimary));
-							DrawableCompat.setTint(DrawableCompat.wrap(searchEpisode.getDrawable()), Utils.getContrastColor(colorPrimary));
+							DrawableCompat.setTint(DrawableCompat.wrap(searchEpisode.getDrawable()), Utils.INSTANCE.getContrastColor(colorPrimary));
 						}
 					}
 				}
