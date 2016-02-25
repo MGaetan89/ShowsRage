@@ -110,7 +110,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['test']) {
 	}
 }
 
-def supportLibraryVersion = '23.1.1'
+def supportLibraryVersion = '23.2.0'
 
 dependencies {
 	compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
