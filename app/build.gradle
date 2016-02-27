@@ -72,7 +72,7 @@ android {
 }
 
 jacoco {
-	toolVersion = '0.7.6.201602180812'
+	toolVersion = '0.7.4.201502262128'
 }
 
 // From https://github.com/nenick/android-gradle-template/blob/master/App/build.gradle
@@ -87,9 +87,9 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['test']) {
 	// exclude auto-generated classes and tests
 	def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
 	def debugTree = fileTree(dir: "${project.buildDir}/intermediates/classes/debug", excludes: fileFilter)
-	def mainSrc = "${project.projectDir}/src/main/java"
+	def mainSrc = ["${project.projectDir}/src/main/java", "${project.projectDir}/src/main/kotlin"]
 
-	sourceDirectories = files([mainSrc])
+	sourceDirectories = files(mainSrc)
 	classDirectories = files([debugTree])
 	executionData = fileTree(dir: project.projectDir, includes: ['**/*.exec', '**/*.ec'])
 
