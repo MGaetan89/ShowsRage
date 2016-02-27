@@ -26,6 +26,10 @@ class ColoredMediaRouteButton : MediaRouteButton {
     }
 
     override fun setRemoteIndicatorDrawable(d: Drawable?) {
+        if (d == null) {
+            return;
+        }
+
         // Delay the call to super so the color passed in the constructor can be assigned
         this.post {
             DrawableCompat.setTint(DrawableCompat.wrap(d), ColoredMediaRouteButton@this.color)
