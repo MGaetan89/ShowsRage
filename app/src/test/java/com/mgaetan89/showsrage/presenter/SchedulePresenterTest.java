@@ -101,7 +101,7 @@ public class SchedulePresenterTest {
 
 		return Arrays.asList(new Object[][]{
 				{null, null, null, null, null, 0, "", "", "", 0, ""},
-				{gson.fromJson("{airdate: null, airs: null, episode: 1, network: null, quality: null, season: 10, show_name: null, tvdbid: 123}", Schedule.class), null, null, null, null, 1, null, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=123", null, 10, null},
+				{gson.fromJson("{airdate: null, airs: null, episode: 1, network: null, quality: null, season: 10, show_name: null, tvdbid: 123}", Schedule.class), null, null, null, null, 1, "", "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=123", "", 10, ""},
 				{gson.fromJson("{airdate: \"\", airs: \"\", episode: 2, network: \"\", quality: \"\", season: 11, show_name: \"\", tvdbid: 456}", Schedule.class), null, null, null, null, 2, "", "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=456", "", 11, ""},
 				{gson.fromJson("{airdate: \"2015-01-01\", airs: \"Monday 0:00 PM\", episode: 3, network: \"ABC\", quality: \"HD1080p\", season: 12, show_name: \"Show 1\", tvdbid: 789}", Schedule.class), null, null, null, "0:00 PM", 3, "ABC", "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=789", "HD1080p", 12, "Show 1"},
 				{gson.fromJson("{airdate: \"2015-01-02\", airs: \"monday 1:00 PM\", episode: 4, network: \"CBS\", quality: \"HD\", season: 13, show_name: \"Show 2\", tvdbid: 789}", Schedule.class), null, null, null, "1:00 PM", 4, "CBS", "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=789", "HD", 13, "Show 2"},

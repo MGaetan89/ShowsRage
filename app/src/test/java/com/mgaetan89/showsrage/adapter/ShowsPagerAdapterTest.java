@@ -74,7 +74,7 @@ public class ShowsPagerAdapterTest {
 			Fragment fragment = this.adapter.getItem(i);
 			assertThat(fragment).isInstanceOf(ShowsSectionFragment.class);
 			assertThat(fragment.getArguments()).isNotNull();
-			assertThat(fragment.getArguments().containsKey(Constants.Bundle.SHOWS));
+			assertThat(fragment.getArguments().containsKey(Constants.Bundle.INSTANCE.getSHOWS()));
 		}
 	}
 

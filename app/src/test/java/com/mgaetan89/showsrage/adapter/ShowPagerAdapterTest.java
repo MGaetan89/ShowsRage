@@ -64,7 +64,7 @@ public class ShowPagerAdapterTest {
 			Fragment fragment = this.adapter.getItem(i);
 			assertThat(fragment).isInstanceOf(SeasonFragment.class);
 			assertThat(fragment.getArguments()).isNotNull();
-			assertThat(fragment.getArguments().containsKey(Constants.Bundle.SEASON_NUMBER));
+			assertThat(fragment.getArguments().containsKey(Constants.Bundle.INSTANCE.getSEASON_NUMBER()));
 		}
 	}
 

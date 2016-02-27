@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object DateTimeHelper {
-    fun getRelativeDate(dateTime: String?, format: String, minResolution: Long): CharSequence {
+    fun getRelativeDate(dateTime: String?, format: String, minResolution: Long): CharSequence? {
         if (TextUtils.isEmpty(dateTime)) {
             return "N/A";
         }

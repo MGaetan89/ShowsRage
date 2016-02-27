@@ -69,7 +69,7 @@ open class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPr
     @XmlRes
     protected open fun getXmlResourceFile() = R.xml.settings
 
-    private fun updatePreference(preference: Preference) {
+    private fun updatePreference(preference: Preference?) {
         if (preference is EditTextPreference) {
             val text = preference.text
 

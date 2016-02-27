@@ -6,7 +6,7 @@ import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.model.SearchResultItem
 
 class SearchResultPresenter(val searchResult: SearchResultItem?) {
-    fun getFirstAired(): CharSequence {
+    fun getFirstAired(): CharSequence? {
         if (this.searchResult == null) {
             return ""
         }

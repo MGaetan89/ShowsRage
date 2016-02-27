@@ -48,7 +48,7 @@ public class SchedulePagerAdapterTest {
 			Fragment fragment = this.adapter.getItem(i);
 			assertThat(fragment).isInstanceOf(ScheduleSectionFragment.class);
 			assertThat(fragment.getArguments()).isNotNull();
-			assertThat(fragment.getArguments().containsKey(Constants.Bundle.SCHEDULES));
+			assertThat(fragment.getArguments().containsKey(Constants.Bundle.INSTANCE.getSCHEDULES()));
 		}
 	}
 
