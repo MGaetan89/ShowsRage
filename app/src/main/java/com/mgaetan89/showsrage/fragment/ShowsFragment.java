@@ -10,15 +10,12 @@ import android.support.annotation.IdRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.SearchView;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -45,7 +42,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class ShowsFragment extends Fragment implements Callback<Shows>, NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener {
+public class ShowsFragment extends Fragment implements Callback<Shows>, SearchView.OnQueryTextListener {
 	@IntDef({FILTER_PAUSED_ACTIVE_ACTIVE, FILTER_PAUSED_ACTIVE_BOTH, FILTER_PAUSED_ACTIVE_PAUSED})
 	@Retention(RetentionPolicy.SOURCE)
 	private @interface FilterMode {
@@ -67,9 +64,6 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 
 	@Nullable
 	private ShowsPagerAdapter adapter = null;
-
-	@Nullable
-	private DrawerLayout filterLayout = null;
 
 	@FilterMode
 	private int filterPausedActiveMode = FILTER_PAUSED_ACTIVE_BOTH;
@@ -141,13 +135,7 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 		View view = inflater.inflate(R.layout.fragment_shows, container, false);
 
 		if (view != null) {
-			NavigationView filterContent = (NavigationView) view.findViewById(R.id.drawer_filter_content);
-			//this.filterLayout = (DrawerLayout) view.findViewById(R.id.drawer_filter_layout);
 			this.viewPager = (ViewPager) view.findViewById(R.id.shows_pager);
-
-			if (filterContent != null) {
-				filterContent.setNavigationItemSelectedListener(this);
-			}
 
 			if (this.viewPager != null) {
 				this.adapter = new ShowsPagerAdapter(this.getChildFragmentManager(), this, this.shows);
@@ -172,16 +160,16 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 			this.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 		}
 
-		this.filterLayout = null;
 		this.tabLayout = null;
 		this.viewPager = null;
 
 		super.onDestroyView();
 	}
 
-	@Override
+	// TODO
 	public boolean onNavigationItemSelected(MenuItem item) {
 		// Filter Paused/Active shows
+		/*
 		if (item.getGroupId() == R.id.filter_paused_active) {
 			this.filterPausedActiveMode = getFilterPausedActiveMode(item.getItemId());
 
@@ -198,6 +186,7 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 
 			return true;
 		}
+		*/
 
 		return false;
 	}
@@ -205,13 +194,7 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, Navigati
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.menu_filter) {
-			if (this.filterLayout != null) {
-				if (this.filterLayout.isDrawerOpen(GravityCompat.END)) {
-					this.filterLayout.closeDrawer(GravityCompat.END);
-				} else {
-					this.filterLayout.openDrawer(GravityCompat.END);
-				}
-			}
+			new ShowsFiltersFragment().show(this.getChildFragmentManager(), "shows_filter");
 
 			return true;
 		}

@@ -7,6 +7,7 @@
 	<string name="actions">Actions</string>
 	<string name="active">En cours</string>
 	<string name="active_count">En cours : <xliff:g example="1" id="active">%1$s</xliff:g></string>
+	<string name="active_paused">En cours/Suspendue</string>
 	<string name="actors">Acteurs : <xliff:g example="Kat Dennings, Beth Behrs, Garrett Morris, Jonathan Kite" id="actors">%1$s</xliff:g></string>
 	<string name="add">Ajouter</string>
 	<string name="add_show">Ajouter une série</string>
