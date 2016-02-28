@@ -131,9 +131,12 @@ public class ScheduleFragment extends Fragment implements Callback<Schedules> {
 
 				if (this.adapter != null) {
 					this.adapter.notifyDataSetChanged();
+				}
 
-					if (this.tabLayout != null) {
-						this.tabLayout.setTabsFromPagerAdapter(this.adapter);
+				if (this.tabLayout != null) {
+					if (this.sections.isEmpty()) {
+						this.tabLayout.setVisibility(View.GONE);
+					} else {
 						this.tabLayout.setVisibility(View.VISIBLE);
 					}
 				}

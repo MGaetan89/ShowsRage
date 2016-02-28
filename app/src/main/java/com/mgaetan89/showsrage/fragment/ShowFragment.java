@@ -69,7 +69,6 @@ public class ShowFragment extends Fragment implements Callback<Seasons> {
 
 		if (this.tabLayout != null && this.viewPager != null) {
 			this.tabLayout.setupWithViewPager(this.viewPager);
-			this.tabLayout.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -113,9 +112,13 @@ public class ShowFragment extends Fragment implements Callback<Seasons> {
 
 		if (this.adapter != null) {
 			this.adapter.notifyDataSetChanged();
+		}
 
-			if (this.tabLayout != null) {
-				this.tabLayout.setTabsFromPagerAdapter(this.adapter);
+		if (this.tabLayout != null) {
+			if (this.seasons.isEmpty()) {
+				this.tabLayout.setVisibility(View.GONE);
+			} else {
+				this.tabLayout.setVisibility(View.VISIBLE);
 			}
 		}
 	}

@@ -269,10 +269,6 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SearchVi
 
 		if (this.adapter != null) {
 			this.adapter.notifyDataSetChanged();
-
-			if (this.tabLayout != null && this.tabLayout.getTabCount() == 0) {
-				this.tabLayout.setTabsFromPagerAdapter(this.adapter);
-			}
 		}
 	}
 

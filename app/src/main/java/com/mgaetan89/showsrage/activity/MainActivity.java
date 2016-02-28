@@ -370,7 +370,7 @@ public class MainActivity extends AppCompatActivity implements Callback<GenericR
 		if (this.drawerLayout != null) {
 			this.drawerToggle = new ActionBarDrawerToggle(this, this.drawerLayout, this.toolbar, R.string.abc_action_bar_home_description, R.string.abc_action_bar_home_description);
 
-			this.drawerLayout.setDrawerListener(this.drawerToggle);
+			this.drawerLayout.addDrawerListener(this.drawerToggle);
 			this.drawerLayout.post(new Runnable() {
 				@Override
 				public void run() {
