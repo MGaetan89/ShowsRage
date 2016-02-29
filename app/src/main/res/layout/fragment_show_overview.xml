@@ -40,7 +40,7 @@
 
 					<TextView
 						android:id="@+id/show_name"
-						style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+						style="@style/TextAppearance.AppCompat.Subhead"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginBottom="@dimen/padding_half"
@@ -52,7 +52,7 @@
 
 					<TextView
 						android:id="@+id/show_airs"
-						style="@style/TextAppearance.AppCompat.Inverse"
+						style="@style/TextAppearance.AppCompat"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginBottom="@dimen/padding_half"
@@ -62,7 +62,7 @@
 
 					<TextView
 						android:id="@+id/show_network"
-						style="@style/TextAppearance.AppCompat.Inverse"
+						style="@style/TextAppearance.AppCompat"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginBottom="@dimen/padding_half"
@@ -72,7 +72,7 @@
 
 					<TextView
 						android:id="@+id/show_next_episode_date"
-						style="@style/TextAppearance.AppCompat.Inverse"
+						style="@style/TextAppearance.AppCompat"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginBottom="@dimen/padding_half"
@@ -82,7 +82,7 @@
 
 					<TextView
 						android:id="@+id/show_status"
-						style="@style/TextAppearance.AppCompat.Inverse"
+						style="@style/TextAppearance.AppCompat"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:visibility="gone"
@@ -107,7 +107,7 @@
 				android:orientation="vertical">
 
 				<TextView
-					style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+					style="@style/TextAppearance.AppCompat.Subhead"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"
@@ -115,7 +115,7 @@
 
 				<TextView
 					android:id="@+id/show_plot"
-					style="@style/TextAppearance.AppCompat.Inverse"
+					style="@style/TextAppearance.AppCompat"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:textIsSelectable="true"
@@ -138,7 +138,7 @@
 				android:orientation="vertical">
 
 				<TextView
-					style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+					style="@style/TextAppearance.AppCompat.Subhead"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"
@@ -146,7 +146,7 @@
 
 				<TextView
 					android:id="@+id/show_casting_directors"
-					style="@style/TextAppearance.AppCompat.Inverse"
+					style="@style/TextAppearance.AppCompat"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"
@@ -156,7 +156,7 @@
 
 				<TextView
 					android:id="@+id/show_casting_writers"
-					style="@style/TextAppearance.AppCompat.Inverse"
+					style="@style/TextAppearance.AppCompat"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"
@@ -166,7 +166,7 @@
 
 				<TextView
 					android:id="@+id/show_casting_actors"
-					style="@style/TextAppearance.AppCompat.Inverse"
+					style="@style/TextAppearance.AppCompat"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:visibility="gone"
@@ -190,7 +190,7 @@
 				android:orientation="vertical">
 
 				<TextView
-					style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+					style="@style/TextAppearance.AppCompat.Subhead"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"
@@ -198,7 +198,7 @@
 
 				<TextView
 					android:id="@+id/show_awards"
-					style="@style/TextAppearance.AppCompat.Inverse"
+					style="@style/TextAppearance.AppCompat"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet nisi et arcu gravida dictum. Vestibulum vitae odio quis augue porta tincidunt eu pulvinar odio."/>
@@ -217,7 +217,7 @@
 				android:orientation="vertical">
 
 				<TextView
-					style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+					style="@style/TextAppearance.AppCompat.Subhead"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"
@@ -225,7 +225,7 @@
 
 				<TextView
 					android:id="@+id/show_language_country"
-					style="@style/TextAppearance.AppCompat.Inverse"
+					style="@style/TextAppearance.AppCompat"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"
@@ -235,7 +235,7 @@
 
 				<TextView
 					android:id="@+id/show_year"
-					style="@style/TextAppearance.AppCompat.Inverse"
+					style="@style/TextAppearance.AppCompat"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"
@@ -245,7 +245,7 @@
 
 				<TextView
 					android:id="@+id/show_rated"
-					style="@style/TextAppearance.AppCompat.Inverse"
+					style="@style/TextAppearance.AppCompat"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"
@@ -255,7 +255,7 @@
 
 				<TextView
 					android:id="@+id/show_runtime"
-					style="@style/TextAppearance.AppCompat.Inverse"
+					style="@style/TextAppearance.AppCompat"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"
@@ -269,7 +269,7 @@
 
 					<TextView
 						android:id="@+id/show_rating"
-						style="@style/TextAppearance.AppCompat.Inverse"
+						style="@style/TextAppearance.AppCompat"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginBottom="@dimen/padding_half"
@@ -295,7 +295,7 @@
 
 				<TextView
 					android:id="@+id/show_location"
-					style="@style/TextAppearance.AppCompat.Inverse"
+					style="@style/TextAppearance.AppCompat"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"
@@ -305,7 +305,7 @@
 
 				<TextView
 					android:id="@+id/show_quality"
-					style="@style/TextAppearance.AppCompat.Inverse"
+					style="@style/TextAppearance.AppCompat"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"
@@ -315,7 +315,7 @@
 
 				<TextView
 					android:id="@+id/show_genre"
-					style="@style/TextAppearance.AppCompat.Inverse"
+					style="@style/TextAppearance.AppCompat"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:visibility="gone"
@@ -336,7 +336,7 @@
 				android:orientation="vertical">
 
 				<TextView
-					style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+					style="@style/TextAppearance.AppCompat.Subhead"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"

@@ -32,8 +32,8 @@
 			android:layout_height="wrap_content"
 			android:layout_margin="@dimen/padding_half"
 			android:contentDescription="@string/paused"
-			android:src="@drawable/ic_pause_white_24dp"
-			android:visibility="@{show.paused ? View.VISIBLE : View.GONE}"/>
+			android:visibility="@{show.paused ? View.VISIBLE : View.GONE}"
+			app:srcCompat="@drawable/ic_pause_white_24dp"/>
 
 		<ProgressBar
 			style="@style/Widget.AppCompat.ProgressBar.Horizontal"

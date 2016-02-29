@@ -38,7 +38,7 @@
 
 						<TextView
 							android:id="@+id/episode_name"
-							style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+							style="@style/TextAppearance.AppCompat.Subhead"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
@@ -48,7 +48,7 @@
 
 						<TextView
 							android:id="@+id/episode_airs"
-							style="@style/TextAppearance.AppCompat.Inverse"
+							style="@style/TextAppearance.AppCompat"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
@@ -58,7 +58,7 @@
 
 						<TextView
 							android:id="@+id/episode_status"
-							style="@style/TextAppearance.AppCompat.Inverse"
+							style="@style/TextAppearance.AppCompat"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
@@ -68,7 +68,7 @@
 
 						<TextView
 							android:id="@+id/episode_quality"
-							style="@style/TextAppearance.AppCompat.Inverse"
+							style="@style/TextAppearance.AppCompat"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:visibility="gone"
@@ -92,7 +92,7 @@
 						android:orientation="vertical">
 
 						<TextView
-							style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+							style="@style/TextAppearance.AppCompat.Subhead"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
@@ -100,7 +100,7 @@
 
 						<TextView
 							android:id="@+id/episode_plot"
-							style="@style/TextAppearance.AppCompat.Inverse"
+							style="@style/TextAppearance.AppCompat"
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
 							android:textIsSelectable="true"
@@ -123,7 +123,7 @@
 						android:orientation="vertical">
 
 						<TextView
-							style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+							style="@style/TextAppearance.AppCompat.Subhead"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
@@ -131,7 +131,7 @@
 
 						<TextView
 							android:id="@+id/episode_awards"
-							style="@style/TextAppearance.AppCompat.Inverse"
+							style="@style/TextAppearance.AppCompat"
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
 							tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet nisi et arcu gravida dictum. Vestibulum vitae odio quis augue porta tincidunt eu pulvinar odio."/>
@@ -161,7 +161,7 @@
 						android:orientation="vertical">
 
 						<TextView
-							style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+							style="@style/TextAppearance.AppCompat.Subhead"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
@@ -169,7 +169,7 @@
 
 						<TextView
 							android:id="@+id/episode_casting_directors"
-							style="@style/TextAppearance.AppCompat.Inverse"
+							style="@style/TextAppearance.AppCompat"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
@@ -179,7 +179,7 @@
 
 						<TextView
 							android:id="@+id/episode_casting_writers"
-							style="@style/TextAppearance.AppCompat.Inverse"
+							style="@style/TextAppearance.AppCompat"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
@@ -189,7 +189,7 @@
 
 						<TextView
 							android:id="@+id/episode_casting_actors"
-							style="@style/TextAppearance.AppCompat.Inverse"
+							style="@style/TextAppearance.AppCompat"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:visibility="gone"
@@ -212,7 +212,7 @@
 						android:orientation="vertical">
 
 						<TextView
-							style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+							style="@style/TextAppearance.AppCompat.Subhead"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
@@ -220,7 +220,7 @@
 
 						<TextView
 							android:id="@+id/episode_language_country"
-							style="@style/TextAppearance.AppCompat.Inverse"
+							style="@style/TextAppearance.AppCompat"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
@@ -230,7 +230,7 @@
 
 						<TextView
 							android:id="@+id/episode_year"
-							style="@style/TextAppearance.AppCompat.Inverse"
+							style="@style/TextAppearance.AppCompat"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
@@ -240,7 +240,7 @@
 
 						<TextView
 							android:id="@+id/episode_rated"
-							style="@style/TextAppearance.AppCompat.Inverse"
+							style="@style/TextAppearance.AppCompat"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
@@ -250,7 +250,7 @@
 
 						<TextView
 							android:id="@+id/episode_runtime"
-							style="@style/TextAppearance.AppCompat.Inverse"
+							style="@style/TextAppearance.AppCompat"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
@@ -264,7 +264,7 @@
 
 							<TextView
 								android:id="@+id/episode_rating"
-								style="@style/TextAppearance.AppCompat.Inverse"
+								style="@style/TextAppearance.AppCompat"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:layout_marginBottom="@dimen/padding_half"
@@ -290,7 +290,7 @@
 
 						<TextView
 							android:id="@+id/episode_genre"
-							style="@style/TextAppearance.AppCompat.Inverse"
+							style="@style/TextAppearance.AppCompat"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
@@ -300,7 +300,7 @@
 
 						<TextView
 							android:id="@+id/episode_file_size"
-							style="@style/TextAppearance.AppCompat.Inverse"
+							style="@style/TextAppearance.AppCompat"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
@@ -308,7 +308,7 @@
 
 						<TextView
 							android:id="@+id/episode_location"
-							style="@style/TextAppearance.AppCompat.Inverse"
+							style="@style/TextAppearance.AppCompat"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							tools:text="@string/location"/>
@@ -324,7 +324,7 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="bottom|end|right"
 		android:layout_margin="@dimen/fab_margin"
-		android:src="@drawable/ic_search_white_24dp"
 		android:tint="@android:color/black"
-		app:borderWidth="0dp"/>
+		app:borderWidth="0dp"
+		app:srcCompat="@drawable/ic_search_white_24dp"/>
 </FrameLayout>

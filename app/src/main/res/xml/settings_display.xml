@@ -6,6 +6,13 @@
 		android:key="display_split_shows_animes"
 		android:title="@string/split_shows_animes"/>
 
+	<CheckBoxPreference
+		android:defaultValue="true"
+		android:key="display_theme"
+		android:summaryOff="@string/light_theme"
+		android:summaryOn="@string/dark_theme"
+		android:title="@string/theme"/>
+
 	<ListPreference
 		android:defaultValue="poster"
 		android:entries="@array/shows_list_layout_keys"

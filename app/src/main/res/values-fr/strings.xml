@@ -36,6 +36,7 @@
 	<string name="connection_successful">Connexion réussie !</string>
 	<string name="continuing">En cours</string>
 	<string name="copy">Copier</string>
+	<string name="dark_theme">Thème sombre</string>
 	<string name="day_1">Une fois par jour</string>
 	<string name="debug">Debug</string>
 	<string name="default_">Défaut</string>
@@ -81,6 +82,7 @@
 	<string name="language_county">Langue : <xliff:g example="Anglais" id="language">%1$s</xliff:g> (<xliff:g example="Etats-Unis" id="country">%2$s</xliff:g>)</string>
 	<string name="language_value">Langue : <xliff:g example="Anglais" id="language">%1$s</xliff:g></string>
 	<string name="later">A venir</string>
+	<string name="light_theme">Thème clair</string>
 	<string name="licenses">Licences</string>
 	<string name="location">Emplacement : <xliff:g example="/Séries/2 Broke Girls" id="location">%1$s</xliff:g></string>
 	<string name="logo_designer">Créateur du logo</string>
@@ -164,6 +166,7 @@
 	<string name="symbolic_link">Lien symbolique</string>
 	<string name="test">Tester</string>
 	<string name="testing_server_settings">Test de la configuration du serveur</string>
+	<string name="theme">Thème</string>
 	<string name="today">Aujourd\'hui</string>
 	<string name="total">Total : <xliff:g example="1" id="total">%1$s</xliff:g></string>
 	<string name="unaired">Non diffusé</string>

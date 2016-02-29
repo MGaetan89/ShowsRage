@@ -36,6 +36,7 @@
 	<string name="connection_successful">Connection successful!</string>
 	<string name="continuing">Continuing</string>
 	<string name="copy">Copy</string>
+	<string name="dark_theme">Dark theme</string>
 	<string name="day_1">Once a day</string>
 	<string name="debug">Debug</string>
 	<string name="default_">Default</string>
@@ -82,6 +83,7 @@
 	<string name="language_value">Language: <xliff:g example="English" id="language">%1$s</xliff:g></string>
 	<string name="later">Later</string>
 	<string name="licenses">Licenses</string>
+	<string name="light_theme">Light theme</string>
 	<string name="location">Location: <xliff:g example="/Shows/2 Broke Girls" id="location">%1$s</xliff:g></string>
 	<string name="logo_designer">Logo designer</string>
 	<string name="logs">Logs</string>
@@ -164,6 +166,7 @@
 	<string name="symbolic_link">Symbolic link</string>
 	<string name="test">Test</string>
 	<string name="testing_server_settings">Testing server settings</string>
+	<string name="theme">Theme</string>
 	<string name="today">Today</string>
 	<string name="total">Total: <xliff:g example="1" id="total">%1$s</xliff:g></string>
 	<string name="unaired">Unaired</string>

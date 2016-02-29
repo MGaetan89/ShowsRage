@@ -35,6 +35,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.graphics.Palette;
 import android.view.MenuItem;
 import android.view.View;
@@ -358,7 +359,19 @@ public class MainActivity extends AppCompatActivity implements Callback<GenericR
 
 		this.setContentView(R.layout.activity_main);
 
-		SickRageApi.Companion.getInstance().init(PreferenceManager.getDefaultSharedPreferences(this));
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+		if (savedInstanceState == null) {
+			if (preferences.getBoolean("display_theme", true)) {
+				this.getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+			} else {
+				this.getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+			}
+
+			this.recreate();
+		}
+
+		SickRageApi.Companion.getInstance().init(preferences);
 		SickRageApi.Companion.getInstance().getServices().getRootDirs(new RootDirsCallback(this));
 
 		this.appBarLayout = (AppBarLayout) this.findViewById(R.id.app_bar);

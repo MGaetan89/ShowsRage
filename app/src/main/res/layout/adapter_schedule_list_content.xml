@@ -78,6 +78,7 @@
 			android:layout_centerVertical="true"
 			android:contentDescription="@string/actions"
 			android:padding="@dimen/padding_half"
-			android:src="@drawable/ic_more_vert_white_24dp"/>
+			android:tint="?android:attr/textColorPrimary"
+			app:srcCompat="@drawable/ic_more_vert_white_24dp"/>
 	</RelativeLayout>
 </layout>

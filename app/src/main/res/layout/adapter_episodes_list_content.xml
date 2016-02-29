@@ -73,6 +73,7 @@
 			android:layout_marginLeft="@dimen/padding"
 			android:layout_marginStart="@dimen/padding"
 			android:contentDescription="@string/actions"
-			android:src="@drawable/ic_more_vert_white_24dp"/>
+			android:tint="?android:attr/textColorPrimary"
+			app:srcCompat="@drawable/ic_more_vert_white_24dp"/>
 	</RelativeLayout>
 </layout>
