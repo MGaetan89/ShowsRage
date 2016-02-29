@@ -17,7 +17,7 @@
 		tools:visibility="visible">
 
 		<TextView
-			style="@style/TextAppearance.AppCompat"
+			style="@style/TextAppearance.AppCompat.Body1"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="@string/root_directory"/>
@@ -37,7 +37,7 @@
 		android:orientation="horizontal">
 
 		<TextView
-			style="@style/TextAppearance.AppCompat"
+			style="@style/TextAppearance.AppCompat.Body1"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
@@ -59,7 +59,7 @@
 		android:orientation="horizontal">
 
 		<TextView
-			style="@style/TextAppearance.AppCompat"
+			style="@style/TextAppearance.AppCompat.Body1"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
@@ -81,7 +81,7 @@
 		android:orientation="horizontal">
 
 		<TextView
-			style="@style/TextAppearance.AppCompat"
+			style="@style/TextAppearance.AppCompat.Body1"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
@@ -103,7 +103,7 @@
 		android:orientation="horizontal">
 
 		<TextView
-			style="@style/TextAppearance.AppCompat"
+			style="@style/TextAppearance.AppCompat.Body1"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
