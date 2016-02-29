@@ -3,7 +3,7 @@
 
 	<PreferenceScreen
 		android:fragment="com.mgaetan89.showsrage.fragment.SettingsServerFragment"
-		android:icon="@drawable/ic_wifi_white_24dp"
+		android:icon="@drawable/ic_wifi_24dp"
 		android:title="@string/server">
 
 		<intent
@@ -13,7 +13,7 @@
 
 	<PreferenceScreen
 		android:fragment="com.mgaetan89.showsrage.fragment.SettingsDisplayFragment"
-		android:icon="@drawable/ic_device_android_white_24dp"
+		android:icon="@drawable/ic_device_android_24dp"
 		android:title="@string/display">
 
 		<intent
@@ -23,7 +23,7 @@
 
 	<PreferenceScreen
 		android:fragment="com.mgaetan89.showsrage.fragment.SettingsBehaviorFragment"
-		android:icon="@drawable/ic_widgets_white_24dp"
+		android:icon="@drawable/ic_widgets_24dp"
 		android:title="@string/behavior">
 
 		<intent
@@ -33,7 +33,7 @@
 
 	<PreferenceScreen
 		android:fragment="com.mgaetan89.showsrage.fragment.SettingsExperimentalFeaturesFragment"
-		android:icon="@drawable/ic_explore_white_24dp"
+		android:icon="@drawable/ic_explore_24dp"
 		android:title="@string/experimental_features">
 
 		<intent
@@ -43,7 +43,7 @@
 
 	<PreferenceScreen
 		android:fragment="com.mgaetan89.showsrage.fragment.SettingsAboutFragment"
-		android:icon="@drawable/ic_help_outline_white_24dp"
+		android:icon="@drawable/ic_help_outline_24dp"
 		android:title="@string/about">
 
 		<intent
