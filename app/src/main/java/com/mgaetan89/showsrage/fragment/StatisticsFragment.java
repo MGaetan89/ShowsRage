@@ -92,7 +92,7 @@ public class StatisticsFragment extends DialogFragment implements Callback<Shows
 			this.statisticsLayout = (LinearLayout) view.findViewById(R.id.statistics_layout);
 		}
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
+		AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity(), this.getTheme());
 		builder.setTitle(R.string.statistics);
 		builder.setView(view);
 		builder.setPositiveButton(R.string.close, null);

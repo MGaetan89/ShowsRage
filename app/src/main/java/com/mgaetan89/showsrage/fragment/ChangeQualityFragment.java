@@ -45,7 +45,7 @@ public class ChangeQualityFragment extends DialogFragment implements DialogInter
 	@NonNull
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
+		AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity(), this.getTheme());
 		builder.setTitle(R.string.change_quality);
 		builder.setView(R.layout.fragment_change_quality);
 		builder.setNegativeButton(R.string.cancel, null);

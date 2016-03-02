@@ -110,7 +110,7 @@ public class AddShowOptionsFragment extends DialogFragment implements DialogInte
 			}
 		}
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
+		AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity(), this.getTheme());
 		builder.setTitle(R.string.add_show);
 		builder.setView(view);
 		builder.setPositiveButton(R.string.add, this);

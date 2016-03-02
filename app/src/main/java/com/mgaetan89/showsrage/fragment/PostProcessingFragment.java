@@ -51,7 +51,7 @@ public class PostProcessingFragment extends DialogFragment implements DialogInte
 			this.replaceFiles = (SwitchCompat) view.findViewById(R.id.replace_files);
 		}
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
+		AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity(), this.getTheme());
 		builder.setTitle(R.string.post_processing);
 		builder.setView(view);
 		builder.setNegativeButton(android.R.string.cancel, null);
