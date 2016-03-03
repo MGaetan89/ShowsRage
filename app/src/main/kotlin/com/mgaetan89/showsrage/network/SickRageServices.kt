@@ -80,7 +80,7 @@ interface SickRageServices {
     fun setEpisodeStatus(@Query("indexerid") indexerId: Int, @Query("season") season: Int, @Query("episode") episode: Int, @Query("force") force: Int, @Query("status") status: String, callback: Callback<GenericResponse>)
 
     @GET("/{api_path}/{api_key}/?cmd=show.setquality")
-    fun setShowQuality(@Query("indexerid") indexerId: Int, @Query("initial") allowed: String, @Query("archive") preferred: String, callback: Callback<GenericResponse>)
+    fun setShowQuality(@Query("indexerid") indexerId: Int, @Query("initial") allowed: String?, @Query("archive") preferred: String?, callback: Callback<GenericResponse>)
 
     @GET("/{api_path}/{api_key}/?cmd=show.update")
     fun updateShow(@Query("indexerid") indexerId: Int, callback: Callback<GenericResponse>)
