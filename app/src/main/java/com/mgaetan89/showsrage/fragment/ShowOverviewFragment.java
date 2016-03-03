@@ -474,7 +474,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		}
 
 		if (this.banner != null) {
-			ImageLoader.load(
+			ImageLoader.INSTANCE.load(
 					this.banner,
 					SickRageApi.Companion.getInstance().getBannerUrl(this.show.getTvDbId(), Indexer.TVDB),
 					false,
@@ -486,7 +486,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		}
 
 		if (this.fanArt != null) {
-			ImageLoader.load(
+			ImageLoader.INSTANCE.load(
 					this.fanArt,
 					SickRageApi.Companion.getInstance().getFanArtUrl(this.show.getTvDbId(), Indexer.TVDB),
 					false,
@@ -563,7 +563,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		}
 
 		if (this.poster != null) {
-			ImageLoader.load(
+			ImageLoader.INSTANCE.load(
 					this.poster,
 					SickRageApi.Companion.getInstance().getPosterUrl(this.show.getTvDbId(), Indexer.TVDB),
 					false,

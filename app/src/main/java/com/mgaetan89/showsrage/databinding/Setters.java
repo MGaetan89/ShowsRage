@@ -22,7 +22,7 @@ public class Setters {
 
 	@BindingAdapter({"bind:imageUrl", "bind:circle"})
 	public static void setImageUrl(ImageView imageView, String imageUrl, boolean circle) {
-		ImageLoader.load(imageView, imageUrl, circle);
+		ImageLoader.INSTANCE.load(imageView, imageUrl, circle);
 	}
 
 	@BindingAdapter("bind:selected")
