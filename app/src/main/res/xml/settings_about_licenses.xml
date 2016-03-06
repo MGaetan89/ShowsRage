@@ -5,7 +5,7 @@
 
 		<PreferenceScreen
 			android:key="glide"
-			android:summary="Version 3.6.1"
+			android:summary="Version 3.7.0"
 			android:title="Glide">
 
 			<intent
@@ -25,7 +25,7 @@
 
 		<PreferenceScreen
 			android:key="realm_java"
-			android:summary="Version 0.87.2"
+			android:summary="Version 0.87.5"
 			android:title="Realm Java">
 
 			<intent
@@ -48,7 +48,7 @@
 
 		<PreferenceScreen
 			android:key="google_material_design_icons"
-			android:summary="Version 2.1.0"
+			android:summary="Version 2.2.0"
 			android:title="Material Design Icons">
 
 			<intent
