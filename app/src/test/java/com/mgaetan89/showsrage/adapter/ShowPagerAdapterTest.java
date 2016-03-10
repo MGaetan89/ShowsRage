@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.EmptyFragmentHostCallback;
@@ -19,6 +20,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
+import static junit.framework.Assert.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -50,7 +52,7 @@ public class ShowPagerAdapterTest {
 		when(fragment.getString(R.string.show)).thenReturn("Show");
 		when(fragment.getString(R.string.specials)).thenReturn("Specials");
 
-		this.adapter = new ShowPagerAdapter(null, fragment, this.seasons);
+		this.adapter = new ShowPagerAdapter(mock(FragmentManager.class), fragment, this.seasons);
 	}
 
 	@Test
@@ -62,6 +64,7 @@ public class ShowPagerAdapterTest {
 	public void getItem_Season() {
 		for (int i = 1; i < this.seasons.size(); i++) {
 			Fragment fragment = this.adapter.getItem(i);
+			assertTrue(fragment != null);
 			assertThat(fragment).isInstanceOf(SeasonFragment.class);
 			assertThat(fragment.getArguments()).isNotNull();
 			assertThat(fragment.getArguments().containsKey(Constants.Bundle.INSTANCE.getSEASON_NUMBER()));
@@ -71,6 +74,7 @@ public class ShowPagerAdapterTest {
 	@Test
 	public void getItem_ShowOverview() {
 		Fragment fragment = this.adapter.getItem(0);
+		assertTrue(fragment != null);
 		assertThat(fragment).isInstanceOf(ShowOverviewFragment.class);
 		assertThat(fragment.getArguments()).isNull();
 	}

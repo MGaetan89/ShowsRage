@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.SparseArray;
 
 import com.mgaetan89.showsrage.Constants;
@@ -60,7 +61,7 @@ public class ShowsPagerAdapterTest {
 		when(fragment.getString(R.string.animes)).thenReturn("Animes");
 		when(fragment.getString(R.string.shows)).thenReturn("Shows");
 
-		this.adapter = new ShowsPagerAdapter(null, fragment, this.shows);
+		this.adapter = new ShowsPagerAdapter(mock(FragmentManager.class), fragment, this.shows);
 	}
 
 	@Test

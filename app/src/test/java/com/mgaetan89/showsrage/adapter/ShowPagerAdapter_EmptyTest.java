@@ -3,6 +3,7 @@ package com.mgaetan89.showsrage.adapter;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 
 import com.mgaetan89.showsrage.EmptyFragmentHostCallback;
 import com.mgaetan89.showsrage.R;
@@ -15,6 +16,7 @@ import org.junit.Test;
 import java.lang.reflect.Field;
 import java.util.Collections;
 
+import static junit.framework.Assert.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -39,7 +41,7 @@ public class ShowPagerAdapter_EmptyTest {
 
 		when(fragment.getString(R.string.show)).thenReturn("Show");
 
-		this.adapter = new ShowPagerAdapter(null, fragment, Collections.<Integer>emptyList());
+		this.adapter = new ShowPagerAdapter(mock(FragmentManager.class), fragment, Collections.<Integer>emptyList());
 	}
 
 	@Test
@@ -50,6 +52,7 @@ public class ShowPagerAdapter_EmptyTest {
 	@Test
 	public void getItem() {
 		Fragment fragment = this.adapter.getItem(0);
+		assertTrue(fragment != null);
 		assertThat(fragment).isInstanceOf(ShowOverviewFragment.class);
 		assertThat(fragment.getArguments()).isNull();
 	}

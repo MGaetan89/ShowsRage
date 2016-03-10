@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage.adapter;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.SparseArray;
 
 import com.mgaetan89.showsrage.model.Show;
@@ -19,7 +20,7 @@ public class ShowsPagerAdapter_EmptyTest {
 
 	@Before
 	public void before() {
-		this.adapter = new ShowsPagerAdapter(null, mock(Fragment.class), new SparseArray<ArrayList<Show>>());
+		this.adapter = new ShowsPagerAdapter(mock(FragmentManager.class), mock(Fragment.class), new SparseArray<ArrayList<Show>>());
 	}
 
 	@Test
