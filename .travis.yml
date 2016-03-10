@@ -10,7 +10,7 @@ jdk:
 android:
   components:
     - android-23
-    - build-tools-23.0.3
+    - build-tools-24.0.0-rc1
     - extra-android-m2repository
     - extra-google-m2repository
     - platform-tools
