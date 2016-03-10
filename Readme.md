@@ -37,7 +37,7 @@ The following features are currently available:
 
 ## Contributing
 
-Want to help *ShowsRage* get better? See the [contribution guide](https://github.com/MGaetan89/ShowsRage/blob/master/Contributing.md) for some tips.
+Want to help *ShowsRage* get better? See the [contribution guide](https://github.com/MGaetan89/ShowsRage/blob/master/.github/CONTRIBUTING.md) for some tips.
 
 ### Contributors
 
