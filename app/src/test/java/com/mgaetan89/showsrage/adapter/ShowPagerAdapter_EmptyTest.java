@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -38,7 +39,7 @@ public class ShowPagerAdapter_EmptyTest {
 
 		when(fragment.getString(R.string.show)).thenReturn("Show");
 
-		this.adapter = new ShowPagerAdapter(null, fragment, null);
+		this.adapter = new ShowPagerAdapter(null, fragment, Collections.<Integer>emptyList());
 	}
 
 	@Test
