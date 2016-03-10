@@ -8,7 +8,7 @@ Support for *[SickBeard](http://www.sickbeard.com/)* (or any other variant) is n
 
 ## Features
 
-*ShowsRage* intend to provide the same features as on the web interface, packed inside a modern and easy-to-use Android application.
+*ShowsRage* intends to provide the same features as on the web interface, packed inside a modern and easy-to-use Android application.
 
 The following features are currently available:
 
@@ -37,7 +37,7 @@ The following features are currently available:
 
 ## Contributing
 
-Want to help *ShowsRage* get better? See the [contribution guide](https://github.com/MGaetan89/ShowsRage/blob/master/Contributing.md) for some tips.
+Want to help *ShowsRage* get better? See the [contribution guide](https://github.com/MGaetan89/ShowsRage/blob/master/.github/CONTRIBUTING.md) for some tips.
 
 ### Contributors
 
@@ -62,7 +62,7 @@ The application can be found on the [Play Store](https://play.google.com/store/a
 
 If you wish to have early access to the next versions of *ShowsRage*, you can subscribe to the beta program [here](https://play.google.com/apps/testing/com.mgaetan89.showsrage). New releases will be published a few days before being made public and will be available in the Play Store, like a normal update.
 
-All feedbacks/feature requests/bug reports are welcome and will be taken into account.
+All feedback/feature requests/bug reports are welcome and will be taken into account.
 
 # License
 
