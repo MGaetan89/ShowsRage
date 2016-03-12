@@ -32,7 +32,7 @@ before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 
 before_install:
-  - echo y | android update sdk --all --no-ui --force --filter build-tools-23.0.3
+  - echo y | android update sdk --all --no-ui --force --filter build-tools-24.0.0-rc1
 
 script:
   - ./gradlew build testDebug
