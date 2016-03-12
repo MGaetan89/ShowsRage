@@ -16,11 +16,11 @@ object ImageLoader {
         fun onImageReady(imageView: ImageView, resource: Bitmap?)
     }
 
-    fun load(imageView: ImageView?, url: String, circleTransform: Boolean) {
+    fun load(imageView: ImageView?, url: String?, circleTransform: Boolean) {
         this.load(imageView, url, circleTransform, null, null)
     }
 
-    fun load(imageView: ImageView?, url: String, circleTransform: Boolean, paletteListener: Palette.PaletteAsyncListener?, onImageResult: OnImageResult?) {
+    fun load(imageView: ImageView?, url: String?, circleTransform: Boolean, paletteListener: Palette.PaletteAsyncListener?, onImageResult: OnImageResult?) {
         if (imageView == null) {
             return
         }
