@@ -10,7 +10,7 @@
 
 			<intent
 				android:action="android.intent.action.VIEW"
-				android:data="https://github.com/bumptech/glide"/>
+				android:data="https://github.com/bumptech/glide" />
 		</PreferenceScreen>
 
 		<PreferenceScreen
@@ -20,7 +20,7 @@
 
 			<intent
 				android:action="android.intent.action.VIEW"
-				android:data="http://square.github.io/okhttp/"/>
+				android:data="http://square.github.io/okhttp/" />
 		</PreferenceScreen>
 
 		<PreferenceScreen
@@ -30,7 +30,7 @@
 
 			<intent
 				android:action="android.intent.action.VIEW"
-				android:data="https://realm.io/"/>
+				android:data="https://realm.io/" />
 		</PreferenceScreen>
 
 		<PreferenceScreen
@@ -40,7 +40,7 @@
 
 			<intent
 				android:action="android.intent.action.VIEW"
-				android:data="http://square.github.io/retrofit/"/>
+				android:data="http://square.github.io/retrofit/" />
 		</PreferenceScreen>
 	</PreferenceCategory>
 
@@ -53,7 +53,7 @@
 
 			<intent
 				android:action="android.intent.action.VIEW"
-				android:data="https://github.com/google/material-design-icons"/>
+				android:data="https://github.com/google/material-design-icons" />
 		</PreferenceScreen>
 	</PreferenceCategory>
 </PreferenceScreen>

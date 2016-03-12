@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools">
 	<item
@@ -9,7 +8,7 @@
 		android:title="@string/pause_show"
 		android:visible="false"
 		app:showAsAction="ifRoom"
-		tools:visible="true"/>
+		tools:visible="true" />
 
 	<item
 		android:id="@+id/menu_resume_show"
@@ -17,28 +16,28 @@
 		android:title="@string/resume_show"
 		android:visible="false"
 		app:showAsAction="ifRoom"
-		tools:visible="true"/>
+		tools:visible="true" />
 
 	<item
 		android:id="@+id/menu_change_quality"
 		android:icon="@drawable/ic_high_quality_white_24dp"
 		android:title="@string/change_quality"
-		app:showAsAction="ifRoom"/>
+		app:showAsAction="ifRoom" />
 
 	<item
 		android:id="@+id/menu_update_show"
 		android:icon="@drawable/ic_refresh_white_24dp"
 		android:title="@string/update"
-		app:showAsAction="ifRoom"/>
+		app:showAsAction="ifRoom" />
 
 	<item
 		android:id="@+id/menu_rescan_show"
 		android:title="@string/rescan"
-		app:showAsAction="never"/>
+		app:showAsAction="never" />
 
 	<item
 		android:id="@+id/menu_delete_show"
 		android:icon="@drawable/ic_delete_white_24dp"
 		android:title="@string/delete_show"
-		app:showAsAction="never"/>
+		app:showAsAction="never" />
 </menu>

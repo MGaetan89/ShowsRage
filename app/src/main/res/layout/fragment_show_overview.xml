@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -30,7 +29,7 @@
 					android:layout_weight="1"
 					android:adjustViewBounds="true"
 					tools:ignore="ContentDescription"
-					tools:src="@mipmap/ic_launcher"/>
+					tools:src="@mipmap/ic_launcher" />
 
 				<LinearLayout
 					android:layout_width="0dp"
@@ -49,7 +48,7 @@
 						android:singleLine="true"
 						android:visibility="gone"
 						tools:text="2 Broke Girls"
-						tools:visibility="visible"/>
+						tools:visibility="visible" />
 
 					<TextView
 						android:id="@+id/show_airs"
@@ -59,7 +58,7 @@
 						android:layout_marginBottom="@dimen/padding_half"
 						android:visibility="gone"
 						tools:text="@string/airs"
-						tools:visibility="visible"/>
+						tools:visibility="visible" />
 
 					<TextView
 						android:id="@+id/show_network"
@@ -69,7 +68,7 @@
 						android:layout_marginBottom="@dimen/padding_half"
 						android:visibility="gone"
 						tools:text="@string/network"
-						tools:visibility="visible"/>
+						tools:visibility="visible" />
 
 					<TextView
 						android:id="@+id/show_next_episode_date"
@@ -79,7 +78,7 @@
 						android:layout_marginBottom="@dimen/padding_half"
 						android:visibility="gone"
 						tools:text="@string/next_episode"
-						tools:visibility="visible"/>
+						tools:visibility="visible" />
 
 					<TextView
 						android:id="@+id/show_status"
@@ -88,7 +87,7 @@
 						android:layout_height="wrap_content"
 						android:visibility="gone"
 						tools:text="@string/status_value"
-						tools:visibility="visible"/>
+						tools:visibility="visible" />
 				</LinearLayout>
 			</LinearLayout>
 		</android.support.v7.widget.CardView>
@@ -113,7 +112,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"
-					android:text="@string/plot"/>
+					android:text="@string/plot" />
 
 				<TextView
 					android:id="@+id/show_plot"
@@ -121,7 +120,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:textIsSelectable="true"
-					tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet nisi et arcu gravida dictum. Vestibulum vitae odio quis augue porta tincidunt eu pulvinar odio."/>
+					tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet nisi et arcu gravida dictum. Vestibulum vitae odio quis augue porta tincidunt eu pulvinar odio." />
 			</LinearLayout>
 		</android.support.v7.widget.CardView>
 
@@ -145,7 +144,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"
-					android:text="@string/casting"/>
+					android:text="@string/casting" />
 
 				<TextView
 					android:id="@+id/show_casting_directors"
@@ -155,7 +154,7 @@
 					android:layout_marginBottom="@dimen/padding_half"
 					android:visibility="gone"
 					tools:text="@string/directors"
-					tools:visibility="visible"/>
+					tools:visibility="visible" />
 
 				<TextView
 					android:id="@+id/show_casting_writers"
@@ -165,7 +164,7 @@
 					android:layout_marginBottom="@dimen/padding_half"
 					android:visibility="gone"
 					tools:text="@string/writers"
-					tools:visibility="visible"/>
+					tools:visibility="visible" />
 
 				<TextView
 					android:id="@+id/show_casting_actors"
@@ -174,7 +173,7 @@
 					android:layout_height="wrap_content"
 					android:visibility="gone"
 					tools:text="@string/actors"
-					tools:visibility="visible"/>
+					tools:visibility="visible" />
 			</LinearLayout>
 		</android.support.v7.widget.CardView>
 
@@ -198,14 +197,14 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"
-					android:text="@string/awards"/>
+					android:text="@string/awards" />
 
 				<TextView
 					android:id="@+id/show_awards"
 					style="@style/TextAppearance.AppCompat.Body1"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet nisi et arcu gravida dictum. Vestibulum vitae odio quis augue porta tincidunt eu pulvinar odio."/>
+					tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet nisi et arcu gravida dictum. Vestibulum vitae odio quis augue porta tincidunt eu pulvinar odio." />
 			</LinearLayout>
 		</android.support.v7.widget.CardView>
 
@@ -226,7 +225,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"
-					android:text="@string/more_information"/>
+					android:text="@string/more_information" />
 
 				<TextView
 					android:id="@+id/show_language_country"
@@ -236,7 +235,7 @@
 					android:layout_marginBottom="@dimen/padding_half"
 					android:visibility="gone"
 					tools:text="@string/language_county"
-					tools:visibility="visible"/>
+					tools:visibility="visible" />
 
 				<TextView
 					android:id="@+id/show_year"
@@ -246,7 +245,7 @@
 					android:layout_marginBottom="@dimen/padding_half"
 					android:visibility="gone"
 					tools:text="@string/year"
-					tools:visibility="visible"/>
+					tools:visibility="visible" />
 
 				<TextView
 					android:id="@+id/show_rated"
@@ -256,7 +255,7 @@
 					android:layout_marginBottom="@dimen/padding_half"
 					android:visibility="gone"
 					tools:text="@string/rated"
-					tools:visibility="visible"/>
+					tools:visibility="visible" />
 
 				<TextView
 					android:id="@+id/show_runtime"
@@ -266,7 +265,7 @@
 					android:layout_marginBottom="@dimen/padding_half"
 					android:visibility="gone"
 					tools:text="@string/runtime"
-					tools:visibility="visible"/>
+					tools:visibility="visible" />
 
 				<RelativeLayout
 					android:layout_width="wrap_content"
@@ -280,7 +279,7 @@
 						android:layout_marginBottom="@dimen/padding_half"
 						android:visibility="gone"
 						tools:text="@string/rating"
-						tools:visibility="visible"/>
+						tools:visibility="visible" />
 
 					<RatingBar
 						android:id="@+id/show_rating_stars"
@@ -295,7 +294,7 @@
 						android:stepSize="0.1"
 						android:visibility="gone"
 						tools:rating="5"
-						tools:visibility="visible"/>
+						tools:visibility="visible" />
 				</RelativeLayout>
 
 				<TextView
@@ -306,7 +305,7 @@
 					android:layout_marginBottom="@dimen/padding_half"
 					android:visibility="gone"
 					tools:text="@string/location"
-					tools:visibility="visible"/>
+					tools:visibility="visible" />
 
 				<TextView
 					android:id="@+id/show_quality"
@@ -316,7 +315,7 @@
 					android:layout_marginBottom="@dimen/padding_half"
 					android:visibility="gone"
 					tools:text="@string/quality"
-					tools:visibility="visible"/>
+					tools:visibility="visible" />
 
 				<TextView
 					android:id="@+id/show_genre"
@@ -325,7 +324,7 @@
 					android:layout_height="wrap_content"
 					android:visibility="gone"
 					tools:text="@string/genre"
-					tools:visibility="visible"/>
+					tools:visibility="visible" />
 			</LinearLayout>
 		</android.support.v7.widget.CardView>
 
@@ -346,7 +345,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding_half"
-					android:text="@string/external_links"/>
+					android:text="@string/external_links" />
 
 				<Button
 					android:id="@+id/show_imdb"
@@ -354,19 +353,19 @@
 					android:layout_height="wrap_content"
 					android:text="@string/imdb"
 					android:visibility="gone"
-					tools:visibility="visible"/>
+					tools:visibility="visible" />
 
 				<Button
 					android:id="@+id/show_the_tvdb"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:text="@string/the_tvdb"/>
+					android:text="@string/the_tvdb" />
 
 				<Button
 					android:id="@+id/show_web_search"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:text="@string/web_search"/>
+					android:text="@string/web_search" />
 			</LinearLayout>
 		</android.support.v7.widget.CardView>
 
@@ -382,7 +381,7 @@
 				android:layout_height="wrap_content"
 				android:adjustViewBounds="true"
 				tools:ignore="ContentDescription"
-				tools:src="@mipmap/ic_launcher"/>
+				tools:src="@mipmap/ic_launcher" />
 		</android.support.v7.widget.CardView>
 
 		<android.support.v7.widget.CardView
@@ -396,7 +395,7 @@
 				android:layout_height="wrap_content"
 				android:adjustViewBounds="true"
 				tools:ignore="ContentDescription"
-				tools:src="@mipmap/ic_launcher"/>
+				tools:src="@mipmap/ic_launcher" />
 		</android.support.v7.widget.CardView>
 	</LinearLayout>
 </ScrollView>

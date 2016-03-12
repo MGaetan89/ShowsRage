@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.view.ViewPager
-	android:id="@+id/show_pager"
+<android.support.v4.view.ViewPager android:id="@+id/show_pager"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context="com.mgaetan89.showsrage.fragment.ShowFragment"/>
+	tools:context="com.mgaetan89.showsrage.fragment.ShowFragment" />

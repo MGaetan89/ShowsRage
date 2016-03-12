@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -23,12 +22,12 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="@dimen/padding"
-				android:layout_marginRight="@dimen/padding"/>
+				android:layout_marginRight="@dimen/padding" />
 
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="@string/please_wait"/>
+				android:text="@string/please_wait" />
 		</LinearLayout>
 
 		<LinearLayout
@@ -44,7 +43,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="@dimen/padding"
-				android:text="@string/episodes"/>
+				android:text="@string/episodes" />
 
 			<LinearLayout
 				android:layout_width="match_parent"
@@ -57,21 +56,21 @@
 					android:layout_width="0dp"
 					android:layout_height="match_parent"
 					android:background="@color/green"
-					tools:layout_weight="3"/>
+					tools:layout_weight="3" />
 
 				<View
 					android:id="@+id/episodes_snatched_bar"
 					android:layout_width="0dp"
 					android:layout_height="match_parent"
 					android:background="@color/purple"
-					tools:layout_weight="2"/>
+					tools:layout_weight="2" />
 
 				<View
 					android:id="@+id/episodes_missing_bar"
 					android:layout_width="0dp"
 					android:layout_height="match_parent"
 					android:background="@color/red"
-					tools:layout_weight="1"/>
+					tools:layout_weight="1" />
 			</LinearLayout>
 
 			<LinearLayout
@@ -86,14 +85,14 @@
 					android:layout_height="14dp"
 					android:layout_marginEnd="@dimen/padding"
 					android:layout_marginRight="@dimen/padding"
-					android:background="@color/green"/>
+					android:background="@color/green" />
 
 				<TextView
 					android:id="@+id/episodes_downloaded"
 					style="@style/TextAppearance.AppCompat.Body1"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					tools:text="@string/downloaded_count"/>
+					tools:text="@string/downloaded_count" />
 			</LinearLayout>
 
 			<LinearLayout
@@ -108,14 +107,14 @@
 					android:layout_height="14dp"
 					android:layout_marginEnd="@dimen/padding"
 					android:layout_marginRight="@dimen/padding"
-					android:background="@color/purple"/>
+					android:background="@color/purple" />
 
 				<TextView
 					android:id="@+id/episodes_snatched"
 					style="@style/TextAppearance.AppCompat.Body1"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					tools:text="@string/snatched_count"/>
+					tools:text="@string/snatched_count" />
 			</LinearLayout>
 
 			<LinearLayout
@@ -130,14 +129,14 @@
 					android:layout_height="14dp"
 					android:layout_marginEnd="@dimen/padding"
 					android:layout_marginRight="@dimen/padding"
-					android:background="@color/red"/>
+					android:background="@color/red" />
 
 				<TextView
 					android:id="@+id/episodes_missing"
 					style="@style/TextAppearance.AppCompat.Body1"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					tools:text="@string/missing"/>
+					tools:text="@string/missing" />
 			</LinearLayout>
 
 			<LinearLayout
@@ -151,14 +150,14 @@
 					android:layout_width="14dp"
 					android:layout_height="14dp"
 					android:layout_marginEnd="@dimen/padding"
-					android:layout_marginRight="@dimen/padding"/>
+					android:layout_marginRight="@dimen/padding" />
 
 				<TextView
 					android:id="@+id/episodes_total"
 					style="@style/TextAppearance.AppCompat.Body1"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					tools:text="@string/total"/>
+					tools:text="@string/total" />
 			</LinearLayout>
 
 			<TextView
@@ -166,7 +165,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="@dimen/padding"
-				android:text="@string/shows"/>
+				android:text="@string/shows" />
 
 			<LinearLayout
 				android:layout_width="wrap_content"
@@ -179,14 +178,14 @@
 					android:layout_width="14dp"
 					android:layout_height="14dp"
 					android:layout_marginEnd="@dimen/padding"
-					android:layout_marginRight="@dimen/padding"/>
+					android:layout_marginRight="@dimen/padding" />
 
 				<TextView
 					android:id="@+id/shows_active"
 					style="@style/TextAppearance.AppCompat.Body1"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					tools:text="@string/active_count"/>
+					tools:text="@string/active_count" />
 			</LinearLayout>
 
 			<LinearLayout
@@ -199,14 +198,14 @@
 					android:layout_width="14dp"
 					android:layout_height="14dp"
 					android:layout_marginEnd="@dimen/padding"
-					android:layout_marginRight="@dimen/padding"/>
+					android:layout_marginRight="@dimen/padding" />
 
 				<TextView
 					android:id="@+id/shows_total"
 					style="@style/TextAppearance.AppCompat.Body1"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					tools:text="@string/total"/>
+					tools:text="@string/total" />
 			</LinearLayout>
 		</LinearLayout>
 	</LinearLayout>

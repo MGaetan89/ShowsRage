@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools">
 
 	<data>
 
-		<import type="android.view.View"/>
+		<import type="android.view.View" />
 
 		<variable
 			name="show"
-			type="com.mgaetan89.showsrage.presenter.ShowPresenter"/>
+			type="com.mgaetan89.showsrage.presenter.ShowPresenter" />
 	</data>
 
 	<FrameLayout
@@ -25,7 +24,7 @@
 			android:contentDescription="@{show.showName}"
 			app:circle="@{false}"
 			app:imageUrl="@{show.bannerUrl}"
-			tools:src="@mipmap/ic_launcher"/>
+			tools:src="@mipmap/ic_launcher" />
 
 		<ImageView
 			android:layout_width="wrap_content"
@@ -33,7 +32,7 @@
 			android:layout_margin="@dimen/padding_half"
 			android:contentDescription="@string/paused"
 			android:visibility="@{show.paused ? View.VISIBLE : View.GONE}"
-			app:srcCompat="@drawable/ic_pause_white_24dp"/>
+			app:srcCompat="@drawable/ic_pause_white_24dp" />
 
 		<ProgressBar
 			style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -45,6 +44,6 @@
 			android:progress="@{show.downloaded}"
 			android:secondaryProgress="@{show.downloaded + show.snatched}"
 			tools:progress="33"
-			tools:secondaryProgress="66"/>
+			tools:secondaryProgress="66" />
 	</FrameLayout>
 </layout>

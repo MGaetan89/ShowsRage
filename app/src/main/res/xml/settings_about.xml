@@ -7,7 +7,7 @@
 
 		<intent
 			android:action="android.intent.action.VIEW"
-			android:data="showsrage://settings/about/showsrage"/>
+			android:data="showsrage://settings/about/showsrage" />
 	</PreferenceScreen>
 
 	<PreferenceScreen
@@ -16,6 +16,6 @@
 
 		<intent
 			android:action="android.intent.action.VIEW"
-			android:data="showsrage://settings/about/licenses"/>
+			android:data="showsrage://settings/about/licenses" />
 	</PreferenceScreen>
 </PreferenceScreen>

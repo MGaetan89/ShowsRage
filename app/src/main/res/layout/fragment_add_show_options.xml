@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
@@ -20,14 +19,14 @@
 			style="@style/TextAppearance.AppCompat.Body1"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/root_directory"/>
+			android:text="@string/root_directory" />
 
 		<Spinner
 			android:id="@+id/root_directory"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:entries="@array/allowed_qualities_values"
-			tools:listitem="@android:layout/simple_list_item_1"/>
+			tools:listitem="@android:layout/simple_list_item_1" />
 	</LinearLayout>
 
 	<LinearLayout
@@ -41,7 +40,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="@string/allowed_quality"/>
+			android:text="@string/allowed_quality" />
 
 		<Spinner
 			android:id="@+id/allowed_quality"
@@ -49,7 +48,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:entries="@array/allowed_qualities_values"
-			tools:listitem="@android:layout/simple_list_item_1"/>
+			tools:listitem="@android:layout/simple_list_item_1" />
 	</LinearLayout>
 
 	<LinearLayout
@@ -63,7 +62,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="@string/preferred_quality"/>
+			android:text="@string/preferred_quality" />
 
 		<Spinner
 			android:id="@+id/preferred_quality"
@@ -71,7 +70,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:entries="@array/preferred_qualities_values"
-			tools:listitem="@android:layout/simple_list_item_1"/>
+			tools:listitem="@android:layout/simple_list_item_1" />
 	</LinearLayout>
 
 	<LinearLayout
@@ -85,7 +84,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="@string/status"/>
+			android:text="@string/status" />
 
 		<Spinner
 			android:id="@+id/status"
@@ -93,7 +92,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:entries="@array/status_values"
-			tools:listitem="@android:layout/simple_list_item_1"/>
+			tools:listitem="@android:layout/simple_list_item_1" />
 	</LinearLayout>
 
 	<LinearLayout
@@ -107,7 +106,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="@string/language"/>
+			android:text="@string/language" />
 
 		<Spinner
 			android:id="@+id/language"
@@ -115,7 +114,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:entries="@array/languages_values"
-			tools:listitem="@android:layout/simple_list_item_1"/>
+			tools:listitem="@android:layout/simple_list_item_1" />
 	</LinearLayout>
 
 	<android.support.v7.widget.SwitchCompat
@@ -123,11 +122,11 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="@dimen/padding"
-		android:text="@string/anime"/>
+		android:text="@string/anime" />
 
 	<android.support.v7.widget.SwitchCompat
 		android:id="@+id/subtitles"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="@string/subtitles"/>
+		android:text="@string/subtitles" />
 </LinearLayout>

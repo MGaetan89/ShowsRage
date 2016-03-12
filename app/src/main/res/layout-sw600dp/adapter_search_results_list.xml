@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:bind="http://schemas.android.com/apk/res-auto">
 
 	<data>
 
 		<variable
 			name="result"
-			type="com.mgaetan89.showsrage.presenter.SearchResultPresenter"/>
+			type="com.mgaetan89.showsrage.presenter.SearchResultPresenter" />
 	</data>
 
 	<android.support.v7.widget.CardView
@@ -18,6 +17,6 @@
 
 		<include
 			layout="@layout/adapter_search_results_list_content"
-			bind:result="@{result}"/>
+			bind:result="@{result}" />
 	</android.support.v7.widget.CardView>
 </layout>

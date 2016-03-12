@@ -5,15 +5,15 @@
 		android:checkableBehavior="single">
 		<item
 			android:id="@+id/menu_debug"
-			android:title="@string/debug"/>
+			android:title="@string/debug" />
 		<item
 			android:id="@+id/menu_info"
-			android:title="@string/info"/>
+			android:title="@string/info" />
 		<item
 			android:id="@+id/menu_warning"
-			android:title="@string/warning"/>
+			android:title="@string/warning" />
 		<item
 			android:id="@+id/menu_error"
-			android:title="@string/error"/>
+			android:title="@string/error" />
 	</group>
 </menu>

@@ -9,7 +9,7 @@
 	</string-array>
 
 	<string-array name="processing_methods_values" translatable="false">
-		<item/>
+		<item />
 		<item>copy</item>
 		<item>move</item>
 		<item>hardlink</item>

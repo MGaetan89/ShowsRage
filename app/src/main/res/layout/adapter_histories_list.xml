@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:bind="http://schemas.android.com/apk/res-auto">
 
 	<data>
 
 		<variable
 			name="history"
-			type="com.mgaetan89.showsrage.presenter.HistoryPresenter"/>
+			type="com.mgaetan89.showsrage.presenter.HistoryPresenter" />
 	</data>
 
 	<FrameLayout
@@ -17,6 +16,6 @@
 		<include
 			android:id="@+id/include_content"
 			layout="@layout/adapter_histories_list_content"
-			bind:history="@{history}"/>
+			bind:history="@{history}" />
 	</FrameLayout>
 </layout>

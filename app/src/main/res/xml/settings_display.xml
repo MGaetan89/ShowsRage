@@ -4,33 +4,33 @@
 	<CheckBoxPreference
 		android:defaultValue="false"
 		android:key="display_split_shows_animes"
-		android:title="@string/split_shows_animes"/>
+		android:title="@string/split_shows_animes" />
 
 	<CheckBoxPreference
 		android:defaultValue="true"
 		android:key="display_theme"
 		android:summaryOff="@string/light_theme"
 		android:summaryOn="@string/dark_theme"
-		android:title="@string/theme"/>
+		android:title="@string/theme" />
 
 	<ListPreference
 		android:defaultValue="poster"
 		android:entries="@array/shows_list_layout_keys"
 		android:entryValues="@array/shows_list_layout_values"
 		android:key="display_shows_list_layout"
-		android:title="@string/shows_list_layout"/>
+		android:title="@string/shows_list_layout" />
 
 	<CheckBoxPreference
 		android:defaultValue="false"
 		android:key="display_seasons_sort"
 		android:summaryOff="@string/descending"
 		android:summaryOn="@string/ascending"
-		android:title="@string/seasons_sort"/>
+		android:title="@string/seasons_sort" />
 
 	<CheckBoxPreference
 		android:defaultValue="false"
 		android:key="display_episodes_sort"
 		android:summaryOff="@string/descending"
 		android:summaryOn="@string/ascending"
-		android:title="@string/episodes_sort"/>
+		android:title="@string/episodes_sort" />
 </PreferenceScreen>

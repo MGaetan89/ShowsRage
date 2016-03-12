@@ -4,12 +4,12 @@
 	<CheckBoxPreference
 		android:defaultValue="false"
 		android:key="view_in_external_video_player"
-		android:title="@string/view_in_external_video_player"/>
+		android:title="@string/view_in_external_video_player" />
 
 	<ListPreference
 		android:defaultValue="21600000"
 		android:entries="@array/version_check_keys"
 		android:entryValues="@array/version_check_values"
 		android:key="behavior_version_check"
-		android:title="@string/version_check"/>
+		android:title="@string/version_check" />
 </PreferenceScreen>

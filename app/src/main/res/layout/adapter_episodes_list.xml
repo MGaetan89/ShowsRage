@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:bind="http://schemas.android.com/apk/res-auto">
 
 	<data>
 
 		<variable
 			name="episode"
-			type="com.mgaetan89.showsrage.presenter.EpisodePresenter"/>
+			type="com.mgaetan89.showsrage.presenter.EpisodePresenter" />
 	</data>
 
 	<FrameLayout
@@ -17,6 +16,6 @@
 		<include
 			android:id="@+id/include_content"
 			layout="@layout/adapter_episodes_list_content"
-			bind:episode="@{episode}"/>
+			bind:episode="@{episode}" />
 	</FrameLayout>
 </layout>

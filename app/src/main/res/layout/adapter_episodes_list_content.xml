@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools">
 
@@ -8,7 +7,7 @@
 
 		<variable
 			name="episode"
-			type="com.mgaetan89.showsrage.presenter.EpisodePresenter"/>
+			type="com.mgaetan89.showsrage.presenter.EpisodePresenter" />
 	</data>
 
 	<RelativeLayout
@@ -31,7 +30,7 @@
 			android:scrollHorizontally="true"
 			android:singleLine="true"
 			app:selected="@{true}"
-			tools:text="@string/episode_name"/>
+			tools:text="@string/episode_name" />
 
 		<TextView
 			android:id="@+id/episode_date"
@@ -40,7 +39,7 @@
 			android:layout_height="wrap_content"
 			android:layout_below="@+id/episode_name"
 			android:text="@{episode.airDate ?? @string/never}"
-			tools:text="2011-09-19"/>
+			tools:text="2011-09-19" />
 
 		<TextView
 			android:id="@+id/episode_status"
@@ -51,7 +50,7 @@
 			android:background="@drawable/rounded_background"
 			android:backgroundTint="@{episode.statusColor}"
 			android:textColor="@android:color/white"
-			tools:text="Downloaded"/>
+			tools:text="Downloaded" />
 
 		<TextView
 			style="@style/TextAppearance.AppCompat.Caption"
@@ -61,7 +60,7 @@
 			android:layout_toLeftOf="@+id/episode_actions"
 			android:layout_toStartOf="@+id/episode_actions"
 			android:text="@{episode.quality}"
-			tools:text="HD1080p"/>
+			tools:text="HD1080p" />
 
 		<ImageView
 			android:id="@+id/episode_actions"
@@ -74,6 +73,6 @@
 			android:layout_marginStart="@dimen/padding"
 			android:contentDescription="@string/actions"
 			android:tint="?android:attr/textColorPrimary"
-			app:srcCompat="@drawable/ic_more_vert_white_24dp"/>
+			app:srcCompat="@drawable/ic_more_vert_white_24dp" />
 	</RelativeLayout>
 </layout>

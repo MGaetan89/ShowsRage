@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
 		android:id="@+id/menu_cast"
 		android:title="@string/mr_chooser_title"
 		app:actionProviderClass="com.mgaetan89.showsrage.view.ColoredMediaRouteActionProvider"
-		app:showAsAction="always"/>
+		app:showAsAction="always" />
 	<item
 		android:id="@+id/menu_play_video"
 		android:icon="@drawable/ic_play_arrow_white_24dp"
 		android:title="@string/play_video"
 		android:visible="false"
-		app:showAsAction="ifRoom"/>
+		app:showAsAction="ifRoom" />
 	<item
 		android:title="@string/set_status"
 		app:showAsAction="never">
@@ -20,16 +19,16 @@
 			<group>
 				<item
 					android:id="@+id/menu_episode_set_status_wanted"
-					android:title="@string/wanted"/>
+					android:title="@string/wanted" />
 				<item
 					android:id="@+id/menu_episode_set_status_skipped"
-					android:title="@string/skipped"/>
+					android:title="@string/skipped" />
 				<item
 					android:id="@+id/menu_episode_set_status_ignored"
-					android:title="@string/ignored"/>
+					android:title="@string/ignored" />
 				<item
 					android:id="@+id/menu_episode_set_status_failed"
-					android:title="@string/failed"/>
+					android:title="@string/failed" />
 			</group>
 		</menu>
 	</item>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools">
 
@@ -8,7 +7,7 @@
 
 		<variable
 			name="result"
-			type="com.mgaetan89.showsrage.presenter.SearchResultPresenter"/>
+			type="com.mgaetan89.showsrage.presenter.SearchResultPresenter" />
 	</data>
 
 	<LinearLayout
@@ -33,14 +32,14 @@
 			android:singleLine="true"
 			android:text="@{result.name}"
 			app:selected="@{true}"
-			tools:text="2 Broke Girls"/>
+			tools:text="2 Broke Girls" />
 
 		<TextView
 			style="@style/TextAppearance.AppCompat.Caption"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="@{result.firstAired}"
-			tools:text="2015-04-27"/>
+			tools:text="2015-04-27" />
 
 		<TextView
 			android:id="@+id/show_indexer"
@@ -49,6 +48,6 @@
 			android:layout_height="wrap_content"
 			android:layout_gravity="end|right"
 			app:textRes="@{result.indexerNameRes}"
-			tools:text="@string/the_tvdb"/>
+			tools:text="@string/the_tvdb" />
 	</LinearLayout>
 </layout>

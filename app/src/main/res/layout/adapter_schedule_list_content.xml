@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools">
 
@@ -8,7 +7,7 @@
 
 		<variable
 			name="schedule"
-			type="com.mgaetan89.showsrage.presenter.SchedulePresenter"/>
+			type="com.mgaetan89.showsrage.presenter.SchedulePresenter" />
 	</data>
 
 	<RelativeLayout
@@ -29,7 +28,7 @@
 			android:contentDescription="@{schedule.showName}"
 			app:circle="@{true}"
 			app:imageUrl="@{schedule.posterUrl}"
-			tools:src="@mipmap/ic_launcher"/>
+			tools:src="@mipmap/ic_launcher" />
 
 		<LinearLayout
 			android:layout_width="match_parent"
@@ -51,14 +50,14 @@
 				android:singleLine="true"
 				android:text="@{@string/show_name_episode(schedule.showName, schedule.season, schedule.episode)}"
 				app:selected="@{true}"
-				tools:text="@string/show_name_episode"/>
+				tools:text="@string/show_name_episode" />
 
 			<TextView
 				style="@style/TextAppearance.AppCompat.Caption"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@{schedule.airDateTime ?? @string/never}"
-				tools:text="2011-09-19"/>
+				tools:text="2011-09-19" />
 
 			<TextView
 				style="@style/TextAppearance.AppCompat.Caption"
@@ -66,7 +65,7 @@
 				android:layout_height="wrap_content"
 				android:layout_gravity="end|right"
 				android:text="@{@string/separated_texts(schedule.network, schedule.quality)}"
-				tools:text="CBS / HD1080p"/>
+				tools:text="CBS / HD1080p" />
 		</LinearLayout>
 
 		<ImageView
@@ -79,6 +78,6 @@
 			android:contentDescription="@string/actions"
 			android:padding="@dimen/padding_half"
 			android:tint="?android:attr/textColorPrimary"
-			app:srcCompat="@drawable/ic_more_vert_white_24dp"/>
+			app:srcCompat="@drawable/ic_more_vert_white_24dp" />
 	</RelativeLayout>
 </layout>

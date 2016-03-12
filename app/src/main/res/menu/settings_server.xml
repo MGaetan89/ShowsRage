@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
 		android:id="@+id/menu_test"
 		android:title="@string/test"
-		app:showAsAction="always"/>
+		app:showAsAction="always" />
 	<item
 		android:id="@+id/menu_help"
 		android:icon="@drawable/ic_help_outline_24dp"
 		android:title="@string/help"
-		app:showAsAction="ifRoom"/>
+		app:showAsAction="ifRoom" />
 </menu>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
@@ -13,7 +12,7 @@
 		android:layout_height="match_parent"
 		android:layout_margin="@dimen/grid_margin"
 		android:clipToPadding="false"
-		android:paddingBottom="@dimen/fab_spacing"/>
+		android:paddingBottom="@dimen/fab_spacing" />
 
 	<TextView
 		android:id="@android:id/empty"
@@ -21,7 +20,7 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="center"
 		android:text="@string/no_shows"
-		android:visibility="gone"/>
+		android:visibility="gone" />
 
 	<android.support.design.widget.FloatingActionButton
 		android:id="@+id/add_show"
@@ -29,5 +28,5 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="bottom|end|right"
 		android:layout_margin="@dimen/fab_margin"
-		app:srcCompat="@drawable/ic_add_black_24dp"/>
+		app:srcCompat="@drawable/ic_add_black_24dp" />
 </FrameLayout>

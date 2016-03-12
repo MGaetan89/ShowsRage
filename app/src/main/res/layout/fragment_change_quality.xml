@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -13,30 +12,30 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="@dimen/padding"
-		android:text="@string/change_quality_info"/>
+		android:text="@string/change_quality_info" />
 
 	<TextView
 		style="@style/TextAppearance.AppCompat.Body1"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="@string/allowed_quality"/>
+		android:text="@string/allowed_quality" />
 
 	<Spinner
 		android:id="@+id/allowed_quality"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="@dimen/padding"
-		android:entries="@array/allowed_qualities_values"/>
+		android:entries="@array/allowed_qualities_values" />
 
 	<TextView
 		style="@style/TextAppearance.AppCompat.Body1"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="@string/preferred_quality"/>
+		android:text="@string/preferred_quality" />
 
 	<Spinner
 		android:id="@+id/preferred_quality"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:entries="@array/preferred_qualities_values"/>
+		android:entries="@array/preferred_qualities_values" />
 </LinearLayout>

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools">
 
 	<data>
 
-		<import type="android.view.View"/>
+		<import type="android.view.View" />
 
 		<variable
 			name="show"
-			type="com.mgaetan89.showsrage.presenter.ShowPresenter"/>
+			type="com.mgaetan89.showsrage.presenter.ShowPresenter" />
 	</data>
 
 	<FrameLayout
@@ -36,7 +35,7 @@
 				android:contentDescription="@{show.showName}"
 				app:circle="@{true}"
 				app:imageUrl="@{show.posterUrl}"
-				tools:src="@mipmap/ic_launcher"/>
+				tools:src="@mipmap/ic_launcher" />
 
 			<RelativeLayout
 				android:layout_width="match_parent"
@@ -57,7 +56,7 @@
 					android:singleLine="true"
 					android:text="@{show.showName}"
 					app:selected="@{true}"
-					tools:text="2 Broke Girls"/>
+					tools:text="2 Broke Girls" />
 
 				<TextView
 					android:id="@+id/show_next_episode_date"
@@ -65,7 +64,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_below="@+id/show_name"
-					tools:text="2015-04-27"/>
+					tools:text="2015-04-27" />
 
 				<TextView
 					style="@style/TextAppearance.AppCompat.Caption"
@@ -75,7 +74,7 @@
 					android:layout_alignParentStart="true"
 					android:layout_below="@+id/show_next_episode_date"
 					android:text="@string/paused"
-					android:visibility="@{show.paused ? View.VISIBLE : View.GONE}"/>
+					android:visibility="@{show.paused ? View.VISIBLE : View.GONE}" />
 
 				<TextView
 					style="@style/TextAppearance.AppCompat.Caption"
@@ -85,7 +84,7 @@
 					android:layout_alignParentRight="true"
 					android:layout_below="@+id/show_next_episode_date"
 					android:text="@{@string/separated_texts(show.network, show.quality)}"
-					tools:text="CBS / HD1080p"/>
+					tools:text="CBS / HD1080p" />
 			</RelativeLayout>
 		</RelativeLayout>
 
@@ -99,6 +98,6 @@
 			android:progress="@{show.downloaded}"
 			android:secondaryProgress="@{show.downloaded + show.snatched}"
 			tools:progress="33"
-			tools:secondaryProgress="66"/>
+			tools:secondaryProgress="66" />
 	</FrameLayout>
 </layout>

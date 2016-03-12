@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 	<item
 		android:id="@+id/menu_episode_search"
-		android:title="@string/search_episode"/>
+		android:title="@string/search_episode" />
 	<item android:title="@string/set_status">
 		<menu>
 			<group>
 				<item
 					android:id="@+id/menu_episode_set_status_wanted"
-					android:title="@string/wanted"/>
+					android:title="@string/wanted" />
 				<item
 					android:id="@+id/menu_episode_set_status_skipped"
-					android:title="@string/skipped"/>
+					android:title="@string/skipped" />
 				<item
 					android:id="@+id/menu_episode_set_status_ignored"
-					android:title="@string/ignored"/>
+					android:title="@string/ignored" />
 				<item
 					android:id="@+id/menu_episode_set_status_failed"
-					android:title="@string/failed"/>
+					android:title="@string/failed" />
 			</group>
 		</menu>
 	</item>

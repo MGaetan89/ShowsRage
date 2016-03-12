@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout
-	android:id="@+id/swipe_refresh"
+<android.support.v4.widget.SwipeRefreshLayout android:id="@+id/swipe_refresh"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
@@ -15,7 +14,7 @@
 			android:id="@android:id/list"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:visibility="gone"/>
+			android:visibility="gone" />
 
 		<TextView
 			android:id="@android:id/empty"
@@ -23,6 +22,6 @@
 			android:layout_height="wrap_content"
 			android:layout_gravity="center"
 			android:text="@string/no_logs"
-			android:visibility="gone"/>
+			android:visibility="gone" />
 	</FrameLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

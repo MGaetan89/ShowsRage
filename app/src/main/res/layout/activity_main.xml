@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
-	android:id="@+id/drawer_layout"
+<android.support.v4.widget.DrawerLayout android:id="@+id/drawer_layout"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
@@ -22,7 +21,7 @@
 			<com.mgaetan89.showsrage.view.ColoredToolbar
 				android:id="@+id/toolbar"
 				android:layout_width="match_parent"
-				android:layout_height="?attr/actionBarSize"/>
+				android:layout_height="?attr/actionBarSize" />
 
 			<android.support.design.widget.TabLayout
 				android:id="@+id/tabs"
@@ -31,13 +30,13 @@
 				android:clipToPadding="false"
 				android:visibility="gone"
 				app:tabMode="scrollable"
-				tools:visibility="visible"/>
+				tools:visibility="visible" />
 		</android.support.design.widget.AppBarLayout>
 
 		<FrameLayout
 			android:id="@+id/content"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"/>
+			android:layout_height="match_parent" />
 	</LinearLayout>
 
 	<android.support.design.widget.NavigationView
@@ -46,5 +45,5 @@
 		android:layout_height="match_parent"
 		android:layout_gravity="start"
 		android:fitsSystemWindows="true"
-		app:menu="@menu/drawer"/>
+		app:menu="@menu/drawer" />
 </android.support.v4.widget.DrawerLayout>

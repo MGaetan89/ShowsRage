@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:bind="http://schemas.android.com/apk/res-auto">
 
 	<data>
 
 		<variable
 			name="show"
-			type="com.mgaetan89.showsrage.presenter.ShowPresenter"/>
+			type="com.mgaetan89.showsrage.presenter.ShowPresenter" />
 	</data>
 
 	<android.support.v7.widget.CardView
@@ -20,6 +19,6 @@
 			android:id="@+id/stub"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			bind:show="@{show}"/>
+			bind:show="@{show}" />
 	</android.support.v7.widget.CardView>
 </layout>
