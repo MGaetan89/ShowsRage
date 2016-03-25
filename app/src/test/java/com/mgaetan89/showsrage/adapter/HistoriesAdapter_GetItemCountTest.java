@@ -43,7 +43,6 @@ public class HistoriesAdapter_GetItemCountTest {
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][]{
-				{null, 0},
 				{Collections.emptyList(), 0},
 				{Collections.singletonList(new History()), 1},
 				{Arrays.asList(new History(), new History(), new History()), 3},

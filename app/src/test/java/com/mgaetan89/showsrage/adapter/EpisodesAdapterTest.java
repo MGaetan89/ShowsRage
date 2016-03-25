@@ -48,7 +48,7 @@ public class EpisodesAdapterTest {
 
 	@Test
 	public void isReversed() {
-		assertThat(this.adapter.isReversed()).isFalse();
+		assertThat(this.adapter.getReversed()).isFalse();
 	}
 
 	@After
@@ -59,8 +59,6 @@ public class EpisodesAdapterTest {
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][]{
-				{null, 0, 0, 1},
-				{null, 0, 1, 2},
 				{Collections.emptyList(), 0, 0, 1},
 				{Collections.emptyList(), 0, 1, 2},
 				{Collections.singletonList(new Episode()), 1, 0, 1},

@@ -152,7 +152,7 @@ public class SeasonFragment extends Fragment implements Callback<Episodes>, Swip
 		if (episodes != null) {
 			this.episodes.addAll(episodes.getData().values());
 
-			if (this.adapter != null && this.adapter.isReversed()) {
+			if (this.adapter != null && this.adapter.getReversed()) {
 				Collections.reverse(this.episodes);
 			}
 		}

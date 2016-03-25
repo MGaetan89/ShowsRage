@@ -43,7 +43,6 @@ public class ShowsAdapter_GetItemCountTest {
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][]{
-				{null, 0},
 				{Collections.emptyList(), 0},
 				{Collections.singletonList(new Show()), 1},
 				{Arrays.asList(new Show(), new Show(), new Show()), 3},

@@ -41,7 +41,6 @@ public class LogsAdapter_GetItemCountTest {
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][]{
-				{null, 0},
 				{Collections.emptyList(), 0},
 				{Collections.singletonList(""), 1},
 				{Arrays.asList("", "", ""), 3},

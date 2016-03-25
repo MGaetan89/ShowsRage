@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
@@ -14,7 +16,7 @@ public class EpisodePagerAdapter_EmptyTest {
 
 	@Before
 	public void before() {
-		this.adapter = new EpisodePagerAdapter(null, mock(Fragment.class), null);
+		this.adapter = new EpisodePagerAdapter(null, mock(Fragment.class), Collections.<Integer>emptyList());
 	}
 
 	@Test

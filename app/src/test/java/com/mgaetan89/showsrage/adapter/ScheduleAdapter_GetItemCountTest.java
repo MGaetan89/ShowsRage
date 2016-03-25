@@ -43,7 +43,6 @@ public class ScheduleAdapter_GetItemCountTest {
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][]{
-				{null, 0},
 				{Collections.emptyList(), 0},
 				{Collections.singletonList(new Schedule()), 1},
 				{Arrays.asList(new Schedule(), new Schedule(), new Schedule()), 3},

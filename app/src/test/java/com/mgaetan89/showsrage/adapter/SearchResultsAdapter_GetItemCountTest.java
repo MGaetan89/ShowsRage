@@ -43,7 +43,6 @@ public class SearchResultsAdapter_GetItemCountTest {
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][]{
-				{null, 0},
 				{Collections.emptyList(), 0},
 				{Collections.singletonList(new SearchResultItem()), 1},
 				{Arrays.asList(new SearchResultItem(), new SearchResultItem(), new SearchResultItem()), 3},

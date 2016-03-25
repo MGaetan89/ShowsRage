@@ -32,8 +32,8 @@ public class SearchResultItem_GetIndexerTypeTest {
 				{gson.fromJson("{}", SearchResultItem.class), null},
 				{gson.fromJson("{indexer: -1}", SearchResultItem.class), null},
 				{gson.fromJson("{indexer: 0}", SearchResultItem.class), null},
-				{gson.fromJson("{indexer: 1}", SearchResultItem.class), Indexer.TVDB},
-				{gson.fromJson("{indexer: 2}", SearchResultItem.class), Indexer.TVRAGE},
+				{gson.fromJson("{indexer: 1}", SearchResultItem.class), Indexer.Companion.getTVDB()},
+				{gson.fromJson("{indexer: 2}", SearchResultItem.class), Indexer.Companion.getTVRAGE()},
 				{gson.fromJson("{indexer: 3}", SearchResultItem.class), null},
 		});
 	}
