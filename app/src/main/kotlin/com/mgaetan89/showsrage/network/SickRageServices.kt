@@ -62,7 +62,7 @@ interface SickRageServices {
     fun pauseShow(@Query("indexerid") indexerId: Int, @Query("pause") pause: Int, callback: Callback<GenericResponse>)
 
     @GET("/{api_path}/{api_key}/?cmd=postprocess&type=manual")
-    fun postProcess(@Query("is_priority") replace: Int, @Query("force_replace") forceProcessing: Int, @Query("process_method") processingMethod: String, callback: Callback<GenericResponse>)
+    fun postProcess(@Query("is_priority") replace: Int, @Query("force_replace") forceProcessing: Int, @Query("process_method") processingMethod: String?, callback: Callback<GenericResponse>)
 
     @GET("/{api_path}/{api_key}/?cmd=show.refresh")
     fun rescanShow(@Query("indexerid") indexerId: Int, callback: Callback<GenericResponse>)
