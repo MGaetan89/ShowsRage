@@ -53,10 +53,10 @@ public class SearchResultItem {
 	public Indexer getIndexerType() {
 		switch (this.indexer) {
 			case 1:
-				return Indexer.TVDB;
+				return Indexer.Companion.getTVDB();
 
 			case 2:
-				return Indexer.TVRAGE;
+				return Indexer.Companion.getTVRAGE();
 		}
 
 		return null;

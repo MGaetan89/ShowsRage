@@ -1,6 +1,8 @@
 package com.mgaetan89.showsrage.model
 
-enum class Indexer(val paramName: String) {
-    TVDB("tvdbid"),
-    TVRAGE("tvrageid")
+class Indexer private constructor(val paramName: String) {
+    companion object {
+        val TVDB = Indexer("tvdbid")
+        val TVRAGE = Indexer("tvrageid")
+    }
 }

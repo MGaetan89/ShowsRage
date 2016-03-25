@@ -476,7 +476,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		if (this.banner != null) {
 			ImageLoader.INSTANCE.load(
 					this.banner,
-					SickRageApi.Companion.getInstance().getBannerUrl(this.show.getTvDbId(), Indexer.TVDB),
+					SickRageApi.Companion.getInstance().getBannerUrl(this.show.getTvDbId(), Indexer.Companion.getTVDB()),
 					false,
 					null,
 					this
@@ -488,7 +488,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		if (this.fanArt != null) {
 			ImageLoader.INSTANCE.load(
 					this.fanArt,
-					SickRageApi.Companion.getInstance().getFanArtUrl(this.show.getTvDbId(), Indexer.TVDB),
+					SickRageApi.Companion.getInstance().getFanArtUrl(this.show.getTvDbId(), Indexer.Companion.getTVDB()),
 					false,
 					null,
 					this
@@ -565,7 +565,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		if (this.poster != null) {
 			ImageLoader.INSTANCE.load(
 					this.poster,
-					SickRageApi.Companion.getInstance().getPosterUrl(this.show.getTvDbId(), Indexer.TVDB),
+					SickRageApi.Companion.getInstance().getPosterUrl(this.show.getTvDbId(), Indexer.Companion.getTVDB()),
 					false,
 					this,
 					null
