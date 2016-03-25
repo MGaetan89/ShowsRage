@@ -4,15 +4,9 @@ import android.content.SharedPreferences
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.google.gson.GsonBuilder
-import com.google.gson.TypeAdapter
-import com.google.gson.reflect.TypeToken
-import com.google.gson.stream.JsonReader
-import com.google.gson.stream.JsonWriter
 import com.mgaetan89.showsrage.Constants
-import com.mgaetan89.showsrage.db_model.RealmString
 import com.mgaetan89.showsrage.model.Indexer
 import com.squareup.okhttp.*
-import io.realm.RealmList
 import io.realm.RealmObject
 import retrofit.RequestInterceptor
 import retrofit.RestAdapter
@@ -110,7 +104,6 @@ class SickRageApi private constructor() : RequestInterceptor {
     }
 
     private fun getConverter(): GsonConverter {
-        val token = object : TypeToken<RealmString>() {}.type
         val gson = GsonBuilder()
                 .setExclusionStrategies(object : ExclusionStrategy {
                     override fun shouldSkipField(f: FieldAttributes): Boolean {
@@ -119,23 +112,6 @@ class SickRageApi private constructor() : RequestInterceptor {
 
                     override fun shouldSkipClass(clazz: Class<*>): Boolean {
                         return false;
-                    }
-                })
-                .registerTypeAdapter(token, object : TypeAdapter<RealmList<RealmString>>() {
-                    @Throws(IOException::class)
-                    override fun write(writer: JsonWriter, value: RealmList<RealmString>) {
-                        // Ignore
-                    }
-
-                    @Throws(IOException::class)
-                    override fun read(reader: JsonReader): RealmList<RealmString> {
-                        val list = RealmList<RealmString>()
-                        reader.beginArray()
-                        while (reader.hasNext()) {
-                            list.add(RealmString(reader.nextString()))
-                        }
-                        reader.endArray()
-                        return list
                     }
                 })
                 .create();

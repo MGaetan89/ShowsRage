@@ -2,6 +2,7 @@ apply plugin: 'jacoco'
 apply plugin: 'com.android.application'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'kotlin-android'
+apply plugin: 'realm-android'
 
 android {
 	compileSdkVersion 23
@@ -136,12 +137,11 @@ dependencies {
 	compile 'com.squareup.okhttp:okhttp:2.5.0'
 	compile 'com.squareup.okhttp:okhttp-urlconnection:2.5.0'
 	compile 'com.squareup.retrofit:retrofit:1.9.0'
-	compile 'io.realm:realm-android:0.87.5'
 	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.1'
 
 	testCompile('com.squareup.assertj:assertj-android:1.1.1') {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
 	testCompile 'junit:junit:4.12'
-	testCompile 'org.mockito:mockito-core:2.0.42-beta'
+	testCompile 'org.mockito:mockito-core:2.0.44-beta'
 }
