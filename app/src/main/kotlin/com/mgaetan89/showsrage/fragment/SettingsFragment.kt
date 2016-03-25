@@ -25,11 +25,11 @@ open class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPr
         super.onCreate(savedInstanceState)
 
         this.addPreferencesFromResource(this.getXmlResourceFile())
-        this.preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        this.preferenceScreen?.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onDestroy() {
-        this.preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        this.preferenceScreen?.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
 
         super.onDestroy()
     }
@@ -83,7 +83,11 @@ open class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPr
         }
     }
 
-    private fun updatePreferenceGroup(preferenceGroup: PreferenceGroup) {
+    private fun updatePreferenceGroup(preferenceGroup: PreferenceGroup?) {
+        if (preferenceGroup == null) {
+            return
+        }
+
         for (i in 0..(preferenceGroup.preferenceCount - 1)) {
             val preference = preferenceGroup.getPreference(i)
 
