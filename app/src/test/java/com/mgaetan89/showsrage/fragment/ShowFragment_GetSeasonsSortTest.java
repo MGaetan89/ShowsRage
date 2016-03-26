@@ -33,14 +33,14 @@ public class ShowFragment_GetSeasonsSortTest {
 
 	@Test
 	public void getSeasonsSort() {
-		String sort = ShowFragment.getSeasonsSort(this.preferences);
+		String sort = ShowFragment.Companion.getSeasonsSort(this.preferences);
 
 		assertThat(sort).isEqualTo(this.sort);
 	}
 
 	@Test
 	public void getSeasonsSortNull() {
-		String sort = ShowFragment.getSeasonsSort(null);
+		String sort = ShowFragment.Companion.getSeasonsSort(null);
 
 		assertThat(sort).isEqualTo("desc");
 	}
