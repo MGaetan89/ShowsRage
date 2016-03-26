@@ -36,7 +36,7 @@ public class PostProcessingFragment_CheckableToIntegerTest {
 
 	@Test
 	public void checkableToInteger() {
-		assertThat(PostProcessingFragment.checkableToInteger(this.checkable)).isEqualTo(this.result);
+		assertThat(PostProcessingFragment.Companion.checkableToInteger(this.checkable)).isEqualTo(this.result);
 	}
 
 	@Parameterized.Parameters
