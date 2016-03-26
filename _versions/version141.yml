@@ -4,5 +4,5 @@ current_tag: master
 previous_tag: v1.4-beta1
 features:
 - Filter the list of shows
-- New setting to use a white theme
+- New setting to use a light theme
 ---
