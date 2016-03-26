@@ -26,7 +26,7 @@ interface SickRageServices {
     fun getEpisode(@Query("indexerid") indexerId: Int, @Query("season") season: Int, @Query("episode") episode: Int, callback: Callback<SingleEpisode>)
 
     @GET("/{api_path}/{api_key}/?cmd=show.seasons")
-    fun getEpisodes(@Query("indexerid") indexerId: Int, @Query("season") season: Int, callback: Callback<Episodes>)
+    fun getEpisodes(@Query("indexerid") indexerId: Int?, @Query("season") season: Int, callback: Callback<Episodes>)
 
     @GET("/{api_path}/{api_key}/?cmd=history")
     fun getHistory(callback: Callback<Histories>)

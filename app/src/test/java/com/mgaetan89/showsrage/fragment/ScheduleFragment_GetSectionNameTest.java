@@ -21,7 +21,7 @@ public class ScheduleFragment_GetSectionNameTest {
 
 	@Test
 	public void getSectionName() {
-		assertThat(ScheduleFragment.getSectionName(this.sectionId)).isEqualTo(this.sectionName);
+		assertThat(ScheduleFragment.Companion.getSectionName(this.sectionId)).isEqualTo(this.sectionName);
 	}
 
 	@Parameterized.Parameters
