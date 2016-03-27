@@ -25,7 +25,7 @@ public class MainActivity_ShouldCheckForUpdateTest {
 
 	@Test
 	public void shouldCheckForUpdate() {
-		assertThat(MainActivity.shouldCheckForUpdate(this.checkInterval, this.manualCheck, this.lastCheckTime)).isEqualTo(this.result);
+		assertThat(MainActivity.Companion.shouldCheckForUpdate(this.checkInterval, this.manualCheck, this.lastCheckTime)).isEqualTo(this.result);
 	}
 
 	@Parameterized.Parameters

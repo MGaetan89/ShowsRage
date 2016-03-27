@@ -30,9 +30,9 @@ public class MainActivity_GetSettingFragmentForPathTest {
 	@Test
 	public void getSettingFragmentForPath() {
 		if (this.fragmentClass == null) {
-			assertThat(MainActivity.getSettingFragmentForPath(this.path)).isNull();
+			assertThat(MainActivity.Companion.getSettingFragmentForPath(this.path)).isNull();
 		} else {
-			assertThat(MainActivity.getSettingFragmentForPath(this.path)).isExactlyInstanceOf(this.fragmentClass);
+			assertThat(MainActivity.Companion.getSettingFragmentForPath(this.path)).isExactlyInstanceOf(this.fragmentClass);
 		}
 	}
 
