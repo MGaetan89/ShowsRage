@@ -46,7 +46,10 @@ android {
 
 		release {
 			minifyEnabled false
-			signingConfig signingConfigs.release
+
+			if (file(signingConfigs.release.storeFile).exists()) {
+				signingConfig signingConfigs.release
+			}
 		}
 	}
 
