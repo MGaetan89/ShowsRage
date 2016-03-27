@@ -22,7 +22,7 @@ public class AddShowFragment_GetSearchResultsTest {
 
 	@Test
 	public void getSearchResults() {
-		assertThat(AddShowFragment.getSearchResults(this.searchResults).size()).isEqualTo(this.size);
+		assertThat(AddShowFragment.Companion.getSearchResults(this.searchResults).size()).isEqualTo(this.size);
 	}
 
 	@Parameterized.Parameters

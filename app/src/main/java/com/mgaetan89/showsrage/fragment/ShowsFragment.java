@@ -11,19 +11,15 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.util.SparseArray;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.R;
@@ -32,6 +28,8 @@ import com.mgaetan89.showsrage.adapter.ShowsPagerAdapter;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.Shows;
 import com.mgaetan89.showsrage.network.SickRageApi;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -42,7 +40,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class ShowsFragment extends Fragment implements Callback<Shows>, SearchView.OnQueryTextListener {
+public class ShowsFragment extends TabbedFragment implements Callback<Shows>, SearchView.OnQueryTextListener {
 	@IntDef({FILTER_PAUSED_ACTIVE_ACTIVE, FILTER_PAUSED_ACTIVE_BOTH, FILTER_PAUSED_ACTIVE_PAUSED})
 	@Retention(RetentionPolicy.SOURCE)
 	private @interface FilterMode {
@@ -62,9 +60,6 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SearchVi
 	/* package */ static final int FILTER_STATUS_CONTINUING = 2;
 	/* package */ static final int FILTER_STATUS_UNKNOWN = 3;
 
-	@Nullable
-	private ShowsPagerAdapter adapter = null;
-
 	@FilterMode
 	private int filterPausedActiveMode = FILTER_PAUSED_ACTIVE_BOTH;
 
@@ -76,12 +71,6 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SearchVi
 
 	@NonNull
 	private final SparseArray<ArrayList<Show>> shows = new SparseArray<>();
-
-	@Nullable
-	private TabLayout tabLayout = null;
-
-	@Nullable
-	private ViewPager viewPager = null;
 
 	public ShowsFragment() {
 		this.setHasOptionsMenu(true);
@@ -104,13 +93,6 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SearchVi
 		}
 
 		SickRageApi.Companion.getInstance().getServices().getShows(this);
-
-		this.tabLayout = (TabLayout) activity.findViewById(R.id.tabs);
-
-		if (this.viewPager != null && this.tabLayout != null) {
-			this.tabLayout.setTabMode(TabLayout.MODE_FIXED);
-			this.tabLayout.setupWithViewPager(this.viewPager);
-		}
 	}
 
 	@Override
@@ -129,41 +111,11 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SearchVi
 		}
 	}
 
-	@Nullable
-	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_shows, container, false);
-
-		if (view != null) {
-			this.viewPager = (ViewPager) view.findViewById(R.id.shows_pager);
-
-			if (this.viewPager != null) {
-				this.adapter = new ShowsPagerAdapter(this.getChildFragmentManager(), this, this.shows);
-
-				this.viewPager.setAdapter(this.adapter);
-			}
-		}
-
-		return view;
-	}
-
 	@Override
 	public void onDestroy() {
 		this.shows.clear();
 
 		super.onDestroy();
-	}
-
-	@Override
-	public void onDestroyView() {
-		if (this.tabLayout != null) {
-			this.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-		}
-
-		this.tabLayout = null;
-		this.viewPager = null;
-
-		super.onDestroyView();
 	}
 
 	// TODO
@@ -252,24 +204,20 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SearchVi
 
 				showSection.add(show);
 			}
-
-			if (this.tabLayout != null) {
-				this.tabLayout.setVisibility(View.VISIBLE);
-			}
 		} else {
 			ArrayList<Show> showsWrapper = new ArrayList<>();
 			showsWrapper.addAll(showsList);
 
 			this.shows.put(0, showsWrapper);
-
-			if (this.tabLayout != null) {
-				this.tabLayout.setVisibility(View.GONE);
-			}
 		}
 
-		if (this.adapter != null) {
-			this.adapter.notifyDataSetChanged();
-		}
+		this.updateState(!splitShowsAnimes);
+	}
+
+	@NotNull
+	@Override
+	protected FragmentStatePagerAdapter getAdapter() {
+		return new ShowsPagerAdapter(this.getChildFragmentManager(), this, this.shows);
 	}
 
 	@FilterMode
@@ -305,6 +253,11 @@ public class ShowsFragment extends Fragment implements Callback<Shows>, SearchVi
 		}
 
 		return FILTER_STATUS_ALL;
+	}
+
+	@Override
+	protected int getTabMode() {
+		return TabLayout.MODE_FIXED;
 	}
 
 	/* package */ void sendFilterMessage() {

@@ -1,12 +1,7 @@
 package com.mgaetan89.showsrage.fragment
 
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.support.v4.app.FragmentStatePagerAdapter
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.SchedulePagerAdapter
@@ -18,12 +13,9 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 import java.util.*
 
-class ScheduleFragment : Fragment(), Callback<Schedules> {
-    private var adapter: SchedulePagerAdapter? = null
+class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
     private val schedules = mutableListOf<ArrayList<Schedule>>()
     private val sections = mutableListOf<String>()
-    private var tabLayout: TabLayout? = null
-    private var viewPager: ViewPager? = null
 
     override fun failure(error: RetrofitError?) {
         error?.printStackTrace()
@@ -40,28 +32,6 @@ class ScheduleFragment : Fragment(), Callback<Schedules> {
         }
 
         SickRageApi.instance.services?.getSchedule(this)
-
-        this.tabLayout = this.activity.findViewById(R.id.tabs) as TabLayout?
-
-        if (this.tabLayout != null && this.viewPager != null) {
-            (this.tabLayout as TabLayout).setupWithViewPager(this.viewPager)
-        }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_schedule, container, false)
-
-        if (view != null) {
-            this.viewPager = view.findViewById(R.id.schedule_pager) as ViewPager?
-
-            if (this.viewPager != null) {
-                this.adapter = SchedulePagerAdapter(this.childFragmentManager, this.sections, this.schedules)
-
-                (this.viewPager as ViewPager).adapter = this.adapter
-            }
-        }
-
-        return view
     }
 
     override fun onDestroy() {
@@ -69,13 +39,6 @@ class ScheduleFragment : Fragment(), Callback<Schedules> {
         this.sections.clear()
 
         super.onDestroy()
-    }
-
-    override fun onDestroyView() {
-        this.tabLayout = null
-        this.viewPager = null
-
-        super.onDestroyView()
     }
 
     override fun success(schedules: Schedules?, response: Response?) {
@@ -98,9 +61,11 @@ class ScheduleFragment : Fragment(), Callback<Schedules> {
             }
         }
 
-        this.adapter?.notifyDataSetChanged()
+        this.updateState(this.sections.isEmpty())
+    }
 
-        this.tabLayout?.visibility = if (this.sections.isEmpty()) View.GONE else View.VISIBLE
+    override fun getAdapter(): FragmentStatePagerAdapter {
+        return SchedulePagerAdapter(this.childFragmentManager, this.sections, this.schedules)
     }
 
     companion object {

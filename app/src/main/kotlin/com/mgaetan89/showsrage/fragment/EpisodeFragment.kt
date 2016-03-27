@@ -2,21 +2,14 @@ package com.mgaetan89.showsrage.fragment
 
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.support.v4.app.FragmentStatePagerAdapter
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.EpisodePagerAdapter
 
-class EpisodeFragment : Fragment() {
-    private var adapter: EpisodePagerAdapter? = null
+class EpisodeFragment : TabbedFragment() {
     private val episodes = mutableListOf<Int>()
-    private var viewPager: ViewPager? = null
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -44,33 +37,9 @@ class EpisodeFragment : Fragment() {
                 this.episodes.reverse()
             }
 
-            this.adapter?.notifyDataSetChanged()
-
-            val tabLayout = activity.findViewById(R.id.tabs) as TabLayout?
-
-            if (tabLayout != null && this.viewPager != null) {
-                tabLayout.setupWithViewPager(this.viewPager)
-                tabLayout.visibility = View.VISIBLE
-
-                tabLayout.getTabAt(if (ascendingOrder) episodeNumber - 1 else episodesCount - episodeNumber)?.select()
-            }
+            this.updateState(false)
+            this.selectTab(if (ascendingOrder) episodeNumber - 1 else episodesCount - episodeNumber)
         }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_show, container, false)
-
-        if (view != null) {
-            this.viewPager = view.findViewById(R.id.show_pager) as ViewPager?
-
-            if (this.viewPager != null) {
-                this.adapter = EpisodePagerAdapter(this.childFragmentManager, this, this.episodes)
-
-                (this.viewPager as ViewPager).adapter = this.adapter
-            }
-        }
-
-        return view
     }
 
     override fun onDestroy() {
@@ -79,9 +48,7 @@ class EpisodeFragment : Fragment() {
         super.onDestroy()
     }
 
-    override fun onDestroyView() {
-        this.viewPager = null
-
-        super.onDestroyView()
+    override fun getAdapter(): FragmentStatePagerAdapter {
+        return EpisodePagerAdapter(this.childFragmentManager, this, this.episodes)
     }
 }

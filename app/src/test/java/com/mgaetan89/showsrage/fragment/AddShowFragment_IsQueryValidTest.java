@@ -19,7 +19,7 @@ public class AddShowFragment_IsQueryValidTest {
 
 	@Test
 	public void isQueryValid() {
-		assertThat(AddShowFragment.isQueryValid(this.query)).isEqualTo(this.valid);
+		assertThat(AddShowFragment.Companion.isQueryValid(this.query)).isEqualTo(this.valid);
 	}
 
 	@Parameterized.Parameters

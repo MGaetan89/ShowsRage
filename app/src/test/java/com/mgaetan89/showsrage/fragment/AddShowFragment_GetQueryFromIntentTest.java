@@ -29,7 +29,7 @@ public class AddShowFragment_GetQueryFromIntentTest {
 			when(this.intent.getStringExtra(SearchManager.QUERY)).thenReturn(this.query);
 		}
 
-		assertThat(AddShowFragment.getQueryFromIntent(this.intent)).isEqualTo(this.query);
+		assertThat(AddShowFragment.Companion.getQueryFromIntent(this.intent)).isEqualTo(this.query);
 	}
 
 	@Parameterized.Parameters
