@@ -4,6 +4,12 @@ apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'kotlin-android'
 apply plugin: 'realm-android'
 
+def properties = new Properties()
+
+if (project.rootProject.file('local.properties').exists()) {
+	properties.load(project.rootProject.file('local.properties').newDataInputStream())
+}
+
 android {
 	compileSdkVersion 23
 	buildToolsVersion '23.0.2'
@@ -25,17 +31,10 @@ android {
 
 	signingConfigs {
 		release {
-			try {
-				Properties properties = new Properties()
-				properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-				keyAlias properties.getProperty('signing.keyAlias', '')
-				keyPassword properties.getProperty('signing.keyPassword', '')
-				storeFile file(properties.getProperty('signing.storeFile', ''))
-				storePassword properties.getProperty('signing.storePassword', '')
-			} catch (FileNotFoundException ignore) {
-				System.out.println('local.properties file is missing. Signing is disabled')
-			}
+			keyAlias properties.getProperty('signing.keyAlias', '')
+			keyPassword properties.getProperty('signing.keyPassword', '')
+			storeFile file(properties.getProperty('signing.storeFile', '-'))
+			storePassword properties.getProperty('signing.storePassword', '')
 		}
 	}
 
@@ -47,10 +46,7 @@ android {
 
 		release {
 			minifyEnabled false
-
-			if (project.rootProject.file('local.properties').exists()) {
-				signingConfig signingConfigs.release
-			}
+			signingConfig signingConfigs.release
 		}
 	}
 
