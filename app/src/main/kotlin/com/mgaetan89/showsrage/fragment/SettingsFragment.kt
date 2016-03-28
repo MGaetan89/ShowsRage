@@ -74,7 +74,7 @@ open class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPr
         if (preference is EditTextPreference) {
             val text = preference.text
 
-            if ("server_password".equals(preference.key) && text.isNotEmpty()) {
+            if ("server_password".equals(preference.key) && !text.isNullOrEmpty()) {
                 preference.summary = "*****"
             } else {
                 preference.summary = text
