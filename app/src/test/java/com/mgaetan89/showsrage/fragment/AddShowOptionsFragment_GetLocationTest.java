@@ -23,7 +23,7 @@ public class AddShowOptionsFragment_GetLocationTest {
 
 	@Test
 	public void getLocation() {
-		assertThat(AddShowOptionsFragment.getLocation(this.spinner)).isEqualTo(this.location);
+		assertThat(AddShowOptionsFragment.Companion.getLocation(this.spinner)).isEqualTo(this.location);
 	}
 
 	@Parameterized.Parameters
