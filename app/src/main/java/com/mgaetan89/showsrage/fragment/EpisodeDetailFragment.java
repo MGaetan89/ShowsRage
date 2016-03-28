@@ -520,7 +520,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		final Callback<GenericResponse> callback = new GenericCallback(this.getActivity());
 		final int indexerId = this.show.getIndexerId();
 
-		new AlertDialog.Builder(this.getActivity())
+		new AlertDialog.Builder(this.getContext())
 				.setMessage(R.string.replace_existing_episode)
 				.setPositiveButton(R.string.replace, new DialogInterface.OnClickListener() {
 					@Override

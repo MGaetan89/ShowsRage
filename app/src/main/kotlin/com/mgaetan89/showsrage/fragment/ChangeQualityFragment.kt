@@ -31,7 +31,7 @@ open class ChangeQualityFragment : DialogFragment(), DialogInterface.OnClickList
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(this.context, this.theme)
+        val builder = AlertDialog.Builder(this.context)
         builder.setTitle(R.string.change_quality)
         builder.setView(R.layout.fragment_change_quality)
         builder.setNegativeButton(R.string.cancel, null)

@@ -35,7 +35,7 @@ open class PostProcessingFragment : DialogFragment(), DialogInterface.OnClickLis
             this.replaceFiles = view.findViewById(R.id.replace_files) as SwitchCompat?
         }
 
-        val builder = AlertDialog.Builder(this.activity, this.theme)
+        val builder = AlertDialog.Builder(this.context)
         builder.setTitle(R.string.post_processing)
         builder.setView(view)
         builder.setNegativeButton(android.R.string.cancel, null)

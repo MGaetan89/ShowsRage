@@ -618,7 +618,7 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 		final int indexerId = this.show.getIndexerId();
 		final Callback<GenericResponse> callback = new DeleteShowCallback(this.getActivity());
 
-		new AlertDialog.Builder(this.getActivity())//
+		new AlertDialog.Builder(this.getContext())//
 				.setTitle(this.getString(R.string.delete_show_title, this.show.getShowName()))//
 				.setMessage(R.string.delete_show_message)//
 				.setPositiveButton(R.string.keep, new DialogInterface.OnClickListener() {

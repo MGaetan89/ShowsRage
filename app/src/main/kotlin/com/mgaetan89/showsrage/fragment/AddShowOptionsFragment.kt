@@ -81,7 +81,7 @@ open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickLis
             }
         }
 
-        val builder = AlertDialog.Builder(this.activity, this.theme)
+        val builder = AlertDialog.Builder(this.context)
         builder.setTitle(R.string.add_show)
         builder.setView(view)
         builder.setPositiveButton(R.string.add, this)

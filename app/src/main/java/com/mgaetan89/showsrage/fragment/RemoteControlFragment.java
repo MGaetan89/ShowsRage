@@ -194,7 +194,7 @@ public class RemoteControlFragment extends DialogFragment implements View.OnClic
 			}
 		}
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity(), this.getTheme());
+		AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
 
 		if (playingVideo != null) {
 			MediaRouter.RouteInfo route = playingVideo.getRoute();

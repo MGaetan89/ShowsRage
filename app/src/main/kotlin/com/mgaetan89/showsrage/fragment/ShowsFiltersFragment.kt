@@ -13,7 +13,7 @@ class ShowsFiltersFragment : DialogFragment(), DialogInterface.OnClickListener {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(this.context, this.theme)
+        return AlertDialog.Builder(this.context)
                 .setTitle(R.string.filter)
                 .setView(R.layout.fragment_shows_filter)
                 .setPositiveButton(R.string.filter, this)

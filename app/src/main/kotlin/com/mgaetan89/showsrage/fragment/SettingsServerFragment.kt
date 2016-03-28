@@ -79,7 +79,7 @@ open class SettingsServerFragment : SettingsFragment(), Callback<GenericResponse
 
         val url = SickRageApi.instance.getApiUrl()
 
-        AlertDialog.Builder(this.activity)
+        AlertDialog.Builder(this.context)
                 .setCancelable(true)
                 .setMessage(if (successful) this.getString(R.string.connection_successful) else this.getString(R.string.connection_failed, url))
                 .setPositiveButton(android.R.string.ok, null)

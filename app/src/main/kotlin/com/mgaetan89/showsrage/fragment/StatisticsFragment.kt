@@ -56,7 +56,7 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats> {
             this.statisticsLayout = view.findViewById(R.id.statistics_layout) as LinearLayout?
         }
 
-        val builder = AlertDialog.Builder(this.context, this.theme)
+        val builder = AlertDialog.Builder(this.context)
         builder.setTitle(R.string.statistics)
         builder.setView(view)
         builder.setPositiveButton(R.string.close, null)

@@ -376,15 +376,15 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         }
 
         if (this.navigationView != null) {
-            val colors = intArrayOf(colorPrimary, Color.WHITE)
+            val colorsIcon = intArrayOf(colorPrimary, this.navigationView!!.itemIconTintList?.defaultColor ?: Color.WHITE)
+            val colorsText = intArrayOf(colorPrimary, this.navigationView!!.itemTextColor?.defaultColor ?: Color.WHITE)
             val states = arrayOf(
                     intArrayOf(android.R.attr.state_checked),
                     intArrayOf()
             )
-            val colorStateList = ColorStateList(states, colors)
 
-            this.navigationView!!.itemIconTintList = colorStateList
-            this.navigationView!!.itemTextColor = colorStateList
+            this.navigationView!!.itemIconTintList = ColorStateList(states, colorsIcon)
+            this.navigationView!!.itemTextColor = ColorStateList(states, colorsText)
         }
 
         if (this.tabLayout != null) {

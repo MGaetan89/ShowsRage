@@ -73,7 +73,7 @@ open class SettingsServerApiKeyFragment : SettingsServerFragment() {
                 messageId = R.string.get_api_key_success
             }
 
-            AlertDialog.Builder(fragment.activity)
+            AlertDialog.Builder(fragment.context)
                     .setCancelable(true)
                     .setMessage(messageId)
                     .setPositiveButton(android.R.string.ok, null)

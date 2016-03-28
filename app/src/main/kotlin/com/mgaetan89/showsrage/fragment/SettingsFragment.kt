@@ -44,7 +44,7 @@ open class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPr
             val serverAddress = this.getPreferenceValue("server_address", "")
 
             if (serverAddress.isNullOrEmpty()) {
-                AlertDialog.Builder(this.activity)
+                AlertDialog.Builder(this.context)
                         .setIcon(R.drawable.ic_notification)
                         .setTitle(R.string.app_name)
                         .setMessage(R.string.welcome_message)
