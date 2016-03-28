@@ -311,10 +311,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
     }
 
     private fun displayStartFragment() {
-        val data = this.intent.data ?: return
-
         // Start the correct Setting Fragment, if necessary
-        val settingFragment = getSettingFragmentForPath(data.path)
+        val settingFragment = getSettingFragmentForPath(this.intent.data?.path)
 
         if (settingFragment != null) {
             this.fragmentManager.beginTransaction()
@@ -324,6 +322,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
             return
         }
 
+        // Display the list of shows
         this.navigationView?.menu?.performIdentifierAction(R.id.menu_shows, 0)
     }
 
