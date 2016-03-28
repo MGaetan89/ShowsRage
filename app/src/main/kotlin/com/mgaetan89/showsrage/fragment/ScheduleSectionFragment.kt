@@ -55,8 +55,8 @@ class ScheduleSectionFragment : Fragment() {
 
                 this.adapter = ScheduleAdapter(this.schedules)
 
-                (this.recyclerView as RecyclerView).adapter = this.adapter
-                (this.recyclerView as RecyclerView).layoutManager = GridLayoutManager(this.activity, columnCount)
+                this.recyclerView!!.adapter = this.adapter
+                this.recyclerView!!.layoutManager = GridLayoutManager(this.activity, columnCount)
             }
         }
 

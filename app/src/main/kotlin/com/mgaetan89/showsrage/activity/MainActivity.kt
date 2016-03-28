@@ -247,7 +247,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
     fun updateRemoteControlVisibility() {
         if (this.navigationView != null) {
-            val hasRemotePlaybackClient = (this.application as ShowsRageApplication).hasPlayingVideo()
+            val hasRemotePlaybackClient = (this.application as ShowsRageApplication?)?.hasPlayingVideo() ?: false
 
             this.navigationView!!.menu.findItem(R.id.menu_remote_control).isVisible = hasRemotePlaybackClient
         }
@@ -282,14 +282,14 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         if (this.drawerLayout != null) {
             this.drawerToggle = ActionBarDrawerToggle(this, this.drawerLayout, this.toolbar, R.string.abc_action_bar_home_description, R.string.abc_action_bar_home_description)
 
-            (this.drawerLayout as DrawerLayout).addDrawerListener(this.drawerToggle as ActionBarDrawerToggle)
-            (this.drawerLayout as DrawerLayout).post {
+            this.drawerLayout!!.addDrawerListener(this.drawerToggle!!)
+            this.drawerLayout!!.post {
                 drawerToggle?.syncState()
             }
         }
 
         if (this.navigationView != null) {
-            this.drawerHeader = (this.navigationView as NavigationView).inflateHeaderView(R.layout.drawer_header) as LinearLayout?
+            this.drawerHeader = this.navigationView!!.inflateHeaderView(R.layout.drawer_header) as LinearLayout?
 
             this.navigationView?.setNavigationItemSelectedListener(this)
         }
@@ -396,10 +396,10 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         this.appBarLayout?.setBackgroundColor(colorPrimary)
 
         if (this.drawerHeader != null) {
-            (this.drawerHeader as LinearLayout).setBackgroundColor(colorPrimary)
+            this.drawerHeader!!.setBackgroundColor(colorPrimary)
 
-            val logo = (this.drawerHeader as LinearLayout).findViewById(R.id.app_logo) as ImageView?
-            val name = (this.drawerHeader as LinearLayout).findViewById(R.id.app_name) as TextView?
+            val logo = this.drawerHeader!!.findViewById(R.id.app_logo) as ImageView?
+            val name = this.drawerHeader!!.findViewById(R.id.app_name) as TextView?
 
             if (logo != null) {
                 val drawable = DrawableCompat.wrap(logo.drawable)
@@ -417,15 +417,15 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
             )
             val colorStateList = ColorStateList(states, colors)
 
-            (this.navigationView as NavigationView).itemIconTintList = colorStateList
-            (this.navigationView as NavigationView).itemTextColor = colorStateList
+            this.navigationView!!.itemIconTintList = colorStateList
+            this.navigationView!!.itemTextColor = colorStateList
         }
 
         if (this.tabLayout != null) {
             val selectedTextColor = ColorUtils.setAlphaComponent(textColor, (0.7f * 255f).toInt())
 
-            (this.tabLayout as TabLayout).setSelectedTabIndicatorColor(colorAccent)
-            (this.tabLayout as TabLayout).setTabTextColors(selectedTextColor, textColor)
+            this.tabLayout!!.setSelectedTabIndicatorColor(colorAccent)
+            this.tabLayout!!.setTabTextColors(selectedTextColor, textColor)
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

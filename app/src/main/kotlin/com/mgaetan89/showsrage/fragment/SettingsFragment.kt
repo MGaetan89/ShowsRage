@@ -16,8 +16,10 @@ open class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPr
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if (this.activity is MainActivity) {
-            (this.activity as MainActivity).displayHomeAsUp(true)
+        val activity = this.activity
+
+        if (activity is MainActivity) {
+            activity.displayHomeAsUp(true)
         }
     }
 

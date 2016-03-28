@@ -73,7 +73,7 @@ open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickLis
                     this.rootDirectory = view.findViewById(R.id.root_directory) as Spinner?
 
                     if (this.rootDirectory != null) {
-                        (this.rootDirectory as Spinner).adapter = RootDirectoriesAdapter(this.context, rootDirectories)
+                        this.rootDirectory!!.adapter = RootDirectoriesAdapter(this.context, rootDirectories)
                     }
 
                     rootDirectoryLayout.visibility = View.VISIBLE

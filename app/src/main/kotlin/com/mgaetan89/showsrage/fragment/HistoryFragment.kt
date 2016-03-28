@@ -79,15 +79,15 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
                 val columnCount = this.resources.getInteger(R.integer.shows_column_count)
                 this.adapter = HistoriesAdapter(this.histories)
 
-                (this.recyclerView as RecyclerView).addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                this.recyclerView!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                         super.onScrolled(recyclerView, dx, dy)
 
                         swipeRefreshLayout?.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
                     }
                 })
-                (this.recyclerView as RecyclerView).adapter = adapter
-                (this.recyclerView as RecyclerView).layoutManager = GridLayoutManager(this.activity, columnCount)
+                this.recyclerView!!.adapter = adapter
+                this.recyclerView!!.layoutManager = GridLayoutManager(this.activity, columnCount)
             }
 
             this.swipeRefreshLayout?.setColorSchemeResources(R.color.accent)

@@ -70,8 +70,8 @@ class AddShowFragment : Fragment(), Callback<SearchResults>, SearchView.OnQueryT
                 val columnCount = this.resources.getInteger(R.integer.shows_column_count)
                 this.adapter = SearchResultsAdapter(this.searchResults)
 
-                (this.recyclerView as RecyclerView).adapter = this.adapter
-                (this.recyclerView as RecyclerView).layoutManager = GridLayoutManager(this.activity, columnCount)
+                this.recyclerView!!.adapter = this.adapter
+                this.recyclerView!!.layoutManager = GridLayoutManager(this.activity, columnCount)
             }
         }
 

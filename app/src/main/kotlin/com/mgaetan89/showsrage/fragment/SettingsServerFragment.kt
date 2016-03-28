@@ -70,8 +70,8 @@ open class SettingsServerFragment : SettingsFragment(), Callback<GenericResponse
         }
 
         if (this.alertDialog != null) {
-            if ((this.alertDialog as AlertDialog).isShowing) {
-                (this.alertDialog as AlertDialog).dismiss()
+            if (this.alertDialog!!.isShowing) {
+                this.alertDialog!!.dismiss()
             }
 
             this.alertDialog = null

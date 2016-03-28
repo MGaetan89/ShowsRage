@@ -21,8 +21,8 @@ abstract class TabbedFragment : Fragment() {
         this.tabLayout = this.activity.findViewById(R.id.tabs) as TabLayout?
 
         if (this.tabLayout != null && this.viewPager != null) {
-            (this.tabLayout as TabLayout).tabMode = this.getTabMode()
-            (this.tabLayout as TabLayout).setupWithViewPager(this.viewPager)
+            this.tabLayout!!.tabMode = this.getTabMode()
+            this.tabLayout!!.setupWithViewPager(this.viewPager)
         }
     }
 
@@ -35,7 +35,7 @@ abstract class TabbedFragment : Fragment() {
             if (this.viewPager != null) {
                 this.adapter = this.getAdapter()
 
-                (this.viewPager as ViewPager).adapter = this.adapter
+                this.viewPager!!.adapter = this.adapter
             }
         }
 

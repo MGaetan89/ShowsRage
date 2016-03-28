@@ -62,14 +62,14 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
                 val columnCount = this.resources.getInteger(R.integer.shows_column_count)
                 val layoutManager = GridLayoutManager(this.activity, columnCount)
 
-                (this.recyclerView as RecyclerView).addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                this.recyclerView!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                         super.onScrolled(recyclerView, dx, dy)
 
                         swipeRefreshLayout?.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
                     }
                 })
-                this.recyclerView?.layoutManager = layoutManager
+                this.recyclerView!!.layoutManager = layoutManager
             }
 
             this.swipeRefreshLayout?.setColorSchemeResources(R.color.accent)

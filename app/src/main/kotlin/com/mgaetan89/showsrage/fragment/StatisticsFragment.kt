@@ -100,7 +100,7 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats> {
         this.statisticsLayout?.visibility = View.VISIBLE
 
         if (this.episodesDownloadedBar != null) {
-            val layoutParams = (this.episodesDownloadedBar as View).layoutParams
+            val layoutParams = this.episodesDownloadedBar!!.layoutParams
 
             if (layoutParams is LinearLayout.LayoutParams) {
                 layoutParams.weight = weightDownloaded
@@ -108,7 +108,7 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats> {
         }
 
         if (this.episodesMissingBar != null) {
-            val layoutParams = (this.episodesMissingBar as View).layoutParams
+            val layoutParams = this.episodesMissingBar!!.layoutParams
 
             if (layoutParams is LinearLayout.LayoutParams) {
                 layoutParams.weight = weightMissing
@@ -116,7 +116,7 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats> {
         }
 
         if (this.episodesSnatchedBar != null) {
-            val layoutParams = (this.episodesSnatchedBar as View).layoutParams
+            val layoutParams = this.episodesSnatchedBar!!.layoutParams
 
             if (layoutParams is LinearLayout.LayoutParams) {
                 layoutParams.weight = weightSnatched
