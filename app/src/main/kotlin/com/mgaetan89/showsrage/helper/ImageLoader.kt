@@ -21,22 +21,19 @@ object ImageLoader {
     }
 
     fun load(imageView: ImageView?, url: String?, circleTransform: Boolean, paletteListener: Palette.PaletteAsyncListener?, onImageResult: OnImageResult?) {
-        if (imageView == null) {
-            return
-        }
-
-        val glide = Glide.with(imageView.context)
+        val context = imageView?.context ?: return
+        val glide = Glide.with(context)
                 .load(url)
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
 
         if (circleTransform) {
-            val bitmapPool = Glide.get(imageView.context).bitmapPool
+            val bitmapPool = Glide.get(context).bitmapPool
 
             glide.transform(GlideCircleTransformation(bitmapPool))
         }
 
-        glide.into(BitmapTarget(imageView, paletteListener, onImageResult))
+        glide.into(BitmapTarget(imageView!!, paletteListener, onImageResult))
     }
 
     private class BitmapTarget(view: ImageView, val paletteListener: Palette.PaletteAsyncListener?, val onImageResult: OnImageResult?) : BitmapImageViewTarget(view) {

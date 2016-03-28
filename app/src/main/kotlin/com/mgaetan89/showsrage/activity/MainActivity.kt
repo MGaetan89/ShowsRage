@@ -50,8 +50,6 @@ import retrofit.client.Response
 import java.lang.ref.WeakReference
 
 class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationView.OnNavigationItemSelectedListener {
-    private val COLOR_DARK_FACTOR = 0.8f
-
     private var appBarLayout: AppBarLayout? = null
     private var drawerHeader: LinearLayout? = null
     private var drawerLayout: DrawerLayout? = null
@@ -191,57 +189,27 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
     }
 
     fun setPalette(palette: Palette) {
-        var accent = palette.darkMutedSwatch
-        var accentColor: Int
-        var primary = palette.vibrantSwatch
-        var primaryColor: Int
+        // Define the accent color
+        val accentCandidates = arrayOf(
+                palette.darkMutedSwatch, palette.mutedSwatch, palette.lightMutedSwatch
+        )
+        val accent = accentCandidates.firstOrNull { it != null }
+        val accentColor = accent?.rgb ?: ContextCompat.getColor(this, R.color.accent)
 
-        if (accent == null) {
-            accent = palette.mutedSwatch
-
-            if (accent == null) {
-                accent = palette.lightMutedSwatch
-            }
-        }
-
-        if (accent == null) {
-            accentColor = ContextCompat.getColor(this, R.color.accent)
-        } else {
-            accentColor = accent.rgb
-        }
-
-        if (primary == null) {
-            primary = palette.lightVibrantSwatch
-
-            if (primary == null) {
-                primary = palette.darkVibrantSwatch
-
-                if (primary == null) {
-                    primary = palette.lightMutedSwatch
-
-                    if (primary == null) {
-                        primary = palette.mutedSwatch
-
-                        if (primary == null) {
-                            primary = palette.darkMutedSwatch
-                        }
-                    }
-                }
-            }
-        }
-
-        if (primary == null) {
-            primaryColor = ContextCompat.getColor(this, R.color.primary)
-        } else {
-            primaryColor = primary.rgb
-        }
+        // Define the primary color
+        val primaryCandidates = arrayOf(
+                palette.vibrantSwatch, palette.lightVibrantSwatch, palette.darkVibrantSwatch,
+                palette.lightMutedSwatch, palette.mutedSwatch, palette.darkMutedSwatch
+        )
+        val primary = primaryCandidates.firstOrNull { it != null }
+        val primaryColor = primary?.rgb ?: ContextCompat.getColor(this, R.color.primary)
 
         this.setThemeColors(primaryColor, accentColor)
     }
 
     override fun success(genericResponse: GenericResponse?, response: Response?) {
         if (genericResponse?.message?.isNotBlank() ?: false) {
-            Toast.makeText(this, genericResponse?.message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, genericResponse!!.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -280,7 +248,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         this.toolbar = this.findViewById(R.id.toolbar) as ColoredToolbar?
 
         if (this.drawerLayout != null) {
-            this.drawerToggle = ActionBarDrawerToggle(this, this.drawerLayout, this.toolbar, R.string.abc_action_bar_home_description, R.string.abc_action_bar_home_description)
+            this.drawerToggle = ActionBarDrawerToggle(this, this.drawerLayout, this.toolbar, R.string.open_menu, R.string.close_menu)
 
             this.drawerLayout!!.addDrawerListener(this.drawerToggle!!)
             this.drawerLayout!!.post {
@@ -291,12 +259,10 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         if (this.navigationView != null) {
             this.drawerHeader = this.navigationView!!.inflateHeaderView(R.layout.drawer_header) as LinearLayout?
 
-            this.navigationView?.setNavigationItemSelectedListener(this)
+            this.navigationView!!.setNavigationItemSelectedListener(this)
         }
 
-        if (this.toolbar != null) {
-            this.setSupportActionBar(this.toolbar)
-        }
+        this.setSupportActionBar(this.toolbar)
 
         val intent = this.intent
 
@@ -428,8 +394,10 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
             this.tabLayout!!.setTabTextColors(selectedTextColor, textColor)
         }
 
+        this.toolbar?.setItemColor(textColor)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val colorPrimaryDark = floatArrayOf()
+            val colorPrimaryDark = floatArrayOf(0f, 0f, 0f)
             ColorUtils.colorToHSL(colorPrimary, colorPrimaryDark)
             colorPrimaryDark[2] *= COLOR_DARK_FACTOR
 
@@ -447,6 +415,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
     }
 
     companion object {
+        private const val COLOR_DARK_FACTOR = 0.8f
+
         fun getSettingFragmentForPath(path: String?): SettingsFragment? {
             return when (path) {
                 "/" -> SettingsFragment()
@@ -479,7 +449,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
     }
 
     private class CheckForUpdateCallback(activity: AppCompatActivity, val manualCheck: Boolean) : Callback<UpdateResponseWrapper> {
-        private val activityReference: WeakReference<AppCompatActivity>;
+        private val activityReference: WeakReference<AppCompatActivity>
 
         init {
             this.activityReference = WeakReference(activity)
@@ -504,9 +474,9 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         }
 
         private fun handleCheckForUpdateResponse(update: UpdateResponse?, manualCheck: Boolean) {
-            val activity = this.activityReference.get()
+            val activity = this.activityReference.get() ?: return
 
-            if (activity == null || update == null) {
+            if (update == null) {
                 return
             }
 
@@ -546,8 +516,9 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                     ))
                     .build()
 
-            val notificationManager = activity.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.notify(0, notification)
+            with(activity.getSystemService(NOTIFICATION_SERVICE) as NotificationManager) {
+                notify(0, notification)
+            }
         }
     }
 
@@ -563,14 +534,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         }
 
         override fun success(rootDirs: RootDirs?, response: Response?) {
-            val activity = this.activityReference.get()
-
-            if (activity == null || rootDirs == null) {
-                return
-            }
-
-            val data = rootDirs.data
-            val rootPaths = data.map { it.location }.toHashSet()
+            val activity = this.activityReference.get() ?: return
+            val rootPaths = rootDirs?.data?.map { it.location }?.toHashSet() ?: emptySet<String>()
 
             with(PreferenceManager.getDefaultSharedPreferences(activity).edit()) {
                 putStringSet(Constants.Preferences.Fields.ROOT_DIRS, rootPaths)

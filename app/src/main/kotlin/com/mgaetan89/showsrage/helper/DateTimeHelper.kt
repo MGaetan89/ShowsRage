@@ -1,7 +1,6 @@
 package com.mgaetan89.showsrage.helper
 
 import android.content.Context
-import android.text.TextUtils
 import android.text.format.DateUtils
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -9,7 +8,7 @@ import java.util.*
 
 object DateTimeHelper {
     fun getRelativeDate(dateTime: String?, format: String, minResolution: Long): CharSequence? {
-        if (TextUtils.isEmpty(dateTime)) {
+        if (dateTime.isNullOrEmpty()) {
             return "N/A";
         }
 
@@ -18,7 +17,7 @@ object DateTimeHelper {
             val date = formatter.parse(dateTime)
 
             return DateUtils.getRelativeTimeSpanString(date.time, System.currentTimeMillis(), minResolution)
-        } catch(exception: ParseException) {
+        } catch (exception: ParseException) {
             return dateTime!!
         }
     }
@@ -40,7 +39,7 @@ object DateTimeHelper {
             val date = formatter.parse(dateTime)
 
             return date.time
-        } catch(exception: ParseException) {
+        } catch (exception: ParseException) {
             return 0L
         }
     }

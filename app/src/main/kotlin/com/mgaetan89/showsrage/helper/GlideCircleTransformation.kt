@@ -23,10 +23,11 @@ class GlideCircleTransformation(val pool: BitmapPool) : Transformation<Bitmap> {
         val shader = BitmapShader(source, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
 
         if (width != 0 || height != 0) {
-            val matrix = Matrix()
-            matrix.setTranslate(-width.toFloat(), -height.toFloat())
+            with(Matrix()) {
+                setTranslate(-width.toFloat(), -height.toFloat())
 
-            shader.setLocalMatrix(matrix)
+                shader.setLocalMatrix(this)
+            }
         }
 
         paint.shader = shader

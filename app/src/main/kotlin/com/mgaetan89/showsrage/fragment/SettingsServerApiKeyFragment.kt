@@ -4,7 +4,6 @@ import android.preference.Preference
 import android.preference.PreferenceManager
 import android.preference.PreferenceScreen
 import android.support.v7.app.AlertDialog
-import android.text.TextUtils
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.model.ApiKey
 import com.mgaetan89.showsrage.network.SickRageApi
@@ -65,7 +64,7 @@ open class SettingsServerApiKeyFragment : SettingsServerFragment() {
             val fragment = this.fragmentReference.get() ?: return
             val messageId: Int
 
-            if (TextUtils.isEmpty(apiKey)) {
+            if (apiKey.isNullOrEmpty()) {
                 messageId = R.string.get_api_key_error
             } else {
                 this.setPreferenceValue(fragment, "api_key", apiKey!!)

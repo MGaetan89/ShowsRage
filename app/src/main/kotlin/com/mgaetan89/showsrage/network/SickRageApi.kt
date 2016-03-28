@@ -83,7 +83,8 @@ class SickRageApi private constructor() : RequestInterceptor {
         this.credentials = getCredentials(
                 preferences.getBoolean("basic_auth", false),
                 preferences.getString("server_username", null),
-                preferences.getString("server_password", null))
+                preferences.getString("server_password", null)
+        )
         this.path = getApiPath(preferences.getString("server_path", ""))
         this.webRoot = getWebRoot(this.path)
 
@@ -186,13 +187,7 @@ class SickRageApi private constructor() : RequestInterceptor {
             }
 
             val builder = StringBuilder()
-
-            if (useHttps) {
-                builder.append("https://")
-            } else {
-                builder.append("http://")
-            }
-
+            builder.append(if (useHttps) "https://" else "http://")
             builder.append(address)
 
             if (portNumber.isNotEmpty()) {
@@ -220,11 +215,11 @@ class SickRageApi private constructor() : RequestInterceptor {
         }
 
         fun getApiPath(apiPath: String?): String {
-            if (apiPath == null || apiPath.isEmpty()) {
+            if (apiPath.isNullOrEmpty()) {
                 return ""
             }
 
-            return apiPath.replace("^/+|/$+".toRegex(), "")
+            return apiPath!!.replace("^/+|/$+".toRegex(), "")
         }
 
         fun getCredentials(useBasicAuthentication: Boolean, username: String?, password: String?): String? {
@@ -232,11 +227,11 @@ class SickRageApi private constructor() : RequestInterceptor {
                 return null
             }
 
-            if (username == null || username.isEmpty()) {
+            if (username.isNullOrEmpty()) {
                 return null
             }
 
-            if (password == null || password.isEmpty()) {
+            if (password.isNullOrEmpty()) {
                 return null
             }
 
@@ -244,11 +239,11 @@ class SickRageApi private constructor() : RequestInterceptor {
         }
 
         fun getWebRoot(apiPath: String?): String {
-            if (apiPath == null || apiPath.isEmpty()) {
+            if (apiPath.isNullOrEmpty()) {
                 return ""
             }
 
-            var path: String = apiPath
+            var path: String = apiPath!!
 
             // Add a leading /
             if (!path.startsWith("/")) {

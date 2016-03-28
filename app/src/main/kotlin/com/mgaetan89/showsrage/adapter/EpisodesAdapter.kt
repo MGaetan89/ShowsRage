@@ -79,32 +79,35 @@ class EpisodesAdapter(val episodes: List<Episode>, val seasonNumber: Int, val sh
             val context = view?.context ?: return
 
             if (view?.id == R.id.episode_actions) {
-                val popupMenu = PopupMenu(context, this.actions)
-                popupMenu.inflate(R.menu.episode_action)
-                popupMenu.setOnMenuItemClickListener(this)
-                popupMenu.show()
+                with(PopupMenu(context, this.actions)) {
+                    inflate(R.menu.episode_action)
+                    setOnMenuItemClickListener(this@ViewHolder)
+                    show()
+                }
             } else {
-                val episode = episodes[this.adapterPosition]
-                val intent = Intent(Constants.Intents.ACTION_EPISODE_SELECTED)
-                intent.putExtra(Constants.Bundle.EPISODE_MODEL, episode)
-                intent.putExtra(Constants.Bundle.EPISODE_NUMBER, getEpisodeNumber(this.adapterPosition))
-                intent.putExtra(Constants.Bundle.EPISODES_COUNT, itemCount)
-                intent.putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)
-                intent.putExtra(Constants.Bundle.SHOW_MODEL, show)
+                with(Intent(Constants.Intents.ACTION_EPISODE_SELECTED)) {
+                    putExtra(Constants.Bundle.EPISODE_MODEL, episodes[adapterPosition])
+                    putExtra(Constants.Bundle.EPISODE_NUMBER, getEpisodeNumber(adapterPosition))
+                    putExtra(Constants.Bundle.EPISODES_COUNT, itemCount)
+                    putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)
+                    putExtra(Constants.Bundle.SHOW_MODEL, show)
 
-                LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(this)
+                }
             }
         }
 
         override fun onMenuItemClick(item: MenuItem?): Boolean {
             val context = this.actions?.context ?: return false
-            val intent = Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED)
-            intent.putExtra(Constants.Bundle.EPISODE_NUMBER, getEpisodeNumber(this.adapterPosition))
-            intent.putExtra(Constants.Bundle.INDEXER_ID, show?.indexerId)
-            intent.putExtra(Constants.Bundle.MENU_ID, item?.itemId)
-            intent.putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)
 
-            LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+            with(Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED)) {
+                putExtra(Constants.Bundle.EPISODE_NUMBER, getEpisodeNumber(adapterPosition))
+                putExtra(Constants.Bundle.INDEXER_ID, show?.indexerId)
+                putExtra(Constants.Bundle.MENU_ID, item?.itemId)
+                putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)
+
+                LocalBroadcastManager.getInstance(context).sendBroadcast(this)
+            }
 
             return true
         }

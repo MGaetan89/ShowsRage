@@ -28,6 +28,7 @@
 	<string name="clear">Effacer</string>
 	<string name="clear_history_confirm">Etes-vous sûr de vouloir effacer l\'historique de SickRage ?</string>
 	<string name="close">Fermer</string>
+	<string name="close_menu">Fermer le menu</string>
 	<string name="connecting_to">Connexion à <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g>…</string>
 	<string name="connection_failed">Connexion à <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g> impossible</string>
 	<string name="connection_successful">Connexion réussie !</string>
@@ -100,6 +101,7 @@
 	<string name="no_results">Aucun résultat</string>
 	<string name="no_shows">Aucune série</string>
 	<string name="no_update">Aucune nouvelle mise à jour</string>
+	<string name="open_menu">Ouvrir le menu</string>
 	<string name="password">Mot de passe</string>
 	<string name="path">Chemin</string>
 	<string name="path_help">Si vous n\'êtes pas sûr, utilisez la valeur par défaut : \"api\".</string>

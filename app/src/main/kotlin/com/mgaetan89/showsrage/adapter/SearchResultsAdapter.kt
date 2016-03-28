@@ -43,14 +43,14 @@ class SearchResultsAdapter(val searchResults: List<SearchResultItem>) : Recycler
 
         override fun onClick(view: View?) {
             val context = view?.context ?: return
-            val searchResult = searchResults[this.adapterPosition]
-            val id = searchResult.indexerId
+            val id = searchResults[this.adapterPosition].indexerId
 
             if (id != 0) {
-                val intent = Intent(Constants.Intents.ACTION_SEARCH_RESULT_SELECTED)
-                intent.putExtra(Constants.Bundle.INDEXER_ID, id)
+                with(Intent(Constants.Intents.ACTION_SEARCH_RESULT_SELECTED)) {
+                    putExtra(Constants.Bundle.INDEXER_ID, id)
 
-                LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(this)
+                }
             }
         }
     }

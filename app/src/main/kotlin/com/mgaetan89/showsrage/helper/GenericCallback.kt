@@ -20,9 +20,11 @@ open class GenericCallback(activity: FragmentActivity) : Callback<GenericRespons
     }
 
     override fun success(genericResponse: GenericResponse?, response: Response?) {
-        val activity = this.getActivity() ?: return
+        if (genericResponse?.message?.isNotBlank() ?: false) {
+            val activity = this.getActivity() ?: return
 
-        Toast.makeText(activity, genericResponse?.message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, genericResponse!!.message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     protected fun getActivity(): FragmentActivity? {

@@ -72,11 +72,11 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int) : Recycle
         override fun onClick(view: View?) {
             val context = view?.context ?: return
 
-            val show = shows[this.adapterPosition]
-            val intent = Intent(Constants.Intents.ACTION_SHOW_SELECTED)
-            intent.putExtra(Constants.Bundle.SHOW_MODEL, show)
+            with(Intent(Constants.Intents.ACTION_SHOW_SELECTED)) {
+                putExtra(Constants.Bundle.SHOW_MODEL, shows[adapterPosition])
 
-            LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+                LocalBroadcastManager.getInstance(context).sendBroadcast(this)
+            }
         }
     }
 }

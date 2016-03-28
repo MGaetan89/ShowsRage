@@ -6,7 +6,6 @@ import android.preference.*
 import android.support.annotation.StringRes
 import android.support.annotation.XmlRes
 import android.support.v7.app.AlertDialog
-import android.text.TextUtils
 import com.mgaetan89.showsrage.BuildConfig
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
@@ -44,7 +43,7 @@ open class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPr
         if ("SettingsFragment".equals(this.javaClass.simpleName)) {
             val serverAddress = this.getPreferenceValue("server_address", "")
 
-            if (TextUtils.isEmpty(serverAddress)) {
+            if (serverAddress.isNullOrEmpty()) {
                 AlertDialog.Builder(this.activity)
                         .setIcon(R.drawable.ic_notification)
                         .setTitle(R.string.app_name)

@@ -36,7 +36,9 @@ class UpdateActivity : AppCompatActivity(), Callback<GenericResponse>, DialogInt
     }
 
     override fun success(genericResponse: GenericResponse?, response: Response?) {
-        Toast.makeText(this, genericResponse?.message, Toast.LENGTH_SHORT).show()
+        if (genericResponse?.message?.isNotBlank() ?: false) {
+            Toast.makeText(this, genericResponse!!.message, Toast.LENGTH_SHORT).show()
+        }
 
         this.finish()
     }

@@ -28,6 +28,7 @@
 	<string name="clear">Clear</string>
 	<string name="clear_history_confirm">Are you sure you want to clear SickRage\'s history?</string>
 	<string name="close">Close</string>
+	<string name="close_menu">Close menu</string>
 	<string name="connecting_to">Connecting to <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g>…</string>
 	<string name="connection_failed">Connection to <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g> failed</string>
 	<string name="connection_successful">Connection successful!</string>
@@ -100,6 +101,7 @@
 	<string name="no_plot">No plot</string>
 	<string name="no_shows">No shows</string>
 	<string name="no_update">No new update</string>
+	<string name="open_menu">Open menu</string>
 	<string name="password">Password</string>
 	<string name="path">Path</string>
 	<string name="path_help">If not sure, keep the default value: \"api\".</string>

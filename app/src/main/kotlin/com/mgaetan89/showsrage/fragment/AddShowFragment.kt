@@ -52,11 +52,12 @@ class AddShowFragment : Fragment(), Callback<SearchResults>, SearchView.OnQueryT
         val searchManager = activity.getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchMenu = menu?.findItem(R.id.menu_search)
 
-        val searchView = MenuItemCompat.getActionView(searchMenu) as SearchView
-        searchView.setIconifiedByDefault(false)
-        searchView.setOnQueryTextListener(this)
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.componentName))
-        searchView.setQuery(getQueryFromIntent(activity.intent), true)
+        with(MenuItemCompat.getActionView(searchMenu) as SearchView) {
+            setIconifiedByDefault(false)
+            setOnQueryTextListener(this@AddShowFragment)
+            setSearchableInfo(searchManager.getSearchableInfo(activity.componentName))
+            setQuery(getQueryFromIntent(activity.intent), true)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -122,27 +123,15 @@ class AddShowFragment : Fragment(), Callback<SearchResults>, SearchView.OnQueryT
 
     companion object {
         fun getQueryFromIntent(intent: Intent?): String? {
-            if (intent == null) {
+            if (!Intent.ACTION_SEARCH.equals(intent?.action)) {
                 return ""
             }
 
-            if (!Intent.ACTION_SEARCH.equals(intent.action)) {
-                return ""
-            }
-
-            return intent.getStringExtra(SearchManager.QUERY)
+            return intent!!.getStringExtra(SearchManager.QUERY)
         }
 
-        fun getSearchResults(searchResults: SearchResults?): List<SearchResultItem> {
-            return searchResults?.data?.results ?: emptyList()
-        }
+        fun getSearchResults(searchResults: SearchResults?) = searchResults?.data?.results ?: emptyList()
 
-        fun isQueryValid(query: String?): Boolean {
-            if (query.isNullOrEmpty()) {
-                return false
-            }
-
-            return !query!!.trim().isEmpty()
-        }
+        fun isQueryValid(query: String?) = !query.isNullOrBlank()
     }
 }

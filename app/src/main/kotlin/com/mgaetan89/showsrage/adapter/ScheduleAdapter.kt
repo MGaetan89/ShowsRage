@@ -55,10 +55,11 @@ class ScheduleAdapter(val schedules: List<Schedule>) : RecyclerView.Adapter<Sche
             val context = view?.context ?: return
 
             if (view?.id == R.id.episode_actions) {
-                val popupMenu = PopupMenu(context, this.actions)
-                popupMenu.inflate(R.menu.episode_action)
-                popupMenu.setOnMenuItemClickListener(this)
-                popupMenu.show()
+                with(PopupMenu(context, this.actions)) {
+                    inflate(R.menu.episode_action)
+                    setOnMenuItemClickListener(this@ViewHolder)
+                    show()
+                }
             } else {
                 val schedule = schedules[adapterPosition]
                 val plot = schedule.episodePlot
@@ -89,15 +90,16 @@ class ScheduleAdapter(val schedules: List<Schedule>) : RecyclerView.Adapter<Sche
 
         override fun onMenuItemClick(item: MenuItem?): Boolean {
             val context = this.actions?.context ?: return false
-
             val schedule = schedules[adapterPosition]
-            val intent = Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED)
-            intent.putExtra(Constants.Bundle.EPISODE_NUMBER, schedule.episode)
-            intent.putExtra(Constants.Bundle.INDEXER_ID, schedule.indexerId)
-            intent.putExtra(Constants.Bundle.MENU_ID, item?.itemId)
-            intent.putExtra(Constants.Bundle.SEASON_NUMBER, schedule.season)
 
-            LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+            with(Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED)) {
+                putExtra(Constants.Bundle.EPISODE_NUMBER, schedule.episode)
+                putExtra(Constants.Bundle.INDEXER_ID, schedule.indexerId)
+                putExtra(Constants.Bundle.MENU_ID, item?.itemId)
+                putExtra(Constants.Bundle.SEASON_NUMBER, schedule.season)
+
+                LocalBroadcastManager.getInstance(context).sendBroadcast(this)
+            }
 
             return true
         }
