@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.BitmapImageViewTarget
+import jp.wasabeef.glide.transformations.CropCircleTransformation
 
 object ImageLoader {
     interface OnImageResult {
@@ -28,9 +29,7 @@ object ImageLoader {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
 
         if (circleTransform) {
-            val bitmapPool = Glide.get(context).bitmapPool
-
-            glide.transform(GlideCircleTransformation(bitmapPool))
+            glide.transform(CropCircleTransformation(context))
         }
 
         glide.into(BitmapTarget(imageView!!, paletteListener, onImageResult))

@@ -14,6 +14,16 @@
 		</PreferenceScreen>
 
 		<PreferenceScreen
+			android:key="glide_transformations"
+			android:summary="Version 2.0.0"
+			android:title="Glide Transformations">
+
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:data="https://github.com/wasabeef/glide-transformations" />
+		</PreferenceScreen>
+
+		<PreferenceScreen
 			android:key="okhttp"
 			android:summary="Version 2.5.0"
 			android:title="OkHttp">
@@ -25,7 +35,7 @@
 
 		<PreferenceScreen
 			android:key="realm_java"
-			android:summary="Version 0.87.5"
+			android:summary="Version 0.88.2"
 			android:title="Realm Java">
 
 			<intent
