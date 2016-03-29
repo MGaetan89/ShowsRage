@@ -12,9 +12,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.SearchView;
 import android.util.SparseArray;
 import android.view.Menu;
@@ -216,7 +216,7 @@ public class ShowsFragment extends TabbedFragment implements Callback<Shows>, Se
 
 	@NotNull
 	@Override
-	protected FragmentStatePagerAdapter getAdapter() {
+	protected PagerAdapter getAdapter() {
 		return new ShowsPagerAdapter(this.getChildFragmentManager(), this, this.shows);
 	}
 

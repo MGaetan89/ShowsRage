@@ -54,6 +54,7 @@ import com.mgaetan89.showsrage.model.Quality;
 import com.mgaetan89.showsrage.model.Serie;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.SingleShow;
+import com.mgaetan89.showsrage.model.ThemeColors;
 import com.mgaetan89.showsrage.network.OmDbApi;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
@@ -317,6 +318,12 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 
 	@Override
 	public void onDestroy() {
+		FragmentActivity activity = this.getActivity();
+
+		if (activity instanceof MainActivity) {
+			((MainActivity) activity).resetThemeColors();
+		}
+
 		if (this.serviceConnection != null) {
 			this.getContext().unbindService(this.serviceConnection);
 		}
@@ -361,21 +368,19 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	@Override
 	public void onGenerated(Palette palette) {
 		FragmentActivity activity = this.getActivity();
+		ThemeColors colors = Utils.INSTANCE.getThemeColors(this.getContext(), palette);
+		int colorPrimary = colors.getPrimary();
 
-		if (!(activity instanceof MainActivity)) {
+		if (activity instanceof MainActivity) {
+			((MainActivity) activity).setThemeColors(colors);
+		}
+
+		if (colorPrimary == 0) {
 			return;
 		}
 
-		((MainActivity) activity).setPalette(palette);
-
-		int tintColor = activity.getIntent().getIntExtra(Constants.Bundle.INSTANCE.getCOLOR_PRIMARY(), 0);
-
-		if (tintColor == 0) {
-			return;
-		}
-
-		ColorStateList colorStateList = ColorStateList.valueOf(tintColor);
-		int textColor = Utils.INSTANCE.getContrastColor(tintColor);
+		ColorStateList colorStateList = ColorStateList.valueOf(colorPrimary);
+		int textColor = Utils.INSTANCE.getContrastColor(colorPrimary);
 
 		if (this.imdb != null) {
 			ViewCompat.setBackgroundTintList(this.imdb, colorStateList);
@@ -394,24 +399,20 @@ public class ShowOverviewFragment extends Fragment implements Callback<SingleSho
 	}
 
 	@Override
-	public void onImageError(ImageView imageView, @Nullable Exception exception, @Nullable Drawable errorDrawable) {
-		if (imageView != null) {
-			ViewParent parent = imageView.getParent();
+	public void onImageError(@NonNull ImageView imageView, @Nullable Exception exception, @Nullable Drawable errorDrawable) {
+		ViewParent parent = imageView.getParent();
 
-			if (parent instanceof View) {
-				((View) parent).setVisibility(View.GONE);
-			}
+		if (parent instanceof View) {
+			((View) parent).setVisibility(View.GONE);
 		}
 	}
 
 	@Override
-	public void onImageReady(ImageView imageView, Bitmap resource) {
-		if (imageView != null) {
-			ViewParent parent = imageView.getParent();
+	public void onImageReady(@NonNull ImageView imageView, Bitmap resource) {
+		ViewParent parent = imageView.getParent();
 
-			if (parent instanceof View) {
-				((View) parent).setVisibility(View.VISIBLE);
-			}
+		if (parent instanceof View) {
+			((View) parent).setVisibility(View.VISIBLE);
 		}
 	}
 

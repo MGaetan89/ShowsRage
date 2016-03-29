@@ -48,6 +48,7 @@ import com.mgaetan89.showsrage.model.OmDbEpisode;
 import com.mgaetan89.showsrage.model.PlayingVideoData;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.SingleEpisode;
+import com.mgaetan89.showsrage.model.ThemeColors;
 import com.mgaetan89.showsrage.network.OmDbApi;
 import com.mgaetan89.showsrage.network.SickRageApi;
 import com.mgaetan89.showsrage.view.ColoredMediaRouteActionProvider;
@@ -225,18 +226,22 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		inflater.inflate(R.menu.episode, menu);
 
 		this.castMenu = menu.findItem(R.id.menu_cast);
-		Intent intent = this.getActivity().getIntent();
+		FragmentActivity activity = this.getActivity();
 		MediaRouteActionProvider mediaRouteActionProvider = (MediaRouteActionProvider) MenuItemCompat.getActionProvider(this.castMenu);
 
 		if (mediaRouteActionProvider != null) {
 			mediaRouteActionProvider.setRouteSelector(this.getRouteSelector());
 		}
 
-		if (intent != null && mediaRouteActionProvider instanceof ColoredMediaRouteActionProvider) {
-			int colorPrimary = intent.getIntExtra(Constants.Bundle.INSTANCE.getCOLOR_PRIMARY(), 0);
+		if (activity instanceof MainActivity && mediaRouteActionProvider instanceof ColoredMediaRouteActionProvider) {
+			ThemeColors colors = ((MainActivity) activity).getThemColors();
 
-			if (colorPrimary != 0) {
-				((ColoredMediaRouteActionProvider) mediaRouteActionProvider).setButtonColor(Utils.INSTANCE.getContrastColor(colorPrimary));
+			if (colors != null) {
+				int colorPrimary = colors.getPrimary();
+
+				if (colorPrimary != 0) {
+					((ColoredMediaRouteActionProvider) mediaRouteActionProvider).setButtonColor(Utils.INSTANCE.getContrastColor(colorPrimary));
+				}
 			}
 		}
 
@@ -279,11 +284,11 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 			if (searchEpisode != null) {
 				FragmentActivity activity = this.getActivity();
 
-				if (activity != null) {
-					Intent intent = activity.getIntent();
+				if (activity instanceof MainActivity) {
+					ThemeColors colors = ((MainActivity) activity).getThemColors();
 
-					if (intent != null) {
-						int colorPrimary = intent.getIntExtra(Constants.Bundle.INSTANCE.getCOLOR_PRIMARY(), 0);
+					if (colors != null) {
+						int colorPrimary = colors.getPrimary();
 
 						if (colorPrimary != 0) {
 							searchEpisode.setBackgroundTintList(ColorStateList.valueOf(colorPrimary));

@@ -3,7 +3,7 @@ package com.mgaetan89.showsrage.fragment
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import com.mgaetan89.showsrage.R
 
 abstract class TabbedFragment : Fragment() {
-    private var adapter: FragmentStatePagerAdapter? = null
+    private var adapter: PagerAdapter? = null
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
 
@@ -49,7 +49,7 @@ abstract class TabbedFragment : Fragment() {
         super.onDestroyView()
     }
 
-    protected abstract fun getAdapter(): FragmentStatePagerAdapter
+    protected abstract fun getAdapter(): PagerAdapter
 
     protected open fun getTabMode() = TabLayout.MODE_SCROLLABLE
 

@@ -3,7 +3,7 @@ package com.mgaetan89.showsrage.fragment
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.view.PagerAdapter
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
@@ -51,7 +51,7 @@ class ShowFragment : TabbedFragment(), Callback<Seasons> {
         this.updateState(this.seasons.isEmpty())
     }
 
-    override fun getAdapter(): FragmentStatePagerAdapter {
+    override fun getAdapter(): PagerAdapter {
         return ShowPagerAdapter(this.childFragmentManager, this, this.seasons)
     }
 

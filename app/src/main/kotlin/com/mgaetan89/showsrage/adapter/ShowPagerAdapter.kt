@@ -3,13 +3,13 @@ package com.mgaetan89.showsrage.adapter
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.app.FragmentPagerAdapter
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.fragment.SeasonFragment
 import com.mgaetan89.showsrage.fragment.ShowOverviewFragment
 
-class ShowPagerAdapter(fragmentManager: FragmentManager, val fragment: Fragment, val seasons: List<Int>) : FragmentStatePagerAdapter(fragmentManager) {
+class ShowPagerAdapter(fragmentManager: FragmentManager, val fragment: Fragment, val seasons: List<Int>) : FragmentPagerAdapter(fragmentManager) {
     // We have at least a tab for the show overview
     override fun getCount() = this.seasons.size + 1
 

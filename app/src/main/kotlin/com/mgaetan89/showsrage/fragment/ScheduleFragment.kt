@@ -1,7 +1,7 @@
 package com.mgaetan89.showsrage.fragment
 
 import android.os.Bundle
-import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.view.PagerAdapter
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.SchedulePagerAdapter
@@ -64,7 +64,7 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
         this.updateState(this.sections.isEmpty())
     }
 
-    override fun getAdapter(): FragmentStatePagerAdapter {
+    override fun getAdapter(): PagerAdapter {
         return SchedulePagerAdapter(this.childFragmentManager, this.sections, this.schedules)
     }
 

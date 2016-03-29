@@ -9,8 +9,6 @@ object Constants {
     val OMDB_URL = "http://www.omdbapi.com/"
 
     object Bundle {
-        val COLOR_ACCENT = "color_accent"
-        val COLOR_PRIMARY = "color_primary"
         val EPISODE_MODEL = "episode_model"
         val EPISODE_NUMBER = "episode_number"
         val EPISODES_COUNT = "episodes_count"

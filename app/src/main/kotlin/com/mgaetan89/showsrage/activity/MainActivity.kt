@@ -25,7 +25,6 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
-import android.support.v7.graphics.Palette
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
@@ -38,10 +37,7 @@ import com.mgaetan89.showsrage.ShowsRageApplication
 import com.mgaetan89.showsrage.fragment.*
 import com.mgaetan89.showsrage.helper.ShowsRageReceiver
 import com.mgaetan89.showsrage.helper.Utils
-import com.mgaetan89.showsrage.model.GenericResponse
-import com.mgaetan89.showsrage.model.RootDirs
-import com.mgaetan89.showsrage.model.UpdateResponse
-import com.mgaetan89.showsrage.model.UpdateResponseWrapper
+import com.mgaetan89.showsrage.model.*
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.view.ColoredToolbar
 import retrofit.Callback
@@ -57,6 +53,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
     private var navigationView: NavigationView? = null
     private val receiver = ShowsRageReceiver(this)
     private var tabLayout: TabLayout? = null
+    private var themeColors: ThemeColors? = null
     private var toolbar: ColoredToolbar? = null
 
     fun displayHomeAsUp(displayHomeAsUp: Boolean) {
@@ -74,6 +71,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
     override fun failure(error: RetrofitError?) {
         error?.printStackTrace()
     }
+
+    fun getThemColors() = this.themeColors
 
     override fun onBackPressed() {
         if (this.navigationView != null && this.drawerLayout?.isDrawerOpen(this.navigationView) ?: false) {
@@ -188,23 +187,69 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         return super.onOptionsItemSelected(item)
     }
 
-    fun setPalette(palette: Palette) {
-        // Define the accent color
-        val accentCandidates = arrayOf(
-                palette.darkMutedSwatch, palette.mutedSwatch, palette.lightMutedSwatch
-        )
-        val accent = accentCandidates.firstOrNull { it != null }
-        val accentColor = accent?.rgb ?: ContextCompat.getColor(this, R.color.accent)
+    fun resetThemeColors() {
+        val colorAccent = ContextCompat.getColor(this, R.color.accent)
+        val colorPrimary = ContextCompat.getColor(this, R.color.primary)
 
-        // Define the primary color
-        val primaryCandidates = arrayOf(
-                palette.vibrantSwatch, palette.lightVibrantSwatch, palette.darkVibrantSwatch,
-                palette.lightMutedSwatch, palette.mutedSwatch, palette.darkMutedSwatch
-        )
-        val primary = primaryCandidates.firstOrNull { it != null }
-        val primaryColor = primary?.rgb ?: ContextCompat.getColor(this, R.color.primary)
+        this.setThemeColors(ThemeColors(colorPrimary, colorAccent))
+    }
 
-        this.setThemeColors(primaryColor, accentColor)
+    fun setThemeColors(colors: ThemeColors) {
+        this.themeColors = colors
+
+        val (colorPrimary, colorAccent) = this.themeColors!!
+        val textColor = Utils.getContrastColor(colorPrimary)
+
+        this.appBarLayout?.setBackgroundColor(colorPrimary)
+
+        if (this.drawerHeader != null) {
+            this.drawerHeader!!.setBackgroundColor(colorPrimary)
+
+            val logo = this.drawerHeader!!.findViewById(R.id.app_logo) as ImageView?
+            val name = this.drawerHeader!!.findViewById(R.id.app_name) as TextView?
+
+            if (logo != null) {
+                val drawable = DrawableCompat.wrap(logo.drawable)
+                DrawableCompat.setTint(drawable, textColor)
+            }
+
+            name?.setTextColor(textColor)
+        }
+
+        if (this.navigationView != null) {
+            val colorsIcon = intArrayOf(colorPrimary, this.navigationView!!.itemIconTintList?.defaultColor ?: Color.WHITE)
+            val colorsText = intArrayOf(colorPrimary, this.navigationView!!.itemTextColor?.defaultColor ?: Color.WHITE)
+            val states = arrayOf(
+                    intArrayOf(android.R.attr.state_checked),
+                    intArrayOf()
+            )
+
+            this.navigationView!!.itemIconTintList = ColorStateList(states, colorsIcon)
+            this.navigationView!!.itemTextColor = ColorStateList(states, colorsText)
+        }
+
+        if (this.tabLayout != null) {
+            val selectedTextColor = ColorUtils.setAlphaComponent(textColor, (0.7f * 255f).toInt())
+
+            this.tabLayout!!.setSelectedTabIndicatorColor(colorAccent)
+            this.tabLayout!!.setTabTextColors(selectedTextColor, textColor)
+        }
+
+        this.toolbar?.setItemColor(textColor)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val colorPrimaryDark = floatArrayOf(0f, 0f, 0f)
+            ColorUtils.colorToHSL(colorPrimary, colorPrimaryDark)
+            colorPrimaryDark[2] *= COLOR_DARK_FACTOR
+
+            this.window.statusBarColor = ColorUtils.HSLToColor(colorPrimaryDark)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (textColor == Color.BLACK) {
+                this.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+        }
     }
 
     override fun success(genericResponse: GenericResponse?, response: Response?) {
@@ -263,18 +308,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         }
 
         this.setSupportActionBar(this.toolbar)
-
-        val intent = this.intent
-
-        if (intent != null) {
-            // Set the colors of the Activity
-            val colorAccent = intent.getIntExtra(Constants.Bundle.COLOR_ACCENT, 0)
-            val colorPrimary = intent.getIntExtra(Constants.Bundle.COLOR_PRIMARY, 0)
-
-            if (colorPrimary != 0) {
-                this.setThemeColors(colorPrimary, colorAccent)
-            }
-        }
 
         this.displayStartFragment()
     }
@@ -346,71 +379,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                     .remove(fragment)
                     .commit()
         }
-    }
-
-    private fun resetThemeColors() {
-        val colorAccent = ContextCompat.getColor(this, R.color.accent)
-        val colorPrimary = ContextCompat.getColor(this, R.color.primary)
-
-        this.setThemeColors(colorPrimary, colorAccent)
-    }
-
-    private fun setThemeColors(colorPrimary: Int, colorAccent: Int) {
-        val textColor = Utils.getContrastColor(colorPrimary)
-
-        this.appBarLayout?.setBackgroundColor(colorPrimary)
-
-        if (this.drawerHeader != null) {
-            this.drawerHeader!!.setBackgroundColor(colorPrimary)
-
-            val logo = this.drawerHeader!!.findViewById(R.id.app_logo) as ImageView?
-            val name = this.drawerHeader!!.findViewById(R.id.app_name) as TextView?
-
-            if (logo != null) {
-                val drawable = DrawableCompat.wrap(logo.drawable)
-                DrawableCompat.setTint(drawable, textColor)
-            }
-
-            name?.setTextColor(textColor)
-        }
-
-        if (this.navigationView != null) {
-            val colorsIcon = intArrayOf(colorPrimary, this.navigationView!!.itemIconTintList?.defaultColor ?: Color.WHITE)
-            val colorsText = intArrayOf(colorPrimary, this.navigationView!!.itemTextColor?.defaultColor ?: Color.WHITE)
-            val states = arrayOf(
-                    intArrayOf(android.R.attr.state_checked),
-                    intArrayOf()
-            )
-
-            this.navigationView!!.itemIconTintList = ColorStateList(states, colorsIcon)
-            this.navigationView!!.itemTextColor = ColorStateList(states, colorsText)
-        }
-
-        if (this.tabLayout != null) {
-            val selectedTextColor = ColorUtils.setAlphaComponent(textColor, (0.7f * 255f).toInt())
-
-            this.tabLayout!!.setSelectedTabIndicatorColor(colorAccent)
-            this.tabLayout!!.setTabTextColors(selectedTextColor, textColor)
-        }
-
-        this.toolbar?.setItemColor(textColor)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val colorPrimaryDark = floatArrayOf(0f, 0f, 0f)
-            ColorUtils.colorToHSL(colorPrimary, colorPrimaryDark)
-            colorPrimaryDark[2] *= COLOR_DARK_FACTOR
-
-            this.window.statusBarColor = ColorUtils.HSLToColor(colorPrimaryDark)
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (textColor == Color.BLACK) {
-                this.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            }
-        }
-
-        this.intent.putExtra(Constants.Bundle.COLOR_ACCENT, colorAccent)
-        this.intent.putExtra(Constants.Bundle.COLOR_PRIMARY, colorPrimary)
     }
 
     companion object {
