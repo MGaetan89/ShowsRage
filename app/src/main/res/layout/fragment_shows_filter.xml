@@ -18,25 +18,26 @@
 
 	<RadioGroup
 		android:id="@+id/filter_active_paused"
-		android:layout_width="wrap_content"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 
 		<RadioButton
 			android:id="@+id/filter_active"
-			android:layout_width="wrap_content"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/active" />
 
 		<RadioButton
 			android:id="@+id/filter_paused"
-			android:layout_width="wrap_content"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/paused" />
 
 		<RadioButton
 			android:id="@+id/filter_all"
-			android:layout_width="wrap_content"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:checked="true"
 			android:text="@string/all" />
 	</RadioGroup>
 
@@ -52,25 +53,26 @@
 
 	<CheckBox
 		android:id="@+id/filter_status_continuing"
-		android:layout_width="wrap_content"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="@string/continuing" />
 
 	<CheckBox
 		android:id="@+id/filter_status_ended"
-		android:layout_width="wrap_content"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="@string/ended" />
 
 	<CheckBox
 		android:id="@+id/filter_status_unknown"
-		android:layout_width="wrap_content"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="@string/unknown" />
 
 	<CheckBox
 		android:id="@+id/filter_status_all"
-		android:layout_width="wrap_content"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:checked="true"
 		android:text="@string/all" />
 </LinearLayout>
