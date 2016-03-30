@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.IdRes;
-import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -31,8 +29,6 @@ import com.mgaetan89.showsrage.network.SickRageApi;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -41,31 +37,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class ShowsFragment extends TabbedFragment implements Callback<Shows>, SearchView.OnQueryTextListener {
-	@IntDef({FILTER_PAUSED_ACTIVE_ACTIVE, FILTER_PAUSED_ACTIVE_BOTH, FILTER_PAUSED_ACTIVE_PAUSED})
-	@Retention(RetentionPolicy.SOURCE)
-	private @interface FilterMode {
-	}
-
-	@IntDef({FILTER_STATUS_ALL, FILTER_STATUS_ENDED, FILTER_STATUS_CONTINUING, FILTER_STATUS_UNKNOWN})
-	@Retention(RetentionPolicy.SOURCE)
-	private @interface FilterStatus {
-	}
-
-	/* package */ static final int FILTER_PAUSED_ACTIVE_ACTIVE = 0;
-	/* package */ static final int FILTER_PAUSED_ACTIVE_BOTH = 1;
-	/* package */ static final int FILTER_PAUSED_ACTIVE_PAUSED = 2;
-
-	/* package */ static final int FILTER_STATUS_ALL = 0;
-	/* package */ static final int FILTER_STATUS_ENDED = 1;
-	/* package */ static final int FILTER_STATUS_CONTINUING = 2;
-	/* package */ static final int FILTER_STATUS_UNKNOWN = 3;
-
-	@FilterMode
-	private int filterPausedActiveMode = FILTER_PAUSED_ACTIVE_BOTH;
-
-	@FilterStatus
-	private int filterStatus = FILTER_STATUS_ALL;
-
 	@Nullable
 	private String searchQuery = null;
 
@@ -118,35 +89,16 @@ public class ShowsFragment extends TabbedFragment implements Callback<Shows>, Se
 		super.onDestroy();
 	}
 
-	// TODO
-	public boolean onNavigationItemSelected(MenuItem item) {
-		// Filter Paused/Active shows
-		/*
-		if (item.getGroupId() == R.id.filter_paused_active) {
-			this.filterPausedActiveMode = getFilterPausedActiveMode(item.getItemId());
-
-			this.sendFilterMessage();
-
-			return true;
-		}
-
-		// Filter by show status
-		if (item.getGroupId() == R.id.filter_status) {
-			this.filterStatus = getFilterStatus(item.getItemId());
-
-			this.sendFilterMessage();
-
-			return true;
-		}
-		*/
-
-		return false;
-	}
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.menu_filter) {
-			new ShowsFiltersFragment().show(this.getChildFragmentManager(), "shows_filter");
+			Bundle arguments = new Bundle();
+			arguments.putString(Constants.Bundle.INSTANCE.getSEARCH_QUERY(), this.searchQuery);
+
+			ShowsFiltersFragment fragment = new ShowsFiltersFragment();
+			fragment.setArguments(arguments);
+
+			fragment.show(this.getChildFragmentManager(), "shows_filter");
 
 			return true;
 		}
@@ -212,47 +164,13 @@ public class ShowsFragment extends TabbedFragment implements Callback<Shows>, Se
 		}
 
 		this.updateState(!splitShowsAnimes);
+		this.sendFilterMessage();
 	}
 
 	@NotNull
 	@Override
 	protected PagerAdapter getAdapter() {
 		return new ShowsPagerAdapter(this.getChildFragmentManager(), this, this.shows);
-	}
-
-	@FilterMode
-	/* package */ static int getFilterPausedActiveMode(@IdRes int filterId) {
-		switch (filterId) {
-			case R.id.filter_active:
-				return FILTER_PAUSED_ACTIVE_ACTIVE;
-
-			case R.id.filter_all:
-				return FILTER_PAUSED_ACTIVE_BOTH;
-
-			case R.id.filter_paused:
-				return FILTER_PAUSED_ACTIVE_PAUSED;
-		}
-
-		return FILTER_PAUSED_ACTIVE_BOTH;
-	}
-
-	@FilterStatus
-	/* package */ static int getFilterStatus(@IdRes int filterId) {
-		switch (filterId) {
-			case R.id.filter_status_all:
-				return FILTER_STATUS_ALL;
-
-			case R.id.filter_status_continuing:
-				return FILTER_STATUS_CONTINUING;
-
-			case R.id.filter_status_ended:
-				return FILTER_STATUS_ENDED;
-
-			case R.id.filter_status_unknown:
-				return FILTER_STATUS_UNKNOWN;
-		}
-
-		return FILTER_STATUS_ALL;
 	}
 
 	@Override
@@ -262,8 +180,6 @@ public class ShowsFragment extends TabbedFragment implements Callback<Shows>, Se
 
 	/* package */ void sendFilterMessage() {
 		Intent intent = new Intent(Constants.Intents.INSTANCE.getACTION_FILTER_SHOWS());
-		intent.putExtra(Constants.Bundle.INSTANCE.getFILTER_MODE(), this.filterPausedActiveMode);
-		intent.putExtra(Constants.Bundle.INSTANCE.getFILTER_STATUS(), this.filterStatus);
 		intent.putExtra(Constants.Bundle.INSTANCE.getSEARCH_QUERY(), this.searchQuery);
 
 		LocalBroadcastManager.getInstance(this.getContext()).sendBroadcast(intent);

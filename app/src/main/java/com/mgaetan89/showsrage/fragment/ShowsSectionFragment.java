@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
@@ -27,6 +28,7 @@ import com.mgaetan89.showsrage.model.ShowStat;
 import com.mgaetan89.showsrage.model.ShowStatWrapper;
 import com.mgaetan89.showsrage.model.ShowStats;
 import com.mgaetan89.showsrage.model.ShowStatsWrapper;
+import com.mgaetan89.showsrage.model.ShowsFilters;
 import com.mgaetan89.showsrage.network.SickRageApi;
 
 import java.lang.ref.WeakReference;
@@ -261,15 +263,16 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 				return;
 			}
 
-			int filterMode = intent.getIntExtra(Constants.Bundle.INSTANCE.getFILTER_MODE(), ShowsFragment.FILTER_PAUSED_ACTIVE_BOTH);
-			int filterStatus = intent.getIntExtra(Constants.Bundle.INSTANCE.getFILTER_STATUS(), ShowsFragment.FILTER_STATUS_ALL);
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			String filterState = preferences.getString(Constants.Preferences.Fields.INSTANCE.getSHOW_FILTER_STATE(), Constants.Preferences.Defaults.INSTANCE.getSHOW_FILTER_STATE());
+			int filterStatus = preferences.getInt(Constants.Preferences.Fields.INSTANCE.getSHOW_FILTER_STATUS(), Constants.Preferences.Defaults.INSTANCE.getSHOW_FILTER_STATUS());
 			String searchQuery = intent.getStringExtra(Constants.Bundle.INSTANCE.getSEARCH_QUERY());
 
 			Collection<Show> filteredShows = new ArrayList<>();
 			Collection<Show> shows = fragment.shows;
 
 			for (Show show : shows) {
-				if (match(show, filterMode, filterStatus, searchQuery)) {
+				if (match(show, ShowsFilters.State.valueOf(filterState), filterStatus, searchQuery)) {
 					filteredShows.add(show);
 				}
 			}
@@ -284,24 +287,26 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 		}
 
 		/* package */
-		static boolean match(@Nullable Show show, int filterMode, int filterStatus, String searchQuery) {
+		static boolean match(@Nullable Show show, ShowsFilters.State filterState, int filterStatus, String searchQuery) {
 			return show != null &&
-					matchFilterMode(show, filterMode) &&
+					matchFilterState(show, filterState) &&
 					matchFilterStatus(show, filterStatus) &&
 					matchSearchQuery(show, searchQuery);
 		}
 
 		/* package */
-		static boolean matchFilterMode(@NonNull Show show, int filterMode) {
-			switch (filterMode) {
-				case ShowsFragment.FILTER_PAUSED_ACTIVE_ACTIVE:
-					return show.getPaused() == 0;
+		static boolean matchFilterState(@NonNull Show show, @Nullable ShowsFilters.State filterState) {
+			if (filterState != null) {
+				switch (filterState) {
+					case ACTIVE:
+						return show.getPaused() == 0;
 
-				case ShowsFragment.FILTER_PAUSED_ACTIVE_BOTH:
-					return true;
+					case ALL:
+						return true;
 
-				case ShowsFragment.FILTER_PAUSED_ACTIVE_PAUSED:
-					return show.getPaused() == 1;
+					case PAUSED:
+						return show.getPaused() == 1;
+				}
 			}
 
 			return false;
@@ -309,18 +314,25 @@ public class ShowsSectionFragment extends Fragment implements View.OnClickListen
 
 		/* package */
 		static boolean matchFilterStatus(@NonNull Show show, int filterStatus) {
-			switch (filterStatus) {
-				case ShowsFragment.FILTER_STATUS_ALL:
-					return true;
+			if (ShowsFilters.Status.Companion.isAll(filterStatus)) {
+				return true;
+			}
 
-				case ShowsFragment.FILTER_STATUS_CONTINUING:
-					return "continuing".equalsIgnoreCase(show.getStatus());
+			String showStatus = show.getStatus();
 
-				case ShowsFragment.FILTER_STATUS_ENDED:
-					return "ended".equalsIgnoreCase(show.getStatus());
+			if (showStatus != null) {
+				showStatus = showStatus.toLowerCase();
 
-				case ShowsFragment.FILTER_STATUS_UNKNOWN:
-					return "unknown".equalsIgnoreCase(show.getStatus());
+				switch (showStatus) {
+					case "continuing":
+						return ShowsFilters.Status.Companion.isContinuing(filterStatus);
+
+					case "ended":
+						return ShowsFilters.Status.Companion.isEnded(filterStatus);
+
+					case "unknown":
+						return ShowsFilters.Status.Companion.isUnknown(filterStatus);
+				}
 			}
 
 			return false;

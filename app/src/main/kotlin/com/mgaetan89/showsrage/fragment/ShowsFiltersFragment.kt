@@ -50,7 +50,10 @@ class ShowsFiltersFragment : DialogFragment(), CompoundButton.OnCheckedChangeLis
             apply()
         }
 
-        LocalBroadcastManager.getInstance(this.context).sendBroadcast(Intent(Constants.Intents.ACTION_FILTER_SHOWS))
+        val intent = Intent(Constants.Intents.ACTION_FILTER_SHOWS)
+        intent.putExtra(Constants.Bundle.SEARCH_QUERY, this.arguments?.getString(Constants.Bundle.SEARCH_QUERY))
+
+        LocalBroadcastManager.getInstance(this.context).sendBroadcast(intent)
 
         this.dismiss()
     }
