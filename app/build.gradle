@@ -12,7 +12,7 @@ if (project.rootProject.file('local.properties').exists()) {
 
 android {
 	compileSdkVersion 23
-	buildToolsVersion '23.0.2'
+	buildToolsVersion '23.0.3'
 
 	defaultConfig {
 		applicationId 'com.mgaetan89.showsrage'
