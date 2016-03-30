@@ -2,21 +2,22 @@ package com.mgaetan89.showsrage.fragment
 
 import android.app.Dialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.DialogFragment
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.widget.CheckBox
 import android.widget.CompoundButton
+import android.widget.RadioButton
 import android.widget.RadioGroup
+import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
+import com.mgaetan89.showsrage.model.ShowsFilters
 
 class ShowsFiltersFragment : DialogFragment(), CompoundButton.OnCheckedChangeListener, DialogInterface.OnClickListener {
-    private val STATUS_CONTINUING = 1
-    private val STATUS_ENDED = 2
-    private val STATUS_UNKOWN = 4
-    private val STATUS_ALL = STATUS_CONTINUING or STATUS_ENDED or STATUS_UNKOWN
-
     private var activePaused: RadioGroup? = null
     private var statusAll: CheckBox? = null
     private var statusContinuing: CheckBox? = null
@@ -40,24 +41,24 @@ class ShowsFiltersFragment : DialogFragment(), CompoundButton.OnCheckedChangeLis
     }
 
     override fun onClick(dialog: DialogInterface?, which: Int) {
-        val statusContinuing = if (this.statusContinuing?.isChecked ?: false) STATUS_CONTINUING else 0
-        val statusEnded = if (this.statusEnded?.isChecked ?: false) STATUS_ENDED else 0
-        val statusUnknown = if (this.statusUnknown?.isChecked ?: false) STATUS_UNKOWN else 0
+        val showState = ShowsFilters.State.getStateForViewId(this.activePaused?.checkedRadioButtonId)
+        val showStatus = ShowsFilters.Status.getStatusForStates(this.statusAll?.isChecked, this.statusContinuing?.isChecked, this.statusEnded?.isChecked, this.statusUnknown?.isChecked)
 
-        val showActivePaused = getActivePausedState(this.activePaused?.checkedRadioButtonId)
-        val showStatus = if (this.statusAll?.isChecked ?: false) {
-            STATUS_ALL
-        } else {
-            statusContinuing or statusEnded or statusUnknown
+        with(PreferenceManager.getDefaultSharedPreferences(this.context).edit()) {
+            putString(Constants.Preferences.Fields.SHOW_FILTER_STATE, showState.name)
+            putInt(Constants.Preferences.Fields.SHOW_FILTER_STATUS, showStatus)
+            apply()
         }
 
-        // TODO Save filters values in the Preferences
-        // TODO Send Broadcast to notify of filters change
+        LocalBroadcastManager.getInstance(this.context).sendBroadcast(Intent(Constants.Intents.ACTION_FILTER_SHOWS))
 
         this.dismiss()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this.context)
+        val state = preferences.getString(Constants.Preferences.Fields.SHOW_FILTER_STATE, Constants.Preferences.Defaults.SHOW_FILTER_STATE)
+        val status = preferences.getInt(Constants.Preferences.Fields.SHOW_FILTER_STATUS, Constants.Preferences.Defaults.SHOW_FILTER_STATUS)
         val view = LayoutInflater.from(this.context).inflate(R.layout.fragment_shows_filter, null)
 
         if (view != null) {
@@ -66,6 +67,13 @@ class ShowsFiltersFragment : DialogFragment(), CompoundButton.OnCheckedChangeLis
             this.statusContinuing = view.findViewById(R.id.filter_status_continuing) as CheckBox?
             this.statusEnded = view.findViewById(R.id.filter_status_ended) as CheckBox?
             this.statusUnknown = view.findViewById(R.id.filter_status_unknown) as CheckBox?
+
+            (view.findViewById(ShowsFilters.State.getViewIdForState(ShowsFilters.State.valueOf(state))) as RadioButton?)?.isChecked = true
+
+            this.statusAll?.isChecked = ShowsFilters.Status.isAll(status)
+            this.statusContinuing?.isChecked = ShowsFilters.Status.isContinuing(status)
+            this.statusEnded?.isChecked = ShowsFilters.Status.isEnded(status)
+            this.statusUnknown?.isChecked = ShowsFilters.Status.isUnknown(status)
 
             this.statusAll?.setOnCheckedChangeListener(this)
             this.statusContinuing?.setOnCheckedChangeListener(this)
@@ -95,22 +103,5 @@ class ShowsFiltersFragment : DialogFragment(), CompoundButton.OnCheckedChangeLis
         checkBox?.setOnCheckedChangeListener(null)
         checkBox?.isChecked = checked
         checkBox?.setOnCheckedChangeListener(this)
-    }
-
-    companion object {
-        private fun getActivePausedState(id: Int?): ActivePaused {
-            return when (id) {
-                R.id.filter_active -> ActivePaused.ACTIVE
-                R.id.filter_paused -> ActivePaused.PAUSED
-                R.id.filter_all -> ActivePaused.ALL
-                else -> ActivePaused.ALL
-            }
-        }
-    }
-
-    private enum class ActivePaused {
-        ACTIVE,
-        ALL,
-        PAUSED
     }
 }

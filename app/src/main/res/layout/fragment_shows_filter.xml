@@ -37,7 +37,6 @@
 			android:id="@+id/filter_all"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:checked="true"
 			android:text="@string/all" />
 	</RadioGroup>
 
@@ -73,6 +72,5 @@
 		android:id="@+id/filter_status_all"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:checked="true"
 		android:text="@string/all" />
 </LinearLayout>

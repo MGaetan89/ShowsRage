@@ -1,7 +1,7 @@
 package com.mgaetan89.showsrage
 
 import com.mgaetan89.showsrage.model.LogLevel
-
+import com.mgaetan89.showsrage.model.ShowsFilters
 import retrofit.RestAdapter
 
 object Constants {
@@ -37,10 +37,14 @@ object Constants {
             val LAST_VERSION_CHECK_TIME = "last_version_check_time"
             val LOGS_LEVEL = "logs_level"
             val ROOT_DIRS = "root_dirs"
+            val SHOW_FILTER_STATE = "show_filter_state"
+            val SHOW_FILTER_STATUS = "show_filter_status"
         }
 
         object Defaults {
             val LOGS_LEVEL = LogLevel.ERROR
+            val SHOW_FILTER_STATE = ShowsFilters.State.ALL.name
+            val SHOW_FILTER_STATUS = ShowsFilters.Status.ALL.status
         }
     }
 }
