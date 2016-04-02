@@ -18,8 +18,8 @@ android {
 		applicationId 'com.mgaetan89.showsrage'
 		minSdkVersion 15
 		targetSdkVersion 23
-		versionCode 19
-		versionName '1.4-beta1'
+		versionCode 20
+		versionName '1.4-beta2'
 		resConfigs 'en', 'fr'
 		vectorDrawables.useSupportLibrary = true
 	}
