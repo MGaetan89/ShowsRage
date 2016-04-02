@@ -1,6 +1,7 @@
 ---
 name: Version 1.4-beta2
-current_tag: master
+release_date: 02/04/2016
+current_tag: v1.4-beta2
 previous_tag: v1.4-beta1
 features:
 - Filter the list of shows
