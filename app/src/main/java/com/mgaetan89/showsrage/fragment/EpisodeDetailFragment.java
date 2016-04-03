@@ -41,6 +41,7 @@ import com.mgaetan89.showsrage.ShowsRageApplication;
 import com.mgaetan89.showsrage.activity.MainActivity;
 import com.mgaetan89.showsrage.helper.DateTimeHelper;
 import com.mgaetan89.showsrage.helper.GenericCallback;
+import com.mgaetan89.showsrage.helper.RealmManager;
 import com.mgaetan89.showsrage.helper.Utils;
 import com.mgaetan89.showsrage.model.Episode;
 import com.mgaetan89.showsrage.model.GenericResponse;
@@ -61,7 +62,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.regex.Pattern;
 
-import io.realm.Realm;
 import io.realm.RealmResults;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -459,7 +459,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 
 		if (this.episode != null) {
 			String location = this.episode.getLocation();
-			RealmResults<RootDir> rootDirs = Realm.getDefaultInstance().where(RootDir.class).findAll();
+			RealmResults<RootDir> rootDirs = RealmManager.INSTANCE.getRootDirs();
 
 			for (RootDir rootDir : rootDirs) {
 				if (rootDir != null) {

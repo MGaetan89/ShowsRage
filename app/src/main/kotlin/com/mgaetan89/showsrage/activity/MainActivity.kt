@@ -35,6 +35,7 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.ShowsRageApplication
 import com.mgaetan89.showsrage.fragment.*
+import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.helper.ShowsRageReceiver
 import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.*
@@ -522,11 +523,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         }
 
         override fun success(rootDirs: RootDirs?, response: Response?) {
-            with(Realm.getDefaultInstance()) {
-                executeTransaction {
-                    copyToRealmOrUpdate(rootDirs?.data)
-                }
-            }
+            RealmManager.saveRootDirs(rootDirs?.data)
         }
     }
 }
