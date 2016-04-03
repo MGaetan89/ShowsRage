@@ -46,6 +46,7 @@ import com.mgaetan89.showsrage.model.Episode;
 import com.mgaetan89.showsrage.model.GenericResponse;
 import com.mgaetan89.showsrage.model.OmDbEpisode;
 import com.mgaetan89.showsrage.model.PlayingVideoData;
+import com.mgaetan89.showsrage.model.RootDir;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.SingleEpisode;
 import com.mgaetan89.showsrage.model.ThemeColors;
@@ -58,9 +59,10 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Set;
 import java.util.regex.Pattern;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -457,13 +459,14 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 
 		if (this.episode != null) {
 			String location = this.episode.getLocation();
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-			Set<String> rootDirs = preferences.getStringSet(Constants.Preferences.Fields.INSTANCE.getROOT_DIRS(), null);
+			RealmResults<RootDir> rootDirs = Realm.getDefaultInstance().where(RootDir.class).findAll();
 
-			if (rootDirs != null) {
-				for (String rootDir : rootDirs) {
-					if (location.startsWith(rootDir)) {
-						location = location.replaceFirst(Pattern.quote(rootDir), "");
+			for (RootDir rootDir : rootDirs) {
+				if (rootDir != null) {
+					String currentLocation = rootDir.getLocation();
+
+					if (location.startsWith(currentLocation)) {
+						location = location.replaceFirst(Pattern.quote(currentLocation), "");
 
 						break;
 					}

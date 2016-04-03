@@ -108,7 +108,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
             R.id.menu_kolumbus -> {
                 eventHandled = false
 
-                Kolumbus.navigate(this)
+                Kolumbus.explore(RootDir::class.java)
+                        .navigate(this)
             }
 
             R.id.menu_logs -> fragment = LogsFragment()
@@ -521,12 +522,10 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         }
 
         override fun success(rootDirs: RootDirs?, response: Response?) {
-            val activity = this.activityReference.get() ?: return
-            val rootPaths = rootDirs?.data?.map { it.location }?.toHashSet() ?: emptySet<String>()
-
-            with(PreferenceManager.getDefaultSharedPreferences(activity).edit()) {
-                putStringSet(Constants.Preferences.Fields.ROOT_DIRS, rootPaths)
-                apply()
+            with(Realm.getDefaultInstance()) {
+                executeTransaction {
+                    copyToRealmOrUpdate(rootDirs?.data)
+                }
             }
         }
     }

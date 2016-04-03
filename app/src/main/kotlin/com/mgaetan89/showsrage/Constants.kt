@@ -34,7 +34,6 @@ object Constants {
         object Fields {
             val LAST_VERSION_CHECK_TIME = "last_version_check_time"
             val LOGS_LEVEL = "logs_level"
-            val ROOT_DIRS = "root_dirs"
             val SHOW_FILTER_STATE = "show_filter_state"
             val SHOW_FILTER_STATUS = "show_filter_status"
         }

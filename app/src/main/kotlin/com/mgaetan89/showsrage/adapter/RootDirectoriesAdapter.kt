@@ -5,16 +5,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import java.util.*
+import com.mgaetan89.showsrage.model.RootDir
 
-class RootDirectoriesAdapter(context: Context, rootDirectories: Set<String>) : ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, ArrayList(rootDirectories)) {
+class RootDirectoriesAdapter(context: Context, rootDirectories: List<RootDir>) : ArrayAdapter<RootDir>(context, android.R.layout.simple_list_item_1, rootDirectories) {
+    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View? {
+        val view = super.getView(position, convertView, parent)
+
+        this.setView(view, this.getItem(position))
+
+        return view
+    }
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
         val view = super.getView(position, convertView, parent)
 
-        if (view is TextView) {
-            view.text = this.getItem(position)
-        }
+        this.setView(view, this.getItem(position))
 
         return view
+    }
+
+    private fun setView(view: View?, rootDirectory: RootDir?) {
+        if (view is TextView) {
+            view.text = rootDirectory?.location ?: ""
+        }
     }
 }

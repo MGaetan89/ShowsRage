@@ -1,10 +1,13 @@
 package com.mgaetan89.showsrage.model
 
 import com.google.gson.annotations.SerializedName
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
-data class RootDir(
-        @SerializedName("default") val defaultDir: Int = 0,
-        val location: String = "",
-        val valid: Int = 0
-) {
+open class RootDir : RealmObject() {
+    @SerializedName("default")
+    open var defaultDir: Int = 0
+    @PrimaryKey
+    open var location: String = ""
+    open var valid: Int = 0
 }

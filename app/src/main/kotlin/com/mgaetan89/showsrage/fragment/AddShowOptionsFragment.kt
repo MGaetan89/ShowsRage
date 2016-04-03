@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AlertDialog
@@ -19,7 +18,9 @@ import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.RootDirectoriesAdapter
 import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.model.GenericResponse
+import com.mgaetan89.showsrage.model.RootDir
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.Realm
 import retrofit.client.Response
 
 open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener {
@@ -64,10 +65,9 @@ open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickLis
             val rootDirectoryLayout = view.findViewById(R.id.root_directory_layout) as LinearLayout?
 
             if (rootDirectoryLayout != null) {
-                val preferences = PreferenceManager.getDefaultSharedPreferences(this.context)
-                val rootDirectories = preferences.getStringSet(Constants.Preferences.Fields.ROOT_DIRS, null)
+                val rootDirectories = Realm.getDefaultInstance().where(RootDir::class.java).findAll()
 
-                if (rootDirectories?.size ?: 0 < 2) {
+                if (rootDirectories.size < 2) {
                     rootDirectoryLayout.visibility = View.GONE
                 } else {
                     this.rootDirectory = view.findViewById(R.id.root_directory) as Spinner?
