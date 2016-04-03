@@ -41,6 +41,8 @@ import com.mgaetan89.showsrage.model.*
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.view.ColoredToolbar
 import io.kolumbus.Kolumbus
+import io.realm.Realm
+import io.realm.RealmConfiguration
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
@@ -279,6 +281,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.setContentView(R.layout.activity_main)
 
+        this.setupRealm()
+
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         if (savedInstanceState == null) {
@@ -387,6 +391,14 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                     .remove(fragment)
                     .commit()
         }
+    }
+
+    private fun setupRealm() {
+        val configuration = RealmConfiguration.Builder(this)
+                .deleteRealmIfMigrationNeeded()
+                .build()
+
+        Realm.setDefaultConfiguration(configuration)
     }
 
     companion object {
