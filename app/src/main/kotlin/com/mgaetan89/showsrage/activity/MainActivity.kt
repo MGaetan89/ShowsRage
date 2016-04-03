@@ -40,6 +40,7 @@ import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.*
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.view.ColoredToolbar
+import io.kolumbus.Kolumbus
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
@@ -101,6 +102,13 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
             }
 
             R.id.menu_history -> fragment = HistoryFragment()
+
+            R.id.menu_kolumbus -> {
+                eventHandled = false
+
+                Kolumbus.navigate(this)
+            }
+
             R.id.menu_logs -> fragment = LogsFragment()
 
             R.id.menu_post_processing -> {
