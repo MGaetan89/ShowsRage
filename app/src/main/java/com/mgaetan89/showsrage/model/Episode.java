@@ -10,6 +10,9 @@ import android.support.annotation.StringRes;
 import com.google.gson.annotations.SerializedName;
 import com.mgaetan89.showsrage.R;
 
+import io.realm.annotations.PrimaryKey;
+
+// TODO Include in Realm
 public class Episode implements Parcelable {
 	@SerializedName("airdate")
 	private String airDate = "";
@@ -21,6 +24,9 @@ public class Episode implements Parcelable {
 
 	@SerializedName("file_size_human")
 	private String fileSizeHuman = "";
+
+	@PrimaryKey
+	private String id = ""; // indexerid_season_episode
 
 	private String location = "";
 

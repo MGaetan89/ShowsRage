@@ -31,6 +31,7 @@ interface SickRageServices {
     @GET("/{api_path}/{api_key}/?cmd=history")
     fun getHistory(callback: Callback<Histories>)
 
+    // TODO Include in Realm
     @GET("/{api_path}/{api_key}/?cmd=logs")
     fun getLogs(@Query("min_level") minLevel: LogLevel, callback: Callback<Logs>)
 

@@ -42,8 +42,6 @@ import com.mgaetan89.showsrage.model.*
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.view.ColoredToolbar
 import io.kolumbus.Kolumbus
-import io.realm.Realm
-import io.realm.RealmConfiguration
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
@@ -109,7 +107,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
             R.id.menu_kolumbus -> {
                 eventHandled = false
 
-                Kolumbus.explore(RootDir::class.java)
+                Kolumbus.explore(History::class.java)
+                        .explore(RootDir::class.java)
                         .navigate(this)
             }
 
@@ -283,7 +282,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.setContentView(R.layout.activity_main)
 
-        this.setupRealm()
+        RealmManager.init(this)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
 
@@ -324,6 +323,12 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         this.setSupportActionBar(this.toolbar)
 
         this.displayStartFragment()
+    }
+
+    override fun onDestroy() {
+        RealmManager.close()
+
+        super.onDestroy()
     }
 
     override fun onPause() {
@@ -393,14 +398,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                     .remove(fragment)
                     .commit()
         }
-    }
-
-    private fun setupRealm() {
-        val configuration = RealmConfiguration.Builder(this)
-                .deleteRealmIfMigrationNeeded()
-                .build()
-
-        Realm.setDefaultConfiguration(configuration)
     }
 
     companion object {

@@ -17,10 +17,13 @@ import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.HistoriesAdapter
 import com.mgaetan89.showsrage.helper.GenericCallback
+import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.GenericResponse
 import com.mgaetan89.showsrage.model.Histories
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.RealmChangeListener
+import io.realm.RealmResults
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
@@ -29,7 +32,20 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
     private var adapter: HistoriesAdapter? = null
     private var clearHistory: FloatingActionButton? = null
     private var emptyView: TextView? = null
-    private val histories = mutableListOf<History>()
+    private val historiesListener = RealmChangeListener {
+        if (this.histories.isEmpty()) {
+            this.clearHistory?.visibility = View.GONE
+            this.emptyView?.visibility = View.VISIBLE
+            this.recyclerView?.visibility = View.GONE
+        } else {
+            this.clearHistory?.visibility = View.VISIBLE
+            this.emptyView?.visibility = View.GONE
+            this.recyclerView?.visibility = View.VISIBLE
+        }
+
+        this.adapter?.notifyDataSetChanged()
+    }
+    private val histories: RealmResults<History> = RealmManager.getHistory(this.historiesListener)
     private var recyclerView: RecyclerView? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
@@ -97,12 +113,6 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
         return view
     }
 
-    override fun onDestroy() {
-        this.histories.clear()
-
-        super.onDestroy()
-    }
-
     override fun onDestroyView() {
         this.clearHistory = null
         this.emptyView = null
@@ -121,20 +131,7 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
     override fun success(histories: Histories?, response: Response?) {
         this.swipeRefreshLayout?.isRefreshing = false
 
-        this.histories.clear()
-        this.histories.addAll(histories?.data ?: emptyList())
-
-        if (this.histories.isEmpty()) {
-            this.clearHistory?.visibility = View.GONE
-            this.emptyView?.visibility = View.VISIBLE
-            this.recyclerView?.visibility = View.GONE
-        } else {
-            this.clearHistory?.visibility = View.VISIBLE
-            this.emptyView?.visibility = View.GONE
-            this.recyclerView?.visibility = View.VISIBLE
-        }
-
-        this.adapter?.notifyDataSetChanged()
+        RealmManager.saveHistory(histories?.data)
     }
 
     private fun clearHistory() {
@@ -149,12 +146,7 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
         override fun success(genericResponse: GenericResponse?, response: Response?) {
             super.success(genericResponse, response)
 
-            histories.clear()
-
-            adapter?.notifyDataSetChanged()
-            clearHistory?.visibility = View.GONE
-            emptyView?.visibility = View.VISIBLE
-            recyclerView?.visibility = View.GONE
+            RealmManager.clearHistory()
         }
     }
 }
