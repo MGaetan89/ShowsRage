@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.fragment;
 
 import com.google.gson.Gson;
 import com.mgaetan89.showsrage.model.Show;
+import com.mgaetan89.showsrage.network.SickRageApi;
 
 import org.assertj.core.data.MapEntry;
 import org.junit.Test;
@@ -31,7 +32,7 @@ public class ShowsSectionFragment_GetCommandParametersTest {
 
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
-		Gson gson = new Gson();
+		Gson gson = SickRageApi.Companion.getGson();
 
 		return Arrays.asList(new Object[][]{
 				{null, new MapEntry[0]},

@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.presenter;
 
 import com.google.gson.Gson;
 import com.mgaetan89.showsrage.model.Schedule;
+import com.mgaetan89.showsrage.network.SickRageApi;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -97,7 +98,7 @@ public class SchedulePresenterTest {
 
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
-		Gson gson = new Gson();
+		Gson gson = SickRageApi.Companion.getGson();
 
 		return Arrays.asList(new Object[][]{
 				{null, null, null, null, null, 0, "", "", "", 0, ""},

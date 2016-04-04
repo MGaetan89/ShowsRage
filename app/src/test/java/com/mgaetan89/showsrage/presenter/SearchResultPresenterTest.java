@@ -3,6 +3,7 @@ package com.mgaetan89.showsrage.presenter;
 import com.google.gson.Gson;
 import com.mgaetan89.showsrage.R;
 import com.mgaetan89.showsrage.model.SearchResultItem;
+import com.mgaetan89.showsrage.network.SickRageApi;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +53,7 @@ public class SearchResultPresenterTest {
 
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
-		Gson gson = new Gson();
+		Gson gson = SickRageApi.Companion.getGson();
 
 		return Arrays.asList(new Object[][]{
 				{null, "", 0, ""},

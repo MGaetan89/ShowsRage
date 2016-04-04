@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.fragment;
 
 import com.google.gson.Gson;
 import com.mgaetan89.showsrage.model.Show;
+import com.mgaetan89.showsrage.network.SickRageApi;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +33,7 @@ public class ShowsSectionFragment_FilterReceiver_MatchTest {
 
 	@Parameterized.Parameters(name = "{index} - mode: {1}, status: {2}, match: {3}")
 	public static Collection<Object[]> data() {
-		Gson gson = new Gson();
+		Gson gson = SickRageApi.Companion.getGson();
 
 		return Arrays.asList(new Object[][]{
 				// TODO

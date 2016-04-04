@@ -3,6 +3,7 @@ package com.mgaetan89.showsrage.fragment;
 import com.google.gson.Gson;
 import com.mgaetan89.showsrage.model.Show;
 import com.mgaetan89.showsrage.model.ShowsFilters;
+import com.mgaetan89.showsrage.network.SickRageApi;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +36,7 @@ public class ShowsSectionFragment_FilterReceiver_MatchFilterStatusTest {
 		int continuing = ShowsFilters.Status.CONTINUING.getStatus();
 		int ended = ShowsFilters.Status.ENDED.getStatus();
 		int unknown = ShowsFilters.Status.UNKNOWN.getStatus();
-		Gson gson = new Gson();
+		Gson gson = SickRageApi.Companion.getGson();
 
 		return Arrays.asList(new Object[][]{
 				{gson.fromJson("{status: \"continuing\"}", Show.class), all, true},

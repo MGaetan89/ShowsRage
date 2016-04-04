@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.mgaetan89.showsrage.R;
+import com.mgaetan89.showsrage.network.SickRageApi;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +31,7 @@ public class History_GetStatusTranslationResourceTest {
 
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
-		Gson gson = new Gson();
+		Gson gson = SickRageApi.Companion.getGson();
 
 		return Arrays.asList(new Object[][]{
 				{getJsonForStatus(gson, null), 0},

@@ -90,7 +90,7 @@ class SickRageApi private constructor() : RequestInterceptor {
 
         val builder = RestAdapter.Builder()
         builder.setClient(OkClient(this.getOkHttpClient(selfSignedCertificate)))
-        builder.setConverter(this.getConverter())
+        builder.setConverter(gsonConverter)
         builder.setEndpoint(this.apiUrl)
         builder.setRequestInterceptor(this)
         builder.setLogLevel(Constants.NETWORK_LOG_LEVEL)
@@ -102,22 +102,6 @@ class SickRageApi private constructor() : RequestInterceptor {
         request.addEncodedPathParam("api_path", this.path)
         request.addPathParam("api_key", this.apiKey)
         request.addEncodedPathParam("web_root", this.webRoot)
-    }
-
-    private fun getConverter(): GsonConverter {
-        val gson = GsonBuilder()
-                .setExclusionStrategies(object : ExclusionStrategy {
-                    override fun shouldSkipField(f: FieldAttributes): Boolean {
-                        return f.declaringClass.equals(RealmObject::class.java)
-                    }
-
-                    override fun shouldSkipClass(clazz: Class<*>): Boolean {
-                        return false;
-                    }
-                })
-                .create();
-
-        return GsonConverter(gson)
     }
 
     private fun setAuthenticator() {
@@ -177,7 +161,23 @@ class SickRageApi private constructor() : RequestInterceptor {
     }
 
     companion object {
-        val instance: SickRageApi by lazy { SickRageApi() }
+        val gson by lazy {
+            GsonBuilder()
+                    .setExclusionStrategies(object : ExclusionStrategy {
+                        override fun shouldSkipField(f: FieldAttributes): Boolean {
+                            return f.declaringClass.equals(RealmObject::class.java)
+                        }
+
+                        override fun shouldSkipClass(clazz: Class<*>): Boolean {
+                            return false;
+                        }
+                    })
+                    .create();
+        }
+        private val gsonConverter by lazy {
+            GsonConverter(gson)
+        }
+        val instance by lazy { SickRageApi() }
 
         private fun buildApiUrl(useHttps: Boolean, address: String, portNumber: String): String {
             // Retrofit requires a non-empty endpoint
