@@ -25,6 +25,7 @@ interface SickRageServices {
     @GET("/{api_path}/{api_key}/?cmd=episode&full_path=1")
     fun getEpisode(@Query("indexerid") indexerId: Int, @Query("season") season: Int, @Query("episode") episode: Int, callback: Callback<SingleEpisode>)
 
+    // TODO Include in Realm
     @GET("/{api_path}/{api_key}/?cmd=show.seasons")
     fun getEpisodes(@Query("indexerid") indexerId: Int?, @Query("season") season: Int, callback: Callback<Episodes>)
 
@@ -38,21 +39,26 @@ interface SickRageServices {
     @GET("/{api_path}/{api_key}/?cmd=sb.getrootdirs")
     fun getRootDirs(callback: Callback<RootDirs>)
 
+    // TODO Include in Realm
     @GET("/{api_path}/{api_key}/?cmd=future")
     fun getSchedule(callback: Callback<Schedules>)
 
+    // TODO Include in Realm
     @GET("/{api_path}/{api_key}/?cmd=show.seasonlist")
     fun getSeasons(@Query("indexerid") indexerId: Int, @Query("sort") sort: String, callback: Callback<Seasons>)
 
     @GET("/{api_path}/{api_key}/?cmd=show")
     fun getShow(@Query("indexerid") indexerId: Int, callback: Callback<SingleShow>)
 
+    // TODO Include in Realm
     @GET("/{api_path}/{api_key}/?cmd=shows&sort=name")
     fun getShows(callback: Callback<Shows>)
 
+    // TODO Include in Realm
     @GET("/{api_path}/{api_key}/?cmd=shows.stats")
     fun getShowsStats(callback: Callback<ShowsStats>)
 
+    // TODO Include in Realm
     @GET("/{api_path}/{api_key}/")
     fun getShowStats(@Query("cmd") commands: String, @QueryMap parameters: Map<String, Int>, callback: Callback<ShowStatsWrapper>)
 

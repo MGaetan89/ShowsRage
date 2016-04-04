@@ -64,8 +64,7 @@ class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
 
     fun getShowName() = this.schedule?.showName ?: ""
 
-    // TODO Set as internal
-    fun getAirTimeOnly(): String? {
+    protected fun getAirTimeOnly(): String? {
         if (this.schedule == null) {
             return null
         }

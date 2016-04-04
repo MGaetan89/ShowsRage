@@ -40,8 +40,7 @@ open class ChangeQualityFragment : DialogFragment(), DialogInterface.OnClickList
         return builder.show()
     }
 
-    // TODO Set as internal
-    fun getAllowedQuality(allowedQualitySpinner: Spinner?): String? {
+    protected fun getAllowedQuality(allowedQualitySpinner: Spinner?): String? {
         var allowedQualityIndex = 0
 
         if (allowedQualitySpinner != null) {
@@ -60,8 +59,7 @@ open class ChangeQualityFragment : DialogFragment(), DialogInterface.OnClickList
         return null
     }
 
-    // TODO Set as internal
-    fun getPreferredQuality(preferredQualitySpinner: Spinner?): String? {
+    protected fun getPreferredQuality(preferredQualitySpinner: Spinner?): String? {
         var preferredQualityIndex = 0
 
         if (preferredQualitySpinner != null) {

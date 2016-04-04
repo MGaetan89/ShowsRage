@@ -12,7 +12,6 @@ import com.mgaetan89.showsrage.R;
 
 import io.realm.annotations.PrimaryKey;
 
-// TODO Include in Realm
 public class Episode implements Parcelable {
 	@SerializedName("airdate")
 	private String airDate = "";
