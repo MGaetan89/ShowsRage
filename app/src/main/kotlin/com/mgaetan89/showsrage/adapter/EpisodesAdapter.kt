@@ -17,9 +17,8 @@ import com.mgaetan89.showsrage.databinding.AdapterEpisodesListBinding
 import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.presenter.EpisodePresenter
-import io.realm.RealmResults
 
-class EpisodesAdapter(val episodes: RealmResults<Episode>, val seasonNumber: Int, val show: Show?, val reversed: Boolean) : RecyclerView.Adapter<EpisodesAdapter.ViewHolder>() {
+class EpisodesAdapter(val episodes: List<Episode>, val seasonNumber: Int, val show: Show?, val reversed: Boolean) : RecyclerView.Adapter<EpisodesAdapter.ViewHolder>() {
     override fun getItemCount() = this.episodes.size
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
