@@ -13,19 +13,23 @@ import android.widget.TextView
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.adapter.EpisodesAdapter
+import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.Episodes
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.RealmChangeListener
+import io.realm.RealmResults
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 
-class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefreshListener {
+class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefreshListener, RealmChangeListener {
     private var adapter: EpisodesAdapter? = null
     private var emptyView: TextView? = null
-    private val episodes = mutableListOf<Episode>()
+    private var episodes: RealmResults<Episode>? = null
     private var recyclerView: RecyclerView? = null
+    private var reversedOrder = false
     private var seasonNumber: Int = 0
     private var show: Show? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
@@ -36,18 +40,33 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
         error?.printStackTrace()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onChange() {
+        if (this.adapter == null && this.episodes != null) {
+            this.adapter = EpisodesAdapter(this.episodes!!, this.seasonNumber, this.show, this.reversedOrder)
+
+            this.recyclerView?.adapter = this.adapter
+        }
+
+        if (this.episodes?.isEmpty() ?: true) {
+            this.emptyView?.visibility = View.VISIBLE
+            this.recyclerView?.visibility = View.GONE
+        } else {
+            this.emptyView?.visibility = View.GONE
+            this.recyclerView?.visibility = View.VISIBLE
+        }
+
+        this.adapter?.notifyDataSetChanged()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this.context)
 
+        this.reversedOrder = !preferences.getBoolean("display_episodes_sort", false)
         this.seasonNumber = this.arguments.getInt(Constants.Bundle.SEASON_NUMBER, 0)
         this.show = this.arguments.getParcelable(Constants.Bundle.SHOW_MODEL)
-        this.adapter = EpisodesAdapter(this.episodes, this.seasonNumber, this.show, !preferences.getBoolean("display_episodes_sort", false))
-
-        this.recyclerView?.adapter = this.adapter
-
-        this.onRefresh()
+        this.episodes = RealmManager.getEpisodes(this.show?.indexerId ?: 0, this.seasonNumber, this.reversedOrder, this)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -80,7 +99,7 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
     }
 
     override fun onDestroy() {
-        this.episodes.clear()
+        this.episodes?.removeChangeListeners()
 
         super.onDestroy()
     }
@@ -99,24 +118,20 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
         SickRageApi.instance.services?.getEpisodes(this.show?.indexerId, this.seasonNumber, this)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        this.onRefresh()
+    }
+
     override fun success(episodes: Episodes?, response: Response?) {
         this.swipeRefreshLayout?.isRefreshing = false
 
-        this.episodes.clear()
-        this.episodes.addAll(episodes?.data?.values ?: emptyList())
+        val episodesList = episodes?.data?.map {
+            it.value.number = it.key
+            it.value
+        } ?: emptyList()
 
-        if (this.adapter?.reversed ?: false) {
-            this.episodes.reverse()
-        }
-
-        if (this.episodes.isEmpty()) {
-            this.emptyView?.visibility = View.VISIBLE
-            this.recyclerView?.visibility = View.GONE
-        } else {
-            this.emptyView?.visibility = View.GONE
-            this.recyclerView?.visibility = View.VISIBLE
-        }
-
-        this.adapter?.notifyDataSetChanged()
+        RealmManager.saveEpisodes(episodesList, this.show?.indexerId ?: 0, this.seasonNumber)
     }
 }

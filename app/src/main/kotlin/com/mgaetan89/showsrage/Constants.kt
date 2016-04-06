@@ -9,7 +9,7 @@ object Constants {
     val OMDB_URL = "http://www.omdbapi.com/"
 
     object Bundle {
-        val EPISODE_MODEL = "episode_model"
+        val EPISODE_ID = "episode_id"
         val EPISODE_NUMBER = "episode_number"
         val EPISODES_COUNT = "episodes_count"
         val INDEXER_ID = "indexer_id"

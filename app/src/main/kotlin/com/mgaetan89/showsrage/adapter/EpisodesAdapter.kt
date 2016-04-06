@@ -17,8 +17,9 @@ import com.mgaetan89.showsrage.databinding.AdapterEpisodesListBinding
 import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.presenter.EpisodePresenter
+import io.realm.RealmResults
 
-class EpisodesAdapter(val episodes: List<Episode>, val seasonNumber: Int, val show: Show?, val reversed: Boolean) : RecyclerView.Adapter<EpisodesAdapter.ViewHolder>() {
+class EpisodesAdapter(val episodes: RealmResults<Episode>, val seasonNumber: Int, val show: Show?, val reversed: Boolean) : RecyclerView.Adapter<EpisodesAdapter.ViewHolder>() {
     override fun getItemCount() = this.episodes.size
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
@@ -86,7 +87,7 @@ class EpisodesAdapter(val episodes: List<Episode>, val seasonNumber: Int, val sh
                 }
             } else {
                 with(Intent(Constants.Intents.ACTION_EPISODE_SELECTED)) {
-                    putExtra(Constants.Bundle.EPISODE_MODEL, episodes[adapterPosition])
+                    putExtra(Constants.Bundle.EPISODE_ID, episodes[adapterPosition].id)
                     putExtra(Constants.Bundle.EPISODE_NUMBER, getEpisodeNumber(adapterPosition))
                     putExtra(Constants.Bundle.EPISODES_COUNT, itemCount)
                     putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)

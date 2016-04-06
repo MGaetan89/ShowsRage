@@ -107,7 +107,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
             R.id.menu_kolumbus -> {
                 eventHandled = false
 
-                Kolumbus.explore(History::class.java)
+                Kolumbus.explore(Episode::class.java)
+                        .explore(History::class.java)
                         .explore(RootDir::class.java)
                         .navigate(this)
             }
@@ -520,7 +521,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         }
 
         override fun success(rootDirs: RootDirs?, response: Response?) {
-            RealmManager.saveRootDirs(rootDirs?.data)
+            RealmManager.saveRootDirs(rootDirs?.data ?: emptyList())
         }
     }
 }

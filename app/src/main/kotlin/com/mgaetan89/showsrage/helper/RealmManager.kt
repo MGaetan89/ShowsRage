@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage.helper
 
 import android.content.Context
+import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.model.RootDir
 import io.realm.*
@@ -12,14 +13,27 @@ object RealmManager {
         this.realm.clear(History::class.java)
     }
 
-    fun getHistory(listener: RealmChangeListener?): RealmResults<History> {
-        val query = this.realm.where(History::class.java)
+    fun getEpisode(episodeId: String, listener: RealmChangeListener): Episode {
+        val episode = this.realm.where(Episode::class.java)
+                .equalTo("id", episodeId)
+                .findFirstAsync()
+        episode.addChangeListener(listener)
 
-        if (listener == null) {
-            return query.findAllSorted("date", Sort.DESCENDING)
-        }
+        return episode
+    }
 
-        val history = query.findAllSortedAsync("date", Sort.DESCENDING)
+    fun getEpisodes(indexerId: Int, season: Int, reversedOrder: Boolean, listener: RealmChangeListener): RealmResults<Episode> {
+        val episodes = this.realm.where(Episode::class.java)
+                .equalTo("indexerId", indexerId)
+                .equalTo("season", season)
+                .findAllSortedAsync("number", if (reversedOrder) Sort.DESCENDING else Sort.ASCENDING)
+        episodes.addChangeListener(listener)
+
+        return episodes
+    }
+
+    fun getHistory(listener: RealmChangeListener): RealmResults<History> {
+        val history = this.realm.where(History::class.java).findAllSortedAsync("date", Sort.DESCENDING)
         history.addChangeListener(listener)
 
         return history
@@ -39,6 +53,24 @@ object RealmManager {
         this.realm = Realm.getDefaultInstance()
     }
 
+    fun saveEpisode(episode: Episode, indexerId: Int, season: Int, episodeNumber: Int) {
+        this.realm.executeTransaction {
+            this.prepareEpisodeForSaving(episode, indexerId, season, episodeNumber)
+
+            it.copyToRealmOrUpdate(episode)
+        }
+    }
+
+    fun saveEpisodes(episodes: List<Episode>, indexerId: Int, season: Int) {
+        this.realm.executeTransaction {
+            for (episode in episodes) {
+                this.prepareEpisodeForSaving(episode, indexerId, season, episode.number)
+            }
+
+            it.copyToRealmOrUpdate(episodes)
+        }
+    }
+
     fun saveHistory(histories: List<History>) {
         this.realm.executeTransaction {
             it.copyToRealmOrUpdate(histories)
@@ -55,5 +87,12 @@ object RealmManager {
         if (!this.realm.isClosed) {
             this.realm.close()
         }
+    }
+
+    private fun prepareEpisodeForSaving(episode: Episode, indexerId: Int, season: Int, episodeNumber: Int) {
+        episode.id = Episode.buildId(indexerId, season, episodeNumber)
+        episode.indexerId = indexerId
+        episode.number = episodeNumber
+        episode.season = season
     }
 }

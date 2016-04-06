@@ -62,13 +62,14 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.regex.Pattern;
 
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implements Callback<SingleEpisode>, View.OnClickListener {
+public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implements Callback<SingleEpisode>, View.OnClickListener, RealmChangeListener {
 	@Nullable
 	private TextView airs = null;
 
@@ -175,10 +176,6 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		OmDbApi omDbApi = restAdapter.create(OmDbApi.class);
 
 		FragmentActivity activity = this.getActivity();
-		Bundle arguments = this.getArguments();
-		Episode episode = arguments.getParcelable(Constants.Bundle.INSTANCE.getEPISODE_MODEL());
-		this.episodeNumber = arguments.getInt(Constants.Bundle.INSTANCE.getEPISODE_NUMBER(), 0);
-		this.seasonNumber = arguments.getInt(Constants.Bundle.INSTANCE.getSEASON_NUMBER(), 0);
 
 		if (activity != null) {
 			if (this.seasonNumber <= 0) {
@@ -188,13 +185,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 			}
 		}
 
-		this.show = arguments.getParcelable(Constants.Bundle.INSTANCE.getSHOW_MODEL());
-
-		this.displayEpisode(episode);
-
 		if (this.show != null) {
-			SickRageApi.Companion.getInstance().getServices().getEpisode(this.show.getIndexerId(), this.seasonNumber, this.episodeNumber, this);
-
 			String imdbId = this.show.getImdbId();
 
 			if (imdbId != null && !imdbId.isEmpty()) {
@@ -208,6 +199,12 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 	}
 
 	@Override
+	public void onChange() {
+		this.displayEpisode(this.episode);
+		this.displayStreamingMenus(this.episode);
+	}
+
+	@Override
 	public void onClick(View view) {
 		if (this.show == null) {
 			return;
@@ -216,6 +213,21 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 		Toast.makeText(this.getActivity(), this.getString(R.string.episode_search, this.episodeNumber, this.seasonNumber), Toast.LENGTH_SHORT).show();
 
 		SickRageApi.Companion.getInstance().getServices().searchEpisode(this.show.getIndexerId(), this.seasonNumber, this.episodeNumber, new GenericCallback(this.getActivity()));
+	}
+
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		Bundle arguments = this.getArguments();
+		String episodeId = arguments.getString(Constants.Bundle.INSTANCE.getEPISODE_ID());
+		this.episodeNumber = arguments.getInt(Constants.Bundle.INSTANCE.getEPISODE_NUMBER(), 0);
+		this.seasonNumber = arguments.getInt(Constants.Bundle.INSTANCE.getSEASON_NUMBER(), 0);
+		this.show = arguments.getParcelable(Constants.Bundle.INSTANCE.getSHOW_MODEL());
+
+		if (episodeId != null) {
+			this.episode = RealmManager.INSTANCE.getEpisode(episodeId, this);
+		}
 	}
 
 	@Override
@@ -307,6 +319,15 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 	}
 
 	@Override
+	public void onDestroy() {
+		if (this.episode != null) {
+			this.episode.removeChangeListeners();
+		}
+
+		super.onDestroy();
+	}
+
+	@Override
 	public void onDestroyView() {
 		this.airs = null;
 		this.awards = null;
@@ -355,9 +376,19 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+
+		SickRageApi.Companion.getInstance().getServices().getEpisode(this.show.getIndexerId(), this.seasonNumber, this.episodeNumber, this);
+	}
+
+	@Override
 	public void success(SingleEpisode singleEpisode, Response response) {
-		this.displayEpisode(singleEpisode.getData());
-		this.displayStreamingMenus(singleEpisode.getData());
+		Episode episode = singleEpisode.getData();
+
+		if (episode != null && this.show != null) {
+			RealmManager.INSTANCE.saveEpisode(episode, this.show.getIndexerId(), this.seasonNumber, this.episodeNumber);
+		}
 	}
 
 	private void clickPlayVideo() {
@@ -503,7 +534,7 @@ public class EpisodeDetailFragment extends MediaRouteDiscoveryFragment implement
 	}
 
 	private boolean isEpisodeDownloaded(@Nullable Episode episode) {
-		return episode != null && "Downloaded".equalsIgnoreCase(episode.getStatus());
+		return episode != null && episode.isLoaded() && "Downloaded".equalsIgnoreCase(episode.getStatus());
 	}
 
 	private boolean isPlayMenuVisible(@Nullable Episode episode) {

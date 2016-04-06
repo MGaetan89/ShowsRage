@@ -25,7 +25,6 @@ interface SickRageServices {
     @GET("/{api_path}/{api_key}/?cmd=episode&full_path=1")
     fun getEpisode(@Query("indexerid") indexerId: Int, @Query("season") season: Int, @Query("episode") episode: Int, callback: Callback<SingleEpisode>)
 
-    // TODO Include in Realm
     @GET("/{api_path}/{api_key}/?cmd=show.seasons")
     fun getEpisodes(@Query("indexerid") indexerId: Int?, @Query("season") season: Int, callback: Callback<Episodes>)
 

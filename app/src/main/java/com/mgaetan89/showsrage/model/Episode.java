@@ -1,7 +1,5 @@
 package com.mgaetan89.showsrage.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -10,55 +8,32 @@ import android.support.annotation.StringRes;
 import com.google.gson.annotations.SerializedName;
 import com.mgaetan89.showsrage.R;
 
+import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Episode implements Parcelable {
+public class Episode extends RealmObject {
 	@SerializedName("airdate")
 	private String airDate = "";
-
 	private String description = "";
-
 	@SerializedName("file_size")
 	private long fileSize = 0L;
-
 	@SerializedName("file_size_human")
 	private String fileSizeHuman = "";
-
 	@PrimaryKey
-	private String id = ""; // indexerid_season_episode
-
+	private String id = "";
+	private int indexerId = 0;
 	private String location = "";
-
 	private String name = "";
-
+	private int number = 0;
 	private String quality = "";
-
 	@SerializedName("release_name")
 	private String releaseName = "";
-
+	private int season = 0;
 	private String status = "";
-
 	private String subtitles = "";
 
-	public Episode() {
-	}
-
-	protected Episode(Parcel in) {
-		this.airDate = in.readString();
-		this.description = in.readString();
-		this.fileSize = in.readLong();
-		this.fileSizeHuman = in.readString();
-		this.location = in.readString();
-		this.name = in.readString();
-		this.quality = in.readString();
-		this.releaseName = in.readString();
-		this.status = in.readString();
-		this.subtitles = in.readString();
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
+	public static String buildId(int indexer, int season, int episode) {
+		return indexer + "_" + season + "_" + episode;
 	}
 
 	public String getAirDate() {
@@ -77,6 +52,14 @@ public class Episode implements Parcelable {
 		return this.fileSizeHuman;
 	}
 
+	public String getId() {
+		return this.id;
+	}
+
+	public int getIndexerId() {
+		return this.indexerId;
+	}
+
 	public String getLocation() {
 		return this.location;
 	}
@@ -85,12 +68,20 @@ public class Episode implements Parcelable {
 		return this.name;
 	}
 
+	public int getNumber() {
+		return this.number;
+	}
+
 	public String getQuality() {
 		return this.quality;
 	}
 
 	public String getReleaseName() {
 		return this.releaseName;
+	}
+
+	public int getSeason() {
+		return this.season;
 	}
 
 	public String getStatus() {
@@ -184,29 +175,59 @@ public class Episode implements Parcelable {
 		return this.subtitles;
 	}
 
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(this.airDate);
-		dest.writeString(this.description);
-		dest.writeLong(this.fileSize);
-		dest.writeString(this.fileSizeHuman);
-		dest.writeString(this.location);
-		dest.writeString(this.name);
-		dest.writeString(this.quality);
-		dest.writeString(this.releaseName);
-		dest.writeString(this.status);
-		dest.writeString(this.subtitles);
+	public void setAirDate(String airDate) {
+		this.airDate = airDate;
 	}
 
-	public static final Creator<Episode> CREATOR = new Creator<Episode>() {
-		@Override
-		public Episode createFromParcel(Parcel in) {
-			return new Episode(in);
-		}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-		@Override
-		public Episode[] newArray(int size) {
-			return new Episode[size];
-		}
-	};
+	public void setFileSize(long fileSize) {
+		this.fileSize = fileSize;
+	}
+
+	public void setFileSizeHuman(String fileSizeHuman) {
+		this.fileSizeHuman = fileSizeHuman;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setIndexerId(int indexerId) {
+		this.indexerId = indexerId;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
+	public void setQuality(String quality) {
+		this.quality = quality;
+	}
+
+	public void setReleaseName(String releaseName) {
+		this.releaseName = releaseName;
+	}
+
+	public void setSeason(int season) {
+		this.season = season;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public void setSubtitles(String subtitles) {
+		this.subtitles = subtitles;
+	}
 }

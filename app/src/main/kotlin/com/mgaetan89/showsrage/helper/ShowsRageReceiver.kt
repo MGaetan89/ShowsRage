@@ -52,7 +52,7 @@ class ShowsRageReceiver(activity: MainActivity) : BroadcastReceiver() {
         val activity = this.activityReference.get() ?: return
 
         val arguments = Bundle()
-        arguments.putParcelable(Constants.Bundle.EPISODE_MODEL, intent.getParcelableExtra(Constants.Bundle.EPISODE_MODEL))
+        arguments.putString(Constants.Bundle.EPISODE_ID, intent.getStringExtra(Constants.Bundle.EPISODE_ID))
         arguments.putInt(Constants.Bundle.EPISODE_NUMBER, intent.getIntExtra(Constants.Bundle.EPISODE_NUMBER, 0))
         arguments.putInt(Constants.Bundle.EPISODES_COUNT, intent.getIntExtra(Constants.Bundle.EPISODES_COUNT, 0))
         arguments.putInt(Constants.Bundle.SEASON_NUMBER, intent.getIntExtra(Constants.Bundle.SEASON_NUMBER, 0))
