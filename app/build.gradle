@@ -115,7 +115,7 @@ kapt {
 	generateStubs = true
 }
 
-def supportLibraryVersion = '23.2.1'
+def supportLibraryVersion = '23.3.0'
 
 dependencies {
 	kapt 'com.android.databinding:compiler:2.1.0-alpha5'
