@@ -33,7 +33,7 @@ public class ShowsSectionFragment_FilterReceiver_MatchTest {
 
 	@Test
 	public void match() {
-		assertThat(ShowsSectionFragment.FilterReceiver.match(this.show, this.filterMode, this.filterStatus, this.query)).isEqualTo(this.match);
+		assertThat(ShowsSectionFragment.FilterReceiver.Companion.match(this.show, this.filterMode, this.filterStatus, this.query)).isEqualTo(this.match);
 	}
 
 	@Parameterized.Parameters(name = "{index} - mode: {1}, status: {2}, match: {3}")

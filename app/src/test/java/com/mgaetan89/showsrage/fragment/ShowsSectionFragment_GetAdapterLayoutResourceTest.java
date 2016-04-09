@@ -21,7 +21,7 @@ public class ShowsSectionFragment_GetAdapterLayoutResourceTest {
 
 	@Test
 	public void getAdapterLayoutResource() {
-		assertThat(ShowsSectionFragment.getAdapterLayoutResource(this.preferredShowLayout)).isEqualTo(this.layoutId);
+		assertThat(ShowsSectionFragment.Companion.getAdapterLayoutResource(this.preferredShowLayout)).isEqualTo(this.layoutId);
 	}
 
 	@Parameterized.Parameters

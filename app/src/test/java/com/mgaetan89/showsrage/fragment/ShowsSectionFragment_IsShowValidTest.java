@@ -23,7 +23,7 @@ public class ShowsSectionFragment_IsShowValidTest {
 
 	@Test
 	public void isShowValid() {
-		assertThat(ShowsSectionFragment.isShowValid(this.show)).isEqualTo(this.valid);
+		assertThat(ShowsSectionFragment.Companion.isShowValid(this.show)).isEqualTo(this.valid);
 	}
 
 	@Parameterized.Parameters

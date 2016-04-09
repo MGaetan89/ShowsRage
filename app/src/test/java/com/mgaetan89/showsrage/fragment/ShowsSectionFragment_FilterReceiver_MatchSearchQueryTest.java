@@ -26,7 +26,7 @@ public class ShowsSectionFragment_FilterReceiver_MatchSearchQueryTest {
 
 	@Test
 	public void matchSearchQuery() {
-		assertThat(ShowsSectionFragment.FilterReceiver.matchSearchQuery(this.show, this.searchQuery)).isEqualTo(this.match);
+		assertThat(ShowsSectionFragment.FilterReceiver.Companion.matchSearchQuery(this.show, this.searchQuery)).isEqualTo(this.match);
 	}
 
 	@Parameterized.Parameters

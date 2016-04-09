@@ -25,7 +25,7 @@ public class ShowsSectionFragment_GetCommandTest {
 
 	@Test
 	public void getCommand() {
-		assertThat(ShowsSectionFragment.getCommand(this.shows)).isEqualTo(this.command);
+		assertThat(ShowsSectionFragment.Companion.getCommand(this.shows)).isEqualTo(this.command);
 	}
 
 	@Parameterized.Parameters

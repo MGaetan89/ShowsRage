@@ -27,7 +27,7 @@ public class ShowsSectionFragment_GetCommandParametersTest {
 
 	@Test
 	public void getCommandParameters() {
-		assertThat(ShowsSectionFragment.getCommandParameters(this.shows)).containsOnly(this.commandParameters);
+		assertThat(ShowsSectionFragment.Companion.getCommandParameters(this.shows)).containsOnly(this.commandParameters);
 	}
 
 	@Parameterized.Parameters

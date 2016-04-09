@@ -27,7 +27,7 @@ public class ShowsSectionFragment_FilterReceiver_MatchFilterStateTest {
 
 	@Test
 	public void matchFilterState() {
-		assertThat(ShowsSectionFragment.FilterReceiver.matchFilterState(this.show, this.filterState)).isEqualTo(this.match);
+		assertThat(ShowsSectionFragment.FilterReceiver.Companion.matchFilterState(this.show, this.filterState)).isEqualTo(this.match);
 	}
 
 	@Parameterized.Parameters
