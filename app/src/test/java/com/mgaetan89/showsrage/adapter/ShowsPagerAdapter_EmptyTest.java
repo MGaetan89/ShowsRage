@@ -2,7 +2,6 @@ package com.mgaetan89.showsrage.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.SparseArray;
 
 import com.mgaetan89.showsrage.model.Show;
 
@@ -10,7 +9,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -20,7 +20,7 @@ public class ShowsPagerAdapter_EmptyTest {
 
 	@Before
 	public void before() {
-		this.adapter = new ShowsPagerAdapter(mock(FragmentManager.class), mock(Fragment.class), new SparseArray<ArrayList<Show>>());
+		this.adapter = new ShowsPagerAdapter(mock(FragmentManager.class), mock(Fragment.class), Collections.<Integer, List<Show>>emptyMap());
 	}
 
 	@Test

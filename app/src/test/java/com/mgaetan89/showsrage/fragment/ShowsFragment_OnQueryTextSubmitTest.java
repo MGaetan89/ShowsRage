@@ -29,11 +29,10 @@ public class ShowsFragment_OnQueryTextSubmitTest {
 	public void onQueryTextSubmit() {
 		try {
 			assertTrue(this.fragment.onQueryTextSubmit(this.query));
+			verify(this.fragment).sendFilterMessage();
 		} catch (NullPointerException exception) {
 			// LocalBroadcastManager.getInstance(Context) returns null in tests
 		}
-
-		verify(this.fragment).sendFilterMessage();
 	}
 
 	@After

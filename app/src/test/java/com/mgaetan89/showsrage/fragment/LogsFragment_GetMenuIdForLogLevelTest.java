@@ -22,7 +22,7 @@ public class LogsFragment_GetMenuIdForLogLevelTest {
 
 	@Test
 	public void getMenuIdForLogLevel() {
-		assertThat(LogsFragment.getMenuIdForLogLevel(this.logLevel)).isEqualTo(this.menuId);
+		assertThat(LogsFragment.Companion.getMenuIdForLogLevel(this.logLevel)).isEqualTo(this.menuId);
 	}
 
 	@Parameterized.Parameters

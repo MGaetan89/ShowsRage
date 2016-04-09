@@ -29,11 +29,10 @@ public class ShowsFragment_OnQueryTextChangeTest {
 	public void onQueryTextChange() {
 		try {
 			assertTrue(this.fragment.onQueryTextChange(this.newText));
+			verify(this.fragment).sendFilterMessage();
 		} catch (NullPointerException exception) {
 			// LocalBroadcastManager.getInstance(Context) returns null in tests
 		}
-
-		verify(this.fragment).sendFilterMessage();
 	}
 
 	@After

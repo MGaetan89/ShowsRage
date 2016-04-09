@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.util.SparseArray;
 
 import com.mgaetan89.showsrage.Constants;
 import com.mgaetan89.showsrage.EmptyFragmentHostCallback;
@@ -20,7 +19,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -30,12 +32,12 @@ public class ShowsPagerAdapterTest {
 	private ShowsPagerAdapter adapter;
 
 	@NonNull
-	private final SparseArray<ArrayList<Show>> shows = new SparseArray<>();
+	private final Map<Integer, List<Show>> shows = new HashMap<>();
 
 	{
 		{
-			this.shows.put(0, new ArrayList<Show>());
-			this.shows.put(1, new ArrayList<Show>());
+			this.shows.put(0, Collections.<Show>emptyList());
+			this.shows.put(1, Collections.<Show>emptyList());
 		}
 	}
 
