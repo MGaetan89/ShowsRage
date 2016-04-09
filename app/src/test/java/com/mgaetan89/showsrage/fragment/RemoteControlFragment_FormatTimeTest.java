@@ -19,7 +19,7 @@ public class RemoteControlFragment_FormatTimeTest {
 
 	@Test
 	public void getQueryFromIntent() {
-		assertThat(RemoteControlFragment.formatTime(this.time)).isEqualTo(this.formattedTime);
+		assertThat(RemoteControlFragment.Companion.formatTime(this.time)).isEqualTo(this.formattedTime);
 	}
 
 	@Parameterized.Parameters(name = "{0}")
