@@ -153,7 +153,7 @@ public class Episode extends RealmObject {
 	}
 
 	@Nullable
-	public static String getStatusForMenuId(@IdRes int menuId) {
+	public static String getStatusForMenuId(@IdRes Integer menuId) {
 		switch (menuId) {
 			case R.id.menu_episode_set_status_failed:
 				return "failed";
