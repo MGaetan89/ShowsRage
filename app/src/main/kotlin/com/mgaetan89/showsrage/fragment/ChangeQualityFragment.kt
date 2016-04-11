@@ -25,7 +25,7 @@ open class ChangeQualityFragment : DialogFragment(), DialogInterface.OnClickList
         val preferredQualitySpinner = this.dialog.findViewById(R.id.preferred_quality) as Spinner?
         val preferredQuality = this.getPreferredQuality(preferredQualitySpinner)
 
-        val callback = parentFragment.setShowQualityCallback
+        val callback = parentFragment.getSetShowQualityCallback()
 
         SickRageApi.instance.services?.setShowQuality(indexerId, allowedQuality, preferredQuality, callback)
     }
