@@ -230,9 +230,9 @@ class ShowsSectionFragment : Fragment(), View.OnClickListener {
 
                 filteredShows.forEachIndexed { i, show ->
                     if (show.indexerId == indexerId) {
-                        show.episodesCount = showStatsData.total
-                        show.downloaded = showStatsData.totalDone
-                        show.snatched = showStatsData.totalPending
+                        show.episodesCount = showStatsData?.total ?: 0
+                        show.downloaded = showStatsData?.getTotalDone() ?: 0
+                        show.snatched = showStatsData?.getTotalPending() ?: 0
 
                         fragment.adapter?.notifyItemChanged(i)
 
@@ -242,9 +242,9 @@ class ShowsSectionFragment : Fragment(), View.OnClickListener {
 
                 shows.forEach {
                     if (it.indexerId == indexerId) {
-                        it.episodesCount = showStatsData.total
-                        it.downloaded = showStatsData.totalDone
-                        it.snatched = showStatsData.totalPending
+                        it.episodesCount = showStatsData?.total ?: 0
+                        it.downloaded = showStatsData?.getTotalDone() ?: 0
+                        it.snatched = showStatsData?.getTotalPending() ?: 0
 
                         return
                     }
