@@ -74,7 +74,10 @@ public class EpisodePagerAdapterTest {
 			Fragment fragment = this.adapter.getItem(i);
 			assertThat(fragment).isInstanceOf(EpisodeDetailFragment.class);
 			assertThat(fragment.getArguments()).isNotNull();
+			assertThat(fragment.getArguments().containsKey(Constants.Bundle.INSTANCE.getEPISODE_ID()));
 			assertThat(fragment.getArguments().containsKey(Constants.Bundle.INSTANCE.getEPISODE_NUMBER()));
+			assertThat(fragment.getArguments().containsKey(Constants.Bundle.INSTANCE.getSEASON_NUMBER()));
+			assertThat(fragment.getArguments().containsKey(Constants.Bundle.INSTANCE.getSHOW_MODEL()));
 		}
 	}
 

@@ -110,7 +110,7 @@ class SickRageApi private constructor() : RequestInterceptor {
             override fun authenticate(proxy: Proxy, response: Response): Request? {
                 val credentials = this@SickRageApi.credentials
 
-                if (credentials != null && !credentials.isEmpty()) {
+                if (!credentials.isNullOrEmpty()) {
                     return response.request().newBuilder().header("Authorization", credentials).build()
                 }
 
@@ -182,7 +182,7 @@ class SickRageApi private constructor() : RequestInterceptor {
         private fun buildApiUrl(useHttps: Boolean, address: String, portNumber: String): String {
             // Retrofit requires a non-empty endpoint
             // So we use the local url
-            if (address.isEmpty()) {
+            if (address.isNullOrEmpty()) {
                 return "http://127.0.0.1/"
             }
 

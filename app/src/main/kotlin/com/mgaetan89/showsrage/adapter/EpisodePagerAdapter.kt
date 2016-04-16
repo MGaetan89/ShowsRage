@@ -15,8 +15,8 @@ class EpisodePagerAdapter(fragmentManager: FragmentManager?, val fragment: Fragm
 
     override fun getItem(position: Int): Fragment? {
         val episodeNumber = this.episodes[position]
-        val indexerId = this.fragment.arguments.getParcelable<Show?>(Constants.Bundle.SHOW_MODEL)?.indexerId ?: 0
-        val seasonNumber = this.fragment.arguments.getInt(Constants.Bundle.SEASON_NUMBER)
+        val indexerId = this.fragment.arguments?.getParcelable<Show?>(Constants.Bundle.SHOW_MODEL)?.indexerId ?: 0
+        val seasonNumber = this.fragment.arguments?.getInt(Constants.Bundle.SEASON_NUMBER) ?: 0
 
         val arguments = Bundle(this.fragment.arguments)
         arguments.putString(Constants.Bundle.EPISODE_ID, Episode.buildId(indexerId, seasonNumber, episodeNumber))

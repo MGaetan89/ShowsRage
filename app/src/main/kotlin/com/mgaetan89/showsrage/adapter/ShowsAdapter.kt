@@ -27,7 +27,7 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int) : Recycle
         if (holder?.nextEpisodeDate != null) {
             val nextEpisodeAirDate = show.nextEpisodeAirDate
 
-            if (nextEpisodeAirDate.isEmpty()) {
+            if (nextEpisodeAirDate.isNullOrEmpty()) {
                 val status = show.statusTranslationResource
 
                 holder?.nextEpisodeDate.text = if (status != 0) {

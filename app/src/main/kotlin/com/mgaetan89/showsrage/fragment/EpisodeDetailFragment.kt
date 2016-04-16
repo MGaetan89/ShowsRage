@@ -324,7 +324,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         if (this.plot != null) {
             val description = episode.description
 
-            if (description.isEmpty()) {
+            if (description.isNullOrEmpty()) {
                 this.plotLayout?.visibility = View.GONE
             } else {
                 this.plot?.text = description
