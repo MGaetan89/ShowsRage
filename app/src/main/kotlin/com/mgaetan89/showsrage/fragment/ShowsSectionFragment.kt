@@ -236,17 +236,17 @@ class ShowsSectionFragment : Fragment(), View.OnClickListener {
 
                         fragment.adapter?.notifyItemChanged(i)
 
-                        return
+                        return@forEachIndexed
                     }
                 }
 
-                shows.forEach {
+                shows.forEach showsForEach@ {
                     if (it.indexerId == indexerId) {
                         it.episodesCount = showStatsData?.total ?: 0
                         it.downloaded = showStatsData?.getTotalDone() ?: 0
                         it.snatched = showStatsData?.getTotalPending() ?: 0
 
-                        return
+                        return@showsForEach
                     }
                 }
             }
