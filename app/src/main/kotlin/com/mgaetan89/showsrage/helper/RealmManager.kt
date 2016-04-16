@@ -13,10 +13,15 @@ object RealmManager {
         this.realm.clear(History::class.java)
     }
 
-    fun getEpisode(episodeId: String, listener: RealmChangeListener): Episode {
-        val episode = this.realm.where(Episode::class.java)
+    fun getEpisode(episodeId: String, listener: RealmChangeListener?): Episode? {
+        val query = this.realm.where(Episode::class.java)
                 .equalTo("id", episodeId)
-                .findFirstAsync()
+
+        if (listener == null) {
+            return query.findFirst()
+        }
+
+        val episode = query.findFirstAsync()
         episode.addChangeListener(listener)
 
         return episode
@@ -90,7 +95,12 @@ object RealmManager {
     }
 
     private fun prepareEpisodeForSaving(episode: Episode, indexerId: Int, season: Int, episodeNumber: Int) {
-        episode.id = Episode.buildId(indexerId, season, episodeNumber)
+        val id = Episode.buildId(indexerId, season, episodeNumber)
+        val savedEpisode = this.getEpisode(id, null)
+
+        episode.description = if (episode.description.isNullOrEmpty()) savedEpisode?.description else episode.description
+        episode.fileSizeHuman = if (episode.fileSizeHuman.isNullOrEmpty()) savedEpisode?.fileSizeHuman else episode.fileSizeHuman
+        episode.id = id
         episode.indexerId = indexerId
         episode.number = episodeNumber
         episode.season = season

@@ -116,8 +116,8 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     }
 
     override fun onChange() {
-        this.displayEpisode(this.episode)
-        this.displayStreamingMenus(this.episode)
+        this.displayEpisode()
+        this.displayStreamingMenus()
     }
 
     override fun onClick(view: View?) {
@@ -171,7 +171,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             }
         }
 
-        this.displayStreamingMenus(this.episode)
+        this.displayStreamingMenus()
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -304,12 +304,8 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         this.startActivity(intent)
     }
 
-    private fun displayEpisode(episode: Episode?) {
-        if (episode == null) {
-            return
-        }
-
-        this.episode = episode
+    private fun displayEpisode() {
+        val episode = this.episode ?: return
 
         this.airs?.text = this.getString(R.string.airs, DateTimeHelper.getRelativeDate(episode.airDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS))
         this.airs?.visibility = View.VISIBLE
@@ -360,9 +356,9 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         }
     }
 
-    private fun displayStreamingMenus(episode: Episode?) {
-        this.castMenu?.isVisible = this.isCastMenuVisible(episode)
-        this.playVideoMenu?.isVisible = this.isPlayMenuVisible(episode)
+    private fun displayStreamingMenus() {
+        this.castMenu?.isVisible = this.isCastMenuVisible()
+        this.playVideoMenu?.isVisible = this.isPlayMenuVisible()
     }
 
     private fun getEpisodeVideoUrl(): Uri {
@@ -400,23 +396,25 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         return Uri.parse(episodeUrl)
     }
 
-    private fun isCastMenuVisible(episode: Episode?): Boolean {
+    private fun isCastMenuVisible(): Boolean {
         val activity = this.activity ?: return false
         val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
-        val episodeDownloaded = this.isEpisodeDownloaded(episode)
+        val episodeDownloaded = this.isEpisodeDownloaded()
         val streamInChromecast = preferences.getBoolean("stream_in_chromecast", false)
 
         return episodeDownloaded && streamInChromecast
     }
 
-    private fun isEpisodeDownloaded(episode: Episode?): Boolean {
-        return episode != null && episode.isLoaded && "Downloaded".equals(episode.status, true)
+    private fun isEpisodeDownloaded(): Boolean {
+        val episode = this.episode ?: return false
+
+        return episode.isLoaded && "Downloaded".equals(episode.status, true)
     }
 
-    private fun isPlayMenuVisible(episode: Episode?): Boolean {
+    private fun isPlayMenuVisible(): Boolean {
         val activity = this.activity ?: return false
         val prefences = PreferenceManager.getDefaultSharedPreferences(activity)
-        val episodeDownloaded = this.isEpisodeDownloaded(episode)
+        val episodeDownloaded = this.isEpisodeDownloaded()
         val viewInExternalVideoPlayer = prefences.getBoolean("view_in_external_video_player", false)
 
         return episodeDownloaded && viewInExternalVideoPlayer
