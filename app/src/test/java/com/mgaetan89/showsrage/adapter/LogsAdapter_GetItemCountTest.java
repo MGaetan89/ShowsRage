@@ -1,5 +1,7 @@
 package com.mgaetan89.showsrage.adapter;
 
+import com.mgaetan89.showsrage.model.LogEntry;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +21,7 @@ public class LogsAdapter_GetItemCountTest {
 	public int itemCount;
 
 	@Parameterized.Parameter(0)
-	public List<String> logs;
+	public List<LogEntry> logs;
 
 	private LogsAdapter adapter;
 
@@ -42,8 +44,8 @@ public class LogsAdapter_GetItemCountTest {
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][]{
 				{Collections.emptyList(), 0},
-				{Collections.singletonList(""), 1},
-				{Arrays.asList("", "", ""), 3},
+				{Collections.singletonList(new LogEntry()), 1},
+				{Arrays.asList(new LogEntry(), new LogEntry(), new LogEntry()), 3},
 		});
 	}
 }

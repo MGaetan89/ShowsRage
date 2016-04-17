@@ -3,6 +3,7 @@ package com.mgaetan89.showsrage.helper
 import android.content.Context
 import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.History
+import com.mgaetan89.showsrage.model.LogEntry
 import com.mgaetan89.showsrage.model.RootDir
 import io.realm.*
 
@@ -44,6 +45,13 @@ object RealmManager {
         return history
     }
 
+    fun getLogs(listener: RealmChangeListener): RealmResults<LogEntry> {
+        val logs = this.realm.where(LogEntry::class.java).findAllSortedAsync("dateTime", Sort.DESCENDING)
+        logs.addChangeListener(listener)
+
+        return logs
+    }
+
     fun getRootDirs(): RealmResults<RootDir> {
         return this.realm.where(RootDir::class.java).findAll()
     }
@@ -79,6 +87,12 @@ object RealmManager {
     fun saveHistory(histories: List<History>) {
         this.realm.executeTransaction {
             it.copyToRealmOrUpdate(histories)
+        }
+    }
+
+    fun saveLogs(logs: List<LogEntry>) {
+        this.realm.executeTransaction {
+            it.copyToRealmOrUpdate(logs)
         }
     }
 

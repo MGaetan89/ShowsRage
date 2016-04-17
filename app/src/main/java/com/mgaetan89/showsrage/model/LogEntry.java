@@ -8,15 +8,24 @@ import com.mgaetan89.showsrage.R;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LogEntry {
-	@NonNull
-	private static final Pattern PATTERN = Pattern.compile("^((?:[0-9]{4}-[0-9]{2}-[0-9]{2}\\s+)?[0-9]{2}:[0-9]{2}:[0-9]{2})\\s+([A-Z]+)\\s+(.*)$");
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
+public class LogEntry extends RealmObject {
+	@NonNull
+	private static final Pattern PATTERN = Pattern.compile("^((?:[0-9]{4}-[0-9]{2}-[0-9]{2}\\s+)?[0-9]{2}:[0-9]{2}:[0-9]{2})\\s+([A-Z]+)\\s+([A-Z0-9-]+(?:\\s+::\\s+))?(.*)$");
+
+	@PrimaryKey
 	private String dateTime = "";
 
 	private String errorType = "";
 
+	private String group = "";
+
 	private String message = "";
+
+	public LogEntry() {
+	}
 
 	public LogEntry(CharSequence log) {
 		if (log != null) {
@@ -25,7 +34,16 @@ public class LogEntry {
 			if (matcher.matches()) {
 				this.dateTime = matcher.group(1);
 				this.errorType = matcher.group(2);
-				this.message = matcher.group(3);
+				this.group = matcher.group(3);
+				this.message = matcher.group(4);
+
+				if (this.group != null) {
+					int limit = this.group.indexOf(' ');
+
+					if (limit < this.group.length()) {
+						this.group = this.group.substring(0, limit);
+					}
+				}
 			}
 		}
 	}
@@ -59,6 +77,10 @@ public class LogEntry {
 
 	public String getErrorType() {
 		return this.errorType;
+	}
+
+	public String getGroup() {
+		return this.group;
 	}
 
 	public String getMessage() {

@@ -109,6 +109,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
                 Kolumbus.explore(Episode::class.java)
                         .explore(History::class.java)
+                        .explore(LogEntry::class.java)
                         .explore(RootDir::class.java)
                         .navigate(this)
             }

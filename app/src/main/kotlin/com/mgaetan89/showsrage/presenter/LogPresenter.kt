@@ -18,5 +18,14 @@ class LogPresenter(val logEntry: LogEntry?) {
 
     fun getErrorType() = this.logEntry?.errorType ?: ""
 
-    fun getMessage() = this.logEntry?.message?.trim() ?: ""
+    fun getMessage(): String {
+        val group = this.logEntry?.group
+        val message = this.logEntry?.message
+
+        if (!group.isNullOrEmpty()) {
+            return group + " :: " + message
+        }
+
+        return message?.trim() ?: ""
+    }
 }

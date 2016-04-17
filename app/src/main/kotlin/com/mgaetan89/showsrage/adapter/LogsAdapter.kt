@@ -10,13 +10,11 @@ import com.mgaetan89.showsrage.databinding.AdapterLogsListBinding
 import com.mgaetan89.showsrage.model.LogEntry
 import com.mgaetan89.showsrage.presenter.LogPresenter
 
-class LogsAdapter(val logs: List<String>) : RecyclerView.Adapter<LogsAdapter.ViewHolder>() {
+class LogsAdapter(val logs: List<LogEntry>) : RecyclerView.Adapter<LogsAdapter.ViewHolder>() {
     override fun getItemCount() = this.logs.size
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        val logEntry = LogEntry(this.logs[position])
-
-        holder?.bind(LogPresenter(logEntry))
+        holder?.bind(LogPresenter(this.logs[position]))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {

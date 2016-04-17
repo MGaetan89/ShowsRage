@@ -12,17 +12,21 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.LogsAdapter
+import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.model.LogEntry
 import com.mgaetan89.showsrage.model.LogLevel
 import com.mgaetan89.showsrage.model.Logs
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.RealmChangeListener
+import io.realm.RealmResults
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 
-class LogsFragment : Fragment(), Callback<Logs>, SwipeRefreshLayout.OnRefreshListener {
+class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener, SwipeRefreshLayout.OnRefreshListener {
     private var adapter: LogsAdapter? = null
     private var emptyView: TextView? = null
-    private val logs = mutableListOf<String>()
+    private var logs: RealmResults<LogEntry>? = null
     private var recyclerView: RecyclerView? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
@@ -49,6 +53,30 @@ class LogsFragment : Fragment(), Callback<Logs>, SwipeRefreshLayout.OnRefreshLis
         this.onRefresh()
     }
 
+    override fun onChange() {
+        if (this.adapter == null && this.logs != null) {
+            this.adapter = LogsAdapter(this.logs!!)
+
+            this.recyclerView?.adapter = this.adapter
+        }
+
+        if (this.logs?.isEmpty() ?: false) {
+            this.emptyView?.visibility = View.VISIBLE
+            this.recyclerView?.visibility = View.GONE
+        } else {
+            this.emptyView?.visibility = View.GONE
+            this.recyclerView?.visibility = View.VISIBLE
+        }
+
+        this.adapter?.notifyDataSetChanged()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        this.logs = RealmManager.getLogs(this)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.logs, menu)
 
@@ -68,8 +96,6 @@ class LogsFragment : Fragment(), Callback<Logs>, SwipeRefreshLayout.OnRefreshLis
             this.swipeRefreshLayout = view.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
 
             if (this.recyclerView != null) {
-                this.adapter = LogsAdapter(this.logs)
-
                 this.recyclerView!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                         super.onScrolled(recyclerView, dx, dy)
@@ -77,7 +103,6 @@ class LogsFragment : Fragment(), Callback<Logs>, SwipeRefreshLayout.OnRefreshLis
                         swipeRefreshLayout?.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
                     }
                 })
-                this.recyclerView!!.adapter = this.adapter
                 this.recyclerView!!.layoutManager = LinearLayoutManager(this.activity)
             }
 
@@ -89,7 +114,7 @@ class LogsFragment : Fragment(), Callback<Logs>, SwipeRefreshLayout.OnRefreshLis
     }
 
     override fun onDestroy() {
-        this.logs.clear()
+        this.logs?.removeChangeListeners()
 
         super.onDestroy()
     }
@@ -119,18 +144,11 @@ class LogsFragment : Fragment(), Callback<Logs>, SwipeRefreshLayout.OnRefreshLis
     override fun success(logs: Logs?, response: Response?) {
         this.swipeRefreshLayout?.isRefreshing = false
 
-        this.logs.clear()
-        this.logs.addAll(logs?.data ?: emptyList())
+        val logEntries = logs?.data?.map {
+            LogEntry(it)
+        } ?: emptyList()
 
-        if (this.logs.isEmpty()) {
-            this.emptyView?.visibility = View.VISIBLE
-            this.recyclerView?.visibility = View.GONE
-        } else {
-            this.emptyView?.visibility = View.GONE
-            this.recyclerView?.visibility = View.VISIBLE
-        }
-
-        this.adapter?.notifyDataSetChanged()
+        RealmManager.saveLogs(logEntries)
     }
 
     private fun getPreferredLogsLevel(): LogLevel {

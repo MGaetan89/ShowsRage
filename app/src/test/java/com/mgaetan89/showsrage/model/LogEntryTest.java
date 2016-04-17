@@ -24,10 +24,13 @@ public class LogEntryTest {
 	@Parameterized.Parameter(2)
 	public String errorType;
 
+	@Parameterized.Parameter(4)
+	public String group;
+
 	@Parameterized.Parameter(0)
 	public String log;
 
-	@Parameterized.Parameter(4)
+	@Parameterized.Parameter(5)
 	public String message;
 
 	private LogEntry logEntry;
@@ -53,6 +56,11 @@ public class LogEntryTest {
 	}
 
 	@Test
+	public void getGroup() {
+		assertThat(this.logEntry.getGroup()).isEqualTo(this.group);
+	}
+
+	@Test
 	public void getMessage() {
 		assertThat(this.logEntry.getMessage()).isEqualTo(this.message);
 	}
@@ -68,22 +76,34 @@ public class LogEntryTest {
 				getInvalidLogEntry(null),
 				getInvalidLogEntry(""),
 				getInvalidLogEntry("2015-06-01 DEBUG Some DEBUG message"),
+				getInvalidLogEntry("2015-06-01 DEBUG DAILYSEARCHER :: Some DEBUG message"),
 				getValidLogEntry("17:28:45", "DEBUG", R.color.green, "Some DEBUG message"),
+				getValidLogEntry("17:28:45", "DEBUG", R.color.green, "DAILYSEARCHER", "Some DEBUG message"),
 				getValidLogEntry("2015-06-02 17:28:46", "DEBUG", R.color.green, "Some DEBUG message"),
+				getValidLogEntry("2015-06-02 17:28:46", "DEBUG", R.color.green, "DAILYSEARCHER", "Some DEBUG message"),
 				getInvalidLogEntry("2015-06-03 ERROR Some ERROR message"),
+				getInvalidLogEntry("2015-06-03 ERROR DAILYSEARCHER :: Some ERROR message"),
 				getValidLogEntry("17:28:47", "ERROR", R.color.red, "Some ERROR message"),
+				getValidLogEntry("17:28:47", "ERROR", R.color.red, "DAILYSEARCHER", "Some ERROR message"),
 				getValidLogEntry("2015-06-04 17:28:48", "ERROR", R.color.red, "Some ERROR message"),
+				getValidLogEntry("2015-06-04 17:28:48", "ERROR", R.color.red, "DAILYSEARCHER", "Some ERROR message"),
 				getInvalidLogEntry("2015-06-05 INFO Some INFO message"),
+				getInvalidLogEntry("2015-06-05 INFO DAILYSEARCHER :: Some INFO message"),
 				getValidLogEntry("17:28:49", "INFO", R.color.blue, "Some INFO message"),
+				getValidLogEntry("17:28:49", "INFO", R.color.blue, "DAILYSEARCHER", "Some INFO message"),
 				getValidLogEntry("2015-06-06 17:28:50", "INFO", R.color.blue, "Some INFO message"),
+				getValidLogEntry("2015-06-06 17:28:50", "INFO", R.color.blue, "DAILYSEARCHER", "Some INFO message"),
 				getInvalidLogEntry("2015-06-07 WARNING Some WARNING message"),
+				getInvalidLogEntry("2015-06-07 WARNING DAILYSEARCHER :: Some WARNING message"),
 				getValidLogEntry("17:28:51", "WARNING", R.color.orange, "Some WARNING message"),
-				getValidLogEntry("2015-06-08 17:28:52", "WARNING", R.color.orange, "Some WARNING message")
+				getValidLogEntry("17:28:51", "WARNING", R.color.orange, "DAILYSEARCHER", "Some WARNING message"),
+				getValidLogEntry("2015-06-08 17:28:52", "WARNING", R.color.orange, "Some WARNING message"),
+				getValidLogEntry("2015-06-08 17:28:52", "WARNING", R.color.orange, "DAILYSEARCHER", "Some WARNING message")
 		);
 	}
 
 	private static Object[] getInvalidLogEntry(String log) {
-		return new Object[]{log, "", "", android.R.color.black, ""};
+		return new Object[]{log, "", "", android.R.color.black, "", ""};
 	}
 
 	private static Object[] getValidLogEntry(String dateTime, String errorType, int errorColor, String message) {
@@ -92,6 +112,18 @@ public class LogEntryTest {
 				dateTime,
 				errorType,
 				errorColor,
+				null,
+				message
+		};
+	}
+
+	private static Object[] getValidLogEntry(String dateTime, String errorType, int errorColor, String group, String message) {
+		return new Object[]{
+				String.format("%s %s %s :: %s", dateTime, errorType, group, message),
+				dateTime,
+				errorType,
+				errorColor,
+				group,
 				message
 		};
 	}

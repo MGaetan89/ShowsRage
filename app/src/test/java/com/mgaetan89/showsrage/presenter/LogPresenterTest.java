@@ -65,6 +65,10 @@ public class LogPresenterTest {
 				{new LogEntry("2015-12-31 01:02:03 ERROR Some error message"), null, R.color.red, "ERROR", "Some error message"},
 				{new LogEntry("2015-12-31 01:02:03 INFO Some info message"), null, R.color.blue, "INFO", "Some info message"},
 				{new LogEntry("2015-12-31 01:02:03 WARNING Some warning message"), null, R.color.orange, "WARNING", "Some warning message"},
+				{new LogEntry("2015-12-31 01:02:03 DEBUG DAILYSEARCHER :: Some debug message"), null, R.color.green, "DEBUG", "DAILYSEARCHER :: Some debug message"},
+				{new LogEntry("2015-12-31 01:02:03 ERROR DAILYSEARCHER :: Some error message"), null, R.color.red, "ERROR", "DAILYSEARCHER :: Some error message"},
+				{new LogEntry("2015-12-31 01:02:03 INFO DAILYSEARCHER :: Some info message"), null, R.color.blue, "INFO", "DAILYSEARCHER :: Some info message"},
+				{new LogEntry("2015-12-31 01:02:03 WARNING DAILYSEARCHER :: Some warning message"), null, R.color.orange, "WARNING", "DAILYSEARCHER :: Some warning message"},
 		});
 	}
 }
