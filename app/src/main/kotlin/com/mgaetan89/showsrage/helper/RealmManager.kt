@@ -1,10 +1,7 @@
 package com.mgaetan89.showsrage.helper
 
 import android.content.Context
-import com.mgaetan89.showsrage.model.Episode
-import com.mgaetan89.showsrage.model.History
-import com.mgaetan89.showsrage.model.LogEntry
-import com.mgaetan89.showsrage.model.RootDir
+import com.mgaetan89.showsrage.model.*
 import io.realm.*
 
 object RealmManager {
@@ -45,8 +42,21 @@ object RealmManager {
         return history
     }
 
-    fun getLogs(listener: RealmChangeListener): RealmResults<LogEntry> {
-        val logs = this.realm.where(LogEntry::class.java).findAllSortedAsync("dateTime", Sort.DESCENDING)
+    fun getLogs(logLevel: LogLevel, listener: RealmChangeListener): RealmResults<LogEntry> {
+        val logLevels = this.getLogLevels(logLevel)
+        val query = this.realm.where(LogEntry::class.java)
+
+        if (logLevels.size == 1) {
+            query.equalTo("errorType", logLevels.first())
+        } else if (logLevels.size > 1) {
+            query.beginGroup()
+            logLevels.forEach {
+                query.equalTo("errorType", it).or()
+            }
+            query.endGroup()
+        }
+
+        val logs = query.findAllSortedAsync("dateTime", Sort.DESCENDING)
         logs.addChangeListener(listener)
 
         return logs
@@ -105,6 +115,16 @@ object RealmManager {
     fun close() {
         if (!this.realm.isClosed) {
             this.realm.close()
+        }
+    }
+
+    private fun getLogLevels(logLevel: LogLevel): Array<String> {
+        return when (logLevel) {
+            LogLevel.DEBUG -> arrayOf("DEBUG", "ERROR", "INFO", "WARNING")
+            LogLevel.ERROR -> arrayOf("ERROR")
+            LogLevel.INFO -> arrayOf("ERROR", "INFO", "WARNING")
+            LogLevel.WARNING -> arrayOf("ERROR", "WARNING")
+            else -> arrayOf("DEBUG", "ERROR", "INFO", "WARNING")
         }
     }
 

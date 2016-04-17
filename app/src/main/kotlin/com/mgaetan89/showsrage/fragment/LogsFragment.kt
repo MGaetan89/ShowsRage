@@ -74,7 +74,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener, SwipeRefre
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        this.logs = RealmManager.getLogs(this)
+        this.logs = RealmManager.getLogs(this.getPreferredLogsLevel(), this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -128,7 +128,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener, SwipeRefre
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.menu_logs_level) {
+        if (item?.groupId == R.id.menu_logs_level) {
             return this.handleLogsLevelSelection(item)
         }
 
@@ -174,6 +174,12 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener, SwipeRefre
             val editor = PreferenceManager.getDefaultSharedPreferences(this.context).edit()
             editor.putString(Constants.Preferences.Fields.LOGS_LEVEL, logLevel.name)
             editor.apply()
+
+            // Update the list of logs
+            this.adapter = null
+
+            this.logs?.removeChangeListeners()
+            this.logs = RealmManager.getLogs(logLevel, this)
 
             // Refresh the list of logs
             this.onRefresh()
