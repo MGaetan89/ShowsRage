@@ -14,7 +14,7 @@ object Constants {
         val EPISODES_COUNT = "episodes_count"
         val INDEXER_ID = "indexer_id"
         val MENU_ID = "menu_id"
-        val SCHEDULES = "schedules"
+        val SCHEDULE_SECTION = "schedule_section"
         val SEARCH_QUERY = "search_query"
         val SEASON_NUMBER = "season_number"
         val SHOW_MODEL = "show_model"

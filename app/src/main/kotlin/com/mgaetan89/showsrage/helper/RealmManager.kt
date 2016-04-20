@@ -66,6 +66,19 @@ object RealmManager {
         return this.realm.where(RootDir::class.java).findAll()
     }
 
+    fun getSchedule(section: String, listener: RealmChangeListener): RealmResults<Schedule> {
+        val schedule = this.realm.where(Schedule::class.java)
+                .equalTo("section", section)
+                .findAllSortedAsync("airDate")
+        schedule.addChangeListener(listener)
+
+        return schedule
+    }
+
+    fun getScheduleSections(): List<String> {
+        return this.realm.where(Schedule::class.java).findAll().where().distinct("section").map { it.section }
+    }
+
     fun init(context: Context) {
         val configuration = RealmConfiguration.Builder(context)
                 .deleteRealmIfMigrationNeeded()
@@ -86,8 +99,8 @@ object RealmManager {
 
     fun saveEpisodes(episodes: List<Episode>, indexerId: Int, season: Int) {
         this.realm.executeTransaction {
-            for (episode in episodes) {
-                this.prepareEpisodeForSaving(episode, indexerId, season, episode.number)
+            episodes.forEach {
+                prepareEpisodeForSaving(it, indexerId, season, it.number)
             }
 
             it.copyToRealmOrUpdate(episodes)
@@ -109,6 +122,22 @@ object RealmManager {
     fun saveRootDirs(rootDirs: List<RootDir>) {
         this.realm.executeTransaction {
             it.copyToRealmOrUpdate(rootDirs)
+        }
+    }
+
+    fun saveSchedules(section: String, schedules: List<Schedule>) {
+        this.realm.executeTransaction {
+            // Clear the old data for the specified section
+            it.where(Schedule::class.java)
+                    .equalTo("section", section)
+                    .findAll()
+                    .clear()
+
+            schedules.forEach {
+                prepareScheduleForSaving(it, section)
+            }
+
+            it.copyToRealmOrUpdate(schedules)
         }
     }
 
@@ -138,5 +167,10 @@ object RealmManager {
         episode.indexerId = indexerId
         episode.number = episodeNumber
         episode.season = season
+    }
+
+    private fun prepareScheduleForSaving(schedule: Schedule, section: String) {
+        schedule.id = "${schedule.indexerId}_${schedule.season}_${schedule.episode}"
+        schedule.section = section
     }
 }

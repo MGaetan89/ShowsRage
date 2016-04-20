@@ -6,15 +6,13 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.fragment.ScheduleSectionFragment
-import com.mgaetan89.showsrage.model.Schedule
-import java.util.*
 
-class SchedulePagerAdapter(fragmentManager: FragmentManager?, val sections: List<String>, var schedules: List<ArrayList<Schedule>>) : FragmentStatePagerAdapter(fragmentManager) {
-    override fun getCount() = this.sections.size
+class SchedulePagerAdapter(fragmentManager: FragmentManager?, val ids: List<String>, val labels: List<String>) : FragmentStatePagerAdapter(fragmentManager) {
+    override fun getCount() = this.ids.size
 
     override fun getItem(position: Int): Fragment? {
         val arguments = Bundle()
-        arguments.putSerializable(Constants.Bundle.SCHEDULES, this.schedules[position])
+        arguments.putString(Constants.Bundle.SCHEDULE_SECTION, this.ids[position])
 
         val fragment = ScheduleSectionFragment()
         fragment.arguments = arguments
@@ -23,6 +21,6 @@ class SchedulePagerAdapter(fragmentManager: FragmentManager?, val sections: List
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return this.sections[position]
+        return this.labels[position]
     }
 }

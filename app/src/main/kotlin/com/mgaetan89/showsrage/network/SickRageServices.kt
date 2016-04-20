@@ -37,7 +37,6 @@ interface SickRageServices {
     @GET("/{api_path}/{api_key}/?cmd=sb.getrootdirs")
     fun getRootDirs(callback: Callback<RootDirs>)
 
-    // TODO Include in Realm
     @GET("/{api_path}/{api_key}/?cmd=future")
     fun getSchedule(callback: Callback<Schedules>)
 

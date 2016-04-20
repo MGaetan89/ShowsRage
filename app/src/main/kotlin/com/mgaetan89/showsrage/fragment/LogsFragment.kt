@@ -60,7 +60,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener, SwipeRefre
             this.recyclerView?.adapter = this.adapter
         }
 
-        if (this.logs?.isEmpty() ?: false) {
+        if (this.logs?.isEmpty() ?: true) {
             this.emptyView?.visibility = View.VISIBLE
             this.recyclerView?.visibility = View.GONE
         } else {

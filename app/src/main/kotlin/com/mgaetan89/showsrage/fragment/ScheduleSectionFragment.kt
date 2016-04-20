@@ -11,28 +11,25 @@ import android.widget.TextView
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.adapter.ScheduleAdapter
+import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.Schedule
+import io.realm.RealmChangeListener
+import io.realm.RealmResults
 
-class ScheduleSectionFragment : Fragment() {
+class ScheduleSectionFragment : Fragment(), RealmChangeListener {
     private var adapter: ScheduleAdapter? = null
     private var emptyView: TextView? = null
     private var recyclerView: RecyclerView? = null
-    private val schedules = mutableListOf <Schedule>()
+    private var schedules: RealmResults<Schedule>? = null
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onChange() {
+        if (this.adapter == null && this.schedules != null) {
+            this.adapter = ScheduleAdapter(this.schedules!!)
 
-        val arguments = this.arguments
-
-        if (arguments != null) {
-            val schedules = arguments.getSerializable(Constants.Bundle.SCHEDULES) as Collection<Schedule>?
-
-            if (schedules != null) {
-                this.schedules.addAll(schedules)
-            }
+            this.recyclerView!!.adapter = this.adapter
         }
 
-        if (this.schedules.isEmpty()) {
+        if (this.schedules?.isEmpty() ?: true) {
             this.emptyView?.visibility = View.VISIBLE
             this.recyclerView?.visibility = View.GONE
         } else {
@@ -41,6 +38,14 @@ class ScheduleSectionFragment : Fragment() {
         }
 
         this.adapter?.notifyDataSetChanged()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val section = this.arguments?.getString(Constants.Bundle.SCHEDULE_SECTION, "") ?: ""
+
+        this.schedules = RealmManager.getSchedule(section, this)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -53,20 +58,11 @@ class ScheduleSectionFragment : Fragment() {
             if (this.recyclerView != null) {
                 val columnCount = this.resources.getInteger(R.integer.shows_column_count)
 
-                this.adapter = ScheduleAdapter(this.schedules)
-
-                this.recyclerView!!.adapter = this.adapter
                 this.recyclerView!!.layoutManager = GridLayoutManager(this.activity, columnCount)
             }
         }
 
         return view
-    }
-
-    override fun onDestroy() {
-        this.schedules.clear()
-
-        super.onDestroy()
     }
 
     override fun onDestroyView() {

@@ -111,6 +111,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                         .explore(History::class.java)
                         .explore(LogEntry::class.java)
                         .explore(RootDir::class.java)
+                        .explore(Schedule::class.java)
                         .navigate(this)
             }
 
