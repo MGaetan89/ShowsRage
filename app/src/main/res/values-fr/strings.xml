@@ -27,6 +27,8 @@
 	<string name="check_update">Vérifier les mises à jour</string>
 	<string name="clear">Effacer</string>
 	<string name="clear_history_confirm">Etes-vous sûr de vouloir effacer l\'historique de SickRage ?</string>
+	<string name="clear_local_data">Effacer les données locales</string>
+	<string name="clear_local_data_confirm">Êtes-vous sûr de vouloir effacer les données sur votre appareil ?\nCela ne va pas impacter les information stockées sur SickRage.</string>
 	<string name="close">Fermer</string>
 	<string name="close_menu">Fermer le menu</string>
 	<string name="connecting_to">Connexion à <xliff:g example="http://127.0.0.1/" id="url">%1$s</xliff:g>…</string>

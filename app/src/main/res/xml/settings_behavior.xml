@@ -12,4 +12,8 @@
 		android:entryValues="@array/version_check_values"
 		android:key="behavior_version_check"
 		android:title="@string/version_check" />
+
+	<Preference
+		android:key="behavior_clear_local"
+		android:title="@string/clear_local_data" />
 </PreferenceScreen>
