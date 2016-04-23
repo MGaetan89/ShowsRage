@@ -11,6 +11,10 @@ object RealmManager {
         this.realm.clear(History::class.java)
     }
 
+    fun clearSchedule() {
+        this.realm.clear(Schedule::class.java)
+    }
+
     fun getEpisode(episodeId: String, listener: RealmChangeListener?): Episode? {
         val query = this.realm.where(Episode::class.java)
                 .equalTo("id", episodeId)
@@ -127,12 +131,6 @@ object RealmManager {
 
     fun saveSchedules(section: String, schedules: List<Schedule>) {
         this.realm.executeTransaction {
-            // Clear the old data for the specified section
-            it.where(Schedule::class.java)
-                    .equalTo("section", section)
-                    .findAll()
-                    .clear()
-
             schedules.forEach {
                 prepareScheduleForSaving(it, section)
             }

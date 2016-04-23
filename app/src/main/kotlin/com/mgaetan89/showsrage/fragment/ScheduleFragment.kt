@@ -52,6 +52,8 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
             data[it]?.isNotEmpty() ?: false
         })
 
+        RealmManager.clearSchedule()
+
         data.forEach {
             if (it.value.isNotEmpty()) {
                 RealmManager.saveSchedules(it.key, it.value)
