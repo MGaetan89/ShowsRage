@@ -8,11 +8,21 @@ object RealmManager {
     private lateinit var realm: Realm
 
     fun clearHistory() {
-        this.realm.clear(History::class.java)
+        this.realm.executeTransaction {
+            it.delete(History::class.java)
+        }
     }
 
     fun clearSchedule() {
-        this.realm.clear(Schedule::class.java)
+        this.realm.executeTransaction {
+            it.delete(Schedule::class.java)
+        }
+    }
+
+    fun close() {
+        if (!this.realm.isClosed) {
+            this.realm.close()
+        }
     }
 
     fun getEpisode(episodeId: String, listener: RealmChangeListener?): Episode? {
@@ -104,7 +114,7 @@ object RealmManager {
     fun saveEpisodes(episodes: List<Episode>, indexerId: Int, season: Int) {
         this.realm.executeTransaction {
             episodes.forEach {
-                prepareEpisodeForSaving(it, indexerId, season, it.number)
+                this.prepareEpisodeForSaving(it, indexerId, season, it.number)
             }
 
             it.copyToRealmOrUpdate(episodes)
@@ -132,16 +142,10 @@ object RealmManager {
     fun saveSchedules(section: String, schedules: List<Schedule>) {
         this.realm.executeTransaction {
             schedules.forEach {
-                prepareScheduleForSaving(it, section)
+                this.prepareScheduleForSaving(it, section)
             }
 
             it.copyToRealmOrUpdate(schedules)
-        }
-    }
-
-    fun close() {
-        if (!this.realm.isClosed) {
-            this.realm.close()
         }
     }
 
