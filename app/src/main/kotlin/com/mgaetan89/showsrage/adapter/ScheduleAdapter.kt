@@ -64,7 +64,7 @@ class ScheduleAdapter(val schedules: List<Schedule>) : RecyclerView.Adapter<Sche
                 val schedule = schedules[adapterPosition]
                 val plot = schedule.episodePlot
 
-                if (plot != null) {
+                if (!plot.isNullOrEmpty()) {
                     var message = context.getString(R.string.season_episode_name, schedule.season, schedule.episode, schedule.episodeName)
                     message += "\n\n"
                     message += plot
