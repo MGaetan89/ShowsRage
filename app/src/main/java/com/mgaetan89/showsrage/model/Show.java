@@ -8,7 +8,6 @@ import com.google.gson.annotations.SerializedName;
 import com.mgaetan89.showsrage.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Show implements Parcelable {
@@ -18,7 +17,6 @@ public class Show implements Parcelable {
 	private int anime = 0;
 	@SerializedName("archive_firstmatch")
 	private int archiveFirstmatch = 0;
-	private HashMap<String, Integer> cache = null;
 	private int downloaded = 0;
 	@SerializedName("dvdorder")
 	private int dvdOrder = 0;
@@ -39,10 +37,6 @@ public class Show implements Parcelable {
 	private String quality = "";
 	@SerializedName("quality_details")
 	private Quality qualityDetails = null;
-	@SerializedName("rls_ignore_words")
-	private List<String> rlsIgnoreWords = null;
-	@SerializedName("rls_require_words")
-	private List<String> rlsRequireWords = null;
 	private int scene = 0;
 	@SerializedName("season_list")
 	private List<Integer> seasonList = new ArrayList<>();
@@ -67,7 +61,6 @@ public class Show implements Parcelable {
 		this.airs = in.readString();
 		this.anime = in.readInt();
 		this.archiveFirstmatch = in.readInt();
-		this.cache = (HashMap<String, Integer>) in.readSerializable();
 		this.downloaded = in.readInt();
 		this.dvdOrder = in.readInt();
 		this.episodesCount = in.readInt();
@@ -82,8 +75,6 @@ public class Show implements Parcelable {
 		this.paused = in.readInt();
 		this.quality = in.readString();
 		this.qualityDetails = (Quality) in.readValue(Quality.class.getClassLoader());
-		this.rlsIgnoreWords = in.createStringArrayList();
-		this.rlsRequireWords = in.createStringArrayList();
 		this.scene = in.readInt();
 		in.readList(this.seasonList, null);
 		this.showName = in.readString();
@@ -115,10 +106,6 @@ public class Show implements Parcelable {
 
 	public int getArchiveFirstmatch() {
 		return this.archiveFirstmatch;
-	}
-
-	public HashMap<String, Integer> getCache() {
-		return this.cache;
 	}
 
 	public int getDownloaded() {
@@ -175,14 +162,6 @@ public class Show implements Parcelable {
 
 	public Quality getQualityDetails() {
 		return this.qualityDetails;
-	}
-
-	public List<String> getRlsIgnoreWords() {
-		return this.rlsIgnoreWords;
-	}
-
-	public List<String> getRlsRequireWords() {
-		return this.rlsRequireWords;
 	}
 
 	public int getScene() {
@@ -263,7 +242,6 @@ public class Show implements Parcelable {
 		dest.writeString(this.airs);
 		dest.writeInt(this.anime);
 		dest.writeInt(this.archiveFirstmatch);
-		dest.writeSerializable(this.cache);
 		dest.writeInt(this.downloaded);
 		dest.writeInt(this.dvdOrder);
 		dest.writeInt(this.episodesCount);
@@ -278,8 +256,6 @@ public class Show implements Parcelable {
 		dest.writeInt(this.paused);
 		dest.writeString(this.quality);
 		dest.writeValue(this.qualityDetails);
-		dest.writeStringList(this.rlsIgnoreWords);
-		dest.writeStringList(this.rlsRequireWords);
 		dest.writeInt(this.scene);
 		dest.writeList(this.seasonList);
 		dest.writeString(this.showName);
