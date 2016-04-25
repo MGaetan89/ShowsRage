@@ -62,6 +62,7 @@ open class SettingsServerApiKeyFragment : SettingsServerFragment() {
 
         private fun showApiKeyResult(apiKey: String?) {
             val fragment = this.fragmentReference.get() ?: return
+            val context = fragment.context ?: return
             val messageId: Int
 
             if (apiKey.isNullOrEmpty()) {
@@ -73,7 +74,7 @@ open class SettingsServerApiKeyFragment : SettingsServerFragment() {
                 messageId = R.string.get_api_key_success
             }
 
-            AlertDialog.Builder(fragment.context)
+            AlertDialog.Builder(context)
                     .setCancelable(true)
                     .setMessage(messageId)
                     .setPositiveButton(android.R.string.ok, null)
