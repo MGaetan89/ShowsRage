@@ -5,6 +5,8 @@ import com.mgaetan89.showsrage.model.*
 import io.realm.*
 
 object RealmManager {
+    private const val MAX_HISTORY_ENTRIES = 500
+    private const val MAX_LOG_ENTRIES = 1000
     private lateinit var realm: Realm
 
     fun clearHistory() {
@@ -49,8 +51,14 @@ object RealmManager {
         return episodes
     }
 
-    fun getHistory(listener: RealmChangeListener): RealmResults<History> {
-        val history = this.realm.where(History::class.java).findAllSortedAsync("date", Sort.DESCENDING)
+    fun getHistory(listener: RealmChangeListener?): RealmResults<History> {
+        val query = this.realm.where(History::class.java)
+
+        if (listener == null) {
+            return query.findAllSorted("date", Sort.DESCENDING)
+        }
+
+        val history = query.findAllSortedAsync("date", Sort.DESCENDING)
         history.addChangeListener(listener)
 
         return history
@@ -124,12 +132,16 @@ object RealmManager {
     fun saveHistory(histories: List<History>) {
         this.realm.executeTransaction {
             it.copyToRealmOrUpdate(histories)
+
+            this.trimHistory()
         }
     }
 
     fun saveLogs(logs: List<LogEntry>) {
         this.realm.executeTransaction {
             it.copyToRealmOrUpdate(logs)
+
+            this.trimLog()
         }
     }
 
@@ -147,6 +159,10 @@ object RealmManager {
 
             it.copyToRealmOrUpdate(schedules)
         }
+    }
+
+    private fun getAllLogs(): RealmResults<LogEntry> {
+        return this.realm.where(LogEntry::class.java).findAllSorted("dateTime", Sort.DESCENDING)
     }
 
     private fun getLogLevels(logLevel: LogLevel): Array<String> {
@@ -174,5 +190,21 @@ object RealmManager {
     private fun prepareScheduleForSaving(schedule: Schedule, section: String) {
         schedule.id = "${schedule.indexerId}_${schedule.season}_${schedule.episode}"
         schedule.section = section
+    }
+
+    private fun trimHistory() {
+        val histories = this.getHistory(null)
+
+        for (i in MAX_HISTORY_ENTRIES..(histories.size - 1)) {
+            histories[i].deleteFromRealm()
+        }
+    }
+
+    private fun trimLog() {
+        val logs = this.getAllLogs()
+
+        for (i in MAX_LOG_ENTRIES..(logs.size - 1)) {
+            logs[i].deleteFromRealm()
+        }
     }
 }
