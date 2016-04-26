@@ -10,9 +10,7 @@ import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.MenuItemCompat
 import android.support.v4.view.PagerAdapter
 import android.support.v7.widget.SearchView
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.view.*
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
@@ -25,7 +23,7 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 import java.util.*
 
-open class ShowsFragment : TabbedFragment(), Callback<Shows>, SearchView.OnQueryTextListener {
+open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, SearchView.OnQueryTextListener {
     private var searchQuery: String? = null
     private val shows = mutableMapOf<Int, MutableList<Show>>()
 
@@ -50,6 +48,17 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, SearchView.OnQuery
         SickRageApi.instance.services?.getShows(this)
     }
 
+    override fun onClick(view: View?) {
+        if (view?.id == R.id.add_show) {
+            this.activity.findViewById(R.id.tabs)?.visibility = View.GONE
+
+            this.activity.supportFragmentManager.beginTransaction()
+                    .addToBackStack("add_show")
+                    .replace(R.id.content, AddShowFragment())
+                    .commit()
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.shows, menu)
 
@@ -62,6 +71,10 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, SearchView.OnQuery
             searchView.setOnQueryTextListener(this)
             searchView.setSearchableInfo(searchManager?.getSearchableInfo(activity.componentName))
         }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater?.inflate(R.layout.fragment_shows, container, false)
     }
 
     override fun onDestroyView() {
@@ -106,6 +119,12 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, SearchView.OnQuery
         this.sendFilterMessage()
 
         return true
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view?.findViewById(R.id.add_show)?.setOnClickListener(this)
     }
 
     override fun success(shows: Shows?, response: Response?) {

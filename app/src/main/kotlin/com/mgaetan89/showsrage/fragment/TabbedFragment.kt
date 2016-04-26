@@ -27,7 +27,18 @@ abstract class TabbedFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_tabbed, container, false)
+        return inflater?.inflate(R.layout.fragment_tabbed, container, false)
+    }
+
+    override fun onDestroyView() {
+        this.tabLayout = null
+        this.viewPager = null
+
+        super.onDestroyView()
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         if (view != null) {
             this.viewPager = view.findViewById(R.id.view_pager) as ViewPager?
@@ -38,15 +49,6 @@ abstract class TabbedFragment : Fragment() {
                 this.viewPager!!.adapter = this.adapter
             }
         }
-
-        return view
-    }
-
-    override fun onDestroyView() {
-        this.tabLayout = null
-        this.viewPager = null
-
-        super.onDestroyView()
     }
 
     protected abstract fun getAdapter(): PagerAdapter

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.GridLayoutManager
@@ -27,7 +26,7 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 import java.lang.ref.WeakReference
 
-class ShowsSectionFragment : Fragment(), View.OnClickListener {
+class ShowsSectionFragment : Fragment() {
     private var adapter: ShowsAdapter? = null
     private var emptyView: TextView? = null
     private val filteredShows = mutableListOf<Show>()
@@ -59,31 +58,12 @@ class ShowsSectionFragment : Fragment(), View.OnClickListener {
         this.adapter?.notifyDataSetChanged()
     }
 
-    override fun onClick(view: View?) {
-        if (view?.id == R.id.add_show) {
-            val fragment = AddShowFragment()
-            val tabLayout = this.activity.findViewById(R.id.tabs)
-
-            if (tabLayout != null) {
-                tabLayout.visibility = View.GONE
-            }
-
-            this.activity.supportFragmentManager.beginTransaction()
-                    .addToBackStack("add_show")
-                    .replace(R.id.content, fragment)
-                    .commit()
-        }
-    }
-
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_shows_section, container, false)
 
         if (view != null) {
             this.emptyView = view.findViewById(android.R.id.empty) as TextView?
             this.recyclerView = view.findViewById(android.R.id.list) as RecyclerView?
-
-            val addShow = view.findViewById(R.id.add_show) as FloatingActionButton?
-            addShow?.setOnClickListener(this)
 
             if (this.recyclerView != null) {
                 val showsListLayout = PreferenceManager.getDefaultSharedPreferences(this.context).getString("display_shows_list_layout", "poster")
