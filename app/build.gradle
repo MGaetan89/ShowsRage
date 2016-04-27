@@ -118,7 +118,7 @@ kapt {
 def supportLibraryVersion = '23.3.0'
 
 dependencies {
-	kapt 'com.android.databinding:compiler:2.1.0-rc1'
+	kapt 'com.android.databinding:compiler:2.1.0'
 
 	compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
 	compile "com.android.support:cardview-v7:${supportLibraryVersion}"
