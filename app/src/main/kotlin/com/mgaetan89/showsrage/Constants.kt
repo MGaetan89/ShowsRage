@@ -9,6 +9,7 @@ object Constants {
     val OMDB_URL = "http://www.omdbapi.com/"
 
     object Bundle {
+        val ANIME = "anime"
         val EPISODE_ID = "episode_id"
         val EPISODE_NUMBER = "episode_number"
         val EPISODES_COUNT = "episodes_count"
@@ -17,8 +18,6 @@ object Constants {
         val SCHEDULE_SECTION = "schedule_section"
         val SEARCH_QUERY = "search_query"
         val SEASON_NUMBER = "season_number"
-        val SHOW_MODEL = "show_model"
-        val SHOWS = "shows"
         val UPDATE_MODEL = "update_model"
     }
 

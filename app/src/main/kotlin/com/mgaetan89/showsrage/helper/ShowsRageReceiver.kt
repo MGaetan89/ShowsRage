@@ -56,7 +56,7 @@ class ShowsRageReceiver(activity: MainActivity) : BroadcastReceiver() {
         arguments.putInt(Constants.Bundle.EPISODE_NUMBER, intent.getIntExtra(Constants.Bundle.EPISODE_NUMBER, 0))
         arguments.putInt(Constants.Bundle.EPISODES_COUNT, intent.getIntExtra(Constants.Bundle.EPISODES_COUNT, 0))
         arguments.putInt(Constants.Bundle.SEASON_NUMBER, intent.getIntExtra(Constants.Bundle.SEASON_NUMBER, 0))
-        arguments.putParcelable(Constants.Bundle.SHOW_MODEL, intent.getParcelableExtra(Constants.Bundle.SHOW_MODEL))
+        arguments.putInt(Constants.Bundle.INDEXER_ID, intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0))
 
         val fragment = EpisodeFragment()
         fragment.arguments = arguments
@@ -82,7 +82,7 @@ class ShowsRageReceiver(activity: MainActivity) : BroadcastReceiver() {
         val activity = this.activityReference.get() ?: return
 
         val arguments = Bundle()
-        arguments.putParcelable(Constants.Bundle.SHOW_MODEL, intent.getParcelableExtra(Constants.Bundle.SHOW_MODEL))
+        arguments.putInt(Constants.Bundle.INDEXER_ID, intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0))
 
         val fragment = ShowFragment()
         fragment.arguments = arguments

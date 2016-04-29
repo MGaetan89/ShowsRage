@@ -61,12 +61,13 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
         val preferences = PreferenceManager.getDefaultSharedPreferences(this.context)
 
         this.reversedOrder = !preferences.getBoolean("display_episodes_sort", false)
-        this.seasonNumber = this.arguments.getInt(Constants.Bundle.SEASON_NUMBER, 0)
-        this.show = this.arguments.getParcelable(Constants.Bundle.SHOW_MODEL)
-        this.episodes = RealmManager.getEpisodes(this.show?.indexerId ?: 0, this.seasonNumber, this.reversedOrder, this)
+        this.seasonNumber = this.arguments.getInt(Constants.Bundle.SEASON_NUMBER)
+        this.show = RealmManager.getShow(indexerId)
+        this.episodes = RealmManager.getEpisodes(indexerId, this.seasonNumber, this.reversedOrder, this)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {

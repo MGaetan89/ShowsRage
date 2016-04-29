@@ -1,16 +1,15 @@
 package com.mgaetan89.showsrage.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.StringRes;
 
 import com.google.gson.annotations.SerializedName;
 import com.mgaetan89.showsrage.R;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-public class Show implements Parcelable {
+public class Show extends RealmObject {
 	@SerializedName("air_by_date")
 	private int airByDate = 0;
 	private String airs = "";
@@ -23,9 +22,10 @@ public class Show implements Parcelable {
 	private int episodesCount = 0;
 	@SerializedName("flatten_folders")
 	private int flattenFolders = 0;
-	private List<String> genre = null;
+	private RealmList<RealmString> genre = null;
 	@SerializedName("imdbid")
 	private String imdbId = "";
+	@PrimaryKey
 	@SerializedName("indexerid")
 	private int indexerId = 0;
 	private String language = "";
@@ -39,7 +39,7 @@ public class Show implements Parcelable {
 	private Quality qualityDetails = null;
 	private int scene = 0;
 	@SerializedName("season_list")
-	private List<Integer> seasonList = new ArrayList<>();
+	private RealmList<RealmString> seasonList = null;
 	@SerializedName("show_name")
 	private String showName = "";
 	private int snatched = 0;
@@ -52,45 +52,6 @@ public class Show implements Parcelable {
 	private int tvRageId = 0;
 	@SerializedName("tvrage_name")
 	private String tvRageName = "";
-
-	public Show() {
-	}
-
-	protected Show(Parcel in) {
-		this.airByDate = in.readInt();
-		this.airs = in.readString();
-		this.anime = in.readInt();
-		this.archiveFirstmatch = in.readInt();
-		this.downloaded = in.readInt();
-		this.dvdOrder = in.readInt();
-		this.episodesCount = in.readInt();
-		this.flattenFolders = in.readInt();
-		this.genre = in.createStringArrayList();
-		this.imdbId = in.readString();
-		this.indexerId = in.readInt();
-		this.language = in.readString();
-		this.location = in.readString();
-		this.network = in.readString();
-		this.nextEpisodeAirDate = in.readString();
-		this.paused = in.readInt();
-		this.quality = in.readString();
-		this.qualityDetails = (Quality) in.readValue(Quality.class.getClassLoader());
-		this.scene = in.readInt();
-		in.readList(this.seasonList, null);
-		this.showName = in.readString();
-		this.snatched = in.readInt();
-		this.sports = in.readInt();
-		this.status = in.readString();
-		this.subtitles = in.readInt();
-		this.tvDbId = in.readInt();
-		this.tvRageId = in.readInt();
-		this.tvRageName = in.readString();
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
 
 	public int getAirByDate() {
 		return this.airByDate;
@@ -124,7 +85,7 @@ public class Show implements Parcelable {
 		return this.flattenFolders;
 	}
 
-	public List<String> getGenre() {
+	public RealmList<RealmString> getGenre() {
 		return this.genre;
 	}
 
@@ -168,7 +129,7 @@ public class Show implements Parcelable {
 		return this.scene;
 	}
 
-	public List<Integer> getSeasonList() {
+	public RealmList<RealmString> getSeasonList() {
 		return this.seasonList;
 	}
 
@@ -224,59 +185,115 @@ public class Show implements Parcelable {
 		return this.tvRageName;
 	}
 
+	public void setAirByDate(int airByDate) {
+		this.airByDate = airByDate;
+	}
+
+	public void setAirs(String airs) {
+		this.airs = airs;
+	}
+
+	public void setAnime(int anime) {
+		this.anime = anime;
+	}
+
+	public void setArchiveFirstmatch(int archiveFirstmatch) {
+		this.archiveFirstmatch = archiveFirstmatch;
+	}
+
 	public void setDownloaded(int downloaded) {
 		this.downloaded = downloaded;
+	}
+
+	public void setDvdOrder(int dvdOrder) {
+		this.dvdOrder = dvdOrder;
 	}
 
 	public void setEpisodesCount(int episodesCount) {
 		this.episodesCount = episodesCount;
 	}
 
+	public void setFlattenFolders(int flattenFolders) {
+		this.flattenFolders = flattenFolders;
+	}
+
+	public void setGenre(RealmList<RealmString> genre) {
+		this.genre = genre;
+	}
+
+	public void setImdbId(String imdbId) {
+		this.imdbId = imdbId;
+	}
+
+	public void setIndexerId(int indexerId) {
+		this.indexerId = indexerId;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public void setNetwork(String network) {
+		this.network = network;
+	}
+
+	public void setNextEpisodeAirDate(String nextEpisodeAirDate) {
+		this.nextEpisodeAirDate = nextEpisodeAirDate;
+	}
+
+	public void setPaused(int paused) {
+		this.paused = paused;
+	}
+
+	public void setQuality(String quality) {
+		this.quality = quality;
+	}
+
+	public void setQualityDetails(Quality qualityDetails) {
+		this.qualityDetails = qualityDetails;
+	}
+
+	public void setScene(int scene) {
+		this.scene = scene;
+	}
+
+	public void setSeasonList(RealmList<RealmString> seasonList) {
+		this.seasonList = seasonList;
+	}
+
+	public void setShowName(String showName) {
+		this.showName = showName;
+	}
+
 	public void setSnatched(int snatched) {
 		this.snatched = snatched;
 	}
 
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeInt(this.airByDate);
-		dest.writeString(this.airs);
-		dest.writeInt(this.anime);
-		dest.writeInt(this.archiveFirstmatch);
-		dest.writeInt(this.downloaded);
-		dest.writeInt(this.dvdOrder);
-		dest.writeInt(this.episodesCount);
-		dest.writeInt(this.flattenFolders);
-		dest.writeStringList(this.genre);
-		dest.writeString(this.imdbId);
-		dest.writeInt(this.indexerId);
-		dest.writeString(this.language);
-		dest.writeString(this.location);
-		dest.writeString(this.network);
-		dest.writeString(this.nextEpisodeAirDate);
-		dest.writeInt(this.paused);
-		dest.writeString(this.quality);
-		dest.writeValue(this.qualityDetails);
-		dest.writeInt(this.scene);
-		dest.writeList(this.seasonList);
-		dest.writeString(this.showName);
-		dest.writeInt(this.snatched);
-		dest.writeInt(this.sports);
-		dest.writeString(this.status);
-		dest.writeInt(this.subtitles);
-		dest.writeInt(this.tvDbId);
-		dest.writeInt(this.tvRageId);
-		dest.writeString(this.tvRageName);
+	public void setSports(int sports) {
+		this.sports = sports;
 	}
 
-	public static final Parcelable.Creator<Show> CREATOR = new Parcelable.Creator<Show>() {
-		@Override
-		public Show createFromParcel(Parcel in) {
-			return new Show(in);
-		}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
-		@Override
-		public Show[] newArray(int size) {
-			return new Show[size];
-		}
-	};
+	public void setSubtitles(int subtitles) {
+		this.subtitles = subtitles;
+	}
+
+	public void setTvDbId(int tvDbId) {
+		this.tvDbId = tvDbId;
+	}
+
+	public void setTvRageId(int tvRageId) {
+		this.tvRageId = tvRageId;
+	}
+
+	public void setTvRageName(String tvRageName) {
+		this.tvRageName = tvRageName;
+	}
 }

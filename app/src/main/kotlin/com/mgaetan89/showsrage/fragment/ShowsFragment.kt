@@ -15,17 +15,16 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.ShowsPagerAdapter
-import com.mgaetan89.showsrage.model.Show
+import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.Shows
 import com.mgaetan89.showsrage.network.SickRageApi
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
-import java.util.*
 
 open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, SearchView.OnQueryTextListener {
+    private var splitShowsAnimes = false
     private var searchQuery: String? = null
-    private val shows = mutableMapOf<Int, MutableList<Show>>()
 
     init {
         this.setHasOptionsMenu(true)
@@ -59,6 +58,14 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this.context)
+
+        this.splitShowsAnimes = preferences.getBoolean("display_split_shows_animes", false)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.shows, menu)
 
@@ -75,12 +82,6 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_shows, container, false)
-    }
-
-    override fun onDestroyView() {
-        this.shows.clear()
-
-        super.onDestroyView()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -128,35 +129,16 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
     }
 
     override fun success(shows: Shows?, response: Response?) {
-        val context = this.context ?: return
+        val showsList = shows?.data?.values ?: return
 
-        if (shows == null) {
-            return
-        }
+        RealmManager.saveShows(showsList.toList())
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val splitShowsAnimes = preferences.getBoolean("display_split_shows_animes", false)
-        val showsList = shows.data?.values ?: emptyList<Show>()
-
-        this.shows.clear()
-
-        if (splitShowsAnimes) {
-            showsList.forEach {
-                this.shows.getOrPut(it.anime, { mutableListOf() }).add(it)
-            }
-        } else {
-            val showsWrapper = ArrayList<Show>()
-            showsWrapper.addAll(showsList)
-
-            this.shows.put(0, showsWrapper)
-        }
-
-        this.updateState(!splitShowsAnimes)
+        this.updateState(!this.splitShowsAnimes)
         this.sendFilterMessage()
     }
 
     override fun getAdapter(): PagerAdapter {
-        return ShowsPagerAdapter(this.childFragmentManager, this, this.shows)
+        return ShowsPagerAdapter(this.childFragmentManager, this, this.splitShowsAnimes)
     }
 
     override fun getTabMode(): Int {

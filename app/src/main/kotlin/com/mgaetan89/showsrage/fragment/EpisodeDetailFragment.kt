@@ -135,9 +135,10 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 
         val arguments = this.arguments
         val episodeId = arguments.getString(Constants.Bundle.EPISODE_ID)
-        this.episodeNumber = arguments.getInt(Constants.Bundle.EPISODE_NUMBER, 0)
-        this.seasonNumber = arguments.getInt(Constants.Bundle.SEASON_NUMBER, 0)
-        this.show = arguments.getParcelable(Constants.Bundle.SHOW_MODEL)
+        val indexerId = arguments.getInt(Constants.Bundle.INDEXER_ID)
+        this.episodeNumber = arguments.getInt(Constants.Bundle.EPISODE_NUMBER)
+        this.seasonNumber = arguments.getInt(Constants.Bundle.SEASON_NUMBER)
+        this.show = RealmManager.getShow(indexerId)
 
         if (episodeId != null) {
             this.episode = RealmManager.getEpisode(episodeId, this)

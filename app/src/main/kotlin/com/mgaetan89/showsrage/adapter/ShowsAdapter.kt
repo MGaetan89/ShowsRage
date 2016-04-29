@@ -73,7 +73,7 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int) : Recycle
             val context = view?.context ?: return
 
             with(Intent(Constants.Intents.ACTION_SHOW_SELECTED)) {
-                putExtra(Constants.Bundle.SHOW_MODEL, shows[adapterPosition])
+                putExtra(Constants.Bundle.INDEXER_ID, shows[adapterPosition].indexerId)
 
                 LocalBroadcastManager.getInstance(context).sendBroadcast(this)
             }

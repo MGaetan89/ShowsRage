@@ -30,13 +30,11 @@ import android.widget.TextView
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
-import com.mgaetan89.showsrage.helper.DateTimeHelper
-import com.mgaetan89.showsrage.helper.GenericCallback
-import com.mgaetan89.showsrage.helper.ImageLoader
-import com.mgaetan89.showsrage.helper.Utils
+import com.mgaetan89.showsrage.helper.*
 import com.mgaetan89.showsrage.model.*
 import com.mgaetan89.showsrage.network.OmDbApi
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.RealmList
 import retrofit.Callback
 import retrofit.RestAdapter
 import retrofit.RetrofitError
@@ -94,6 +92,8 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        val activity = this.activity
+        val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
         val restAdapter = RestAdapter.Builder()
                 .setEndpoint(Constants.OMDB_URL)
                 .setLogLevel(Constants.NETWORK_LOG_LEVEL)
@@ -101,9 +101,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
         this.omDbApi = restAdapter.create(OmDbApi::class.java)
         this.serviceConnection = ServiceConnection(this)
-        this.show = this.arguments.getParcelable(Constants.Bundle.SHOW_MODEL)
-
-        val activity = this.activity
+        this.show = RealmManager.getShow(indexerId)
 
         if (this.show != null) {
             activity?.title = this.show!!.showName
@@ -388,7 +386,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
             val genresList = this.show!!.genre
 
             if (genresList?.isNotEmpty() ?: false) {
-                val genres = genresList.joinToString(", ")
+                val genres = genresList.joinToString { it.value }
 
                 this.genre!!.text = this.getString(R.string.genre, genres)
                 this.genre!!.visibility = View.VISIBLE
@@ -516,7 +514,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
                 .show()
     }
 
-    private fun getTranslatedQualities(qualities: Collection<String>?, allowed: Boolean): List<String> {
+    private fun getTranslatedQualities(qualities: RealmList<RealmString>?, allowed: Boolean): List<String> {
         val translatedQualities = mutableListOf<String>()
 
         if (qualities == null || qualities.isEmpty()) {
@@ -535,7 +533,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         }
 
         qualities.forEach {
-            val position = keys.indexOf(it)
+            val position = keys.indexOf(it.value)
 
             if (position != -1) {
                 // Skip the "Ignore" first item

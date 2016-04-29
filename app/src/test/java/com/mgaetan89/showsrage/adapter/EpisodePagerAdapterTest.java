@@ -77,7 +77,7 @@ public class EpisodePagerAdapterTest {
 			assertThat(fragment.getArguments().containsKey(Constants.Bundle.INSTANCE.getEPISODE_ID()));
 			assertThat(fragment.getArguments().containsKey(Constants.Bundle.INSTANCE.getEPISODE_NUMBER()));
 			assertThat(fragment.getArguments().containsKey(Constants.Bundle.INSTANCE.getSEASON_NUMBER()));
-			assertThat(fragment.getArguments().containsKey(Constants.Bundle.INSTANCE.getSHOW_MODEL()));
+			assertThat(fragment.getArguments().containsKey(Constants.Bundle.INSTANCE.getINDEXER_ID()));
 		}
 	}
 

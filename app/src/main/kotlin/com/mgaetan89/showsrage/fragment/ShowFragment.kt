@@ -8,8 +8,8 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.ShowPagerAdapter
+import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.Seasons
-import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.network.SickRageApi
 import retrofit.Callback
 import retrofit.RetrofitError
@@ -32,7 +32,8 @@ class ShowFragment : TabbedFragment(), Callback<Seasons> {
             activity.setTitle(R.string.show)
         }
 
-        val show = this.arguments.getParcelable<Show>(Constants.Bundle.SHOW_MODEL)
+        val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
+        val show = RealmManager.getShow(indexerId)
         val sort = getSeasonsSort(PreferenceManager.getDefaultSharedPreferences(activity))
 
         SickRageApi.instance.services?.getSeasons(show.indexerId, sort, this)

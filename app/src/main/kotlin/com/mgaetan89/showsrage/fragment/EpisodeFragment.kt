@@ -23,8 +23,8 @@ class EpisodeFragment : TabbedFragment() {
         }
 
         if (arguments != null) {
-            val episodeNumber = arguments.getInt(Constants.Bundle.EPISODE_NUMBER, 0)
-            val episodesCount = arguments.getInt(Constants.Bundle.EPISODES_COUNT, 0)
+            val episodeNumber = arguments.getInt(Constants.Bundle.EPISODE_NUMBER)
+            val episodesCount = arguments.getInt(Constants.Bundle.EPISODES_COUNT)
 
             for (i in episodesCount downTo 1) {
                 this.episodes.add(i)

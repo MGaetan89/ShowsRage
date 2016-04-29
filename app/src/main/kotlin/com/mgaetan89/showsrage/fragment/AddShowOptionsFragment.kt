@@ -32,7 +32,7 @@ open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickLis
     private var subtitles: SwitchCompat? = null
 
     override fun onClick(dialog: DialogInterface?, which: Int) {
-        val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID, 0)
+        val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
 
         if (indexerId <= 0) {
             return

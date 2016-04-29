@@ -17,36 +17,30 @@ import android.widget.TextView
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.adapter.ShowsAdapter
+import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.ShowStatsWrapper
 import com.mgaetan89.showsrage.model.ShowsFilters
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.RealmChangeListener
+import io.realm.RealmResults
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 import java.lang.ref.WeakReference
 
-class ShowsSectionFragment : Fragment() {
+class ShowsSectionFragment : Fragment(), RealmChangeListener {
     private var adapter: ShowsAdapter? = null
     private var emptyView: TextView? = null
     private val filteredShows = mutableListOf<Show>()
     private val receiver = FilterReceiver(this)
     private var recyclerView: RecyclerView? = null
-    private val shows = mutableListOf<Show>()
+    private var shows: RealmResults<Show>? = null
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onChange() {
+        this.filteredShows.addAll(this.shows?.toList() ?: emptyList())
 
-        val arguments = this.arguments
-
-        if (arguments != null) {
-            val shows = arguments.getSerializable(Constants.Bundle.SHOWS) as Collection<Show>?
-
-            this.filteredShows.addAll(shows ?: emptyList())
-            this.shows.addAll(shows ?: emptyList())
-        }
-
-        if (!this.shows.isEmpty()) {
+        if (!(this.shows?.isEmpty() ?: true)) {
             val command = getCommand(this.shows)
             val parameters = getCommandParameters(this.shows)
 
@@ -56,6 +50,18 @@ class ShowsSectionFragment : Fragment() {
         this.updateLayout()
 
         this.adapter?.notifyDataSetChanged()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val anime = if (this.arguments.containsKey(Constants.Bundle.ANIME)) {
+            this.arguments.getBoolean(Constants.Bundle.ANIME)
+        } else {
+            null
+        }
+
+        this.shows = RealmManager.getShows(anime, this)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -76,13 +82,6 @@ class ShowsSectionFragment : Fragment() {
         }
 
         return view
-    }
-
-    override fun onDestroy() {
-        this.filteredShows.clear()
-        this.shows.clear()
-
-        super.onDestroy()
     }
 
     override fun onDestroyView() {
@@ -130,9 +129,9 @@ class ShowsSectionFragment : Fragment() {
             val filterStatus = preferences.getInt(Constants.Preferences.Fields.SHOW_FILTER_STATUS, Constants.Preferences.Defaults.SHOW_FILTER_STATUS)
             val searchQuery = intent?.getStringExtra(Constants.Bundle.SEARCH_QUERY)
             val shows = fragment.shows
-            val filteredShows = shows.filter {
+            val filteredShows = shows?.filter {
                 match(it, ShowsFilters.State.valueOf(filterState), filterStatus, searchQuery)
-            }
+            } ?: emptyList()
 
             fragment.filteredShows.clear()
             fragment.filteredShows.addAll(filteredShows)
@@ -200,7 +199,7 @@ class ShowsSectionFragment : Fragment() {
         override fun success(showStatsWrapper: ShowStatsWrapper?, response: Response?) {
             val data = showStatsWrapper?.data ?: return
             val fragment = this.fragmentReference.get() ?: return
-            val filteredShows = fragment.shows
+            val filteredShows = fragment.filteredShows
             val shows = fragment.shows
             val showStats = data.showStats
 
@@ -220,7 +219,7 @@ class ShowsSectionFragment : Fragment() {
                     }
                 }
 
-                shows.forEach showsForEach@ {
+                shows?.forEach showsForEach@ {
                     if (it.indexerId == indexerId) {
                         it.episodesCount = showStatsData?.total ?: 0
                         it.downloaded = showStatsData?.getTotalDone() ?: 0

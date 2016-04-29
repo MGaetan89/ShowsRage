@@ -101,6 +101,23 @@ object RealmManager {
         return this.realm.where(Schedule::class.java).findAll().where().distinct("section").map { it.section }
     }
 
+    fun getShow(indexerId: Int): Show {
+        return this.realm.where(Show::class.java).equalTo("indexerId", indexerId).findFirst()
+    }
+
+    fun getShows(anime: Boolean?, listener: RealmChangeListener): RealmResults<Show> {
+        val query = this.realm.where(Show::class.java)
+
+        if (anime != null) {
+            query.equalTo("anime", if (anime) 1 else 0)
+        }
+
+        val shows = query.findAllSortedAsync("showName")
+        shows.addChangeListener(listener)
+
+        return shows
+    }
+
     fun init(context: Context) {
         val configuration = RealmConfiguration.Builder(context)
                 .deleteRealmIfMigrationNeeded()
@@ -161,6 +178,16 @@ object RealmManager {
         }
     }
 
+    fun saveShows(shows: List<Show>) {
+        this.realm.executeTransaction {
+            shows.forEach {
+                this.prepareShowForSaving(it)
+            }
+
+            it.copyToRealmOrUpdate(shows)
+        }
+    }
+
     private fun getAllLogs(): RealmResults<LogEntry> {
         return this.realm.where(LogEntry::class.java).findAllSorted("dateTime", Sort.DESCENDING)
     }
@@ -190,6 +217,10 @@ object RealmManager {
     private fun prepareScheduleForSaving(schedule: Schedule, section: String) {
         schedule.id = "${schedule.indexerId}_${schedule.season}_${schedule.episode}"
         schedule.section = section
+    }
+
+    private fun prepareShowForSaving(show: Show) {
+        show.qualityDetails?.indexerId = show.indexerId
     }
 
     private fun trimHistory() {

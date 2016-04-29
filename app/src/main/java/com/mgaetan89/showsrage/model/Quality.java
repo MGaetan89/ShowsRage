@@ -1,50 +1,36 @@
 package com.mgaetan89.showsrage.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-import java.util.List;
+public class Quality extends RealmObject {
+	private RealmList<RealmString> archive = null;
+	@PrimaryKey
+	private int indexerId = 0;
+	private RealmList<RealmString> initial = null;
 
-public class Quality implements Parcelable {
-	private List<String> archive = null;
-	private List<String> initial = null;
-
-	public Quality() {
-	}
-
-	protected Quality(Parcel in) {
-		this.archive = in.createStringArrayList();
-		this.initial = in.createStringArrayList();
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	public List<String> getArchive() {
+	public RealmList<RealmString> getArchive() {
 		return this.archive;
 	}
 
-	public List<String> getInitial() {
+	public int getIndexerId() {
+		return this.indexerId;
+	}
+
+	public RealmList<RealmString> getInitial() {
 		return this.initial;
 	}
 
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeStringList(this.archive);
-		dest.writeStringList(this.initial);
+	public void setArchive(RealmList<RealmString> archive) {
+		this.archive = archive;
 	}
 
-	public static final Parcelable.Creator<Quality> CREATOR = new Parcelable.Creator<Quality>() {
-		@Override
-		public Quality createFromParcel(Parcel in) {
-			return new Quality(in);
-		}
+	public void setIndexerId(int indexerId) {
+		this.indexerId = indexerId;
+	}
 
-		@Override
-		public Quality[] newArray(int size) {
-			return new Quality[size];
-		}
-	};
+	public void setInitial(RealmList<RealmString> initial) {
+		this.initial = initial;
+	}
 }

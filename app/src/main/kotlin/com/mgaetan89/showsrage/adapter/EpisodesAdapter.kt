@@ -90,7 +90,7 @@ class EpisodesAdapter(val episodes: List<Episode>, val seasonNumber: Int, val sh
                     putExtra(Constants.Bundle.EPISODE_NUMBER, getEpisodeNumber(adapterPosition))
                     putExtra(Constants.Bundle.EPISODES_COUNT, itemCount)
                     putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)
-                    putExtra(Constants.Bundle.SHOW_MODEL, show)
+                    putExtra(Constants.Bundle.INDEXER_ID, show?.indexerId)
 
                     LocalBroadcastManager.getInstance(context).sendBroadcast(this)
                 }
