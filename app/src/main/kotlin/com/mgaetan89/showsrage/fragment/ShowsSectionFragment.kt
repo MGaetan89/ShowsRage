@@ -39,6 +39,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener {
     private var shows: RealmResults<Show>? = null
 
     override fun onChange() {
+        this.filteredShows.clear()
         this.filteredShows.addAll(this.shows?.toList() ?: emptyList())
 
         if (!(this.shows?.isEmpty() ?: true)) {
