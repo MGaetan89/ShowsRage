@@ -101,7 +101,7 @@ object RealmManager {
         return this.realm.where(Schedule::class.java).findAll().where().distinct("section").map { it.section }
     }
 
-    fun getShow(indexerId: Int): Show {
+    fun getShow(indexerId: Int): Show? {
         return this.realm.where(Show::class.java).equalTo("indexerId", indexerId).findFirst()
     }
 
@@ -178,6 +178,14 @@ object RealmManager {
         }
     }
 
+    fun saveShow(show: Show) {
+        this.realm.executeTransaction {
+            this.prepareShowForSaving(show)
+
+            it.copyToRealmOrUpdate(show)
+        }
+    }
+
     fun saveShows(shows: List<Show>) {
         this.realm.executeTransaction {
             shows.forEach {
@@ -220,6 +228,16 @@ object RealmManager {
     }
 
     private fun prepareShowForSaving(show: Show) {
+        val savedShow = this.getShow(show.indexerId)
+
+        show.airs = if (show.airs.isNullOrEmpty()) savedShow?.airs else show.airs
+        show.downloaded = if (show.downloaded == 0) savedShow?.downloaded else show.downloaded
+        show.episodesCount = if (show.episodesCount == 0) savedShow?.episodesCount else show.episodesCount
+        show.genre = if (show.genre?.isEmpty() ?: true) savedShow?.genre else show.genre
+        show.imdbId = if (show.imdbId.isNullOrEmpty()) savedShow?.imdbId else show.imdbId
+        show.location = if (show.location.isNullOrEmpty()) savedShow?.location else show.location
+        show.seasonList = if (show.seasonList?.isEmpty() ?: true) savedShow?.seasonList else show.seasonList
+        show.snatched = if (show.snatched == 0) savedShow?.snatched else show.snatched
         show.qualityDetails?.indexerId = show.indexerId
     }
 

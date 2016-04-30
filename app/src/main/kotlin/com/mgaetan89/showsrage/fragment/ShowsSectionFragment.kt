@@ -22,6 +22,7 @@ import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.ShowStatsWrapper
 import com.mgaetan89.showsrage.model.ShowsFilters
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
 import retrofit.Callback
@@ -209,9 +210,14 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener {
 
                 filteredShows.forEachIndexed { i, show ->
                     if (show.indexerId == indexerId) {
-                        show.episodesCount = showStatsData?.total ?: 0
-                        show.downloaded = showStatsData?.getTotalDone() ?: 0
-                        show.snatched = showStatsData?.getTotalPending() ?: 0
+                        with (Realm.getDefaultInstance()) {
+                            beginTransaction()
+                            show.episodesCount = showStatsData?.total ?: 0
+                            show.downloaded = showStatsData?.getTotalDone() ?: 0
+                            show.snatched = showStatsData?.getTotalPending() ?: 0
+                            commitTransaction()
+                            close()
+                        }
 
                         fragment.adapter?.notifyItemChanged(i)
 
@@ -221,9 +227,14 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener {
 
                 shows?.forEach showsForEach@ {
                     if (it.indexerId == indexerId) {
-                        it.episodesCount = showStatsData?.total ?: 0
-                        it.downloaded = showStatsData?.getTotalDone() ?: 0
-                        it.snatched = showStatsData?.getTotalPending() ?: 0
+                        with (Realm.getDefaultInstance()) {
+                            beginTransaction()
+                            it.episodesCount = showStatsData?.total ?: 0
+                            it.downloaded = showStatsData?.getTotalDone() ?: 0
+                            it.snatched = showStatsData?.getTotalPending() ?: 0
+                            commitTransaction()
+                            close()
+                        }
 
                         return@showsForEach
                     }

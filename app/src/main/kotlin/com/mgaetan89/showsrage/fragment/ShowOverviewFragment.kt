@@ -344,6 +344,9 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
     override fun success(singleShow: SingleShow?, response: Response?) {
         this.show = singleShow?.data ?: return
+
+        RealmManager.saveShow(this.show!!)
+
         val nextEpisodeAirDate = this.show!!.nextEpisodeAirDate
 
         this.showHidePauseResumeMenus(this.show!!.paused == 0)

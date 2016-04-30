@@ -36,7 +36,7 @@ class ShowFragment : TabbedFragment(), Callback<Seasons> {
         val show = RealmManager.getShow(indexerId)
         val sort = getSeasonsSort(PreferenceManager.getDefaultSharedPreferences(activity))
 
-        SickRageApi.instance.services?.getSeasons(show.indexerId, sort, this)
+        SickRageApi.instance.services?.getSeasons(show?.indexerId ?: 0, sort, this)
     }
 
     override fun onDestroy() {
