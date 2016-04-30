@@ -351,7 +351,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
         this.showHidePauseResumeMenus(this.show!!.paused == 0)
 
-        this.omDbApi!!.getShow(this.show!!.imdbId, OmdbShowCallback(this))
+        this.omDbApi!!.getShow(this.show!!.imdbId ?: "", OmdbShowCallback(this))
 
         if (this.airs != null) {
             val airs = this.show!!.airs
@@ -389,7 +389,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
             val genresList = this.show!!.genre
 
             if (genresList?.isNotEmpty() ?: false) {
-                val genres = genresList.joinToString { it.value }
+                val genres = genresList!!.joinToString { it.value }
 
                 this.genre!!.text = this.getString(R.string.genre, genres)
                 this.genre!!.visibility = View.VISIBLE
@@ -456,8 +456,8 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
             if ("custom".equals(quality, true)) {
                 val qualityDetails = this.show!!.qualityDetails
-                val allowed = listToString(this.getTranslatedQualities(qualityDetails.initial, true))
-                val preferred = listToString(this.getTranslatedQualities(qualityDetails.archive, false))
+                val allowed = listToString(this.getTranslatedQualities(qualityDetails?.initial, true))
+                val preferred = listToString(this.getTranslatedQualities(qualityDetails?.archive, false))
 
                 this.quality!!.text = this.getString(R.string.quality_custom, allowed, preferred)
             } else {
@@ -469,7 +469,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
         if (this.status != null) {
             if (nextEpisodeAirDate.isNullOrEmpty()) {
-                val status = this.show!!.statusTranslationResource
+                val status = this.show!!.getStatusTranslationResource()
 
                 this.status!!.text = if (status != 0) {
                     this.getString(status)

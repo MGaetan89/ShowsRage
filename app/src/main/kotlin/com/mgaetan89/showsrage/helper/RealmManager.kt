@@ -236,9 +236,9 @@ object RealmManager {
         show.genre = if (show.genre?.isEmpty() ?: true) savedShow?.genre else show.genre
         show.imdbId = if (show.imdbId.isNullOrEmpty()) savedShow?.imdbId else show.imdbId
         show.location = if (show.location.isNullOrEmpty()) savedShow?.location else show.location
+        show.qualityDetails?.indexerId = show.indexerId
         show.seasonList = if (show.seasonList?.isEmpty() ?: true) savedShow?.seasonList else show.seasonList
         show.snatched = if (show.snatched == 0) savedShow?.snatched else show.snatched
-        show.qualityDetails?.indexerId = show.indexerId
     }
 
     private fun trimHistory() {
