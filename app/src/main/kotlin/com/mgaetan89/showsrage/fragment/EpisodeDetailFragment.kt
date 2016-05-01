@@ -107,7 +107,11 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 
             if (imdbId.isNullOrEmpty()) {
                 // So we try to get the data by using the show name
-                omDbApi.getEpisodeByTitle(this.show!!.showName, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
+                val showName = this.show!!.showName
+
+                if (!showName.isNullOrEmpty()) {
+                    omDbApi.getEpisodeByTitle(showName!!, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
+                }
             } else {
                 // We might now have the IMDB id yet
                 omDbApi.getEpisodeByImDbId(imdbId!!, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))

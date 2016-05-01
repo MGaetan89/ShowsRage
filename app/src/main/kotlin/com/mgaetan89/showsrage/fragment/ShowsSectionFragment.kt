@@ -86,6 +86,12 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener {
         return view
     }
 
+    override fun onDestroy() {
+        this.shows?.removeChangeListeners()
+
+        super.onDestroy()
+    }
+
     override fun onDestroyView() {
         this.emptyView = null
         this.recyclerView = null

@@ -39,7 +39,7 @@ open class Show : RealmObject() {
     @SerializedName("season_list")
     open var seasonList: RealmList<RealmString>? = null
     @SerializedName("show_name")
-    open var showName: String = ""
+    open var showName: String? = ""
     open var snatched: Int? = 0
     open var sports: Int = 0
     open var status: String? = ""

@@ -65,6 +65,12 @@ class ScheduleSectionFragment : Fragment(), RealmChangeListener {
         return view
     }
 
+    override fun onDestroy() {
+        this.schedules?.removeChangeListeners()
+
+        super.onDestroy()
+    }
+
     override fun onDestroyView() {
         this.emptyView = null
         this.recyclerView = null

@@ -449,6 +449,9 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
             this.context.unbindService(this.serviceConnection)
         }
 
+        this.serie?.removeChangeListeners()
+        this.show?.removeChangeListeners()
+
         super.onDestroy()
     }
 
