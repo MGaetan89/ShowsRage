@@ -14,7 +14,7 @@ class LogPresenter(val logEntry: LogEntry?) {
     }
 
     @ColorRes
-    fun getErrorColor() = this.logEntry?.errorColor ?: android.R.color.white
+    fun getErrorColor() = this.logEntry?.getErrorColor() ?: android.R.color.white
 
     fun getErrorType() = this.logEntry?.errorType ?: ""
 

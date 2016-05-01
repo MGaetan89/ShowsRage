@@ -29,7 +29,7 @@ class EpisodesAdapter(val episodes: List<Episode>, val seasonNumber: Int, val sh
         holder?.name?.text = holder?.name?.resources?.getString(R.string.episode_name, this.getEpisodeNumber(position), episode.name)
 
         if (holder?.status != null) {
-            val status = episode.statusTranslationResource
+            val status = episode.getStatusTranslationResource()
 
             holder?.status.text = if (status != 0) {
                 holder?.status.resources?.getString(status)

@@ -21,7 +21,7 @@ class HistoriesAdapter(val histories: List<History>) : RecyclerView.Adapter<Hist
         holder?.bind(HistoryPresenter(history))
 
         if (holder?.date != null) {
-            val status = history.statusTranslationResource
+            val status = history.getStatusTranslationResource()
             val statusString = if (status != 0) {
                 holder?.date.resources.getString(status)
             } else {

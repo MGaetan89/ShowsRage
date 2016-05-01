@@ -47,7 +47,6 @@ interface SickRageServices {
     @GET("/{api_path}/{api_key}/?cmd=show")
     fun getShow(@Query("indexerid") indexerId: Int, callback: Callback<SingleShow>)
 
-    // TODO Include in Realm
     @GET("/{api_path}/{api_key}/?cmd=shows&sort=name")
     fun getShows(callback: Callback<Shows>)
 
@@ -55,7 +54,6 @@ interface SickRageServices {
     @GET("/{api_path}/{api_key}/?cmd=shows.stats")
     fun getShowsStats(callback: Callback<ShowsStats>)
 
-    // TODO Include in Realm
     @GET("/{api_path}/{api_key}/")
     fun getShowStats(@Query("cmd") commands: String, @QueryMap parameters: Map<String, Int>, callback: Callback<ShowStatsWrapper>)
 

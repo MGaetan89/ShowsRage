@@ -21,7 +21,7 @@ public class Episode_GetStatusForMenuIdTest {
 
 	@Test
 	public void getStatusForMenuId() {
-		assertThat(Episode.getStatusForMenuId(this.menuId)).isEqualTo(this.episodeStatus);
+		assertThat(Episode.Companion.getStatusForMenuId(this.menuId)).isEqualTo(this.episodeStatus);
 	}
 
 	@Parameterized.Parameters

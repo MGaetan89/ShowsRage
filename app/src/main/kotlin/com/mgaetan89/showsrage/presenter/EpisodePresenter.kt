@@ -31,5 +31,5 @@ class EpisodePresenter(val episode: Episode?) {
     }
 
     @ColorRes
-    fun getStatusColor() = this.episode?.statusBackgroundColor ?: android.R.color.transparent
+    fun getStatusColor() = this.episode?.getStatusBackgroundColor() ?: android.R.color.transparent
 }

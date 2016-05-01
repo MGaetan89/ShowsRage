@@ -345,7 +345,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         }
 
         if (this.status != null) {
-            val status = episode.statusTranslationResource
+            val status = episode.getStatusTranslationResource()
             val statusString = if (status != 0) {
                 this.getString(status)
             } else {
@@ -372,8 +372,8 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
                 if (it != null) {
                     val currentLocation = it.location
 
-                    if (location.startsWith(currentLocation)) {
-                        location = location.replaceFirst(Pattern.quote(currentLocation), "")
+                    if (location?.startsWith(currentLocation) ?: false) {
+                        location = location!!.replaceFirst(Pattern.quote(currentLocation), "")
 
                         return@forEach
                     }
