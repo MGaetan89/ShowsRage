@@ -111,6 +111,13 @@ object RealmManager {
         return this.realm.where(Schedule::class.java).findAll().where().distinct("section").map { it.section }
     }
 
+    fun getSerie(imdbId: String, listener: RealmChangeListener): Serie {
+        val serie = this.realm.where(Serie::class.java).equalTo("imdbId", imdbId).findFirstAsync()
+        serie.addChangeListener(listener)
+
+        return serie
+    }
+
     fun getShow(indexerId: Int, listener: RealmChangeListener? = null): Show? {
         val query = this.realm.where(Show::class.java).equalTo("indexerId", indexerId)
 
@@ -198,6 +205,12 @@ object RealmManager {
             }
 
             it.copyToRealmOrUpdate(schedules)
+        }
+    }
+
+    fun saveSerie(serie: Serie) {
+        this.realm.executeTransaction {
+            it.copyToRealmOrUpdate(serie)
         }
     }
 

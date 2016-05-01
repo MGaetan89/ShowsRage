@@ -114,6 +114,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                         .explore(RealmString::class.java)
                         .explore(RootDir::class.java)
                         .explore(Schedule::class.java)
+                        .explore(Serie::class.java)
                         .explore(Show::class.java)
                         .navigate(this)
             }

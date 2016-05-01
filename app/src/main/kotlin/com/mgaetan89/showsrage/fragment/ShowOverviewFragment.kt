@@ -69,6 +69,94 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     private var ratingStars: RatingBar? = null
     private var resumeMenu: MenuItem? = null
     private var runtime: TextView? = null
+    private var serie: Serie? = null
+    private val serieListener = RealmChangeListener {
+        val serie = this.serie ?: return@RealmChangeListener
+
+        // TODO Why is this necessary?
+        if (!serie.isValid) {
+            return@RealmChangeListener
+        }
+
+        if (this.awards != null) {
+            setText(this, this.awards!!, serie.awards, 0, this.awardsLayout)
+        }
+
+        val actors = serie.actors
+        val director = serie.director
+        val writer = serie.writer
+
+        if (hasText(actors) || hasText(director) || hasText(writer)) {
+            if (this.castingActors != null) {
+                setText(this, this.castingActors!!, actors, R.string.actors, null)
+            }
+
+            if (this.castingDirectors != null) {
+                setText(this, this.castingDirectors!!, director, R.string.directors, null)
+            }
+
+            this.castingLayout?.visibility = View.VISIBLE
+
+            if (this.castingWriters != null) {
+                setText(this, this.castingWriters!!, writer, R.string.writers, null)
+            }
+        } else {
+            this.castingLayout?.visibility = View.GONE
+        }
+
+        if (this.languageCountry != null) {
+            val country = serie.country
+            val language = serie.language
+
+            if (hasText(language)) {
+                this.languageCountry!!.text = if (hasText(country)) {
+                    this.getString(R.string.language_county, language, country)
+                } else {
+                    this.getString(R.string.language_value, language)
+                }
+                this.languageCountry!!.visibility = View.VISIBLE
+            } else {
+                this.languageCountry!!.visibility = View.GONE
+            }
+        }
+
+        if (this.plot != null) {
+            setText(this, this.plot!!, serie.plot, 0, this.plotLayout)
+        }
+
+        if (this.rated != null) {
+            setText(this, this.rated!!, serie.rated, R.string.rated, null)
+        }
+
+        if (this.rating != null) {
+            val imdbRating = serie.imdbRating
+            val imdbVotes = serie.imdbVotes
+
+            if (hasText(imdbRating) && hasText(imdbVotes)) {
+                this.rating!!.text = this.getString(R.string.rating, imdbRating, imdbVotes)
+                this.rating!!.visibility = View.VISIBLE
+            } else {
+                this.rating!!.visibility = View.GONE
+            }
+        }
+
+        if (this.ratingStars != null) {
+            try {
+                this.ratingStars!!.rating = serie.imdbRating?.toFloat() ?: 0f
+                this.ratingStars!!.visibility = View.VISIBLE
+            } catch(exception: Exception) {
+                this.ratingStars!!.visibility = View.GONE
+            }
+        }
+
+        if (this.runtime != null) {
+            setText(this, this.runtime!!, serie.runtime, R.string.runtime, null)
+        }
+
+        if (this.year != null) {
+            setText(this, this.year!!, serie.year, R.string.year, null)
+        }
+    }
     private var serviceConnection: ServiceConnection? = null
     private var show: Show? = null
     private var status: TextView? = null
@@ -108,11 +196,18 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
         this.activity?.title = show.showName
 
+        val imdbId = show.imdbId
         val nextEpisodeAirDate = show.nextEpisodeAirDate
 
         this.showHidePauseResumeMenus(show.paused == 0)
 
-        this.omDbApi!!.getShow(show.imdbId ?: "", OmdbShowCallback(this))
+        if (imdbId != null) {
+            if (this.serie == null) {
+                this.serie = RealmManager.getSerie(imdbId, this.serieListener)
+            }
+
+            this.omDbApi!!.getShow(imdbId, OmdbShowCallback())
+        }
 
         if (this.airs != null) {
             val airs = show.airs
@@ -160,7 +255,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         }
 
         if (this.imdb != null) {
-            this.imdb!!.visibility = if (show.imdbId.isNullOrEmpty()) {
+            this.imdb!!.visibility = if (imdbId.isNullOrEmpty()) {
                 View.GONE
             } else {
                 View.VISIBLE
@@ -596,118 +691,14 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         }
     }
 
-    private class OmdbShowCallback(fragment: ShowOverviewFragment) : Callback<Serie> {
-        private val fragmentReference: WeakReference<ShowOverviewFragment>
-
-        init {
-            this.fragmentReference = WeakReference(fragment)
-        }
-
+    private class OmdbShowCallback : Callback<Serie> {
         override fun failure(error: RetrofitError?) {
             error?.printStackTrace()
         }
 
         override fun success(serie: Serie?, response: Response?) {
-            val fragment = this.fragmentReference.get() ?: return
-
-            if (fragment.awards != null) {
-                setText(fragment, fragment.awards!!, serie?.awards, 0, fragment.awardsLayout)
-            }
-
-            val actors = serie?.actors
-            val director = serie?.director
-            val writer = serie?.writer
-
-            if (hasText(actors) || hasText(director) || hasText(writer)) {
-                if (fragment.castingActors != null) {
-                    setText(fragment, fragment.castingActors!!, actors, R.string.actors, null)
-                }
-
-                if (fragment.castingDirectors != null) {
-                    setText(fragment, fragment.castingDirectors!!, director, R.string.directors, null)
-                }
-
-                fragment.castingLayout?.visibility = View.VISIBLE
-
-                if (fragment.castingWriters != null) {
-                    setText(fragment, fragment.castingWriters!!, writer, R.string.writers, null)
-                }
-            } else {
-                fragment.castingLayout?.visibility = View.GONE
-            }
-
-            if (fragment.languageCountry != null) {
-                val country = serie?.country
-                val language = serie?.language
-
-                if (hasText(language)) {
-                    fragment.languageCountry!!.text = if (hasText(country)) {
-                        fragment.getString(R.string.language_county, language, country)
-                    } else {
-                        fragment.getString(R.string.language_value, language)
-                    }
-                    fragment.languageCountry!!.visibility = View.VISIBLE
-                } else {
-                    fragment.languageCountry!!.visibility = View.GONE
-                }
-            }
-
-            if (fragment.plot != null) {
-                setText(fragment, fragment.plot!!, serie?.plot, 0, fragment.plotLayout)
-            }
-
-            if (fragment.rated != null) {
-                setText(fragment, fragment.rated!!, serie?.rated, R.string.rated, null)
-            }
-
-            if (fragment.rating != null) {
-                val imdbRating = serie?.imdbRating
-                val imdbVotes = serie?.imdbVotes
-
-                if (hasText(imdbRating) && hasText(imdbVotes)) {
-                    fragment.rating!!.text = fragment.getString(R.string.rating, imdbRating, imdbVotes)
-                    fragment.rating!!.visibility = View.VISIBLE
-                } else {
-                    fragment.rating!!.visibility = View.GONE
-                }
-            }
-
-            if (fragment.ratingStars != null) {
-                try {
-                    fragment.ratingStars!!.rating = serie?.imdbRating?.toFloat() ?: 0f
-                    fragment.ratingStars!!.visibility = View.VISIBLE
-                } catch(exception: Exception) {
-                    fragment.ratingStars!!.visibility = View.GONE
-                }
-            }
-
-            if (fragment.runtime != null) {
-                setText(fragment, fragment.runtime!!, serie?.runtime, R.string.runtime, null)
-            }
-
-            if (fragment.year != null) {
-                setText(fragment, fragment.year!!, serie?.year, R.string.year, null)
-            }
-        }
-
-        companion object {
-            private fun hasText(text: String?): Boolean {
-                return !text.isNullOrEmpty() && !"N/A".equals(text, true)
-            }
-
-            private fun setText(fragment: Fragment, textView: TextView, text: String?, label: Int, layout: View?) {
-                if (hasText(text)) {
-                    if (layout == null) {
-                        textView.text = fragment.getString(label, text)
-                        textView.visibility = View.VISIBLE
-                    } else {
-                        layout.visibility = View.VISIBLE
-                        textView.text = text
-                    }
-                } else {
-                    layout?.visibility = View.GONE
-                    textView.visibility = View.GONE
-                }
+            if (serie != null) {
+                RealmManager.saveSerie(serie)
             }
         }
     }
@@ -734,6 +725,10 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
 
     companion object {
+        private fun hasText(text: String?): Boolean {
+            return !text.isNullOrEmpty() && !"N/A".equals(text, true)
+        }
+
         private fun listToString(list: List<String>?): String {
             if (list == null || list.isEmpty()) {
                 return ""
@@ -750,6 +745,21 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
             }
 
             return builder.toString()
+        }
+
+        private fun setText(fragment: Fragment, textView: TextView, text: String?, label: Int, layout: View?) {
+            if (hasText(text)) {
+                if (layout == null) {
+                    textView.text = fragment.getString(label, text)
+                    textView.visibility = View.VISIBLE
+                } else {
+                    layout.visibility = View.VISIBLE
+                    textView.text = text
+                }
+            } else {
+                layout?.visibility = View.GONE
+                textView.visibility = View.GONE
+            }
         }
     }
 }
