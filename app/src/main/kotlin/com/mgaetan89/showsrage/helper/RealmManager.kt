@@ -27,6 +27,16 @@ object RealmManager {
         }
     }
 
+    fun deleteShow(indexerId: Int) {
+        this.realm.executeTransaction {
+            // Remove the show from the Show table
+            it.where(Show::class.java).equalTo("indexerId", indexerId).findFirst().deleteFromRealm()
+
+            // Remove the episodes associated to that show
+            it.where(Episode::class.java).equalTo("indexerId", indexerId).findAll().deleteAllFromRealm()
+        }
+    }
+
     fun getEpisode(episodeId: String, listener: RealmChangeListener?): Episode? {
         val query = this.realm.where(Episode::class.java)
                 .equalTo("id", episodeId)
@@ -101,8 +111,17 @@ object RealmManager {
         return this.realm.where(Schedule::class.java).findAll().where().distinct("section").map { it.section }
     }
 
-    fun getShow(indexerId: Int): Show? {
-        return this.realm.where(Show::class.java).equalTo("indexerId", indexerId).findFirst()
+    fun getShow(indexerId: Int, listener: RealmChangeListener? = null): Show? {
+        val query = this.realm.where(Show::class.java).equalTo("indexerId", indexerId)
+
+        if (listener == null) {
+            return query.findFirst()
+        }
+
+        val show = query.findFirstAsync()
+        show.addChangeListener(listener)
+
+        return show
     }
 
     fun getShows(anime: Boolean?, listener: RealmChangeListener?): RealmResults<Show> {
@@ -198,25 +217,14 @@ object RealmManager {
             }
 
             it.copyToRealmOrUpdate(shows)
+        }
 
-            // Remove information about shows that might have been removed
-            val removedIndexerIds = this.getShows(null, null).map { it.indexerId } - shows.map { it.indexerId }
+        // Remove information about shows that might have been removed
+        val removedIndexerIds = this.getShows(null, null).map { it.indexerId } - shows.map { it.indexerId }
 
-            if (removedIndexerIds.isNotEmpty()) {
-                val query = it.where(Show::class.java)
-
-                if (removedIndexerIds.size == 1) {
-                    query.equalTo("indexerId", removedIndexerIds.first())
-                } else {
-                    query.beginGroup()
-                    removedIndexerIds.forEach {
-                        query.equalTo("indexerId", it).or()
-                    }
-                    query.endGroup()
-                }
-
-                query.findAll().deleteAllFromRealm()
-            }
+        removedIndexerIds.forEach {
+            // deleteShow has its own transaction, so we need to run this outside of the above transaction
+            this.deleteShow(it)
         }
     }
 

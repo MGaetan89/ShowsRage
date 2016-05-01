@@ -15,7 +15,6 @@ import android.support.customtabs.CustomTabsServiceConnection
 import android.support.customtabs.CustomTabsSession
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
-import android.support.v4.app.NavUtils
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AlertDialog
@@ -34,6 +33,7 @@ import com.mgaetan89.showsrage.helper.*
 import com.mgaetan89.showsrage.model.*
 import com.mgaetan89.showsrage.network.OmDbApi
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.RealmChangeListener
 import io.realm.RealmList
 import retrofit.Callback
 import retrofit.RestAdapter
@@ -41,7 +41,7 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 import java.lang.ref.WeakReference
 
-class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListener, ImageLoader.OnImageResult, Palette.PaletteAsyncListener {
+class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListener, ImageLoader.OnImageResult, Palette.PaletteAsyncListener, RealmChangeListener {
     private var airs: TextView? = null
     private var awards: TextView? = null
     private var awardsLayout: CardView? = null
@@ -92,8 +92,6 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val activity = this.activity
-        val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
         val restAdapter = RestAdapter.Builder()
                 .setEndpoint(Constants.OMDB_URL)
                 .setLogLevel(Constants.NETWORK_LOG_LEVEL)
@@ -101,15 +99,149 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
         this.omDbApi = restAdapter.create(OmDbApi::class.java)
         this.serviceConnection = ServiceConnection(this)
-        this.show = RealmManager.getShow(indexerId)
-
-        if (this.show != null) {
-            activity?.title = this.show!!.showName
-
-            SickRageApi.instance.services?.getShow(this.show!!.indexerId, this)
-        }
 
         CustomTabsClient.bindCustomTabsService(this.context, "com.android.chrome", this.serviceConnection)
+    }
+
+    override fun onChange() {
+        val show = this.show ?: return
+
+        this.activity?.title = show.showName
+
+        val nextEpisodeAirDate = show.nextEpisodeAirDate
+
+        this.showHidePauseResumeMenus(show.paused == 0)
+
+        this.omDbApi!!.getShow(show.imdbId ?: "", OmdbShowCallback(this))
+
+        if (this.airs != null) {
+            val airs = show.airs
+
+            this.airs!!.text = if (airs.isNullOrEmpty()) {
+                this.getString(R.string.airs, "N/A")
+            } else {
+                this.getString(R.string.airs, airs)
+            }
+
+            this.airs!!.visibility = View.VISIBLE
+        }
+
+        if (this.banner != null) {
+            ImageLoader.load(
+                    this.banner,
+                    SickRageApi.instance.getBannerUrl(show.tvDbId, Indexer.TVDB),
+                    false, null, this
+            )
+
+            this.banner!!.contentDescription = show.showName
+        }
+
+        if (this.fanArt != null) {
+            ImageLoader.load(
+                    this.fanArt,
+                    SickRageApi.instance.getFanArtUrl(show.tvDbId, Indexer.TVDB),
+                    false, null, this
+            )
+
+            this.fanArt!!.contentDescription = show.showName
+        }
+
+        if (this.genre != null) {
+            val genresList = show.genre
+
+            if (genresList?.isNotEmpty() ?: false) {
+                val genres = genresList!!.joinToString { it.value }
+
+                this.genre!!.text = this.getString(R.string.genre, genres)
+                this.genre!!.visibility = View.VISIBLE
+            } else {
+                this.genre!!.visibility = View.GONE
+            }
+        }
+
+        if (this.imdb != null) {
+            this.imdb!!.visibility = if (show.imdbId.isNullOrEmpty()) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
+        }
+
+        if (this.languageCountry != null) {
+            this.languageCountry!!.text = this.getString(R.string.language_value, show.language)
+            this.languageCountry!!.visibility = View.VISIBLE
+        }
+
+        if (this.location != null) {
+            val location = show.location
+
+            this.location!!.text = if (location.isNullOrEmpty()) {
+                this.getString(R.string.location, "N/A")
+            } else {
+                this.getString(R.string.location, location)
+            }
+            this.location!!.visibility = View.VISIBLE
+        }
+
+        if (this.name != null) {
+            this.name!!.text = show.showName
+            this.name!!.visibility = View.VISIBLE
+        }
+
+        if (this.nextEpisodeDate != null) {
+            if (nextEpisodeAirDate.isNullOrEmpty()) {
+                this.nextEpisodeDate!!.visibility = View.GONE
+            } else {
+                this.nextEpisodeDate!!.text = this.getString(R.string.next_episode, DateTimeHelper.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS))
+                this.nextEpisodeDate!!.visibility = View.VISIBLE
+            }
+        }
+
+        if (this.network != null) {
+            this.network!!.text = this.getString(R.string.network, show.network)
+            this.network!!.visibility = View.VISIBLE
+        }
+
+        if (this.poster != null) {
+            ImageLoader.load(
+                    this.poster,
+                    SickRageApi.instance.getPosterUrl(show.tvDbId, Indexer.TVDB),
+                    false, this, null
+            )
+
+            this.poster!!.contentDescription = show.showName
+        }
+
+        if (this.quality != null) {
+            val quality = show.quality
+
+            if ("custom".equals(quality, true)) {
+                val qualityDetails = show.qualityDetails
+                val allowed = listToString(this.getTranslatedQualities(qualityDetails?.initial, true))
+                val preferred = listToString(this.getTranslatedQualities(qualityDetails?.archive, false))
+
+                this.quality!!.text = this.getString(R.string.quality_custom, allowed, preferred)
+            } else {
+                this.quality!!.text = this.getString(R.string.quality, quality)
+            }
+
+            this.quality!!.visibility = View.VISIBLE
+        }
+
+        if (this.status != null) {
+            if (nextEpisodeAirDate.isNullOrEmpty()) {
+                val status = show.getStatusTranslationResource()
+
+                this.status!!.text = if (status != 0) {
+                    this.getString(status)
+                } else {
+                    show.status
+                }
+                this.status!!.visibility = View.VISIBLE
+            } else {
+                this.status!!.visibility = View.GONE
+            }
+        }
     }
 
     override fun onClick(view: View?) {
@@ -151,6 +283,16 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         tabIntent.launchUrl(this.activity, Uri.parse(url))
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
+
+        this.show = RealmManager.getShow(indexerId, this)
+
+        SickRageApi.instance.services?.getShow(indexerId, this)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.show_overview, menu)
 
@@ -158,10 +300,6 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         this.pauseMenu?.isVisible = false
         this.resumeMenu = menu?.findItem(R.id.menu_resume_show)
         this.resumeMenu?.isVisible = false
-
-        if (this.show != null) {
-            this.showHidePauseResumeMenus(this.show!!.paused == 0)
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -343,144 +481,9 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
 
     override fun success(singleShow: SingleShow?, response: Response?) {
-        this.show = singleShow?.data ?: return
+        val show = singleShow?.data ?: return
 
-        RealmManager.saveShow(this.show!!)
-
-        val nextEpisodeAirDate = this.show!!.nextEpisodeAirDate
-
-        this.showHidePauseResumeMenus(this.show!!.paused == 0)
-
-        this.omDbApi!!.getShow(this.show!!.imdbId ?: "", OmdbShowCallback(this))
-
-        if (this.airs != null) {
-            val airs = this.show!!.airs
-
-            this.airs!!.text = if (airs.isNullOrEmpty()) {
-                this.getString(R.string.airs, "N/A")
-            } else {
-                this.getString(R.string.airs, airs)
-            }
-
-            this.airs!!.visibility = View.VISIBLE
-        }
-
-        if (this.banner != null) {
-            ImageLoader.load(
-                    this.banner,
-                    SickRageApi.instance.getBannerUrl(this.show!!.tvDbId, Indexer.TVDB),
-                    false, null, this
-            )
-
-            this.banner!!.contentDescription = this.show!!.showName
-        }
-
-        if (this.fanArt != null) {
-            ImageLoader.load(
-                    this.fanArt,
-                    SickRageApi.instance.getFanArtUrl(this.show!!.tvDbId, Indexer.TVDB),
-                    false, null, this
-            )
-
-            this.fanArt!!.contentDescription = this.show!!.showName
-        }
-
-        if (this.genre != null) {
-            val genresList = this.show!!.genre
-
-            if (genresList?.isNotEmpty() ?: false) {
-                val genres = genresList!!.joinToString { it.value }
-
-                this.genre!!.text = this.getString(R.string.genre, genres)
-                this.genre!!.visibility = View.VISIBLE
-            } else {
-                this.genre!!.visibility = View.GONE
-            }
-        }
-
-        if (this.imdb != null) {
-            this.imdb!!.visibility = if (this.show!!.imdbId.isNullOrEmpty()) {
-                View.GONE
-            } else {
-                View.VISIBLE
-            }
-        }
-
-        if (this.languageCountry != null) {
-            this.languageCountry!!.text = this.getString(R.string.language_value, this.show!!.language)
-            this.languageCountry!!.visibility = View.VISIBLE
-        }
-
-        if (this.location != null) {
-            val location = this.show!!.location
-
-            this.location!!.text = if (location.isNullOrEmpty()) {
-                this.getString(R.string.location, "N/A")
-            } else {
-                this.getString(R.string.location, location)
-            }
-            this.location!!.visibility = View.VISIBLE
-        }
-
-        if (this.name != null) {
-            this.name!!.text = this.show!!.showName
-            this.name!!.visibility = View.VISIBLE
-        }
-
-        if (this.nextEpisodeDate != null) {
-            if (nextEpisodeAirDate.isNullOrEmpty()) {
-                this.nextEpisodeDate!!.visibility = View.GONE
-            } else {
-                this.nextEpisodeDate!!.text = this.getString(R.string.next_episode, DateTimeHelper.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS))
-                this.nextEpisodeDate!!.visibility = View.VISIBLE
-            }
-        }
-
-        if (this.network != null) {
-            this.network!!.text = this.getString(R.string.network, this.show!!.network)
-            this.network!!.visibility = View.VISIBLE
-        }
-
-        if (this.poster != null) {
-            ImageLoader.load(
-                    this.poster,
-                    SickRageApi.instance.getPosterUrl(this.show!!.tvDbId, Indexer.TVDB),
-                    false, this, null
-            )
-
-            this.poster!!.contentDescription = this.show!!.showName
-        }
-
-        if (this.quality != null) {
-            val quality = this.show!!.quality
-
-            if ("custom".equals(quality, true)) {
-                val qualityDetails = this.show!!.qualityDetails
-                val allowed = listToString(this.getTranslatedQualities(qualityDetails?.initial, true))
-                val preferred = listToString(this.getTranslatedQualities(qualityDetails?.archive, false))
-
-                this.quality!!.text = this.getString(R.string.quality_custom, allowed, preferred)
-            } else {
-                this.quality!!.text = this.getString(R.string.quality, quality)
-            }
-
-            this.quality!!.visibility = View.VISIBLE
-        }
-
-        if (this.status != null) {
-            if (nextEpisodeAirDate.isNullOrEmpty()) {
-                val status = this.show!!.getStatusTranslationResource()
-
-                this.status!!.text = if (status != 0) {
-                    this.getString(status)
-                } else {
-                    this.show!!.status
-                }
-                this.status!!.visibility = View.VISIBLE
-            } else {
-                this.status!!.visibility = View.GONE
-            }
-        }
+        RealmManager.saveShow(show)
     }
 
     private fun changeQuality() {
@@ -502,7 +505,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         }
 
         val indexerId = this.show!!.indexerId
-        val callback = DeleteShowCallback(this.activity)
+        val callback = DeleteShowCallback(this.activity, indexerId)
 
         AlertDialog.Builder(this.context)
                 .setTitle(this.getString(R.string.delete_show_title, this.show!!.showName))
@@ -580,11 +583,16 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         }
     }
 
-    private class DeleteShowCallback(activity: FragmentActivity) : GenericCallback(activity) {
+    private class DeleteShowCallback(activity: FragmentActivity, val indexerId: Int) : GenericCallback(activity) {
         override fun success(genericResponse: GenericResponse?, response: Response?) {
             super.success(genericResponse, response)
 
-            NavUtils.navigateUpFromSameTask(this.getActivity())
+            RealmManager.deleteShow(this.indexerId)
+
+            val activity = this.getActivity() ?: return
+            val intent = Intent(activity, MainActivity::class.java)
+
+            activity.startActivity(intent)
         }
     }
 

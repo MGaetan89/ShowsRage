@@ -168,7 +168,6 @@ open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickLis
             super.success(genericResponse, response)
 
             val activity = this.getActivity() ?: return
-
             val intent = Intent(activity, MainActivity::class.java)
 
             activity.startActivity(intent)
