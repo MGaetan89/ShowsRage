@@ -105,11 +105,15 @@ object RealmManager {
         return this.realm.where(Show::class.java).equalTo("indexerId", indexerId).findFirst()
     }
 
-    fun getShows(anime: Boolean?, listener: RealmChangeListener): RealmResults<Show> {
+    fun getShows(anime: Boolean?, listener: RealmChangeListener?): RealmResults<Show> {
         val query = this.realm.where(Show::class.java)
 
         if (anime != null) {
             query.equalTo("anime", if (anime) 1 else 0)
+        }
+
+        if (listener == null) {
+            return query.findAllSorted("showName")
         }
 
         val shows = query.findAllSortedAsync("showName")
@@ -188,13 +192,31 @@ object RealmManager {
 
     fun saveShows(shows: List<Show>) {
         this.realm.executeTransaction {
-            it.delete(Show::class.java)
-
+            // Save the new shows data
             shows.forEach {
                 this.prepareShowForSaving(it)
             }
 
             it.copyToRealmOrUpdate(shows)
+
+            // Remove information about shows that might have been removed
+            val removedIndexerIds = this.getShows(null, null).map { it.indexerId } - shows.map { it.indexerId }
+
+            if (removedIndexerIds.isNotEmpty()) {
+                val query = it.where(Show::class.java)
+
+                if (removedIndexerIds.size == 1) {
+                    query.equalTo("indexerId", removedIndexerIds.first())
+                } else {
+                    query.beginGroup()
+                    removedIndexerIds.forEach {
+                        query.equalTo("indexerId", it).or()
+                    }
+                    query.endGroup()
+                }
+
+                query.findAll().deleteAllFromRealm()
+            }
         }
     }
 
