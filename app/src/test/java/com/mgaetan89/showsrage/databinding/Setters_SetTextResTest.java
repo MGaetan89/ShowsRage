@@ -27,7 +27,7 @@ public class Setters_SetTextResTest {
 	public void setTextRes() {
 		TextView textView = mock(TextView.class);
 
-		Setters.setTextRes(textView, this.textRes);
+		SettersKt.setTextRes(textView, this.textRes);
 
 		if (this.text instanceof String) {
 			verify(textView).setText(this.text.toString());

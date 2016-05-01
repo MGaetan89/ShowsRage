@@ -22,7 +22,7 @@ public class Setters_SetTextColorResTest {
 		TextView textView = mock(TextView.class);
 		when(textView.getContext()).thenReturn(context);
 
-		Setters.setTextColorRes(textView, R.color.primary);
+		SettersKt.setTextColorRes(textView, R.color.primary);
 
 		verify(textView).setTextColor(anyInt());
 	}

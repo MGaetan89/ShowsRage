@@ -12,7 +12,7 @@ public class Setters_SetSelectedTest {
 	public void setSelectedFalse() {
 		TextView textView = mock(TextView.class);
 
-		Setters.setSelected(textView, false);
+		SettersKt.setSelected(textView, false);
 
 		verify(textView).setSelected(false);
 	}
@@ -21,7 +21,7 @@ public class Setters_SetSelectedTest {
 	public void setSelectedTrue() {
 		TextView textView = mock(TextView.class);
 
-		Setters.setSelected(textView, true);
+		SettersKt.setSelected(textView, true);
 
 		verify(textView).setSelected(true);
 	}

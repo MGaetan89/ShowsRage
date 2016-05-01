@@ -477,7 +477,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                 apply()
             }
 
-            if (!update.needsUpdate()) {
+            if (!update.needsUpdate) {
                 if (manualCheck) {
                     Toast.makeText(activity, R.string.no_update, Toast.LENGTH_SHORT).show()
                 }
@@ -504,7 +504,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                     .setSmallIcon(R.drawable.ic_notification)
                     .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                     .setStyle(NotificationCompat.BigTextStyle().bigText(
-                            activity.getString(R.string.update_available_detailed, update.currentVersion.version, update.latestVersion.version, update.commitsOffset)
+                            activity.getString(R.string.update_available_detailed, update.currentVersion?.version, update.latestVersion?.version, update.commitsOffset)
                     ))
                     .build()
 

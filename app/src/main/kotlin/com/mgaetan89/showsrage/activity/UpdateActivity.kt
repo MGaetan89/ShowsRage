@@ -53,7 +53,7 @@ class UpdateActivity : AppCompatActivity(), Callback<GenericResponse>, DialogInt
                 .setTitle(R.string.update_sickrage)
 
         if (update != null) {
-            builder.setMessage(this.getString(R.string.update_available_detailed, update.currentVersion.version, update.latestVersion.version, update.commitsOffset))
+            builder.setMessage(this.getString(R.string.update_available_detailed, update.currentVersion?.version, update.latestVersion?.version, update.commitsOffset))
         }
 
         builder.setPositiveButton(R.string.update, this)

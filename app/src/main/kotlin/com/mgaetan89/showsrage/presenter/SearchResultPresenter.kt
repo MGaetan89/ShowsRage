@@ -15,7 +15,7 @@ class SearchResultPresenter(val searchResult: SearchResultItem?) {
     }
 
     @StringRes
-    fun getIndexerNameRes() = this.searchResult?.indexerNameResource ?: 0
+    fun getIndexerNameRes() = this.searchResult?.getIndexerNameResource() ?: 0
 
     fun getName() = this.searchResult?.name ?: ""
 }
