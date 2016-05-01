@@ -1,0 +1,7 @@
+---
+name: Version 1.4-beta3
+current_tag: master
+previous_tag: v1.4-beta2
+features:
+- Locally save <em>SickRage</em> information on your device.
+---
