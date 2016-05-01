@@ -188,6 +188,8 @@ object RealmManager {
 
     fun saveShows(shows: List<Show>) {
         this.realm.executeTransaction {
+            it.delete(Show::class.java)
+
             shows.forEach {
                 this.prepareShowForSaving(it)
             }
