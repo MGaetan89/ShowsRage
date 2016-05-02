@@ -60,6 +60,10 @@ abstract class TabbedFragment : Fragment() {
     }
 
     protected fun updateState(empty: Boolean) {
+        if (this.activity?.isDestroyed ?: true) {
+            return
+        }
+
         this.adapter?.notifyDataSetChanged()
 
         this.tabLayout?.visibility = if (empty) View.GONE else View.VISIBLE
