@@ -12,10 +12,11 @@
 
 	<RelativeLayout
 		android:layout_width="match_parent"
-		android:layout_height="@dimen/list_item_height"
+		android:layout_height="wrap_content"
 		android:background="?selectableItemBackground"
 		android:clickable="true"
 		android:gravity="center_vertical"
+		android:minHeight="@dimen/list_item_height"
 		android:paddingBottom="@dimen/padding_half"
 		android:paddingEnd="@dimen/padding"
 		android:paddingLeft="@dimen/padding"
