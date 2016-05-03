@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 import com.mgaetan89.showsrage.R
 import io.realm.RealmList
 import io.realm.RealmObject
+import io.realm.annotations.Ignore
 import io.realm.annotations.PrimaryKey
 
 open class Show : RealmObject() {
@@ -14,10 +15,8 @@ open class Show : RealmObject() {
     open var anime: Int = 0
     @SerializedName("archive_firstmatch")
     open var archiveFirstmatch: Int = 0
-    open var downloaded: Int? = 0
     @SerializedName("dvdorder")
     open var dvdOrder: Int = 0
-    open var episodesCount: Int? = 0
     @SerializedName("flatten_folders")
     open var flattenFolders: Int = 0
     open var genre: RealmList<RealmString>? = null
@@ -40,8 +39,9 @@ open class Show : RealmObject() {
     open var seasonList: RealmList<RealmString>? = null
     @SerializedName("show_name")
     open var showName: String? = ""
-    open var snatched: Int? = 0
     open var sports: Int = 0
+    @Ignore
+    open var stat: RealmShowStat? = null
     open var status: String? = ""
     open var subtitles: Int = 0
     @SerializedName("tvdbid")

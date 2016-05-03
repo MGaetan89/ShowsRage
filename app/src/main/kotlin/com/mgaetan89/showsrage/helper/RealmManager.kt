@@ -34,6 +34,9 @@ object RealmManager {
 
             // Remove the episodes associated to that show
             it.where(Episode::class.java).equalTo("indexerId", indexerId).findAll().deleteAllFromRealm()
+
+            // Remove the stat associated to that show
+            it.where(RealmShowStat::class.java).equalTo("indexerId", indexerId).findFirst().deleteFromRealm()
         }
     }
 
@@ -148,6 +151,12 @@ object RealmManager {
         return shows
     }
 
+    fun getShowStat(indexerId: Int): RealmShowStat? {
+        return this.realm.where(RealmShowStat::class.java)
+                .equalTo("indexerId", indexerId)
+                .findFirst()
+    }
+
     fun init(context: Context) {
         val configuration = RealmConfiguration.Builder(context)
                 .deleteRealmIfMigrationNeeded()
@@ -241,6 +250,16 @@ object RealmManager {
         }
     }
 
+    fun saveShowStat(stat: ShowStat, indexerId: Int): RealmShowStat {
+        val realmStat = this.getRealmStat(stat, indexerId)
+
+        this.realm.executeTransaction {
+            it.copyToRealmOrUpdate(realmStat)
+        }
+
+        return realmStat
+    }
+
     private fun getAllLogs(): RealmResults<LogEntry> {
         return this.realm.where(LogEntry::class.java).findAllSorted("dateTime", Sort.DESCENDING)
     }
@@ -253,6 +272,16 @@ object RealmManager {
             LogLevel.WARNING -> arrayOf("ERROR", "WARNING")
             else -> arrayOf("DEBUG", "ERROR", "INFO", "WARNING")
         }
+    }
+
+    private fun getRealmStat(stat: ShowStat, indexerId: Int): RealmShowStat {
+        val realmStat = RealmShowStat()
+        realmStat.downloaded = stat.getTotalDone()
+        realmStat.episodesCount = stat.total
+        realmStat.indexerId = indexerId
+        realmStat.snatched = stat.getTotalPending()
+
+        return realmStat
     }
 
     private fun prepareEpisodeForSaving(episode: Episode, indexerId: Int, season: Int, episodeNumber: Int) {
@@ -276,14 +305,11 @@ object RealmManager {
         val savedShow = this.getShow(show.indexerId)
 
         show.airs = if (show.airs.isNullOrEmpty()) savedShow?.airs else show.airs
-        show.downloaded = if (show.downloaded == 0) savedShow?.downloaded else show.downloaded
-        show.episodesCount = if (show.episodesCount == 0) savedShow?.episodesCount else show.episodesCount
         show.genre = if (show.genre?.isEmpty() ?: true) savedShow?.genre else show.genre
         show.imdbId = if (show.imdbId.isNullOrEmpty()) savedShow?.imdbId else show.imdbId
         show.location = if (show.location.isNullOrEmpty()) savedShow?.location else show.location
         show.qualityDetails?.indexerId = show.indexerId
         show.seasonList = if (show.seasonList?.isEmpty() ?: true) savedShow?.seasonList else show.seasonList
-        show.snatched = if (show.snatched == 0) savedShow?.snatched else show.snatched
     }
 
     private fun trimHistory() {

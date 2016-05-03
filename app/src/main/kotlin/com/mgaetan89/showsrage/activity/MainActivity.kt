@@ -111,6 +111,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                         .explore(History::class.java)
                         .explore(LogEntry::class.java)
                         .explore(Quality::class.java)
+                        .explore(RealmShowStat::class.java)
                         .explore(RealmString::class.java)
                         .explore(RootDir::class.java)
                         .explore(Schedule::class.java)

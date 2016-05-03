@@ -18,11 +18,11 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.adapter.ShowsAdapter
 import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.model.RealmShowStat
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.ShowStatsWrapper
 import com.mgaetan89.showsrage.model.ShowsFilters
 import com.mgaetan89.showsrage.network.SickRageApi
-import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
 import retrofit.Callback
@@ -213,18 +213,16 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener {
 
             showStats?.forEach {
                 val showStatsData = it.value.data
+                var realmStat: RealmShowStat? = null
                 val indexerId = it.key
+
+                if (showStatsData != null) {
+                    realmStat = RealmManager.saveShowStat(showStatsData, indexerId)
+                }
 
                 filteredShows.forEachIndexed { i, show ->
                     if (show.indexerId == indexerId) {
-                        with (Realm.getDefaultInstance()) {
-                            beginTransaction()
-                            show.episodesCount = showStatsData?.total ?: 0
-                            show.downloaded = showStatsData?.getTotalDone() ?: 0
-                            show.snatched = showStatsData?.getTotalPending() ?: 0
-                            commitTransaction()
-                            close()
-                        }
+                        show.stat = realmStat ?: show.stat
 
                         fragment.adapter?.notifyItemChanged(i)
 
@@ -234,14 +232,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener {
 
                 shows?.forEach showsForEach@ {
                     if (it.indexerId == indexerId) {
-                        with (Realm.getDefaultInstance()) {
-                            beginTransaction()
-                            it.episodesCount = showStatsData?.total ?: 0
-                            it.downloaded = showStatsData?.getTotalDone() ?: 0
-                            it.snatched = showStatsData?.getTotalPending() ?: 0
-                            commitTransaction()
-                            close()
-                        }
+                        it.stat = realmStat ?: it.stat
 
                         return@showsForEach
                     }
