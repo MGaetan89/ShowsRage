@@ -30,7 +30,7 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 import java.lang.ref.WeakReference
 
-class ShowsSectionFragment : Fragment(), RealmChangeListener {
+class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>> {
     private var adapter: ShowsAdapter? = null
     private var emptyView: TextView? = null
     private val filteredShows = mutableListOf<Show>()
@@ -38,7 +38,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener {
     private var recyclerView: RecyclerView? = null
     private var shows: RealmResults<Show>? = null
 
-    override fun onChange() {
+    override fun onChange(shows: RealmResults<Show>) {
         this.filteredShows.clear()
         this.filteredShows.addAll(this.shows?.toList() ?: emptyList())
 

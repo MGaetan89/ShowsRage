@@ -23,7 +23,7 @@ import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 
-class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener, SwipeRefreshLayout.OnRefreshListener {
+class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResults<LogEntry>>, SwipeRefreshLayout.OnRefreshListener {
     private var adapter: LogsAdapter? = null
     private var emptyView: TextView? = null
     private var logs: RealmResults<LogEntry>? = null
@@ -53,7 +53,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener, SwipeRefre
         this.onRefresh()
     }
 
-    override fun onChange() {
+    override fun onChange(logs: RealmResults<LogEntry>) {
         if (this.adapter == null && this.logs != null) {
             this.adapter = LogsAdapter(this.logs!!)
 

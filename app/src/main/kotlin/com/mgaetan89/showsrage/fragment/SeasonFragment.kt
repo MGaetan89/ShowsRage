@@ -24,7 +24,7 @@ import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 
-class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefreshListener, RealmChangeListener {
+class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefreshListener, RealmChangeListener<RealmResults<Episode>> {
     private var adapter: EpisodesAdapter? = null
     private var emptyView: TextView? = null
     private var episodes: RealmResults<Episode>? = null
@@ -40,7 +40,7 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
         error?.printStackTrace()
     }
 
-    override fun onChange() {
+    override fun onChange(episodes: RealmResults<Episode>) {
         if (this.adapter == null && this.episodes != null) {
             this.adapter = EpisodesAdapter(this.episodes!!, this.seasonNumber, this.show, this.reversedOrder)
 

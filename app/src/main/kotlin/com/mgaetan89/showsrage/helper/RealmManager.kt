@@ -40,7 +40,7 @@ object RealmManager {
         }
     }
 
-    fun getEpisode(episodeId: String, listener: RealmChangeListener?): Episode? {
+    fun getEpisode(episodeId: String, listener: RealmChangeListener<Episode>?): Episode? {
         val query = this.realm.where(Episode::class.java)
                 .equalTo("id", episodeId)
 
@@ -54,7 +54,7 @@ object RealmManager {
         return episode
     }
 
-    fun getEpisodes(indexerId: Int, season: Int, reversedOrder: Boolean, listener: RealmChangeListener): RealmResults<Episode> {
+    fun getEpisodes(indexerId: Int, season: Int, reversedOrder: Boolean, listener: RealmChangeListener<RealmResults<Episode>>): RealmResults<Episode> {
         val episodes = this.realm.where(Episode::class.java)
                 .equalTo("indexerId", indexerId)
                 .equalTo("season", season)
@@ -64,7 +64,7 @@ object RealmManager {
         return episodes
     }
 
-    fun getHistory(listener: RealmChangeListener?): RealmResults<History> {
+    fun getHistory(listener: RealmChangeListener<RealmResults<History>>?): RealmResults<History> {
         val query = this.realm.where(History::class.java)
 
         if (listener == null) {
@@ -77,7 +77,7 @@ object RealmManager {
         return history
     }
 
-    fun getLogs(logLevel: LogLevel, listener: RealmChangeListener): RealmResults<LogEntry> {
+    fun getLogs(logLevel: LogLevel, listener: RealmChangeListener<RealmResults<LogEntry>>): RealmResults<LogEntry> {
         val logLevels = this.getLogLevels(logLevel)
         val query = this.realm.where(LogEntry::class.java)
 
@@ -101,7 +101,7 @@ object RealmManager {
         return this.realm.where(RootDir::class.java).findAll()
     }
 
-    fun getSchedule(section: String, listener: RealmChangeListener): RealmResults<Schedule> {
+    fun getSchedule(section: String, listener: RealmChangeListener<RealmResults<Schedule>>): RealmResults<Schedule> {
         val schedule = this.realm.where(Schedule::class.java)
                 .equalTo("section", section)
                 .findAllSortedAsync("airDate")
@@ -114,14 +114,14 @@ object RealmManager {
         return this.realm.where(Schedule::class.java).findAll().where().distinct("section").map { it.section }
     }
 
-    fun getSerie(imdbId: String, listener: RealmChangeListener): Serie {
+    fun getSerie(imdbId: String, listener: RealmChangeListener<Serie>): Serie {
         val serie = this.realm.where(Serie::class.java).equalTo("imdbId", imdbId).findFirstAsync()
         serie.addChangeListener(listener)
 
         return serie
     }
 
-    fun getShow(indexerId: Int, listener: RealmChangeListener? = null): Show? {
+    fun getShow(indexerId: Int, listener: RealmChangeListener<Show>? = null): Show? {
         val query = this.realm.where(Show::class.java).equalTo("indexerId", indexerId)
 
         if (listener == null) {
@@ -134,7 +134,7 @@ object RealmManager {
         return show
     }
 
-    fun getShows(anime: Boolean?, listener: RealmChangeListener?): RealmResults<Show> {
+    fun getShows(anime: Boolean?, listener: RealmChangeListener<RealmResults<Show>>?): RealmResults<Show> {
         val query = this.realm.where(Show::class.java)
 
         if (anime != null) {

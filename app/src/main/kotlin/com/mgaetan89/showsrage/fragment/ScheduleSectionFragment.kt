@@ -16,13 +16,13 @@ import com.mgaetan89.showsrage.model.Schedule
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
 
-class ScheduleSectionFragment : Fragment(), RealmChangeListener {
+class ScheduleSectionFragment : Fragment(), RealmChangeListener<RealmResults<Schedule>> {
     private var adapter: ScheduleAdapter? = null
     private var emptyView: TextView? = null
     private var recyclerView: RecyclerView? = null
     private var schedules: RealmResults<Schedule>? = null
 
-    override fun onChange() {
+    override fun onChange(schedules: RealmResults<Schedule>) {
         if (this.adapter == null && this.schedules != null) {
             this.adapter = ScheduleAdapter(this.schedules!!)
 

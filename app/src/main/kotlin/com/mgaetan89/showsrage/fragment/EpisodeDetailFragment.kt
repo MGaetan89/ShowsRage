@@ -45,7 +45,7 @@ import java.net.URISyntaxException
 import java.net.URL
 import java.util.regex.Pattern
 
-class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpisode>, View.OnClickListener, RealmChangeListener {
+class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpisode>, View.OnClickListener, RealmChangeListener<Episode> {
     private var airs: TextView? = null
     private var awards: TextView? = null
     private var awardsLayout: CardView? = null
@@ -119,9 +119,9 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         }
     }
 
-    override fun onChange() {
-        this.displayEpisode()
-        this.displayStreamingMenus()
+    override fun onChange(episode: Episode) {
+        this.displayEpisode(episode)
+        this.displayStreamingMenus(episode)
     }
 
     override fun onClick(view: View?) {
@@ -176,7 +176,9 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             }
         }
 
-        this.displayStreamingMenus()
+        if (this.episode != null) {
+            this.displayStreamingMenus(this.episode!!)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -309,9 +311,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         this.startActivity(intent)
     }
 
-    private fun displayEpisode() {
-        val episode = this.episode ?: return
-
+    private fun displayEpisode(episode: Episode) {
         this.airs?.text = this.getString(R.string.airs, DateTimeHelper.getRelativeDate(episode.airDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS))
         this.airs?.visibility = View.VISIBLE
 
@@ -361,9 +361,9 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         }
     }
 
-    private fun displayStreamingMenus() {
-        this.castMenu?.isVisible = this.isCastMenuVisible()
-        this.playVideoMenu?.isVisible = this.isPlayMenuVisible()
+    private fun displayStreamingMenus(episode: Episode) {
+        this.castMenu?.isVisible = this.isCastMenuVisible(episode)
+        this.playVideoMenu?.isVisible = this.isPlayMenuVisible(episode)
     }
 
     private fun getEpisodeVideoUrl(): Uri {
@@ -401,25 +401,23 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         return Uri.parse(episodeUrl)
     }
 
-    private fun isCastMenuVisible(): Boolean {
+    private fun isCastMenuVisible(episode: Episode): Boolean {
         val activity = this.activity ?: return false
         val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
-        val episodeDownloaded = this.isEpisodeDownloaded()
+        val episodeDownloaded = this.isEpisodeDownloaded(episode)
         val streamInChromecast = preferences.getBoolean("stream_in_chromecast", false)
 
         return episodeDownloaded && streamInChromecast
     }
 
-    private fun isEpisodeDownloaded(): Boolean {
-        val episode = this.episode ?: return false
-
+    private fun isEpisodeDownloaded(episode: Episode): Boolean {
         return episode.isLoaded && "Downloaded".equals(episode.status, true)
     }
 
-    private fun isPlayMenuVisible(): Boolean {
+    private fun isPlayMenuVisible(episode: Episode): Boolean {
         val activity = this.activity ?: return false
         val prefences = PreferenceManager.getDefaultSharedPreferences(activity)
-        val episodeDownloaded = this.isEpisodeDownloaded()
+        val episodeDownloaded = this.isEpisodeDownloaded(episode)
         val viewInExternalVideoPlayer = prefences.getBoolean("view_in_external_video_player", false)
 
         return episodeDownloaded && viewInExternalVideoPlayer

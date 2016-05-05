@@ -41,7 +41,7 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 import java.lang.ref.WeakReference
 
-class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListener, ImageLoader.OnImageResult, Palette.PaletteAsyncListener, RealmChangeListener {
+class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListener, ImageLoader.OnImageResult, Palette.PaletteAsyncListener, RealmChangeListener<Show> {
     private var airs: TextView? = null
     private var awards: TextView? = null
     private var awardsLayout: CardView? = null
@@ -70,9 +70,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     private var resumeMenu: MenuItem? = null
     private var runtime: TextView? = null
     private var serie: Serie? = null
-    private val serieListener = RealmChangeListener {
-        val serie = this.serie ?: return@RealmChangeListener
-
+    private val serieListener = RealmChangeListener<Serie> { serie ->
         // TODO Why is this necessary?
         if (!serie.isValid) {
             return@RealmChangeListener
@@ -191,9 +189,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         CustomTabsClient.bindCustomTabsService(this.context, "com.android.chrome", this.serviceConnection)
     }
 
-    override fun onChange() {
-        val show = this.show ?: return
-
+    override fun onChange(show: Show) {
         this.activity?.title = show.showName
 
         val imdbId = show.imdbId

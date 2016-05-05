@@ -20,13 +20,15 @@ import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.GenericResponse
 import com.mgaetan89.showsrage.model.Histories
+import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.RealmChangeListener
+import io.realm.RealmResults
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 
-class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClickListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, RealmChangeListener {
+class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClickListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, RealmChangeListener<RealmResults<History>> {
     private var adapter: HistoriesAdapter? = null
     private var clearHistory: FloatingActionButton? = null
     private var emptyView: TextView? = null
@@ -51,7 +53,7 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
         }
     }
 
-    override fun onChange() {
+    override fun onChange(histories: RealmResults<History>) {
         if (this.histories.isEmpty()) {
             this.clearHistory?.visibility = View.GONE
             this.emptyView?.visibility = View.VISIBLE
