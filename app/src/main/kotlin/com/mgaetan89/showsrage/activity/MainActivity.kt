@@ -36,6 +36,7 @@ import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.ShowsRageApplication
 import com.mgaetan89.showsrage.fragment.*
 import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.helper.ShowsArchitect
 import com.mgaetan89.showsrage.helper.ShowsRageReceiver
 import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.*
@@ -117,6 +118,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                         .explore(Schedule::class.java)
                         .explore(Serie::class.java)
                         .explore(Show::class.java)
+                        .withArchitect(ShowsArchitect())
                         .navigate(this)
             }
 
