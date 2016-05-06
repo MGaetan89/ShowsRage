@@ -27,14 +27,17 @@ object RealmManager {
 
     fun deleteShow(indexerId: Int) {
         this.realm.executeTransaction {
-            // Remove the show from the Show table
-            it.where(Show::class.java).equalTo("indexerId", indexerId).findFirst().deleteFromRealm()
-
             // Remove the episodes associated to that show
             it.where(Episode::class.java).equalTo("indexerId", indexerId).findAll().deleteAllFromRealm()
 
+            // Remove the quality associated to that show
+            it.where(Quality::class.java).equalTo("indexerId", indexerId).findFirst().deleteFromRealm()
+
             // Remove the stat associated to that show
             it.where(RealmShowStat::class.java).equalTo("indexerId", indexerId).findFirst().deleteFromRealm()
+
+            // Remove the show from the Show table
+            it.where(Show::class.java).equalTo("indexerId", indexerId).findFirst().deleteFromRealm()
         }
     }
 
