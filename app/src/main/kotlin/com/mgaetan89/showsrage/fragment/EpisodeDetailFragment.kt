@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.design.widget.FloatingActionButton
-import android.support.v4.app.Fragment
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AlertDialog
@@ -25,10 +24,7 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.ShowsRageApplication
 import com.mgaetan89.showsrage.activity.MainActivity
-import com.mgaetan89.showsrage.helper.DateTimeHelper
-import com.mgaetan89.showsrage.helper.GenericCallback
-import com.mgaetan89.showsrage.helper.RealmManager
-import com.mgaetan89.showsrage.helper.Utils
+import com.mgaetan89.showsrage.helper.*
 import com.mgaetan89.showsrage.model.*
 import com.mgaetan89.showsrage.network.OmDbApi
 import com.mgaetan89.showsrage.network.SickRageApi
@@ -62,6 +58,98 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     private var location: TextView? = null
     private var moreInformationLayout: CardView? = null
     private var name: TextView? = null
+    private var omdbEpisode: OmDbEpisode? = null
+    private val omdbEpisodeListener = RealmChangeListener<OmDbEpisode> { episode ->
+        // TODO Why is the episode invalid once loaded?
+        if (!episode.isValid) {
+            return@RealmChangeListener
+        }
+
+        if (this.awards != null) {
+            setText(this, this.awards!!, episode?.awards, 0, this.awardsLayout)
+        }
+
+        val actors = episode?.actors
+        val director = episode?.director
+        val writer = episode?.writer
+
+        if (hasText(actors) || hasText(director) || hasText(writer)) {
+            if (this.castingActors != null) {
+                setText(this, this.castingActors!!, actors, R.string.actors, null)
+            }
+
+            if (this.castingDirectors != null) {
+                setText(this, this.castingDirectors!!, director, R.string.directors, null)
+            }
+
+            if (this.castingLayout != null) {
+                this.castingLayout!!.visibility = View.VISIBLE
+            }
+
+            if (this.castingWriters != null) {
+                setText(this, this.castingWriters!!, writer, R.string.writers, null)
+            }
+        } else {
+            if (this.castingLayout != null) {
+                this.castingLayout!!.visibility = View.GONE
+            }
+        }
+
+        if (this.genre != null) {
+            setText(this, this.genre!!, episode?.genre, R.string.genre, null)
+        }
+
+        if (this.languageCountry != null) {
+            val country = episode?.country
+            val language = episode?.language
+
+            if (hasText(language)) {
+                if (hasText(country)) {
+                    this.languageCountry!!.text = this.getString(R.string.language_county, language, country)
+                } else {
+                    this.languageCountry!!.text = this.getString(R.string.language_value, language)
+                }
+
+                this.languageCountry!!.visibility = View.VISIBLE
+            } else {
+                this.languageCountry!!.visibility = View.GONE
+            }
+        }
+
+        if (this.rated != null) {
+            setText(this, this.rated!!, episode?.rated, R.string.rated, null)
+        }
+
+        if (this.rating != null) {
+            val imdbRating = episode?.imdbRating
+            val imdbVotes = episode?.imdbVotes
+
+            if (hasText(imdbRating) && hasText(imdbVotes)) {
+                this.rating!!.text = this.getString(R.string.rating, imdbRating, imdbVotes)
+                this.rating!!.visibility = View.VISIBLE
+            } else {
+                this.rating!!.visibility = View.GONE
+            }
+        }
+
+        if (this.ratingStars != null) {
+            try {
+                this.ratingStars!!.rating = episode?.imdbRating?.toFloat() ?: 0f
+                this.ratingStars!!.visibility = View.VISIBLE
+            } catch (exception: Exception) {
+                this.ratingStars!!.visibility = View.GONE
+            }
+        }
+
+        if (this.runtime != null) {
+            setText(this, this.runtime!!, episode?.runtime, R.string.runtime, null)
+        }
+
+        if (this.year != null) {
+            setText(this, this.year!!, episode?.year, R.string.year, null)
+        }
+    }
+
     private var playVideoMenu: MenuItem? = null
     private var plot: TextView? = null
     private var plotLayout: CardView? = null
@@ -105,6 +193,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         if (this.show != null) {
             val imdbId = this.show!!.imdbId
 
+            // We might not have the IMDB id yet
             if (imdbId.isNullOrEmpty()) {
                 // So we try to get the data by using the show name
                 val showName = this.show!!.showName
@@ -113,7 +202,8 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
                     omDbApi.getEpisodeByTitle(showName!!, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
                 }
             } else {
-                // We might now have the IMDB id yet
+                this.omdbEpisode = RealmManager.getEpisode(OmDbEpisode.buildId(imdbId!!, this.seasonNumber.toString(), this.episode.toString()), this.omdbEpisodeListener)
+
                 omDbApi.getEpisodeByImDbId(imdbId!!, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
             }
         }
@@ -235,6 +325,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 
     override fun onDestroy() {
         this.episode?.removeChangeListeners()
+        this.omdbEpisode?.removeChangeListeners()
 
         super.onDestroy()
     }
@@ -495,112 +586,8 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         }
 
         override fun success(episode: OmDbEpisode?, response: Response?) {
-            val fragment = this.fragmentReference.get() ?: return
-
-            if (fragment.awards != null) {
-                setText(fragment, fragment.awards!!, episode?.awards, 0, fragment.awardsLayout)
-            }
-
-            val actors = episode?.actors
-            val director = episode?.director
-            val writer = episode?.writer
-
-            if (hasText(actors) || hasText(director) || hasText(writer)) {
-                if (fragment.castingActors != null) {
-                    setText(fragment, fragment.castingActors!!, actors, R.string.actors, null)
-                }
-
-                if (fragment.castingDirectors != null) {
-                    setText(fragment, fragment.castingDirectors!!, director, R.string.directors, null)
-                }
-
-                if (fragment.castingLayout != null) {
-                    fragment.castingLayout!!.visibility = View.VISIBLE
-                }
-
-                if (fragment.castingWriters != null) {
-                    setText(fragment, fragment.castingWriters!!, writer, R.string.writers, null)
-                }
-            } else {
-                if (fragment.castingLayout != null) {
-                    fragment.castingLayout!!.visibility = View.GONE
-                }
-            }
-
-            if (fragment.genre != null) {
-                setText(fragment, fragment.genre!!, episode?.genre, R.string.genre, null)
-            }
-
-            if (fragment.languageCountry != null) {
-                val country = episode?.country
-                val language = episode?.language
-
-                if (hasText(language)) {
-                    if (hasText(country)) {
-                        fragment.languageCountry!!.text = fragment.getString(R.string.language_county, language, country)
-                    } else {
-                        fragment.languageCountry!!.text = fragment.getString(R.string.language_value, language)
-                    }
-
-                    fragment.languageCountry!!.visibility = View.VISIBLE
-                } else {
-                    fragment.languageCountry!!.visibility = View.GONE
-                }
-            }
-
-            if (fragment.rated != null) {
-                setText(fragment, fragment.rated!!, episode?.rated, R.string.rated, null)
-            }
-
-            if (fragment.rating != null) {
-                val imdbRating = episode?.imdbRating
-                val imdbVotes = episode?.imdbVotes
-
-                if (hasText(imdbRating) && hasText(imdbVotes)) {
-                    fragment.rating!!.text = fragment.getString(R.string.rating, imdbRating, imdbVotes)
-                    fragment.rating!!.visibility = View.VISIBLE
-                } else {
-                    fragment.rating!!.visibility = View.GONE
-                }
-            }
-
-            if (fragment.ratingStars != null) {
-                try {
-                    fragment.ratingStars!!.rating = episode?.imdbRating?.toFloat() ?: 0f
-                    fragment.ratingStars!!.visibility = View.VISIBLE
-                } catch (exception: Exception) {
-                    fragment.ratingStars!!.visibility = View.GONE
-                }
-
-            }
-
-            if (fragment.runtime != null) {
-                setText(fragment, fragment.runtime!!, episode?.runtime, R.string.runtime, null)
-            }
-
-            if (fragment.year != null) {
-                setText(fragment, fragment.year!!, episode?.year, R.string.year, null)
-            }
-        }
-
-        companion object {
-            private fun hasText(text: String?): Boolean {
-                return !text.isNullOrEmpty() && !"N/A".equals(text, true)
-            }
-
-            private fun setText(fragment: Fragment, textView: TextView, text: String?, label: Int, layout: View?) {
-                if (hasText(text)) {
-                    if (layout == null) {
-                        textView.text = fragment.getString(label, text)
-                        textView.visibility = View.VISIBLE
-                    } else {
-                        layout.visibility = View.VISIBLE
-                        textView.text = text
-                    }
-                } else {
-                    layout?.visibility = View.GONE
-                    textView.visibility = View.GONE
-                }
+            if (episode != null) {
+                RealmManager.saveEpisode(episode)
             }
         }
     }

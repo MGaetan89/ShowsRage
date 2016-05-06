@@ -111,6 +111,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                 Kolumbus.explore(Episode::class.java)
                         .explore(History::class.java)
                         .explore(LogEntry::class.java)
+                        .explore(OmDbEpisode::class.java)
                         .explore(Quality::class.java)
                         .explore(RealmShowStat::class.java)
                         .explore(RealmString::class.java)

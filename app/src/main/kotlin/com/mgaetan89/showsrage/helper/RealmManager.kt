@@ -55,6 +55,15 @@ object RealmManager {
         return episode
     }
 
+    fun getEpisode(episodeId: String, listener: RealmChangeListener<OmDbEpisode>): OmDbEpisode? {
+        val episode = this.realm.where(OmDbEpisode::class.java)
+                .equalTo("id", episodeId)
+                .findFirstAsync()
+        episode.addChangeListener(listener)
+
+        return episode
+    }
+
     fun getEpisodes(indexerId: Int, season: Int, reversedOrder: Boolean, listener: RealmChangeListener<RealmResults<Episode>>): RealmResults<Episode> {
         val episodes = this.realm.where(Episode::class.java)
                 .equalTo("indexerId", indexerId)
@@ -165,6 +174,14 @@ object RealmManager {
     fun saveEpisode(episode: Episode, indexerId: Int, season: Int, episodeNumber: Int) {
         this.realm.executeTransaction {
             this.prepareEpisodeForSaving(episode, indexerId, season, episodeNumber)
+
+            it.copyToRealmOrUpdate(episode)
+        }
+    }
+
+    fun saveEpisode(episode: OmDbEpisode) {
+        this.realm.executeTransaction {
+            this.prepareEpisodeForSaving(episode)
 
             it.copyToRealmOrUpdate(episode)
         }
@@ -284,6 +301,10 @@ object RealmManager {
         episode.indexerId = indexerId
         episode.number = episodeNumber
         episode.season = season
+    }
+
+    private fun prepareEpisodeForSaving(episode: OmDbEpisode) {
+        episode.id = OmDbEpisode.buildId(episode.imdbId ?: "", episode.season ?: "", episode.episode ?: "")
     }
 
     private fun prepareScheduleForSaving(schedule: Schedule, section: String) {

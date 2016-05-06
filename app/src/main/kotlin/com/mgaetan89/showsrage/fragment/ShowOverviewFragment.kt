@@ -71,7 +71,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     private var runtime: TextView? = null
     private var serie: Serie? = null
     private val serieListener = RealmChangeListener<Serie> { serie ->
-        // TODO Why is this necessary?
+        // TODO Why is the serie invalid once loaded?
         if (!serie.isValid) {
             return@RealmChangeListener
         }
@@ -724,10 +724,6 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
 
     companion object {
-        private fun hasText(text: String?): Boolean {
-            return !text.isNullOrEmpty() && !"N/A".equals(text, true)
-        }
-
         private fun listToString(list: List<String>?): String {
             if (list == null || list.isEmpty()) {
                 return ""
@@ -744,21 +740,6 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
             }
 
             return builder.toString()
-        }
-
-        private fun setText(fragment: Fragment, textView: TextView, text: String?, label: Int, layout: View?) {
-            if (hasText(text)) {
-                if (layout == null) {
-                    textView.text = fragment.getString(label, text)
-                    textView.visibility = View.VISIBLE
-                } else {
-                    layout.visibility = View.VISIBLE
-                    textView.text = text
-                }
-            } else {
-                layout?.visibility = View.GONE
-                textView.visibility = View.GONE
-            }
         }
     }
 }
