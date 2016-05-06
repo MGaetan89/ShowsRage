@@ -5,6 +5,7 @@ import com.mgaetan89.showsrage.model.*
 import io.realm.*
 
 object RealmManager {
+    private const val MAX_LOG_ENTRIES = 1000
     private lateinit var realm: Realm
 
     fun clearHistory() {
@@ -207,8 +208,9 @@ object RealmManager {
 
     fun saveLogs(logs: List<LogEntry>) {
         this.realm.executeTransaction {
-            it.delete(LogEntry::class.java)
             it.copyToRealmOrUpdate(logs)
+
+            this.trimLog()
         }
     }
 
@@ -271,6 +273,10 @@ object RealmManager {
         return realmStat
     }
 
+    private fun getAllLogs(): RealmResults<LogEntry> {
+        return this.realm.where(LogEntry::class.java).findAllSorted("dateTime", Sort.DESCENDING)
+    }
+
     private fun getLogLevels(logLevel: LogLevel): Array<String> {
         return when (logLevel) {
             LogLevel.DEBUG -> arrayOf("DEBUG", "ERROR", "INFO", "WARNING")
@@ -321,5 +327,13 @@ object RealmManager {
         show.location = if (show.location.isNullOrEmpty()) savedShow?.location else show.location
         show.qualityDetails?.indexerId = show.indexerId
         show.seasonList = if (show.seasonList?.isEmpty() ?: true) savedShow?.seasonList else show.seasonList
+    }
+
+    private fun trimLog() {
+        val logs = this.getAllLogs()
+
+        for (i in MAX_LOG_ENTRIES..(logs.size - 1)) {
+            logs[i].deleteFromRealm()
+        }
     }
 }
