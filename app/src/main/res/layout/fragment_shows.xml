@@ -6,7 +6,13 @@
 	android:layout_height="match_parent"
 	tools:context="com.mgaetan89.showsrage.fragment.ShowsFragment">
 
-	<include layout="@layout/fragment_tabbed" />
+	<android.support.v4.widget.SwipeRefreshLayout
+		android:id="@+id/swipe_refresh"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<include layout="@layout/fragment_tabbed" />
+	</android.support.v4.widget.SwipeRefreshLayout>
 
 	<android.support.design.widget.FloatingActionButton
 		android:id="@+id/add_show"

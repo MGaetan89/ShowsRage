@@ -9,6 +9,7 @@ import android.support.design.widget.TabLayout
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.MenuItemCompat
 import android.support.v4.view.PagerAdapter
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.SearchView
 import android.view.*
 import com.mgaetan89.showsrage.Constants
@@ -25,12 +26,15 @@ import retrofit.client.Response
 open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, SearchView.OnQueryTextListener {
     private var splitShowsAnimes = false
     private var searchQuery: String? = null
+    private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     init {
         this.setHasOptionsMenu(true)
     }
 
     override fun failure(error: RetrofitError?) {
+        this.swipeRefreshLayout?.isRefreshing = false
+
         error?.printStackTrace()
     }
 
@@ -98,6 +102,10 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
         }
 
         if (item?.itemId == R.id.menu_refresh) {
+            this.swipeRefreshLayout?.post {
+                this.swipeRefreshLayout?.isRefreshing = true
+            }
+
             SickRageApi.instance.services?.getShows(this)
 
             return true
@@ -125,10 +133,16 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        this.swipeRefreshLayout = view?.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
+        this.swipeRefreshLayout?.setColorSchemeResources(R.color.accent)
+        this.swipeRefreshLayout?.isEnabled = false
+
         view?.findViewById(R.id.add_show)?.setOnClickListener(this)
     }
 
     override fun success(shows: Shows?, response: Response?) {
+        this.swipeRefreshLayout?.isRefreshing = false
+
         val showsList = shows?.data?.values ?: return
 
         RealmManager.saveShows(showsList.toList())
