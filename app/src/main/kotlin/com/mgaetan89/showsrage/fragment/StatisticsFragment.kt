@@ -38,6 +38,11 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
     }
 
     override fun onChange(showsStat: ShowsStat) {
+        // TODO Why is the showsStat invalid once loaded?
+        if (!showsStat.isValid) {
+            return
+        }
+
         val episodesDownloaded = showsStat.episodesDownloaded
         val episodesMissing = showsStat.episodesMissing
         val episodesSnatched = showsStat.episodesSnatched
