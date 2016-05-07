@@ -17,6 +17,8 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
     private val sectionLabels = mutableListOf<String>()
 
     override fun failure(error: RetrofitError?) {
+        this.swipeRefreshLayout?.isRefreshing = false
+
         error?.printStackTrace()
     }
 
@@ -32,6 +34,10 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
 
         this.setSections(RealmManager.getScheduleSections())
 
+        this.swipeRefreshLayout?.post {
+            this.swipeRefreshLayout?.isRefreshing = true
+        }
+
         SickRageApi.instance.services?.getSchedule(this)
     }
 
@@ -43,6 +49,8 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
     }
 
     override fun success(schedules: Schedules?, response: Response?) {
+        this.swipeRefreshLayout?.isRefreshing = false
+
         val data = schedules?.data ?: return
 
         this.sectionIds.clear()
