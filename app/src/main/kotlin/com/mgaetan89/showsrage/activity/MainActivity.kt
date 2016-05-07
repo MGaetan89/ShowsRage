@@ -119,6 +119,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                         .explore(Schedule::class.java)
                         .explore(Serie::class.java)
                         .explore(Show::class.java)
+                        .explore(ShowsStat::class.java)
                         .withArchitect(ShowsArchitect())
                         .navigate(this)
             }

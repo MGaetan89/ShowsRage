@@ -50,7 +50,6 @@ interface SickRageServices {
     @GET("/{api_path}/{api_key}/?cmd=shows&sort=name")
     fun getShows(callback: Callback<Shows>)
 
-    // TODO Include in Realm
     @GET("/{api_path}/{api_key}/?cmd=shows.stats")
     fun getShowsStats(callback: Callback<ShowsStats>)
 

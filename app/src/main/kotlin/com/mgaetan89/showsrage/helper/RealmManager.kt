@@ -156,6 +156,13 @@ object RealmManager {
         return shows
     }
 
+    fun getShowsStat(listener: RealmChangeListener<ShowsStat>): ShowsStat {
+        val stat = this.realm.where(ShowsStat::class.java).findFirstAsync()
+        stat.addChangeListener(listener)
+
+        return stat
+    }
+
     fun getShowStat(indexerId: Int): RealmShowStat? {
         return this.realm.where(RealmShowStat::class.java)
                 .equalTo("indexerId", indexerId)
@@ -260,6 +267,13 @@ object RealmManager {
         removedIndexerIds.forEach {
             // deleteShow has its own transaction, so we need to run this outside of the above transaction
             this.deleteShow(it)
+        }
+    }
+
+    fun saveShowsStat(stat: ShowsStat) {
+        this.realm.executeTransaction {
+            it.delete(ShowsStat::class.java)
+            it.copyToRealm(stat)
         }
     }
 

@@ -9,14 +9,17 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.mgaetan89.showsrage.R
+import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.model.ShowsStat
 import com.mgaetan89.showsrage.model.ShowsStats
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.RealmChangeListener
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 import java.text.NumberFormat
 
-class StatisticsFragment : DialogFragment(), Callback<ShowsStats> {
+class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeListener<ShowsStat> {
     private var episodesDownloaded: TextView? = null
     private var episodesDownloadedBar: View? = null
     private var episodesMissing: TextView? = null
@@ -26,6 +29,7 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats> {
     private var episodesTotal: TextView? = null
     private var progressLayout: LinearLayout? = null
     private var showsActive: TextView? = null
+    private var showsStat: ShowsStat? = null
     private var showsTotal: TextView? = null
     private var statisticsLayout: LinearLayout? = null
 
@@ -33,55 +37,7 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats> {
         error?.printStackTrace()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        SickRageApi.instance.services?.getShowsStats(this)
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val view = LayoutInflater.from(this.context).inflate(R.layout.fragment_statistics, null)
-
-        if (view != null) {
-            this.episodesDownloaded = view.findViewById(R.id.episodes_downloaded) as TextView?
-            this.episodesDownloadedBar = view.findViewById(R.id.episodes_downloaded_bar) as View?
-            this.episodesMissing = view.findViewById(R.id.episodes_missing) as TextView?
-            this.episodesMissingBar = view.findViewById(R.id.episodes_missing_bar) as View?
-            this.episodesSnatched = view.findViewById(R.id.episodes_snatched) as TextView?
-            this.episodesSnatchedBar = view.findViewById(R.id.episodes_snatched_bar) as View?
-            this.episodesTotal = view.findViewById(R.id.episodes_total) as TextView?
-            this.progressLayout = view.findViewById(R.id.progress_layout) as LinearLayout?
-            this.showsActive = view.findViewById(R.id.shows_active) as TextView?
-            this.showsTotal = view.findViewById(R.id.shows_total) as TextView?
-            this.statisticsLayout = view.findViewById(R.id.statistics_layout) as LinearLayout?
-        }
-
-        val builder = AlertDialog.Builder(this.context)
-        builder.setTitle(R.string.statistics)
-        builder.setView(view)
-        builder.setPositiveButton(R.string.close, null)
-
-        return builder.create()
-    }
-
-    override fun onDestroyView() {
-        this.episodesDownloaded = null
-        this.episodesDownloadedBar = null
-        this.episodesMissing = null
-        this.episodesMissingBar = null
-        this.episodesSnatched = null
-        this.episodesSnatchedBar = null
-        this.episodesTotal = null
-        this.progressLayout = null
-        this.showsActive = null
-        this.showsTotal = null
-        this.statisticsLayout = null
-
-        super.onDestroyView()
-    }
-
-    override fun success(showsStats: ShowsStats?, response: Response?) {
-        val showsStat = showsStats?.data ?: return
+    override fun onChange(showsStat: ShowsStat) {
         val episodesDownloaded = showsStat.episodesDownloaded
         val episodesMissing = showsStat.episodesMissing
         val episodesSnatched = showsStat.episodesSnatched
@@ -121,6 +77,68 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats> {
             if (layoutParams is LinearLayout.LayoutParams) {
                 layoutParams.weight = weightSnatched
             }
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        this.showsStat = RealmManager.getShowsStat(this)
+        SickRageApi.instance.services?.getShowsStats(this)
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val view = LayoutInflater.from(this.context).inflate(R.layout.fragment_statistics, null)
+
+        if (view != null) {
+            this.episodesDownloaded = view.findViewById(R.id.episodes_downloaded) as TextView?
+            this.episodesDownloadedBar = view.findViewById(R.id.episodes_downloaded_bar) as View?
+            this.episodesMissing = view.findViewById(R.id.episodes_missing) as TextView?
+            this.episodesMissingBar = view.findViewById(R.id.episodes_missing_bar) as View?
+            this.episodesSnatched = view.findViewById(R.id.episodes_snatched) as TextView?
+            this.episodesSnatchedBar = view.findViewById(R.id.episodes_snatched_bar) as View?
+            this.episodesTotal = view.findViewById(R.id.episodes_total) as TextView?
+            this.progressLayout = view.findViewById(R.id.progress_layout) as LinearLayout?
+            this.showsActive = view.findViewById(R.id.shows_active) as TextView?
+            this.showsTotal = view.findViewById(R.id.shows_total) as TextView?
+            this.statisticsLayout = view.findViewById(R.id.statistics_layout) as LinearLayout?
+        }
+
+        val builder = AlertDialog.Builder(this.context)
+        builder.setTitle(R.string.statistics)
+        builder.setView(view)
+        builder.setPositiveButton(R.string.close, null)
+
+        return builder.create()
+    }
+
+    override fun onDestroy() {
+        this.showsStat?.removeChangeListeners()
+
+        super.onDestroy()
+    }
+
+    override fun onDestroyView() {
+        this.episodesDownloaded = null
+        this.episodesDownloadedBar = null
+        this.episodesMissing = null
+        this.episodesMissingBar = null
+        this.episodesSnatched = null
+        this.episodesSnatchedBar = null
+        this.episodesTotal = null
+        this.progressLayout = null
+        this.showsActive = null
+        this.showsTotal = null
+        this.statisticsLayout = null
+
+        super.onDestroyView()
+    }
+
+    override fun success(showsStats: ShowsStats?, response: Response?) {
+        val showsStat = showsStats?.data
+
+        if (showsStat != null) {
+            RealmManager.saveShowsStat(showsStat)
         }
     }
 
