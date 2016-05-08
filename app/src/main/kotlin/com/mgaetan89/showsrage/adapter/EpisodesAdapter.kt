@@ -15,10 +15,9 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.databinding.AdapterEpisodesListBinding
 import com.mgaetan89.showsrage.model.Episode
-import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.presenter.EpisodePresenter
 
-class EpisodesAdapter(val episodes: List<Episode>, val seasonNumber: Int, val show: Show?, val reversed: Boolean) : RecyclerView.Adapter<EpisodesAdapter.ViewHolder>() {
+class EpisodesAdapter(val episodes: List<Episode>, val seasonNumber: Int, val indexerId: Int, val reversed: Boolean) : RecyclerView.Adapter<EpisodesAdapter.ViewHolder>() {
     override fun getItemCount() = this.episodes.size
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
@@ -89,8 +88,8 @@ class EpisodesAdapter(val episodes: List<Episode>, val seasonNumber: Int, val sh
                     putExtra(Constants.Bundle.EPISODE_ID, episodes[adapterPosition].id)
                     putExtra(Constants.Bundle.EPISODE_NUMBER, getEpisodeNumber(adapterPosition))
                     putExtra(Constants.Bundle.EPISODES_COUNT, itemCount)
+                    putExtra(Constants.Bundle.INDEXER_ID, indexerId)
                     putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)
-                    putExtra(Constants.Bundle.INDEXER_ID, show?.indexerId)
 
                     LocalBroadcastManager.getInstance(context).sendBroadcast(this)
                 }
@@ -102,7 +101,7 @@ class EpisodesAdapter(val episodes: List<Episode>, val seasonNumber: Int, val sh
 
             with(Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED)) {
                 putExtra(Constants.Bundle.EPISODE_NUMBER, getEpisodeNumber(adapterPosition))
-                putExtra(Constants.Bundle.INDEXER_ID, show?.indexerId)
+                putExtra(Constants.Bundle.INDEXER_ID, indexerId)
                 putExtra(Constants.Bundle.MENU_ID, item?.itemId)
                 putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)
 

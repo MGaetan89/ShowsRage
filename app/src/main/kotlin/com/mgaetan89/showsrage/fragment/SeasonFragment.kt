@@ -16,7 +16,6 @@ import com.mgaetan89.showsrage.adapter.EpisodesAdapter
 import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.Episodes
-import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
@@ -28,10 +27,10 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
     private var adapter: EpisodesAdapter? = null
     private var emptyView: TextView? = null
     private var episodes: RealmResults<Episode>? = null
+    private var indexerId: Int = 0
     private var recyclerView: RecyclerView? = null
     private var reversedOrder = false
     private var seasonNumber: Int = 0
-    private var show: Show? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     override fun failure(error: RetrofitError?) {
@@ -42,7 +41,7 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
 
     override fun onChange(episodes: RealmResults<Episode>) {
         if (this.adapter == null && this.episodes != null) {
-            this.adapter = EpisodesAdapter(this.episodes!!, this.seasonNumber, this.show, this.reversedOrder)
+            this.adapter = EpisodesAdapter(this.episodes!!, this.seasonNumber, this.indexerId, this.reversedOrder)
 
             this.recyclerView?.adapter = this.adapter
         }
@@ -61,12 +60,11 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
         val preferences = PreferenceManager.getDefaultSharedPreferences(this.context)
 
+        this.indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
         this.reversedOrder = !preferences.getBoolean("display_episodes_sort", false)
         this.seasonNumber = this.arguments.getInt(Constants.Bundle.SEASON_NUMBER)
-        this.show = RealmManager.getShow(indexerId)
         this.episodes = RealmManager.getEpisodes(indexerId, this.seasonNumber, this.reversedOrder, this)
     }
 
@@ -118,7 +116,7 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
             this.swipeRefreshLayout?.isRefreshing = true
         }
 
-        SickRageApi.instance.services?.getEpisodes(this.show?.indexerId, this.seasonNumber, this)
+        SickRageApi.instance.services?.getEpisodes(this.indexerId, this.seasonNumber, this)
     }
 
     override fun onResume() {
@@ -135,6 +133,6 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
             it.value
         } ?: emptyList()
 
-        RealmManager.saveEpisodes(episodesList, this.show?.indexerId ?: 0, this.seasonNumber)
+        RealmManager.saveEpisodes(episodesList, this.indexerId, this.seasonNumber)
     }
 }

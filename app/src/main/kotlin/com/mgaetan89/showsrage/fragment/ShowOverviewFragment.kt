@@ -380,8 +380,6 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
 
         this.show = RealmManager.getShow(indexerId, this)
-
-        SickRageApi.instance.services?.getShow(indexerId, this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -576,6 +574,14 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
+
+        SickRageApi.instance.services?.getShow(indexerId, this)
     }
 
     override fun success(singleShow: SingleShow?, response: Response?) {

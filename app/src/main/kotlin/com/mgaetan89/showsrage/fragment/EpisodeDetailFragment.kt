@@ -204,7 +204,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             } else {
                 this.omdbEpisode = RealmManager.getEpisode(OmDbEpisode.buildId(imdbId!!, this.seasonNumber.toString(), this.episode.toString()), this.omdbEpisodeListener)
 
-                omDbApi.getEpisodeByImDbId(imdbId!!, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
+                omDbApi.getEpisodeByImDbId(imdbId, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
             }
         }
     }

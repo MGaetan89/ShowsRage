@@ -33,7 +33,7 @@ public class EpisodesAdapterReversedTest {
 
 	@Before
 	public void before() {
-		this.adapter = new EpisodesAdapter(this.episodes, 1, null, true);
+		this.adapter = new EpisodesAdapter(this.episodes, 1, 0, true);
 	}
 
 	@Test
