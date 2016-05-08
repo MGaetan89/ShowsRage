@@ -136,7 +136,7 @@ dependencies {
 	compile 'com.squareup.okhttp:okhttp:2.5.0'
 	compile 'com.squareup.okhttp:okhttp-urlconnection:2.5.0'
 	compile 'com.squareup.retrofit:retrofit:1.9.0'
-	compile 'jp.wasabeef:glide-transformations:2.0.0'
+	compile 'jp.wasabeef:glide-transformations:2.0.1'
 	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.1'
 
 	debugCompile 'com.github.MGaetan89.Kolumbus:kolumbus:v0.7'
