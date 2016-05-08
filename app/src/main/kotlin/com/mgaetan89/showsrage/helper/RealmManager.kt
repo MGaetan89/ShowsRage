@@ -253,7 +253,6 @@ object RealmManager {
 
     fun saveShows(shows: List<Show>) {
         this.realm.executeTransaction {
-            // Save the new shows data
             shows.forEach {
                 this.prepareShowForSaving(it)
             }
@@ -336,11 +335,23 @@ object RealmManager {
         val savedShow = this.getShow(show.indexerId)
 
         show.airs = if (show.airs.isNullOrEmpty()) savedShow?.airs else show.airs
-        show.genre = if (show.genre?.isEmpty() ?: true) savedShow?.genre else show.genre
+        show.genre = RealmList<RealmString>().apply {
+            addAll((if (show.genre?.isEmpty() ?: true) savedShow?.genre else show.genre) ?: emptyList())
+        }
         show.imdbId = if (show.imdbId.isNullOrEmpty()) savedShow?.imdbId else show.imdbId
         show.location = if (show.location.isNullOrEmpty()) savedShow?.location else show.location
-        show.qualityDetails?.indexerId = show.indexerId
-        show.seasonList = if (show.seasonList?.isEmpty() ?: true) savedShow?.seasonList else show.seasonList
+        show.qualityDetails = Quality().apply {
+            archive = RealmList<RealmString>().apply {
+                addAll((if (show.qualityDetails?.archive?.isEmpty() ?: true) savedShow?.qualityDetails?.archive else show.qualityDetails?.archive) ?: emptyList())
+            }
+            indexerId = show.indexerId
+            initial = RealmList<RealmString>().apply {
+                addAll((if (show.qualityDetails?.initial?.isEmpty() ?: true) savedShow?.qualityDetails?.initial else show.qualityDetails?.initial) ?: emptyList())
+            }
+        }
+        show.seasonList = RealmList<RealmString>().apply {
+            addAll((if (show.seasonList?.isEmpty() ?: true) savedShow?.seasonList else show.seasonList) ?: emptyList())
+        }
     }
 
     private fun trimLog() {

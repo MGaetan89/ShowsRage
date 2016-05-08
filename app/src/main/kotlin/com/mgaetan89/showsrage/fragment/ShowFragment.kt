@@ -35,6 +35,9 @@ class ShowFragment : TabbedFragment(), Callback<Seasons> {
         val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
         val show = RealmManager.getShow(indexerId)
         val sort = getSeasonsSort(PreferenceManager.getDefaultSharedPreferences(activity))
+        val seasons = show?.seasonList?.map { it.value.toInt() }
+
+        this.displaySeasons(if ("asc".equals(sort)) seasons?.sorted() else seasons?.sortedDescending())
 
         SickRageApi.instance.services?.getSeasons(show?.indexerId ?: 0, sort, this)
     }
@@ -46,14 +49,18 @@ class ShowFragment : TabbedFragment(), Callback<Seasons> {
     }
 
     override fun success(seasons: Seasons?, response: Response?) {
-        this.seasons.clear()
-        this.seasons.addAll(seasons?.data ?: emptyList())
-
-        this.updateState(this.seasons.isEmpty())
+        this.displaySeasons(seasons?.data)
     }
 
     override fun getAdapter(): PagerAdapter {
         return ShowPagerAdapter(this.childFragmentManager, this, this.seasons)
+    }
+
+    private fun displaySeasons(seasons: Iterable<Int>?) {
+        this.seasons.clear()
+        this.seasons.addAll(seasons ?: emptyList())
+
+        this.updateState(this.seasons.isEmpty())
     }
 
     companion object {
