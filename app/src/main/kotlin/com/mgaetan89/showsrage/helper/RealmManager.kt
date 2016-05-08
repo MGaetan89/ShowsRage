@@ -32,13 +32,13 @@ object RealmManager {
             it.where(Episode::class.java).equalTo("indexerId", indexerId).findAll().deleteAllFromRealm()
 
             // Remove the quality associated to that show
-            it.where(Quality::class.java).equalTo("indexerId", indexerId).findFirst().deleteFromRealm()
+            it.where(Quality::class.java).equalTo("indexerId", indexerId).findFirst()?.deleteFromRealm()
 
             // Remove the stat associated to that show
-            it.where(RealmShowStat::class.java).equalTo("indexerId", indexerId).findFirst().deleteFromRealm()
+            it.where(RealmShowStat::class.java).equalTo("indexerId", indexerId).findFirst()?.deleteFromRealm()
 
             // Remove the show from the Show table
-            it.where(Show::class.java).equalTo("indexerId", indexerId).findFirst().deleteFromRealm()
+            it.where(Show::class.java).equalTo("indexerId", indexerId).findFirst()?.deleteFromRealm()
         }
     }
 
