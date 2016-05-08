@@ -485,8 +485,12 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
 
     override fun onGenerated(palette: Palette?) {
+        if (palette == null || this.context == null) {
+            return
+        }
+
         val activity = this.activity
-        val colors = Utils.getThemeColors(this.context, palette!!)
+        val colors = Utils.getThemeColors(this.context, palette)
         val colorPrimary = colors.primary
 
         if (activity is MainActivity) {
