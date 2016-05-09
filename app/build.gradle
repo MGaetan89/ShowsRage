@@ -139,8 +139,8 @@ dependencies {
 	compile 'jp.wasabeef:glide-transformations:2.0.1'
 	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.1'
 
-	debugCompile 'com.github.MGaetan89.Kolumbus:kolumbus:v0.7'
-	releaseCompile 'com.github.MGaetan89.Kolumbus:kolumbus-no-op:v0.7'
+	debugCompile 'com.github.MGaetan89.Kolumbus:kolumbus:v0.8'
+	releaseCompile 'com.github.MGaetan89.Kolumbus:kolumbus-no-op:v0.8'
 
 	testCompile('com.squareup.assertj:assertj-android:1.1.1') {
 		exclude group: 'com.android.support', module: 'support-annotations'
