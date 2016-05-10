@@ -11,9 +11,8 @@
     <meta name="theme-color" content="#09769F">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
 
-    <title>{{ page.title }} | {{ site.github.project_title }}</title>
+    {% seo %}
 </head>
 <body>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
