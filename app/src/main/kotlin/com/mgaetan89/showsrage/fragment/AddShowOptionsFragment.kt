@@ -43,7 +43,7 @@ open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickLis
         val callback = AddShowCallback(this.activity)
         val language = this.getLanguage(this.language)
         val location = getLocation(this.rootDirectory)
-        var preferredQuality = this.getPreferredQuality(this.preferredQuality)
+        val preferredQuality = this.getPreferredQuality(this.preferredQuality)
         val status = this.getStatus(this.status)
         val subtitles = if (this.subtitles?.isChecked ?: false) 1 else 0
 

@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
     override fun onNavigationItemSelected(item: MenuItem?): Boolean {
         var eventHandled = true
         var fragment: Fragment? = null
-        var id = item?.itemId
+        val id = item?.itemId
 
         when (id) {
             R.id.menu_check_update -> {
