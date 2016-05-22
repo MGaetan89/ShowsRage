@@ -15,7 +15,7 @@ class PlayingVideoData {
                 this.remotePlaybackClient = null
             }
 
-            this.route = value
+            field = value
         }
     var show: Show? = null
     var videoUri: Uri? = null

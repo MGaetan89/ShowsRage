@@ -10,7 +10,7 @@ import com.mgaetan89.showsrage.model.PlayingVideoData
 class ShowsRageApplication : Application() {
     var playingVideo: PlayingVideoData? = null
         set(value) {
-            this.playingVideo = value
+            field = value
 
             this.startVideo()
         }

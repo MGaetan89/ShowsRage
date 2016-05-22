@@ -39,7 +39,6 @@ import java.net.MalformedURLException
 import java.net.URI
 import java.net.URISyntaxException
 import java.net.URL
-import java.util.regex.Pattern
 
 class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpisode>, View.OnClickListener, RealmChangeListener<Episode> {
     private var airs: TextView? = null
@@ -303,7 +302,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             if (searchEpisode != null) {
                 val activity = this.activity
 
-                if (activity is MainActivity ) {
+                if (activity is MainActivity) {
                     val colors = activity.getThemColors()
 
                     if (colors != null) {
@@ -463,19 +462,19 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         if (this.episode != null) {
             var location = this.episode!!.location
 
-            RealmManager.getRootDirs().forEach {
-                if (it != null) {
+            if (location != null) {
+                RealmManager.getRootDirs().filterNotNull().forEach {
                     val currentLocation = it.location
 
-                    if (location?.startsWith(currentLocation) ?: false) {
-                        location = location!!.replaceFirst(Pattern.quote(currentLocation), "")
+                    if (location!!.startsWith(currentLocation)) {
+                        location = location!!.substring(currentLocation.length)
 
                         return@forEach
                     }
                 }
-            }
 
-            episodeUrl += location
+                episodeUrl += location
+            }
         }
 
         try {
