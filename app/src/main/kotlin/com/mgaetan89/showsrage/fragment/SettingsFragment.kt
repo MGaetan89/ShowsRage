@@ -44,7 +44,7 @@ open class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPr
             val serverAddress = this.getPreferenceValue("server_address", "")
 
             if (serverAddress.isNullOrEmpty()) {
-                AlertDialog.Builder(this.context)
+                AlertDialog.Builder(this.activity)
                         .setIcon(R.drawable.ic_notification)
                         .setTitle(R.string.app_name)
                         .setMessage(R.string.welcome_message)
@@ -79,7 +79,7 @@ open class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPr
             } else {
                 preference.summary = text
             }
-        } else if (preference is ListPreference ) {
+        } else if (preference is ListPreference) {
             preference.summary = preference.entry
         }
     }
