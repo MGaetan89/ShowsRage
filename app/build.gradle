@@ -132,7 +132,7 @@ dependencies {
 	compile "com.android.support:support-vector-drawable:${supportLibraryVersion}"
 	compile 'com.github.bumptech.glide:glide:3.7.0'
 	compile 'com.github.bumptech.glide:okhttp-integration:1.4.0'
-	compile 'com.google.android.gms:play-services-cast:8.4.0'
+	compile 'com.google.android.gms:play-services-cast:9.0.0'
 	compile 'com.squareup.okhttp:okhttp:2.5.0'
 	compile 'com.squareup.okhttp:okhttp-urlconnection:2.5.0'
 	compile 'com.squareup.retrofit:retrofit:1.9.0'
