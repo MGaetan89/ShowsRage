@@ -238,7 +238,7 @@ class RemoteControlFragment : DialogFragment(), View.OnClickListener, SeekBar.On
         this.play?.setImageResource(if (this.playing) {
             R.drawable.ic_pause_white_24dp
         } else {
-            R.drawable.ic_play_arrow_white_24dp
+            R.drawable.ic_play_arrow_24dp
         })
     }
 
