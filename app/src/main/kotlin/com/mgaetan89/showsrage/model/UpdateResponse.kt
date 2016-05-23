@@ -27,13 +27,16 @@ class UpdateResponse(
         dest.writeByte(if (this.needsUpdate) 1.toByte() else 0.toByte())
     }
 
-    val CREATOR: Parcelable.Creator<UpdateResponse> = object : Parcelable.Creator<UpdateResponse> {
-        override fun createFromParcel(`in`: Parcel): UpdateResponse {
-            return UpdateResponse(`in`)
-        }
+    companion object {
+        @JvmField
+        final val CREATOR = object : Parcelable.Creator<UpdateResponse> {
+            override fun createFromParcel(`in`: Parcel): UpdateResponse {
+                return UpdateResponse(`in`)
+            }
 
-        override fun newArray(size: Int): Array<UpdateResponse> {
-            return newArray(size)
+            override fun newArray(size: Int): Array<UpdateResponse?> {
+                return arrayOfNulls(size)
+            }
         }
     }
 }

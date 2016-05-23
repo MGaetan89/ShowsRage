@@ -15,13 +15,16 @@ class Version(val branch: String = "", val commit: String = "", val version: Str
         dest.writeString(this.version)
     }
 
-    val CREATOR: Parcelable.Creator<Version> = object : Parcelable.Creator<Version> {
-        override fun createFromParcel(`in`: Parcel): Version {
-            return Version(`in`)
-        }
+    companion object {
+        @JvmField
+        final val CREATOR = object : Parcelable.Creator<Version> {
+            override fun createFromParcel(`in`: Parcel): Version {
+                return Version(`in`)
+            }
 
-        override fun newArray(size: Int): Array<Version> {
-            return newArray(size)
+            override fun newArray(size: Int): Array<Version?> {
+                return arrayOfNulls(size)
+            }
         }
     }
 }
