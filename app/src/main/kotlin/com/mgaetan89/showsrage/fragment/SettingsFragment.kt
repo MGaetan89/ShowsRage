@@ -60,7 +60,7 @@ open class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPr
         this.updatePreference(this.findPreference(key))
     }
 
-    protected fun getPreferenceValue(key: String, defaultValue: String?): String {
+    protected fun getPreferenceValue(key: String, defaultValue: String?): String? {
         return this.preferenceManager.sharedPreferences.getString(key, defaultValue)
     }
 

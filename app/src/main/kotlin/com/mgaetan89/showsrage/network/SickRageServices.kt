@@ -20,7 +20,7 @@ interface SickRageServices {
     fun deleteShow(@Query("indexerid") indexerId: Int, @Query("removefiles") removeFiles: Int, callback: Callback<GenericResponse>)
 
     @GET("/{web_root}getkey")
-    fun getApiKey(@Query("u") username: String, @Query("p") password: String, callback: Callback<ApiKey>)
+    fun getApiKey(@Query("u") username: String?, @Query("p") password: String?, callback: Callback<ApiKey>)
 
     @GET("/{api_path}/{api_key}/?cmd=episode&full_path=1")
     fun getEpisode(@Query("indexerid") indexerId: Int, @Query("season") season: Int, @Query("episode") episode: Int, callback: Callback<SingleEpisode>)
