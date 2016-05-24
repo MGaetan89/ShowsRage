@@ -343,9 +343,9 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
     }
 
     override fun onDestroy() {
-        RealmManager.close()
-
         super.onDestroy()
+
+        RealmManager.close()
     }
 
     override fun onPause() {
