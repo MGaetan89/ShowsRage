@@ -31,6 +31,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.ShowsRageApplication
@@ -49,6 +50,8 @@ import retrofit.client.Response
 import java.lang.ref.WeakReference
 
 class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationView.OnNavigationItemSelectedListener {
+    var firebaseAnalytics: FirebaseAnalytics? = null
+        private set
     private var appBarLayout: AppBarLayout? = null
     private var drawerHeader: LinearLayout? = null
     private var drawerLayout: DrawerLayout? = null
@@ -293,6 +296,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         super.onCreate(savedInstanceState)
 
         this.setContentView(R.layout.activity_main)
+
+        this.firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         RealmManager.init(this)
 

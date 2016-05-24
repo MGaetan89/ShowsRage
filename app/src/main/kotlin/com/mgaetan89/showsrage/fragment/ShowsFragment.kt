@@ -11,6 +11,7 @@ import android.support.v4.view.MenuItemCompat
 import android.support.v4.view.PagerAdapter
 import android.support.v7.widget.SearchView
 import android.view.*
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
@@ -111,6 +112,7 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
     override fun onQueryTextChange(newText: String?): Boolean {
         this.searchQuery = newText
 
+        this.logSearchEvent()
         this.sendFilterMessage()
 
         return true
@@ -119,6 +121,7 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
     override fun onQueryTextSubmit(query: String?): Boolean {
         this.searchQuery = query
 
+        this.logSearchEvent()
         this.sendFilterMessage()
 
         return true
@@ -160,6 +163,18 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
         intent.putExtra(Constants.Bundle.SEARCH_QUERY, this.searchQuery)
 
         LocalBroadcastManager.getInstance(this.context).sendBroadcast(intent)
+    }
+
+    private fun logSearchEvent() {
+        val activity = this.activity
+
+        if (activity is MainActivity && !this.searchQuery.isNullOrBlank()) {
+            val params = Bundle().apply {
+                putString(FirebaseAnalytics.Param.SEARCH_TERM, searchQuery)
+            }
+
+            activity.firebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SEARCH, params)
+        }
     }
 
     private fun refresh() {
