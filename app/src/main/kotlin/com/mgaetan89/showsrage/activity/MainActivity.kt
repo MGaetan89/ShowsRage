@@ -155,15 +155,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
             R.id.menu_schedule -> fragment = ScheduleFragment()
 
-            R.id.menu_settings -> {
-                val settingsFragment = SettingsFragment()
-
-                this.removeCurrentSupportFragment()
-
-                this.fragmentManager.beginTransaction()
-                        .replace(R.id.content, settingsFragment)
-                        .commit()
-            }
+            R.id.menu_settings -> fragment = SettingsFragment()
 
             R.id.menu_shows -> fragment = ShowsFragment()
 
@@ -186,7 +178,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         }
 
         if (fragment != null) {
-            this.removeCurrentFragment()
             this.resetThemeColors()
 
             this.toolbar?.menu?.clear()
@@ -384,7 +375,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         val settingFragment = getSettingFragmentForPath(this.intent.data?.path)
 
         if (settingFragment != null) {
-            this.fragmentManager.beginTransaction()
+            this.supportFragmentManager.beginTransaction()
                     .replace(R.id.content, settingFragment)
                     .commit()
 
@@ -393,28 +384,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         // Display the list of shows
         this.navigationView?.menu?.performIdentifierAction(R.id.menu_shows, 0)
-    }
-
-    private fun removeCurrentFragment() {
-        val fragmentManager = this.fragmentManager
-        val fragment = fragmentManager.findFragmentById(R.id.content)
-
-        if (fragment != null) {
-            fragmentManager.beginTransaction()
-                    .remove(fragment)
-                    .commit()
-        }
-    }
-
-    private fun removeCurrentSupportFragment() {
-        val fragmentManager = this.supportFragmentManager
-        val fragment = fragmentManager.findFragmentById(R.id.content)
-
-        if (fragment != null) {
-            fragmentManager.beginTransaction()
-                    .remove(fragment)
-                    .commit()
-        }
     }
 
     companion object {

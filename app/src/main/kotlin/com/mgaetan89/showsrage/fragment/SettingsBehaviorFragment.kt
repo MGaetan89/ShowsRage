@@ -1,8 +1,7 @@
 package com.mgaetan89.showsrage.fragment
 
-import android.preference.Preference
-import android.preference.PreferenceScreen
 import android.support.v7.app.AlertDialog
+import android.support.v7.preference.Preference
 import com.mgaetan89.showsrage.R
 import io.realm.Realm
 
@@ -11,14 +10,14 @@ class SettingsBehaviorFragment : SettingsFragment() {
 
     override fun getXmlResourceFile() = R.xml.settings_behavior
 
-    override fun onPreferenceTreeClick(preferenceScreen: PreferenceScreen?, preference: Preference?): Boolean {
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
         if ("behavior_clear_local".equals(preference?.key)) {
             this.confirmClearLocalData();
 
             return true
         }
 
-        return super.onPreferenceTreeClick(preferenceScreen, preference)
+        return super.onPreferenceTreeClick(preference)
     }
 
     private fun confirmClearLocalData() {

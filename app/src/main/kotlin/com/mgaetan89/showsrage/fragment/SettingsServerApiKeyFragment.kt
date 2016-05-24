@@ -1,9 +1,8 @@
 package com.mgaetan89.showsrage.fragment
 
-import android.preference.Preference
 import android.preference.PreferenceManager
-import android.preference.PreferenceScreen
 import android.support.v7.app.AlertDialog
+import android.support.v7.preference.Preference
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.model.ApiKey
 import com.mgaetan89.showsrage.network.SickRageApi
@@ -13,14 +12,14 @@ import retrofit.client.Response
 import java.lang.ref.WeakReference
 
 open class SettingsServerApiKeyFragment : SettingsServerFragment() {
-    override fun onPreferenceTreeClick(preferenceScreen: PreferenceScreen?, preference: Preference?): Boolean {
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
         if ("get_api_key_action".equals(preference?.key)) {
             this.getApiKey()
 
             return true
         }
 
-        return super.onPreferenceTreeClick(preferenceScreen, preference)
+        return super.onPreferenceTreeClick(preference)
     }
 
     override fun getTitleResourceId() = R.string.api_key
