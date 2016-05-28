@@ -394,6 +394,12 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     }
 
     private fun clickPlayVideo() {
+        val activity = this.activity
+
+        if (activity is MainActivity) {
+            activity.firebaseAnalytics?.logEvent("play_episode_video", null)
+        }
+
         val intent = Intent(Intent.ACTION_VIEW)
         intent.setDataAndType(this.getEpisodeVideoUrl(), "video/*")
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -557,10 +563,6 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             val activity = fragment.activity
             val application = activity.application
 
-            if (activity is MainActivity) {
-                activity.updateRemoteControlVisibility()
-            }
-
             if (application is ShowsRageApplication) {
                 val playingVideo = PlayingVideoData()
                 playingVideo.episode = fragment.episode
@@ -569,6 +571,12 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
                 playingVideo.videoUri = fragment.getEpisodeVideoUrl()
 
                 application.playingVideo = playingVideo
+            }
+
+            if (activity is MainActivity) {
+                activity.updateRemoteControlVisibility()
+
+                activity.firebaseAnalytics?.logEvent("cast_episode_video", null)
             }
         }
     }
