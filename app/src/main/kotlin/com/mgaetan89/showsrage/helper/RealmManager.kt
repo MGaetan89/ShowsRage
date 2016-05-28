@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage.helper
 
 import android.content.Context
+import com.mgaetan89.showsrage.BuildConfig
 import com.mgaetan89.showsrage.model.*
 import io.realm.*
 
