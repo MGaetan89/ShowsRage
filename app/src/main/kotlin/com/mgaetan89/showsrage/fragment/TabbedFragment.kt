@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -67,7 +68,7 @@ abstract class TabbedFragment : Fragment() {
     }
 
     protected fun updateState(empty: Boolean) {
-        if (this.activity?.isDestroyed ?: true) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && this.activity?.isDestroyed ?: true) {
             return
         }
 
