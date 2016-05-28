@@ -3,6 +3,7 @@ package com.mgaetan89.showsrage.model
 import android.support.annotation.ColorRes
 import com.mgaetan89.showsrage.R
 import io.realm.RealmObject
+import io.realm.annotations.Index
 import io.realm.annotations.PrimaryKey
 import java.util.regex.Pattern
 
@@ -10,6 +11,7 @@ open class LogEntry(log: CharSequence? = null) : RealmObject() {
     @PrimaryKey
     open var dateTime: String = ""
     open var errorType: String? = ""
+    @Index
     open var group: String? = ""
     open var message: String = ""
 
