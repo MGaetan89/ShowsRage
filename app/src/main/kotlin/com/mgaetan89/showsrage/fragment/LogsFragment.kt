@@ -137,6 +137,12 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
             return this.handleLogsLevelSelection(item)
         }
 
+        if (item?.itemId == R.id.menu_filter) {
+            this.handleLogsGroupFilter()
+
+            return true
+        }
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -168,6 +174,10 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
         } catch(exception: IllegalArgumentException) {
             default
         }
+    }
+
+    private fun handleLogsGroupFilter() {
+        LogsFilterFragment().show(this.childFragmentManager, "logs_filter")
     }
 
     private fun handleLogsLevelSelection(item: MenuItem?): Boolean {

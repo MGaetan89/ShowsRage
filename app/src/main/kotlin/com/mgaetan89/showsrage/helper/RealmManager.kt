@@ -126,6 +126,18 @@ object RealmManager {
         return logs
     }
 
+    fun getLogsGroup(): List<String> {
+        val realm = this.getRealm() ?: return emptyList()
+
+        val groups = realm.where(LogEntry::class.java)
+                .distinct("group")
+                .map { it.group }
+                .filterNotNull()
+                .sorted()
+
+        return groups
+    }
+
     fun getRootDirs(): RealmResults<RootDir>? {
         val realm = this.getRealm() ?: return null
 
