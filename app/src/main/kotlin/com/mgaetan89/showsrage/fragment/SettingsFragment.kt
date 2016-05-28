@@ -59,7 +59,7 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
     }
 
     protected fun getPreferenceValue(key: String, defaultValue: String?): String? {
-        return this.preferenceManager.sharedPreferences.getString(key, defaultValue)
+        return this.preferenceManager.sharedPreferences?.getString(key, defaultValue)
     }
 
     @StringRes
