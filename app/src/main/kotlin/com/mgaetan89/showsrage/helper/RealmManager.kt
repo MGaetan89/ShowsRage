@@ -56,13 +56,13 @@ object RealmManager {
         return episode
     }
 
-    fun getEpisode(episodeId: String, listener: RealmChangeListener<OmDbEpisode>): OmDbEpisode? {
-        val episode = this.realm.where(OmDbEpisode::class.java)
+    fun getEpisodes(episodeId: String, listener: RealmChangeListener<RealmResults<OmDbEpisode>>): RealmResults<OmDbEpisode>? {
+        val episodes = this.realm.where(OmDbEpisode::class.java)
                 .equalTo("id", episodeId)
-                .findFirstAsync()
-        episode.addChangeListener(listener)
+                .findAllAsync()
+        episodes.addChangeListener(listener)
 
-        return episode
+        return episodes
     }
 
     fun getEpisodes(indexerId: Int, season: Int, reversedOrder: Boolean, listener: RealmChangeListener<RealmResults<Episode>>): RealmResults<Episode> {

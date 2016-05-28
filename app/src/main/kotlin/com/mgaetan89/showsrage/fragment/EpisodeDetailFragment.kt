@@ -30,6 +30,7 @@ import com.mgaetan89.showsrage.network.OmDbApi
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.view.ColoredMediaRouteActionProvider
 import io.realm.RealmChangeListener
+import io.realm.RealmResults
 import retrofit.Callback
 import retrofit.RestAdapter
 import retrofit.RetrofitError
@@ -53,24 +54,22 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     private var episodeNumber = 0
     private var fileSize: TextView? = null
     private var genre: TextView? = null
+    private var imdbId: String = ""
     private var languageCountry: TextView? = null
     private var location: TextView? = null
     private var moreInformationLayout: CardView? = null
     private var name: TextView? = null
-    private var omdbEpisode: OmDbEpisode? = null
-    private val omdbEpisodeListener = RealmChangeListener<OmDbEpisode> { episode ->
-        // TODO Why is the episode invalid once loaded?
-        if (!episode.isValid) {
-            return@RealmChangeListener
-        }
+    private var omdbEpisodes: RealmResults<OmDbEpisode>? = null
+    private val omdbEpisodesListener = RealmChangeListener<RealmResults<OmDbEpisode>> { episodes ->
+        val episode = episodes.filter { imdbId.equals(it.imdbId) }.firstOrNull() ?: return@RealmChangeListener
 
         if (this.awards != null) {
-            setText(this, this.awards!!, episode?.awards, 0, this.awardsLayout)
+            setText(this, this.awards!!, episode.awards, 0, this.awardsLayout)
         }
 
-        val actors = episode?.actors
-        val director = episode?.director
-        val writer = episode?.writer
+        val actors = episode.actors
+        val director = episode.director
+        val writer = episode.writer
 
         if (hasText(actors) || hasText(director) || hasText(writer)) {
             if (this.castingActors != null) {
@@ -95,12 +94,12 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         }
 
         if (this.genre != null) {
-            setText(this, this.genre!!, episode?.genre, R.string.genre, null)
+            setText(this, this.genre!!, episode.genre, R.string.genre, null)
         }
 
         if (this.languageCountry != null) {
-            val country = episode?.country
-            val language = episode?.language
+            val country = episode.country
+            val language = episode.language
 
             if (hasText(language)) {
                 if (hasText(country)) {
@@ -116,12 +115,12 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         }
 
         if (this.rated != null) {
-            setText(this, this.rated!!, episode?.rated, R.string.rated, null)
+            setText(this, this.rated!!, episode.rated, R.string.rated, null)
         }
 
         if (this.rating != null) {
-            val imdbRating = episode?.imdbRating
-            val imdbVotes = episode?.imdbVotes
+            val imdbRating = episode.imdbRating
+            val imdbVotes = episode.imdbVotes
 
             if (hasText(imdbRating) && hasText(imdbVotes)) {
                 this.rating!!.text = this.getString(R.string.rating, imdbRating, imdbVotes)
@@ -133,7 +132,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 
         if (this.ratingStars != null) {
             try {
-                this.ratingStars!!.rating = episode?.imdbRating?.toFloat() ?: 0f
+                this.ratingStars!!.rating = episode.imdbRating?.toFloat() ?: 0f
                 this.ratingStars!!.visibility = View.VISIBLE
             } catch (exception: Exception) {
                 this.ratingStars!!.visibility = View.GONE
@@ -141,11 +140,11 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         }
 
         if (this.runtime != null) {
-            setText(this, this.runtime!!, episode?.runtime, R.string.runtime, null)
+            setText(this, this.runtime!!, episode.runtime, R.string.runtime, null)
         }
 
         if (this.year != null) {
-            setText(this, this.year!!, episode?.year, R.string.year, null)
+            setText(this, this.year!!, episode.year, R.string.year, null)
         }
     }
 
@@ -201,9 +200,10 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
                     omDbApi.getEpisodeByTitle(showName!!, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
                 }
             } else {
-                this.omdbEpisode = RealmManager.getEpisode(OmDbEpisode.buildId(imdbId!!, this.seasonNumber.toString(), this.episode.toString()), this.omdbEpisodeListener)
+                this.imdbId = imdbId!!
+                this.omdbEpisodes = RealmManager.getEpisodes(OmDbEpisode.buildId(this.imdbId, this.seasonNumber.toString(), this.episode.toString()), this.omdbEpisodesListener)
 
-                omDbApi.getEpisodeByImDbId(imdbId, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
+                omDbApi.getEpisodeByImDbId(this.imdbId, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
             }
         }
     }
@@ -324,7 +324,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 
     override fun onDestroy() {
         this.episode?.removeChangeListeners()
-        this.omdbEpisode?.removeChangeListeners()
+        this.omdbEpisodes?.removeChangeListeners()
 
         super.onDestroy()
     }
