@@ -119,11 +119,11 @@ object RealmManager {
         return this.realm.where(Schedule::class.java).findAll().where().distinct("section").map { it.section }
     }
 
-    fun getSerie(imdbId: String, listener: RealmChangeListener<Serie>): Serie {
-        val serie = this.realm.where(Serie::class.java).equalTo("imdbId", imdbId).findFirstAsync()
-        serie.addChangeListener(listener)
+    fun getSeries(imdbId: String, listener: RealmChangeListener<RealmResults<Serie>>): RealmResults<Serie> {
+        val series = this.realm.where(Serie::class.java).equalTo("imdbId", imdbId).findAllAsync()
+        series.addChangeListener(listener)
 
-        return serie
+        return series
     }
 
     fun getShow(indexerId: Int, listener: RealmChangeListener<Show>? = null): Show? {
@@ -156,12 +156,12 @@ object RealmManager {
         return shows
     }
 
-    fun getShowsStat(listener: RealmChangeListener<RealmResults<ShowsStat>>): RealmResults<ShowsStat> {
+    fun getShowsStats(listener: RealmChangeListener<RealmResults<ShowsStat>>): RealmResults<ShowsStat> {
         // There might be no data yet. So we request all data to be sure to always received a valid object.
-        val stat = this.realm.where(ShowsStat::class.java).findAllAsync()
-        stat.addChangeListener(listener)
+        val stats = this.realm.where(ShowsStat::class.java).findAllAsync()
+        stats.addChangeListener(listener)
 
-        return stat
+        return stats
     }
 
     fun getShowStat(indexerId: Int): RealmShowStat? {

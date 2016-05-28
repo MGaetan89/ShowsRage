@@ -30,7 +30,7 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
     private var episodesTotal: TextView? = null
     private var progressLayout: LinearLayout? = null
     private var showsActive: TextView? = null
-    private var showsStat: RealmResults<ShowsStat>? = null
+    private var showsStats: RealmResults<ShowsStat>? = null
     private var showsTotal: TextView? = null
     private var statisticsLayout: LinearLayout? = null
 
@@ -89,7 +89,7 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        this.showsStat = RealmManager.getShowsStat(this)
+        this.showsStats = RealmManager.getShowsStats(this)
         SickRageApi.instance.services?.getShowsStats(this)
     }
 
@@ -119,7 +119,7 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
     }
 
     override fun onDestroy() {
-        this.showsStat?.removeChangeListeners()
+        this.showsStats?.removeChangeListeners()
 
         super.onDestroy()
     }

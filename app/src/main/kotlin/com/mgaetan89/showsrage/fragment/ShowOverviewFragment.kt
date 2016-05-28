@@ -35,6 +35,7 @@ import com.mgaetan89.showsrage.network.OmDbApi
 import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.RealmChangeListener
 import io.realm.RealmList
+import io.realm.RealmResults
 import retrofit.Callback
 import retrofit.RestAdapter
 import retrofit.RetrofitError
@@ -53,6 +54,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     private var fanArt: ImageView? = null
     private var genre: TextView? = null
     private var imdb: Button? = null
+    private var imdbId: String = ""
     private var languageCountry: TextView? = null
     private var location: TextView? = null
     private var name: TextView? = null
@@ -69,12 +71,9 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     private var ratingStars: RatingBar? = null
     private var resumeMenu: MenuItem? = null
     private var runtime: TextView? = null
-    private var serie: Serie? = null
-    private val serieListener = RealmChangeListener<Serie> { serie ->
-        // TODO Why is the serie invalid once loaded?
-        if (!serie.isValid) {
-            return@RealmChangeListener
-        }
+    private var series: RealmResults<Serie>? = null
+    private val seriesListener = RealmChangeListener<RealmResults<Serie>> { series ->
+        val serie = series.filter { imdbId.equals(it.imdbId) }.firstOrNull() ?: return@RealmChangeListener
 
         if (this.awards != null) {
             setText(this, this.awards!!, serie.awards, 0, this.awardsLayout)
@@ -198,11 +197,13 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         this.showHidePauseResumeMenus(show.paused == 0)
 
         if (imdbId != null) {
-            if (this.serie == null) {
-                this.serie = RealmManager.getSerie(imdbId, this.serieListener)
+            this.imdbId = imdbId
+
+            if (this.series == null) {
+                this.series = RealmManager.getSeries(this.imdbId, this.seriesListener)
             }
 
-            this.omDbApi!!.getShow(imdbId, OmdbShowCallback())
+            this.omDbApi!!.getShow(this.imdbId, OmdbShowCallback())
         }
 
         if (this.airs != null) {
@@ -251,7 +252,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         }
 
         if (this.imdb != null) {
-            this.imdb!!.visibility = if (imdbId.isNullOrEmpty()) {
+            this.imdb!!.visibility = if (this.imdbId.isNullOrEmpty()) {
                 View.GONE
             } else {
                 View.VISIBLE
@@ -443,7 +444,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
             this.context.unbindService(this.serviceConnection)
         }
 
-        this.serie?.removeChangeListeners()
+        this.series?.removeChangeListeners()
         this.show?.removeChangeListeners()
 
         super.onDestroy()
