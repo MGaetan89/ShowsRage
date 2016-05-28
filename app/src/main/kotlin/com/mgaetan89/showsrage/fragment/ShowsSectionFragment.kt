@@ -39,9 +39,6 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
     private var shows: RealmResults<Show>? = null
 
     override fun onChange(shows: RealmResults<Show>) {
-        this.filteredShows.clear()
-        this.filteredShows.addAll(this.shows?.toList() ?: emptyList())
-
         if (!(this.shows?.isEmpty() ?: true)) {
             val command = getCommand(this.shows)
             val parameters = getCommandParameters(this.shows)
@@ -49,9 +46,9 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
             SickRageApi.instance.services?.getShowStats(command, parameters, ShowStatsCallback(this))
         }
 
-        this.updateLayout()
+        val intent = Intent(Constants.Intents.ACTION_FILTER_SHOWS)
 
-        this.adapter?.notifyDataSetChanged()
+        LocalBroadcastManager.getInstance(this.context).sendBroadcast(intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -220,26 +217,17 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
                     realmStat = RealmManager.saveShowStat(showStatsData, indexerId)
                 }
 
-                filteredShows.forEachIndexed { i, show ->
-                    if (show.indexerId == indexerId) {
-                        show.stat = realmStat ?: show.stat
-
-                        fragment.adapter?.notifyItemChanged(i)
-
-                        return@forEachIndexed
-                    }
+                filteredShows.filter { it.indexerId == indexerId }.forEach {
+                    it.stat = realmStat ?: it.stat
                 }
 
-                shows?.forEach showsForEach@ {
-                    if (it.indexerId == indexerId) {
-                        it.stat = realmStat ?: it.stat
-
-                        return@showsForEach
-                    }
+                shows?.filter { it.indexerId == indexerId }?.forEach {
+                    it.stat = realmStat ?: it.stat
                 }
             }
 
             fragment.updateLayout()
+            fragment.adapter?.notifyDataSetChanged()
         }
     }
 

@@ -145,9 +145,6 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
         val showsList = shows?.data?.values ?: return
 
         RealmManager.saveShows(showsList.toList())
-
-        this.updateState(!this.splitShowsAnimes)
-        this.sendFilterMessage()
     }
 
     override fun getAdapter(): PagerAdapter {
