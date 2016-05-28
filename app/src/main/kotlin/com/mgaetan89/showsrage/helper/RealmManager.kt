@@ -171,9 +171,13 @@ object RealmManager {
     }
 
     fun init(context: Context) {
-        val configuration = RealmConfiguration.Builder(context)
-                .deleteRealmIfMigrationNeeded()
-                .build()
+        val configuration = RealmConfiguration.Builder(context).let {
+            if (BuildConfig.DEBUG) {
+                it.deleteRealmIfMigrationNeeded()
+            }
+
+            it.build()
+        }
 
         Realm.setDefaultConfiguration(configuration)
 
