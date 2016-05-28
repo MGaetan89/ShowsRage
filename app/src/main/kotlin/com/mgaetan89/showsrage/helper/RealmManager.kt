@@ -156,8 +156,9 @@ object RealmManager {
         return shows
     }
 
-    fun getShowsStat(listener: RealmChangeListener<ShowsStat>): ShowsStat {
-        val stat = this.realm.where(ShowsStat::class.java).findFirstAsync()
+    fun getShowsStat(listener: RealmChangeListener<RealmResults<ShowsStat>>): RealmResults<ShowsStat> {
+        // There might be no data yet. So we request all data to be sure to always received a valid object.
+        val stat = this.realm.where(ShowsStat::class.java).findAllAsync()
         stat.addChangeListener(listener)
 
         return stat

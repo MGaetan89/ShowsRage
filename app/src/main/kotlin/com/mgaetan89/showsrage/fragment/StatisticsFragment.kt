@@ -14,12 +14,13 @@ import com.mgaetan89.showsrage.model.ShowsStat
 import com.mgaetan89.showsrage.model.ShowsStats
 import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.RealmChangeListener
+import io.realm.RealmResults
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 import java.text.NumberFormat
 
-class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeListener<ShowsStat> {
+class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeListener<RealmResults<ShowsStat>> {
     private var episodesDownloaded: TextView? = null
     private var episodesDownloadedBar: View? = null
     private var episodesMissing: TextView? = null
@@ -29,7 +30,7 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
     private var episodesTotal: TextView? = null
     private var progressLayout: LinearLayout? = null
     private var showsActive: TextView? = null
-    private var showsStat: ShowsStat? = null
+    private var showsStat: RealmResults<ShowsStat>? = null
     private var showsTotal: TextView? = null
     private var statisticsLayout: LinearLayout? = null
 
@@ -37,12 +38,12 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
         error?.printStackTrace()
     }
 
-    override fun onChange(showsStat: ShowsStat) {
-        // TODO Why is the showsStat invalid once loaded?
-        if (!showsStat.isValid) {
+    override fun onChange(showsStats: RealmResults<ShowsStat>) {
+        if (showsStats.isEmpty()) {
             return
         }
 
+        val showsStat = showsStats.first()
         val episodesDownloaded = showsStat.episodesDownloaded
         val episodesMissing = showsStat.episodesMissing
         val episodesSnatched = showsStat.episodesSnatched
