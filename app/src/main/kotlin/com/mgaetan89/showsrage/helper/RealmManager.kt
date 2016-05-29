@@ -7,7 +7,7 @@ import io.realm.*
 
 object RealmManager {
     private const val MAX_LOG_ENTRIES = 1000
-    private lateinit var realm: Realm
+    private var realm: Realm? = null
 
     fun clearHistory() {
         this.getRealm()?.executeTransaction {
@@ -22,8 +22,8 @@ object RealmManager {
     }
 
     fun close() {
-        if (!this.realm.isClosed) {
-            this.realm.close()
+        if (this.realm != null && !this.realm!!.isClosed) {
+            this.realm!!.close()
         }
     }
 
@@ -331,7 +331,7 @@ object RealmManager {
     }
 
     private fun getRealm(): Realm? {
-        return if (this.realm.isClosed) {
+        return if (this.realm?.isClosed ?: true) {
             null
         } else {
             this.realm
