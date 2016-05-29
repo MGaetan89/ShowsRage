@@ -54,7 +54,7 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
     }
 
     override fun onChange(histories: RealmResults<History>) {
-        if (this.histories.isEmpty()) {
+        if (this.histories?.isEmpty() ?: true) {
             this.clearHistory?.visibility = View.GONE
             this.emptyView?.visibility = View.VISIBLE
             this.recyclerView?.visibility = View.GONE
@@ -92,7 +92,7 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
 
             if (this.recyclerView != null) {
                 val columnCount = this.resources.getInteger(R.integer.shows_column_count)
-                this.adapter = HistoriesAdapter(this.histories)
+                this.adapter = HistoriesAdapter(this.histories ?: emptyList())
 
                 this.recyclerView!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
@@ -113,7 +113,7 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
     }
 
     override fun onDestroy() {
-        this.histories.removeChangeListeners()
+        this.histories?.removeChangeListeners()
 
         super.onDestroy()
     }

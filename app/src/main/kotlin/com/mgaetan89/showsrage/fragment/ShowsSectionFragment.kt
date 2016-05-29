@@ -217,11 +217,11 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
                     realmStat = RealmManager.saveShowStat(showStatsData, indexerId)
                 }
 
-                filteredShows.filter { it.indexerId == indexerId }.forEach {
+                filteredShows.filter { it.isValid && it.indexerId == indexerId }.forEach {
                     it.stat = realmStat ?: it.stat
                 }
 
-                shows?.filter { it.indexerId == indexerId }?.forEach {
+                shows?.filter { it.isValid && it.indexerId == indexerId }?.forEach {
                     it.stat = realmStat ?: it.stat
                 }
             }

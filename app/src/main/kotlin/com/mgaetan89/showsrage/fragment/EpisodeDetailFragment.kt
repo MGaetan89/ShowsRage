@@ -468,8 +468,8 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         if (this.episode != null) {
             var location = this.episode!!.location
 
-            if (location != null) {
-                RealmManager.getRootDirs().filterNotNull().forEach {
+            if (!location.isNullOrEmpty()) {
+                RealmManager.getRootDirs()?.filterNotNull()?.forEach {
                     val currentLocation = it.location
 
                     if (location!!.startsWith(currentLocation)) {

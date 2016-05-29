@@ -66,7 +66,7 @@ open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickLis
             if (rootDirectoryLayout != null) {
                 val rootDirectories = RealmManager.getRootDirs()
 
-                if (rootDirectories.size < 2) {
+                if (rootDirectories == null || rootDirectories.size < 2) {
                     rootDirectoryLayout.visibility = View.GONE
                 } else {
                     this.rootDirectory = view.findViewById(R.id.root_directory) as Spinner?
