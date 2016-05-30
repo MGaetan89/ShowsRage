@@ -16,4 +16,8 @@ class Migration : RealmMigration {
             localOldVersion++
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        return other is Migration
+    }
 }
