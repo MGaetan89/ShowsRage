@@ -1,9 +1,0 @@
----
-name: Version 1.4-beta2
-release_date: 02/04/2016
-current_tag: v1.4-beta2
-previous_tag: v1.4-beta1
-features:
-- Filter the list of shows
-- New setting to use a light theme
----

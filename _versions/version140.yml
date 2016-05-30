@@ -1,14 +1,18 @@
 ---
-name: Version 1.4-beta1
-release_date: 18/01/2016
-current_tag: v1.4-beta1
+name: Version 1.4
+release_date: 04/06/2016
+current_tag: v1.4
 previous_tag: v1.3
 description: <em>ShowsRage</em> now has its <a href="https://MGaetan89.github.io/ShowsRage/" target="_blank">dedicated website</a>.
 features:
+- Filter the list of shows
+- Data received from <em>SickRage</em> are saved locally on your device for faster and offline access
 - More information are available on the detail of an episode
 - Specify a root directory when adding a new show
+- New setting to use a light theme
 changes:
 - Reorganized <em>Settings</em> section
+- Performance improvements
 fixes:
 - Episodes are now correctly listed when sorted in descending order
 ---

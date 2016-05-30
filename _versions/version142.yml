@@ -1,8 +1,0 @@
----
-name: Version 1.4-beta3
-release_date: 22/05/2016
-current_tag: v1.4-beta3
-previous_tag: v1.4-beta2
-features:
-- Data received from <em>SickRage</em> are saved locally on your device for faster and offline access
----
