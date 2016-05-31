@@ -16,6 +16,17 @@ body {
     color: $text-color;
 }
 
+.info-block {
+    background-color: $primary-color;
+    padding: 12px 18px;
+
+    .material-icons {
+        float: left;
+        font-size: 36px;
+        margin-right: 18px;
+    }
+}
+
 .mdl-card a {
     color: $text-color-invert;
     text-decoration: none;
