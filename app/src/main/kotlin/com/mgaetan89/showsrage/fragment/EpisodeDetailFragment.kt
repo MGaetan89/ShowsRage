@@ -397,7 +397,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         val activity = this.activity
 
         if (activity is MainActivity) {
-            activity.firebaseAnalytics?.logEvent("play_episode_video", null)
+            activity.firebaseAnalytics?.logEvent(Constants.Event.PLAY_EPISODE_VIDEO, null)
         }
 
         val intent = Intent(Intent.ACTION_VIEW)
@@ -576,7 +576,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             if (activity is MainActivity) {
                 activity.updateRemoteControlVisibility()
 
-                activity.firebaseAnalytics?.logEvent("cast_episode_video", null)
+                activity.firebaseAnalytics?.logEvent(Constants.Event.CAST_EPISODE_VIDEO, null)
             }
         }
     }

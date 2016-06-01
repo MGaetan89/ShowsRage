@@ -21,6 +21,11 @@ object Constants {
         val UPDATE_MODEL = "update_model"
     }
 
+    object Event {
+        val CAST_EPISODE_VIDEO = "cast_episode_video"
+        val PLAY_EPISODE_VIDEO = "play_episode_video"
+    }
+
     object Intents {
         val ACTION_EPISODE_ACTION_SELECTED = BuildConfig.APPLICATION_ID + ".action.episode_action_selected"
         val ACTION_EPISODE_SELECTED = BuildConfig.APPLICATION_ID + ".action.episode_selected"
