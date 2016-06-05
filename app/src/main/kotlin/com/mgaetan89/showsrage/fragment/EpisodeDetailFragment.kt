@@ -54,14 +54,13 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     private var episodeNumber = 0
     private var fileSize: TextView? = null
     private var genre: TextView? = null
-    private var imdbId: String = ""
     private var languageCountry: TextView? = null
     private var location: TextView? = null
     private var moreInformationLayout: CardView? = null
     private var name: TextView? = null
     private var omdbEpisodes: RealmResults<OmDbEpisode>? = null
     private val omdbEpisodesListener = RealmChangeListener<RealmResults<OmDbEpisode>> { episodes ->
-        val episode = episodes.filter { imdbId.equals(it.imdbId) }.firstOrNull() ?: return@RealmChangeListener
+        val episode = episodes.firstOrNull() ?: return@RealmChangeListener
 
         if (this.awards != null) {
             setText(this, this.awards!!, episode.awards, 0, this.awardsLayout)
@@ -200,10 +199,9 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
                     omDbApi.getEpisodeByTitle(showName!!, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
                 }
             } else {
-                this.imdbId = imdbId!!
-                this.omdbEpisodes = RealmManager.getEpisodes(OmDbEpisode.buildId(this.imdbId, this.seasonNumber.toString(), this.episode.toString()), this.omdbEpisodesListener)
+                this.omdbEpisodes = RealmManager.getEpisodes(OmDbEpisode.buildId(imdbId!!, this.seasonNumber.toString(), this.episodeNumber.toString()), this.omdbEpisodesListener)
 
-                omDbApi.getEpisodeByImDbId(this.imdbId, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
+                omDbApi.getEpisodeByImDbId(imdbId, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
             }
         }
     }

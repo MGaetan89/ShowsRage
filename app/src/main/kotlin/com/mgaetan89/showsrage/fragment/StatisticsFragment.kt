@@ -39,11 +39,7 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
     }
 
     override fun onChange(showsStats: RealmResults<ShowsStat>) {
-        if (showsStats.isEmpty()) {
-            return
-        }
-
-        val showsStat = showsStats.first()
+        val showsStat = showsStats.firstOrNull() ?: return
         val episodesDownloaded = showsStat.episodesDownloaded
         val episodesMissing = showsStat.episodesMissing
         val episodesSnatched = showsStat.episodesSnatched

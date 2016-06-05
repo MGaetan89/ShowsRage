@@ -360,7 +360,7 @@ object RealmManager {
     }
 
     private fun prepareEpisodeForSaving(episode: OmDbEpisode) {
-        episode.id = OmDbEpisode.buildId(episode.imdbId ?: "", episode.season ?: "", episode.episode ?: "")
+        episode.id = OmDbEpisode.buildId(episode.seriesId ?: "", episode.season ?: "", episode.episode ?: "")
     }
 
     private fun prepareScheduleForSaving(schedule: Schedule, section: String) {

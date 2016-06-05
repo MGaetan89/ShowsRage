@@ -54,7 +54,6 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     private var fanArt: ImageView? = null
     private var genre: TextView? = null
     private var imdb: Button? = null
-    private var imdbId: String = ""
     private var languageCountry: TextView? = null
     private var location: TextView? = null
     private var name: TextView? = null
@@ -73,7 +72,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     private var runtime: TextView? = null
     private var series: RealmResults<Serie>? = null
     private val seriesListener = RealmChangeListener<RealmResults<Serie>> { series ->
-        val serie = series.filter { imdbId.equals(it.imdbId) }.firstOrNull() ?: return@RealmChangeListener
+        val serie = series.firstOrNull() ?: return@RealmChangeListener
 
         if (this.awards != null) {
             setText(this, this.awards!!, serie.awards, 0, this.awardsLayout)
@@ -197,13 +196,11 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         this.showHidePauseResumeMenus(show.paused == 0)
 
         if (imdbId != null) {
-            this.imdbId = imdbId
-
             if (this.series == null) {
-                this.series = RealmManager.getSeries(this.imdbId, this.seriesListener)
+                this.series = RealmManager.getSeries(imdbId, this.seriesListener)
             }
 
-            this.omDbApi!!.getShow(this.imdbId, OmdbShowCallback())
+            this.omDbApi!!.getShow(imdbId, OmdbShowCallback())
         }
 
         if (this.airs != null) {
@@ -252,7 +249,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         }
 
         if (this.imdb != null) {
-            this.imdb!!.visibility = if (this.imdbId.isNullOrEmpty()) {
+            this.imdb!!.visibility = if (imdbId.isNullOrEmpty()) {
                 View.GONE
             } else {
                 View.VISIBLE
