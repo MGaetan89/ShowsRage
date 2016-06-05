@@ -182,12 +182,15 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
                 .build()
 
         this.omDbApi = restAdapter.create(OmDbApi::class.java)
-        this.serviceConnection = ServiceConnection(this)
 
         CustomTabsClient.bindCustomTabsService(this.context, "com.android.chrome", this.serviceConnection)
     }
 
     override fun onChange(show: Show) {
+        if (this.serviceConnection == null) {
+            this.serviceConnection = ServiceConnection(this)
+        }
+
         this.activity?.title = show.showName
 
         val imdbId = show.imdbId
@@ -722,8 +725,11 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
             val fragment = this.fragmentReference.get() ?: return
             fragment.tabSession = customTabsClient?.newSession(null)
-            fragment.tabSession?.mayLaunchUrl(Uri.parse("http://www.imdb.com/title/${fragment.show!!.imdbId}"), null, null)
-            fragment.tabSession?.mayLaunchUrl(Uri.parse("http://thetvdb.com/?tab=series&id=${fragment.show!!.tvDbId}"), null, null)
+
+            if (fragment.show?.isValid ?: false) {
+                fragment.tabSession?.mayLaunchUrl(Uri.parse("http://www.imdb.com/title/${fragment.show!!.imdbId}"), null, null)
+                fragment.tabSession?.mayLaunchUrl(Uri.parse("http://thetvdb.com/?tab=series&id=${fragment.show!!.tvDbId}"), null, null)
+            }
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
