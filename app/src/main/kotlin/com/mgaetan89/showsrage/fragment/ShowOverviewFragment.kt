@@ -200,7 +200,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
                 this.series = RealmManager.getSeries(imdbId, this.seriesListener)
             }
 
-            this.omDbApi!!.getShow(imdbId, OmdbShowCallback())
+            this.omDbApi?.getShow(imdbId, OmdbShowCallback())
         }
 
         if (this.airs != null) {
