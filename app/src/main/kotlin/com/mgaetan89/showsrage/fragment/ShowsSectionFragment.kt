@@ -221,8 +221,10 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
                     it.stat = realmStat ?: it.stat
                 }
 
-                shows?.filter { it.isValid && it.indexerId == indexerId }?.forEach {
-                    it.stat = realmStat ?: it.stat
+                if (shows?.isValid ?: false) {
+                    shows!!.filter { it.isValid && it.indexerId == indexerId }.forEach {
+                        it.stat = realmStat ?: it.stat
+                    }
                 }
             }
 
