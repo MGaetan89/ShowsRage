@@ -1,0 +1,62 @@
+package com.mgaetan89.showsrage.presenter
+
+import com.mgaetan89.showsrage.R
+import com.mgaetan89.showsrage.model.SearchResultItem
+import com.mgaetan89.showsrage.network.SickRageApi
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+
+@RunWith(Parameterized::class)
+class SearchResultPresenterTest {
+    @Parameterized.Parameter(1)
+    var firstAired: CharSequence? = null
+
+    @Parameterized.Parameter(2)
+    var indexerNameRes: Int = 0
+
+    @Parameterized.Parameter(3)
+    var name: String? = null
+
+    @Parameterized.Parameter(0)
+    var searchResult: SearchResultItem? = null
+
+    private lateinit var presenter: SearchResultPresenter
+
+    @Before
+    fun before() {
+        this.presenter = SearchResultPresenter(this.searchResult)
+    }
+
+    @Test
+    fun getFirstAired() {
+        assertThat(this.presenter.getFirstAired()).isEqualTo(this.firstAired)
+    }
+
+    @Test
+    fun getIndexerNameRes() {
+        assertThat(this.presenter.getIndexerNameRes()).isEqualTo(this.indexerNameRes)
+    }
+
+    @Test
+    fun getName() {
+        assertThat(this.presenter.getName()).isEqualTo(this.name)
+    }
+
+    companion object {
+        @JvmStatic
+        @Parameterized.Parameters
+        fun data(): Collection<Array<Any?>> {
+            val gson = SickRageApi.gson
+
+            return listOf(
+                    arrayOf(null, "", 0, ""),
+                    arrayOf(gson.fromJson("{first_aired: 2015-01-01, indexer: 0, name: \"Show 0\"}", SearchResultItem::class.java), null, 0, "Show 0"),
+                    arrayOf(gson.fromJson("{first_aired: 2015-01-01, indexer: 1, name: \"Show 1\"}", SearchResultItem::class.java), null, R.string.the_tvdb, "Show 1"),
+                    arrayOf(gson.fromJson("{first_aired: 2015-01-01, indexer: 2, name: \"Show 2\"}", SearchResultItem::class.java), null, R.string.tvrage, "Show 2")
+            )
+        }
+    }
+}

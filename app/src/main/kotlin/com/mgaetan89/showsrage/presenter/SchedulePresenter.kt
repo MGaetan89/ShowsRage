@@ -67,7 +67,7 @@ class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
 
     fun getShowName() = this._getSchedule()?.showName ?: ""
 
-    protected fun getAirTimeOnly(): String? {
+    internal fun getAirTimeOnly(): String? {
         val schedule = this._getSchedule() ?: return null
         val airTime = schedule.airs
 

@@ -63,10 +63,10 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
     }
 
     @StringRes
-    protected open fun getTitleResourceId() = R.string.settings
+    internal open fun getTitleResourceId() = R.string.settings
 
     @XmlRes
-    protected open fun getXmlResourceFile() = R.xml.settings
+    internal open fun getXmlResourceFile() = R.xml.settings
 
     private fun updatePreference(preference: Preference?) {
         if (preference is EditTextPreference) {

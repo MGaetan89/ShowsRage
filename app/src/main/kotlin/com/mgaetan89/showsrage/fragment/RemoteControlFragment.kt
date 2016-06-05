@@ -338,7 +338,7 @@ class RemoteControlFragment : DialogFragment(), View.OnClickListener, SeekBar.On
         const val ONE_HOUR_IN_SECONDS = 60L * ONE_MINUTE_IN_SECONDS
         const val SEEK_OFFSET_IN_MS = 60L * ONE_SECOND_IN_MS
 
-        protected fun formatTime(time: Long): String {
+        internal fun formatTime(time: Long): String {
             var localTime = Math.max(time, 0L)
             localTime /= ONE_SECOND_IN_MS
             val hours = localTime / ONE_HOUR_IN_SECONDS
