@@ -21,7 +21,7 @@
 		<item name="colorAccent">@color/accent</item>
 	</style>
 
-	<style name="CardView" parent="CardView.Light" />
+	<style name="SR.CardView" parent="CardView.Light" />
 
 	<style name="TransparentActivity" parent="Theme.AppCompat">
 		<item name="android:backgroundDimEnabled">false</item>

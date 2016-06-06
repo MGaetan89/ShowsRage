@@ -12,7 +12,7 @@
 		android:padding="@dimen/padding">
 
 		<android.support.v7.widget.CardView
-			style="@style/CardView"
+			style="@style/SR.CardView"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="@dimen/padding">
@@ -94,7 +94,7 @@
 
 		<android.support.v7.widget.CardView
 			android:id="@+id/show_plot_layout"
-			style="@style/CardView"
+			style="@style/SR.CardView"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="@dimen/padding"
@@ -126,7 +126,7 @@
 
 		<android.support.v7.widget.CardView
 			android:id="@+id/show_casting_layout"
-			style="@style/CardView"
+			style="@style/SR.CardView"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="@dimen/padding"
@@ -179,7 +179,7 @@
 
 		<android.support.v7.widget.CardView
 			android:id="@+id/show_awards_layout"
-			style="@style/CardView"
+			style="@style/SR.CardView"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="@dimen/padding"
@@ -209,7 +209,7 @@
 		</android.support.v7.widget.CardView>
 
 		<android.support.v7.widget.CardView
-			style="@style/CardView"
+			style="@style/SR.CardView"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="@dimen/padding">
@@ -329,7 +329,7 @@
 		</android.support.v7.widget.CardView>
 
 		<android.support.v7.widget.CardView
-			style="@style/CardView"
+			style="@style/SR.CardView"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="@dimen/padding">
@@ -370,7 +370,7 @@
 		</android.support.v7.widget.CardView>
 
 		<android.support.v7.widget.CardView
-			style="@style/CardView"
+			style="@style/SR.CardView"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="@dimen/padding">
@@ -385,7 +385,7 @@
 		</android.support.v7.widget.CardView>
 
 		<android.support.v7.widget.CardView
-			style="@style/CardView"
+			style="@style/SR.CardView"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 

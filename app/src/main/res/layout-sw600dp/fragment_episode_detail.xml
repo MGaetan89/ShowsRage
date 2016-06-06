@@ -25,7 +25,7 @@
 				android:padding="@dimen/padding_half">
 
 				<android.support.v7.widget.CardView
-					style="@style/CardView"
+					style="@style/SR.CardView"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding">
@@ -79,7 +79,7 @@
 
 				<android.support.v7.widget.CardView
 					android:id="@+id/episode_plot_layout"
-					style="@style/CardView"
+					style="@style/SR.CardView"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding"
@@ -111,7 +111,7 @@
 
 				<android.support.v7.widget.CardView
 					android:id="@+id/episode_awards_layout"
-					style="@style/CardView"
+					style="@style/SR.CardView"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding"
@@ -150,7 +150,7 @@
 
 				<android.support.v7.widget.CardView
 					android:id="@+id/episode_casting_layout"
-					style="@style/CardView"
+					style="@style/SR.CardView"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding"
@@ -203,7 +203,7 @@
 
 				<android.support.v7.widget.CardView
 					android:id="@+id/episode_more_information_layout"
-					style="@style/CardView"
+					style="@style/SR.CardView"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:visibility="gone"

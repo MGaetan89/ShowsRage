@@ -182,13 +182,13 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
                 .build()
 
         this.omDbApi = restAdapter.create(OmDbApi::class.java)
-
-        CustomTabsClient.bindCustomTabsService(this.context, "com.android.chrome", this.serviceConnection)
     }
 
     override fun onChange(show: Show) {
         if (this.serviceConnection == null) {
             this.serviceConnection = ServiceConnection(this)
+
+            CustomTabsClient.bindCustomTabsService(this.context, "com.android.chrome", this.serviceConnection)
         }
 
         this.activity?.title = show.showName
