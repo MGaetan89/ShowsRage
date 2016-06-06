@@ -7,33 +7,35 @@ import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.network.SickRageApi
 
 class ShowPresenter(val show: Show?) {
-    fun getBannerUrl() = if (this.show == null) "" else SickRageApi.instance.getBannerUrl(this.show.tvDbId, Indexer.TVDB)
+    fun getBannerUrl() = if (this.isShowValid()) SickRageApi.instance.getBannerUrl(this.show!!.tvDbId, Indexer.TVDB) else ""
 
     fun getDownloaded() = this.getShowStat()?.downloaded ?: 0
 
     fun getEpisodesCount() = this.getShowStat()?.episodesCount ?: 0
 
-    fun getNetwork() = this.show?.network ?: ""
+    fun getNetwork() = if (this.isShowValid()) this.show!!.network else ""
 
-    fun getPosterUrl() = if (this.show == null) "" else SickRageApi.instance.getPosterUrl(this.show.tvDbId, Indexer.TVDB)
+    fun getPosterUrl() = if (this.isShowValid()) SickRageApi.instance.getPosterUrl(this.show!!.tvDbId, Indexer.TVDB) else ""
 
-    fun getQuality() = this.show?.quality ?: ""
+    fun getQuality() = if (this.isShowValid()) this.show!!.quality else ""
 
-    fun getShowName() = this.show?.showName ?: ""
+    fun getShowName() = if (this.isShowValid()) this.show!!.showName else ""
 
     fun getSnatched() = this.getShowStat()?.snatched ?: 0
 
-    fun isPaused() = if (this.show == null) false else this.show.paused == 1
+    fun isPaused() = if (this.isShowValid()) this.show!!.paused == 1 else false
 
     private fun getShowStat(): RealmShowStat? {
-        if (this.show == null) {
+        if (!this.isShowValid()) {
             return null
         }
 
-        if (this.show.stat == null) {
+        if (this.show!!.stat == null) {
             this.show.stat = RealmManager.getShowStat(this.show.indexerId)
         }
 
         return this.show.stat
     }
+
+    private fun isShowValid() = this.show != null && this.show.isValid
 }
