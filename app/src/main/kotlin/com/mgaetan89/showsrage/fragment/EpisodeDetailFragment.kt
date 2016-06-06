@@ -386,7 +386,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     override fun success(singleEpisode: SingleEpisode?, response: Response?) {
         val episode = singleEpisode?.data
 
-        if (episode != null && this.show != null) {
+        if (episode != null && this.show?.isValid ?: false) {
             RealmManager.saveEpisode(episode, this.show!!.indexerId, this.seasonNumber, this.episodeNumber)
         }
     }
