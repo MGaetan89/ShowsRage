@@ -1,19 +1,7 @@
 package com.mgaetan89.showsrage.presenter;
 
-import com.google.gson.Gson;
-import com.mgaetan89.showsrage.model.Schedule;
-import com.mgaetan89.showsrage.network.SickRageApi;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
-import java.util.Arrays;
-import java.util.Collection;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
+// TODO Move to Android Test
+/*
 @RunWith(Parameterized.class)
 public class SchedulePresenterTest {
 	@Parameterized.Parameter(1)
@@ -121,3 +109,4 @@ public class SchedulePresenterTest {
 		});
 	}
 }
+*/
