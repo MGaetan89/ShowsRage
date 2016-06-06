@@ -9,11 +9,8 @@ import com.mgaetan89.showsrage.network.SickRageApi
 
 class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
     fun getAirDate(): CharSequence? {
-        if (this.schedule == null) {
-            return null
-        }
-
-        val airDate = this.schedule.airDate
+        val schedule = this._getSchedule() ?: return null
+        val airDate = schedule.airDate
 
         if (airDate.isNullOrEmpty()) {
             return null
@@ -38,11 +35,13 @@ class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
     }
 
     fun getAirTime(): CharSequence? {
-        if (this.context == null || this.schedule == null) {
+        val schedule = this._getSchedule() ?: return null
+
+        if (this.context == null) {
             return null
         }
 
-        val airDate = this.schedule.airDate
+        val airDate = schedule.airDate
         val airTime = this.getAirTimeOnly()
 
         if (airDate.isNullOrEmpty() || airTime.isNullOrEmpty()) {
@@ -52,24 +51,25 @@ class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
         return DateTimeHelper.getLocalizedTime(this.context, "$airDate $airTime", "yyyy-MM-dd K:mm a")
     }
 
-    fun getEpisode() = this.schedule?.episode ?: 0
+    fun getEpisode() = this._getSchedule()?.episode ?: 0
 
-    fun getNetwork() = this.schedule?.network ?: ""
+    fun getNetwork() = this._getSchedule()?.network ?: ""
 
-    fun getPosterUrl() = if (this.schedule == null) "" else SickRageApi.instance.getPosterUrl(this.schedule.tvDbId, Indexer.TVDB)
+    fun getPosterUrl(): String {
+        val schedule = this._getSchedule() ?: return ""
 
-    fun getQuality() = this.schedule?.quality ?: ""
+        return SickRageApi.instance.getPosterUrl(schedule.tvDbId, Indexer.TVDB)
+    }
 
-    fun getSeason() = this.schedule?.season ?: 0
+    fun getQuality() = this._getSchedule()?.quality ?: ""
 
-    fun getShowName() = this.schedule?.showName ?: ""
+    fun getSeason() = this._getSchedule()?.season ?: 0
+
+    fun getShowName() = this._getSchedule()?.showName ?: ""
 
     protected fun getAirTimeOnly(): String? {
-        if (this.schedule == null) {
-            return null
-        }
-
-        val airTime = this.schedule.airs
+        val schedule = this._getSchedule() ?: return null
+        val airTime = schedule.airs
 
         if (airTime.isNullOrEmpty()) {
             return null
@@ -77,4 +77,6 @@ class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
 
         return airTime.replaceFirst("(?i)^(monday|tuesday|wednesday|thursday|friday|saturday|sunday) ".toRegex(), "")
     }
+
+    private fun _getSchedule() = if (this.schedule?.isValid ?: false) this.schedule else null
 }
