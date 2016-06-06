@@ -24,7 +24,7 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int) : Recycle
 
         holder?.bind(ShowPresenter(show))
 
-        if (holder?.nextEpisodeDate != null) {
+        if (holder?.nextEpisodeDate != null && show.isValid) {
             val nextEpisodeAirDate = show.nextEpisodeAirDate
 
             if (nextEpisodeAirDate.isNullOrEmpty()) {
