@@ -1,0 +1,9 @@
+---
+name: Version 1.4.1
+release_date: 06/06/2016
+current_tag: v1.4.1
+previous_tag: v1.4
+fixes:
+- Fix crash on show overview
+- Fix various others crashes
+---
