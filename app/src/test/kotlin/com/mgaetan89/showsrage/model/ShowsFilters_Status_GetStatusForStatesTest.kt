@@ -7,22 +7,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ShowsFilters_Status_GetStatusForStatesTest {
-    @Parameterized.Parameter(0)
-    var all: Boolean = false
-
-    @Parameterized.Parameter(1)
-    var continuing: Boolean = false
-
-    @Parameterized.Parameter(2)
-    var ended: Boolean = false
-
-    @Parameterized.Parameter(4)
-    var status: Int = 0
-
-    @Parameterized.Parameter(3)
-    var unknown: Boolean = false
-
+class ShowsFilters_Status_GetStatusForStatesTest(val all: Boolean, val continuing: Boolean, val ended: Boolean, val unknown: Boolean, val status: Int) {
     @Test
     fun getStatusForStates() {
         assertThat(ShowsFilters.Status.getStatusForStates(this.all, this.continuing, this.ended, this.unknown)).isEqualTo(this.status)

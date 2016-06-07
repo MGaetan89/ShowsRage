@@ -12,13 +12,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
 @RunWith(Parameterized::class)
-class AddShowFragment_OnQueryTextSubmitTest {
-    @Parameterized.Parameter(0)
-    var query: String? = null
-
-    @Parameterized.Parameter(1)
-    var valid: Boolean = false
-
+class AddShowFragment_OnQueryTextSubmitTest(val query: String?, val valid: Boolean) {
     private lateinit var fragment: AddShowFragment
 
     @Before

@@ -8,13 +8,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ScheduleAdapter_GetItemCountTest {
-    @Parameterized.Parameter(0)
-    var schedules: List<Schedule> = emptyList()
-
-    @Parameterized.Parameter(1)
-    var itemCount: Int = 0
-
+class ScheduleAdapter_GetItemCountTest(val schedules: List<Schedule>, val itemCount: Int) {
     private lateinit var adapter: ScheduleAdapter
 
     @Before

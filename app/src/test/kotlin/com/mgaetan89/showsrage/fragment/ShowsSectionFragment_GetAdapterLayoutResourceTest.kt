@@ -7,13 +7,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ShowsSectionFragment_GetAdapterLayoutResourceTest {
-    @Parameterized.Parameter(1)
-    var layoutId: Int = 0
-
-    @Parameterized.Parameter(0)
-    var preferredShowLayout: String? = null
-
+class ShowsSectionFragment_GetAdapterLayoutResourceTest(val preferredShowLayout: String?, val layoutId: Int) {
     @Test
     fun getAdapterLayoutResource() {
         assertThat(ShowsSectionFragment.getAdapterLayoutResource(this.preferredShowLayout)).isEqualTo(this.layoutId)

@@ -10,19 +10,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class SearchResultPresenterTest {
-    @Parameterized.Parameter(1)
-    var firstAired: CharSequence? = null
-
-    @Parameterized.Parameter(2)
-    var indexerNameRes: Int = 0
-
-    @Parameterized.Parameter(3)
-    var name: String? = null
-
-    @Parameterized.Parameter(0)
-    var searchResult: SearchResultItem? = null
-
+class SearchResultPresenterTest(val searchResult: SearchResultItem?, val firstAired: CharSequence?, val indexerNameRes: Int, val name: String) {
     private lateinit var presenter: SearchResultPresenter
 
     @Before

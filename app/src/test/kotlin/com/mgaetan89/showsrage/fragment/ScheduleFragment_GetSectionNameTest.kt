@@ -7,13 +7,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ScheduleFragment_GetSectionNameTest {
-    @Parameterized.Parameter(0)
-    var sectionId: String? = null
-
-    @Parameterized.Parameter(1)
-    var sectionName: Int = 0
-
+class ScheduleFragment_GetSectionNameTest(val sectionId: String?, val sectionName: Int) {
     @Test
     fun getSectionName() {
         assertThat(ScheduleFragment.getSectionName(this.sectionId)).isEqualTo(this.sectionName)

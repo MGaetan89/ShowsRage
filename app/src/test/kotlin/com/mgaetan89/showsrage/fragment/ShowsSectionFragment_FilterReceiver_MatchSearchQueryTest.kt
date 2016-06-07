@@ -8,16 +8,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ShowsSectionFragment_FilterReceiver_MatchSearchQueryTest {
-    @Parameterized.Parameter(1)
-    var searchQuery: String? = null
-
-    @Parameterized.Parameter(2)
-    var match: Boolean = false
-
-    @Parameterized.Parameter(0)
-    var show: Show = Show()
-
+class ShowsSectionFragment_FilterReceiver_MatchSearchQueryTest(val show: Show, val searchQuery: String?, val match: Boolean) {
     @Test
     fun matchSearchQuery() {
         assertThat(ShowsSectionFragment.FilterReceiver.matchSearchQuery(this.show, this.searchQuery)).isEqualTo(this.match)

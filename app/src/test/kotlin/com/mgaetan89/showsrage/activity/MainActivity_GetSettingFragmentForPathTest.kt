@@ -7,13 +7,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class MainActivity_GetSettingFragmentForPathTest {
-    @Parameterized.Parameter(1)
-    var fragmentClass: Class<SettingsFragment>? = null
-
-    @Parameterized.Parameter(0)
-    var path: String? = null
-
+class MainActivity_GetSettingFragmentForPathTest(val path: String?, val fragmentClass: Class<SettingsFragment>?) {
     @Test
     fun getSettingFragmentForPath() {
         if (this.fragmentClass == null) {

@@ -6,13 +6,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class SickRageApi_GetWebRootTest {
-    @Parameterized.Parameter(0)
-    var apiPath: String? = null
-
-    @Parameterized.Parameter(1)
-    var webRoot: String? = null
-
+class SickRageApi_GetWebRootTest(val apiPath: String?, val webRoot: String) {
     @Test
     fun getWebRoot() {
         assertThat(SickRageApi.getWebRoot(this.apiPath)).isEqualTo(this.webRoot)

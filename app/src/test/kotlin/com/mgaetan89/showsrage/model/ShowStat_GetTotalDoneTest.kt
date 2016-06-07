@@ -7,13 +7,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ShowStat_GetTotalDoneTest {
-    @Parameterized.Parameter(1)
-    var totalDone: Int = 0
-
-    @Parameterized.Parameter(0)
-    var showStat: ShowStat = ShowStat()
-
+class ShowStat_GetTotalDoneTest(val showStat: ShowStat, val totalDone: Int) {
     @Test
     fun getStatusBackgroundColor() {
         assertThat(this.showStat.getTotalDone()).isEqualTo(this.totalDone)

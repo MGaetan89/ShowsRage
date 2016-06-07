@@ -8,19 +8,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class EpisodesAdapterTest {
-    @Parameterized.Parameter(3)
-    var episodeNumber: Int = 0
-
-    @Parameterized.Parameter(0)
-    var episodes: List<Episode> = emptyList()
-
-    @Parameterized.Parameter(1)
-    var itemCount: Int = 0
-
-    @Parameterized.Parameter(2)
-    var position: Int = 0
-
+class EpisodesAdapterTest(val episodes: List<Episode>, val itemCount: Int, val position: Int, val episodeNumber: Int) {
     private lateinit var adapter: EpisodesAdapter
 
     @Before

@@ -14,13 +14,7 @@ import org.junit.runners.Parameterized
 import org.mockito.Mockito.*
 
 @RunWith(Parameterized::class)
-class AddShowOptionsFragment_GetLanguageTest {
-    @Parameterized.Parameter(1)
-    var language: String? = null
-
-    @Parameterized.Parameter(0)
-    var spinner: Spinner? = null
-
+class AddShowOptionsFragment_GetLanguageTest(val spinner: Spinner?, val language: String?) {
     private lateinit var fragment: AddShowOptionsFragment
 
     @Before

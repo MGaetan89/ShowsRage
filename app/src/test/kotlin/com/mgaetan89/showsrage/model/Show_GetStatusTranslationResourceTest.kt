@@ -9,13 +9,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class Show_GetStatusTranslationResourceTest {
-    @Parameterized.Parameter(0)
-    var show: Show = Show()
-
-    @Parameterized.Parameter(1)
-    var statusTranslationResource: Int = 0
-
+class Show_GetStatusTranslationResourceTest(val show: Show, val statusTranslationResource: Int) {
     @Test
     fun getStatusTranslationResource() {
         assertThat(this.show.getStatusTranslationResource()).isEqualTo(this.statusTranslationResource)

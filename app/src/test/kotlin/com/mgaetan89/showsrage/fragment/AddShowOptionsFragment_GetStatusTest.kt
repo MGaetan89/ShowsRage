@@ -14,13 +14,7 @@ import org.junit.runners.Parameterized
 import org.mockito.Mockito.*
 
 @RunWith(Parameterized::class)
-class AddShowOptionsFragment_GetStatusTest {
-    @Parameterized.Parameter(1)
-    var status: String? = null
-
-    @Parameterized.Parameter(0)
-    var spinner: Spinner? = null
-
+class AddShowOptionsFragment_GetStatusTest(val spinner: Spinner?, val status: String?) {
     private lateinit var fragment: AddShowOptionsFragment
 
     @Before

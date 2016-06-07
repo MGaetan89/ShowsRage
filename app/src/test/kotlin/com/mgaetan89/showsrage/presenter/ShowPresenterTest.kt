@@ -3,37 +3,10 @@ package com.mgaetan89.showsrage.presenter
 // TODO Move to Android Test
 /*
 @RunWith(Parameterized::class)
-class ShowPresenterTest {
-    @Parameterized.Parameter(1)
-    var bannerUrl: String? = null
-
-    @Parameterized.Parameter(2)
-    var downloaded: Int = 0
-
-    @Parameterized.Parameter(3)
-    var episodesCount: Int = 0
-
-    @Parameterized.Parameter(4)
-    var network: String? = null
-
-    @Parameterized.Parameter(5)
-    var paused: Boolean = false
-
-    @Parameterized.Parameter(6)
-    var posterUrl: String? = null
-
-    @Parameterized.Parameter(7)
-    var quality: String? = null
-
-    @Parameterized.Parameter(0)
-    var show: Show? = null
-
-    @Parameterized.Parameter(8)
-    var showName: String? = null
-
-    @Parameterized.Parameter(9)
-    var snatched: Int = 0
-
+class ShowPresenterTest(
+        val show: Show?, val bannerUrl: String, val downloaded: Int, val episodesCount: Int, val network: String,
+        val paused: Boolean, val posterUrl: String, val quality: String, val showName: String, val snatched: Int
+) {
     private lateinit var presenter: ShowPresenter
 
     @Before

@@ -14,13 +14,7 @@ import org.junit.runners.Parameterized
 import org.mockito.Mockito.*
 
 @RunWith(Parameterized::class)
-class PostProcessingFragment_GetProcessingMethodsTest {
-    @Parameterized.Parameter(1)
-    var processingMethod: String? = null
-
-    @Parameterized.Parameter(0)
-    var spinner: Spinner? = null
-
+class PostProcessingFragment_GetProcessingMethodsTest(val spinner: Spinner?, val processingMethod: String?) {
     private lateinit var fragment: PostProcessingFragment
 
     @Before

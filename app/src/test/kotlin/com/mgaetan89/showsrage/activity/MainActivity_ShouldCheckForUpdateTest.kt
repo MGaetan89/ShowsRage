@@ -6,19 +6,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class MainActivity_ShouldCheckForUpdateTest {
-    @Parameterized.Parameter(0)
-    var checkInterval: Long = 0L
-
-    @Parameterized.Parameter(2)
-    var lastCheckTime: Long = 0L
-
-    @Parameterized.Parameter(1)
-    var manualCheck: Boolean = false
-
-    @Parameterized.Parameter(3)
-    var result: Boolean = false
-
+class MainActivity_ShouldCheckForUpdateTest(val checkInterval: Long, val manualCheck: Boolean, val lastCheckTime: Long, val result: Boolean) {
     @Test
     fun shouldCheckForUpdate() {
         assertThat(MainActivity.shouldCheckForUpdate(this.checkInterval, this.manualCheck, this.lastCheckTime)).isEqualTo(this.result)

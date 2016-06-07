@@ -8,13 +8,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ShowsSectionFragment_GetCommandTest {
-    @Parameterized.Parameter(1)
-    var command: String? = null
-
-    @Parameterized.Parameter(0)
-    var shows: List<Show>? = null
-
+class ShowsSectionFragment_GetCommandTest(val shows: List<Show>?, val command: String) {
     @Test
     fun getCommand() {
         assertThat(ShowsSectionFragment.getCommand(this.shows)).isEqualTo(this.command)

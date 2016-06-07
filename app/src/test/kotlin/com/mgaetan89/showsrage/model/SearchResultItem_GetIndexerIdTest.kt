@@ -7,13 +7,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class SearchResultItem_GetIndexerIdTest {
-    @Parameterized.Parameter(1)
-    var indexerId: Int = 0
-
-    @Parameterized.Parameter(0)
-    var searchResultItem: SearchResultItem = SearchResultItem()
-
+class SearchResultItem_GetIndexerIdTest(val searchResultItem: SearchResultItem, val indexerId: Int) {
     @Test
     fun getIndexId() {
         assertThat(this.searchResultItem.getIndexerId()).isEqualTo(this.indexerId)

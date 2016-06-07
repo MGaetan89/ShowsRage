@@ -9,13 +9,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class Episode_GetStatusBackgroundColorTest {
-    @Parameterized.Parameter(1)
-    var color: Int = 0
-
-    @Parameterized.Parameter(0)
-    var episode: Episode = Episode()
-
+class Episode_GetStatusBackgroundColorTest(val episode: Episode, val color: Int) {
     @Test
     fun getStatusBackgroundColor() {
         assertThat(this.episode.getStatusBackgroundColor()).isEqualTo(this.color)

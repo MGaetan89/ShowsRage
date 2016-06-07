@@ -7,13 +7,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class Episode_GetStatusForMenuIdTest {
-    @Parameterized.Parameter(1)
-    var episodeStatus: String? = null
-
-    @Parameterized.Parameter(0)
-    var menuId: Int = 0
-
+class Episode_GetStatusForMenuIdTest(val menuId: Int, val episodeStatus: String?) {
     @Test
     fun getStatusForMenuId() {
         assertThat(Episode.getStatusForMenuId(this.menuId)).isEqualTo(this.episodeStatus)

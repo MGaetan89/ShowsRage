@@ -9,22 +9,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class LogPresenterTest {
-    @Parameterized.Parameter(1)
-    var dateTime: CharSequence? = null
-
-    @Parameterized.Parameter(2)
-    var errorColor: Int = 0
-
-    @Parameterized.Parameter(3)
-    var errorType: String? = null
-
-    @Parameterized.Parameter(0)
-    var logEntry: LogEntry? = null
-
-    @Parameterized.Parameter(4)
-    var message: String? = null
-
+class LogPresenterTest(val logEntry: LogEntry?, val dateTime: CharSequence?, val errorColor: Int, val errorType: String, val message: String) {
     private lateinit var presenter: LogPresenter
 
     @Before

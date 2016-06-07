@@ -8,25 +8,10 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class LogEntryTest {
-    @Parameterized.Parameter(1)
-    var dateTime: String? = null
-
-    @Parameterized.Parameter(3)
-    var errorColor: Int = 0
-
-    @Parameterized.Parameter(2)
-    var errorType: String? = null
-
-    @Parameterized.Parameter(4)
-    var group: String? = null
-
-    @Parameterized.Parameter(0)
-    var log: String? = null
-
-    @Parameterized.Parameter(5)
-    var message: String? = null
-
+class LogEntryTest(
+        val log: String?, val dateTime: String, val errorType: String,
+        val errorColor: Int, val group: String?, val message: String
+) {
     private lateinit var logEntry: LogEntry
 
     @Before

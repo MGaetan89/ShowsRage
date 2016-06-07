@@ -8,13 +8,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class LogsFragment_GetMenuIdForLogLevelTest {
-    @Parameterized.Parameter(0)
-    var logLevel: LogLevel? = null
-
-    @Parameterized.Parameter(1)
-    var menuId: Int = 0
-
+class LogsFragment_GetMenuIdForLogLevelTest(val logLevel: LogLevel?, val menuId: Int) {
     @Test
     fun getMenuIdForLogLevel() {
         assertThat(LogsFragment.getMenuIdForLogLevel(this.logLevel)).isEqualTo(this.menuId)

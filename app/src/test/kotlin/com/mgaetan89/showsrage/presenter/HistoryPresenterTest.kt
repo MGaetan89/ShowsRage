@@ -9,31 +9,10 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class HistoryPresenterTest {
-    @Parameterized.Parameter(1)
-    var episode: Int = 0
-
-    @Parameterized.Parameter(0)
-    var history: History? = null
-
-    @Parameterized.Parameter(2)
-    var posterUrl: String? = null
-
-    @Parameterized.Parameter(3)
-    var provider: String? = null
-
-    @Parameterized.Parameter(4)
-    var providerQuality: String? = null
-
-    @Parameterized.Parameter(5)
-    var quality: String? = null
-
-    @Parameterized.Parameter(6)
-    var season: Int = 0
-
-    @Parameterized.Parameter(7)
-    var showName: String? = null
-
+class HistoryPresenterTest(
+        val history: History?, val episode: Int, val posterUrl: String, val provider: String,
+        val providerQuality: String?, val quality: String, val season: Int, val showName: String
+) {
     private lateinit var presenter: HistoryPresenter
 
     @Before

@@ -6,13 +6,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class AddShowFragment_IsQueryValidTest {
-    @Parameterized.Parameter(0)
-    var query: String? = null
-
-    @Parameterized.Parameter(1)
-    var valid: Boolean = false
-
+class AddShowFragment_IsQueryValidTest(val query: String?, val valid: Boolean) {
     @Test
     fun isQueryValid() {
         assertThat(AddShowFragment.isQueryValid(this.query)).isEqualTo(this.valid)

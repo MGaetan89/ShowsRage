@@ -11,25 +11,10 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
 @RunWith(Parameterized::class)
-class SickRageApi_GetVideosUrlTest {
-    @Parameterized.Parameter(1)
-    var address: String? = null
-
-    @Parameterized.Parameter(4)
-    var apiKey: String? = null
-
-    @Parameterized.Parameter(3)
-    var path: String? = null
-
-    @Parameterized.Parameter(2)
-    var port: String? = null
-
-    @Parameterized.Parameter(5)
-    var url: String? = null
-
-    @Parameterized.Parameter(0)
-    var useHttps: Boolean = false
-
+class SickRageApi_GetVideosUrlTest(
+        val useHttps: Boolean, val address: String?, val port: String,
+        val path: String, val apiKey: String, val url: String
+) {
     @Before
     fun before() {
         val preferences = mock(SharedPreferences::class.java)

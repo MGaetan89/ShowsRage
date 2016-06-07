@@ -10,13 +10,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
 @RunWith(Parameterized::class)
-class ShowFragment_GetSeasonsSortTest {
-    @Parameterized.Parameter(1)
-    var sort: String? = null
-
-    @Parameterized.Parameter(0)
-    var status: Boolean = false
-
+class ShowFragment_GetSeasonsSortTest(val status: Boolean, val sort: String) {
     private lateinit var preferences: SharedPreferences
 
     @Before

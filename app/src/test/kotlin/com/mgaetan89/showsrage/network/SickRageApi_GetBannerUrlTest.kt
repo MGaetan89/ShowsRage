@@ -12,31 +12,10 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
 @RunWith(Parameterized::class)
-class SickRageApi_GetBannerUrlTest {
-    @Parameterized.Parameter(1)
-    var address: String? = null
-
-    @Parameterized.Parameter(4)
-    var apiKey: String? = null
-
-    @Parameterized.Parameter(6)
-    var indexer: Indexer? = null
-
-    @Parameterized.Parameter(5)
-    var indexerId: Int = 0
-
-    @Parameterized.Parameter(3)
-    var path: String? = null
-
-    @Parameterized.Parameter(2)
-    var port: String? = null
-
-    @Parameterized.Parameter(7)
-    var url: String? = null
-
-    @Parameterized.Parameter(0)
-    var useHttps: Boolean = false
-
+class SickRageApi_GetBannerUrlTest(
+        val useHttps: Boolean, val address: String, val port: String, val path: String,
+        val apiKey: String, val indexerId: Int, val indexer: Indexer?, val url: String
+) {
     @Before
     fun before() {
         val preferences = mock(SharedPreferences::class.java)
@@ -60,8 +39,8 @@ class SickRageApi_GetBannerUrlTest {
         fun data(): Collection<Array<Any?>> {
             return listOf(
                     // TVDB
-                    arrayOf<Any?>(false, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getbanner"),
-                    arrayOf<Any?>(false, "127.0.0.1", "", "", "", 123, null, "http://127.0.0.1/?cmd=show.getbanner"),
+                    arrayOf(false, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getbanner"),
+                    arrayOf(false, "127.0.0.1", "", "", "", 123, null, "http://127.0.0.1/?cmd=show.getbanner"),
                     arrayOf<Any?>(false, "127.0.0.1", "8083", "", "", 0, Indexer.TVDB, "http://127.0.0.1:8083/?cmd=show.getbanner&tvdbid=0"),
                     arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/?cmd=show.getbanner&tvdbid=123"),
                     arrayOf<Any?>(false, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/?cmd=show.getbanner&tvdbid=123"),
@@ -69,8 +48,8 @@ class SickRageApi_GetBannerUrlTest {
                     arrayOf<Any?>(false, "127.0.0.1", "8083", "/api/", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/?cmd=show.getbanner&tvdbid=123"),
                     arrayOf<Any?>(false, "127.0.0.1", "8083", "/api1/api2/", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api1/api2/?cmd=show.getbanner&tvdbid=123"),
                     arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/apiKey/?cmd=show.getbanner&tvdbid=123"),
-                    arrayOf<Any?>(true, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getbanner"),
-                    arrayOf<Any?>(true, "127.0.0.1", "", "", "", 123, null, "https://127.0.0.1/?cmd=show.getbanner"),
+                    arrayOf(true, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getbanner"),
+                    arrayOf(true, "127.0.0.1", "", "", "", 123, null, "https://127.0.0.1/?cmd=show.getbanner"),
                     arrayOf<Any?>(true, "127.0.0.1", "8083", "", "", 0, Indexer.TVDB, "https://127.0.0.1:8083/?cmd=show.getbanner&tvdbid=0"),
                     arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "", 123, Indexer.TVDB, "https://127.0.0.1:8083/api/?cmd=show.getbanner&tvdbid=123"),
                     arrayOf<Any?>(true, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVDB, "https://127.0.0.1:8083/api/?cmd=show.getbanner&tvdbid=123"),
@@ -80,8 +59,8 @@ class SickRageApi_GetBannerUrlTest {
                     arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVDB, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getbanner&tvdbid=123"),
 
                     // TVRage
-                    arrayOf<Any?>(false, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getbanner"),
-                    arrayOf<Any?>(false, "127.0.0.1", "", "", "", 123, null, "http://127.0.0.1/?cmd=show.getbanner"),
+                    arrayOf(false, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getbanner"),
+                    arrayOf(false, "127.0.0.1", "", "", "", 123, null, "http://127.0.0.1/?cmd=show.getbanner"),
                     arrayOf<Any?>(false, "127.0.0.1", "8083", "", "", 0, Indexer.TVRAGE, "http://127.0.0.1:8083/?cmd=show.getbanner&tvrageid=0"),
                     arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/?cmd=show.getbanner&tvrageid=123"),
                     arrayOf<Any?>(false, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/?cmd=show.getbanner&tvrageid=123"),
@@ -89,8 +68,8 @@ class SickRageApi_GetBannerUrlTest {
                     arrayOf<Any?>(false, "127.0.0.1", "8083", "/api/", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/?cmd=show.getbanner&tvrageid=123"),
                     arrayOf<Any?>(false, "127.0.0.1", "8083", "/api1/api2/", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api1/api2/?cmd=show.getbanner&tvrageid=123"),
                     arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/apiKey/?cmd=show.getbanner&tvrageid=123"),
-                    arrayOf<Any?>(true, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getbanner"),
-                    arrayOf<Any?>(true, "127.0.0.1", "", "", "", 123, null, "https://127.0.0.1/?cmd=show.getbanner"),
+                    arrayOf(true, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getbanner"),
+                    arrayOf(true, "127.0.0.1", "", "", "", 123, null, "https://127.0.0.1/?cmd=show.getbanner"),
                     arrayOf<Any?>(true, "127.0.0.1", "8083", "", "", 0, Indexer.TVRAGE, "https://127.0.0.1:8083/?cmd=show.getbanner&tvrageid=0"),
                     arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/?cmd=show.getbanner&tvrageid=123"),
                     arrayOf<Any?>(true, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/?cmd=show.getbanner&tvrageid=123"),

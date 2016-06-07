@@ -8,13 +8,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class LogsAdapter_GetItemCountTest {
-    @Parameterized.Parameter(1)
-    var itemCount: Int = 0
-
-    @Parameterized.Parameter(0)
-    var logs: List<LogEntry> = emptyList()
-
+class LogsAdapter_GetItemCountTest(val logs: List<LogEntry>, val itemCount: Int) {
     private lateinit var adapter: LogsAdapter
 
     @Before

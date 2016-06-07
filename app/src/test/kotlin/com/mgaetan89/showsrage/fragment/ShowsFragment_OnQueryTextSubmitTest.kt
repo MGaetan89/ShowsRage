@@ -9,10 +9,7 @@ import org.mockito.Mockito.spy
 import org.mockito.Mockito.verify
 
 @RunWith(Parameterized::class)
-class ShowsFragment_OnQueryTextSubmitTest {
-    @Parameterized.Parameter(0)
-    var query: String? = null
-
+class ShowsFragment_OnQueryTextSubmitTest(val query: String?) {
     private lateinit var fragment: ShowsFragment
 
     @Before

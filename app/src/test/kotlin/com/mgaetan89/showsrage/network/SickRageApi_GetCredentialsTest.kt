@@ -6,19 +6,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class SickRageApi_GetCredentialsTest {
-    @Parameterized.Parameter(3)
-    var credentials: String? = null
-
-    @Parameterized.Parameter(2)
-    var password: String? = null
-
-    @Parameterized.Parameter(0)
-    var useBasicAuthentication: Boolean = false
-
-    @Parameterized.Parameter(1)
-    var username: String? = null
-
+class SickRageApi_GetCredentialsTest(val useBasicAuthentication: Boolean, val username: String?, val password: String?, val credentials: String?) {
     @Test
     fun getCredentials() {
         assertThat(SickRageApi.getCredentials(this.useBasicAuthentication, this.username, this.password)).isEqualTo(this.credentials)

@@ -6,13 +6,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class RemoteControlFragment_FormatTimeTest {
-    @Parameterized.Parameter(1)
-    var formattedTime: String = ""
-
-    @Parameterized.Parameter(0)
-    var time: Long = 0
-
+class RemoteControlFragment_FormatTimeTest(val time: Long, val formattedTime: String) {
     @Test
     fun getQueryFromIntent() {
         assertThat(RemoteControlFragment.formatTime(this.time)).isEqualTo(this.formattedTime)

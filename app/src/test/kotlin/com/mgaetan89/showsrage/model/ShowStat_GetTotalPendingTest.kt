@@ -7,13 +7,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ShowStat_GetTotalPendingTest {
-    @Parameterized.Parameter(1)
-    var totalPending: Int = 0
-
-    @Parameterized.Parameter(0)
-    var showStat: ShowStat = ShowStat()
-
+class ShowStat_GetTotalPendingTest(val showStat: ShowStat, val totalPending: Int) {
     @Test
     fun getTotalPending() {
         assertThat(this.showStat.getTotalPending()).isEqualTo(this.totalPending)

@@ -10,13 +10,7 @@ import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 
 @RunWith(Parameterized::class)
-class Setters_SetTextResTest {
-    @Parameterized.Parameter(1)
-    var text: Any = Unit
-
-    @Parameterized.Parameter(0)
-    var textRes: Int = 0
-
+class Setters_SetTextResTest(val textRes: Int, val text: Any) {
     @Test
     fun setTextRes() {
         val textView = mock(TextView::class.java)
@@ -24,9 +18,9 @@ class Setters_SetTextResTest {
         setTextRes(textView, this.textRes)
 
         if (this.text is String) {
-            verify(textView).text = this.text as String
+            verify(textView).text = this.text
         } else if (this.text is Int) {
-            verify(textView).setText(this.text as Int)
+            verify(textView).setText(this.text)
         } else {
             fail("text is not valid")
         }

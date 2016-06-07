@@ -8,13 +8,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ShowsSectionFragment_IsShowValidTest {
-    @Parameterized.Parameter(1)
-    var valid: Boolean = false
-
-    @Parameterized.Parameter(0)
-    var show: Show? = null
-
+class ShowsSectionFragment_IsShowValidTest(val show: Show?, val valid: Boolean) {
     @Test
     fun isShowValid() {
         assertThat(ShowsSectionFragment.isShowValid(this.show)).isEqualTo(this.valid)

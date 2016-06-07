@@ -13,13 +13,7 @@ import java.io.IOException
 import java.net.Proxy
 
 @RunWith(Parameterized::class)
-class SickRageApi_GetOkHttpClientTest {
-    @Parameterized.Parameter(1)
-    var useBasicAuthentication: Boolean = false
-
-    @Parameterized.Parameter(0)
-    var useSelfSignedCertificate: Boolean = false
-
+class SickRageApi_GetOkHttpClientTest(val useSelfSignedCertificate: Boolean, val useBasicAuthentication: Boolean) {
     @Before
     fun before() {
         if (this.useBasicAuthentication) {

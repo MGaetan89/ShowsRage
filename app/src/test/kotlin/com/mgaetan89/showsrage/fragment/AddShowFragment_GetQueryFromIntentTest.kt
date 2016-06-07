@@ -11,17 +11,11 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
 @RunWith(Parameterized::class)
-class AddShowFragment_GetQueryFromIntentTest {
-    @Parameterized.Parameter(0)
-    var intent: Intent? = null
-
-    @Parameterized.Parameter(1)
-    var query: String = ""
-
+class AddShowFragment_GetQueryFromIntentTest(val intent: Intent?, val query: String) {
     @Test
     fun getQueryFromIntent() {
         if (this.intent != null) {
-            `when`(this.intent!!.getStringExtra(SearchManager.QUERY)).thenReturn(this.query)
+            `when`(this.intent.getStringExtra(SearchManager.QUERY)).thenReturn(this.query)
         }
 
         assertThat(AddShowFragment.getQueryFromIntent(this.intent)).isEqualTo(this.query)

@@ -8,13 +8,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class AddShowFragment_GetSearchResultsTest {
-    @Parameterized.Parameter(0)
-    var searchResults: SearchResults? = null
-
-    @Parameterized.Parameter(1)
-    var size: Int = 0
-
+class AddShowFragment_GetSearchResultsTest(val searchResults: SearchResults?, val size: Int) {
     @Test
     fun getSearchResults() {
         assertThat(AddShowFragment.getSearchResults(this.searchResults).size).isEqualTo(this.size)

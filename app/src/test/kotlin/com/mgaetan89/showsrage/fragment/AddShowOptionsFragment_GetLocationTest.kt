@@ -9,13 +9,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
 @RunWith(Parameterized::class)
-class AddShowOptionsFragment_GetLocationTest {
-    @Parameterized.Parameter(1)
-    var location: String? = null
-
-    @Parameterized.Parameter(0)
-    var spinner: Spinner? = null
-
+class AddShowOptionsFragment_GetLocationTest(val spinner: Spinner?, val location: String?) {
     @Test
     fun getLocation() {
         assertThat(AddShowOptionsFragment.getLocation(this.spinner)).isEqualTo(this.location)

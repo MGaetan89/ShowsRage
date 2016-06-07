@@ -10,13 +10,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ShowsSectionFragment_GetCommandParametersTest {
-    @Parameterized.Parameter(1)
-    var commandParameters: Array<MapEntry> = emptyArray()
-
-    @Parameterized.Parameter(0)
-    var shows: List<Show>? = null
-
+class ShowsSectionFragment_GetCommandParametersTest(val shows: List<Show>?, val commandParameters: Array<MapEntry>) {
     @Test
     fun getCommandParameters() {
         assertThat(ShowsSectionFragment.getCommandParameters(this.shows)).containsOnly(*this.commandParameters)

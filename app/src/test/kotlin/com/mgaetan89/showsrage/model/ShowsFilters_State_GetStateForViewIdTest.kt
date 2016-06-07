@@ -7,13 +7,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ShowsFilters_State_GetStateForViewIdTest {
-    @Parameterized.Parameter(1)
-    var state: ShowsFilters.State = ShowsFilters.State.ALL
-
-    @Parameterized.Parameter(0)
-    var viewId: Int = 0
-
+class ShowsFilters_State_GetStateForViewIdTest(val viewId: Int, val state: ShowsFilters.State) {
     @Test
     fun getStateForViewId() {
         assertThat(ShowsFilters.State.getStateForViewId(this.viewId)).isEqualTo(this.state)

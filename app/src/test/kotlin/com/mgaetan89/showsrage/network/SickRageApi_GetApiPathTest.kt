@@ -6,13 +6,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class SickRageApi_GetApiPathTest {
-    @Parameterized.Parameter(0)
-    var apiPath: String? = null
-
-    @Parameterized.Parameter(1)
-    var expected: String? = null
-
+class SickRageApi_GetApiPathTest(val apiPath: String?, val expected: String) {
     @Test
     fun getApiPath() {
         assertThat(SickRageApi.getApiPath(this.apiPath)).isEqualTo(this.expected)

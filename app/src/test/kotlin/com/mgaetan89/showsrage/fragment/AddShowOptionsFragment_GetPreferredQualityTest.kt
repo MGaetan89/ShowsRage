@@ -14,13 +14,7 @@ import org.junit.runners.Parameterized
 import org.mockito.Mockito.*
 
 @RunWith(Parameterized::class)
-class AddShowOptionsFragment_GetPreferredQualityTest {
-    @Parameterized.Parameter(1)
-    var preferredQuality: String? = null
-
-    @Parameterized.Parameter(0)
-    var spinner: Spinner? = null
-
+class AddShowOptionsFragment_GetPreferredQualityTest(val spinner: Spinner?, val preferredQuality: String?) {
     private lateinit var fragment: AddShowOptionsFragment
 
     @Before

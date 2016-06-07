@@ -7,13 +7,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class AddShowFragment_OnQueryTextChangeTest {
-    @Parameterized.Parameter(0)
-    var query: String? = null
-
-    @Parameterized.Parameter(1)
-    var valid: Boolean = false
-
+class AddShowFragment_OnQueryTextChangeTest(val query: String?, val valid: Boolean) {
     private lateinit var fragment: AddShowFragment
 
     @Before

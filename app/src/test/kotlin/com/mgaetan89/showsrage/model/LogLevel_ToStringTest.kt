@@ -6,13 +6,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class LogLevel_ToStringTest {
-    @Parameterized.Parameter(0)
-    var logLevel: LogLevel = LogLevel.DEBUG
-
-    @Parameterized.Parameter(1)
-    var result: String = ""
-
+class LogLevel_ToStringTest(val logLevel: LogLevel, val result: String) {
     @Test
     fun toStringTest() {
         assertThat(this.logLevel.toString()).isEqualTo(this.result)

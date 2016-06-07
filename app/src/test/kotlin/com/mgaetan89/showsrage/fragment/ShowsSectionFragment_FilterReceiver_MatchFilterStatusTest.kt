@@ -9,16 +9,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ShowsSectionFragment_FilterReceiver_MatchFilterStatusTest {
-    @Parameterized.Parameter(1)
-    var filterStatus: Int = 0
-
-    @Parameterized.Parameter(2)
-    var match: Boolean = false
-
-    @Parameterized.Parameter(0)
-    var show: Show = Show()
-
+class ShowsSectionFragment_FilterReceiver_MatchFilterStatusTest(val show: Show, val filterStatus: Int, val match: Boolean) {
     @Test
     fun matchFilterStatus() {
         assertThat(ShowsSectionFragment.FilterReceiver.matchFilterStatus(this.show, this.filterStatus)).isEqualTo(this.match)
