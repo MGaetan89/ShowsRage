@@ -8,7 +8,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class SearchResultsAdapter_GetItemCountTest(var searchResultItems: List<SearchResultItem>, var itemCount: Int) {
+class SearchResultsAdapter_GetItemCountTest(val searchResultItems: List<SearchResultItem>, val itemCount: Int) {
     private lateinit var adapter: SearchResultsAdapter
 
     @Before
