@@ -7,8 +7,8 @@ import android.support.v4.app.FragmentManager
 import com.mgaetan89.showsrage.EmptyFragmentHostCallback
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.fragment.ShowOverviewFragment
-import junit.framework.Assert.assertTrue
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.`when`
