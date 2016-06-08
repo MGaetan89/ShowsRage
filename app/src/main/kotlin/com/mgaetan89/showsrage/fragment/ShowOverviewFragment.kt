@@ -185,6 +185,10 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
 
     override fun onChange(show: Show) {
+        if (!show.isLoaded) {
+            return
+        }
+
         if (this.serviceConnection == null) {
             this.serviceConnection = ServiceConnection(this)
 
