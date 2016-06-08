@@ -56,13 +56,13 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int) : Recycle
 
             this.binding = DataBindingUtil.bind(view)
 
-            if (!this.binding.stub.isInflated()) {
-                val viewStub = this.binding.stub.getViewStub()
-                viewStub.setLayoutResource(itemLayoutResource)
+            if (!this.binding.stub.isInflated) {
+                val viewStub = this.binding.stub.viewStub
+                viewStub.layoutResource = itemLayoutResource
                 viewStub.inflate()
             }
 
-            this.nextEpisodeDate = this.binding.stub.getRoot().findViewById(R.id.show_next_episode_date) as TextView?
+            this.nextEpisodeDate = this.binding.stub.root.findViewById(R.id.show_next_episode_date) as TextView?
         }
 
         fun bind(show: ShowPresenter) {

@@ -120,7 +120,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
         }
     }
 
-    protected class FilterReceiver(fragment: ShowsSectionFragment) : BroadcastReceiver() {
+    internal class FilterReceiver(fragment: ShowsSectionFragment) : BroadcastReceiver() {
         private val fragmentReference: WeakReference<ShowsSectionFragment>
 
         init {
@@ -145,14 +145,14 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
         }
 
         companion object {
-            protected fun match(show: Show?, filterState: ShowsFilters.State?, filterStatus: Int, searchQuery: String?): Boolean {
+            internal fun match(show: Show?, filterState: ShowsFilters.State?, filterStatus: Int, searchQuery: String?): Boolean {
                 return show != null &&
                         matchFilterState(show, filterState) &&
                         matchFilterStatus(show, filterStatus) &&
                         matchSearchQuery(show, searchQuery)
             }
 
-            protected fun matchFilterState(show: Show, filterState: ShowsFilters.State?): Boolean {
+            internal fun matchFilterState(show: Show, filterState: ShowsFilters.State?): Boolean {
                 return when (filterState) {
                     ShowsFilters.State.ACTIVE -> show.paused == 0
                     ShowsFilters.State.ALL -> true
@@ -161,7 +161,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
                 }
             }
 
-            protected fun matchFilterStatus(show: Show, filterStatus: Int): Boolean {
+            internal fun matchFilterStatus(show: Show, filterStatus: Int): Boolean {
                 if (ShowsFilters.Status.isAll(filterStatus)) {
                     return true
                 }
@@ -176,7 +176,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
                 }
             }
 
-            protected fun matchSearchQuery(show: Show, searchQuery: String?): Boolean {
+            internal fun matchSearchQuery(show: Show, searchQuery: String?): Boolean {
                 val query = searchQuery?.trim()
 
                 if (query.isNullOrEmpty()) {
@@ -234,14 +234,14 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
     }
 
     companion object {
-        protected fun getAdapterLayoutResource(preferredLayout: String?): Int {
+        internal fun getAdapterLayoutResource(preferredLayout: String?): Int {
             return when (preferredLayout) {
                 "banner" -> R.layout.adapter_shows_list_content_banner
                 else -> R.layout.adapter_shows_list_content_poster
             }
         }
 
-        protected fun getCommand(shows: Iterable<Show>?): String {
+        internal fun getCommand(shows: Iterable<Show>?): String {
             val command = StringBuilder()
 
             shows?.forEach {
@@ -257,7 +257,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
             return command.toString()
         }
 
-        protected fun getCommandParameters(shows: Iterable<Show>?): Map<String, Int> {
+        internal fun getCommandParameters(shows: Iterable<Show>?): Map<String, Int> {
             val parameters = shows?.associate {
                 if (isShowValid(it)) {
                     val indexerId = it.indexerId
@@ -271,7 +271,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
             return parameters.filterKeys { it.isNotEmpty() }
         }
 
-        protected fun isShowValid(show: Show?): Boolean {
+        internal fun isShowValid(show: Show?): Boolean {
             return show != null && show.indexerId > 0
         }
     }

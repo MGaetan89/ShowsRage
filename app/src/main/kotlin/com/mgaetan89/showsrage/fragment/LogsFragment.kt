@@ -193,7 +193,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     }
 
     companion object {
-        protected fun getLogLevelForMenuId(menuId: Int?): LogLevel? {
+        internal fun getLogLevelForMenuId(menuId: Int?): LogLevel? {
             return when (menuId) {
                 R.id.menu_debug -> LogLevel.DEBUG
                 R.id.menu_error -> LogLevel.ERROR
@@ -203,7 +203,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
             }
         }
 
-        protected fun getMenuIdForLogLevel(logLevel: LogLevel?): Int {
+        internal fun getMenuIdForLogLevel(logLevel: LogLevel?): Int {
             return when (logLevel) {
                 LogLevel.DEBUG -> R.id.menu_debug
                 LogLevel.ERROR -> R.id.menu_error
