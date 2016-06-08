@@ -207,6 +207,10 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     }
 
     override fun onChange(episode: Episode) {
+        if (!episode.isLoaded) {
+            return
+        }
+
         this.displayEpisode(episode)
         this.displayStreamingMenus(episode)
     }
