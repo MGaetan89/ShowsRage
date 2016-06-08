@@ -31,6 +31,14 @@ open class SettingsServerFragment : SettingsFragment(), Callback<GenericResponse
         inflater?.inflate(R.menu.settings_server, menu)
     }
 
+    override fun onDestroy() {
+        this.canceled = true
+
+        this.dismissDialog()
+
+        super.onDestroy()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menu_help -> {
@@ -57,6 +65,11 @@ open class SettingsServerFragment : SettingsFragment(), Callback<GenericResponse
 
     override fun getXmlResourceFile() = R.xml.settings_server
 
+    private fun dismissDialog() {
+        this.alertDialog?.dismiss()
+        this.alertDialog = null
+    }
+
     private fun displayConfigurationHelp() {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse("https://MGaetan89.github.io/ShowsRage/help.html#how-to-configure-showsrage")
@@ -69,18 +82,12 @@ open class SettingsServerFragment : SettingsFragment(), Callback<GenericResponse
             return
         }
 
-        if (this.alertDialog != null) {
-            if (this.alertDialog!!.isShowing) {
-                this.alertDialog!!.dismiss()
-            }
-
-            this.alertDialog = null
-        }
+        this.dismissDialog()
 
         val context = this.activity ?: return
         val url = SickRageApi.instance.getApiUrl()
 
-        AlertDialog.Builder(context)
+        this.alertDialog = AlertDialog.Builder(context)
                 .setCancelable(true)
                 .setMessage(if (successful) this.getString(R.string.connection_successful) else this.getString(R.string.connection_failed, url))
                 .setPositiveButton(android.R.string.ok, null)
@@ -91,6 +98,8 @@ open class SettingsServerFragment : SettingsFragment(), Callback<GenericResponse
         val activity = this.activity ?: return
 
         this.canceled = false
+
+        this.dismissDialog()
 
         SickRageApi.instance.init(PreferenceManager.getDefaultSharedPreferences(activity))
 
