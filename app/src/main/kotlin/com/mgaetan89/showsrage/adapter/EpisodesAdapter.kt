@@ -23,6 +23,10 @@ class EpisodesAdapter(val episodes: List<Episode>, val seasonNumber: Int, val in
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val episode = this.episodes[position]
 
+        if (!episode.isValid) {
+            return
+        }
+
         holder?.bind(EpisodePresenter(episode))
 
         holder?.name?.text = holder?.name?.resources?.getString(R.string.episode_name, this.getEpisodeNumber(position), episode.name)
