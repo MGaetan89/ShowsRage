@@ -1,0 +1,7 @@
+---
+name: Version 1.5
+current_tag: master
+previous_tag: v1.4
+features:
+- Filter logs
+---
