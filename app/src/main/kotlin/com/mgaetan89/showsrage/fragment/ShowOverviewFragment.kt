@@ -432,6 +432,8 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
             this.imdb?.setOnClickListener(this)
             this.theTvDb?.setOnClickListener(this)
             this.webSearch?.setOnClickListener(this)
+
+            this.checkSupportWebSearch()
         }
 
         return view
@@ -606,6 +608,14 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         val fragment = ChangeQualityFragment()
         fragment.arguments = arguments
         fragment.show(this.childFragmentManager, "change_quality")
+    }
+
+    private fun checkSupportWebSearch() {
+        val webSearchIntent = Intent(Intent.ACTION_WEB_SEARCH)
+        val manager = this.context.packageManager
+        val activities = manager.queryIntentActivities(webSearchIntent, 0)
+
+        this.webSearch?.visibility = if (activities.size > 0) View.VISIBLE else View.GONE
     }
 
     private fun deleteShow() {
