@@ -4,4 +4,5 @@ current_tag: master
 previous_tag: v1.4
 features:
 - Filter logs
+- Display an image for each episode
 ---
