@@ -95,6 +95,7 @@
 	<string name="never">Never</string>
 	<string name="new_update">New update available</string>
 	<string name="next_episode">Next episode: <xliff:g example="in 2 days" id="next_episode">%1$s</xliff:g></string>
+	<string name="no">No</string>
 	<string name="no_coming_episodes">No coming episodes</string>
 	<string name="no_episodes">No episodes</string>
 	<string name="no_history">No history</string>
@@ -164,6 +165,7 @@
 	<string name="status_value">Status: <xliff:g example="Continuing" id="status">%1$s</xliff:g></string>
 	<string name="stream_in_chromecast">Stream over Google Cast™</string>
 	<string name="subtitles">Subtitles</string>
+	<string name="subtitles_value">Subtitles: <xliff:g example="Yes" id="subtitles">%1$s</xliff:g></string>
 	<string name="symbolic_link">Symbolic link</string>
 	<string name="test">Test</string>
 	<string name="testing_server_settings">Testing server settings</string>
@@ -191,4 +193,5 @@
 	<string name="welcome_message">You are just a few clicks away from your shows.\n\nTo use this application, you need to have access to a working SickRage installation.\nOther forks may also work, but are not officially supported.</string>
 	<string name="writers">Writers: <xliff:g example="Whitney Cummings, Michael Patrick King" id="writers">%1$s</xliff:g></string>
 	<string name="year">Year: <xliff:g example="2005-" id="year">%1$s</xliff:g></string>
+	<string name="yes">Yes</string>
 </resources>
