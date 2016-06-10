@@ -17,6 +17,7 @@ import android.support.v7.media.MediaRouter
 import android.support.v7.widget.CardView
 import android.text.format.DateUtils
 import android.view.*
+import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
@@ -113,6 +114,17 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             }
         }
 
+        if (this.poster != null) {
+            if (episode.poster.isNullOrEmpty()) {
+                this.poster!!.visibility = View.GONE
+            } else {
+                ImageLoader.load(this.poster, episode.poster, false)
+
+                this.poster!!.contentDescription = episode.title
+                this.poster!!.visibility = View.VISIBLE
+            }
+        }
+
         if (this.rated != null) {
             setText(this, this.rated!!, episode.rated, R.string.rated, null)
         }
@@ -150,6 +162,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     private var playVideoMenu: MenuItem? = null
     private var plot: TextView? = null
     private var plotLayout: CardView? = null
+    private var poster: ImageView? = null
     private var quality: TextView? = null
     private var rated: TextView? = null
     private var rating: TextView? = null
@@ -291,6 +304,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             this.name = view.findViewById(R.id.episode_name) as TextView?
             this.plot = view.findViewById(R.id.episode_plot) as TextView?
             this.plotLayout = view.findViewById(R.id.episode_plot_layout) as CardView?
+            this.poster = view.findViewById(R.id.episode_poster) as ImageView?
             this.quality = view.findViewById(R.id.episode_quality) as TextView?
             this.rated = view.findViewById(R.id.episode_rated) as TextView?
             this.rating = view.findViewById(R.id.episode_rating) as TextView?
@@ -347,6 +361,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         this.name = null
         this.plot = null
         this.plotLayout = null
+        this.poster = null
         this.quality = null
         this.rated = null
         this.rating = null
