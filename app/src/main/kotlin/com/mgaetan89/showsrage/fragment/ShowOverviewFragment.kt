@@ -155,8 +155,8 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
     private var serviceConnection: ServiceConnection? = null
     private var show: Show? = null
-    private var subtitles: TextView? = null
     private var status: TextView? = null
+    private var subtitles: TextView? = null
     private var tabSession: CustomTabsSession? = null
     private var theTvDb: Button? = null
     private var webSearch: Button? = null
