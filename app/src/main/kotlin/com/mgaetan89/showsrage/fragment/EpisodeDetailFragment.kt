@@ -41,6 +41,7 @@ import java.net.MalformedURLException
 import java.net.URI
 import java.net.URISyntaxException
 import java.net.URL
+import java.util.*
 
 class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpisode>, View.OnClickListener, RealmChangeListener<Episode> {
     private var airs: TextView? = null
@@ -480,7 +481,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             if (episode.subtitles.isNullOrEmpty()) {
                 it.visibility = View.GONE
             } else {
-                it.text = this.getString(R.string.subtitles_value, episode.subtitles)
+                it.text = this.getString(R.string.subtitles_value, this.getDisplayableSubtitlesLanguages(episode.subtitles))
                 it.visibility = View.VISIBLE
             }
         }
@@ -489,6 +490,12 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     private fun displayStreamingMenus(episode: Episode) {
         this.castMenu?.isVisible = this.isCastMenuVisible(episode)
         this.playVideoMenu?.isVisible = this.isPlayMenuVisible(episode)
+    }
+
+    private fun getDisplayableSubtitlesLanguages(subtitles: String): String {
+        return subtitles.split(",").map {
+            Locale(it.substring(0, Math.min(2, it.length))).displayName
+        }.joinToString()
     }
 
     private fun getEpisodeVideoUrl(): Uri {
