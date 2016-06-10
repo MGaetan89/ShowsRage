@@ -28,6 +28,8 @@ class History_GetStatusTranslationResourceTest(val history: History, val statusT
                     arrayOf(getJsonForStatus(gson, "Downloaded"), R.string.downloaded),
                     arrayOf(getJsonForStatus(gson, "snatched"), R.string.snatched),
                     arrayOf(getJsonForStatus(gson, "Snatched"), R.string.snatched),
+                    arrayOf(getJsonForStatus(gson, "subtitled"), R.string.subtitled),
+                    arrayOf(getJsonForStatus(gson, "Subtitled"), R.string.subtitled),
                     arrayOf(gson.fromJson("{}", History::class.java), 0),
                     arrayOf(getJsonForStatus(gson, "status"), 0),
                     arrayOf(getJsonForStatus(gson, "Status"), 0)

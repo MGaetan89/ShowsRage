@@ -164,6 +164,7 @@
 	<string name="status">Statut</string>
 	<string name="status_value">Statut : <xliff:g example="En cours" id="status">%1$s</xliff:g></string>
 	<string name="stream_in_chromecast">Caster via Google Cast™</string>
+	<string name="subtitled">Sous-titré</string>
 	<string name="subtitles">Sous-titres</string>
 	<string name="subtitles_value">Sous-titres : <xliff:g example="Oui" id="subtitles">%1$s</xliff:g></string>
 	<string name="symbolic_link">Lien symbolique</string>
