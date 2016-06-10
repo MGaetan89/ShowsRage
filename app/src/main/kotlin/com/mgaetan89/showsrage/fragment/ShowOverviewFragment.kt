@@ -82,7 +82,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         val director = serie.director
         val writer = serie.writer
 
-        if (hasText(actors) || hasText(director) || hasText(writer)) {
+        if (actors.hasText() || director.hasText() || writer.hasText()) {
             if (this.castingActors != null) {
                 setText(this, this.castingActors!!, actors, R.string.actors, null)
             }
@@ -104,8 +104,8 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
             val country = serie.country
             val language = serie.language
 
-            if (hasText(language)) {
-                this.languageCountry!!.text = if (hasText(country)) {
+            if (language.hasText()) {
+                this.languageCountry!!.text = if (country.hasText()) {
                     this.getString(R.string.language_county, language, country)
                 } else {
                     this.getString(R.string.language_value, language)
@@ -128,7 +128,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
             val imdbRating = serie.imdbRating
             val imdbVotes = serie.imdbVotes
 
-            if (hasText(imdbRating) && hasText(imdbVotes)) {
+            if (imdbRating.hasText() && imdbVotes.hasText()) {
                 this.rating!!.text = this.getString(R.string.rating, imdbRating, imdbVotes)
                 this.rating!!.visibility = View.VISIBLE
             } else {

@@ -71,7 +71,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         val director = episode.director
         val writer = episode.writer
 
-        if (hasText(actors) || hasText(director) || hasText(writer)) {
+        if (actors.hasText() || director.hasText() || writer.hasText()) {
             if (this.castingActors != null) {
                 setText(this, this.castingActors!!, actors, R.string.actors, null)
             }
@@ -101,8 +101,8 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             val country = episode.country
             val language = episode.language
 
-            if (hasText(language)) {
-                if (hasText(country)) {
+            if (language.hasText()) {
+                if (country.hasText()) {
                     this.languageCountry!!.text = this.getString(R.string.language_county, language, country)
                 } else {
                     this.languageCountry!!.text = this.getString(R.string.language_value, language)
@@ -133,7 +133,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             val imdbRating = episode.imdbRating
             val imdbVotes = episode.imdbVotes
 
-            if (hasText(imdbRating) && hasText(imdbVotes)) {
+            if (imdbRating.hasText() && imdbVotes.hasText()) {
                 this.rating!!.text = this.getString(R.string.rating, imdbRating, imdbVotes)
                 this.rating!!.visibility = View.VISIBLE
             } else {
