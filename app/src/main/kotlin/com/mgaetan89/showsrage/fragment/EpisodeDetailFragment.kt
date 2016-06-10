@@ -481,7 +481,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             if (episode.subtitles.isNullOrEmpty()) {
                 it.visibility = View.GONE
             } else {
-                it.text = this.getString(R.string.subtitles_value, this.getDisplayableSubtitlesLanguages(episode.subtitles))
+                it.text = this.getString(R.string.subtitles_value, getDisplayableSubtitlesLanguages(episode.subtitles))
                 it.visibility = View.VISIBLE
             }
         }
@@ -490,12 +490,6 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     private fun displayStreamingMenus(episode: Episode) {
         this.castMenu?.isVisible = this.isCastMenuVisible(episode)
         this.playVideoMenu?.isVisible = this.isPlayMenuVisible(episode)
-    }
-
-    private fun getDisplayableSubtitlesLanguages(subtitles: String): String {
-        return subtitles.split(",").map {
-            Locale(it.substring(0, Math.min(2, it.length))).displayName
-        }.joinToString()
     }
 
     private fun getEpisodeVideoUrl(): Uri {
@@ -572,6 +566,25 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
                     SickRageApi.instance.services?.setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 0, status, callback)
                 })
                 .show()
+    }
+
+    companion object {
+        internal fun getDisplayableSubtitlesLanguages(subtitles: String): String {
+            val defaultLocale = Locale.getDefault()
+
+            Locale.setDefault(Locale.ENGLISH)
+
+            val locales = Locale.getAvailableLocales()
+            val subtitlesNames = subtitles.split(",").map {
+                locales.filter { locale ->
+                    locale.displayLanguage.startsWith(it, true)
+                }.firstOrNull { it != null }
+            }.filterNotNull()
+
+            Locale.setDefault(defaultLocale)
+
+            return subtitlesNames.map { it.displayLanguage }.filter { !it.isNullOrEmpty() }.joinToString()
+        }
     }
 
     private class MediaRouterCallback(fragment: EpisodeDetailFragment) : MediaRouter.Callback() {
