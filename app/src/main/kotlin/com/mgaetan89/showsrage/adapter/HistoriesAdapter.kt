@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.databinding.AdapterHistoriesListBinding
 import com.mgaetan89.showsrage.helper.DateTimeHelper
+import com.mgaetan89.showsrage.helper.toLocale
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.presenter.HistoryPresenter
 
@@ -29,6 +30,14 @@ class HistoriesAdapter(val histories: List<History>) : RecyclerView.Adapter<Hist
             }
 
             holder?.date.text = holder?.date.resources.getString(R.string.spaced_texts, statusString, DateTimeHelper.getRelativeDate(history.date, "yyyy-MM-dd hh:mm", 0)?.toString()?.toLowerCase())
+
+            if ("subtitled".equals(history.status, true)) {
+                val language = history.resource?.toLocale()?.displayLanguage
+
+                if (!language.isNullOrEmpty()) {
+                    holder?.date.append(" [$language]")
+                }
+            }
         }
     }
 

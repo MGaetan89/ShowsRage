@@ -41,7 +41,6 @@ import java.net.MalformedURLException
 import java.net.URI
 import java.net.URISyntaxException
 import java.net.URL
-import java.util.*
 
 class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpisode>, View.OnClickListener, RealmChangeListener<Episode> {
     private var airs: TextView? = null
@@ -570,18 +569,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 
     companion object {
         internal fun getDisplayableSubtitlesLanguages(subtitles: String): String {
-            val defaultLocale = Locale.getDefault()
-
-            Locale.setDefault(Locale.ENGLISH)
-
-            val locales = Locale.getAvailableLocales()
-            val subtitlesNames = subtitles.split(",").map {
-                locales.filter { locale ->
-                    locale.displayLanguage.startsWith(it, true)
-                }.firstOrNull { it != null }
-            }.filterNotNull()
-
-            Locale.setDefault(defaultLocale)
+            val subtitlesNames = subtitles.split(",").map { it.toLocale() }.filterNotNull()
 
             return subtitlesNames.map { it.displayLanguage }.filter { !it.isNullOrEmpty() }.joinToString()
         }
