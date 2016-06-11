@@ -156,6 +156,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     private var serviceConnection: ServiceConnection? = null
     private var show: Show? = null
     private var status: TextView? = null
+    private var subtitles: TextView? = null
     private var tabSession: CustomTabsSession? = null
     private var theTvDb: Button? = null
     private var webSearch: Button? = null
@@ -338,6 +339,11 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
                 this.status!!.visibility = View.GONE
             }
         }
+
+        this.subtitles?.let {
+            it.text = this.getString(R.string.subtitles_value, this.getString(if (show.subtitles == 0) R.string.no else R.string.yes))
+            it.visibility = View.VISIBLE
+        }
     }
 
     override fun onClick(view: View?) {
@@ -425,6 +431,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
             this.ratingStars = view.findViewById(R.id.show_rating_stars) as RatingBar?
             this.runtime = view.findViewById(R.id.show_runtime) as TextView?
             this.status = view.findViewById(R.id.show_status) as TextView?
+            this.subtitles = view.findViewById(R.id.show_subtitles) as TextView?
             this.theTvDb = view.findViewById(R.id.show_the_tvdb) as Button?
             this.webSearch = view.findViewById(R.id.show_web_search) as Button?
             this.year = view.findViewById(R.id.show_year) as TextView?
@@ -482,6 +489,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         this.ratingStars = null
         this.runtime = null
         this.status = null
+        this.subtitles = null
         this.theTvDb = null
         this.webSearch = null
         this.year = null

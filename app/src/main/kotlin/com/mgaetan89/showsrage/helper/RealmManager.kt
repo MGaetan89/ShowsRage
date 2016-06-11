@@ -1,7 +1,6 @@
 package com.mgaetan89.showsrage.helper
 
 import android.content.Context
-import com.mgaetan89.showsrage.BuildConfig
 import com.mgaetan89.showsrage.model.*
 import io.realm.*
 
@@ -191,13 +190,8 @@ object RealmManager {
 
     fun init(context: Context) {
         val configuration = RealmConfiguration.Builder(context).let {
-            it.schemaVersion(1)
+            it.schemaVersion(2)
             it.migration(Migration())
-
-            if (BuildConfig.DEBUG) {
-                it.deleteRealmIfMigrationNeeded()
-            }
-
             it.build()
         }
 
@@ -236,6 +230,10 @@ object RealmManager {
         this.clearHistory()
 
         this.getRealm()?.executeTransaction {
+            histories.forEach {
+                this.prepareHistoryForSaving(it)
+            }
+
             it.copyToRealmOrUpdate(histories)
         }
     }
@@ -361,6 +359,10 @@ object RealmManager {
 
     private fun prepareEpisodeForSaving(episode: OmDbEpisode) {
         episode.id = OmDbEpisode.buildId(episode.seriesId ?: "", episode.season ?: "", episode.episode ?: "")
+    }
+
+    private fun prepareHistoryForSaving(history: History) {
+        history.id = history.date + "_" + history.status
     }
 
     private fun prepareScheduleForSaving(schedule: Schedule, section: String) {

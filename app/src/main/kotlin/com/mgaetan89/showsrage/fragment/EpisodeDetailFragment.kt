@@ -171,6 +171,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     private var seasonNumber = 0
     private var show: Show? = null
     private var status: TextView? = null
+    private var subtitles: TextView? = null
     private var year: TextView? = null
 
     init {
@@ -311,6 +312,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             this.ratingStars = view.findViewById(R.id.episode_rating_stars) as RatingBar?
             this.runtime = view.findViewById(R.id.episode_runtime) as TextView?
             this.status = view.findViewById(R.id.episode_status) as TextView?
+            this.subtitles = view.findViewById(R.id.episode_subtitles) as TextView?
             this.year = view.findViewById(R.id.episode_year) as TextView?
 
             val searchEpisode = view.findViewById(R.id.search_episode) as FloatingActionButton?
@@ -368,6 +370,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         this.ratingStars = null
         this.runtime = null
         this.status = null
+        this.subtitles = null
         this.year = null
 
         super.onDestroyView()
@@ -472,6 +475,15 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             this.status!!.text = this.getString(R.string.status_value, statusString)
             this.status!!.visibility = View.VISIBLE
         }
+
+        this.subtitles?.let {
+            if (episode.subtitles.isNullOrEmpty()) {
+                it.visibility = View.GONE
+            } else {
+                it.text = this.getString(R.string.subtitles_value, getDisplayableSubtitlesLanguages(episode.subtitles))
+                it.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun displayStreamingMenus(episode: Episode) {
@@ -553,6 +565,14 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
                     SickRageApi.instance.services?.setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 0, status, callback)
                 })
                 .show()
+    }
+
+    companion object {
+        internal fun getDisplayableSubtitlesLanguages(subtitles: String): String {
+            val subtitlesNames = subtitles.split(",").filter { !it.isNullOrEmpty() }.map { it.toLocale() }.filterNotNull()
+
+            return subtitlesNames.map { it.displayLanguage }.filter { !it.isNullOrEmpty() }.joinToString()
+        }
     }
 
     private class MediaRouterCallback(fragment: EpisodeDetailFragment) : MediaRouter.Callback() {

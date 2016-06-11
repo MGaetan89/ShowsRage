@@ -9,11 +9,12 @@ import io.realm.annotations.PrimaryKey
 open class History : RealmObject() {
     open var date: String? = null
     open var episode: Int = 0
+    @PrimaryKey
+    open var id: String = ""
     @SerializedName("indexerid")
     open var indexerId: Int = 0
     open var provider: String? = null
     open var quality: String? = null
-    @PrimaryKey
     open var resource: String? = null
     @SerializedName("resource_path")
     open var resourcePath: String? = null
@@ -30,8 +31,9 @@ open class History : RealmObject() {
         val normalizedStatus = this.status?.toLowerCase()
 
         return when (normalizedStatus) {
-            "downloaded" -> return R.string.downloaded
-            "snatched" -> return R.string.snatched
+            "downloaded" -> R.string.downloaded
+            "snatched" -> R.string.snatched
+            "subtitled" -> R.string.subtitled
             else -> 0
         }
     }

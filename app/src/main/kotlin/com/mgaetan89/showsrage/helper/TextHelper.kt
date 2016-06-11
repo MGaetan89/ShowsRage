@@ -3,6 +3,7 @@ package com.mgaetan89.showsrage.helper
 import android.support.v4.app.Fragment
 import android.view.View
 import android.widget.TextView
+import java.util.*
 
 fun String?.hasText() = !this.isNullOrBlank() && !"N/A".equals(this, true)
 
@@ -19,4 +20,22 @@ fun setText(fragment: Fragment, textView: TextView, text: String?, label: Int, l
         layout?.visibility = View.GONE
         textView.visibility = View.GONE
     }
+}
+
+fun String.toLocale(): Locale? {
+    if (this.isNullOrEmpty()) {
+        return null
+    }
+
+    val defaultLocale = Locale.getDefault()
+
+    Locale.setDefault(Locale.ENGLISH)
+
+    val locale = Locale.getAvailableLocales().filter { locale ->
+        locale.displayLanguage.startsWith(this, true)
+    }.firstOrNull { it != null }
+
+    Locale.setDefault(defaultLocale)
+
+    return locale
 }
