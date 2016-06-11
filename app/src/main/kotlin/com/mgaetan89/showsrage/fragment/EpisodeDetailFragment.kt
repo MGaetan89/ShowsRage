@@ -569,7 +569,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 
     companion object {
         internal fun getDisplayableSubtitlesLanguages(subtitles: String): String {
-            val subtitlesNames = subtitles.split(",").map { it.toLocale() }.filterNotNull()
+            val subtitlesNames = subtitles.split(",").filter { !it.isNullOrEmpty() }.map { it.toLocale() }.filterNotNull()
 
             return subtitlesNames.map { it.displayLanguage }.filter { !it.isNullOrEmpty() }.joinToString()
         }

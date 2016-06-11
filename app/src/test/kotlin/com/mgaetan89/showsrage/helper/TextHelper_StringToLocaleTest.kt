@@ -24,7 +24,7 @@ class TextHelper_StringToLocaleTest(val string: String, val locale: Locale?) {
         @Parameterized.Parameters
         fun data(): Collection<Array<Any?>> {
             return listOf(
-                    arrayOf<Any?>("", Locale.ROOT),
+                    arrayOf<Any?>("", null),
                     arrayOf<Any?>("dumb", null),
                     arrayOf<Any?>("ge", Locale.GERMAN),
                     arrayOf<Any?>("eng", Locale.ENGLISH),

@@ -23,6 +23,10 @@ fun setText(fragment: Fragment, textView: TextView, text: String?, label: Int, l
 }
 
 fun String.toLocale(): Locale? {
+    if (this.isNullOrEmpty()) {
+        return null
+    }
+
     val defaultLocale = Locale.getDefault()
 
     Locale.setDefault(Locale.ENGLISH)

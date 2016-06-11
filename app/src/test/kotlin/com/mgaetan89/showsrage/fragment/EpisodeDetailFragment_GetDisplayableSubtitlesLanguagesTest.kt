@@ -29,7 +29,7 @@ class EpisodeDetailFragment_GetDisplayableSubtitlesLanguagesTest(val subtitles: 
                     arrayOf<Any>("eng", "English"),
                     arrayOf<Any>("french", "French"),
                     arrayOf<Any>("rus,spa", "Russian, Spanish"),
-                    arrayOf<Any>("po,,ita", "Portuguese, Italian")
+                    arrayOf<Any>("ch,,ita", "Chinese, Italian")
             )
         }
     }
