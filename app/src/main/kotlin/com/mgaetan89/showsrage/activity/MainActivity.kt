@@ -322,7 +322,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        RealmManager.init(this)
+        RealmManager.init(this, null)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
 

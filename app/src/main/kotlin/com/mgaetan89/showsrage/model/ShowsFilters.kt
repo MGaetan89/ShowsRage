@@ -21,7 +21,6 @@ object ShowsFilters {
                     ACTIVE -> R.id.filter_active
                     ALL -> R.id.filter_all
                     PAUSED -> R.id.filter_paused
-                    else -> R.id.filter_all
                 }
             }
         }

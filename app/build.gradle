@@ -21,6 +21,7 @@ android {
 		versionCode 24
 		versionName '1.4.1'
 		resConfigs 'en', 'fr'
+		testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 		vectorDrawables.useSupportLibrary = true
 	}
 
@@ -54,6 +55,7 @@ android {
 	}
 
 	sourceSets {
+		androidTest.java.srcDirs = ['src/androidTest/kotlin']
 		main.java.srcDirs = ['src/main/kotlin']
 		test.java.srcDirs = ['src/test/kotlin']
 	}
@@ -155,6 +157,14 @@ dependencies {
 	}
 	testCompile 'junit:junit:4.12'
 	testCompile 'org.mockito:mockito-core:2.0.76-beta'
+
+	androidTestCompile "com.android.support:support-annotations:${supportLibraryVersion}"
+	androidTestCompile 'com.android.support.test:rules:0.5'
+	androidTestCompile 'com.android.support.test:runner:0.5'
+	androidTestCompile('com.squareup.assertj:assertj-android:1.1.1') {
+		exclude group: 'com.android.support', module: 'support-annotations'
+	}
+	androidTestCompile 'junit:junit:4.12'
 }
 
 apply plugin: 'com.google.gms.google-services'

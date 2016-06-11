@@ -188,8 +188,15 @@ object RealmManager {
                 .findFirst()
     }
 
-    fun init(context: Context) {
+    fun init(context: Context, testContext: Context?) {
         val configuration = RealmConfiguration.Builder(context).let {
+            if (testContext != null) {
+                val testFile = "test.realm"
+
+                it.assetFile(testContext, testFile)
+                it.name(testFile)
+            }
+
             it.schemaVersion(2)
             it.migration(Migration())
             it.build()
