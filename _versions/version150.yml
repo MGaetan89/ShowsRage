@@ -4,5 +4,8 @@ current_tag: master
 previous_tag: v1.4
 features:
 - Filter logs
+changes:
 - Display an image for each episode
+- Display subtitles information on the show overview
+- Display subtitles information on the episode detail
 ---
