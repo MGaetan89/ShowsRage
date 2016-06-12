@@ -23,10 +23,10 @@ env:
     - ANDROID_TARGET=android-17   ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-18   ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-19   ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-21   ANDROID_ABI=x86_64
-    - ANDROID_TARGET=android-22   ANDROID_ABI=x86_64
-    - ANDROID_TARGET=android-23   ANDROID_ABI=x86_64
-    - ANDROID_TARGET=android-24   ANDROID_ABI=x86_64
+    - ANDROID_TARGET=android-21   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-22   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-23   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-24   ANDROID_ABI=armeabi-v7a
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
