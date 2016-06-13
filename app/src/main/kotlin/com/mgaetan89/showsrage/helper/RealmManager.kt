@@ -335,7 +335,7 @@ object RealmManager {
         }
     }
 
-    private fun getRealm(): Realm? {
+    internal fun getRealm(): Realm? {
         return if (this.realm?.isClosed ?: true) {
             null
         } else {

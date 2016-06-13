@@ -36,6 +36,7 @@ before_install:
   - echo y | android update sdk --all --no-ui --force --filter android-24
 
 before_script:
+  - android list targets
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
@@ -43,9 +44,6 @@ before_script:
 
 script:
   - ./gradlew build testDebug connectedDebugAndroidTest
-
-after_failure:
-  - android list targets
 
 after_success:
   - ./gradlew jacocoTestReport coveralls
