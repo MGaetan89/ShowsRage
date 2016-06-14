@@ -73,48 +73,9 @@ android {
 	}
 }
 
-jacoco {
-	toolVersion = '0.7.4.201502262128'
-}
-
 tasks.withType(Test) {
 	testLogging {
 		exceptionFormat 'full'
-	}
-}
-
-// From https://github.com/nenick/android-gradle-template/blob/master/App/build.gradle
-task jacocoTestReport(type: JacocoReport, dependsOn: ['test']) {
-	group = 'Reporting'
-	description = 'Generates Jacoco coverage reports: XML and HTML'
-	//outputs.upToDateWhen { false }
-
-	// use hidden configuration, for details look into JacocoPlugin.groovy
-	jacocoClasspath = project.configurations['androidJacocoAnt']
-
-	// exclude auto-generated classes and tests
-	def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
-	def debugTree = fileTree(dir: "${project.buildDir}/intermediates/classes/debug", excludes: fileFilter)
-	def mainSrc = ["${project.projectDir}/src/main/java", "${project.projectDir}/src/main/kotlin"]
-
-	sourceDirectories = files(mainSrc)
-	classDirectories = files([debugTree])
-	executionData = fileTree(dir: project.projectDir, includes: ['**/*.exec', '**/*.ec'])
-
-	reports {
-		csv {
-			enabled = false
-		}
-
-		html {
-			enabled = true
-			destination = "${buildDir}/reports/jacoco"
-		}
-
-		xml {
-			enabled = true
-			destination = "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
-		}
 	}
 }
 
@@ -157,7 +118,7 @@ dependencies {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
 	testCompile 'junit:junit:4.12'
-	testCompile 'org.mockito:mockito-core:2.0.54-beta'
+	testCompile 'org.mockito:mockito-core:2.0.57-beta'
 }
 
 apply plugin: 'com.google.gms.google-services'
