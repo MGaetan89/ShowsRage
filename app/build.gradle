@@ -11,13 +11,13 @@ if (project.rootProject.file('local.properties').exists()) {
 }
 
 android {
-	compileSdkVersion 23
-	buildToolsVersion '23.0.3'
+	compileSdkVersion 24
+	buildToolsVersion '24.0.0'
 
 	defaultConfig {
 		applicationId 'com.mgaetan89.showsrage'
 		minSdkVersion 15
-		targetSdkVersion 23
+		targetSdkVersion 24
 		versionCode 24
 		versionName '1.4.1'
 		resConfigs 'en', 'fr'
@@ -122,7 +122,7 @@ kapt {
 	generateStubs = true
 }
 
-def supportLibraryVersion = '23.4.0'
+def supportLibraryVersion = '24.0.0'
 
 dependencies {
 	kapt 'com.android.databinding:compiler:2.1.2'

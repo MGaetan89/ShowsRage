@@ -55,10 +55,12 @@ class ScheduleAdapter(val schedules: List<Schedule>) : RecyclerView.Adapter<Sche
             val context = view?.context ?: return
 
             if (view?.id == R.id.episode_actions) {
-                with(PopupMenu(context, this.actions)) {
-                    inflate(R.menu.episode_action)
-                    setOnMenuItemClickListener(this@ViewHolder)
-                    show()
+                if (this.actions != null) {
+                    with(PopupMenu(context, this.actions)) {
+                        inflate(R.menu.episode_action)
+                        setOnMenuItemClickListener(this@ViewHolder)
+                        show()
+                    }
                 }
             } else {
                 val schedule = schedules[adapterPosition]

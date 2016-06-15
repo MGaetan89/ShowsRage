@@ -5,12 +5,12 @@ branches:
     - master
 
 jdk:
-  - oraclejdk7
+  - oraclejdk8
 
 android:
   components:
     - android-23
-    - build-tools-23.0.3
+    - build-tools-24.0.0
     - extra-android-m2repository
     - extra-google-m2repository
     - platform-tools
@@ -27,12 +27,14 @@ env:
     - ANDROID_TARGET=android-21
     - ANDROID_TARGET=android-22
     - ANDROID_TARGET=android-23
+    - ANDROID_TARGET=android-24
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 
 before_install:
-  - echo y | android update sdk --all --no-ui --force --filter build-tools-23.0.3
+  - echo y | android update sdk --all --no-ui --force --filter build-tools-24.0.0
+  - echo y | android update sdk --all --no-ui --force --filter android-24
 
 script:
   - ./gradlew build testDebug
