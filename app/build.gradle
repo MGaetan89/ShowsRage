@@ -157,7 +157,7 @@ dependencies {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
 	testCompile 'junit:junit:4.12'
-	testCompile 'org.mockito:mockito-core:2.0.54-beta'
+	testCompile 'org.mockito:mockito-core:2.0.57-beta'
 }
 
 apply plugin: 'com.google.gms.google-services'
