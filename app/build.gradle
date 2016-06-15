@@ -11,13 +11,13 @@ if (project.rootProject.file('local.properties').exists()) {
 }
 
 android {
-	compileSdkVersion 'android-N'
-	buildToolsVersion '24.0.0 rc1'
+	compileSdkVersion 24
+	buildToolsVersion '24.0.0'
 
 	defaultConfig {
 		applicationId 'com.mgaetan89.showsrage'
-		minSdkVersion 'N'
-		targetSdkVersion 'N'
+		minSdkVersion 15
+		targetSdkVersion 24
 		versionCode 24
 		versionName '1.4.1'
 		resConfigs 'en', 'fr'
@@ -25,8 +25,8 @@ android {
 	}
 
 	compileOptions {
-		sourceCompatibility JavaVersion.VERSION_1_8
-		targetCompatibility JavaVersion.VERSION_1_8
+		sourceCompatibility JavaVersion.VERSION_1_7
+		targetCompatibility JavaVersion.VERSION_1_7
 	}
 
 	signingConfigs {
@@ -122,7 +122,7 @@ kapt {
 	generateStubs = true
 }
 
-def supportLibraryVersion = '24.0.0-alpha1'
+def supportLibraryVersion = '24.0.0'
 
 dependencies {
 	kapt 'com.android.databinding:compiler:2.1.2'
