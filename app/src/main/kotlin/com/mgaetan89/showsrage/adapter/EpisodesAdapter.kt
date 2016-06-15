@@ -82,10 +82,12 @@ class EpisodesAdapter(val episodes: List<Episode>, val seasonNumber: Int, val in
             val context = view?.context ?: return
 
             if (view?.id == R.id.episode_actions) {
-                with(PopupMenu(context, this.actions)) {
-                    inflate(R.menu.episode_action)
-                    setOnMenuItemClickListener(this@ViewHolder)
-                    show()
+                if (this.actions != null) {
+                    with(PopupMenu(context, this.actions)) {
+                        inflate(R.menu.episode_action)
+                        setOnMenuItemClickListener(this@ViewHolder)
+                        show()
+                    }
                 }
             } else {
                 with(Intent(Constants.Intents.ACTION_EPISODE_SELECTED)) {
