@@ -122,6 +122,7 @@ kapt {
 	generateStubs = true
 }
 
+def googleServicesVersion = '9.0.2'
 def supportLibraryVersion = '24.0.0'
 
 dependencies {
@@ -141,9 +142,9 @@ dependencies {
 	compile "com.android.support:support-vector-drawable:${supportLibraryVersion}"
 	compile 'com.github.bumptech.glide:glide:3.7.0'
 	compile 'com.github.bumptech.glide:okhttp-integration:1.4.0'
-	compile 'com.google.android.gms:play-services-cast:9.0.2'
-	compile 'com.google.firebase:firebase-analytics:9.0.2'
-	compile 'com.google.firebase:firebase-crash:9.0.2'
+	compile "com.google.android.gms:play-services-cast:${googleServicesVersion}"
+	compile "com.google.firebase:firebase-analytics:${googleServicesVersion}"
+	compile "com.google.firebase:firebase-crash:${googleServicesVersion}"
 	compile 'com.squareup.okhttp:okhttp:2.5.0'
 	compile 'com.squareup.okhttp:okhttp-urlconnection:2.5.0'
 	compile 'com.squareup.retrofit:retrofit:1.9.0'
@@ -157,7 +158,7 @@ dependencies {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
 	testCompile 'junit:junit:4.12'
-	testCompile 'org.mockito:mockito-core:2.0.57-beta'
+	testCompile 'org.mockito:mockito-core:2.0.59-beta'
 }
 
 apply plugin: 'com.google.gms.google-services'
