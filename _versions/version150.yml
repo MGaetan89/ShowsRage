@@ -3,6 +3,7 @@ name: Version 1.5
 current_tag: master
 previous_tag: v1.4
 features:
+- Search subtitles for an episode
 - Filter logs
 changes:
 - Display an image for each episode
