@@ -3,6 +3,9 @@
 	<item
 		android:id="@+id/menu_episode_search"
 		android:title="@string/search_episode" />
+	<item
+		android:id="@+id/menu_subtitles_search"
+		android:title="@string/search_subtitles" />
 	<item android:title="@string/set_status">
 		<menu>
 			<group>

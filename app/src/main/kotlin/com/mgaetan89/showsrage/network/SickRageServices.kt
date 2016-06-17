@@ -76,6 +76,9 @@ interface SickRageServices {
     @GET("/{api_path}/{api_key}/?cmd=episode.search")
     fun searchEpisode(@Query("indexerid") indexerId: Int, @Query("season") season: Int, @Query("episode") episode: Int, callback: Callback<GenericResponse>)
 
+    @GET("/{api_path}/{api_key}/?cmd=episode.subtitlesearch")
+    fun searchSubtitles(@Query("indexerid") indexerId: Int, @Query("season") season: Int, @Query("episode") episode: Int, callback: Callback<GenericResponse>)
+
     @GET("/{api_path}/{api_key}/?cmd=episode.setstatus")
     fun setEpisodeStatus(@Query("indexerid") indexerId: Int, @Query("season") season: Int, @Query("episode") episode: Int, @Query("force") force: Int, @Query("status") status: String, callback: Callback<GenericResponse>)
 

@@ -45,6 +45,7 @@ class ShowsRageReceiver(activity: MainActivity) : BroadcastReceiver() {
             R.id.menu_episode_set_status_ignored,
             R.id.menu_episode_set_status_skipped,
             R.id.menu_episode_set_status_wanted -> this.setEpisodeStatus(seasonNumber, episodeNumber, indexId, status)
+            R.id.menu_subtitles_search -> this.searchSubtitles(seasonNumber, episodeNumber, indexId)
         }
     }
 
@@ -101,6 +102,14 @@ class ShowsRageReceiver(activity: MainActivity) : BroadcastReceiver() {
         SickRageApi.instance.services?.searchEpisode(indexerId, seasonNumber, episodeNumber, activity)
     }
 
+    private fun searchSubtitles(seasonNumber: Int, episodeNumber: Int, indexerId: Int) {
+        val activity = this.activityReference.get() ?: return
+
+        Toast.makeText(activity, activity.getString(R.string.subtitles_search, episodeNumber, seasonNumber), Toast.LENGTH_SHORT).show()
+
+        SickRageApi.instance.services?.searchSubtitles(indexerId, seasonNumber, episodeNumber, activity)
+    }
+
     private fun setEpisodeStatus(seasonNumber: Int, episodeNumber: Int, indexerId: Int, status: String) {
         val activity = this.activityReference.get() ?: return
 
@@ -112,6 +121,7 @@ class ShowsRageReceiver(activity: MainActivity) : BroadcastReceiver() {
                 .setNegativeButton(R.string.keep, { dialog, which ->
                     SickRageApi.instance.services?.setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 0, status, activity)
                 })
+                .setNeutralButton(R.string.cancel, null)
                 .show()
     }
 }

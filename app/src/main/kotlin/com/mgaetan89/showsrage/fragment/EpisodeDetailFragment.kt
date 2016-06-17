@@ -6,9 +6,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v4.view.MenuItemCompat
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.MediaRouteActionProvider
 import android.support.v7.app.MediaRouteDiscoveryFragment
 import android.support.v7.media.MediaControlIntent
@@ -382,13 +382,19 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             R.id.menu_episode_set_status_ignored,
             R.id.menu_episode_set_status_skipped,
             R.id.menu_episode_set_status_wanted -> {
-                this.setEpisodeStatus(this.seasonNumber, this.episodeNumber, Episode.getStatusForMenuId(item?.itemId))
+                this.setEpisodeStatus(this.seasonNumber, this.episodeNumber, this.show?.indexerId ?: 0, item!!.itemId)
 
                 return true
             }
 
             R.id.menu_play_video -> {
                 this.clickPlayVideo()
+
+                return true
+            }
+
+            R.id.menu_subtitles_search -> {
+                this.searchSubtitles(this.seasonNumber, this.episodeNumber, this.show?.indexerId ?: 0)
 
                 return true
             }
@@ -548,23 +554,26 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         return episodeDownloaded && viewInExternalVideoPlayer
     }
 
-    private fun setEpisodeStatus(seasonNumber: Int, episodeNumber: Int, status: String?) {
-        if (status == null || this.show == null) {
-            return
+    private fun setEpisodeStatus(seasonNumber: Int, episodeNumber: Int, indexerId: Int, menuId: Int) {
+        with(Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED)) {
+            putExtra(Constants.Bundle.EPISODE_NUMBER, episodeNumber)
+            putExtra(Constants.Bundle.INDEXER_ID, indexerId)
+            putExtra(Constants.Bundle.MENU_ID, menuId)
+            putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)
+
+            LocalBroadcastManager.getInstance(context).sendBroadcast(this)
         }
+    }
 
-        val callback = GenericCallback(this.activity)
-        val indexerId = this.show!!.indexerId
+    private fun searchSubtitles(seasonNumber: Int, episodeNumber: Int, indexerId: Int) {
+        with(Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED)) {
+            putExtra(Constants.Bundle.EPISODE_NUMBER, episodeNumber)
+            putExtra(Constants.Bundle.INDEXER_ID, indexerId)
+            putExtra(Constants.Bundle.MENU_ID, R.id.menu_subtitles_search)
+            putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)
 
-        AlertDialog.Builder(this.context)
-                .setMessage(R.string.replace_existing_episode)
-                .setPositiveButton(R.string.replace, { dialog, which ->
-                    SickRageApi.instance.services?.setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 1, status, callback)
-                })
-                .setNegativeButton(R.string.keep, { dialog, which ->
-                    SickRageApi.instance.services?.setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 0, status, callback)
-                })
-                .show()
+            LocalBroadcastManager.getInstance(context).sendBroadcast(this)
+        }
     }
 
     companion object {

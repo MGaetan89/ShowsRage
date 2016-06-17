@@ -139,6 +139,7 @@
 	<string name="search">Search</string>
 	<string name="search_episode">Search episode</string>
 	<string name="search_show">Search show</string>
+	<string name="search_subtitles">Search subtitles</string>
 	<string name="season_episode_name">S<xliff:g example="01" id="season">%1$02d</xliff:g>E<xliff:g example="01" id="episode">%2$02d</xliff:g> - <xliff:g example="Pilot" id="name">%3$s</xliff:g></string>
 	<string name="season_number">Season %1$d</string>
 	<string name="seasons_sort">Seasons sort</string>
@@ -166,6 +167,7 @@
 	<string name="stream_in_chromecast">Stream over Google Cast™</string>
 	<string name="subtitled">Subtitled</string>
 	<string name="subtitles">Subtitles</string>
+	<string name="subtitles_search">Searching for subtitles for episode <xliff:g example="1" id="episode">%1$d</xliff:g> in season <xliff:g example="1" id="season">%2$s</xliff:g></string>
 	<string name="subtitles_value">Subtitles: <xliff:g example="Yes" id="subtitles">%1$s</xliff:g></string>
 	<string name="symbolic_link">Symbolic link</string>
 	<string name="test">Test</string>
