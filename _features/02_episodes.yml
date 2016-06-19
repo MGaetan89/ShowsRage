@@ -5,6 +5,7 @@ left:
   image: https://raw.githubusercontent.com/MGaetan89/ShowsRage/master/screenshots/Phone/3.%20Episodes%20list.png
   entries:
   - Search episode
+  - Search subtitles
   - Set episode status
 right:
   name: Episode detail

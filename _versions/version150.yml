@@ -1,7 +1,8 @@
 ---
 name: Version 1.5
 current_tag: master
-previous_tag: v1.4
+previous_tag: v1.4.1
+milestone: 1.5
 features:
 - Search subtitles for an episode
 - Filter logs

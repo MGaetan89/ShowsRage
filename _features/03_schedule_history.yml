@@ -6,11 +6,13 @@ left:
   entries:
   - See missed, today and future episodes
   - Search episode
+  - Search subtitles
   - Set episode status
 right:
   name: History
   image: https://raw.githubusercontent.com/MGaetan89/ShowsRage/master/screenshots/Phone/6.%20History.png
   entries:
   - See snatch and download history
+  - See subtitles history
   - Clear history
 ---
