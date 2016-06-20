@@ -35,12 +35,44 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.ShowsRageApplication
-import com.mgaetan89.showsrage.fragment.*
+import com.mgaetan89.showsrage.extension.changeLocale
+import com.mgaetan89.showsrage.fragment.HistoryFragment
+import com.mgaetan89.showsrage.fragment.LogsFragment
+import com.mgaetan89.showsrage.fragment.PostProcessingFragment
+import com.mgaetan89.showsrage.fragment.RemoteControlFragment
+import com.mgaetan89.showsrage.fragment.ScheduleFragment
+import com.mgaetan89.showsrage.fragment.SettingsAboutFragment
+import com.mgaetan89.showsrage.fragment.SettingsAboutLicensesFragment
+import com.mgaetan89.showsrage.fragment.SettingsAboutShowsRageFragment
+import com.mgaetan89.showsrage.fragment.SettingsBehaviorFragment
+import com.mgaetan89.showsrage.fragment.SettingsDisplayFragment
+import com.mgaetan89.showsrage.fragment.SettingsExperimentalFeaturesFragment
+import com.mgaetan89.showsrage.fragment.SettingsFragment
+import com.mgaetan89.showsrage.fragment.SettingsServerApiKeyFragment
+import com.mgaetan89.showsrage.fragment.SettingsServerFragment
+import com.mgaetan89.showsrage.fragment.ShowsFragment
+import com.mgaetan89.showsrage.fragment.StatisticsFragment
 import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.helper.ShowsArchitect
 import com.mgaetan89.showsrage.helper.ShowsRageReceiver
 import com.mgaetan89.showsrage.helper.Utils
-import com.mgaetan89.showsrage.model.*
+import com.mgaetan89.showsrage.model.Episode
+import com.mgaetan89.showsrage.model.GenericResponse
+import com.mgaetan89.showsrage.model.History
+import com.mgaetan89.showsrage.model.LogEntry
+import com.mgaetan89.showsrage.model.OmDbEpisode
+import com.mgaetan89.showsrage.model.Quality
+import com.mgaetan89.showsrage.model.RealmShowStat
+import com.mgaetan89.showsrage.model.RealmString
+import com.mgaetan89.showsrage.model.RootDir
+import com.mgaetan89.showsrage.model.RootDirs
+import com.mgaetan89.showsrage.model.Schedule
+import com.mgaetan89.showsrage.model.Serie
+import com.mgaetan89.showsrage.model.Show
+import com.mgaetan89.showsrage.model.ShowsStat
+import com.mgaetan89.showsrage.model.ThemeColors
+import com.mgaetan89.showsrage.model.UpdateResponse
+import com.mgaetan89.showsrage.model.UpdateResponseWrapper
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.view.ColoredToolbar
 import io.kolumbus.Kolumbus
@@ -295,6 +327,12 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         if (savedInstanceState == null) {
+            // Set the correct language
+            val newLocale = SettingsFragment.getPreferredLocale(preferences.getString("display_language", ""))
+
+            this.resources.changeLocale(newLocale)
+
+            // Set the correct theme
             if (preferences.getBoolean("display_theme", true)) {
                 this.delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             } else {
