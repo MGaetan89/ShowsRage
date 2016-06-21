@@ -75,7 +75,9 @@
 	<string name="hours_6">Every 3 hours</string>
 	<string name="hours_12">Every 12 hours</string>
 	<string name="ignore">Ignore</string>
+	<string name="ignore_articles">Ignore articles when sorting</string>
 	<string name="ignored">Ignored</string>
+	<string name="ignored_articles">\"A\", \"An\", \"The\"</string>
 	<string name="info">Info</string>
 	<string name="keep">Keep</string>
 	<string name="language">Language</string>

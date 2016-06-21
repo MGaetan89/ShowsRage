@@ -26,6 +26,12 @@
 
 	<CheckBoxPreference
 		android:defaultValue="false"
+		android:key="display_ignore_articles"
+		android:summary="@string/ignored_articles"
+		android:title="@string/ignore_articles" />
+
+	<CheckBoxPreference
+		android:defaultValue="false"
 		android:key="display_seasons_sort"
 		android:summaryOff="@string/descending"
 		android:summaryOn="@string/ascending"
