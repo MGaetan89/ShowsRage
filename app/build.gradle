@@ -6,8 +6,8 @@ apply plugin: 'realm-android'
 
 def properties = new Properties()
 
-if (project.rootProject.file('local.properties').exists()) {
-	properties.load(project.rootProject.file('local.properties').newDataInputStream())
+if (rootProject.file('local.properties').exists()) {
+	properties.load(rootProject.file('local.properties').newDataInputStream())
 }
 
 android {
@@ -90,16 +90,16 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['test']) {
 	//outputs.upToDateWhen { false }
 
 	// use hidden configuration, for details look into JacocoPlugin.groovy
-	jacocoClasspath = project.configurations['androidJacocoAnt']
+	jacocoClasspath = configurations['androidJacocoAnt']
 
 	// exclude auto-generated classes and tests
 	def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
-	def debugTree = fileTree(dir: "${project.buildDir}/intermediates/classes/debug", excludes: fileFilter)
-	def mainSrc = ["${project.projectDir}/src/main/java", "${project.projectDir}/src/main/kotlin"]
+	def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+	def mainSrc = "${projectDir}/src/main/kotlin"
 
-	sourceDirectories = files(mainSrc)
+	sourceDirectories = files([mainSrc])
 	classDirectories = files([debugTree])
-	executionData = fileTree(dir: project.projectDir, includes: ['**/*.exec', '**/*.ec'])
+	executionData = fileTree(dir: projectDir, includes: ['**/*.exec', '**/*.ec'])
 
 	reports {
 		csv {
