@@ -75,15 +75,19 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
     internal open fun getXmlResourceFile() = R.xml.settings
 
     private fun setupDisplayLanguage(preference: Preference) {
-        val preferredLanguage = getPreferredLocale(this.getPreferenceValue("display_language", "")).displayLanguage
+        val displayLanguage = this.getPreferenceValue("display_language", "")
+        val preferredLocale = getPreferredLocale(displayLanguage)
 
         if (preference is ListPreference) {
-            preference.setDefaultValue(preferredLanguage)
             preference.entries = Constants.SUPPORTED_LOCALES.map { it.displayLanguage.capitalize() }.toTypedArray()
             preference.entryValues = Constants.SUPPORTED_LOCALES.map { it.language }.toTypedArray()
+
+            if (displayLanguage.isNullOrEmpty()) {
+                preference.value = preferredLocale.language
+            }
         }
 
-        preference.summary = preferredLanguage.capitalize()
+        preference.summary = preferredLocale.displayLanguage.capitalize()
     }
 
     private fun updatePreference(preference: Preference?) {
