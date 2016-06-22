@@ -17,22 +17,22 @@ fun setBackgroundTint(textView: TextView, @ColorRes tint: Int) {
     }
 }
 
-@BindingAdapter("bind:imageUrl", "bind:circle")
+@BindingAdapter("imageUrl", "circle")
 fun setImageUrl(imageView: ImageView, imageUrl: String?, circle: Boolean) {
     ImageLoader.load(imageView, imageUrl, circle)
 }
 
-@BindingAdapter("bind:selected")
+@BindingAdapter("selected")
 fun setSelected(textView: TextView, selected: Boolean) {
     textView.isSelected = selected
 }
 
-@BindingAdapter("bind:textColorRes")
+@BindingAdapter("textColorRes")
 fun setTextColorRes(textView: TextView, @ColorRes colorRes: Int) {
     textView.setTextColor(ContextCompat.getColor(textView.context, colorRes))
 }
 
-@BindingAdapter("bind:textRes")
+@BindingAdapter("textRes")
 fun setTextRes(textView: TextView, @StringRes textRes: Int) {
     if (textRes == 0) {
         textView.text = ""
