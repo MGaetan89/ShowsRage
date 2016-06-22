@@ -39,6 +39,7 @@ object Constants {
 
     object Preferences {
         object Fields {
+            val IGNORE_ARTICLES = "display_ignore_articles"
             val LAST_VERSION_CHECK_TIME = "last_version_check_time"
             val LOGS_LEVEL = "logs_level"
             val SHOW_FILTER_STATE = "show_filter_state"
@@ -46,6 +47,7 @@ object Constants {
         }
 
         object Defaults {
+            val IGNORE_ARTICLES = false
             val LOGS_LEVEL = LogLevel.ERROR
             val SHOW_FILTER_STATE = ShowsFilters.State.ALL.name
             val SHOW_FILTER_STATUS = ShowsFilters.Status.ALL.status
