@@ -132,6 +132,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        var backStackName: String? = null
         var eventHandled = true
         var fragment: Fragment? = null
         val id = item.itemId
@@ -192,7 +193,10 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
             R.id.menu_schedule -> fragment = ScheduleFragment()
 
-            R.id.menu_settings -> fragment = SettingsFragment()
+            R.id.menu_settings -> {
+                backStackName = "settings"
+                fragment = SettingsFragment()
+            }
 
             R.id.menu_shows -> fragment = ShowsFragment()
 
@@ -219,9 +223,14 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
             this.toolbar?.menu?.clear()
 
-            this.supportFragmentManager.beginTransaction()
-                    .replace(R.id.content, fragment)
-                    .commit()
+            val fragmentTransaction = this.supportFragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.content, fragment)
+
+            if (!backStackName.isNullOrEmpty()) {
+                fragmentTransaction.addToBackStack(backStackName)
+            }
+
+            fragmentTransaction.commit()
         }
 
         return eventHandled
