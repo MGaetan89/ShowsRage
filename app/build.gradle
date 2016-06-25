@@ -74,7 +74,7 @@ android {
 }
 
 jacoco {
-	toolVersion = '0.7.4.201502262128'
+	toolVersion = '0.7.7.201606060606'
 }
 
 tasks.withType(Test) {
