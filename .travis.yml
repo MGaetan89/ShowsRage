@@ -40,7 +40,7 @@ script:
   - ./gradlew build testDebug
 
 after_success:
-  - ./gradlew jacocoTestReport coveralls
+  - ./gradlew --stacktrace jacocoTestReport coveralls
 
 sudo: false
 
