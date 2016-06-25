@@ -33,16 +33,6 @@ class ShowPresenterTest(
     }
 
     @Test
-    fun getDownloaded() {
-        assertThat(this.presenter.getDownloaded()).isEqualTo(this.downloaded)
-    }
-
-    @Test
-    fun getEpisodesCount() {
-        assertThat(this.presenter.getEpisodesCount()).isEqualTo(this.episodesCount)
-    }
-
-    @Test
     fun getNetwork() {
         assertThat(this.presenter.getNetwork()).isEqualTo(this.network)
     }
@@ -60,11 +50,6 @@ class ShowPresenterTest(
     @Test
     fun getShowName() {
         assertThat(this.presenter.getShowName()).isEqualTo(this.showName)
-    }
-
-    @Test
-    fun getSnatched() {
-        assertThat(this.presenter.getSnatched()).isEqualTo(this.snatched)
     }
 
     @Test

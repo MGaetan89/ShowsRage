@@ -34,4 +34,8 @@ object Constants {
         val ACTION_SEARCH_RESULT_SELECTED = BuildConfig.APPLICATION_ID + ".action.search_result_selected"
         val ACTION_SHOW_SELECTED = BuildConfig.APPLICATION_ID + ".action.show_selected"
     }
+
+    enum class Payloads {
+        SHOWS_STATS
+    }
 }

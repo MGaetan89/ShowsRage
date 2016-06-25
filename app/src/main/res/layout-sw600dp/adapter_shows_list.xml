@@ -7,6 +7,10 @@
 		<variable
 			name="show"
 			type="com.mgaetan89.showsrage.presenter.ShowPresenter" />
+
+		<variable
+			name="stats"
+			type="com.mgaetan89.showsrage.model.RealmShowStat" />
 	</data>
 
 	<android.support.v7.widget.CardView
@@ -19,6 +23,7 @@
 			android:id="@+id/stub"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			bind:show="@{show}" />
+			bind:show="@{show}"
+			bind:stats="@{stats}" />
 	</android.support.v7.widget.CardView>
 </layout>

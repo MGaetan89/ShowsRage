@@ -10,6 +10,10 @@
 		<variable
 			name="show"
 			type="com.mgaetan89.showsrage.presenter.ShowPresenter" />
+
+		<variable
+			name="stats"
+			type="com.mgaetan89.showsrage.model.RealmShowStat" />
 	</data>
 
 	<FrameLayout
@@ -94,9 +98,9 @@
 			android:layout_height="4dp"
 			android:layout_gravity="bottom"
 			android:layout_marginBottom="-2dp"
-			android:max="@{show.episodesCount}"
-			android:progress="@{show.downloaded}"
-			android:secondaryProgress="@{show.downloaded + show.snatched}"
+			android:max="@{stats.episodesCount}"
+			android:progress="@{stats.downloaded}"
+			android:secondaryProgress="@{stats.downloaded + stats.snatched}"
 			tools:progress="33"
 			tools:secondaryProgress="66" />
 	</FrameLayout>
