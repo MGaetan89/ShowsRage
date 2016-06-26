@@ -126,7 +126,7 @@ def googleServicesVersion = '9.0.2'
 def supportLibraryVersion = '24.0.0'
 
 dependencies {
-	kapt 'com.android.databinding:compiler:2.1.2'
+	kapt 'com.android.databinding:compiler:2.2.0-alpha4'
 
 	compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
 	compile "com.android.support:cardview-v7:${supportLibraryVersion}"
@@ -158,7 +158,7 @@ dependencies {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
 	testCompile 'junit:junit:4.12'
-	testCompile 'org.mockito:mockito-core:2.0.70-beta'
+	testCompile 'org.mockito:mockito-core:2.0.72-beta'
 }
 
 apply plugin: 'com.google.gms.google-services'
