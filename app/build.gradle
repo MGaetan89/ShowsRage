@@ -90,26 +90,26 @@ task jacocoTestReport(type: JacocoReport /*, dependsOn: ['test'] */) {
 	//outputs.upToDateWhen { false }
 
 	// use hidden configuration, for details look into JacocoPlugin.groovy
-	jacocoClasspath = project.configurations['androidJacocoAnt']
+	jacocoClasspath = configurations['androidJacocoAnt']
 
 	// exclude auto-generated classes and tests
 	def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
-	def debugTree = fileTree(dir: "${project.buildDir}/intermediates/classes/debug", excludes: fileFilter)
-	def mainSrc = "${project.projectDir}/src/main/kotlin"
+	def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+	def mainSrc = "${projectDir}/src/main/kotlin"
 
 	sourceDirectories = files([mainSrc])
 	classDirectories = files([debugTree])
-	executionData = fileTree(dir: project.projectDir, includes: ['**/*.exec', '**/*.ec'])
+	executionData = fileTree(dir: projectDir, includes: ['**/*.exec', '**/*.ec'])
 
 	reports {
 		csv.enabled false
 		html {
 			enabled = true
-			destination = "${project.buildDir}/reports/jacoco"
+			destination = "${buildDir}/reports/jacoco"
 		}
 		xml {
 			enabled = true
-			destination = "${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+			destination = "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
 		}
 	}
 }
