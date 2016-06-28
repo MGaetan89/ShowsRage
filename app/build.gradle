@@ -102,11 +102,15 @@ task jacocoTestReport(type: JacocoReport /*, dependsOn: ['test'] */) {
 	executionData = fileTree(dir: projectDir, includes: ['**/*.exec', '**/*.ec'])
 
 	reports {
-		csv.enabled false
+		csv {
+			enabled = false
+		}
+
 		html {
 			enabled = true
 			destination = "${buildDir}/reports/jacoco"
 		}
+
 		xml {
 			enabled = true
 			destination = "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
