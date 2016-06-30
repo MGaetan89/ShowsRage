@@ -1,4 +1,4 @@
-package com.mgaetan89.showsrage.helper
+package com.mgaetan89.showsrage.fragment
 
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.network.SickRageApi
@@ -8,10 +8,10 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ShowsFilterReceiver_MatchSearchQueryTest(val show: Show, val searchQuery: String?, val match: Boolean) {
+class ShowsSectionFragment_FilterReceiver_MatchSearchQueryTest(val show: Show, val searchQuery: String?, val match: Boolean) {
     @Test
     fun matchSearchQuery() {
-        assertThat(ShowsFilterReceiver.matchSearchQuery(this.show, this.searchQuery)).isEqualTo(this.match)
+        assertThat(ShowsSectionFragment.FilterReceiver.matchSearchQuery(this.show, this.searchQuery)).isEqualTo(this.match)
     }
 
     companion object {
