@@ -27,8 +27,6 @@ class ShowsFilterReceiver(fragment: ShowsSectionFragment) : BroadcastReceiver() 
         val filteredShows = fragment.shows?.let {
             it.filter {
                 match(it, ShowsFilters.State.valueOf(filterState), filterStatus, searchQuery)
-            }.sortedBy {
-                getSortableShowName(it, ignoreArticles)
             }
         } ?: emptyList()
 
