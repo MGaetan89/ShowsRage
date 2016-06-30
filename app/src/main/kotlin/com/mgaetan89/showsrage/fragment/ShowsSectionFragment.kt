@@ -135,10 +135,12 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
             val ignoreArticles = preferences.getBoolean(Constants.Preferences.Fields.IGNORE_ARTICLES, Constants.Preferences.Defaults.IGNORE_ARTICLES)
             val searchQuery = intent?.getStringExtra(Constants.Bundle.SEARCH_QUERY)
             val shows = fragment.shows
-            val filteredShows = shows?.filter {
-                match(it, ShowsFilters.State.valueOf(filterState), filterStatus, searchQuery)
-            }?.sortedBy {
-                getSortableShowName(it, ignoreArticles)
+            val filteredShows = shows?.let {
+                it.filter {
+                    match(it, ShowsFilters.State.valueOf(filterState), filterStatus, searchQuery)
+                }.sortedBy {
+                    getSortableShowName(it, ignoreArticles)
+                }
             } ?: emptyList()
 
             fragment.filteredShows.clear()
