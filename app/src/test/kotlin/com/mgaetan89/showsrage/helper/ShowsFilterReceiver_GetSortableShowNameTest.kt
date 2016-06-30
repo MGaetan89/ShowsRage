@@ -1,4 +1,4 @@
-package com.mgaetan89.showsrage.fragment
+package com.mgaetan89.showsrage.helper
 
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.network.SickRageApi
@@ -8,10 +8,10 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ShowsSectionFragment_FilterReceiver_GetSortableShowNameTest(val show: Show, val ignoreArticles: Boolean, val showName: String?) {
+class ShowsFilterReceiver_GetSortableShowNameTest(val show: Show, val ignoreArticles: Boolean, val showName: String?) {
     @Test
     fun matchFilterState() {
-        assertThat(ShowsSectionFragment.FilterReceiver.getSortableShowName(this.show, this.ignoreArticles)).isEqualTo(this.showName)
+        assertThat(ShowsFilterReceiver.getSortableShowName(this.show, this.ignoreArticles)).isEqualTo(this.showName)
     }
 
     companion object {

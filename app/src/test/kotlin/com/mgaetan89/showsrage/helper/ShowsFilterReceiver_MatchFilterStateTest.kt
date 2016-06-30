@@ -1,4 +1,4 @@
-package com.mgaetan89.showsrage.fragment
+package com.mgaetan89.showsrage.helper
 
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.ShowsFilters
@@ -9,10 +9,10 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ShowsSectionFragment_FilterReceiver_MatchFilterStateTest(val show: Show, val filterState: ShowsFilters.State?, val match: Boolean) {
+class ShowsFilterReceiver_MatchFilterStateTest(val show: Show, val filterState: ShowsFilters.State?, val match: Boolean) {
     @Test
     fun matchFilterState() {
-        assertThat(ShowsSectionFragment.FilterReceiver.matchFilterState(this.show, this.filterState)).isEqualTo(this.match)
+        assertThat(ShowsFilterReceiver.matchFilterState(this.show, this.filterState)).isEqualTo(this.match)
     }
 
     companion object {
