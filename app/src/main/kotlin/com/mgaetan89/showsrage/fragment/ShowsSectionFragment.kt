@@ -29,6 +29,7 @@ import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 import java.lang.ref.WeakReference
+import kotlin.comparisons.compareBy
 
 class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>> {
     private var adapter: ShowsAdapter? = null
@@ -134,13 +135,11 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
             val filterStatus = preferences.getInt(Constants.Preferences.Fields.SHOW_FILTER_STATUS, Constants.Preferences.Defaults.SHOW_FILTER_STATUS)
             val ignoreArticles = preferences.getBoolean(Constants.Preferences.Fields.IGNORE_ARTICLES, Constants.Preferences.Defaults.IGNORE_ARTICLES)
             val searchQuery = intent?.getStringExtra(Constants.Bundle.SEARCH_QUERY)
-            var filteredShows = fragment.shows?.toList() ?: emptyList()
-            filteredShows = filteredShows.filter {
+            val filteredShows = fragment.shows?.filter {
                 match(it, ShowsFilters.State.valueOf(filterState), filterStatus, searchQuery)
-            }
-            filteredShows = filteredShows.sortedBy {
+            }?.sortedWith(compareBy {
                 getSortableShowName(it, ignoreArticles)
-            }
+            }) ?: emptyList()
 
             fragment.filteredShows.clear()
             fragment.filteredShows.addAll(filteredShows)
