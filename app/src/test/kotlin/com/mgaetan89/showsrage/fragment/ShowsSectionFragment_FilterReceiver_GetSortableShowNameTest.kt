@@ -8,7 +8,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class ShowsSectionFragment_FilterReceiver_GetSortableShowNameTest(val show: Show, val ignoreArticles: Boolean, val showName: String?) {
+class ShowsSectionFragment_FilterReceiver_GetSortableShowNameTest(val show: Show, val ignoreArticles: Boolean, val showName: String) {
     @Test
     fun matchFilterState() {
         assertThat(ShowsSectionFragment.FilterReceiver.getSortableShowName(this.show, this.ignoreArticles)).isEqualTo(this.showName)
@@ -22,7 +22,7 @@ class ShowsSectionFragment_FilterReceiver_GetSortableShowNameTest(val show: Show
 
             return listOf(
                     arrayOf(gson.fromJson("{}", Show::class.java), false, ""),
-                    arrayOf(gson.fromJson("{show_name: null}", Show::class.java), false, null),
+                    arrayOf(gson.fromJson("{show_name: null}", Show::class.java), false, ""),
                     arrayOf(gson.fromJson("{show_name: \"\"}", Show::class.java), false, ""),
                     arrayOf(gson.fromJson("{show_name: \"a random show\"}", Show::class.java), false, "a random show"),
                     arrayOf(gson.fromJson("{show_name: \"A Random Show\"}", Show::class.java), false, "A Random Show"),
@@ -39,7 +39,7 @@ class ShowsSectionFragment_FilterReceiver_GetSortableShowNameTest(val show: Show
                     arrayOf(gson.fromJson("{show_name: \"the flash\"}", Show::class.java), false, "the flash"),
                     arrayOf(gson.fromJson("{show_name: \"The Flash\"}", Show::class.java), false, "The Flash"),
                     arrayOf(gson.fromJson("{}", Show::class.java), true, ""),
-                    arrayOf(gson.fromJson("{show_name: null}", Show::class.java), true, null),
+                    arrayOf(gson.fromJson("{show_name: null}", Show::class.java), true, ""),
                     arrayOf(gson.fromJson("{show_name: \"\"}", Show::class.java), true, ""),
                     arrayOf(gson.fromJson("{show_name: \"a random show\"}", Show::class.java), true, "random show"),
                     arrayOf(gson.fromJson("{show_name: \"A Random Show\"}", Show::class.java), true, "Random Show"),

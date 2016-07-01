@@ -29,7 +29,7 @@ import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 import java.lang.ref.WeakReference
-import kotlin.comparisons.compareBy
+import java.util.*
 
 class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>> {
     private var adapter: ShowsAdapter? = null
@@ -137,8 +137,11 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
             val searchQuery = intent?.getStringExtra(Constants.Bundle.SEARCH_QUERY)
             val filteredShows = fragment.shows?.filter {
                 match(it, ShowsFilters.State.valueOf(filterState), filterStatus, searchQuery)
-            }?.sortedWith(compareBy {
-                getSortableShowName(it, ignoreArticles)
+            }?.sortedWith(Comparator<Show> { first, second ->
+                val firstProperty = getSortableShowName(first, ignoreArticles)
+                val secondProperty = getSortableShowName(second, ignoreArticles)
+
+                firstProperty.compareTo(secondProperty)
             }) ?: emptyList()
 
             fragment.filteredShows.clear()
@@ -148,12 +151,12 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
         }
 
         companion object {
-            internal fun getSortableShowName(show: Show, ignoreArticles: Boolean): String? {
+            internal fun getSortableShowName(show: Show, ignoreArticles: Boolean): String {
                 return if (ignoreArticles) {
                     show.showName?.replaceFirst("^(?:an?|the)\\s+".toRegex(RegexOption.IGNORE_CASE), "")
                 } else {
                     show.showName
-                }
+                } ?: ""
             }
 
             internal fun match(show: Show?, filterState: ShowsFilters.State?, filterStatus: Int, searchQuery: String?): Boolean {
