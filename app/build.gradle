@@ -73,18 +73,14 @@ android {
 	}
 }
 
-jacoco {
-	toolVersion = '0.7.4.201502262128'
-}
-
 tasks.withType(Test) {
 	testLogging {
 		exceptionFormat 'full'
 	}
 }
 
-// From https://github.com/nenick/android-gradle-template/blob/master/App/build.gradle
-task jacocoTestReport(type: JacocoReport, dependsOn: ['test']) {
+// From https://github.com/nenick/android-gradle-template/blob/master/app/build.jacoco-test-report.gradle
+task jacocoTestReport(type: JacocoReport /*, dependsOn: ['test'] */) {
 	group = 'Reporting'
 	description = 'Generates Jacoco coverage reports: XML and HTML'
 	//outputs.upToDateWhen { false }
@@ -149,7 +145,7 @@ dependencies {
 	compile 'com.squareup.okhttp:okhttp-urlconnection:2.5.0'
 	compile 'com.squareup.retrofit:retrofit:1.9.0'
 	compile 'jp.wasabeef:glide-transformations:2.0.1'
-	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.2'
+	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.3'
 
 	debugCompile 'com.github.MGaetan89.Kolumbus:kolumbus:v0.8'
 	releaseCompile 'com.github.MGaetan89.Kolumbus:kolumbus-no-op:v0.8'

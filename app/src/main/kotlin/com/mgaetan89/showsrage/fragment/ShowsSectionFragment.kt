@@ -29,6 +29,7 @@ import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 import java.lang.ref.WeakReference
+import java.util.*
 
 class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>> {
     private var adapter: ShowsAdapter? = null
@@ -134,12 +135,14 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
             val filterStatus = preferences.getInt(Constants.Preferences.Fields.SHOW_FILTER_STATUS, Constants.Preferences.Defaults.SHOW_FILTER_STATUS)
             val ignoreArticles = preferences.getBoolean(Constants.Preferences.Fields.IGNORE_ARTICLES, Constants.Preferences.Defaults.IGNORE_ARTICLES)
             val searchQuery = intent?.getStringExtra(Constants.Bundle.SEARCH_QUERY)
-            val shows = fragment.shows
-            val filteredShows = shows?.filter {
+            val filteredShows = fragment.shows?.filter {
                 match(it, ShowsFilters.State.valueOf(filterState), filterStatus, searchQuery)
-            }?.sortedBy {
-                getSortableShowName(it, ignoreArticles)
-            } ?: emptyList()
+            }?.sortedWith(Comparator<Show> { first, second ->
+                val firstProperty = getSortableShowName(first, ignoreArticles)
+                val secondProperty = getSortableShowName(second, ignoreArticles)
+
+                firstProperty.compareTo(secondProperty)
+            }) ?: emptyList()
 
             fragment.filteredShows.clear()
             fragment.filteredShows.addAll(filteredShows)
@@ -148,12 +151,12 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
         }
 
         companion object {
-            internal fun getSortableShowName(show: Show, ignoreArticles: Boolean): String? {
+            internal fun getSortableShowName(show: Show, ignoreArticles: Boolean): String {
                 return if (ignoreArticles) {
                     show.showName?.replaceFirst("^(?:an?|the)\\s+".toRegex(RegexOption.IGNORE_CASE), "")
                 } else {
                     show.showName
-                }
+                } ?: ""
             }
 
             internal fun match(show: Show?, filterState: ShowsFilters.State?, filterStatus: Int, searchQuery: String?): Boolean {
