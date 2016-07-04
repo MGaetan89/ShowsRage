@@ -6,16 +6,18 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito.spy
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.verifyNoMoreInteractions
 
 @RunWith(AndroidJUnit4::class)
-class RealmManager_GetScheduleSectionsTest {
+class RealmManager_CloseTest {
     @JvmField
     @Rule
     val activityRule: ActivityTestRule<TestActivity> = ActivityTestRule(TestActivity::class.java)
@@ -26,22 +28,24 @@ class RealmManager_GetScheduleSectionsTest {
     }
 
     @Test
-    fun getScheduleSectionsSync() {
-        val scheduleSections = RealmManager.getScheduleSections()
+    fun close() {
+        val realm = spy(RealmManager.getRealm())
 
-        this.validateScheduleSections(scheduleSections)
-    }
-
-    @After
-    fun after() {
         RealmManager.close()
+
+        verify(realm)!!.close()
+        assertThat(realm!!.isClosed).isTrue()
+        assertThat(RealmManager.getRealm()).isNull()
     }
 
-    private fun validateScheduleSections(scheduleSections: List<String>) {
-        assertThat(scheduleSections).hasSize(3)
-        assertThat(scheduleSections[0]).isEqualTo("soon")
-        assertThat(scheduleSections[1]).isEqualTo("later")
-        assertThat(scheduleSections[2]).isEqualTo("today")
+    @Test
+    fun closeTwice() {
+        val realm = spy(RealmManager.getRealm())
+
+        RealmManager.close()
+        RealmManager.close()
+
+        verifyNoMoreInteractions(realm)
     }
 
     companion object {

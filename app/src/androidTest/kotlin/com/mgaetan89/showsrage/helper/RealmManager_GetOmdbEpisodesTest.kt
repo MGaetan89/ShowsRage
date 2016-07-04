@@ -9,7 +9,12 @@ import com.mgaetan89.showsrage.model.OmDbEpisode
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.*
+import org.junit.After
+import org.junit.AfterClass
+import org.junit.Before
+import org.junit.BeforeClass
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
@@ -30,7 +35,7 @@ class RealmManager_GetOmdbEpisodesTest {
 
     @JvmField
     @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java)
+    val activityRule: ActivityTestRule<TestActivity> = ActivityTestRule(TestActivity::class.java)
 
     @Before
     fun before() {

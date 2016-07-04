@@ -7,14 +7,19 @@ import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.model.History
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.*
+import org.junit.After
+import org.junit.AfterClass
+import org.junit.Before
+import org.junit.BeforeClass
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmManager_ClearHistoryTest {
     @JvmField
     @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java)
+    val activityRule: ActivityTestRule<TestActivity> = ActivityTestRule(TestActivity::class.java)
 
     private var history: List<History>? = null
 
