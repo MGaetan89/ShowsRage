@@ -17,7 +17,7 @@ import com.mgaetan89.showsrage.network.SickRageApi
 import java.lang.ref.WeakReference
 
 class ShowsRageReceiver(activity: MainActivity) : BroadcastReceiver() {
-    val activityReference: WeakReference<MainActivity>;
+    val activityReference: WeakReference<MainActivity>
 
     init {
         this.activityReference = WeakReference(activity)

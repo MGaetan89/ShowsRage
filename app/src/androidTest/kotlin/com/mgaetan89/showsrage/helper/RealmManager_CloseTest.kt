@@ -9,6 +9,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -28,6 +29,7 @@ class RealmManager_CloseTest {
     }
 
     @Test
+    @Ignore
     fun close() {
         val realm = spy(RealmManager.getRealm())
 
@@ -39,6 +41,7 @@ class RealmManager_CloseTest {
     }
 
     @Test
+    @Ignore
     fun closeTwice() {
         val realm = spy(RealmManager.getRealm())
 

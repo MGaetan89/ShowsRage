@@ -17,7 +17,7 @@ class Version(val branch: String = "", val commit: String = "", val version: Str
 
     companion object {
         @JvmField
-        final val CREATOR = object : Parcelable.Creator<Version> {
+        val CREATOR = object : Parcelable.Creator<Version> {
             override fun createFromParcel(`in`: Parcel): Version {
                 return Version(`in`)
             }

@@ -89,7 +89,7 @@ class ColoredToolbar : Toolbar {
                     }
                 }
             }
-        } else if ( child is ViewGroup) {
+        } else if (child is ViewGroup) {
             this.setGroupColor(child)
         } else {
             Log.d("ColoredToolbar", child.javaClass.name + " is not supported")

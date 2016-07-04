@@ -10,7 +10,12 @@ import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.MenuItemCompat
 import android.support.v4.view.PagerAdapter
 import android.support.v7.widget.SearchView
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
@@ -76,10 +81,10 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
         val searchMenu = menu?.findItem(R.id.menu_search)
 
         if (activity != null && searchMenu != null) {
-            val searchManager = activity.getSystemService(Context.SEARCH_SERVICE) as SearchManager?
+            val searchManager = activity.getSystemService(Context.SEARCH_SERVICE) as SearchManager
             val searchView = MenuItemCompat.getActionView(searchMenu) as SearchView
             searchView.setOnQueryTextListener(this)
-            searchView.setSearchableInfo(searchManager?.getSearchableInfo(activity.componentName))
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.componentName))
         }
     }
 

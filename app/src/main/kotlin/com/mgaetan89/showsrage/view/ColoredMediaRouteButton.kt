@@ -27,7 +27,7 @@ class ColoredMediaRouteButton : MediaRouteButton {
 
     override fun setRemoteIndicatorDrawable(d: Drawable?) {
         if (d == null) {
-            return;
+            return
         }
 
         // Delay the call to super so the color passed in the constructor can be assigned

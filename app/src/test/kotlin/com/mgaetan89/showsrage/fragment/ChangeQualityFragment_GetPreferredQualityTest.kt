@@ -11,7 +11,9 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import org.mockito.Mockito.*
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.spy
 
 @RunWith(Parameterized::class)
 class ChangeQualityFragment_GetPreferredQualityTest(val spinner: Spinner?, val preferredQuality: String?) {

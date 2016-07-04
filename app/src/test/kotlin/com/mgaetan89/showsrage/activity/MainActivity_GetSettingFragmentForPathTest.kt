@@ -1,6 +1,14 @@
 package com.mgaetan89.showsrage.activity
 
-import com.mgaetan89.showsrage.fragment.*
+import com.mgaetan89.showsrage.fragment.SettingsAboutFragment
+import com.mgaetan89.showsrage.fragment.SettingsAboutLicensesFragment
+import com.mgaetan89.showsrage.fragment.SettingsAboutShowsRageFragment
+import com.mgaetan89.showsrage.fragment.SettingsBehaviorFragment
+import com.mgaetan89.showsrage.fragment.SettingsDisplayFragment
+import com.mgaetan89.showsrage.fragment.SettingsExperimentalFeaturesFragment
+import com.mgaetan89.showsrage.fragment.SettingsFragment
+import com.mgaetan89.showsrage.fragment.SettingsServerApiKeyFragment
+import com.mgaetan89.showsrage.fragment.SettingsServerFragment
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
