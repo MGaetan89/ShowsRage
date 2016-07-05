@@ -9,13 +9,8 @@ jdk:
 
 android:
   components:
-    - android-22
-    - android-23
     - android-24
     - build-tools-24.0.0
-    - sys-img-x86-android-22
-    - sys-img-x86-android-23
-    - sys-img-x86-android-24
     - extra-android-m2repository
     - extra-google-m2repository
     - platform-tools
@@ -29,8 +24,8 @@ env:
     - ANDROID_TARGET=android-18   ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-19   ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-21   ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-22   ANDROID_ABI=x86
-    - ANDROID_TARGET=android-23   ANDROID_ABI=x86
+    - ANDROID_TARGET=android-22
+    - ANDROID_TARGET=android-23
     - ANDROID_TARGET=android-24
 
 before_cache:
@@ -41,13 +36,10 @@ before_install:
   - echo y | android update sdk --all --no-ui --force --filter android-24
 
 before_script:
-  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
-  - emulator -avd test -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
+  - ./travis/prepare_emulator.sh
 
 script:
-  - ./gradlew build testDebug connectedDebugAndroidTest
+  - ./travis/run_tests.sh
 
 after_success:
   - ./gradlew jacocoTestReport coveralls
