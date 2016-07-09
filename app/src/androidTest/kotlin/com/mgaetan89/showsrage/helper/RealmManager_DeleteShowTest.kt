@@ -5,6 +5,7 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
+import com.mgaetan89.showsrage.model.Show
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.AfterClass
@@ -13,48 +14,53 @@ import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.spy
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.verifyNoMoreInteractions
 
 @RunWith(AndroidJUnit4::class)
-class RealmManager_CloseTest {
+class RealmManager_DeleteShowTest {
     @JvmField
     @Rule
     val activityRule: ActivityTestRule<TestActivity> = ActivityTestRule(TestActivity::class.java)
 
+    private lateinit var show: Show
+
     @Before
     fun before() {
         RealmManager.init(this.activityRule.activity, InstrumentationRegistry.getContext())
+
+        this.show = RealmManager.getShow(INDEXER_ID, null)!!
+
+        this.validateShow(this.show)
     }
 
     @Test
-    fun close() {
-        val realm = spy(RealmManager.getRealm())
+    fun deleteShow() {
+        RealmManager.deleteShow(INDEXER_ID)
 
-        RealmManager.close()
+        assertThat(RealmManager.getShows(null, null)?.size).isEqualTo(76)
 
-        verify(realm)!!.close()
-        assertThat(realm!!.isClosed).isTrue()
-        assertThat(RealmManager.getRealm()).isNull()
-    }
+        val show = RealmManager.getShow(INDEXER_ID, null)
 
-    @Test
-    fun closeTwice() {
-        val realm = spy(RealmManager.getRealm())
-
-        RealmManager.close()
-        RealmManager.close()
-
-        verifyNoMoreInteractions(realm)
+        assertThat(show).isNull()
     }
 
     @After
     fun after() {
+        RealmManager.saveShow(this.show)
+
+        assertThat(RealmManager.getShows(null, null)?.size).isEqualTo(77)
+
         RealmManager.close()
     }
 
+    private fun validateShow(show: Show) {
+        assertThat(show).isNotNull()
+        assertThat(show.indexerId).isEqualTo(INDEXER_ID)
+        assertThat(RealmManager.getShows(null, null)?.size).isEqualTo(77)
+    }
+
     companion object {
+        private const val INDEXER_ID = 75760
+
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
