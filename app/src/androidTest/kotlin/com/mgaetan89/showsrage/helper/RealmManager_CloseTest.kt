@@ -10,6 +10,7 @@ import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -28,6 +29,7 @@ class RealmManager_CloseTest {
         RealmManager.init(this.activityRule.activity, InstrumentationRegistry.getContext())
     }
 
+    @Ignore
     @Test
     fun close() {
         val realm = spy(RealmManager.getRealm())
@@ -39,6 +41,7 @@ class RealmManager_CloseTest {
         assertThat(RealmManager.getRealm()).isNull()
     }
 
+    @Ignore
     @Test
     fun closeTwice() {
         val realm = spy(RealmManager.getRealm())

@@ -11,6 +11,7 @@ import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,8 +31,11 @@ class RealmManager_DeleteShowTest {
         this.show = RealmManager.getShow(INDEXER_ID, null)!!
 
         this.validateShow(this.show)
+
+        // TODO Handle other delete make by this method
     }
 
+    @Ignore
     @Test
     fun deleteShow() {
         RealmManager.deleteShow(INDEXER_ID)
