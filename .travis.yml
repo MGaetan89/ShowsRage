@@ -18,13 +18,12 @@ android:
 
 env:
   matrix:
-    - ANDROID_TARGET=android-15
-    - ANDROID_TARGET=android-16
-    - ANDROID_TARGET=android-17
-    - ANDROID_TARGET=android-18
-    - ANDROID_TARGET=android-19
-    - ANDROID_TARGET=android-20
-    - ANDROID_TARGET=android-21
+    - ANDROID_TARGET=android-15   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-16   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-17   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-18   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-19   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-21   ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-22
     - ANDROID_TARGET=android-23
     - ANDROID_TARGET=android-24
@@ -36,8 +35,11 @@ before_install:
   - echo y | android update sdk --all --no-ui --force --filter build-tools-24.0.0
   - echo y | android update sdk --all --no-ui --force --filter android-24
 
+before_script:
+  - ./travis/prepare_emulator.sh
+
 script:
-  - ./gradlew build testDebug
+  - ./travis/run_tests.sh
 
 after_success:
   - ./gradlew jacocoTestReport coveralls

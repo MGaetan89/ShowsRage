@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
 import com.google.gson.reflect.TypeToken
@@ -12,7 +13,11 @@ import com.google.gson.stream.JsonWriter
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.model.Indexer
 import com.mgaetan89.showsrage.model.RealmString
-import com.squareup.okhttp.*
+import com.squareup.okhttp.Authenticator
+import com.squareup.okhttp.Credentials
+import com.squareup.okhttp.OkHttpClient
+import com.squareup.okhttp.Request
+import com.squareup.okhttp.Response
 import io.realm.RealmList
 import io.realm.RealmObject
 import retrofit.RequestInterceptor
@@ -171,7 +176,7 @@ class SickRageApi private constructor() : RequestInterceptor {
     }
 
     companion object {
-        val gson by lazy {
+        val gson: Gson by lazy {
             val realmStringListType = object : TypeToken<RealmList<RealmString>>() {}.type
 
             GsonBuilder()
@@ -212,10 +217,10 @@ class SickRageApi private constructor() : RequestInterceptor {
                         }
 
                         override fun shouldSkipClass(clazz: Class<*>): Boolean {
-                            return false;
+                            return false
                         }
                     })
-                    .create();
+                    .create()
         }
         private val gsonConverter by lazy {
             GsonConverter(gson)

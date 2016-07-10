@@ -9,7 +9,7 @@ import java.util.*
 object DateTimeHelper {
     fun getRelativeDate(dateTime: String?, format: String, minResolution: Long): CharSequence? {
         if (dateTime.isNullOrEmpty()) {
-            return "N/A";
+            return "N/A"
         }
 
         try {

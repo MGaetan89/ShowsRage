@@ -6,7 +6,9 @@ import android.widget.TextView
 import com.mgaetan89.showsrage.R
 import org.junit.Test
 import org.mockito.Matchers.anyInt
-import org.mockito.Mockito.*
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 
 class Setters_SetTextColorResTest {
     @Test

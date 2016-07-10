@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-	package="com.mgaetan89.showsrage"
-	xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="com.mgaetan89.showsrage">
 
-	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.INTERNET" />
 
 	<supports-screens
 		android:anyDensity="true"
 		android:largeScreens="true"
 		android:normalScreens="true"
 		android:smallScreens="true"
-		android:xlargeScreens="true"/>
+		android:xlargeScreens="true" />
 
 	<application
 		android:name=".ShowsRageApplication"
@@ -20,43 +19,44 @@
 		android:theme="@style/AppTheme">
 		<activity android:name=".activity.MainActivity">
 			<intent-filter>
-				<action android:name="android.intent.action.MAIN"/>
+				<action android:name="android.intent.action.MAIN" />
 
-				<category android:name="android.intent.category.LAUNCHER"/>
+				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 			<intent-filter>
-				<action android:name="android.intent.action.VIEW"/>
+				<action android:name="android.intent.action.VIEW" />
 
-				<category android:name="android.intent.category.DEFAULT"/>
-				<category android:name="android.intent.category.BROWSABLE"/>
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
 
 				<data
 					android:host="settings"
-					android:scheme="showsrage"/>
+					android:scheme="showsrage" />
 			</intent-filter>
 			<intent-filter>
-				<action android:name="android.intent.action.SEARCH"/>
+				<action android:name="android.intent.action.SEARCH" />
 			</intent-filter>
 
 			<meta-data
 				android:name="android.app.searchable"
-				android:resource="@xml/searchable"/>
+				android:resource="@xml/searchable" />
 		</activity>
+		<activity android:name=".TestActivity" />
 		<activity
 			android:name=".activity.UpdateActivity"
 			android:excludeFromRecents="true"
-			android:theme="@style/TransparentActivity"/>
+			android:theme="@style/TransparentActivity" />
 
 		<meta-data
 			android:name="com.mgaetan89.showsrage.helper.OkHttpGlideModule"
-			android:value="GlideModule"/>
+			android:value="GlideModule" />
 
 		<meta-data
 			android:name="com.google.android.gms.version"
-			android:value="@integer/google_play_services_version"/>
+			android:value="@integer/google_play_services_version" />
 
 		<service
 			android:name=".service.UpdateService"
-			android:exported="false"/>
+			android:exported="false" />
 	</application>
 </manifest>

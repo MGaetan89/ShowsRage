@@ -1,8 +1,26 @@
 package com.mgaetan89.showsrage.helper
 
 import android.content.Context
-import com.mgaetan89.showsrage.model.*
-import io.realm.*
+import com.mgaetan89.showsrage.model.Episode
+import com.mgaetan89.showsrage.model.History
+import com.mgaetan89.showsrage.model.LogEntry
+import com.mgaetan89.showsrage.model.LogLevel
+import com.mgaetan89.showsrage.model.OmDbEpisode
+import com.mgaetan89.showsrage.model.Quality
+import com.mgaetan89.showsrage.model.RealmShowStat
+import com.mgaetan89.showsrage.model.RealmString
+import com.mgaetan89.showsrage.model.RootDir
+import com.mgaetan89.showsrage.model.Schedule
+import com.mgaetan89.showsrage.model.Serie
+import com.mgaetan89.showsrage.model.Show
+import com.mgaetan89.showsrage.model.ShowStat
+import com.mgaetan89.showsrage.model.ShowsStat
+import io.realm.Realm
+import io.realm.RealmChangeListener
+import io.realm.RealmConfiguration
+import io.realm.RealmList
+import io.realm.RealmResults
+import io.realm.Sort
 
 object RealmManager {
     private const val MAX_LOG_ENTRIES = 1000
@@ -23,6 +41,7 @@ object RealmManager {
     fun close() {
         if (this.realm != null && !this.realm!!.isClosed) {
             this.realm!!.close()
+            this.realm = null
         }
     }
 
@@ -188,14 +207,23 @@ object RealmManager {
                 .findFirst()
     }
 
-    fun init(context: Context) {
+    fun init(context: Context, testContext: Context?) {
         val configuration = RealmConfiguration.Builder(context).let {
+            if (testContext != null) {
+                val testFile = "test.realm"
+
+                it.assetFile(testContext, testFile)
+                it.name(testFile)
+            }
+
             it.schemaVersion(2)
             it.migration(Migration())
             it.build()
         }
 
         Realm.setDefaultConfiguration(configuration)
+
+        this.close()
 
         this.realm = Realm.getDefaultInstance()
     }
@@ -328,7 +356,7 @@ object RealmManager {
         }
     }
 
-    private fun getRealm(): Realm? {
+    internal fun getRealm(): Realm? {
         return if (this.realm?.isClosed ?: true) {
             null
         } else {

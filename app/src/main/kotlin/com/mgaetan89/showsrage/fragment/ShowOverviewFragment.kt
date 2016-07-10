@@ -21,7 +21,12 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.CardView
 import android.text.format.DateUtils
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.RatingBar
@@ -29,8 +34,19 @@ import android.widget.TextView
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
-import com.mgaetan89.showsrage.helper.*
-import com.mgaetan89.showsrage.model.*
+import com.mgaetan89.showsrage.helper.DateTimeHelper
+import com.mgaetan89.showsrage.helper.GenericCallback
+import com.mgaetan89.showsrage.helper.ImageLoader
+import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.helper.Utils
+import com.mgaetan89.showsrage.helper.hasText
+import com.mgaetan89.showsrage.helper.setText
+import com.mgaetan89.showsrage.model.GenericResponse
+import com.mgaetan89.showsrage.model.Indexer
+import com.mgaetan89.showsrage.model.RealmString
+import com.mgaetan89.showsrage.model.Serie
+import com.mgaetan89.showsrage.model.Show
+import com.mgaetan89.showsrage.model.SingleShow
 import com.mgaetan89.showsrage.network.OmDbApi
 import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.RealmChangeListener
@@ -171,7 +187,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
 
     fun getSetShowQualityCallback(): Callback<GenericResponse> {
-        return GenericCallback(this.activity);
+        return GenericCallback(this.activity)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

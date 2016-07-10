@@ -320,9 +320,9 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.setContentView(R.layout.activity_main)
 
-        this.firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        this.firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-        RealmManager.init(this)
+        RealmManager.init(this, null)
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
 
@@ -533,7 +533,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
     }
 
     private class RootDirsCallback(activity: AppCompatActivity) : Callback<RootDirs> {
-        private val activityReference: WeakReference<AppCompatActivity>;
+        private val activityReference: WeakReference<AppCompatActivity>
 
         init {
             this.activityReference = WeakReference(activity)

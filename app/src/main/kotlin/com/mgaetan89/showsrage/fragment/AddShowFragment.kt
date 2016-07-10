@@ -9,7 +9,11 @@ import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity

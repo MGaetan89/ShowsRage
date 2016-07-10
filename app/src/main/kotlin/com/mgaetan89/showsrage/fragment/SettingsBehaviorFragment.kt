@@ -12,7 +12,7 @@ class SettingsBehaviorFragment : SettingsFragment() {
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
         if ("behavior_clear_local".equals(preference?.key)) {
-            this.confirmClearLocalData();
+            this.confirmClearLocalData()
 
             return true
         }

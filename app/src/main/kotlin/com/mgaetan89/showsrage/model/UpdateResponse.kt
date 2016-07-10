@@ -29,7 +29,7 @@ class UpdateResponse(
 
     companion object {
         @JvmField
-        final val CREATOR = object : Parcelable.Creator<UpdateResponse> {
+        val CREATOR = object : Parcelable.Creator<UpdateResponse> {
             override fun createFromParcel(`in`: Parcel): UpdateResponse {
                 return UpdateResponse(`in`)
             }

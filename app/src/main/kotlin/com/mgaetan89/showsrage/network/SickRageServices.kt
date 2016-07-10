@@ -1,6 +1,21 @@
 package com.mgaetan89.showsrage.network
 
-import com.mgaetan89.showsrage.model.*
+import com.mgaetan89.showsrage.model.ApiKey
+import com.mgaetan89.showsrage.model.Episodes
+import com.mgaetan89.showsrage.model.GenericResponse
+import com.mgaetan89.showsrage.model.Histories
+import com.mgaetan89.showsrage.model.LogLevel
+import com.mgaetan89.showsrage.model.Logs
+import com.mgaetan89.showsrage.model.RootDirs
+import com.mgaetan89.showsrage.model.Schedules
+import com.mgaetan89.showsrage.model.SearchResults
+import com.mgaetan89.showsrage.model.Seasons
+import com.mgaetan89.showsrage.model.ShowStatsWrapper
+import com.mgaetan89.showsrage.model.Shows
+import com.mgaetan89.showsrage.model.ShowsStats
+import com.mgaetan89.showsrage.model.SingleEpisode
+import com.mgaetan89.showsrage.model.SingleShow
+import com.mgaetan89.showsrage.model.UpdateResponseWrapper
 import retrofit.Callback
 import retrofit.http.GET
 import retrofit.http.Query
