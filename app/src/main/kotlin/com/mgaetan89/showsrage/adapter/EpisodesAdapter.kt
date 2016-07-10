@@ -90,14 +90,16 @@ class EpisodesAdapter(val episodes: List<Episode>, val seasonNumber: Int, val in
                     }
                 }
             } else {
-                with(Intent(Constants.Intents.ACTION_EPISODE_SELECTED)) {
-                    putExtra(Constants.Bundle.EPISODE_ID, episodes[adapterPosition].id)
-                    putExtra(Constants.Bundle.EPISODE_NUMBER, getEpisodeNumber(adapterPosition))
-                    putExtra(Constants.Bundle.EPISODES_COUNT, itemCount)
-                    putExtra(Constants.Bundle.INDEXER_ID, indexerId)
-                    putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)
+                if (adapterPosition >= 0 && adapterPosition < episodes.size) {
+                    with(Intent(Constants.Intents.ACTION_EPISODE_SELECTED)) {
+                        putExtra(Constants.Bundle.EPISODE_ID, episodes[adapterPosition].id)
+                        putExtra(Constants.Bundle.EPISODE_NUMBER, getEpisodeNumber(adapterPosition))
+                        putExtra(Constants.Bundle.EPISODES_COUNT, itemCount)
+                        putExtra(Constants.Bundle.INDEXER_ID, indexerId)
+                        putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)
 
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(this)
+                        LocalBroadcastManager.getInstance(context).sendBroadcast(this)
+                    }
                 }
             }
         }
