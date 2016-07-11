@@ -1,5 +1,7 @@
 package com.mgaetan89.showsrage.presenter
 
+// TODO Move to Android Test
+/*
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.network.SickRageApi
 import org.assertj.core.api.Assertions.assertThat
@@ -69,3 +71,4 @@ class HistoryPresenterTest(
         }
     }
 }
+*/

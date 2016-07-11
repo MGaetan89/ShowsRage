@@ -120,12 +120,17 @@ kapt {
 	generateStubs = true
 }
 
+def assertJAndroidVersion = '1.1.1'
 def googleServicesVersion = '9.2.0'
-def mockitoVersion = '2.0.79-beta'
+def jUnitVersion = '4.12'
+def kolumbusVersion = 'v0.8'
+def mockitoVersion = '2.0.84-beta'
+def okHttpVersion = '2.5.0'
 def supportLibraryVersion = '24.0.0'
+def supportTestVersion = '0.5'
 
 dependencies {
-	kapt 'com.android.databinding:compiler:2.2.0-alpha4'
+	kapt 'com.android.databinding:compiler:2.2.0-alpha5'
 
 	compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
 	compile "com.android.support:cardview-v7:${supportLibraryVersion}"
@@ -144,28 +149,28 @@ dependencies {
 	compile "com.google.android.gms:play-services-cast:${googleServicesVersion}"
 	compile "com.google.firebase:firebase-analytics:${googleServicesVersion}"
 	compile "com.google.firebase:firebase-crash:${googleServicesVersion}"
-	compile 'com.squareup.okhttp:okhttp:2.5.0'
-	compile 'com.squareup.okhttp:okhttp-urlconnection:2.5.0'
+	compile "com.squareup.okhttp:okhttp:${okHttpVersion}"
+	compile "com.squareup.okhttp:okhttp-urlconnection:${okHttpVersion}"
 	compile 'com.squareup.retrofit:retrofit:1.9.0'
 	compile 'jp.wasabeef:glide-transformations:2.0.1'
 	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.3'
 
-	debugCompile 'com.github.MGaetan89.Kolumbus:kolumbus:v0.8'
-	releaseCompile 'com.github.MGaetan89.Kolumbus:kolumbus-no-op:v0.8'
+	debugCompile "com.github.MGaetan89.Kolumbus:kolumbus:${kolumbusVersion}"
+	releaseCompile "com.github.MGaetan89.Kolumbus:kolumbus-no-op:${kolumbusVersion}"
 
-	testCompile('com.squareup.assertj:assertj-android:1.1.1') {
+	testCompile("com.squareup.assertj:assertj-android:${assertJAndroidVersion}") {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
-	testCompile 'junit:junit:4.12'
+	testCompile "junit:junit:${jUnitVersion}"
 	testCompile "org.mockito:mockito-core:${mockitoVersion}"
 
 	androidTestCompile "com.android.support:support-annotations:${supportLibraryVersion}"
-	androidTestCompile 'com.android.support.test:rules:0.5'
-	androidTestCompile 'com.android.support.test:runner:0.5'
-	androidTestCompile('com.squareup.assertj:assertj-android:1.1.1') {
+	androidTestCompile "com.android.support.test:rules:${supportTestVersion}"
+	androidTestCompile "com.android.support.test:runner:${supportTestVersion}"
+	androidTestCompile("com.squareup.assertj:assertj-android:${assertJAndroidVersion}") {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
-	androidTestCompile 'junit:junit:4.12'
+	androidTestCompile "junit:junit:${jUnitVersion}"
 	androidTestCompile "org.mockito:mockito-core:${mockitoVersion}"
 }
 
