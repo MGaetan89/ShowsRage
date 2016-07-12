@@ -1,7 +1,15 @@
 package com.mgaetan89.showsrage.presenter
 
-// TODO Move to Android Test
-/*
+import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.model.Show
+import com.mgaetan89.showsrage.network.SickRageApi
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.Before
+import org.junit.Ignore
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+
 @RunWith(Parameterized::class)
 class ShowPresenterTest(
         val show: Show?, val bannerUrl: String, val downloaded: Int, val episodesCount: Int, val network: String,
@@ -11,7 +19,13 @@ class ShowPresenterTest(
 
     @Before
     fun before() {
-        this.presenter = ShowPresenter(this.show)
+        val realmShow = if (this.show != null) {
+            RealmManager.getRealm()?.copyToRealm(this.show)
+        } else {
+            this.show
+        }
+
+        this.presenter = ShowPresenter(realmShow)
     }
 
     @Test
@@ -19,13 +33,11 @@ class ShowPresenterTest(
         assertThat(this.presenter.getBannerUrl()).isEqualTo(this.bannerUrl)
     }
 
-    @Ignore
     @Test
     fun getDownloaded() {
         assertThat(this.presenter.getDownloaded()).isEqualTo(this.downloaded)
     }
 
-    @Ignore
     @Test
     fun getEpisodesCount() {
         assertThat(this.presenter.getEpisodesCount()).isEqualTo(this.episodesCount)
@@ -76,4 +88,3 @@ class ShowPresenterTest(
         }
     }
 }
-*/

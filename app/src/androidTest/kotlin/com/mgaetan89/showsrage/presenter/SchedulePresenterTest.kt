@@ -1,7 +1,14 @@
 package com.mgaetan89.showsrage.presenter
 
-// TODO Move to Android Test
-/*
+import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.model.Schedule
+import com.mgaetan89.showsrage.network.SickRageApi
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+
 @RunWith(Parameterized::class)
 class SchedulePresenterTest(
         val schedule: Schedule?, val airDate: CharSequence?, val airDateTime: String?, val airTime: String?, val airTimeOnly: String?, val episode: Int,
@@ -11,7 +18,13 @@ class SchedulePresenterTest(
 
     @Before
     fun before() {
-        this.presenter = SchedulePresenter(this.schedule, null)
+        val realmSchedule = if (this.schedule != null) {
+            RealmManager.getRealm()?.copyToRealm(this.schedule)
+        } else {
+            this.schedule
+        }
+
+        this.presenter = SchedulePresenter(realmSchedule, null)
     }
 
     @Test
@@ -82,4 +95,3 @@ class SchedulePresenterTest(
         }
     }
 }
-*/

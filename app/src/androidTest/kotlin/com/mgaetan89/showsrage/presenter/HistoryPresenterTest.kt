@@ -1,7 +1,6 @@
 package com.mgaetan89.showsrage.presenter
 
-// TODO Move to Android Test
-/*
+import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.network.SickRageApi
 import org.assertj.core.api.Assertions.assertThat
@@ -19,7 +18,13 @@ class HistoryPresenterTest(
 
     @Before
     fun before() {
-        this.presenter = HistoryPresenter(this.history)
+        val realmHistory = if (this.history != null) {
+            RealmManager.getRealm()?.copyToRealm(this.history)
+        } else {
+            this.history
+        }
+
+        this.presenter = HistoryPresenter(realmHistory)
     }
 
     @Test
@@ -71,4 +76,3 @@ class HistoryPresenterTest(
         }
     }
 }
-*/
