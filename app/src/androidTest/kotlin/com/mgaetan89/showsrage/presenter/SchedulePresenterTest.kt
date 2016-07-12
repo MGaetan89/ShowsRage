@@ -1,10 +1,18 @@
 package com.mgaetan89.showsrage.presenter
 
+import android.os.Looper
+import android.support.test.InstrumentationRegistry
+import android.support.test.rule.ActivityTestRule
+import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.Schedule
 import com.mgaetan89.showsrage.network.SickRageApi
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.After
+import org.junit.AfterClass
 import org.junit.Before
+import org.junit.BeforeClass
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -14,10 +22,16 @@ class SchedulePresenterTest(
         val schedule: Schedule?, val airDate: CharSequence?, val airDateTime: String?, val airTime: String?, val airTimeOnly: String?, val episode: Int,
         val network: String, val posterUrl: String, val quality: String, val season: Int, val showName: String
 ) {
+    @JvmField
+    @Rule
+    val activityRule: ActivityTestRule<TestActivity> = ActivityTestRule(TestActivity::class.java)
+
     private lateinit var presenter: SchedulePresenter
 
     @Before
     fun before() {
+        RealmManager.init(this.activityRule.activity, InstrumentationRegistry.getContext())
+
         val realmSchedule = if (this.schedule != null) {
             RealmManager.getRealm()?.copyToRealm(this.schedule)
         } else {
@@ -67,7 +81,20 @@ class SchedulePresenterTest(
         assertThat(this.presenter.getShowName()).isEqualTo(this.showName)
     }
 
+    @After
+    fun after() {
+        RealmManager.close()
+    }
+
     companion object {
+        @BeforeClass
+        @JvmStatic
+        fun beforeClass() {
+            if (Looper.myLooper() == null) {
+                Looper.prepare()
+            }
+        }
+
         @JvmStatic
         @Parameterized.Parameters
         fun data(): Collection<Array<Any?>> {
@@ -92,6 +119,12 @@ class SchedulePresenterTest(
                     arrayOf(gson.fromJson("{airdate: \"2015-01-13\", airs: \"Sunday 0:00 PM\", episode: 15, network: \"TBS\", quality: \"Any\", season: 24, show_name: \"Show 13\", tvdbid: 789}", Schedule::class.java), null, null, null, "0:00 PM", 15, "TBS", "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=789", "Any", 24, "Show 13"),
                     arrayOf(gson.fromJson("{airdate: \"2015-01-14\", airs: \"sunday 1:00 PM\", episode: 16, network: \"TBS\", quality: \"Any\", season: 25, show_name: \"Show 14\", tvdbid: 789}", Schedule::class.java), null, null, null, "1:00 PM", 16, "TBS", "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=789", "Any", 25, "Show 14")
             )
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun afterClass() {
+            Looper.myLooper().quit()
         }
     }
 }
