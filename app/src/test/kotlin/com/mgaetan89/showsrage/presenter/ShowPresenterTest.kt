@@ -1,44 +1,26 @@
 package com.mgaetan89.showsrage.presenter
 
-import android.os.Looper
-import android.support.test.InstrumentationRegistry
-import android.support.test.rule.ActivityTestRule
-import com.mgaetan89.showsrage.TestActivity
-import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.network.SickRageApi
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.After
-import org.junit.AfterClass
 import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.mockito.Mockito.doReturn
+import org.mockito.Mockito.spy
 
 @RunWith(Parameterized::class)
 class ShowPresenterTest(
         val show: Show?, val bannerUrl: String, val downloaded: Int, val episodesCount: Int, val network: String,
         val paused: Boolean, val posterUrl: String, val quality: String, val showName: String, val snatched: Int
 ) {
-    @JvmField
-    @Rule
-    val activityRule: ActivityTestRule<TestActivity> = ActivityTestRule(TestActivity::class.java)
-
     private lateinit var presenter: ShowPresenter
 
     @Before
     fun before() {
-        RealmManager.init(this.activityRule.activity, InstrumentationRegistry.getContext())
-
-        val realmShow = if (this.show != null) {
-            RealmManager.getRealm()?.copyToRealm(this.show)
-        } else {
-            this.show
-        }
-
-        this.presenter = ShowPresenter(realmShow)
+        this.presenter = spy(ShowPresenter(this.show))
+        doReturn(true).`when`(this.presenter).isShowValid()
     }
 
     @Test
@@ -86,20 +68,7 @@ class ShowPresenterTest(
         assertThat(this.presenter.isPaused()).isEqualTo(this.paused)
     }
 
-    @After
-    fun after() {
-        RealmManager.close()
-    }
-
     companion object {
-        @BeforeClass
-        @JvmStatic
-        fun beforeClass() {
-            if (Looper.myLooper() == null) {
-                Looper.prepare()
-            }
-        }
-
         @JvmStatic
         @Parameterized.Parameters
         fun data(): Collection<Array<Any?>> {
@@ -110,12 +79,6 @@ class ShowPresenterTest(
                     arrayOf(gson.fromJson("{downloaded: 10, episodesCount: 20, network: \"ABC\", paused: 0, quality: \"HD\", show_name: \"Show 1\", snatched: 5, tvdbid: 123}", Show::class.java), "https://127.0.0.1:8083/api/apiKey/?cmd=show.getbanner&tvdbid=123", 10, 20, "ABC", false, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=123", "HD", "Show 1", 5),
                     arrayOf(gson.fromJson("{downloaded: 20, episodesCount: 30, network: \"CBS\", paused: 1, quality: \"HD1080p\", show_name: \"Show 2\", snatched: 10, tvdbid: 456}", Show::class.java), "https://127.0.0.1:8083/api/apiKey/?cmd=show.getbanner&tvdbid=456", 20, 30, "CBS", true, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=456", "HD1080p", "Show 2", 10)
             )
-        }
-
-        @AfterClass
-        @JvmStatic
-        fun afterClass() {
-            Looper.myLooper().quit()
         }
     }
 }

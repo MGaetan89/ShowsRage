@@ -21,5 +21,5 @@ class HistoryPresenter(val history: History?) {
 
     fun getShowName() = if (this.isHistoryValid()) this.history!!.showName else ""
 
-    private fun isHistoryValid() = this.history != null && this.history.isValid
+    internal fun isHistoryValid() = this.history != null && this.history.isValid
 }
