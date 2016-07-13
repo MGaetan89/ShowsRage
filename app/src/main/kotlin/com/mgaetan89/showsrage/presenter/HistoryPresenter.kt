@@ -4,7 +4,7 @@ import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.model.Indexer
 import com.mgaetan89.showsrage.network.SickRageApi
 
-class HistoryPresenter(val history: History?) {
+open class HistoryPresenter(val history: History?) {
     fun getEpisode() = if (this.isHistoryValid()) this.history!!.episode else 0
 
     fun getPosterUrl() = if (this.isHistoryValid()) SickRageApi.instance.getPosterUrl(this.history!!.tvDbId, Indexer.TVDB) else ""

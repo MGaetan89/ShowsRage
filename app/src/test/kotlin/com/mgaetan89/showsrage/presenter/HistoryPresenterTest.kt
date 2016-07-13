@@ -65,7 +65,7 @@ class HistoryPresenterTest(
             val gson = SickRageApi.gson
 
             return listOf(
-                    arrayOf(null as History?, 0, "", "", null, "", 0, ""),
+                    arrayOf(null, 0, "", "", null, "", 0, ""),
                     arrayOf(gson.fromJson("{episode: 1, provider: \"CtrlHD\", quality: \"HD1080p\", season: 2, show_name: \"Show 1\", tvdbid: 123}", History::class.java), 1, "?cmd=show.getposter&tvdbid=123", "CtrlHD", null, "HD1080p", 2, "Show 1"),
                     arrayOf(gson.fromJson("{episode: 2, provider: \"-1\", quality: \"HD\", season: 3, show_name: \"Show 2\", tvdbid: 456}", History::class.java), 2, "?cmd=show.getposter&tvdbid=456", "-1", "HD", "HD", 3, "Show 2")
             )

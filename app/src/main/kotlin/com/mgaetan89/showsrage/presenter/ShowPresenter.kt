@@ -6,7 +6,7 @@ import com.mgaetan89.showsrage.model.RealmShowStat
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.network.SickRageApi
 
-class ShowPresenter(val show: Show?) {
+open class ShowPresenter(val show: Show?) {
     fun getBannerUrl() = if (this.isShowValid()) SickRageApi.instance.getBannerUrl(this.show!!.tvDbId, Indexer.TVDB) else ""
 
     fun getDownloaded() = this.getShowStat()?.downloaded ?: 0

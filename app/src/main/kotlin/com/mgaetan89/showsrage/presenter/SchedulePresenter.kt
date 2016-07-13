@@ -7,7 +7,7 @@ import com.mgaetan89.showsrage.model.Indexer
 import com.mgaetan89.showsrage.model.Schedule
 import com.mgaetan89.showsrage.network.SickRageApi
 
-class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
+open class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
     fun getAirDate(): CharSequence? {
         val schedule = this._getSchedule() ?: return null
         val airDate = schedule.airDate
