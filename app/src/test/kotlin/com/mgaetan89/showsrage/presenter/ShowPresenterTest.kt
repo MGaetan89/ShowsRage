@@ -20,7 +20,7 @@ class ShowPresenterTest(
     @Before
     fun before() {
         this.presenter = spy(ShowPresenter(this.show))
-        doReturn(true).`when`(this.presenter).isShowValid()
+        doReturn(this.show != null).`when`(this.presenter).isShowValid()
     }
 
     @Test

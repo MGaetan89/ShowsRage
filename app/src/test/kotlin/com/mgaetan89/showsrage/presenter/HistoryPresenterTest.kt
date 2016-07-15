@@ -20,7 +20,7 @@ class HistoryPresenterTest(
     @Before
     fun before() {
         this.presenter = spy(HistoryPresenter(this.history))
-        doReturn(true).`when`(this.presenter).isHistoryValid()
+        doReturn(this.history != null).`when`(this.presenter).isHistoryValid()
     }
 
     @Test
