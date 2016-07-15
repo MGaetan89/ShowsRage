@@ -37,5 +37,5 @@ open class ShowPresenter(val show: Show?) {
         return this.show.stat
     }
 
-    internal fun isShowValid() = this.show != null && this.show.isValid
+    internal open fun isShowValid() = this.show != null && this.show.isValid
 }

@@ -78,5 +78,5 @@ open class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
         return airTime.replaceFirst("(?i)^(monday|tuesday|wednesday|thursday|friday|saturday|sunday) ".toRegex(), "")
     }
 
-    internal fun _getSchedule() = if (this.schedule?.isValid ?: false) this.schedule else null
+    internal open fun _getSchedule() = if (this.schedule?.isValid ?: false) this.schedule else null
 }
