@@ -450,6 +450,10 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     }
 
     private fun displayEpisode(episode: Episode) {
+        if (!episode.isLoaded) {
+            return
+        }
+
         this.airs?.text = this.getString(R.string.airs, DateTimeHelper.getRelativeDate(episode.airDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS))
         this.airs?.visibility = View.VISIBLE
 

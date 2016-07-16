@@ -7,6 +7,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.mockito.Mockito.doReturn
+import org.mockito.Mockito.spy
 
 @RunWith(Parameterized::class)
 class HistoryPresenterTest(
@@ -17,7 +19,8 @@ class HistoryPresenterTest(
 
     @Before
     fun before() {
-        this.presenter = HistoryPresenter(this.history)
+        this.presenter = spy(HistoryPresenter(this.history))
+        doReturn(this.history != null).`when`(this.presenter).isHistoryValid()
     }
 
     @Test

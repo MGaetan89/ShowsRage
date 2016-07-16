@@ -4,24 +4,22 @@ import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.model.Indexer
 import com.mgaetan89.showsrage.network.SickRageApi
 
-class HistoryPresenter(val history: History?) {
-    fun getEpisode() = this.history?.episode ?: 0
+open class HistoryPresenter(val history: History?) {
+    fun getEpisode() = if (this.isHistoryValid()) this.history!!.episode else 0
 
-    fun getPosterUrl() = if (this.history == null) "" else SickRageApi.instance.getPosterUrl(this.history.tvDbId, Indexer.TVDB)
+    fun getPosterUrl() = if (this.isHistoryValid()) SickRageApi.instance.getPosterUrl(this.history!!.tvDbId, Indexer.TVDB) else ""
 
-    fun getProvider() = this.history?.provider ?: ""
+    fun getProvider() = if (this.isHistoryValid()) this.history!!.provider else ""
 
     fun getProviderQuality(): String? {
-        if (this.history == null) {
-            return null
-        }
-
-        return if ("-1".equals(this.history.provider)) this.history.quality else null
+        return if (this.isHistoryValid() && "-1".equals(this.history!!.provider)) this.history.quality else null
     }
 
-    fun getQuality() = this.history?.quality ?: ""
+    fun getQuality() = if (this.isHistoryValid()) this.history!!.quality else ""
 
-    fun getSeason() = this.history?.season ?: 0
+    fun getSeason() = if (this.isHistoryValid()) this.history!!.season else 0
 
-    fun getShowName() = this.history?.showName ?: ""
+    fun getShowName() = if (this.isHistoryValid()) this.history!!.showName else ""
+
+    internal open fun isHistoryValid() = this.history != null && this.history.isValid
 }

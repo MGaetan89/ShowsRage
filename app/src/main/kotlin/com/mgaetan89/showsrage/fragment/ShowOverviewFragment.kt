@@ -643,7 +643,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
 
     private fun deleteShow() {
-        if (this.show == null) {
+        if (this.show == null || !this.show!!.isLoaded) {
             return
         }
 

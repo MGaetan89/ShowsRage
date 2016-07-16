@@ -66,7 +66,12 @@ open class SettingsServerFragment : SettingsFragment(), Callback<GenericResponse
     override fun getXmlResourceFile() = R.xml.settings_server
 
     private fun dismissDialog() {
-        this.alertDialog?.dismiss()
+        this.alertDialog?.let {
+            if (it.isShowing) {
+                it.dismiss()
+            }
+        }
+
         this.alertDialog = null
     }
 

@@ -135,14 +135,19 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
             val filterStatus = preferences.getInt(Constants.Preferences.Fields.SHOW_FILTER_STATUS, Constants.Preferences.Defaults.SHOW_FILTER_STATUS)
             val ignoreArticles = preferences.getBoolean(Constants.Preferences.Fields.IGNORE_ARTICLES, Constants.Preferences.Defaults.IGNORE_ARTICLES)
             val searchQuery = intent?.getStringExtra(Constants.Bundle.SEARCH_QUERY)
-            val filteredShows = fragment.shows?.filter {
-                match(it, ShowsFilters.State.valueOf(filterState), filterStatus, searchQuery)
-            }?.sortedWith(Comparator<Show> { first, second ->
-                val firstProperty = getSortableShowName(first, ignoreArticles)
-                val secondProperty = getSortableShowName(second, ignoreArticles)
+            val shows = fragment.shows
+            val filteredShows = if (shows == null || !shows.isLoaded) {
+                emptyList()
+            } else {
+                shows.filter {
+                    match(it, ShowsFilters.State.valueOf(filterState), filterStatus, searchQuery)
+                }.sortedWith(Comparator<Show> { first, second ->
+                    val firstProperty = getSortableShowName(first, ignoreArticles)
+                    val secondProperty = getSortableShowName(second, ignoreArticles)
 
-                firstProperty.compareTo(secondProperty)
-            }) ?: emptyList()
+                    firstProperty.compareTo(secondProperty)
+                })
+            }
 
             fragment.filteredShows.clear()
             fragment.filteredShows.addAll(filteredShows)
