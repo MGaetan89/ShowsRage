@@ -10,15 +10,21 @@ import android.support.v7.app.AlertDialog
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.helper.humanize
 
 class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, DialogInterface.OnMultiChoiceClickListener {
     private val items = RealmManager.getLogsGroup().toTypedArray()
+    private val itemsFormatted = Array(this.items.size) { "" }
     private val selectedIndices = mutableListOf<Int>()
 
     init {
-        // TODO Reselect previously selected items
-        // By default, we select every items
-        this.items.forEachIndexed { i, item -> this.selectedIndices.add(i) }
+        this.items.forEachIndexed { i, item ->
+            this.itemsFormatted[i] = item.humanize()
+
+            // TODO Reselect previously selected items
+            // By default, we select every items
+            this.selectedIndices.add(i)
+        }
     }
 
     override fun onClick(dialog: DialogInterface?, which: Int) {
@@ -40,10 +46,10 @@ class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, Di
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val checked = arrayOfNulls<Boolean>(this.items.size).map { true }.toBooleanArray()
+        val checked = arrayOfNulls<Boolean>(this.itemsFormatted.size).map { true }.toBooleanArray()
         val builder = AlertDialog.Builder(this.context)
         builder.setTitle(R.string.filter)
-        builder.setMultiChoiceItems(this.items, checked, this)
+        builder.setMultiChoiceItems(this.itemsFormatted, checked, this)
         builder.setNegativeButton(R.string.cancel, null)
         builder.setPositiveButton(R.string.filter, this)
 
