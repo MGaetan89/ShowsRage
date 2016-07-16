@@ -121,10 +121,10 @@ kapt {
 }
 
 def assertJAndroidVersion = '1.1.1'
-def googleServicesVersion = '9.2.0'
+def googleServicesVersion = '9.2.1'
 def jUnitVersion = '4.12'
-def kolumbusVersion = 'v0.8'
-def mockitoVersion = '2.0.84-beta'
+def kolumbusVersion = 'v0.9'
+def mockitoVersion = '2.0.86-beta'
 def okHttpVersion = '2.5.0'
 def supportLibraryVersion = '24.0.0'
 def supportTestVersion = '0.5'
