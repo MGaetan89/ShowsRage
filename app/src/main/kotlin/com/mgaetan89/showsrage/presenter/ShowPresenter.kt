@@ -25,7 +25,7 @@ open class ShowPresenter(val show: Show?) {
 
     fun isPaused() = if (this.isShowValid()) this.show!!.paused == 1 else false
 
-    private fun getShowStat(): RealmShowStat? {
+    internal open fun getShowStat(): RealmShowStat? {
         if (!this.isShowValid()) {
             return null
         }

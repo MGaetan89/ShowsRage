@@ -1,5 +1,7 @@
 package com.mgaetan89.showsrage.presenter
 
+import com.google.gson.Gson
+import com.mgaetan89.showsrage.model.RealmShowStat
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.network.SickRageApi
 import org.assertj.core.api.Assertions.assertThat
@@ -12,8 +14,9 @@ import org.mockito.Mockito.spy
 
 @RunWith(Parameterized::class)
 class ShowPresenterTest(
-        val show: Show?, val bannerUrl: String, val downloaded: Int, val episodesCount: Int, val network: String,
-        val paused: Boolean, val posterUrl: String, val quality: String, val showName: String, val snatched: Int
+        val show: Show?, val showStat: RealmShowStat?, val bannerUrl: String, val downloaded: Int,
+        val episodesCount: Int, val network: String, val paused: Boolean, val posterUrl: String, val quality: String,
+        val showName: String, val snatched: Int
 ) {
     private lateinit var presenter: ShowPresenter
 
@@ -21,6 +24,7 @@ class ShowPresenterTest(
     fun before() {
         this.presenter = spy(ShowPresenter(this.show))
         doReturn(this.show != null).`when`(this.presenter).isShowValid()
+        doReturn(this.showStat).`when`(this.presenter).getShowStat()
     }
 
     @Test
@@ -71,14 +75,22 @@ class ShowPresenterTest(
     companion object {
         @JvmStatic
         @Parameterized.Parameters
-        fun data(): Collection<Array<Any?>> {
+        fun data(): Collection<Array<out Any?>> {
             val gson = SickRageApi.gson
 
             return listOf(
                     arrayOf(null, "", 0, 0, "", false, "", "", "", 0),
-                    arrayOf(gson.fromJson("{downloaded: 10, episodesCount: 20, network: \"ABC\", paused: 0, quality: \"HD\", show_name: \"Show 1\", snatched: 5, tvdbid: 123}", Show::class.java), "https://127.0.0.1:8083/api/apiKey/?cmd=show.getbanner&tvdbid=123", 10, 20, "ABC", false, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=123", "HD", "Show 1", 5),
-                    arrayOf(gson.fromJson("{downloaded: 20, episodesCount: 30, network: \"CBS\", paused: 1, quality: \"HD1080p\", show_name: \"Show 2\", snatched: 10, tvdbid: 456}", Show::class.java), "https://127.0.0.1:8083/api/apiKey/?cmd=show.getbanner&tvdbid=456", 20, 30, "CBS", true, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=456", "HD1080p", "Show 2", 10)
+                    arrayOf(getShow(gson, "ABC", 0, "HD", "Show 1", 123), getShowStat(gson, 10, 20, 5), "https://127.0.0.1:8083/api/apiKey/?cmd=show.getbanner&tvdbid=123", 10, 20, "ABC", false, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=123", "HD", "Show 1", 5),
+                    arrayOf(getShow(gson, "CBS", 1, "HD1080p", "Show 2", 456), getShowStat(gson, 20, 30, 10), "https://127.0.0.1:8083/api/apiKey/?cmd=show.getbanner&tvdbid=456", 20, 30, "CBS", true, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=456", "HD1080p", "Show 2", 10)
             )
+        }
+
+        private fun getShow(gson: Gson, network: String, paused: Int, quality: String, showName: String, tvDbId: Int): Show {
+            return gson.fromJson("{network: \"$network\", paused: $paused, quality: \"$quality\", show_name: \"$showName\", tvdbid: $tvDbId}", Show::class.java)
+        }
+
+        private fun getShowStat(gson: Gson, downloaded: Int, episodesCount: Int, snatched: Int): RealmShowStat {
+            return gson.fromJson("{downloaded: $downloaded, episodesCount: $episodesCount, snatched: $snatched}", RealmShowStat::class.java)
         }
     }
 }
