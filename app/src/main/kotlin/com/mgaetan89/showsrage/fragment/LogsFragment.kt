@@ -33,6 +33,7 @@ import retrofit.client.Response
 class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResults<LogEntry>>, SwipeRefreshLayout.OnRefreshListener {
     private var adapter: LogsAdapter? = null
     private var emptyView: TextView? = null
+    private var groups: Array<String>? = null
     private var logs: RealmResults<LogEntry>? = null
     private var recyclerView: RecyclerView? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
@@ -65,12 +66,12 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 
         if (requestCode == REQUEST_CODE_FILTER) {
             if (resultCode == Activity.RESULT_OK) {
-                val groups = data?.getStringArrayExtra(Constants.Bundle.LOGS_GROUPS)
+                this.groups = data?.getStringArrayExtra(Constants.Bundle.LOGS_GROUPS)
 
                 this.adapter = null
 
                 this.logs?.removeChangeListeners()
-                this.logs = RealmManager.getLogs(this.getPreferredLogsLevel(), groups, this)
+                this.logs = RealmManager.getLogs(this.getPreferredLogsLevel(), this.groups, this)
             }
         }
     }
@@ -194,7 +195,11 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     }
 
     private fun handleLogsGroupFilter() {
+        val arguments = Bundle()
+        arguments.putStringArray(Constants.Bundle.LOGS_GROUPS, this.groups)
+
         val fragment = LogsFilterFragment()
+        fragment.arguments = arguments
         fragment.setTargetFragment(this, REQUEST_CODE_FILTER)
         fragment.show(this.childFragmentManager, "logs_filter")
     }

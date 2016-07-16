@@ -15,15 +15,11 @@ import com.mgaetan89.showsrage.helper.humanize
 class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, DialogInterface.OnMultiChoiceClickListener {
     private val items = RealmManager.getLogsGroup().toTypedArray()
     private val itemsFormatted = Array(this.items.size) { "" }
-    private val selectedIndices = mutableListOf<Int>()
+    private val selectedIndices = mutableSetOf<Int>()
 
     init {
         this.items.forEachIndexed { i, item ->
             this.itemsFormatted[i] = item.humanize()
-
-            // TODO Reselect previously selected items
-            // By default, we select every items
-            this.selectedIndices.add(i)
         }
     }
 
@@ -45,8 +41,22 @@ class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, Di
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val groups = this.arguments.getStringArray(Constants.Bundle.LOGS_GROUPS)
+
+        if (groups == null || groups.isEmpty()) {
+            this.selectedIndices.addAll(this.items.indices)
+        } else {
+            groups.forEach {
+                this.selectedIndices.add(this.items.indexOf(it))
+            }
+        }
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val checked = arrayOfNulls<Boolean>(this.itemsFormatted.size).map { true }.toBooleanArray()
+        val checked = arrayOfNulls<Boolean>(this.itemsFormatted.size).mapIndexed { i, item -> this.selectedIndices.contains(i) }.toBooleanArray()
         val builder = AlertDialog.Builder(this.context)
         builder.setTitle(R.string.filter)
         builder.setMultiChoiceItems(this.itemsFormatted, checked, this)
