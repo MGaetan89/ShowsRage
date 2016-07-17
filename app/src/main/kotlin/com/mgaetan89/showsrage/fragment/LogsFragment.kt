@@ -1,5 +1,7 @@
 package com.mgaetan89.showsrage.fragment
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
@@ -31,6 +33,7 @@ import retrofit.client.Response
 class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResults<LogEntry>>, SwipeRefreshLayout.OnRefreshListener {
     private var adapter: LogsAdapter? = null
     private var emptyView: TextView? = null
+    private var groups: Array<String>? = null
     private var logs: RealmResults<LogEntry>? = null
     private var recyclerView: RecyclerView? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
@@ -56,6 +59,21 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
         }
 
         this.onRefresh()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_CODE_FILTER) {
+            if (resultCode == Activity.RESULT_OK) {
+                this.groups = data?.getStringArrayExtra(Constants.Bundle.LOGS_GROUPS)
+
+                this.adapter = null
+
+                this.logs?.removeChangeListeners()
+                this.logs = RealmManager.getLogs(this.getPreferredLogsLevel(), this.groups, this)
+            }
+        }
     }
 
     override fun onChange(logs: RealmResults<LogEntry>) {
@@ -137,6 +155,12 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
             return this.handleLogsLevelSelection(item)
         }
 
+        if (item?.itemId == R.id.menu_filter) {
+            this.handleLogsGroupFilter()
+
+            return true
+        }
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -170,6 +194,16 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
         }
     }
 
+    private fun handleLogsGroupFilter() {
+        val arguments = Bundle()
+        arguments.putStringArray(Constants.Bundle.LOGS_GROUPS, this.groups)
+
+        val fragment = LogsFilterFragment()
+        fragment.arguments = arguments
+        fragment.setTargetFragment(this, REQUEST_CODE_FILTER)
+        fragment.show(this.childFragmentManager, "logs_filter")
+    }
+
     private fun handleLogsLevelSelection(item: MenuItem?): Boolean {
         val logLevel = getLogLevelForMenuId(item?.itemId)
 
@@ -198,6 +232,8 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     }
 
     companion object {
+        private const val REQUEST_CODE_FILTER = 1
+
         internal fun getLogLevelForMenuId(menuId: Int?): LogLevel? {
             return when (menuId) {
                 R.id.menu_debug -> LogLevel.DEBUG

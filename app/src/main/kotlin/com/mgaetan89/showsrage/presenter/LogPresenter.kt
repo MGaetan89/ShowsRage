@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.presenter
 
 import android.support.annotation.ColorRes
 import com.mgaetan89.showsrage.helper.DateTimeHelper
+import com.mgaetan89.showsrage.helper.humanize
 import com.mgaetan89.showsrage.model.LogEntry
 
 class LogPresenter(val logEntry: LogEntry?) {
@@ -18,14 +19,7 @@ class LogPresenter(val logEntry: LogEntry?) {
 
     fun getErrorType() = this.logEntry?.errorType ?: ""
 
-    fun getMessage(): String {
-        val group = this.logEntry?.group
-        val message = this.logEntry?.message
+    fun getGroup() = this.logEntry?.group?.humanize()
 
-        if (!group.isNullOrEmpty()) {
-            return group + " :: " + message
-        }
-
-        return message?.trim() ?: ""
-    }
+    fun getMessage() = this.logEntry?.message?.trim() ?: ""
 }

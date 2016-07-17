@@ -7,6 +7,18 @@ import java.util.*
 
 fun String?.hasText() = !this.isNullOrBlank() && !"N/A".equals(this, true)
 
+fun String.humanize(): String {
+    return this.split(' ', '-')
+            .map {
+                if (it.isEmpty()) {
+                    it
+                } else {
+                    it.first().toUpperCase() + it.drop(1).toLowerCase()
+                }
+            }
+            .joinToString(" ")
+}
+
 fun setText(fragment: Fragment, textView: TextView, text: String?, label: Int, layout: View?) {
     if (text.hasText()) {
         if (layout == null) {
