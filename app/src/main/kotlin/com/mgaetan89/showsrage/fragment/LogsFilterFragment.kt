@@ -24,7 +24,7 @@ class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, Di
     }
 
     override fun onClick(dialog: DialogInterface?, which: Int) {
-        val selectedItems = this.items.filterIndexed { i, item -> this.selectedIndices.contains(i) }.toTypedArray()
+        val selectedItems = getSelectedItems(this.items, this.selectedIndices)
         val data = Intent()
         data.putExtra(Constants.Bundle.LOGS_GROUPS, selectedItems)
 
@@ -46,17 +46,11 @@ class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, Di
 
         val groups = this.arguments.getStringArray(Constants.Bundle.LOGS_GROUPS)
 
-        if (groups == null || groups.isEmpty()) {
-            this.selectedIndices.addAll(this.items.indices)
-        } else {
-            groups.forEach {
-                this.selectedIndices.add(this.items.indexOf(it))
-            }
-        }
+        setSelectedIndices(this.selectedIndices, this.items, groups)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val checked = arrayOfNulls<Boolean>(this.itemsFormatted.size).mapIndexed { i, item -> this.selectedIndices.contains(i) }.toBooleanArray()
+        val checked = getCheckedStates(this.items.size, this.selectedIndices)
         val builder = AlertDialog.Builder(this.context)
         builder.setTitle(R.string.filter)
         builder.setMultiChoiceItems(this.itemsFormatted, checked, this)
@@ -64,5 +58,31 @@ class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, Di
         builder.setPositiveButton(R.string.filter, this)
 
         return builder.show()
+    }
+
+    companion object {
+        internal fun getCheckedStates(size: Int, selectedIndices: Set<Int>): BooleanArray {
+            return arrayOfNulls<Boolean>(size).mapIndexed { i, item -> selectedIndices.contains(i) }.toBooleanArray()
+        }
+
+        internal fun getSelectedItems(items: Array<String>, selectedIndices: Set<Int>): Array<String> {
+            return items.filterIndexed { i, item -> selectedIndices.contains(i) }.toTypedArray()
+        }
+
+        internal fun setSelectedIndices(selectedIndices: MutableSet<Int>, items: Array<String>, groups: Array<String>?) {
+            selectedIndices.clear()
+
+            if (groups == null || groups.isEmpty()) {
+                selectedIndices.addAll(items.indices)
+            } else {
+                groups.forEach {
+                    val index = items.indexOf(it)
+
+                    if (index >= 0) {
+                        selectedIndices.add(index)
+                    }
+                }
+            }
+        }
     }
 }
