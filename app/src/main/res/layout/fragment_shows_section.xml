@@ -13,6 +13,13 @@
 		android:clipToPadding="false"
 		android:paddingBottom="@dimen/fab_spacing" />
 
+	<com.futuremind.recyclerviewfastscroll.FastScroller
+		android:id="@+id/fastscroll"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_gravity="end|right"
+		android:orientation="vertical" />
+
 	<TextView
 		android:id="@android:id/empty"
 		android:layout_width="wrap_content"

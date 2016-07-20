@@ -6,6 +6,7 @@ import android.support.annotation.ColorInt
 import android.support.v4.content.ContextCompat
 import android.support.v7.graphics.Palette
 import com.mgaetan89.showsrage.R
+import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.ThemeColors
 
 object Utils {
@@ -13,6 +14,14 @@ object Utils {
         val y = (299 * Color.red(color) + 587 * Color.green(color) + 114 * Color.blue(color)) / 1000
 
         return if (y >= 128) Color.BLACK else Color.WHITE
+    }
+
+    fun getSortableShowName(show: Show, ignoreArticles: Boolean): String {
+        return if (ignoreArticles) {
+            show.showName?.replaceFirst("^(?:an?|the)\\s+".toRegex(RegexOption.IGNORE_CASE), "")?.toLowerCase()
+        } else {
+            show.showName?.toLowerCase()
+        } ?: ""
     }
 
     fun getThemeColors(context: Context, palette: Palette): ThemeColors {
