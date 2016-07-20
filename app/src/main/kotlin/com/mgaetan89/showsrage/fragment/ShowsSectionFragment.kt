@@ -14,10 +14,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.futuremind.recyclerviewfastscroll.FastScroller
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.adapter.ShowsAdapter
 import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.RealmShowStat
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.ShowStatsWrapper
@@ -68,16 +70,25 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
         val view = inflater?.inflate(R.layout.fragment_shows_section, container, false)
 
         if (view != null) {
+            val fastScroller = view.findViewById(R.id.fastscroll) as FastScroller?
+
             this.emptyView = view.findViewById(android.R.id.empty) as TextView?
             this.recyclerView = view.findViewById(android.R.id.list) as RecyclerView?
 
             if (this.recyclerView != null) {
+                val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+                val ignoreArticles = preferences.getBoolean(Constants.Preferences.Fields.IGNORE_ARTICLES, Constants.Preferences.Defaults.IGNORE_ARTICLES)
                 val showsListLayout = PreferenceManager.getDefaultSharedPreferences(this.context).getString("display_shows_list_layout", "poster")
                 val columnCount = this.resources.getInteger(R.integer.shows_column_count)
-                this.adapter = ShowsAdapter(this.filteredShows, getAdapterLayoutResource(showsListLayout))
+
+                this.adapter = ShowsAdapter(this.filteredShows, getAdapterLayoutResource(showsListLayout), ignoreArticles)
 
                 this.recyclerView!!.adapter = adapter
                 this.recyclerView!!.layoutManager = GridLayoutManager(this.context, columnCount)
+
+                fastScroller?.let {
+                    it.setRecyclerView(this.recyclerView)
+                }
             }
         }
 
@@ -142,8 +153,8 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
                 shows.filter {
                     match(it, ShowsFilters.State.valueOf(filterState), filterStatus, searchQuery)
                 }.sortedWith(Comparator<Show> { first, second ->
-                    val firstProperty = getSortableShowName(first, ignoreArticles)
-                    val secondProperty = getSortableShowName(second, ignoreArticles)
+                    val firstProperty = Utils.getSortableShowName(first, ignoreArticles)
+                    val secondProperty = Utils.getSortableShowName(second, ignoreArticles)
 
                     firstProperty.compareTo(secondProperty)
                 })
@@ -156,14 +167,6 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
         }
 
         companion object {
-            internal fun getSortableShowName(show: Show, ignoreArticles: Boolean): String {
-                return if (ignoreArticles) {
-                    show.showName?.replaceFirst("^(?:an?|the)\\s+".toRegex(RegexOption.IGNORE_CASE), "")
-                } else {
-                    show.showName
-                } ?: ""
-            }
-
             internal fun match(show: Show?, filterState: ShowsFilters.State?, filterStatus: Int, searchQuery: String?): Boolean {
                 return show != null &&
                         matchFilterState(show, filterState) &&

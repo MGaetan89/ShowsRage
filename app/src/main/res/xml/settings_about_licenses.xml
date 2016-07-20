@@ -4,6 +4,16 @@
 	<PreferenceCategory android:title="Apache License, Version 2.0">
 
 		<PreferenceScreen
+			android:key="fastscroll"
+			android:summary="Version 0.1.4"
+			android:title="Recycler Fast Scroll">
+
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:data="https://github.com/FutureMind/recycler-fast-scroll" />
+		</PreferenceScreen>
+
+		<PreferenceScreen
 			android:key="glide"
 			android:summary="Version 3.7.0"
 			android:title="Glide">
@@ -35,7 +45,7 @@
 
 		<PreferenceScreen
 			android:key="realm_java"
-			android:summary="Version 1.0.1"
+			android:summary="Version 1.1.0"
 			android:title="Realm Java">
 
 			<intent

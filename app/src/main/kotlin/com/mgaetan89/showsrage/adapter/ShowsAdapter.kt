@@ -9,15 +9,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.futuremind.recyclerviewfastscroll.SectionTitleProvider
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.databinding.AdapterShowsListBinding
 import com.mgaetan89.showsrage.helper.DateTimeHelper
+import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.presenter.ShowPresenter
 
-class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int) : RecyclerView.Adapter<ShowsAdapter.ViewHolder>() {
+class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, val ignoreArticles: Boolean) : RecyclerView.Adapter<ShowsAdapter.ViewHolder>(), SectionTitleProvider {
     override fun getItemCount() = this.shows.size
+
+    override fun getSectionTitle(position: Int): String {
+        val showName = Utils.getSortableShowName(this.shows[position], this.ignoreArticles)
+
+        return showName.firstOrNull()?.toUpperCase()?.toString() ?: ""
+    }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val show = this.shows[position]

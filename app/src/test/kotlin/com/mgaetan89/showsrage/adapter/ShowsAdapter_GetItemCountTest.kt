@@ -13,7 +13,7 @@ class ShowsAdapter_GetItemCountTest(val shows: List<Show>, val itemCount: Int) {
 
     @Before
     fun before() {
-        this.adapter = ShowsAdapter(this.shows, 0)
+        this.adapter = ShowsAdapter(this.shows, 0, false)
     }
 
     @Test
