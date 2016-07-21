@@ -52,7 +52,7 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
             activity.setTitle(R.string.shows)
         }
 
-        this.refresh()
+        this.onRefresh()
     }
 
     override fun onClick(view: View?) {
@@ -105,12 +105,6 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
             return true
         }
 
-        if (item?.itemId == R.id.menu_refresh) {
-            this.refresh()
-
-            return true
-        }
-
         return super.onOptionsItemSelected(item)
     }
 
@@ -130,6 +124,14 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
         this.sendFilterMessage()
 
         return true
+    }
+
+    override fun onRefresh() {
+        this.swipeRefreshLayout?.post {
+            this.swipeRefreshLayout?.isRefreshing = true
+        }
+
+        SickRageApi.instance.services?.getShows(this)
     }
 
     override fun onStart() {
@@ -160,7 +162,7 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
         return TabLayout.MODE_FIXED
     }
 
-    override fun useSwipeToRefresh() = false
+    override fun useSwipeToRefresh() = true
 
     internal fun sendFilterMessage() {
         val intent = Intent(Constants.Intents.ACTION_FILTER_SHOWS)
@@ -179,13 +181,5 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
 
             activity.firebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SEARCH, params)
         }
-    }
-
-    private fun refresh() {
-        this.swipeRefreshLayout?.post {
-            this.swipeRefreshLayout?.isRefreshing = true
-        }
-
-        SickRageApi.instance.services?.getShows(this)
     }
 }
