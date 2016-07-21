@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.mgaetan89.showsrage.R
 
-abstract class TabbedFragment : Fragment() {
+abstract class TabbedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     protected var swipeRefreshLayout: SwipeRefreshLayout? = null
     private var adapter: PagerAdapter? = null
     private var tabLayout: TabLayout? = null
@@ -41,13 +41,18 @@ abstract class TabbedFragment : Fragment() {
         super.onDestroyView()
     }
 
+    override fun onRefresh() = Unit
+
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         if (view != null) {
             this.swipeRefreshLayout = view.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
-            this.swipeRefreshLayout?.setColorSchemeResources(R.color.accent)
-            this.swipeRefreshLayout?.isEnabled = false
+            this.swipeRefreshLayout?.let {
+                it.isEnabled = this.useSwipeToRefresh()
+                it.setColorSchemeResources(R.color.accent)
+                it.setOnRefreshListener(this)
+            }
 
             this.viewPager = view.findViewById(R.id.view_pager) as ViewPager?
 
@@ -76,4 +81,6 @@ abstract class TabbedFragment : Fragment() {
 
         this.tabLayout?.visibility = if (empty) View.GONE else View.VISIBLE
     }
+
+    protected abstract fun useSwipeToRefresh(): Boolean
 }

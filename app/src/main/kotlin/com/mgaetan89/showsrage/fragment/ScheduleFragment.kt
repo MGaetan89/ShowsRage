@@ -33,12 +33,7 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
         }
 
         this.setSections(RealmManager.getScheduleSections())
-
-        this.swipeRefreshLayout?.post {
-            this.swipeRefreshLayout?.isRefreshing = true
-        }
-
-        SickRageApi.instance.services?.getSchedule(this)
+        this.onRefresh()
     }
 
     override fun onDestroy() {
@@ -46,6 +41,14 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
         this.sectionLabels.clear()
 
         super.onDestroy()
+    }
+
+    override fun onRefresh() {
+        this.swipeRefreshLayout?.post {
+            this.swipeRefreshLayout?.isRefreshing = true
+        }
+
+        SickRageApi.instance.services?.getSchedule(this)
     }
 
     override fun success(schedules: Schedules?, response: Response?) {
@@ -72,6 +75,8 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
     override fun getAdapter(): PagerAdapter {
         return SchedulePagerAdapter(this.childFragmentManager, this.sectionIds, this.sectionLabels)
     }
+
+    override fun useSwipeToRefresh() = true
 
     private fun setSections(sections: List<String>) {
         val statuses = listOf("missed", "today", "soon", "later")

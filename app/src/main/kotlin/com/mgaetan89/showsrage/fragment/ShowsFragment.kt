@@ -160,6 +160,8 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
         return TabLayout.MODE_FIXED
     }
 
+    override fun useSwipeToRefresh() = false
+
     internal fun sendFilterMessage() {
         val intent = Intent(Constants.Intents.ACTION_FILTER_SHOWS)
         intent.putExtra(Constants.Bundle.SEARCH_QUERY, this.searchQuery)

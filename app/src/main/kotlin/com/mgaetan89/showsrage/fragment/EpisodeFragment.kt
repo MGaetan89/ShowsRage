@@ -51,4 +51,6 @@ class EpisodeFragment : TabbedFragment() {
     override fun getAdapter(): PagerAdapter {
         return EpisodePagerAdapter(this.childFragmentManager, this, this.episodes)
     }
+
+    override fun useSwipeToRefresh() = false
 }
