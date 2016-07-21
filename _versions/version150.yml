@@ -13,6 +13,7 @@ changes:
 - Display an image for each episode
 - Display subtitles information on the show overview
 - Display subtitles information on the episode detail
+- Enable swipe-to-refresh on every screen
 fixes:
 - Fix back from Settings
 ---
