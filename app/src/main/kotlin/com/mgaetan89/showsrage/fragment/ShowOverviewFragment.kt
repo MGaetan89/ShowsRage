@@ -17,6 +17,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.CardView
@@ -58,7 +59,7 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 import java.lang.ref.WeakReference
 
-class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListener, ImageLoader.OnImageResult, Palette.PaletteAsyncListener, RealmChangeListener<Show> {
+class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListener, ImageLoader.OnImageResult, SwipeRefreshLayout.OnRefreshListener, Palette.PaletteAsyncListener, RealmChangeListener<Show> {
     private var airs: TextView? = null
     private var awards: TextView? = null
     private var awardsLayout: CardView? = null
@@ -173,6 +174,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     private var show: Show? = null
     private var status: TextView? = null
     private var subtitles: TextView? = null
+    private var swipeRefreshLayout: SwipeRefreshLayout? = null
     private var tabSession: CustomTabsSession? = null
     private var theTvDb: Button? = null
     private var webSearch: Button? = null
@@ -183,6 +185,8 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
 
     override fun failure(error: RetrofitError?) {
+        this.swipeRefreshLayout?.isRefreshing = false
+
         error?.printStackTrace()
     }
 
@@ -448,6 +452,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
             this.runtime = view.findViewById(R.id.show_runtime) as TextView?
             this.status = view.findViewById(R.id.show_status) as TextView?
             this.subtitles = view.findViewById(R.id.show_subtitles) as TextView?
+            this.swipeRefreshLayout = view.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
             this.theTvDb = view.findViewById(R.id.show_the_tvdb) as Button?
             this.webSearch = view.findViewById(R.id.show_web_search) as Button?
             this.year = view.findViewById(R.id.show_year) as TextView?
@@ -455,6 +460,9 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
             this.imdb?.setOnClickListener(this)
             this.theTvDb?.setOnClickListener(this)
             this.webSearch?.setOnClickListener(this)
+
+            this.swipeRefreshLayout?.setColorSchemeResources(R.color.accent)
+            this.swipeRefreshLayout?.setOnRefreshListener(this)
 
             this.checkSupportWebSearch()
         }
@@ -506,6 +514,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         this.runtime = null
         this.status = null
         this.subtitles = null
+        this.swipeRefreshLayout = null
         this.theTvDb = null
         this.webSearch = null
         this.year = null
@@ -607,15 +616,25 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onRefresh() {
+        this.swipeRefreshLayout?.post {
+            this.swipeRefreshLayout?.isRefreshing = true
+        }
 
         val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
 
         SickRageApi.instance.services?.getShow(indexerId, this)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        this.onRefresh()
+    }
+
     override fun success(singleShow: SingleShow?, response: Response?) {
+        this.swipeRefreshLayout?.isRefreshing = false
+
         val show = singleShow?.data ?: return
 
         RealmManager.saveShow(show)
