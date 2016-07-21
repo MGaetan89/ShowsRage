@@ -8,342 +8,349 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 
-		<ScrollView
+
+		<android.support.v4.widget.SwipeRefreshLayout
+			android:id="@+id/swipe_refresh"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:clipToPadding="false"
-			android:paddingBottom="@dimen/fab_spacing">
+			android:layout_height="match_parent">
 
-			<LinearLayout
+			<ScrollView
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:orientation="vertical"
-				android:paddingEnd="@dimen/padding"
-				android:paddingLeft="@dimen/padding"
-				android:paddingRight="@dimen/padding"
-				android:paddingStart="@dimen/padding"
-				android:paddingTop="@dimen/padding">
+				android:layout_height="match_parent"
+				android:clipToPadding="false"
+				android:paddingBottom="@dimen/fab_spacing">
 
-				<android.support.v7.widget.CardView
-					style="@style/SR.CardView"
+				<LinearLayout
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginBottom="@dimen/padding">
+					android:orientation="vertical"
+					android:paddingEnd="@dimen/padding"
+					android:paddingLeft="@dimen/padding"
+					android:paddingRight="@dimen/padding"
+					android:paddingStart="@dimen/padding"
+					android:paddingTop="@dimen/padding">
 
-					<LinearLayout
+					<android.support.v7.widget.CardView
+						style="@style/SR.CardView"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:orientation="horizontal">
-
-						<ImageView
-							android:id="@+id/episode_poster"
-							android:layout_width="0dp"
-							android:layout_height="match_parent"
-							android:layout_weight="1"
-							android:adjustViewBounds="true"
-							android:scaleType="centerCrop"
-							tools:ignore="ContentDescription"
-							tools:src="@mipmap/ic_launcher" />
+						android:layout_marginBottom="@dimen/padding">
 
 						<LinearLayout
-							android:layout_width="0dp"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal">
+
+							<ImageView
+								android:id="@+id/episode_poster"
+								android:layout_width="0dp"
+								android:layout_height="match_parent"
+								android:layout_weight="1"
+								android:adjustViewBounds="true"
+								android:scaleType="centerCrop"
+								tools:ignore="ContentDescription"
+								tools:src="@mipmap/ic_launcher" />
+
+							<LinearLayout
+								android:layout_width="0dp"
+								android:layout_height="wrap_content"
+								android:layout_margin="@dimen/padding"
+								android:layout_weight="2"
+								android:orientation="vertical">
+
+								<TextView
+									android:id="@+id/episode_name"
+									style="@style/TextAppearance.AppCompat.Subhead"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:layout_marginBottom="@dimen/padding_half"
+									android:ellipsize="marquee"
+									android:marqueeRepeatLimit="marquee_forever"
+									android:scrollHorizontally="true"
+									android:singleLine="true"
+									android:visibility="gone"
+									app:selected="@{true}"
+									tools:text="Pilot"
+									tools:visibility="visible" />
+
+								<TextView
+									android:id="@+id/episode_airs"
+									style="@style/TextAppearance.AppCompat.Body1"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:layout_marginBottom="@dimen/padding_half"
+									android:visibility="gone"
+									tools:text="@string/airs"
+									tools:visibility="visible" />
+
+								<TextView
+									android:id="@+id/episode_status"
+									style="@style/TextAppearance.AppCompat.Body1"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:layout_marginBottom="@dimen/padding_half"
+									android:visibility="gone"
+									tools:text="@string/status_value"
+									tools:visibility="visible" />
+
+								<TextView
+									android:id="@+id/episode_quality"
+									style="@style/TextAppearance.AppCompat.Body1"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:visibility="gone"
+									tools:text="@string/quality"
+									tools:visibility="visible" />
+							</LinearLayout>
+						</LinearLayout>
+					</android.support.v7.widget.CardView>
+
+					<android.support.v7.widget.CardView
+						android:id="@+id/episode_plot_layout"
+						style="@style/SR.CardView"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="@dimen/padding"
+						android:visibility="gone"
+						tools:visibility="visible">
+
+						<LinearLayout
+							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
 							android:layout_margin="@dimen/padding"
-							android:layout_weight="2"
 							android:orientation="vertical">
 
 							<TextView
-								android:id="@+id/episode_name"
 								style="@style/TextAppearance.AppCompat.Subhead"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:layout_marginBottom="@dimen/padding_half"
-								android:ellipsize="marquee"
-								android:marqueeRepeatLimit="marquee_forever"
-								android:scrollHorizontally="true"
-								android:singleLine="true"
-								android:visibility="gone"
-								app:selected="@{true}"
-								tools:text="Pilot"
-								tools:visibility="visible" />
+								android:text="@string/plot" />
 
 							<TextView
-								android:id="@+id/episode_airs"
+								android:id="@+id/episode_plot"
+								style="@style/TextAppearance.AppCompat.Body1"
+								android:layout_width="match_parent"
+								android:layout_height="wrap_content"
+								android:textIsSelectable="true"
+								tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet nisi et arcu gravida dictum. Vestibulum vitae odio quis augue porta tincidunt eu pulvinar odio." />
+						</LinearLayout>
+					</android.support.v7.widget.CardView>
+
+					<android.support.v7.widget.CardView
+						android:id="@+id/episode_casting_layout"
+						style="@style/SR.CardView"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="@dimen/padding"
+						android:visibility="gone"
+						tools:visibility="visible">
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:layout_margin="@dimen/padding"
+							android:orientation="vertical">
+
+							<TextView
+								style="@style/TextAppearance.AppCompat.Subhead"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginBottom="@dimen/padding_half"
+								android:text="@string/casting" />
+
+							<TextView
+								android:id="@+id/episode_casting_directors"
 								style="@style/TextAppearance.AppCompat.Body1"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:layout_marginBottom="@dimen/padding_half"
 								android:visibility="gone"
-								tools:text="@string/airs"
+								tools:text="@string/directors"
 								tools:visibility="visible" />
 
 							<TextView
-								android:id="@+id/episode_status"
+								android:id="@+id/episode_casting_writers"
 								style="@style/TextAppearance.AppCompat.Body1"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:layout_marginBottom="@dimen/padding_half"
 								android:visibility="gone"
-								tools:text="@string/status_value"
+								tools:text="@string/writers"
 								tools:visibility="visible" />
 
 							<TextView
-								android:id="@+id/episode_quality"
+								android:id="@+id/episode_casting_actors"
 								style="@style/TextAppearance.AppCompat.Body1"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:visibility="gone"
-								tools:text="@string/quality"
+								tools:text="@string/actors"
 								tools:visibility="visible" />
 						</LinearLayout>
-					</LinearLayout>
-				</android.support.v7.widget.CardView>
+					</android.support.v7.widget.CardView>
 
-				<android.support.v7.widget.CardView
-					android:id="@+id/episode_plot_layout"
-					style="@style/SR.CardView"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="@dimen/padding"
-					android:visibility="gone"
-					tools:visibility="visible">
-
-					<LinearLayout
+					<android.support.v7.widget.CardView
+						android:id="@+id/episode_awards_layout"
+						style="@style/SR.CardView"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/padding"
-						android:orientation="vertical">
+						android:layout_marginBottom="@dimen/padding"
+						android:visibility="gone"
+						tools:visibility="visible">
 
-						<TextView
-							style="@style/TextAppearance.AppCompat.Subhead"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
-							android:text="@string/plot" />
-
-						<TextView
-							android:id="@+id/episode_plot"
-							style="@style/TextAppearance.AppCompat.Body1"
+						<LinearLayout
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
-							android:textIsSelectable="true"
-							tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet nisi et arcu gravida dictum. Vestibulum vitae odio quis augue porta tincidunt eu pulvinar odio." />
-					</LinearLayout>
-				</android.support.v7.widget.CardView>
-
-				<android.support.v7.widget.CardView
-					android:id="@+id/episode_casting_layout"
-					style="@style/SR.CardView"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="@dimen/padding"
-					android:visibility="gone"
-					tools:visibility="visible">
-
-					<LinearLayout
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/padding"
-						android:orientation="vertical">
-
-						<TextView
-							style="@style/TextAppearance.AppCompat.Subhead"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
-							android:text="@string/casting" />
-
-						<TextView
-							android:id="@+id/episode_casting_directors"
-							style="@style/TextAppearance.AppCompat.Body1"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
-							android:visibility="gone"
-							tools:text="@string/directors"
-							tools:visibility="visible" />
-
-						<TextView
-							android:id="@+id/episode_casting_writers"
-							style="@style/TextAppearance.AppCompat.Body1"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
-							android:visibility="gone"
-							tools:text="@string/writers"
-							tools:visibility="visible" />
-
-						<TextView
-							android:id="@+id/episode_casting_actors"
-							style="@style/TextAppearance.AppCompat.Body1"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:visibility="gone"
-							tools:text="@string/actors"
-							tools:visibility="visible" />
-					</LinearLayout>
-				</android.support.v7.widget.CardView>
-
-				<android.support.v7.widget.CardView
-					android:id="@+id/episode_awards_layout"
-					style="@style/SR.CardView"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="@dimen/padding"
-					android:visibility="gone"
-					tools:visibility="visible">
-
-					<LinearLayout
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/padding"
-						android:orientation="vertical">
-
-						<TextView
-							style="@style/TextAppearance.AppCompat.Subhead"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
-							android:text="@string/awards" />
-
-						<TextView
-							android:id="@+id/episode_awards"
-							style="@style/TextAppearance.AppCompat.Body1"
-							android:layout_width="match_parent"
-							android:layout_height="wrap_content"
-							tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet nisi et arcu gravida dictum. Vestibulum vitae odio quis augue porta tincidunt eu pulvinar odio." />
-					</LinearLayout>
-				</android.support.v7.widget.CardView>
-
-				<android.support.v7.widget.CardView
-					android:id="@+id/episode_more_information_layout"
-					style="@style/SR.CardView"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:visibility="gone"
-					tools:visibility="visible">
-
-					<LinearLayout
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/padding"
-						android:orientation="vertical">
-
-						<TextView
-							style="@style/TextAppearance.AppCompat.Subhead"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
-							android:text="@string/more_information" />
-
-						<TextView
-							android:id="@+id/episode_language_country"
-							style="@style/TextAppearance.AppCompat.Body1"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
-							android:visibility="gone"
-							tools:text="@string/language_county"
-							tools:visibility="visible" />
-
-						<TextView
-							android:id="@+id/episode_subtitles"
-							style="@style/TextAppearance.AppCompat.Body1"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
-							android:visibility="gone"
-							tools:text="@string/subtitles_value"
-							tools:visibility="visible" />
-
-						<TextView
-							android:id="@+id/episode_year"
-							style="@style/TextAppearance.AppCompat.Body1"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
-							android:visibility="gone"
-							tools:text="@string/year"
-							tools:visibility="visible" />
-
-						<TextView
-							android:id="@+id/episode_rated"
-							style="@style/TextAppearance.AppCompat.Body1"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
-							android:visibility="gone"
-							tools:text="@string/rated"
-							tools:visibility="visible" />
-
-						<TextView
-							android:id="@+id/episode_runtime"
-							style="@style/TextAppearance.AppCompat.Body1"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
-							android:visibility="gone"
-							tools:text="@string/runtime"
-							tools:visibility="visible" />
-
-						<RelativeLayout
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content">
+							android:layout_margin="@dimen/padding"
+							android:orientation="vertical">
 
 							<TextView
-								android:id="@+id/episode_rating"
+								style="@style/TextAppearance.AppCompat.Subhead"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginBottom="@dimen/padding_half"
+								android:text="@string/awards" />
+
+							<TextView
+								android:id="@+id/episode_awards"
+								style="@style/TextAppearance.AppCompat.Body1"
+								android:layout_width="match_parent"
+								android:layout_height="wrap_content"
+								tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet nisi et arcu gravida dictum. Vestibulum vitae odio quis augue porta tincidunt eu pulvinar odio." />
+						</LinearLayout>
+					</android.support.v7.widget.CardView>
+
+					<android.support.v7.widget.CardView
+						android:id="@+id/episode_more_information_layout"
+						style="@style/SR.CardView"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:visibility="gone"
+						tools:visibility="visible">
+
+						<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:layout_margin="@dimen/padding"
+							android:orientation="vertical">
+
+							<TextView
+								style="@style/TextAppearance.AppCompat.Subhead"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginBottom="@dimen/padding_half"
+								android:text="@string/more_information" />
+
+							<TextView
+								android:id="@+id/episode_language_country"
 								style="@style/TextAppearance.AppCompat.Body1"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:layout_marginBottom="@dimen/padding_half"
 								android:visibility="gone"
-								tools:text="@string/rating"
+								tools:text="@string/language_county"
 								tools:visibility="visible" />
 
-							<RatingBar
-								android:id="@+id/episode_rating_stars"
-								style="?android:attr/ratingBarStyleSmall"
+							<TextView
+								android:id="@+id/episode_subtitles"
+								style="@style/TextAppearance.AppCompat.Body1"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
-								android:layout_below="@+id/episode_rating"
-								android:layout_centerHorizontal="true"
 								android:layout_marginBottom="@dimen/padding_half"
-								android:isIndicator="true"
-								android:numStars="10"
-								android:stepSize="0.1"
 								android:visibility="gone"
-								tools:rating="5"
+								tools:text="@string/subtitles_value"
 								tools:visibility="visible" />
-						</RelativeLayout>
 
-						<TextView
-							android:id="@+id/episode_genre"
-							style="@style/TextAppearance.AppCompat.Body1"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
-							android:visibility="gone"
-							tools:text="@string/genre"
-							tools:visibility="visible" />
+							<TextView
+								android:id="@+id/episode_year"
+								style="@style/TextAppearance.AppCompat.Body1"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginBottom="@dimen/padding_half"
+								android:visibility="gone"
+								tools:text="@string/year"
+								tools:visibility="visible" />
 
-						<TextView
-							android:id="@+id/episode_file_size"
-							style="@style/TextAppearance.AppCompat.Body1"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
-							tools:text="@string/file_size" />
+							<TextView
+								android:id="@+id/episode_rated"
+								style="@style/TextAppearance.AppCompat.Body1"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginBottom="@dimen/padding_half"
+								android:visibility="gone"
+								tools:text="@string/rated"
+								tools:visibility="visible" />
 
-						<TextView
-							android:id="@+id/episode_location"
-							style="@style/TextAppearance.AppCompat.Body1"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							tools:text="@string/location" />
-					</LinearLayout>
-				</android.support.v7.widget.CardView>
-			</LinearLayout>
-		</ScrollView>
+							<TextView
+								android:id="@+id/episode_runtime"
+								style="@style/TextAppearance.AppCompat.Body1"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginBottom="@dimen/padding_half"
+								android:visibility="gone"
+								tools:text="@string/runtime"
+								tools:visibility="visible" />
+
+							<RelativeLayout
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content">
+
+								<TextView
+									android:id="@+id/episode_rating"
+									style="@style/TextAppearance.AppCompat.Body1"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:layout_marginBottom="@dimen/padding_half"
+									android:visibility="gone"
+									tools:text="@string/rating"
+									tools:visibility="visible" />
+
+								<RatingBar
+									android:id="@+id/episode_rating_stars"
+									style="?android:attr/ratingBarStyleSmall"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:layout_below="@+id/episode_rating"
+									android:layout_centerHorizontal="true"
+									android:layout_marginBottom="@dimen/padding_half"
+									android:isIndicator="true"
+									android:numStars="10"
+									android:stepSize="0.1"
+									android:visibility="gone"
+									tools:rating="5"
+									tools:visibility="visible" />
+							</RelativeLayout>
+
+							<TextView
+								android:id="@+id/episode_genre"
+								style="@style/TextAppearance.AppCompat.Body1"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginBottom="@dimen/padding_half"
+								android:visibility="gone"
+								tools:text="@string/genre"
+								tools:visibility="visible" />
+
+							<TextView
+								android:id="@+id/episode_file_size"
+								style="@style/TextAppearance.AppCompat.Body1"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginBottom="@dimen/padding_half"
+								tools:text="@string/file_size" />
+
+							<TextView
+								android:id="@+id/episode_location"
+								style="@style/TextAppearance.AppCompat.Body1"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								tools:text="@string/location" />
+						</LinearLayout>
+					</android.support.v7.widget.CardView>
+				</LinearLayout>
+			</ScrollView>
+		</android.support.v4.widget.SwipeRefreshLayout>
 
 		<android.support.design.widget.FloatingActionButton
 			android:id="@+id/search_episode"

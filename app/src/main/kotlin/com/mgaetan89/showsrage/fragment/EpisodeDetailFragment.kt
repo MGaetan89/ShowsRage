@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v4.view.MenuItemCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.MediaRouteActionProvider
 import android.support.v7.app.MediaRouteDiscoveryFragment
 import android.support.v7.media.MediaControlIntent
@@ -58,7 +59,7 @@ import java.net.URI
 import java.net.URISyntaxException
 import java.net.URL
 
-class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpisode>, View.OnClickListener, RealmChangeListener<Episode> {
+class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpisode>, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, RealmChangeListener<Episode> {
     private var airs: TextView? = null
     private var awards: TextView? = null
     private var awardsLayout: CardView? = null
@@ -188,6 +189,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     private var show: Show? = null
     private var status: TextView? = null
     private var subtitles: TextView? = null
+    private var swipeRefreshLayout: SwipeRefreshLayout? = null
     private var year: TextView? = null
 
     init {
@@ -199,6 +201,8 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     }
 
     override fun failure(error: RetrofitError?) {
+        this.swipeRefreshLayout?.isRefreshing = false
+
         error?.printStackTrace()
     }
 
@@ -329,7 +333,11 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             this.runtime = view.findViewById(R.id.episode_runtime) as TextView?
             this.status = view.findViewById(R.id.episode_status) as TextView?
             this.subtitles = view.findViewById(R.id.episode_subtitles) as TextView?
+            this.swipeRefreshLayout = view.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
             this.year = view.findViewById(R.id.episode_year) as TextView?
+
+            this.swipeRefreshLayout?.setColorSchemeResources(R.color.accent)
+            this.swipeRefreshLayout?.setOnRefreshListener(this)
 
             val searchEpisode = view.findViewById(R.id.search_episode) as FloatingActionButton?
 
@@ -387,6 +395,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         this.runtime = null
         this.status = null
         this.subtitles = null
+        this.swipeRefreshLayout = null
         this.year = null
 
         super.onDestroyView()
@@ -419,15 +428,25 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onRefresh() {
+        this.swipeRefreshLayout?.post {
+            this.swipeRefreshLayout?.isRefreshing = true
+        }
 
         if (this.show != null) {
             SickRageApi.instance.services?.getEpisode(this.show!!.indexerId, this.seasonNumber, this.episodeNumber, this)
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        this.onRefresh()
+    }
+
     override fun success(singleEpisode: SingleEpisode?, response: Response?) {
+        this.swipeRefreshLayout?.isRefreshing = false
+
         val episode = singleEpisode?.data
 
         if (episode != null && this.show?.isValid ?: false) {
