@@ -56,6 +56,8 @@ class ShowFragment : TabbedFragment(), Callback<Seasons> {
         return ShowPagerAdapter(this.childFragmentManager, this, this.seasons)
     }
 
+    override fun useSwipeToRefresh() = false
+
     private fun displaySeasons(seasons: Iterable<Int>?) {
         this.seasons.clear()
         this.seasons.addAll(seasons ?: emptyList())

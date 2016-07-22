@@ -129,7 +129,7 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
     }
 
     companion object {
-        internal fun getPreferredLocale(language: String?): Locale {
+        fun getPreferredLocale(language: String?): Locale {
             return when (language) {
                 "en" -> Locale.ENGLISH
                 "fr" -> Locale.FRENCH
