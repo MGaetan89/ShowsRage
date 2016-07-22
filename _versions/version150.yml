@@ -7,13 +7,14 @@ features:
 - Search subtitles for an episode
 - New setting to ignore articles ("The", "A" and "An") when sorting the list of shows (English only)
 - New setting to force the language of the application (English or French)
+- Widgets are now available to display the *Schedule* or *History*
 - Filter logs
 - Fast Scroll on the list of shows
 changes:
 - Display an image for each episode
 - Display subtitles information on the show overview
 - Display subtitles information on the episode detail
-- Enable swipe-to-refresh on every screen
+- Enable pull-to-refresh on every screen
 fixes:
 - Fix back from Settings
 ---
