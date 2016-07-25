@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/widget_background"
+	android:orientation="vertical">
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="56dp"
+		android:background="@color/primary"
+		android:gravity="center_vertical"
+		android:paddingEnd="@dimen/padding"
+		android:paddingLeft="@dimen/padding"
+		android:paddingRight="@dimen/padding"
+		android:paddingStart="@dimen/padding">
+
+		<ImageView
+			android:id="@+id/logo"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentStart="true"
+			android:contentDescription="@string/app_name"
+			android:src="@drawable/ic_notification" />
+
+		<TextView
+			android:id="@+id/title"
+			style="@style/TextAppearance.AppCompat.Title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="@dimen/padding"
+			android:layout_marginLeft="@dimen/padding"
+			android:layout_marginRight="@dimen/padding"
+			android:layout_marginStart="@dimen/padding"
+			android:layout_toEndOf="@+id/logo"
+			android:layout_toLeftOf="@+id/refresh"
+			android:layout_toRightOf="@+id/logo"
+			android:layout_toStartOf="@+id/refresh"
+			android:ellipsize="end"
+			android:maxLines="1"
+			android:text="@string/history" />
+
+		<ImageView
+			android:id="@+id/refresh"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentEnd="true"
+			android:layout_alignParentRight="true"
+			android:contentDescription="@string/refresh"
+			android:src="@drawable/ic_refresh_white_24dp" />
+	</RelativeLayout>
+
+	<ListView
+		android:id="@+id/list"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:divider="@color/text_color"
+		android:dividerHeight="0.5dp" />
+
+	<TextView
+		android:id="@+id/empty"
+		style="@style/TextAppearance.AppCompat.Subhead"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:gravity="center"
+		android:text="@string/no_shows"
+		android:textColor="@color/text_color" />
+</LinearLayout>

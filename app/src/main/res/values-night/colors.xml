@@ -2,4 +2,5 @@
 <resources>
 	<color name="accent">#FFD740</color>
 	<color name="text_color">@color/cardview_light_background</color>
+	<color name="widget_background">@color/cardview_dark_background</color>
 </resources>

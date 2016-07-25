@@ -55,6 +55,21 @@
 			android:name="com.google.android.gms.version"
 			android:value="@integer/google_play_services_version" />
 
+		<receiver android:name=".widget.HistoryWidgetProvider">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+				<action android:name="${applicationId}.widget.REFRESH" />
+			</intent-filter>
+
+			<meta-data
+				android:name="android.appwidget.provider"
+				android:resource="@xml/widget_history" />
+		</receiver>
+
+		<service
+			android:name=".widget.HistoryWidgetService"
+			android:permission="android.permission.BIND_REMOTEVIEWS" />
+
 		<service
 			android:name=".service.UpdateService"
 			android:exported="false" />

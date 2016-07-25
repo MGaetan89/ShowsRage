@@ -1,13 +1,18 @@
 package com.mgaetan89.showsrage.helper
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.support.annotation.IdRes
 import android.support.v7.graphics.Palette
 import android.widget.ImageView
+import android.widget.RemoteViews
+import com.bumptech.glide.BitmapRequestBuilder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.BitmapImageViewTarget
+import com.bumptech.glide.request.target.Target
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 
 object ImageLoader {
@@ -23,6 +28,23 @@ object ImageLoader {
 
     fun load(imageView: ImageView?, url: String?, circleTransform: Boolean, paletteListener: Palette.PaletteAsyncListener?, onImageResult: OnImageResult?) {
         val context = imageView?.context ?: return
+
+        this.getGlideInstance(context, url, circleTransform)?.let {
+            it.into(BitmapTarget(imageView!!, paletteListener, onImageResult))
+        }
+    }
+
+    fun load(context: Context, remoteViews: RemoteViews, @IdRes viewId: Int, url: String?, circleTransform: Boolean) {
+        this.getGlideInstance(context, url, circleTransform)?.let {
+            val bitmap = it.into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+
+            remoteViews.setImageViewBitmap(viewId, bitmap.get())
+
+            Glide.clear(bitmap)
+        }
+    }
+
+    private fun getGlideInstance(context: Context, url: String?, circleTransform: Boolean): BitmapRequestBuilder<String, Bitmap>? {
         val glide = Glide.with(context)
                 .load(url)
                 .asBitmap()
@@ -33,7 +55,7 @@ object ImageLoader {
             glide.transform(CropCircleTransformation(context))
         }
 
-        glide.into(BitmapTarget(imageView!!, paletteListener, onImageResult))
+        return glide
     }
 
     private class BitmapTarget(view: ImageView, val paletteListener: Palette.PaletteAsyncListener?, val onImageResult: OnImageResult?) : BitmapImageViewTarget(view) {
