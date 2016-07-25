@@ -33,7 +33,7 @@
 			android:layout_height="wrap_content"
 			android:ellipsize="end"
 			android:maxLines="1"
-			android:textColor="@color/text_color"
+			android:textColor="@color/cardview_dark_background"
 			tools:text="@string/show_name_episode" />
 
 		<TextView
@@ -41,7 +41,7 @@
 			style="@style/TextAppearance.AppCompat.Caption"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textColor="@color/text_color"
+			android:textColor="@color/cardview_dark_background"
 			tools:text="2011-09-19" />
 	</LinearLayout>
 </RelativeLayout>

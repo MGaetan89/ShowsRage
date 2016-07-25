@@ -43,11 +43,13 @@ class HistoryWidgetProvider : AppWidgetProvider(), Callback<Histories> {
 
         appWidgetIds?.forEach {
             val views = RemoteViews(context?.packageName, R.layout.widget_history)
+            views.setEmptyView(R.id.list, R.id.empty)
+            views.setImageViewResource(R.id.refresh, R.drawable.ic_refresh_white_24dp)
+            views.setRemoteAdapter(R.id.list, this.getListAdapterIntent(context, it))
+
             views.setOnClickPendingIntent(R.id.logo, this.getApplicationPendingIntent(context))
             views.setOnClickPendingIntent(R.id.refresh, this.getRefreshPendingIntent(context))
             views.setOnClickPendingIntent(R.id.title, this.getHistoryPendingIntent(context))
-            views.setRemoteAdapter(R.id.list, this.getListAdapterIntent(context, it))
-            views.setEmptyView(R.id.list, R.id.empty)
 
             appWidgetManager?.updateAppWidget(it, views)
         }
