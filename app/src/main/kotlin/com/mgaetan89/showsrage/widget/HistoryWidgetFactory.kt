@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage.widget
 
 import android.content.Context
+import android.preference.PreferenceManager
 import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
@@ -18,6 +19,10 @@ import io.realm.Sort
 
 class HistoryWidgetFactory(val context: Context) : RemoteViewsService.RemoteViewsFactory {
     private var histories: List<History>? = null
+
+    init {
+        SickRageApi.instance.init(PreferenceManager.getDefaultSharedPreferences(context))
+    }
 
     override fun getCount() = this.histories?.size ?: 0
 
