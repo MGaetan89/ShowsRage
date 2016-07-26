@@ -86,6 +86,7 @@
 	<string name="later">A venir</string>
 	<string name="light_theme">Thème clair</string>
 	<string name="licenses">Licences</string>
+	<string name="loading">Chargement…</string>
 	<string name="location">Emplacement : <xliff:g example="/Séries/2 Broke Girls" id="location">%1$s</xliff:g></string>
 	<string name="logo_designer">Créateur du logo</string>
 	<string name="logs">Logs</string>

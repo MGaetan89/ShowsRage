@@ -23,7 +23,7 @@ class HistoryWidgetFactory(val context: Context) : RemoteViewsService.RemoteView
 
     override fun getItemId(position: Int) = position.toLong()
 
-    override fun getLoadingView() = RemoteViews(this.context.packageName, R.layout.widget_adapter_histories_list)
+    override fun getLoadingView() = RemoteViews(this.context.packageName, R.layout.widget_adapter_loading)
 
     override fun getViewAt(position: Int): RemoteViews {
         val history = this.histories?.get(position)

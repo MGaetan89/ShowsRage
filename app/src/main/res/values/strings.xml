@@ -86,6 +86,7 @@
 	<string name="later">Later</string>
 	<string name="licenses">Licenses</string>
 	<string name="light_theme">Light theme</string>
+	<string name="loading">Loading…</string>
 	<string name="location">Location: <xliff:g example="/Shows/2 Broke Girls" id="location">%1$s</xliff:g></string>
 	<string name="logo_designer">Logo designer</string>
 	<string name="logs">Logs</string>
