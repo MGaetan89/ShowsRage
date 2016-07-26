@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name" translatable="false">ShowsRage Dev\'</string>
+
+	<!-- Application specific URIs -->
+	<string name="uir_settings_about" translatable="false">showsrage_dev://settings/about</string>
+	<string name="uri_settings_about_licenses" translatable="false">showsrage_dev://settings/about/licenses</string>
+	<string name="uri_settings_about_showsrage" translatable="false">showsrage_dev://settings/about/showsrage</string>
+	<string name="uri_settings_behavior" translatable="false">showsrage_dev://settings/behavior</string>
+	<string name="uri_settings_display" translatable="false">showsrage_dev://settings/display</string>
+	<string name="uri_settings_experimental_features" translatable="false">showsrage_dev://settings/experimental_features</string>
+	<string name="uri_settings_server" translatable="false">showsrage_dev://settings/server</string>
+	<string name="uri_settings_server_api_key" translatable="false">showsrage_dev://settings/server/api_key</string>
 </resources>

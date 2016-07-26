@@ -8,7 +8,7 @@
 
 		<intent
 			android:action="android.intent.action.VIEW"
-			android:data="showsrage://settings/server" />
+			android:data="@string/uri_settings_server" />
 	</PreferenceScreen>
 
 	<PreferenceScreen
@@ -18,7 +18,7 @@
 
 		<intent
 			android:action="android.intent.action.VIEW"
-			android:data="showsrage://settings/display" />
+			android:data="@string/uri_settings_display" />
 	</PreferenceScreen>
 
 	<PreferenceScreen
@@ -28,7 +28,7 @@
 
 		<intent
 			android:action="android.intent.action.VIEW"
-			android:data="showsrage://settings/behavior" />
+			android:data="@string/uri_settings_behavior" />
 	</PreferenceScreen>
 
 	<PreferenceScreen
@@ -38,7 +38,7 @@
 
 		<intent
 			android:action="android.intent.action.VIEW"
-			android:data="showsrage://settings/experimental_features" />
+			android:data="@string/uri_settings_experimental_features" />
 	</PreferenceScreen>
 
 	<PreferenceScreen
@@ -48,6 +48,6 @@
 
 		<intent
 			android:action="android.intent.action.VIEW"
-			android:data="showsrage://settings/about" />
+			android:data="@string/uir_settings_about" />
 	</PreferenceScreen>
 </PreferenceScreen>

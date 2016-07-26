@@ -31,7 +31,7 @@
 
 				<data
 					android:host="settings"
-					android:scheme="showsrage" />
+					android:scheme="${uriHost}" />
 			</intent-filter>
 			<intent-filter>
 				<action android:name="android.intent.action.SEARCH" />
