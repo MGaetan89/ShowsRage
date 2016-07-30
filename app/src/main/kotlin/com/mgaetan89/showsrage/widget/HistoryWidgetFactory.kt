@@ -18,23 +18,35 @@ import io.realm.RealmConfiguration
 import io.realm.Sort
 
 class HistoryWidgetFactory(val context: Context) : RemoteViewsService.RemoteViewsFactory {
+    private val itemLayout: Int
     private var histories: List<History>? = null
+    private val loadingLayout: Int
 
     init {
-        SickRageApi.instance.init(PreferenceManager.getDefaultSharedPreferences(context))
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this.context)
+
+        SickRageApi.instance.init(preferences)
+
+        if (preferences.getBoolean("display_theme", true)) {
+            this.itemLayout = R.layout.widget_adapter_histories_list_dark
+            this.loadingLayout = R.layout.widget_adapter_loading_dark
+        } else {
+            this.itemLayout = R.layout.widget_adapter_histories_list_light
+            this.loadingLayout = R.layout.widget_adapter_loading_light
+        }
     }
 
     override fun getCount() = this.histories?.size ?: 0
 
     override fun getItemId(position: Int) = position.toLong()
 
-    override fun getLoadingView() = RemoteViews(this.context.packageName, R.layout.widget_adapter_loading)
+    override fun getLoadingView() = RemoteViews(this.context.packageName, this.loadingLayout)
 
     override fun getViewAt(position: Int): RemoteViews {
         val history = this.histories?.get(position)
         val logoUrl = if (history != null) SickRageApi.instance.getPosterUrl(history.tvDbId, Indexer.TVDB) else ""
 
-        val views = RemoteViews(this.context.packageName, R.layout.widget_adapter_histories_list)
+        val views = RemoteViews(this.context.packageName, this.itemLayout)
         views.setTextViewText(R.id.episode_date, this.getEpisodeDate(history))
         views.setContentDescription(R.id.episode_logo, history?.showName ?: "")
         views.setTextViewText(R.id.episode_title, this.getEpisodeTitle(history))

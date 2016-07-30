@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/cardview_light_background"
+	android:orientation="vertical">
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="42dp"
+		android:background="@color/primary"
+		android:paddingEnd="@dimen/padding_half"
+		android:paddingLeft="@dimen/padding_half"
+		android:paddingRight="@dimen/padding_half"
+		android:paddingStart="@dimen/padding_half">
+
+		<ImageView
+			android:id="@+id/logo"
+			android:layout_width="40dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentStart="true"
+			android:layout_centerVertical="true"
+			android:contentDescription="@string/app_name"
+			android:src="@drawable/ic_notification" />
+
+		<TextView
+			android:id="@+id/title"
+			style="@style/TextAppearance.AppCompat.Title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:layout_marginEnd="@dimen/padding_half"
+			android:layout_marginLeft="@dimen/padding_half"
+			android:layout_marginRight="@dimen/padding_half"
+			android:layout_marginStart="@dimen/padding_half"
+			android:layout_toEndOf="@+id/logo"
+			android:layout_toLeftOf="@+id/refresh"
+			android:layout_toRightOf="@+id/logo"
+			android:layout_toStartOf="@+id/refresh"
+			android:ellipsize="end"
+			android:maxLines="1"
+			android:text="@string/history" />
+
+		<ImageView
+			android:id="@+id/refresh"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentEnd="true"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:contentDescription="@string/refresh"
+			tools:src="@drawable/ic_refresh_white_24dp" />
+	</RelativeLayout>
+
+	<ListView
+		android:id="@+id/list"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:divider="@color/text_color"
+		android:dividerHeight="0.5dp" />
+
+	<TextView
+		android:id="@+id/empty"
+		style="@style/TextAppearance.AppCompat.Subhead"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:gravity="center"
+		android:text="@string/no_shows"
+		android:textColor="@color/cardview_dark_background" />
+</LinearLayout>

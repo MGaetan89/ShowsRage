@@ -39,10 +39,17 @@ class HistoryWidgetProvider : AppWidgetProvider(), Callback<Histories> {
     override fun onUpdate(context: Context?, appWidgetManager: AppWidgetManager?, appWidgetIds: IntArray?) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
 
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val widgetLayout = if (preferences.getBoolean("display_theme", true)) {
+            R.layout.widget_history_dark
+        } else {
+            R.layout.widget_history_light
+        }
+
         this.requestData()
 
         appWidgetIds?.forEach {
-            val views = RemoteViews(context?.packageName, R.layout.widget_history)
+            val views = RemoteViews(context?.packageName, widgetLayout)
             views.setEmptyView(R.id.list, R.id.empty)
             views.setImageViewResource(R.id.refresh, R.drawable.ic_refresh_white_24dp)
             views.setRemoteAdapter(R.id.list, this.getListAdapterIntent(context, it))

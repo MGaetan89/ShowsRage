@@ -3,18 +3,18 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="48dp"
-	android:paddingEnd="@dimen/padding"
-	android:paddingLeft="@dimen/padding"
-	android:paddingRight="@dimen/padding"
-	android:paddingStart="@dimen/padding">
+	android:paddingEnd="@dimen/padding_half"
+	android:paddingLeft="@dimen/padding_half"
+	android:paddingRight="@dimen/padding_half"
+	android:paddingStart="@dimen/padding_half">
 
 	<ImageView
 		android:id="@+id/episode_logo"
 		android:layout_width="40dp"
 		android:layout_height="wrap_content"
 		android:layout_centerVertical="true"
-		android:layout_marginEnd="@dimen/padding"
-		android:layout_marginRight="@dimen/padding"
+		android:layout_marginEnd="@dimen/padding_half"
+		android:layout_marginRight="@dimen/padding_half"
 		android:scaleX="0.8"
 		android:scaleY="0.8"
 		tools:ignore="ContentDescription"
@@ -35,6 +35,7 @@
 			android:layout_height="wrap_content"
 			android:ellipsize="end"
 			android:maxLines="1"
+			android:textColor="@color/cardview_dark_background"
 			tools:text="@string/show_name_episode" />
 
 		<TextView
@@ -44,6 +45,7 @@
 			android:layout_height="wrap_content"
 			android:ellipsize="end"
 			android:maxLines="1"
+			android:textColor="@color/cardview_dark_background"
 			tools:text="2011-09-19" />
 	</LinearLayout>
 </RelativeLayout>
