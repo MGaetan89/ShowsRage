@@ -11,8 +11,8 @@ import com.mgaetan89.showsrage.helper.ImageLoader
 import com.mgaetan89.showsrage.helper.Migration
 import com.mgaetan89.showsrage.helper.toLocale
 import com.mgaetan89.showsrage.model.History
-import com.mgaetan89.showsrage.model.Indexer
 import com.mgaetan89.showsrage.network.SickRageApi
+import com.mgaetan89.showsrage.presenter.HistoryPresenter
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
@@ -23,6 +23,8 @@ class HistoryWidgetFactory(val context: Context) : RemoteViewsService.RemoteView
 
     init {
         SickRageApi.instance.init(PreferenceManager.getDefaultSharedPreferences(this.context))
+
+        this.setLayoutFiles()
     }
 
     override fun getCount() = this.histories.size
@@ -33,12 +35,13 @@ class HistoryWidgetFactory(val context: Context) : RemoteViewsService.RemoteView
 
     override fun getViewAt(position: Int): RemoteViews {
         val history = this.histories[position]
-        val logoUrl = SickRageApi.instance.getPosterUrl(history.tvDbId, Indexer.TVDB)
+        val presenter = HistoryPresenter(history)
+        val logoUrl = presenter.getPosterUrl()
 
         val views = RemoteViews(this.context.packageName, this.itemLayout)
         views.setTextViewText(R.id.episode_date, this.getEpisodeDate(history))
-        views.setContentDescription(R.id.episode_logo, history.showName ?: "")
-        views.setTextViewText(R.id.episode_title, this.getEpisodeTitle(history))
+        views.setContentDescription(R.id.episode_logo, presenter.getShowName())
+        views.setTextViewText(R.id.episode_title, this.getEpisodeTitle(presenter))
 
         if (logoUrl.isEmpty()) {
             views.setViewVisibility(R.id.episode_logo, View.INVISIBLE)
@@ -58,16 +61,38 @@ class HistoryWidgetFactory(val context: Context) : RemoteViewsService.RemoteView
     override fun onCreate() = Unit
 
     override fun onDataSetChanged() {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this.context)
+        this.setLayoutFiles()
+        this.getHistory()
+    }
 
-        if (preferences.getBoolean("display_theme", true)) {
-            this.itemLayout = R.layout.widget_adapter_histories_list_dark
-            this.loadingLayout = R.layout.widget_adapter_loading_dark
+    override fun onDestroy() = Unit
+
+    private fun getEpisodeDate(history: History): String {
+        val status = history.getStatusTranslationResource()
+        val statusString = if (status != 0) {
+            this.context.getString(status)
         } else {
-            this.itemLayout = R.layout.widget_adapter_histories_list_light
-            this.loadingLayout = R.layout.widget_adapter_loading_light
+            history.status
         }
 
+        var text = this.context.getString(R.string.spaced_texts, statusString, DateTimeHelper.getRelativeDate(history.date, "yyyy-MM-dd hh:mm", 0)?.toString()?.toLowerCase())
+
+        if ("subtitled".equals(history.status, true)) {
+            val language = history.resource?.toLocale()?.displayLanguage
+
+            if (!language.isNullOrEmpty()) {
+                text += " [$language]"
+            }
+        }
+
+        return text
+    }
+
+    private fun getEpisodeTitle(presenter: HistoryPresenter): String {
+        return this.context.getString(R.string.show_name_episode, presenter.getShowName(), presenter.getSeason(), presenter.getEpisode())
+    }
+
+    private fun getHistory() {
         SickRageApi.instance.services?.getHistory()?.data?.let {
             val histories = it.filterNotNull()
             val configuration = RealmConfiguration.Builder(this.context)
@@ -94,30 +119,15 @@ class HistoryWidgetFactory(val context: Context) : RemoteViewsService.RemoteView
         }
     }
 
-    override fun onDestroy() = Unit
+    private fun setLayoutFiles() {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this.context)
 
-    private fun getEpisodeDate(history: History): String {
-        val status = history.getStatusTranslationResource()
-        val statusString = if (status != 0) {
-            this.context.getString(status)
+        if (preferences.getBoolean("display_theme", true)) {
+            this.itemLayout = R.layout.widget_adapter_histories_list_dark
+            this.loadingLayout = R.layout.widget_adapter_loading_dark
         } else {
-            history.status
+            this.itemLayout = R.layout.widget_adapter_histories_list_light
+            this.loadingLayout = R.layout.widget_adapter_loading_light
         }
-
-        var text = this.context.getString(R.string.spaced_texts, statusString, DateTimeHelper.getRelativeDate(history.date, "yyyy-MM-dd hh:mm", 0)?.toString()?.toLowerCase())
-
-        if ("subtitled".equals(history.status, true)) {
-            val language = history.resource?.toLocale()?.displayLanguage
-
-            if (!language.isNullOrEmpty()) {
-                text += " [$language]"
-            }
-        }
-
-        return text
-    }
-
-    private fun getEpisodeTitle(history: History): String {
-        return this.context.getString(R.string.show_name_episode, history.showName ?: "", history.season, history.episode)
     }
 }
