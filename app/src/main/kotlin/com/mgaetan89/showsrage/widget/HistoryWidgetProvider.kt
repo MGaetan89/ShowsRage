@@ -8,7 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.preference.PreferenceManager
 import android.widget.RemoteViews
-import com.mgaetan89.showsrage.BuildConfig
+import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.extension.changeLocale
@@ -27,7 +27,7 @@ class HistoryWidgetProvider : AppWidgetProvider() {
         val widgetId = intent?.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, defaultWidgetId) ?: defaultWidgetId
 
         when (intent?.action) {
-            INTENT_REFRESH -> this.refreshWidget(context, widgetId)
+            Constants.Intents.ACTION_REFRESH_WIDGET -> this.refreshWidget(context, widgetId)
             else -> super.onReceive(context, intent)
         }
     }
@@ -85,7 +85,7 @@ class HistoryWidgetProvider : AppWidgetProvider() {
     }
 
     private fun getRefreshPendingIntent(context: Context?, widgetId: Int): PendingIntent {
-        val intent = Intent(INTENT_REFRESH)
+        val intent = Intent(Constants.Intents.ACTION_REFRESH_WIDGET)
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
 
         return PendingIntent.getBroadcast(context, 0, intent, 0)
@@ -93,9 +93,5 @@ class HistoryWidgetProvider : AppWidgetProvider() {
 
     private fun refreshWidget(context: Context?, widgetId: Int) {
         AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(widgetId, R.id.list)
-    }
-
-    companion object {
-        private val INTENT_REFRESH = BuildConfig.APPLICATION_ID + ".widget.REFRESH"
     }
 }

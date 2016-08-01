@@ -60,7 +60,7 @@
 			android:label="@string/history">
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-				<action android:name="${applicationId}.widget.REFRESH" />
+				<action android:name="${applicationId}.action.refresh_widget" />
 			</intent-filter>
 
 			<meta-data

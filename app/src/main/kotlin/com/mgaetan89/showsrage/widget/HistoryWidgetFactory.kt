@@ -75,8 +75,15 @@ class HistoryWidgetFactory(val context: Context) : RemoteViewsService.RemoteView
                     .migration(Migration())
                     .build()
 
+            // TODO Use RealmManager
             Realm.getInstance(configuration).let {
                 it.executeTransaction {
+                    it.delete(History::class.java)
+
+                    histories.forEach {
+                        it.id = it.date + "_" + it.status
+                    }
+
                     it.copyToRealmOrUpdate(histories)
                 }
                 it.close()

@@ -31,6 +31,7 @@ object Constants {
         val ACTION_EPISODE_ACTION_SELECTED = BuildConfig.APPLICATION_ID + ".action.episode_action_selected"
         val ACTION_EPISODE_SELECTED = BuildConfig.APPLICATION_ID + ".action.episode_selected"
         val ACTION_FILTER_SHOWS = BuildConfig.APPLICATION_ID + ".action.filter_shows"
+        val ACTION_REFRESH_WIDGET = BuildConfig.APPLICATION_ID + ".action.refresh_widget"
         val ACTION_SEARCH_RESULT_SELECTED = BuildConfig.APPLICATION_ID + ".action.search_result_selected"
         val ACTION_SHOW_SELECTED = BuildConfig.APPLICATION_ID + ".action.show_selected"
     }
