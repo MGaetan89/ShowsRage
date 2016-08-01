@@ -3,7 +3,6 @@ package com.mgaetan89.showsrage.fragment
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
@@ -19,6 +18,9 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.LogsAdapter
+import com.mgaetan89.showsrage.extension.getLogLevel
+import com.mgaetan89.showsrage.extension.getPreferences
+import com.mgaetan89.showsrage.extension.saveLogLevel
 import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.LogEntry
 import com.mgaetan89.showsrage.model.LogLevel
@@ -183,15 +185,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     }
 
     private fun getPreferredLogsLevel(): LogLevel {
-        val default = Constants.Preferences.Defaults.LOGS_LEVEL
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this.context)
-        val logsLevelString = preferences.getString(Constants.Preferences.Fields.LOGS_LEVEL, default.name)
-
-        return try {
-            LogLevel.valueOf(logsLevelString)
-        } catch(exception: IllegalArgumentException) {
-            default
-        }
+        return this.context.getPreferences().getLogLevel()
     }
 
     private fun handleLogsGroupFilter() {
@@ -212,9 +206,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
             item?.isChecked = true
 
             // Save the selected logs level
-            val editor = PreferenceManager.getDefaultSharedPreferences(this.context).edit()
-            editor.putString(Constants.Preferences.Fields.LOGS_LEVEL, logLevel.name)
-            editor.apply()
+            this.context.getPreferences().saveLogLevel(logLevel)
 
             // Update the list of logs
             this.adapter = null

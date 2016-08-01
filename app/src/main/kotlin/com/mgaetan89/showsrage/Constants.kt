@@ -1,12 +1,9 @@
 package com.mgaetan89.showsrage
 
-import com.mgaetan89.showsrage.model.LogLevel
-import com.mgaetan89.showsrage.model.ShowsFilters
 import retrofit.RestAdapter
 import java.util.*
 
 object Constants {
-    val DEFAULT_LOCALE: Locale = Locale.ENGLISH
     val NETWORK_LOG_LEVEL = if (BuildConfig.DEBUG) RestAdapter.LogLevel.FULL else RestAdapter.LogLevel.NONE
     val OMDB_URL = "http://www.omdbapi.com/"
     val SUPPORTED_LOCALES: List<Locale> = listOf(Locale.ENGLISH, Locale.FRENCH)
@@ -36,22 +33,5 @@ object Constants {
         val ACTION_FILTER_SHOWS = BuildConfig.APPLICATION_ID + ".action.filter_shows"
         val ACTION_SEARCH_RESULT_SELECTED = BuildConfig.APPLICATION_ID + ".action.search_result_selected"
         val ACTION_SHOW_SELECTED = BuildConfig.APPLICATION_ID + ".action.show_selected"
-    }
-
-    object Preferences {
-        object Fields {
-            val IGNORE_ARTICLES = "display_ignore_articles"
-            val LAST_VERSION_CHECK_TIME = "last_version_check_time"
-            val LOGS_LEVEL = "logs_level"
-            val SHOW_FILTER_STATE = "show_filter_state"
-            val SHOW_FILTER_STATUS = "show_filter_status"
-        }
-
-        object Defaults {
-            val IGNORE_ARTICLES = false
-            val LOGS_LEVEL = LogLevel.ERROR
-            val SHOW_FILTER_STATE = ShowsFilters.State.ALL.name
-            val SHOW_FILTER_STATUS = ShowsFilters.Status.ALL.status
-        }
     }
 }

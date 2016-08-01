@@ -2,12 +2,12 @@ package com.mgaetan89.showsrage.fragment
 
 import android.content.Intent
 import android.net.Uri
-import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import com.mgaetan89.showsrage.R
+import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.model.GenericResponse
 import com.mgaetan89.showsrage.network.SickRageApi
 import retrofit.Callback
@@ -106,7 +106,7 @@ open class SettingsServerFragment : SettingsFragment(), Callback<GenericResponse
 
         this.dismissDialog()
 
-        SickRageApi.instance.init(PreferenceManager.getDefaultSharedPreferences(activity))
+        SickRageApi.instance.init(activity.getPreferences())
 
         this.alertDialog = AlertDialog.Builder(activity)
                 .setCancelable(true)

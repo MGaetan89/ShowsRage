@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v4.app.DialogFragment
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AlertDialog
@@ -15,6 +14,10 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
+import com.mgaetan89.showsrage.extension.getPreferences
+import com.mgaetan89.showsrage.extension.getShowsFilterState
+import com.mgaetan89.showsrage.extension.getShowsFilterStatus
+import com.mgaetan89.showsrage.extension.saveShowsFilter
 import com.mgaetan89.showsrage.model.ShowsFilters
 
 class ShowsFiltersFragment : DialogFragment(), CompoundButton.OnCheckedChangeListener, DialogInterface.OnClickListener {
@@ -44,11 +47,7 @@ class ShowsFiltersFragment : DialogFragment(), CompoundButton.OnCheckedChangeLis
         val showState = ShowsFilters.State.getStateForViewId(this.activePaused?.checkedRadioButtonId)
         val showStatus = ShowsFilters.Status.getStatusForStates(this.statusAll?.isChecked, this.statusContinuing?.isChecked, this.statusEnded?.isChecked, this.statusUnknown?.isChecked)
 
-        with(PreferenceManager.getDefaultSharedPreferences(this.context).edit()) {
-            putString(Constants.Preferences.Fields.SHOW_FILTER_STATE, showState.name)
-            putInt(Constants.Preferences.Fields.SHOW_FILTER_STATUS, showStatus)
-            apply()
-        }
+        this.context.getPreferences().saveShowsFilter(showState, showStatus)
 
         val intent = Intent(Constants.Intents.ACTION_FILTER_SHOWS)
         intent.putExtra(Constants.Bundle.SEARCH_QUERY, this.arguments?.getString(Constants.Bundle.SEARCH_QUERY))
@@ -59,9 +58,9 @@ class ShowsFiltersFragment : DialogFragment(), CompoundButton.OnCheckedChangeLis
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this.context)
-        val state = preferences.getString(Constants.Preferences.Fields.SHOW_FILTER_STATE, Constants.Preferences.Defaults.SHOW_FILTER_STATE)
-        val status = preferences.getInt(Constants.Preferences.Fields.SHOW_FILTER_STATUS, Constants.Preferences.Defaults.SHOW_FILTER_STATUS)
+        val preferences = this.context.getPreferences()
+        val state = preferences.getShowsFilterState()
+        val status = preferences.getShowsFilterStatus()
         val view = LayoutInflater.from(this.context).inflate(R.layout.fragment_shows_filter, null)
 
         if (view != null) {
@@ -71,7 +70,7 @@ class ShowsFiltersFragment : DialogFragment(), CompoundButton.OnCheckedChangeLis
             this.statusEnded = view.findViewById(R.id.filter_status_ended) as CheckBox?
             this.statusUnknown = view.findViewById(R.id.filter_status_unknown) as CheckBox?
 
-            (view.findViewById(ShowsFilters.State.getViewIdForState(ShowsFilters.State.valueOf(state))) as RadioButton?)?.isChecked = true
+            (view.findViewById(ShowsFilters.State.getViewIdForState(state)) as RadioButton?)?.isChecked = true
 
             this.statusAll?.isChecked = ShowsFilters.Status.isAll(status)
             this.statusContinuing?.isChecked = ShowsFilters.Status.isContinuing(status)

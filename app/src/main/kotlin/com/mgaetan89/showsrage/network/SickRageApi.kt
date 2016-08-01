@@ -11,6 +11,15 @@ import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import com.mgaetan89.showsrage.Constants
+import com.mgaetan89.showsrage.extension.getApiKey
+import com.mgaetan89.showsrage.extension.getPortNumber
+import com.mgaetan89.showsrage.extension.getServerAddress
+import com.mgaetan89.showsrage.extension.getServerPassword
+import com.mgaetan89.showsrage.extension.getServerPath
+import com.mgaetan89.showsrage.extension.getServerUsername
+import com.mgaetan89.showsrage.extension.useBasicAuth
+import com.mgaetan89.showsrage.extension.useHttps
+import com.mgaetan89.showsrage.extension.useSelfSignedCertificate
 import com.mgaetan89.showsrage.model.Indexer
 import com.mgaetan89.showsrage.model.RealmString
 import com.squareup.okhttp.Authenticator
@@ -88,19 +97,19 @@ class SickRageApi private constructor() : RequestInterceptor {
     }
 
     fun init(preferences: SharedPreferences) {
-        val useHttps = preferences.getBoolean("use_https", false)
-        val address = preferences.getString("server_address", "")
-        val portNumber = preferences.getString("server_port_number", "")
-        val selfSignedCertificate = preferences.getBoolean("self_signed_certificate", false)
+        val useHttps = preferences.useHttps()
+        val address = preferences.getServerAddress()
+        val portNumber = preferences.getPortNumber()
+        val selfSignedCertificate = preferences.useSelfSignedCertificate()
 
-        this.apiKey = preferences.getString("api_key", "")
+        this.apiKey = preferences.getApiKey()
         this.apiUrl = buildApiUrl(useHttps, address, portNumber)
         this.credentials = getCredentials(
-                preferences.getBoolean("basic_auth", false),
-                preferences.getString("server_username", null),
-                preferences.getString("server_password", null)
+                preferences.useBasicAuth(),
+                preferences.getServerUsername(),
+                preferences.getServerPassword()
         )
-        this.path = getApiPath(preferences.getString("server_path", ""))
+        this.path = preferences.getServerPath()
         this.webRoot = getWebRoot(this.path)
 
         val builder = RestAdapter.Builder()
@@ -260,14 +269,6 @@ class SickRageApi private constructor() : RequestInterceptor {
             }
 
             return builder.toString()
-        }
-
-        fun getApiPath(apiPath: String?): String {
-            if (apiPath.isNullOrEmpty()) {
-                return ""
-            }
-
-            return apiPath!!.replace("^/+|/$+".toRegex(), "")
         }
 
         fun getCredentials(useBasicAuthentication: Boolean, username: String?, password: String?): String? {

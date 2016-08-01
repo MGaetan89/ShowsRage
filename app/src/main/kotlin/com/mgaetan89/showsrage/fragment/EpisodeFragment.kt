@@ -1,12 +1,14 @@
 package com.mgaetan89.showsrage.fragment
 
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v4.view.PagerAdapter
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.EpisodePagerAdapter
+import com.mgaetan89.showsrage.extension.getEpisodeSort
+import com.mgaetan89.showsrage.extension.getPreferences
+import com.mgaetan89.showsrage.model.Sort
 
 class EpisodeFragment : TabbedFragment() {
     private val episodes = mutableListOf<Int>()
@@ -30,8 +32,7 @@ class EpisodeFragment : TabbedFragment() {
                 this.episodes.add(i)
             }
 
-            val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
-            val ascendingOrder = preferences.getBoolean("display_episodes_sort", false)
+            val ascendingOrder = Sort.ASCENDING.equals(activity.getPreferences().getEpisodeSort())
 
             if (ascendingOrder) {
                 this.episodes.reverse()

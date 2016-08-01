@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.GridLayoutManager
@@ -18,6 +17,11 @@ import com.futuremind.recyclerviewfastscroll.FastScroller
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.adapter.ShowsAdapter
+import com.mgaetan89.showsrage.extension.getPreferences
+import com.mgaetan89.showsrage.extension.getShowsFilterState
+import com.mgaetan89.showsrage.extension.getShowsFilterStatus
+import com.mgaetan89.showsrage.extension.getShowsListLayout
+import com.mgaetan89.showsrage.extension.ignoreArticles
 import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.RealmShowStat
@@ -76,12 +80,12 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
             this.recyclerView = view.findViewById(android.R.id.list) as RecyclerView?
 
             if (this.recyclerView != null) {
-                val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-                val ignoreArticles = preferences.getBoolean(Constants.Preferences.Fields.IGNORE_ARTICLES, Constants.Preferences.Defaults.IGNORE_ARTICLES)
-                val showsListLayout = PreferenceManager.getDefaultSharedPreferences(this.context).getString("display_shows_list_layout", "poster")
+                val preferences = context.getPreferences()
+                val ignoreArticles = preferences.ignoreArticles()
+                val showsListLayout = preferences.getShowsListLayout()
                 val columnCount = this.resources.getInteger(R.integer.shows_column_count)
 
-                this.adapter = ShowsAdapter(this.filteredShows, getAdapterLayoutResource(showsListLayout), ignoreArticles)
+                this.adapter = ShowsAdapter(this.filteredShows, showsListLayout, ignoreArticles)
 
                 this.recyclerView!!.adapter = adapter
                 this.recyclerView!!.layoutManager = GridLayoutManager(this.context, columnCount)
@@ -141,17 +145,17 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 
         override fun onReceive(context: Context?, intent: Intent?) {
             val fragment = this.fragmentReference.get() ?: return
-            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-            val filterState = preferences.getString(Constants.Preferences.Fields.SHOW_FILTER_STATE, Constants.Preferences.Defaults.SHOW_FILTER_STATE)
-            val filterStatus = preferences.getInt(Constants.Preferences.Fields.SHOW_FILTER_STATUS, Constants.Preferences.Defaults.SHOW_FILTER_STATUS)
-            val ignoreArticles = preferences.getBoolean(Constants.Preferences.Fields.IGNORE_ARTICLES, Constants.Preferences.Defaults.IGNORE_ARTICLES)
+            val preferences = context?.getPreferences() ?: return
+            val filterState = preferences.getShowsFilterState()
+            val filterStatus = preferences.getShowsFilterStatus()
+            val ignoreArticles = preferences.ignoreArticles()
             val searchQuery = intent?.getStringExtra(Constants.Bundle.SEARCH_QUERY)
             val shows = fragment.shows
             val filteredShows = if (shows == null || !shows.isLoaded) {
                 emptyList()
             } else {
                 shows.filter {
-                    match(it, ShowsFilters.State.valueOf(filterState), filterStatus, searchQuery)
+                    match(it, filterState, filterStatus, searchQuery)
                 }.sortedWith(Comparator<Show> { first, second ->
                     val firstProperty = Utils.getSortableShowName(first, ignoreArticles)
                     val secondProperty = Utils.getSortableShowName(second, ignoreArticles)
@@ -256,13 +260,6 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
     }
 
     companion object {
-        internal fun getAdapterLayoutResource(preferredLayout: String?): Int {
-            return when (preferredLayout) {
-                "banner" -> R.layout.adapter_shows_list_content_banner
-                else -> R.layout.adapter_shows_list_content_poster
-            }
-        }
-
         internal fun getCommand(shows: Iterable<Show>?): String {
             val command = StringBuilder()
 

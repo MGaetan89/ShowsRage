@@ -1,9 +1,12 @@
 package com.mgaetan89.showsrage.fragment
 
-import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
 import android.support.v7.preference.Preference
 import com.mgaetan89.showsrage.R
+import com.mgaetan89.showsrage.extension.Fields
+import com.mgaetan89.showsrage.extension.getPreferences
+import com.mgaetan89.showsrage.extension.getServerPassword
+import com.mgaetan89.showsrage.extension.getServerUsername
 import com.mgaetan89.showsrage.model.ApiKey
 import com.mgaetan89.showsrage.network.SickRageApi
 import retrofit.Callback
@@ -27,10 +30,11 @@ open class SettingsServerApiKeyFragment : SettingsServerFragment() {
     override fun getXmlResourceFile() = R.xml.settings_server_api_key
 
     private fun getApiKey() {
-        SickRageApi.instance.init(PreferenceManager.getDefaultSharedPreferences(this.activity))
+        SickRageApi.instance.init(this.activity.getPreferences())
 
-        val username = this.getPreferenceValue("server_username", null)
-        val password = this.getPreferenceValue("server_password", null)
+        val preferences = this.context.getPreferences()
+        val username = preferences.getServerUsername()
+        val password = preferences.getServerPassword()
 
         SickRageApi.instance.services?.getApiKey(username, password, ApiKeyCallback(this))
     }
@@ -67,8 +71,8 @@ open class SettingsServerApiKeyFragment : SettingsServerFragment() {
             if (apiKey.isNullOrEmpty()) {
                 messageId = R.string.get_api_key_error
             } else {
-                this.setPreferenceValue(fragment, "api_key", apiKey!!)
-                fragment.findPreference("api_key").summary = apiKey
+                this.setPreferenceValue(fragment, Fields.API_KEY.field, apiKey!!)
+                fragment.findPreference(Fields.API_KEY.field).summary = apiKey
 
                 messageId = R.string.get_api_key_success
             }

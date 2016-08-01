@@ -9,7 +9,6 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.provider.Settings
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.NavigationView
@@ -36,6 +35,12 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.ShowsRageApplication
 import com.mgaetan89.showsrage.extension.changeLocale
+import com.mgaetan89.showsrage.extension.getLastVersionCheckTime
+import com.mgaetan89.showsrage.extension.getLocale
+import com.mgaetan89.showsrage.extension.getPreferences
+import com.mgaetan89.showsrage.extension.getVersionCheckInterval
+import com.mgaetan89.showsrage.extension.saveLastVersionCheckTime
+import com.mgaetan89.showsrage.extension.useDarkTheme
 import com.mgaetan89.showsrage.fragment.HistoryFragment
 import com.mgaetan89.showsrage.fragment.LogsFragment
 import com.mgaetan89.showsrage.fragment.PostProcessingFragment
@@ -324,16 +329,14 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         RealmManager.init(this, null)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val preferences = this.getPreferences()
 
         if (savedInstanceState == null) {
             // Set the correct language
-            val newLocale = SettingsFragment.getPreferredLocale(preferences.getString("display_language", ""))
-
-            this.resources.changeLocale(newLocale)
+            this.resources.changeLocale(preferences.getLocale())
 
             // Set the correct theme
-            if (preferences.getBoolean("display_theme", true)) {
+            if (preferences.useDarkTheme()) {
                 this.delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             } else {
                 this.delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -399,9 +402,9 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
     }
 
     private fun checkForUpdate(manualCheck: Boolean) {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val lastVersionCheckTime = preferences.getLong(Constants.Preferences.Fields.LAST_VERSION_CHECK_TIME, 0L)
-        val checkInterval = preferences.getString("behavior_version_check", "0").toLong()
+        val preferences = this.getPreferences()
+        val lastVersionCheckTime = preferences.getLastVersionCheckTime()
+        val checkInterval = preferences.getVersionCheckInterval()
 
         if (shouldCheckForUpdate(checkInterval, manualCheck, lastVersionCheckTime)) {
             SickRageApi.instance.services?.checkForUpdate(CheckForUpdateCallback(this, manualCheck))
@@ -490,10 +493,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                 return
             }
 
-            with(PreferenceManager.getDefaultSharedPreferences(activity).edit()) {
-                putLong(Constants.Preferences.Fields.LAST_VERSION_CHECK_TIME, System.currentTimeMillis())
-                apply()
-            }
+            activity.getPreferences().saveLastVersionCheckTime(System.currentTimeMillis())
 
             if (!update.needsUpdate) {
                 if (manualCheck) {
