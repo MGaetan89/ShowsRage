@@ -1,8 +1,6 @@
 package com.mgaetan89.showsrage.fragment
 
 import android.appwidget.AppWidgetManager
-import android.content.ComponentName
-import android.content.Intent
 import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
@@ -10,6 +8,7 @@ import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.extension.Fields
 import com.mgaetan89.showsrage.extension.changeLocale
 import com.mgaetan89.showsrage.extension.getLocale
+import com.mgaetan89.showsrage.extension.updateAllWidgets
 import com.mgaetan89.showsrage.extension.useDarkTheme
 import com.mgaetan89.showsrage.widget.HistoryWidgetProvider
 
@@ -48,13 +47,6 @@ class SettingsDisplayFragment : SettingsFragment() {
     }
 
     private fun updateWidgets() {
-        val context = this.context ?: return
-        val widgetIds = AppWidgetManager.getInstance(context)
-                .getAppWidgetIds(ComponentName(context, HistoryWidgetProvider::class.java))
-        val intent = Intent(context, HistoryWidgetProvider::class.java)
-        intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds)
-
-        context.sendBroadcast(intent)
+        AppWidgetManager.getInstance(context).updateAllWidgets(context, HistoryWidgetProvider::class.java)
     }
 }
