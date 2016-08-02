@@ -239,7 +239,7 @@ class SickRageApi private constructor() : RequestInterceptor {
         private fun buildApiUrl(useHttps: Boolean, address: String, portNumber: String): String {
             // Retrofit requires a non-empty endpoint
             // So we use the local url
-            if (address.isNullOrEmpty()) {
+            if (address.isEmpty()) {
                 return "http://127.0.0.1/"
             }
 

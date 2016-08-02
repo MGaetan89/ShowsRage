@@ -1,15 +1,17 @@
 package com.mgaetan89.showsrage.network
 
 import android.content.SharedPreferences
+import com.mgaetan89.showsrage.extension.getApiKey
+import com.mgaetan89.showsrage.extension.getPortNumber
+import com.mgaetan89.showsrage.extension.getServerAddress
+import com.mgaetan89.showsrage.extension.getServerPath
+import com.mgaetan89.showsrage.extension.useHttps
 import com.mgaetan89.showsrage.model.Indexer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import org.mockito.Matchers.anyBoolean
-import org.mockito.Matchers.anyString
-import org.mockito.Matchers.eq
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
@@ -21,11 +23,11 @@ class SickRageApi_GetBannerUrlTest(
     @Before
     fun before() {
         val preferences = mock(SharedPreferences::class.java)
-        `when`(preferences.getBoolean(eq("use_https"), anyBoolean())).thenReturn(this.useHttps)
-        `when`(preferences.getString(eq("server_address"), anyString())).thenReturn(this.address)
-        `when`(preferences.getString(eq("server_port_number"), anyString())).thenReturn(this.port)
-        `when`(preferences.getString(eq("server_path"), anyString())).thenReturn(this.path)
-        `when`(preferences.getString(eq("api_key"), anyString())).thenReturn(this.apiKey)
+        `when`(preferences.useHttps()).thenReturn(this.useHttps)
+        `when`(preferences.getServerAddress()).thenReturn(this.address)
+        `when`(preferences.getPortNumber()).thenReturn(this.port)
+        `when`(preferences.getServerPath()).thenReturn(this.path)
+        `when`(preferences.getApiKey()).thenReturn(this.apiKey)
 
         SickRageApi.instance.init(preferences)
     }

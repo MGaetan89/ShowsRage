@@ -10,15 +10,15 @@ import com.mgaetan89.showsrage.model.Sort
 import java.util.*
 
 fun SharedPreferences.getApiKey(): String {
-    return this.getString(Fields.API_KEY.field, "")
+    return this.getString(Fields.API_KEY.field, "") ?: ""
 }
 
 fun SharedPreferences.getEpisodeSort(): Sort {
     return if (this.getBoolean("display_episodes_sort", false)) Sort.ASCENDING else Sort.DESCENDING
 }
 
-fun SharedPreferences?.getLanguage(): String? {
-    return this?.getString(Fields.DISPLAY_LANGUAGE.field, "")
+fun SharedPreferences?.getLanguage(): String {
+    return this?.getString(Fields.DISPLAY_LANGUAGE.field, "") ?: ""
 }
 
 fun SharedPreferences.getLastVersionCheckTime(): Long {
@@ -51,7 +51,7 @@ fun SharedPreferences.getLogLevel(): LogLevel {
 }
 
 fun SharedPreferences.getPortNumber(): String {
-    return this.getString("server_port_number", "")
+    return this.getString("server_port_number", "") ?: ""
 }
 
 fun SharedPreferences.getSeasonSort(): Sort {
@@ -59,10 +59,10 @@ fun SharedPreferences.getSeasonSort(): Sort {
 }
 
 fun SharedPreferences.getServerAddress(): String {
-    return this.getString("server_address", "")
+    return this.getString("server_address", "") ?: ""
 }
 
-fun SharedPreferences.getServerPassword(): String {
+fun SharedPreferences.getServerPassword(): String? {
     return this.getString(Fields.SERVER_PASSWORD.field, null)
 }
 
@@ -76,7 +76,7 @@ fun SharedPreferences.getServerPath(): String {
     return path!!.replace("^/+|/$+".toRegex(), "")
 }
 
-fun SharedPreferences.getServerUsername(): String {
+fun SharedPreferences.getServerUsername(): String? {
     return this.getString("server_username", null)
 }
 

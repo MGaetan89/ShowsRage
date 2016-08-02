@@ -51,7 +51,7 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
         if ("SettingsFragment".equals(this.javaClass.simpleName)) {
             val serverAddress = this.context.getPreferences().getServerAddress()
 
-            if (serverAddress.isNullOrEmpty()) {
+            if (serverAddress.isEmpty()) {
                 AlertDialog.Builder(this.activity)
                         .setIcon(R.drawable.ic_notification)
                         .setTitle(R.string.app_name)
@@ -86,7 +86,7 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
             preference.entries = Constants.SUPPORTED_LOCALES.map { it.displayLanguage.capitalize() }.toTypedArray()
             preference.entryValues = Constants.SUPPORTED_LOCALES.map { it.language }.toTypedArray()
 
-            if (preferences.getLanguage().isNullOrEmpty()) {
+            if (preferences.getLanguage().isEmpty()) {
                 preference.value = preferredLocale.language
             }
         }
