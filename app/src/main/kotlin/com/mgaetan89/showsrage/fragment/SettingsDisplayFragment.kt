@@ -19,7 +19,7 @@ class SettingsDisplayFragment : SettingsFragment() {
 
         when (key) {
             Fields.DISPLAY_LANGUAGE.field -> this.changeLanguage(sharedPreferences)
-            Fields.DISPLAY_THEME.field -> this.changeTheme(sharedPreferences)
+            Fields.THEME.field -> this.changeTheme(sharedPreferences)
         }
     }
 

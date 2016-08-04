@@ -14,7 +14,7 @@ fun SharedPreferences.getApiKey(): String {
 }
 
 fun SharedPreferences.getEpisodeSort(): Sort {
-    return if (this.getBoolean("display_episodes_sort", false)) Sort.ASCENDING else Sort.DESCENDING
+    return if (this.getBoolean(Fields.EPISODE_SORT.field, false)) Sort.ASCENDING else Sort.DESCENDING
 }
 
 fun SharedPreferences?.getLanguage(): String {
@@ -26,16 +26,13 @@ fun SharedPreferences.getLastVersionCheckTime(): Long {
 }
 
 fun SharedPreferences?.getLocale(): Locale {
+    val default = Locale.getDefault()
     val language = this.getLanguage()
 
     return when (language) {
         "en" -> Locale.ENGLISH
         "fr" -> Locale.FRENCH
-        else -> if (Constants.SUPPORTED_LOCALES.contains(Locale.getDefault())) {
-            Locale.getDefault()
-        } else {
-            Locale.ENGLISH
-        }
+        else -> if (Constants.SUPPORTED_LOCALES.contains(default)) default else Locale.ENGLISH
     }
 }
 
@@ -145,7 +142,7 @@ fun SharedPreferences.useBasicAuth(): Boolean {
 }
 
 fun SharedPreferences?.useDarkTheme(): Boolean {
-    return this?.getBoolean(Fields.DISPLAY_THEME.field, true) ?: true
+    return this?.getBoolean(Fields.THEME.field, true) ?: true
 }
 
 fun SharedPreferences.useHttps(): Boolean {
@@ -159,10 +156,11 @@ fun SharedPreferences?.useSelfSignedCertificate(): Boolean {
 enum class Fields(val field: String) {
     API_KEY("api_key"),
     DISPLAY_LANGUAGE("display_language"),
-    DISPLAY_THEME("display_theme"),
+    EPISODE_SORT("display_episodes_sort"),
     LAST_VERSION_CHECK_TIME("last_version_check_time"),
     LOGS_LEVEL("logs_level"),
     SERVER_PASSWORD("server_password"),
     SHOW_FILTER_STATE("show_filter_state"),
-    SHOW_FILTER_STATUS("show_filter_status")
+    SHOW_FILTER_STATUS("show_filter_status"),
+    THEME("display_theme")
 }
