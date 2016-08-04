@@ -5,7 +5,7 @@
 
 		<PreferenceScreen
 			android:key="fastscroll"
-			android:summary="Version 0.1.4"
+			android:summary="Version 0.1.5"
 			android:title="Recycler Fast Scroll">
 
 			<intent
