@@ -157,9 +157,7 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
         return ShowsPagerAdapter(this.childFragmentManager, this, this.splitShowsAnimes)
     }
 
-    override fun getTabMode(): Int {
-        return TabLayout.MODE_FIXED
-    }
+    override fun getTabMode() = TabLayout.MODE_FIXED
 
     override fun useSwipeToRefresh() = true
 
