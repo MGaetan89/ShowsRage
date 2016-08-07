@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
+import com.mgaetan89.showsrage.model.Sort
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
@@ -12,7 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class SharedPreferencesExtension_GetLastVersionCheckTimeTest {
+class SharedPreferencesExtension_GetSeasonSortTest {
     @JvmField
     @Rule
     val activityRule: ActivityTestRule<TestActivity> = ActivityTestRule(TestActivity::class.java)
@@ -25,21 +26,30 @@ class SharedPreferencesExtension_GetLastVersionCheckTimeTest {
     }
 
     @Test
-    fun getLastVersionCheckTime() {
-        this.preference.saveLastVersionCheckTime(123456789L)
+    fun getSeasonSort_Ascending() {
+        this.preference.edit().putBoolean(Fields.SEASON_SORT.field, true).apply()
 
-        val lastVersionCheckTime = this.preference.getLastVersionCheckTime()
+        val seasonSort = this.preference.getSeasonSort()
 
-        assertThat(lastVersionCheckTime).isEqualTo(123456789L)
+        assertThat(seasonSort).isEqualTo(Sort.ASCENDING)
     }
 
     @Test
-    fun getLanguage_Missing() {
-        assertThat(this.preference.contains(Fields.LAST_VERSION_CHECK_TIME.field)).isFalse()
+    fun getSeasonSort_Descending() {
+        this.preference.edit().putBoolean(Fields.SEASON_SORT.field, false).apply()
 
-        val lastVersionCheckTime = this.preference.getLastVersionCheckTime()
+        val seasonSort = this.preference.getSeasonSort()
 
-        assertThat(lastVersionCheckTime).isEqualTo(0L)
+        assertThat(seasonSort).isEqualTo(Sort.ASCENDING)
+    }
+
+    @Test
+    fun getSeasonSort_Missing() {
+        assertThat(this.preference.contains(Fields.SEASON_SORT.field)).isFalse()
+
+        val seasonSort = this.preference.getSeasonSort()
+
+        assertThat(seasonSort).isEqualTo(Sort.ASCENDING)
     }
 
     @After

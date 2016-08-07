@@ -48,15 +48,15 @@ fun SharedPreferences.getLogLevel(): LogLevel {
 }
 
 fun SharedPreferences.getPortNumber(): String {
-    return this.getString("server_port_number", "") ?: ""
+    return this.getString(Fields.PORT_NUMBER.field, "") ?: ""
 }
 
 fun SharedPreferences.getSeasonSort(): Sort {
-    return if (this.getBoolean("display_seasons_sort", false)) Sort.ASCENDING else Sort.DESCENDING
+    return if (this.getBoolean(Fields.SEASON_SORT.field, false)) Sort.ASCENDING else Sort.DESCENDING
 }
 
 fun SharedPreferences.getServerAddress(): String {
-    return this.getString("server_address", "") ?: ""
+    return this.getString(Fields.SERVER_ADDRESS.field, "") ?: ""
 }
 
 fun SharedPreferences.getServerPassword(): String? {
@@ -64,17 +64,11 @@ fun SharedPreferences.getServerPassword(): String? {
 }
 
 fun SharedPreferences.getServerPath(): String {
-    val path = this.getString("server_path", "")
-
-    if (path.isNullOrEmpty()) {
-        return ""
-    }
-
-    return path!!.replace("^/+|/$+".toRegex(), "")
+    return this.getString(Fields.SERVER_PATH.field, "")?.trim('/') ?: ""
 }
 
 fun SharedPreferences.getServerUsername(): String? {
-    return this.getString("server_username", null)
+    return this.getString(Fields.SERVER_USERNAME.field, null)
 }
 
 fun SharedPreferences.getShowsFilterState(): ShowsFilters.State {
@@ -94,7 +88,7 @@ fun SharedPreferences.getShowsFilterStatus(): Int {
 
 @LayoutRes
 fun SharedPreferences.getShowsListLayout(): Int {
-    val preferredLayout = this.getString("display_shows_list_layout", "poster")
+    val preferredLayout = this.getString(Fields.SHOWS_LIST_LAYOUT.field, "poster")
 
     return when (preferredLayout) {
         "banner" -> R.layout.adapter_shows_list_content_banner
@@ -159,8 +153,14 @@ enum class Fields(val field: String) {
     EPISODE_SORT("display_episodes_sort"),
     LAST_VERSION_CHECK_TIME("last_version_check_time"),
     LOGS_LEVEL("logs_level"),
+    PORT_NUMBER("server_port_number"),
+    SEASON_SORT("display_seasons_sort"),
+    SERVER_ADDRESS("server_address"),
     SERVER_PASSWORD("server_password"),
+    SERVER_PATH("server_path"),
+    SERVER_USERNAME("server_username"),
     SHOW_FILTER_STATE("show_filter_state"),
     SHOW_FILTER_STATUS("show_filter_status"),
+    SHOWS_LIST_LAYOUT("display_shows_list_layout"),
     THEME("display_theme")
 }
