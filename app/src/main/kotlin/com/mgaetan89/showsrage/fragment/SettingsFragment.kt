@@ -8,12 +8,12 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.preference.EditTextPreference
 import android.support.v7.preference.ListPreference
 import android.support.v7.preference.Preference
-import android.support.v7.preference.PreferenceFragmentCompat
 import android.support.v7.preference.PreferenceGroup
 import com.mgaetan89.showsrage.BuildConfig
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
+import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat
 import java.util.*
 
 // Code to display preferences values from: http://stackoverflow.com/a/18807490/1914223
@@ -28,7 +28,7 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
         }
     }
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, s: String?) {
+    override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
         this.addPreferencesFromResource(this.getXmlResourceFile())
         this.preferenceScreen?.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
     }
