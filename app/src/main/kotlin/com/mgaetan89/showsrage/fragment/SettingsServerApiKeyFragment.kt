@@ -30,9 +30,10 @@ open class SettingsServerApiKeyFragment : SettingsServerFragment() {
     override fun getXmlResourceFile() = R.xml.settings_server_api_key
 
     private fun getApiKey() {
-        SickRageApi.instance.init(this.activity.getPreferences())
+        val preferences = this.activity.getPreferences()
 
-        val preferences = this.context.getPreferences()
+        SickRageApi.instance.init(preferences)
+
         val username = preferences.getServerUsername()
         val password = preferences.getServerPassword()
 

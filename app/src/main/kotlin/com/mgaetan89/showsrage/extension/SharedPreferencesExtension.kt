@@ -97,11 +97,11 @@ fun SharedPreferences.getShowsListLayout(): Int {
 }
 
 fun SharedPreferences.getVersionCheckInterval(): Long {
-    return this.getString("behavior_version_check", "0").toLong()
+    return this.getString(Fields.VERSION_CHECK_INTERVAL.field, "0").toLong()
 }
 
 fun SharedPreferences.ignoreArticles(): Boolean {
-    return this.getBoolean("display_ignore_articles", false)
+    return this.getBoolean(Fields.IGNORE_ARTICLES.field, false)
 }
 
 fun SharedPreferences.saveLastVersionCheckTime(lastVersionCheckTime: Long) {
@@ -120,19 +120,19 @@ fun SharedPreferences.saveShowsFilter(state: ShowsFilters.State, status: Int) {
 }
 
 fun SharedPreferences.splitShowsAnimes(): Boolean {
-    return this.getBoolean("display_split_shows_animes", false)
+    return this.getBoolean(Fields.SPLIT_SHOWS_ANIMES.field, false)
 }
 
 fun SharedPreferences.streamInChromecast(): Boolean {
-    return this.getBoolean("stream_in_chromecast", false)
+    return this.getBoolean(Fields.STREAM_IN_CHROMECAST.field, false)
 }
 
 fun SharedPreferences.streamInVideoPlayer(): Boolean {
-    return this.getBoolean("view_in_external_video_player", false)
+    return this.getBoolean(Fields.STREAM_IN_VIDEO_PLAYER.field, false)
 }
 
 fun SharedPreferences.useBasicAuth(): Boolean {
-    return this.getBoolean("basic_auth", false)
+    return this.getBoolean(Fields.BASIC_AUTH.field, false)
 }
 
 fun SharedPreferences?.useDarkTheme(): Boolean {
@@ -140,21 +140,25 @@ fun SharedPreferences?.useDarkTheme(): Boolean {
 }
 
 fun SharedPreferences.useHttps(): Boolean {
-    return this.getBoolean("use_https", false)
+    return this.getBoolean(Fields.HTTPS.field, false)
 }
 
 fun SharedPreferences?.useSelfSignedCertificate(): Boolean {
-    return this?.getBoolean("self_signed_certificate", false) ?: false
+    return this?.getBoolean(Fields.SELF_SIGNED_CERTIFICATE.field, false) ?: false
 }
 
 enum class Fields(val field: String) {
     API_KEY("api_key"),
+    BASIC_AUTH("basic_auth"),
     DISPLAY_LANGUAGE("display_language"),
     EPISODE_SORT("display_episodes_sort"),
+    HTTPS("use_https"),
+    IGNORE_ARTICLES("display_ignore_articles"),
     LAST_VERSION_CHECK_TIME("last_version_check_time"),
     LOGS_LEVEL("logs_level"),
     PORT_NUMBER("server_port_number"),
     SEASON_SORT("display_seasons_sort"),
+    SELF_SIGNED_CERTIFICATE("self_signed_certificate"),
     SERVER_ADDRESS("server_address"),
     SERVER_PASSWORD("server_password"),
     SERVER_PATH("server_path"),
@@ -162,5 +166,9 @@ enum class Fields(val field: String) {
     SHOW_FILTER_STATE("show_filter_state"),
     SHOW_FILTER_STATUS("show_filter_status"),
     SHOWS_LIST_LAYOUT("display_shows_list_layout"),
-    THEME("display_theme")
+    SPLIT_SHOWS_ANIMES("display_split_shows_animes"),
+    STREAM_IN_CHROMECAST("stream_in_chromecast"),
+    STREAM_IN_VIDEO_PLAYER("view_in_external_video_player"),
+    THEME("display_theme"),
+    VERSION_CHECK_INTERVAL("behavior_version_check")
 }
