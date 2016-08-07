@@ -97,7 +97,9 @@ fun SharedPreferences.getShowsListLayout(): Int {
 }
 
 fun SharedPreferences.getVersionCheckInterval(): Long {
-    return this.getString(Fields.VERSION_CHECK_INTERVAL.field, "0").toLong()
+    val versionCheckInterval = this.getString(Fields.VERSION_CHECK_INTERVAL.field, "0")
+
+    return if (versionCheckInterval.isNullOrEmpty()) 0L else versionCheckInterval.toLong()
 }
 
 fun SharedPreferences.ignoreArticles(): Boolean {

@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.extension
 
 import android.content.SharedPreferences
 import android.support.test.rule.ActivityTestRule
+import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -9,10 +10,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import java.util.*
 
-@RunWith(Parameterized::class)
+@RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_GetLocaleTest {
     @JvmField
     @Rule

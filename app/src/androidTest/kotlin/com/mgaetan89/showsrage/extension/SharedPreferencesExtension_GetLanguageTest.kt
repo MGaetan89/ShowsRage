@@ -28,7 +28,7 @@ class SharedPreferencesExtension_GetLanguageTest {
     fun getLanguage() {
         this.preference.edit().putString(Fields.DISPLAY_LANGUAGE.field, "fr").apply()
 
-        val language = this.preference.getEpisodeSort()
+        val language = this.preference.getLanguage()
 
         assertThat(language).isEqualTo("fr")
     }

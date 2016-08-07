@@ -40,7 +40,7 @@ class SharedPreferencesExtension_GetSeasonSortTest {
 
         val seasonSort = this.preference.getSeasonSort()
 
-        assertThat(seasonSort).isEqualTo(Sort.ASCENDING)
+        assertThat(seasonSort).isEqualTo(Sort.DESCENDING)
     }
 
     @Test
@@ -49,7 +49,7 @@ class SharedPreferencesExtension_GetSeasonSortTest {
 
         val seasonSort = this.preference.getSeasonSort()
 
-        assertThat(seasonSort).isEqualTo(Sort.ASCENDING)
+        assertThat(seasonSort).isEqualTo(Sort.DESCENDING)
     }
 
     @After
