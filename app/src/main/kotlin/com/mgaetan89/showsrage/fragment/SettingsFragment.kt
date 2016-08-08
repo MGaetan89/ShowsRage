@@ -13,8 +13,12 @@ import com.mgaetan89.showsrage.BuildConfig
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
+import com.mgaetan89.showsrage.extension.Fields
+import com.mgaetan89.showsrage.extension.getLanguage
+import com.mgaetan89.showsrage.extension.getLocale
+import com.mgaetan89.showsrage.extension.getPreferences
+import com.mgaetan89.showsrage.extension.getServerAddress
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat
-import java.util.*
 
 // Code to display preferences values from: http://stackoverflow.com/a/18807490/1914223
 open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -45,9 +49,9 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
         this.activity.setTitle(this.getTitleResourceId())
 
         if ("SettingsFragment".equals(this.javaClass.simpleName)) {
-            val serverAddress = this.getPreferenceValue("server_address", "")
+            val serverAddress = this.context.getPreferences().getServerAddress()
 
-            if (serverAddress.isNullOrEmpty()) {
+            if (serverAddress.isEmpty()) {
                 AlertDialog.Builder(this.activity)
                         .setIcon(R.drawable.ic_notification)
                         .setTitle(R.string.app_name)
@@ -75,14 +79,14 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
     internal open fun getXmlResourceFile() = R.xml.settings
 
     private fun setupDisplayLanguage(preference: Preference) {
-        val displayLanguage = this.getPreferenceValue("display_language", "")
-        val preferredLocale = getPreferredLocale(displayLanguage)
+        val preferences = this.context.getPreferences()
+        val preferredLocale = preferences.getLocale()
 
         if (preference is ListPreference) {
             preference.entries = Constants.SUPPORTED_LOCALES.map { it.displayLanguage.capitalize() }.toTypedArray()
             preference.entryValues = Constants.SUPPORTED_LOCALES.map { it.language }.toTypedArray()
 
-            if (displayLanguage.isNullOrEmpty()) {
+            if (preferences.getLanguage().isEmpty()) {
                 preference.value = preferredLocale.language
             }
         }
@@ -94,7 +98,7 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
         if (preference is EditTextPreference) {
             val text = preference.text
 
-            if ("server_password".equals(preference.key) && !text.isNullOrEmpty()) {
+            if (Fields.SERVER_PASSWORD.field.equals(preference.key) && !text.isNullOrEmpty()) {
                 preference.summary = "*****"
             } else {
                 preference.summary = text
@@ -121,22 +125,8 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
                 this.updatePreferenceGroup(preference)
             } else {
                 when (preference.key) {
-                    "display_language" -> this.setupDisplayLanguage(preference)
+                    Fields.DISPLAY_LANGUAGE.field -> this.setupDisplayLanguage(preference)
                     else -> this.updatePreference(preference)
-                }
-            }
-        }
-    }
-
-    companion object {
-        fun getPreferredLocale(language: String?): Locale {
-            return when (language) {
-                "en" -> Locale.ENGLISH
-                "fr" -> Locale.FRENCH
-                else -> if (Constants.SUPPORTED_LOCALES.contains(Locale.getDefault())) {
-                    Locale.getDefault()
-                } else {
-                    Constants.DEFAULT_LOCALE
                 }
             }
         }

@@ -4,7 +4,6 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.design.widget.TabLayout
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.MenuItemCompat
@@ -21,6 +20,8 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.ShowsPagerAdapter
+import com.mgaetan89.showsrage.extension.getPreferences
+import com.mgaetan89.showsrage.extension.splitShowsAnimes
 import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.Shows
 import com.mgaetan89.showsrage.network.SickRageApi
@@ -69,9 +70,7 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this.context)
-
-        this.splitShowsAnimes = preferences.getBoolean("display_split_shows_animes", false)
+        this.splitShowsAnimes = this.context.getPreferences().splitShowsAnimes()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

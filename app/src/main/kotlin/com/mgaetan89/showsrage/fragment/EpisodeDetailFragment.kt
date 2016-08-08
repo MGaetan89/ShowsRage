@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.graphics.drawable.DrawableCompat
@@ -31,6 +30,9 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.ShowsRageApplication
 import com.mgaetan89.showsrage.activity.MainActivity
+import com.mgaetan89.showsrage.extension.getPreferences
+import com.mgaetan89.showsrage.extension.streamInChromecast
+import com.mgaetan89.showsrage.extension.streamInVideoPlayer
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.helper.ImageLoader
@@ -573,9 +575,8 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 
     private fun isCastMenuVisible(episode: Episode): Boolean {
         val activity = this.activity ?: return false
-        val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
         val episodeDownloaded = this.isEpisodeDownloaded(episode)
-        val streamInChromecast = preferences.getBoolean("stream_in_chromecast", false)
+        val streamInChromecast = activity.getPreferences().streamInChromecast()
 
         return episodeDownloaded && streamInChromecast
     }
@@ -586,9 +587,8 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 
     private fun isPlayMenuVisible(episode: Episode): Boolean {
         val activity = this.activity ?: return false
-        val prefences = PreferenceManager.getDefaultSharedPreferences(activity)
         val episodeDownloaded = this.isEpisodeDownloaded(episode)
-        val viewInExternalVideoPlayer = prefences.getBoolean("view_in_external_video_player", false)
+        val viewInExternalVideoPlayer = activity.getPreferences().streamInVideoPlayer()
 
         return episodeDownloaded && viewInExternalVideoPlayer
     }

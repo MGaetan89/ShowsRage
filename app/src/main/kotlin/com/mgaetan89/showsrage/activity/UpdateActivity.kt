@@ -3,12 +3,12 @@ package com.mgaetan89.showsrage.activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
+import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.model.GenericResponse
 import com.mgaetan89.showsrage.model.UpdateResponse
 import com.mgaetan89.showsrage.network.SickRageApi
@@ -46,7 +46,7 @@ class UpdateActivity : AppCompatActivity(), Callback<GenericResponse>, DialogInt
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        SickRageApi.instance.init(PreferenceManager.getDefaultSharedPreferences(this))
+        SickRageApi.instance.init(this.getPreferences())
 
         val update = this.intent.extras.getParcelable<UpdateResponse>(Constants.Bundle.UPDATE_MODEL)
         val builder = AlertDialog.Builder(this)

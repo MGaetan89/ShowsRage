@@ -1,7 +1,6 @@
 package com.mgaetan89.showsrage.fragment
 
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
@@ -13,9 +12,12 @@ import android.widget.TextView
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.adapter.EpisodesAdapter
+import com.mgaetan89.showsrage.extension.getEpisodeSort
+import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.Episodes
+import com.mgaetan89.showsrage.model.Sort
 import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
@@ -60,10 +62,8 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this.context)
-
         this.indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
-        this.reversedOrder = !preferences.getBoolean("display_episodes_sort", false)
+        this.reversedOrder = Sort.DESCENDING.equals(this.context.getPreferences().getEpisodeSort())
         this.seasonNumber = this.arguments.getInt(Constants.Bundle.SEASON_NUMBER)
         this.episodes = RealmManager.getEpisodes(this.indexerId, this.seasonNumber, this.reversedOrder, this)
     }

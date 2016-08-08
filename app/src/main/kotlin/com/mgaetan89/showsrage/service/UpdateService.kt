@@ -6,13 +6,13 @@ import android.app.Service
 import android.content.Intent
 import android.os.Handler
 import android.os.IBinder
-import android.preference.PreferenceManager
 import android.provider.Settings
 import android.support.annotation.StringRes
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
+import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.model.GenericResponse
 import com.mgaetan89.showsrage.network.SickRageApi
 import retrofit.Callback
@@ -36,7 +36,7 @@ class UpdateService : Service(), Callback<GenericResponse>, Runnable {
     override fun onCreate() {
         super.onCreate()
 
-        SickRageApi.instance.init(PreferenceManager.getDefaultSharedPreferences(this))
+        SickRageApi.instance.init(this.getPreferences())
 
         this.sendNotification(R.string.updating_sickrage, null)
 
