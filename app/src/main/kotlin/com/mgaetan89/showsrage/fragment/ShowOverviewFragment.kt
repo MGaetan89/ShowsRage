@@ -35,6 +35,7 @@ import android.widget.TextView
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
+import com.mgaetan89.showsrage.extension.deleteShow
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.helper.ImageLoader
@@ -50,6 +51,7 @@ import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.SingleShow
 import com.mgaetan89.showsrage.network.OmDbApi
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmList
 import io.realm.RealmResults
@@ -752,7 +754,10 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         override fun success(genericResponse: GenericResponse?, response: Response?) {
             super.success(genericResponse, response)
 
-            RealmManager.deleteShow(this.indexerId)
+            Realm.getDefaultInstance().let {
+                it.deleteShow(this.indexerId)
+                it.close()
+            }
 
             val activity = this.getActivity() ?: return
             val intent = Intent(activity, MainActivity::class.java)

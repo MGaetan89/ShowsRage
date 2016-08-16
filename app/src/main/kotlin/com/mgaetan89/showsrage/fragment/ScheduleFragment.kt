@@ -5,9 +5,11 @@ import android.support.v4.view.PagerAdapter
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.SchedulePagerAdapter
+import com.mgaetan89.showsrage.extension.clearSchedule
 import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.Schedules
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.Realm
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
@@ -61,7 +63,10 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
             data[it]?.isNotEmpty() ?: false
         })
 
-        RealmManager.clearSchedule()
+        Realm.getDefaultInstance().let {
+            it.clearSchedule()
+            it.close()
+        }
 
         data.forEach {
             if (it.value.isNotEmpty()) {

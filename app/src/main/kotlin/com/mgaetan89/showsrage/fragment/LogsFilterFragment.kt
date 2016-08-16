@@ -9,19 +9,15 @@ import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
-import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.extension.getLogsGroup
 import com.mgaetan89.showsrage.helper.humanize
+import io.realm.Realm
 
 class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, DialogInterface.OnMultiChoiceClickListener {
-    private val items = RealmManager.getLogsGroup().toTypedArray()
-    private val itemsFormatted = Array(this.items.size) { "" }
+    private var items = emptyArray<String>()
+    private var itemsFormatted = emptyArray<String>()
+    private var realm: Realm? = null
     private val selectedIndices = mutableSetOf<Int>()
-
-    init {
-        this.items.forEachIndexed { i, item ->
-            this.itemsFormatted[i] = item.humanize()
-        }
-    }
 
     override fun onClick(dialog: DialogInterface?, which: Int) {
         val selectedItems = getSelectedItems(this.items, this.selectedIndices)
@@ -58,6 +54,23 @@ class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, Di
         builder.setPositiveButton(R.string.filter, this)
 
         return builder.show()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        this.realm = Realm.getDefaultInstance()
+        this.items = this.realm!!.getLogsGroup().toTypedArray()
+
+        this.items.forEachIndexed { i, item ->
+            this.itemsFormatted[i] = item.humanize()
+        }
+    }
+
+    override fun onStop() {
+        this.realm?.close()
+
+        super.onStop()
     }
 
     companion object {
