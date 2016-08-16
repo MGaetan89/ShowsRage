@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.LocalBroadcastManager
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.futuremind.recyclerviewfastscroll.FastScroller
+import com.futuremind.recyclerviewfastscroll.viewprovider.DefaultScrollerViewProvider
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.adapter.ShowsAdapter
@@ -44,6 +46,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
     private val receiver = FilterReceiver(this)
     private var recyclerView: RecyclerView? = null
     private var shows: RealmResults<Show>? = null
+    private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     override fun onChange(shows: RealmResults<Show>) {
         if (!(this.shows?.isEmpty() ?: true)) {
@@ -68,6 +71,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
         }
 
         this.shows = RealmManager.getShows(anime, this)
+        this.swipeRefreshLayout = this.activity.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -91,6 +95,20 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
                 this.recyclerView!!.layoutManager = GridLayoutManager(this.context, columnCount)
 
                 fastScroller?.let {
+                    it.setViewProvider(object : DefaultScrollerViewProvider() {
+                        override fun onHandleGrabbed() {
+                            super.onHandleGrabbed()
+
+                            swipeRefreshLayout?.isEnabled = false
+                        }
+
+                        override fun onHandleReleased() {
+                            super.onHandleReleased()
+
+                            swipeRefreshLayout?.isEnabled = true
+                        }
+                    })
+
                     it.setRecyclerView(this.recyclerView)
                 }
             }
@@ -108,6 +126,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
     override fun onDestroyView() {
         this.emptyView = null
         this.recyclerView = null
+        this.swipeRefreshLayout = null
 
         super.onDestroyView()
     }
