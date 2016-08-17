@@ -37,7 +37,5 @@ class SettingsDisplayFragment : SettingsFragment() {
         } else {
             (this.activity as AppCompatActivity).delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
-
-        this.activity.recreate()
     }
 }

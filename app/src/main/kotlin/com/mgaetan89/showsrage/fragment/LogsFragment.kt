@@ -167,9 +167,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     }
 
     override fun onRefresh() {
-        this.swipeRefreshLayout?.post {
-            this.swipeRefreshLayout?.isRefreshing = true
-        }
+        this.swipeRefreshLayout?.isRefreshing = true
 
         SickRageApi.instance.services?.getLogs(this.getPreferredLogsLevel(), this)
     }

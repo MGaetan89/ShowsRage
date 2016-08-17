@@ -44,9 +44,7 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
     }
 
     override fun onRefresh() {
-        this.swipeRefreshLayout?.post {
-            this.swipeRefreshLayout?.isRefreshing = true
-        }
+        this.swipeRefreshLayout?.isRefreshing = true
 
         SickRageApi.instance.services?.getSchedule(this)
     }

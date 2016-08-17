@@ -128,9 +128,7 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
     }
 
     override fun onRefresh() {
-        this.swipeRefreshLayout?.post {
-            this.swipeRefreshLayout?.isRefreshing = true
-        }
+        this.swipeRefreshLayout?.isRefreshing = true
 
         SickRageApi.instance.services?.getHistory(this)
     }

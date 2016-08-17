@@ -145,7 +145,7 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
     }
 
     companion object {
-        val numberFormat = NumberFormat.getInstance()
+        val numberFormat: NumberFormat = NumberFormat.getInstance()
 
         init {
             this.numberFormat.maximumFractionDigits = 1

@@ -617,9 +617,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
 
     override fun onRefresh() {
-        this.swipeRefreshLayout?.post {
-            this.swipeRefreshLayout?.isRefreshing = true
-        }
+        this.swipeRefreshLayout?.isRefreshing = true
 
         val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
 

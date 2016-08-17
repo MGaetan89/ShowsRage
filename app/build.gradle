@@ -134,7 +134,7 @@ def jUnitVersion = '4.12'
 def kolumbusVersion = 'v0.9'
 def mockitoVersion = '2.0.106-beta'
 def okHttpVersion = '2.5.0'
-def supportLibraryVersion = '24.1.1'
+def supportLibraryVersion = '24.2.0'
 def supportTestVersion = '0.5'
 
 dependencies {
