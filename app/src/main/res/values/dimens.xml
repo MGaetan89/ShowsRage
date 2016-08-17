@@ -3,8 +3,7 @@
 	<dimen name="fab_margin">16dp</dimen>
 	<!-- 2 * fab_margin + fab_size_normal -->
 	<dimen name="fab_spacing">88dp</dimen>
-	<dimen name="fastscroller_handle_corner">25dp</dimen>
-	<dimen name="fastscroller_track_offset">@dimen/padding_half</dimen>
+	<dimen name="fastscroll__bubble_corner">32dp</dimen>
 	<dimen name="grid_margin">0dp</dimen>
 	<dimen name="list_item_height">72dp</dimen>
 	<dimen name="padding">16dp</dimen>
