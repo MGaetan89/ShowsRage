@@ -105,6 +105,8 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.logs, menu)
 
+        menu?.findItem(R.id.menu_filter)?.isVisible = RealmManager.getLogsGroup().isNotEmpty()
+
         val menuId = getMenuIdForLogLevel(this.getPreferredLogsLevel())
 
         if (menuId > 0) {
@@ -182,6 +184,8 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
         } ?: emptyList()
 
         RealmManager.saveLogs(logEntries)
+
+        this.activity.supportInvalidateOptionsMenu()
     }
 
     private fun getPreferredLogsLevel(): LogLevel {
