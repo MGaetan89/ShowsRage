@@ -26,7 +26,16 @@ class RootDirectoriesAdapter(context: Context, rootDirectories: List<RootDir>) :
 
     private fun setView(view: View?, rootDirectory: RootDir?) {
         if (view is TextView) {
-            view.text = rootDirectory?.location ?: ""
+            view.text = getRootDirectoryLabel(rootDirectory)
+        }
+    }
+
+    companion object {
+        internal fun getRootDirectoryLabel(rootDir: RootDir?): String {
+            val location = rootDir?.location ?: ""
+            val prefix = if (rootDir?.defaultDir == 1) "* " else ""
+
+            return prefix + location
         }
     }
 }
