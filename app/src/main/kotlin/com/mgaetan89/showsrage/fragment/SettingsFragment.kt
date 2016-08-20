@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.annotation.XmlRes
+import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.preference.EditTextPreference
 import android.support.v7.preference.ListPreference
@@ -51,6 +52,8 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
         if ("SettingsFragment".equals(this.javaClass.simpleName)) {
             val serverAddress = this.context.getPreferences().getServerAddress()
 
+            this.setScreensIcon()
+
             if (serverAddress.isEmpty()) {
                 AlertDialog.Builder(this.activity)
                         .setIcon(R.drawable.ic_notification)
@@ -77,6 +80,24 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
 
     @XmlRes
     internal open fun getXmlResourceFile() = R.xml.settings
+
+    // This can be set directly in XML when we support API 21+
+    // Or when the Support Library supports it
+    private fun setScreensIcon() {
+        val screens = mapOf(
+                "screen_server" to R.drawable.ic_wifi_24dp,
+                "screen_display" to R.drawable.ic_device_android_24dp,
+                "screen_behavior" to R.drawable.ic_widgets_24dp,
+                "screen_experimental_features" to R.drawable.ic_explore_24dp,
+                "screen_about" to R.drawable.ic_help_outline_24dp
+        )
+
+        screens.forEach {
+            val icon = VectorDrawableCompat.create(this.resources, it.value, this.activity.theme)
+
+            this.findPreference(it.key)?.icon = icon
+        }
+    }
 
     private fun setupDisplayLanguage(preference: Preference) {
         val preferences = this.context.getPreferences()
