@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<color name="accent">#FFAB40</color>
-	<color name="preference_accent">@color/accent</color>
 	<color name="primary">#09769F</color>
 	<color name="primary_dark">#13537F</color>
 	<color name="text_color">@color/cardview_dark_background</color>

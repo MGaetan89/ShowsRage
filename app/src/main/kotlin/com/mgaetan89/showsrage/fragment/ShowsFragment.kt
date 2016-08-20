@@ -126,9 +126,7 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
     }
 
     override fun onRefresh() {
-        this.swipeRefreshLayout?.post {
-            this.swipeRefreshLayout?.isRefreshing = true
-        }
+        this.swipeRefreshLayout?.isRefreshing = true
 
         SickRageApi.instance.services?.getShows(this)
     }

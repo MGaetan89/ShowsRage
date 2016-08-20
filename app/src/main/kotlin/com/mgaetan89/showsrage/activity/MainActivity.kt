@@ -131,10 +131,10 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         this.drawerToggle?.onConfigurationChanged(newConfig)
     }
 
-    override fun onNavigationItemSelected(item: MenuItem?): Boolean {
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
         var eventHandled = true
         var fragment: Fragment? = null
-        val id = item?.itemId
+        val id = item.itemId
 
         when (id) {
             R.id.menu_check_update -> {
@@ -208,7 +208,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         }
 
         if (eventHandled) {
-            item?.isChecked = true
+            item.isChecked = true
 
             this.tabLayout?.removeAllTabs()
             this.tabLayout?.visibility = View.GONE
@@ -341,8 +341,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
             } else {
                 this.delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
-
-            this.recreate()
         }
 
         SickRageApi.instance.init(preferences)

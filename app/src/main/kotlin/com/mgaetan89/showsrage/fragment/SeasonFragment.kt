@@ -112,9 +112,7 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
     }
 
     override fun onRefresh() {
-        this.swipeRefreshLayout?.post {
-            this.swipeRefreshLayout?.isRefreshing = true
-        }
+        this.swipeRefreshLayout?.isRefreshing = true
 
         SickRageApi.instance.services?.getEpisodes(this.indexerId, this.seasonNumber, this)
     }

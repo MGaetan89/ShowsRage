@@ -22,7 +22,7 @@ android {
 		versionName '1.4.1'
 		resConfigs 'en', 'fr'
 		testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-		//vectorDrawables.useSupportLibrary = true
+		vectorDrawables.useSupportLibrary = true
 	}
 
 	compileOptions {
@@ -134,11 +134,11 @@ def jUnitVersion = '4.12'
 def kolumbusVersion = 'v0.9'
 def mockitoVersion = '2.0.106-beta'
 def okHttpVersion = '2.5.0'
-def supportLibraryVersion = '24.1.1'
+def supportLibraryVersion = '24.2.0'
 def supportTestVersion = '0.5'
 
 dependencies {
-	kapt 'com.android.databinding:compiler:2.2.0-beta1'
+	kapt 'com.android.databinding:compiler:2.2.0-beta2'
 
 	compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
 	compile "com.android.support:cardview-v7:${supportLibraryVersion}"
@@ -159,7 +159,7 @@ dependencies {
 	compile "com.squareup.okhttp:okhttp:${okHttpVersion}"
 	compile "com.squareup.okhttp:okhttp-urlconnection:${okHttpVersion}"
 	compile 'com.squareup.retrofit:retrofit:1.9.0'
-	compile 'com.takisoft.fix:preference-v7:24.1.1.1'
+	compile 'com.takisoft.fix:preference-v7:24.2.0.0'
 	compile 'jp.wasabeef:glide-transformations:2.0.1'
 	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.3'
 
