@@ -19,6 +19,7 @@ import com.mgaetan89.showsrage.adapter.RootDirectoriesAdapter
 import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.GenericResponse
+import com.mgaetan89.showsrage.model.RootDir
 import com.mgaetan89.showsrage.network.SickRageApi
 import retrofit.client.Response
 
@@ -159,7 +160,13 @@ open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickLis
 
     companion object {
         fun getLocation(rootDirectorySpinner: Spinner?): String? {
-            return rootDirectorySpinner?.selectedItem?.toString() ?: null
+            val selectedItem = rootDirectorySpinner?.selectedItem
+
+            if (selectedItem is RootDir) {
+                return selectedItem.location
+            }
+
+            return null
         }
     }
 

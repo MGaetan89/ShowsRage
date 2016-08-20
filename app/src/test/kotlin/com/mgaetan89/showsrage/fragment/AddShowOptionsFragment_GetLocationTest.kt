@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage.fragment
 
 import android.widget.Spinner
+import com.mgaetan89.showsrage.model.RootDir
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,9 +28,16 @@ class AddShowOptionsFragment_GetLocationTest(val spinner: Spinner?, val location
             )
         }
 
-        private fun getMockedSpinner(selectedItem: String?): Spinner {
+        private fun getMockedSpinner(location: String?): Spinner {
+            var rootDir: RootDir? = null
+
+            if (location != null) {
+                rootDir = RootDir()
+                rootDir.location = location
+            }
+
             val spinner = mock(Spinner::class.java)
-            `when`(spinner.selectedItem).thenReturn(selectedItem)
+            `when`(spinner.selectedItem).thenReturn(rootDir)
 
             return spinner
         }
