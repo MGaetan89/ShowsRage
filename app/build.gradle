@@ -51,7 +51,6 @@ android {
 
 		release {
 			minifyEnabled false
-			shrinkResources true
 
 			manifestPlaceholders = [
 					uriHost: 'showsrage'
