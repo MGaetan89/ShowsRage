@@ -303,6 +303,8 @@ object RealmManager {
     }
 
     fun saveRootDirs(rootDirs: List<RootDir>) {
+        this.clearRootDirs()
+
         this.getRealm()?.executeTransaction {
             it.copyToRealmOrUpdate(rootDirs)
         }
@@ -366,6 +368,12 @@ object RealmManager {
         }
 
         return realmStat
+    }
+
+    private fun clearRootDirs() {
+        this.getRealm()?.executeTransaction {
+            it.delete(RootDir::class.java)
+        }
     }
 
     private fun getAllLogs(): RealmResults<LogEntry>? {
