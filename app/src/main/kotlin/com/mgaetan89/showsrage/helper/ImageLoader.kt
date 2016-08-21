@@ -26,6 +26,7 @@ object ImageLoader {
         val glide = Glide.with(context)
                 .load(url)
                 .asBitmap()
+                .approximate()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
 
         if (circleTransform) {

@@ -91,7 +91,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 
                 this.adapter = ShowsAdapter(this.filteredShows, showsListLayout, ignoreArticles)
 
-                this.recyclerView!!.adapter = adapter
+                this.recyclerView!!.adapter = this.adapter
                 this.recyclerView!!.layoutManager = GridLayoutManager(this.context, columnCount)
 
                 fastScroller?.let {
@@ -183,10 +183,12 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
                 })
             }
 
-            fragment.filteredShows.clear()
-            fragment.filteredShows.addAll(filteredShows)
-            fragment.updateLayout()
-            fragment.adapter?.notifyDataSetChanged()
+            if (filteredShows != fragment.filteredShows) {
+                fragment.filteredShows.clear()
+                fragment.filteredShows.addAll(filteredShows)
+                fragment.updateLayout()
+                fragment.adapter?.notifyDataSetChanged()
+            }
         }
 
         companion object {
@@ -264,6 +266,8 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 
                 filteredShows.filter { it.isValid && it.indexerId == indexerId }.forEach {
                     it.stat = realmStat ?: it.stat
+
+                    fragment.adapter?.notifyItemChanged(filteredShows.indexOf(it), Constants.Payloads.SHOWS_STATS)
                 }
 
                 if (shows?.isValid ?: false) {
@@ -272,9 +276,6 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
                     }
                 }
             }
-
-            fragment.updateLayout()
-            fragment.adapter?.notifyDataSetChanged()
         }
     }
 

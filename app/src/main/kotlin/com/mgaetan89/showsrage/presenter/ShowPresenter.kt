@@ -9,10 +9,6 @@ import com.mgaetan89.showsrage.network.SickRageApi
 open class ShowPresenter(val show: Show?) {
     fun getBannerUrl() = if (this.isShowValid()) SickRageApi.instance.getBannerUrl(this.show!!.tvDbId, Indexer.TVDB) else ""
 
-    fun getDownloaded() = this.getShowStat()?.downloaded ?: 0
-
-    fun getEpisodesCount() = this.getShowStat()?.episodesCount ?: 0
-
     fun getNetwork() = if (this.isShowValid()) this.show!!.network else ""
 
     fun getPosterUrl() = if (this.isShowValid()) SickRageApi.instance.getPosterUrl(this.show!!.tvDbId, Indexer.TVDB) else ""
@@ -21,11 +17,7 @@ open class ShowPresenter(val show: Show?) {
 
     fun getShowName() = if (this.isShowValid()) this.show!!.showName else ""
 
-    fun getSnatched() = this.getShowStat()?.snatched ?: 0
-
-    fun isPaused() = if (this.isShowValid()) this.show!!.paused == 1 else false
-
-    internal open fun getShowStat(): RealmShowStat? {
+    fun getShowStat(): RealmShowStat? {
         if (!this.isShowValid()) {
             return null
         }
@@ -36,6 +28,9 @@ open class ShowPresenter(val show: Show?) {
 
         return this.show.stat
     }
+
+
+    fun isPaused() = if (this.isShowValid()) this.show!!.paused == 1 else false
 
     internal open fun isShowValid() = this.show != null && this.show.isValid
 }

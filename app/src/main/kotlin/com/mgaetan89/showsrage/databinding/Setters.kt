@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.widget.ImageView
 import android.widget.TextView
+import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.helper.ImageLoader
 
 @BindingAdapter("android:backgroundTint")
@@ -19,7 +20,13 @@ fun setBackgroundTint(textView: TextView, @ColorRes tint: Int) {
 
 @BindingAdapter("imageUrl", "circle")
 fun setImageUrl(imageView: ImageView, imageUrl: String?, circle: Boolean) {
-    ImageLoader.load(imageView, imageUrl, circle)
+    val currentUrl = imageView.getTag(R.id.image_view_url)
+
+    if (currentUrl == null || !currentUrl.equals(imageUrl)) {
+        ImageLoader.load(imageView, imageUrl, circle)
+
+        imageView.setTag(R.id.image_view_url, imageUrl)
+    }
 }
 
 @BindingAdapter("selected")

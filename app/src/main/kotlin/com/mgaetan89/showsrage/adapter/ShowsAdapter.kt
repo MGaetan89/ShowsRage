@@ -30,7 +30,12 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, val ignor
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val show = this.shows[position]
 
-        holder?.bind(ShowPresenter(show))
+        holder?.binding?.let {
+            val presenter = ShowPresenter(show)
+
+            it.setShow(presenter)
+            it.setStats(presenter.getShowStat())
+        }
 
         if (holder?.nextEpisodeDate != null && show.isValid) {
             val nextEpisodeAirDate = show.nextEpisodeAirDate
@@ -49,6 +54,22 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, val ignor
         }
     }
 
+    override fun onBindViewHolder(holder: ViewHolder?, position: Int, payloads: MutableList<Any>?) {
+        if (payloads?.isEmpty() ?: true) {
+            this.onBindViewHolder(holder, position)
+
+            return
+        }
+
+        if (payloads!!.contains(Constants.Payloads.SHOWS_STATS)) {
+            holder?.binding?.let {
+                val show = this.shows[position]
+
+                it.setStats(ShowPresenter(show).getShowStat())
+            }
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.adapter_shows_list, parent, false)
 
@@ -56,8 +77,8 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, val ignor
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+        val binding: AdapterShowsListBinding
         val nextEpisodeDate: TextView?
-        private val binding: AdapterShowsListBinding
 
         init {
             view.setOnClickListener(this)
@@ -71,10 +92,6 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, val ignor
             }
 
             this.nextEpisodeDate = this.binding.stub.root.findViewById(R.id.show_next_episode_date) as TextView?
-        }
-
-        fun bind(show: ShowPresenter) {
-            this.binding.setShow(show)
         }
 
         override fun onClick(view: View?) {
