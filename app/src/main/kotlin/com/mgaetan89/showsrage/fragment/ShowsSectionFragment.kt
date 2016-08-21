@@ -183,10 +183,12 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
                 })
             }
 
-            fragment.filteredShows.clear()
-            fragment.filteredShows.addAll(filteredShows)
-            fragment.updateLayout()
-            fragment.adapter?.notifyDataSetChanged()
+            if (filteredShows != fragment.filteredShows) {
+                fragment.filteredShows.clear()
+                fragment.filteredShows.addAll(filteredShows)
+                fragment.updateLayout()
+                fragment.adapter?.notifyDataSetChanged()
+            }
         }
 
         companion object {
