@@ -118,7 +118,9 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
     }
 
     override fun onDestroy() {
-        this.shows?.removeChangeListeners()
+        if (this.shows?.isValid ?: false) {
+            this.shows?.removeChangeListeners()
+        }
 
         super.onDestroy()
     }

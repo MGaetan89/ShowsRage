@@ -367,8 +367,13 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     }
 
     override fun onDestroy() {
-        this.episode?.removeChangeListeners()
-        this.omdbEpisodes?.removeChangeListeners()
+        if (this.episode?.isValid ?: false) {
+            this.episode?.removeChangeListeners()
+        }
+
+        if (this.omdbEpisodes?.isValid ?: false) {
+            this.omdbEpisodes?.removeChangeListeners()
+        }
 
         super.onDestroy()
     }

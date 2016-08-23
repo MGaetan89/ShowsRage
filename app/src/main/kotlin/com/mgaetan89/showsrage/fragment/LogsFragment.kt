@@ -72,7 +72,10 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 
                 this.adapter = null
 
-                this.logs?.removeChangeListeners()
+                if (this.logs?.isValid ?: false) {
+                    this.logs?.removeChangeListeners()
+                }
+
                 this.logs = RealmManager.getLogs(this.getPreferredLogsLevel(), this.groups, this)
             }
         }
@@ -141,7 +144,9 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     }
 
     override fun onDestroy() {
-        this.logs?.removeChangeListeners()
+        if (this.logs?.isValid ?: false) {
+            this.logs?.removeChangeListeners()
+        }
 
         super.onDestroy()
     }
@@ -213,7 +218,10 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
             // Update the list of logs
             this.adapter = null
 
-            this.logs?.removeChangeListeners()
+            if (this.logs?.isValid ?: false) {
+                this.logs?.removeChangeListeners()
+            }
+
             this.logs = RealmManager.getLogs(logLevel, this)
 
             // Refresh the list of logs
