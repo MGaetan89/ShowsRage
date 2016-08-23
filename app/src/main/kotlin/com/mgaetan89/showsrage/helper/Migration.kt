@@ -22,9 +22,18 @@ class Migration : RealmMigration {
                     .removePrimaryKey()
                     .addField("id", String::class.java)
                     .transform {
-                        it.set("id", it.getString("date") + "_" + it.getString("status"))
+                        it.set("id", "${it.getString("date")}_${it.getString("status")}_${it.getInt("indexerId")}_${it.getInt("season")}_${it.getInt("episode")}")
                     }
                     .addPrimaryKey("id")
+
+            localOldVersion++
+        }
+
+        if (localOldVersion == 2L) {
+            schema.get(History::class.java.simpleName)
+                    .transform {
+                        it.set("id", "${it.getString("date")}_${it.getString("status")}_${it.getInt("indexerId")}_${it.getInt("season")}_${it.getInt("episode")}")
+                    }
 
             localOldVersion++
         }

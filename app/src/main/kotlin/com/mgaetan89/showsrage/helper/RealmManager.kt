@@ -244,7 +244,7 @@ object RealmManager {
                 it.name(testFile)
             }
 
-            it.schemaVersion(2)
+            it.schemaVersion(3)
             it.migration(Migration())
             it.build()
         }
@@ -426,7 +426,7 @@ object RealmManager {
     }
 
     private fun prepareHistoryForSaving(history: History) {
-        history.id = history.date + "_" + history.status
+        history.id = "${history.date}_${history.status}_${history.indexerId}_${history.season}_${history.episode}"
     }
 
     private fun prepareScheduleForSaving(schedule: Schedule, section: String) {
