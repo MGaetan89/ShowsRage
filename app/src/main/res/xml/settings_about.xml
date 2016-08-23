@@ -2,20 +2,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<PreferenceScreen
-		android:key="application"
-		android:title="@string/app_name">
-
-		<intent
-			android:action="android.intent.action.VIEW"
-			android:data="@string/uri_settings_about_showsrage" />
-	</PreferenceScreen>
+		android:key="screen_about_shows_rage"
+		android:title="@string/app_name" />
 
 	<PreferenceScreen
-		android:key="licenses"
-		android:title="@string/licenses">
-
-		<intent
-			android:action="android.intent.action.VIEW"
-			android:data="@string/uri_settings_about_licenses" />
-	</PreferenceScreen>
+		android:key="screen_about_licenses"
+		android:title="@string/licenses" />
 </PreferenceScreen>

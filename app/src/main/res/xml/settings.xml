@@ -4,50 +4,25 @@
 	<PreferenceScreen
 		android:fragment="com.mgaetan89.showsrage.fragment.SettingsServerFragment"
 		android:key="screen_server"
-		android:title="@string/server">
-
-		<intent
-			android:action="android.intent.action.VIEW"
-			android:data="@string/uri_settings_server" />
-	</PreferenceScreen>
+		android:title="@string/server" />
 
 	<PreferenceScreen
 		android:fragment="com.mgaetan89.showsrage.fragment.SettingsDisplayFragment"
 		android:key="screen_display"
-		android:title="@string/display">
-
-		<intent
-			android:action="android.intent.action.VIEW"
-			android:data="@string/uri_settings_display" />
-	</PreferenceScreen>
+		android:title="@string/display" />
 
 	<PreferenceScreen
 		android:fragment="com.mgaetan89.showsrage.fragment.SettingsBehaviorFragment"
 		android:key="screen_behavior"
-		android:title="@string/behavior">
-
-		<intent
-			android:action="android.intent.action.VIEW"
-			android:data="@string/uri_settings_behavior" />
-	</PreferenceScreen>
+		android:title="@string/behavior" />
 
 	<PreferenceScreen
 		android:fragment="com.mgaetan89.showsrage.fragment.SettingsExperimentalFeaturesFragment"
 		android:key="screen_experimental_features"
-		android:title="@string/experimental_features">
-
-		<intent
-			android:action="android.intent.action.VIEW"
-			android:data="@string/uri_settings_experimental_features" />
-	</PreferenceScreen>
+		android:title="@string/experimental_features" />
 
 	<PreferenceScreen
 		android:fragment="com.mgaetan89.showsrage.fragment.SettingsAboutFragment"
 		android:key="screen_about"
-		android:title="@string/about">
-
-		<intent
-			android:action="android.intent.action.VIEW"
-			android:data="@string/uir_settings_about" />
-	</PreferenceScreen>
+		android:title="@string/about" />
 </PreferenceScreen>

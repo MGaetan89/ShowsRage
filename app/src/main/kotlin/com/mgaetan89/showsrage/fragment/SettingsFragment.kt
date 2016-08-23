@@ -44,6 +44,23 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
         super.onDestroy()
     }
 
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+        if (preference?.key?.startsWith("screen_") ?: false) {
+            val fragment = getSettingFragmentForScreen(preference?.key)
+
+            if (fragment != null) {
+                this.fragmentManager.beginTransaction()
+                        .replace(R.id.content, fragment)
+                        .addToBackStack("settings")
+                        .commit()
+
+                return true
+            }
+        }
+
+        return super.onPreferenceTreeClick(preference)
+    }
+
     override fun onResume() {
         super.onResume()
 
@@ -140,7 +157,7 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
             if (preference is PreferenceGroup) {
                 when (preference.key) {
                     "application_version" -> preference.summary = BuildConfig.VERSION_NAME
-                    "get_api_key" -> preference.summary = this.getPreferenceValue("api_key", "")
+                    "screen_server_api_key" -> preference.summary = this.getPreferenceValue("api_key", "")
                 }
 
                 this.updatePreferenceGroup(preference)
@@ -149,6 +166,22 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
                     Fields.DISPLAY_LANGUAGE.field -> this.setupDisplayLanguage(preference)
                     else -> this.updatePreference(preference)
                 }
+            }
+        }
+    }
+
+    companion object {
+        internal fun getSettingFragmentForScreen(screen: String?): SettingsFragment? {
+            return when (screen) {
+                "screen_about" -> SettingsAboutFragment()
+                "screen_about_licenses" -> SettingsAboutLicensesFragment()
+                "screen_about_shows_rage" -> SettingsAboutShowsRageFragment()
+                "screen_behavior" -> SettingsBehaviorFragment()
+                "screen_display" -> SettingsDisplayFragment()
+                "screen_experimental_features" -> SettingsExperimentalFeaturesFragment()
+                "screen_server" -> SettingsServerFragment()
+                "screen_server_api_key" -> SettingsServerApiKeyFragment()
+                else -> null
             }
         }
     }
