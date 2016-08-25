@@ -1,8 +1,8 @@
 language: android
 
 branches:
-  only:
-    - master
+  except:
+    - gh-pages
 
 jdk:
   - oraclejdk8
