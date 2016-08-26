@@ -105,10 +105,6 @@ object RealmManager {
         return history
     }
 
-    fun getLogs(logLevel: LogLevel, listener: RealmChangeListener<RealmResults<LogEntry>>): RealmResults<LogEntry>? {
-        return this.getLogs(logLevel, null, listener)
-    }
-
     fun getLogs(logLevel: LogLevel, groups: Array<String>?, listener: RealmChangeListener<RealmResults<LogEntry>>): RealmResults<LogEntry>? {
         val realm = this.getRealm() ?: return null
         val logLevels = this.getLogLevels(logLevel)
