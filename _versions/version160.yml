@@ -1,0 +1,13 @@
+---
+name: Version 1.6
+current_tag: master
+previous_tag: v1.5
+milestone: 1.6
+features:
+- Filter logs
+- Widget to display the <em>History</em>
+- Widget to display the <em>Schedule</em>
+- Widget to quickly access a show
+changes:
+- New interface for Google Cast™
+---
