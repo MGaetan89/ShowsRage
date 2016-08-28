@@ -29,14 +29,14 @@
 			tools:listitem="@android:layout/simple_list_item_1" />
 	</LinearLayout>
 
-	<android.support.v7.widget.SwitchCompat
+	<Switch
 		android:id="@+id/force_processing"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="@dimen/padding"
 		android:text="@string/force_processing" />
 
-	<android.support.v7.widget.SwitchCompat
+	<Switch
 		android:id="@+id/replace_files"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"

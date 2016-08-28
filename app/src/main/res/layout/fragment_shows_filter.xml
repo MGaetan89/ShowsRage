@@ -12,7 +12,6 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="@dimen/padding_half"
-		android:layout_marginLeft="@dimen/padding_half"
 		android:layout_marginStart="@dimen/padding_half"
 		android:text="@string/active_paused" />
 
@@ -45,7 +44,6 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="@dimen/padding_half"
-		android:layout_marginLeft="@dimen/padding_half"
 		android:layout_marginStart="@dimen/padding_half"
 		android:layout_marginTop="@dimen/padding"
 		android:text="@string/status" />

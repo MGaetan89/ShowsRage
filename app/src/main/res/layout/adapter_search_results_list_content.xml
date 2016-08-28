@@ -18,8 +18,6 @@
 		android:gravity="center_vertical"
 		android:orientation="vertical"
 		android:paddingEnd="@dimen/padding"
-		android:paddingLeft="@dimen/padding"
-		android:paddingRight="@dimen/padding"
 		android:paddingStart="@dimen/padding">
 
 		<TextView
@@ -46,7 +44,7 @@
 			style="@style/TextAppearance.AppCompat.Caption"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_gravity="end|right"
+			android:layout_gravity="end"
 			app:textRes="@{result.indexerNameRes}"
 			tools:text="@string/the_tvdb" />
 	</LinearLayout>

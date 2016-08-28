@@ -18,10 +18,6 @@ android:
 
 env:
   matrix:
-    - ANDROID_TARGET=android-15   ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-16   ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-17   ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-18   ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-19   ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-21   ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-22

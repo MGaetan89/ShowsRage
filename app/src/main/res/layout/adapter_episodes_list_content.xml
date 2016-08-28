@@ -16,8 +16,6 @@
 		android:background="?selectableItemBackground"
 		android:gravity="center_vertical"
 		android:paddingEnd="@dimen/padding"
-		android:paddingLeft="@dimen/padding"
-		android:paddingRight="@dimen/padding"
 		android:paddingStart="@dimen/padding">
 
 		<TextView
@@ -57,7 +55,6 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_below="@+id/episode_date"
-			android:layout_toLeftOf="@+id/episode_actions"
 			android:layout_toStartOf="@+id/episode_actions"
 			android:text="@{episode.quality}"
 			tools:text="HD1080p" />
@@ -67,9 +64,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignParentEnd="true"
-			android:layout_alignParentRight="true"
 			android:layout_centerVertical="true"
-			android:layout_marginLeft="@dimen/padding"
 			android:layout_marginStart="@dimen/padding"
 			android:contentDescription="@string/actions"
 			android:tint="@color/text_color"

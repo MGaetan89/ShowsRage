@@ -7,11 +7,11 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.SwitchCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Spinner
+import android.widget.Switch
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
@@ -25,12 +25,12 @@ import retrofit.client.Response
 
 open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener {
     private var allowedQuality: Spinner? = null
-    private var anime: SwitchCompat? = null
+    private var anime: Switch? = null
     private var language: Spinner? = null
     private var preferredQuality: Spinner? = null
     private var rootDirectory: Spinner? = null
     private var status: Spinner? = null
-    private var subtitles: SwitchCompat? = null
+    private var subtitles: Switch? = null
 
     override fun onClick(dialog: DialogInterface?, which: Int) {
         val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
@@ -56,11 +56,11 @@ open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickLis
 
         if (view != null) {
             this.allowedQuality = view.findViewById(R.id.allowed_quality) as Spinner?
-            this.anime = view.findViewById(R.id.anime) as SwitchCompat?
+            this.anime = view.findViewById(R.id.anime) as Switch?
             this.language = view.findViewById(R.id.language) as Spinner?
             this.preferredQuality = view.findViewById(R.id.preferred_quality) as Spinner?
             this.status = view.findViewById(R.id.status) as Spinner?
-            this.subtitles = view.findViewById(R.id.subtitles) as SwitchCompat?
+            this.subtitles = view.findViewById(R.id.subtitles) as Switch?
 
             val rootDirectoryLayout = view.findViewById(R.id.root_directory_layout) as LinearLayout?
 
