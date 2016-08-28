@@ -25,8 +25,6 @@
 			android:layout_width="match_parent"
 			android:layout_height="@dimen/list_item_height"
 			android:paddingEnd="@dimen/padding"
-			android:paddingLeft="@dimen/padding"
-			android:paddingRight="@dimen/padding"
 			android:paddingStart="@dimen/padding">
 
 			<ImageView
@@ -35,7 +33,6 @@
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
 				android:layout_marginEnd="@dimen/padding"
-				android:layout_marginRight="@dimen/padding"
 				android:contentDescription="@{show.showName}"
 				app:circle="@{true}"
 				app:imageUrl="@{show.posterUrl}"
@@ -46,7 +43,6 @@
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
 				android:layout_toEndOf="@+id/show_logo"
-				android:layout_toRightOf="@+id/show_logo"
 				android:orientation="vertical">
 
 				<TextView
@@ -74,7 +70,6 @@
 					style="@style/TextAppearance.AppCompat.Caption"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_alignParentLeft="true"
 					android:layout_alignParentStart="true"
 					android:layout_below="@+id/show_next_episode_date"
 					android:text="@string/paused"
@@ -85,7 +80,6 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_alignParentEnd="true"
-					android:layout_alignParentRight="true"
 					android:layout_below="@+id/show_next_episode_date"
 					android:text="@{@string/separated_texts(show.network, show.quality)}"
 					tools:text="CBS / HD1080p" />

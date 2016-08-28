@@ -8,8 +8,6 @@
 	android:orientation="horizontal"
 	android:paddingBottom="@dimen/padding"
 	android:paddingEnd="@dimen/padding"
-	android:paddingLeft="@dimen/padding"
-	android:paddingRight="@dimen/padding"
 	android:paddingStart="@dimen/padding"
 	android:paddingTop="40dp">
 
@@ -18,7 +16,6 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="@dimen/padding"
-		android:layout_marginRight="@dimen/padding"
 		android:contentDescription="@string/app_name"
 		app:srcCompat="@mipmap/ic_launcher_white" />
 

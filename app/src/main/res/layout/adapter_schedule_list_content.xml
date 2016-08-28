@@ -22,8 +22,6 @@
 			android:layout_height="wrap_content"
 			android:layout_centerVertical="true"
 			android:layout_marginEnd="@dimen/padding"
-			android:layout_marginLeft="@dimen/padding_half"
-			android:layout_marginRight="@dimen/padding"
 			android:layout_marginStart="@dimen/padding_half"
 			android:contentDescription="@{schedule.showName}"
 			app:circle="@{true}"
@@ -35,8 +33,6 @@
 			android:layout_height="wrap_content"
 			android:layout_centerVertical="true"
 			android:layout_toEndOf="@+id/episode_logo"
-			android:layout_toLeftOf="@+id/episode_actions"
-			android:layout_toRightOf="@+id/episode_logo"
 			android:layout_toStartOf="@+id/episode_actions"
 			android:orientation="vertical">
 
@@ -63,7 +59,7 @@
 				style="@style/TextAppearance.AppCompat.Caption"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_gravity="end|right"
+				android:layout_gravity="end"
 				android:text="@{@string/separated_texts(schedule.network, schedule.quality)}"
 				tools:text="CBS / HD1080p" />
 		</LinearLayout>
@@ -73,7 +69,6 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignParentEnd="true"
-			android:layout_alignParentRight="true"
 			android:layout_centerVertical="true"
 			android:contentDescription="@string/actions"
 			android:padding="@dimen/padding_half"

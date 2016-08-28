@@ -16,8 +16,6 @@
 		android:background="?selectableItemBackground"
 		android:clickable="true"
 		android:paddingEnd="@dimen/padding"
-		android:paddingLeft="@dimen/padding"
-		android:paddingRight="@dimen/padding"
 		android:paddingStart="@dimen/padding">
 
 		<ImageView
@@ -26,7 +24,6 @@
 			android:layout_height="wrap_content"
 			android:layout_centerVertical="true"
 			android:layout_marginEnd="@dimen/padding"
-			android:layout_marginRight="@dimen/padding"
 			android:contentDescription="@{history.showName}"
 			app:circle="@{true}"
 			app:imageUrl="@{history.posterUrl}"
@@ -37,7 +34,6 @@
 			android:layout_height="wrap_content"
 			android:layout_centerVertical="true"
 			android:layout_toEndOf="@+id/episode_logo"
-			android:layout_toRightOf="@+id/episode_logo"
 			android:orientation="vertical">
 
 			<TextView
@@ -63,7 +59,7 @@
 				style="@style/TextAppearance.AppCompat.Caption"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_gravity="end|right"
+				android:layout_gravity="end"
 				android:text="@{history.providerQuality ?? @string/provider_quality(history.provider, history.quality)}"
 				tools:text="@string/provider_quality" />
 		</LinearLayout>

@@ -21,8 +21,7 @@
 			<ProgressBar
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginEnd="@dimen/padding"
-				android:layout_marginRight="@dimen/padding" />
+				android:layout_marginEnd="@dimen/padding" />
 
 			<TextView
 				android:layout_width="wrap_content"
@@ -84,7 +83,6 @@
 					android:layout_width="14dp"
 					android:layout_height="14dp"
 					android:layout_marginEnd="@dimen/padding"
-					android:layout_marginRight="@dimen/padding"
 					android:background="@color/green" />
 
 				<TextView
@@ -106,7 +104,6 @@
 					android:layout_width="14dp"
 					android:layout_height="14dp"
 					android:layout_marginEnd="@dimen/padding"
-					android:layout_marginRight="@dimen/padding"
 					android:background="@color/purple" />
 
 				<TextView
@@ -128,7 +125,6 @@
 					android:layout_width="14dp"
 					android:layout_height="14dp"
 					android:layout_marginEnd="@dimen/padding"
-					android:layout_marginRight="@dimen/padding"
 					android:background="@color/red" />
 
 				<TextView
@@ -149,8 +145,7 @@
 				<Space
 					android:layout_width="14dp"
 					android:layout_height="14dp"
-					android:layout_marginEnd="@dimen/padding"
-					android:layout_marginRight="@dimen/padding" />
+					android:layout_marginEnd="@dimen/padding" />
 
 				<TextView
 					android:id="@+id/episodes_total"
@@ -177,8 +172,7 @@
 				<Space
 					android:layout_width="14dp"
 					android:layout_height="14dp"
-					android:layout_marginEnd="@dimen/padding"
-					android:layout_marginRight="@dimen/padding" />
+					android:layout_marginEnd="@dimen/padding" />
 
 				<TextView
 					android:id="@+id/shows_active"
@@ -197,8 +191,7 @@
 				<Space
 					android:layout_width="14dp"
 					android:layout_height="14dp"
-					android:layout_marginEnd="@dimen/padding"
-					android:layout_marginRight="@dimen/padding" />
+					android:layout_marginEnd="@dimen/padding" />
 
 				<TextView
 					android:id="@+id/shows_total"

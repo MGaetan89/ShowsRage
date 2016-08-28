@@ -5,18 +5,18 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.SwitchCompat
 import android.view.LayoutInflater
 import android.widget.Checkable
 import android.widget.Spinner
+import android.widget.Switch
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.network.SickRageApi
 
 open class PostProcessingFragment : DialogFragment(), DialogInterface.OnClickListener {
-    private var forceProcessing: SwitchCompat? = null
+    private var forceProcessing: Switch? = null
     private var processingMethod: Spinner? = null
-    private var replaceFiles: SwitchCompat? = null
+    private var replaceFiles: Switch? = null
 
     override fun onClick(dialog: DialogInterface?, which: Int) {
         val force = checkableToInteger(this.forceProcessing)
@@ -30,9 +30,9 @@ open class PostProcessingFragment : DialogFragment(), DialogInterface.OnClickLis
         val view = LayoutInflater.from(this.context).inflate(R.layout.fragment_post_processing, null)
 
         if (view != null) {
-            this.forceProcessing = view.findViewById(R.id.force_processing) as SwitchCompat?
+            this.forceProcessing = view.findViewById(R.id.force_processing) as Switch?
             this.processingMethod = view.findViewById(R.id.processing_method) as Spinner?
-            this.replaceFiles = view.findViewById(R.id.replace_files) as SwitchCompat?
+            this.replaceFiles = view.findViewById(R.id.replace_files) as Switch?
         }
 
         val builder = AlertDialog.Builder(this.context)

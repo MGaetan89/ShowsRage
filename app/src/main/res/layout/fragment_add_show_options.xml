@@ -117,14 +117,14 @@
 			tools:listitem="@android:layout/simple_list_item_1" />
 	</LinearLayout>
 
-	<android.support.v7.widget.SwitchCompat
+	<Switch
 		android:id="@+id/anime"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="@dimen/padding"
 		android:text="@string/anime" />
 
-	<android.support.v7.widget.SwitchCompat
+	<Switch
 		android:id="@+id/subtitles"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"

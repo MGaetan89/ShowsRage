@@ -25,8 +25,6 @@
 					android:layout_height="wrap_content"
 					android:orientation="vertical"
 					android:paddingEnd="@dimen/padding"
-					android:paddingLeft="@dimen/padding"
-					android:paddingRight="@dimen/padding"
 					android:paddingStart="@dimen/padding"
 					android:paddingTop="@dimen/padding">
 
@@ -356,7 +354,7 @@
 			android:id="@+id/search_episode"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_gravity="bottom|end|right"
+			android:layout_gravity="bottom|end"
 			android:layout_margin="@dimen/fab_margin"
 			android:tint="@android:color/black"
 			app:borderWidth="0dp"
