@@ -1,13 +1,12 @@
 ---
 name: Version 1.5
-current_tag: master
+release_date: 28/08/2016
+current_tag: v1.5
 previous_tag: v1.4.1
-milestone: 1.5
 features:
 - Search subtitles for an episode
 - New setting to ignore articles ("The", "A" and "An") when sorting the list of shows (English only)
 - New setting to force the language of the application (English or French)
-- Filter logs
 - Fast Scroll on the list of shows
 changes:
 - Display an image for each episode
