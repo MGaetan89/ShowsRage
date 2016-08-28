@@ -1,11 +1,12 @@
 package com.mgaetan89.showsrage.widget
 
 import android.content.Context
-import android.preference.PreferenceManager
 import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.mgaetan89.showsrage.R
+import com.mgaetan89.showsrage.extension.getPreferences
+import com.mgaetan89.showsrage.extension.useDarkTheme
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.ImageLoader
 import com.mgaetan89.showsrage.helper.Migration
@@ -22,7 +23,7 @@ class HistoryWidgetFactory(val context: Context) : RemoteViewsService.RemoteView
     private var loadingLayout = R.layout.widget_adapter_loading_dark
 
     init {
-        SickRageApi.instance.init(PreferenceManager.getDefaultSharedPreferences(this.context))
+        SickRageApi.instance.init(this.context.getPreferences())
 
         this.setLayoutFiles()
     }
@@ -120,9 +121,7 @@ class HistoryWidgetFactory(val context: Context) : RemoteViewsService.RemoteView
     }
 
     private fun setLayoutFiles() {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this.context)
-
-        if (preferences.getBoolean("display_theme", true)) {
+        if (this.context.getPreferences().useDarkTheme()) {
             this.itemLayout = R.layout.widget_adapter_histories_list_dark
             this.loadingLayout = R.layout.widget_adapter_loading_dark
         } else {

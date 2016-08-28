@@ -6,20 +6,23 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.preference.PreferenceManager
 import android.widget.RemoteViews
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.extension.changeLocale
-import com.mgaetan89.showsrage.fragment.SettingsFragment
+import com.mgaetan89.showsrage.extension.getLocale
+import com.mgaetan89.showsrage.extension.getPreferences
+import com.mgaetan89.showsrage.extension.useDarkTheme
 import com.mgaetan89.showsrage.network.SickRageApi
 
 class HistoryWidgetProvider : AppWidgetProvider() {
     override fun onEnabled(context: Context?) {
         super.onEnabled(context)
 
-        SickRageApi.instance.init(PreferenceManager.getDefaultSharedPreferences(context))
+        context?.getPreferences()?.let {
+            SickRageApi.instance.init(it)
+        }
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -35,12 +38,11 @@ class HistoryWidgetProvider : AppWidgetProvider() {
     override fun onUpdate(context: Context?, appWidgetManager: AppWidgetManager?, appWidgetIds: IntArray?) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val newLocale = SettingsFragment.getPreferredLocale(preferences.getString("display_language", ""))
+        val preferences = context?.getPreferences()
 
-        context?.resources?.changeLocale(newLocale)
+        context?.resources?.changeLocale(preferences.getLocale())
 
-        val widgetLayout = if (preferences.getBoolean("display_theme", true)) {
+        val widgetLayout = if (preferences.useDarkTheme()) {
             R.layout.widget_history_dark
         } else {
             R.layout.widget_history_light
