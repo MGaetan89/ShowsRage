@@ -43,18 +43,10 @@ android {
 		debug {
 			applicationIdSuffix '.dev'
 			testCoverageEnabled true
-
-			manifestPlaceholders = [
-					uriHost: 'showsrage_dev'
-			]
 		}
 
 		release {
 			minifyEnabled false
-
-			manifestPlaceholders = [
-					uriHost: 'showsrage'
-			]
 
 			if (file(signingConfigs.release.storeFile).exists()) {
 				signingConfig signingConfigs.release
