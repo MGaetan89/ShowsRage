@@ -118,7 +118,9 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
     }
 
     override fun onDestroy() {
-        this.shows?.removeChangeListeners()
+        if (this.shows?.isValid ?: false) {
+            this.shows?.removeChangeListeners()
+        }
 
         super.onDestroy()
     }
@@ -186,9 +188,10 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
             if (filteredShows != fragment.filteredShows) {
                 fragment.filteredShows.clear()
                 fragment.filteredShows.addAll(filteredShows)
-                fragment.updateLayout()
                 fragment.adapter?.notifyDataSetChanged()
             }
+
+            fragment.updateLayout()
         }
 
         companion object {

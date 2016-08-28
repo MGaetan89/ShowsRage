@@ -8,16 +8,6 @@
 	<string name="the_tvdb" translatable="false">The TVDB</string>
 	<string name="tvrage" translatable="false">TVRage</string>
 
-	<!-- Application specific URIs -->
-	<string name="uir_settings_about" translatable="false">showsrage://settings/about</string>
-	<string name="uri_settings_about_licenses" translatable="false">showsrage://settings/about/licenses</string>
-	<string name="uri_settings_about_showsrage" translatable="false">showsrage://settings/about/showsrage</string>
-	<string name="uri_settings_behavior" translatable="false">showsrage://settings/behavior</string>
-	<string name="uri_settings_display" translatable="false">showsrage://settings/display</string>
-	<string name="uri_settings_experimental_features" translatable="false">showsrage://settings/experimental_features</string>
-	<string name="uri_settings_server" translatable="false">showsrage://settings/server</string>
-	<string name="uri_settings_server_api_key" translatable="false">showsrage://settings/server/api_key</string>
-
 	<string-array name="allowed_qualities_keys" translatable="false">
 		<item>sdtv</item>
 		<item>sddvd</item>

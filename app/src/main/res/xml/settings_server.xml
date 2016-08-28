@@ -28,13 +28,8 @@
 		android:title="@string/path" />
 
 	<PreferenceScreen
-		android:key="get_api_key"
-		android:title="@string/api_key">
-
-		<intent
-			android:action="android.intent.action.VIEW"
-			android:data="@string/uri_settings_server_api_key" />
-	</PreferenceScreen>
+		android:key="screen_server_api_key"
+		android:title="@string/api_key" />
 
 	<CheckBoxPreference
 		android:defaultValue="false"

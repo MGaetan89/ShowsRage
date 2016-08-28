@@ -98,7 +98,9 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
     }
 
     override fun onDestroy() {
-        this.episodes?.removeChangeListeners()
+        if (this.episodes?.isValid ?: false) {
+            this.episodes?.removeChangeListeners()
+        }
 
         super.onDestroy()
     }

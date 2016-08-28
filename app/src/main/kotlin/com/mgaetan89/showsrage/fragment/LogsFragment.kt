@@ -36,6 +36,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     private var adapter: LogsAdapter? = null
     private var emptyView: TextView? = null
     private var groups: Array<String>? = null
+    private var logLevel: LogLevel? = null
     private var logs: RealmResults<LogEntry>? = null
     private var recyclerView: RecyclerView? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
@@ -72,8 +73,11 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 
                 this.adapter = null
 
-                this.logs?.removeChangeListeners()
-                this.logs = RealmManager.getLogs(this.getPreferredLogsLevel(), this.groups, this)
+                if (this.logs?.isValid ?: false) {
+                    this.logs?.removeChangeListeners()
+                }
+
+                this.logs = RealmManager.getLogs(this.getLogLevel(), this.groups, this)
             }
         }
     }
@@ -99,15 +103,16 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        this.logs = RealmManager.getLogs(this.getPreferredLogsLevel(), this)
+        this.logs = RealmManager.getLogs(this.getLogLevel(), this.groups, this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.logs, menu)
 
-        menu?.findItem(R.id.menu_filter)?.isVisible = RealmManager.getLogsGroup().isNotEmpty()
+        // TODO Enable logs filter
+        //menu?.findItem(R.id.menu_filter)?.isVisible = RealmManager.getLogsGroup().isNotEmpty()
 
-        val menuId = getMenuIdForLogLevel(this.getPreferredLogsLevel())
+        val menuId = getMenuIdForLogLevel(this.getLogLevel())
 
         if (menuId > 0) {
             menu?.findItem(menuId)?.isChecked = true
@@ -141,7 +146,9 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     }
 
     override fun onDestroy() {
-        this.logs?.removeChangeListeners()
+        if (this.logs?.isValid ?: false) {
+            this.logs?.removeChangeListeners()
+        }
 
         super.onDestroy()
     }
@@ -171,7 +178,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     override fun onRefresh() {
         this.swipeRefreshLayout?.isRefreshing = true
 
-        SickRageApi.instance.services?.getLogs(this.getPreferredLogsLevel(), this)
+        SickRageApi.instance.services?.getLogs(this.getLogLevel(), this)
     }
 
     override fun success(logs: Logs?, response: Response?) {
@@ -181,14 +188,12 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
             LogEntry(it)
         } ?: emptyList()
 
-        RealmManager.saveLogs(logEntries)
+        RealmManager.saveLogs(logEntries, this.getLogLevel())
 
         this.activity.supportInvalidateOptionsMenu()
     }
 
-    private fun getPreferredLogsLevel(): LogLevel {
-        return this.context.getPreferences().getLogLevel()
-    }
+    private fun getLogLevel() = this.logLevel ?: this.context.getPreferences().getLogLevel()
 
     private fun handleLogsGroupFilter() {
         val arguments = Bundle()
@@ -201,28 +206,29 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     }
 
     private fun handleLogsLevelSelection(item: MenuItem?): Boolean {
-        val logLevel = getLogLevelForMenuId(item?.itemId)
+        this.logLevel = getLogLevelForMenuId(item?.itemId)
 
-        if (logLevel != null) {
+        return this.logLevel?.let {
             // Check the selected menu item
             item?.isChecked = true
 
             // Save the selected logs level
-            this.context.getPreferences().saveLogLevel(logLevel)
+            this.context.getPreferences().saveLogLevel(it)
 
             // Update the list of logs
             this.adapter = null
 
-            this.logs?.removeChangeListeners()
-            this.logs = RealmManager.getLogs(logLevel, this)
+            if (this.logs?.isValid ?: false) {
+                this.logs?.removeChangeListeners()
+            }
+
+            this.logs = RealmManager.getLogs(it, this.groups, this)
 
             // Refresh the list of logs
             this.onRefresh()
 
-            return true
-        }
-
-        return false
+            true
+        } ?: false
     }
 
     companion object {

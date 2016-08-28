@@ -113,7 +113,9 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
     }
 
     override fun onDestroy() {
-        this.histories?.removeChangeListeners()
+        if (this.histories?.isValid ?: false) {
+            this.histories?.removeChangeListeners()
+        }
 
         super.onDestroy()
     }

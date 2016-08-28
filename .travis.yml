@@ -1,8 +1,8 @@
 language: android
 
 branches:
-  only:
-    - master
+  except:
+    - gh-pages
 
 jdk:
   - oraclejdk8
@@ -10,7 +10,7 @@ jdk:
 android:
   components:
     - android-24
-    - build-tools-24.0.1
+    - build-tools-24.0.2
     - extra-android-m2repository
     - extra-google-m2repository
     - platform-tools
@@ -32,8 +32,8 @@ before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 
 before_install:
-  - echo y | android update sdk --all --no-ui --force --filter build-tools-24.0.1
   - echo y | android update sdk --all --no-ui --force --filter android-24
+  - echo y | android update sdk --all --no-ui --force --filter build-tools-24.0.2
 
 before_script:
   - ./travis/prepare_emulator.sh

@@ -481,8 +481,13 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
             this.context.unbindService(this.serviceConnection)
         }
 
-        this.series?.removeChangeListeners()
-        this.show?.removeChangeListeners()
+        if (this.series?.isValid ?: false) {
+            this.series?.removeChangeListeners()
+        }
+
+        if (this.show?.isValid ?: false) {
+            this.show?.removeChangeListeners()
+        }
 
         super.onDestroy()
     }

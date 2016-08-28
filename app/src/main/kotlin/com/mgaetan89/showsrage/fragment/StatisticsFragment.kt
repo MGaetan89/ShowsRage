@@ -115,7 +115,9 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
     }
 
     override fun onDestroy() {
-        this.showsStats?.removeChangeListeners()
+        if (this.showsStats?.isValid ?: false) {
+            this.showsStats?.removeChangeListeners()
+        }
 
         super.onDestroy()
     }

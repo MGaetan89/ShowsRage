@@ -66,7 +66,9 @@ class ScheduleSectionFragment : Fragment(), RealmChangeListener<RealmResults<Sch
     }
 
     override fun onDestroy() {
-        this.schedules?.removeChangeListeners()
+        if (this.schedules?.isValid ?: false) {
+            this.schedules?.removeChangeListeners()
+        }
 
         super.onDestroy()
     }

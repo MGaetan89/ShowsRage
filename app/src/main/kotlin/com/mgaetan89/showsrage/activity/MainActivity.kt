@@ -46,15 +46,7 @@ import com.mgaetan89.showsrage.fragment.LogsFragment
 import com.mgaetan89.showsrage.fragment.PostProcessingFragment
 import com.mgaetan89.showsrage.fragment.RemoteControlFragment
 import com.mgaetan89.showsrage.fragment.ScheduleFragment
-import com.mgaetan89.showsrage.fragment.SettingsAboutFragment
-import com.mgaetan89.showsrage.fragment.SettingsAboutLicensesFragment
-import com.mgaetan89.showsrage.fragment.SettingsAboutShowsRageFragment
-import com.mgaetan89.showsrage.fragment.SettingsBehaviorFragment
-import com.mgaetan89.showsrage.fragment.SettingsDisplayFragment
-import com.mgaetan89.showsrage.fragment.SettingsExperimentalFeaturesFragment
 import com.mgaetan89.showsrage.fragment.SettingsFragment
-import com.mgaetan89.showsrage.fragment.SettingsServerApiKeyFragment
-import com.mgaetan89.showsrage.fragment.SettingsServerFragment
 import com.mgaetan89.showsrage.fragment.ShowsFragment
 import com.mgaetan89.showsrage.fragment.StatisticsFragment
 import com.mgaetan89.showsrage.helper.RealmManager
@@ -378,7 +370,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.setSupportActionBar(this.toolbar)
 
-        this.displayStartFragment()
+        // Display the list of shows
+        this.navigationView?.menu?.performIdentifierAction(R.id.menu_shows, 0)
     }
 
     override fun onDestroy() {
@@ -418,39 +411,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         }
     }
 
-    private fun displayStartFragment() {
-        // Start the correct Setting Fragment, if necessary
-        val settingFragment = getSettingFragmentForPath(this.intent.data?.path)
-
-        if (settingFragment != null) {
-            this.supportFragmentManager.beginTransaction()
-                    .replace(R.id.content, settingFragment)
-                    .commit()
-
-            return
-        }
-
-        // Display the list of shows
-        this.navigationView?.menu?.performIdentifierAction(R.id.menu_shows, 0)
-    }
-
     companion object {
         private const val COLOR_DARK_FACTOR = 0.8f
-
-        fun getSettingFragmentForPath(path: String?): SettingsFragment? {
-            return when (path) {
-                "/" -> SettingsFragment()
-                "/about" -> SettingsAboutFragment()
-                "/about/licenses" -> SettingsAboutLicensesFragment()
-                "/about/showsrage" -> SettingsAboutShowsRageFragment()
-                "/behavior" -> SettingsBehaviorFragment()
-                "/display" -> SettingsDisplayFragment()
-                "/experimental_features" -> SettingsExperimentalFeaturesFragment()
-                "/server" -> SettingsServerFragment()
-                "/server/api_key" -> SettingsServerApiKeyFragment()
-                else -> null
-            }
-        }
 
         fun shouldCheckForUpdate(checkInterval: Long, manualCheck: Boolean, lastCheckTime: Long): Boolean {
             // Always check for new version if the user triggered the version check himself
