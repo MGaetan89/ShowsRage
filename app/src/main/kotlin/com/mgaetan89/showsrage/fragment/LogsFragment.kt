@@ -188,7 +188,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
             LogEntry(it)
         } ?: emptyList()
 
-        RealmManager.saveLogs(logEntries)
+        RealmManager.saveLogs(logEntries, this.getLogLevel())
 
         this.activity.supportInvalidateOptionsMenu()
     }

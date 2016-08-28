@@ -23,7 +23,6 @@ import io.realm.RealmResults
 import io.realm.Sort
 
 object RealmManager {
-    private const val MAX_LOG_ENTRIES = 1000
     private var realm: Realm? = null
 
     fun clearHistory() {
@@ -110,26 +109,12 @@ object RealmManager {
         val logLevels = this.getLogLevels(logLevel)
         val query = realm.where(LogEntry::class.java)
 
-        if (groups != null) {
-            if (groups.size == 1) {
-                query.equalTo("group", groups.first())
-            } else if (groups.size > 1) {
-                query.beginGroup()
-                groups.forEach {
-                    query.equalTo("group", it).or()
-                }
-                query.endGroup()
-            }
+        if (groups != null && groups.isNotEmpty()) {
+            query.`in`("group", groups)
         }
 
-        if (logLevels.size == 1) {
-            query.equalTo("errorType", logLevels.first())
-        } else if (logLevels.size > 1) {
-            query.beginGroup()
-            logLevels.forEach {
-                query.equalTo("errorType", it).or()
-            }
-            query.endGroup()
+        if (logLevels.isNotEmpty()) {
+            query.`in`("errorType", logLevels)
         }
 
         val logs = query.findAllSortedAsync("dateTime", Sort.DESCENDING)
@@ -290,11 +275,16 @@ object RealmManager {
         }
     }
 
-    fun saveLogs(logs: List<LogEntry>) {
+    fun saveLogs(logs: List<LogEntry>, logLevel: LogLevel) {
         this.getRealm()?.executeTransaction {
-            it.copyToRealm(logs)
+            // Remove all existing logs for the level we are about to save
+            it.where(LogEntry::class.java)
+                    .equalTo("errorType", logLevel.name)
+                    .findAll()
+                    .deleteAllFromRealm()
 
-            this.trimLog()
+            // Save the new logs in the database
+            it.copyToRealm(logs)
         }
     }
 
@@ -372,19 +362,12 @@ object RealmManager {
         }
     }
 
-    private fun getAllLogs(): RealmResults<LogEntry>? {
-        val realm = this.getRealm() ?: return null
-
-        return realm.where(LogEntry::class.java).findAllSorted("dateTime", Sort.DESCENDING)
-    }
-
     private fun getLogLevels(logLevel: LogLevel): Array<String> {
         return when (logLevel) {
             LogLevel.DEBUG -> arrayOf("DEBUG", "ERROR", "INFO", "WARNING")
             LogLevel.ERROR -> arrayOf("ERROR")
             LogLevel.INFO -> arrayOf("ERROR", "INFO", "WARNING")
             LogLevel.WARNING -> arrayOf("ERROR", "WARNING")
-            else -> arrayOf("DEBUG", "ERROR", "INFO", "WARNING")
         }
     }
 
@@ -450,14 +433,6 @@ object RealmManager {
         }
         show.seasonList = RealmList<RealmString>().apply {
             this.addAll((if (show.seasonList?.isEmpty() ?: true) savedShow?.seasonList else show.seasonList) ?: emptyList())
-        }
-    }
-
-    private fun trimLog() {
-        val logs = this.getAllLogs() ?: return
-
-        for (i in MAX_LOG_ENTRIES..(logs.size - 1)) {
-            logs[i].deleteFromRealm()
         }
     }
 }
