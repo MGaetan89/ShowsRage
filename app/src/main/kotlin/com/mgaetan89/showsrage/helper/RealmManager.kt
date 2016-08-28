@@ -240,7 +240,7 @@ object RealmManager {
                 it.name(testFile)
             }
 
-            it.schemaVersion(3)
+            it.schemaVersion(4)
             it.migration(Migration())
             it.build()
         }
@@ -292,7 +292,7 @@ object RealmManager {
 
     fun saveLogs(logs: List<LogEntry>) {
         this.getRealm()?.executeTransaction {
-            it.copyToRealmOrUpdate(logs)
+            it.copyToRealm(logs)
 
             this.trimLog()
         }

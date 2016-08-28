@@ -188,9 +188,10 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
             if (filteredShows != fragment.filteredShows) {
                 fragment.filteredShows.clear()
                 fragment.filteredShows.addAll(filteredShows)
-                fragment.updateLayout()
                 fragment.adapter?.notifyDataSetChanged()
             }
+
+            fragment.updateLayout()
         }
 
         companion object {
