@@ -24,7 +24,7 @@ class ShowsRageApplication : Application() {
         super.onCreate()
 
         val configuration = RealmConfiguration.Builder(this).let {
-            it.schemaVersion(4)
+            it.schemaVersion(Constants.DATABASE_VERSION)
             it.migration(Migration())
             it.build()
         }

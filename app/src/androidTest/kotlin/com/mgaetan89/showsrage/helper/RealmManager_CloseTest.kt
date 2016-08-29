@@ -1,9 +1,11 @@
 package com.mgaetan89.showsrage.helper
 
 import android.os.Looper
+import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
+import com.mgaetan89.showsrage.initRealm
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.AfterClass
@@ -17,7 +19,6 @@ import org.mockito.Mockito.spy
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.verifyNoMoreInteractions
 
-@Ignore
 @RunWith(AndroidJUnit4::class)
 class RealmManager_CloseTest {
     @JvmField
@@ -26,7 +27,7 @@ class RealmManager_CloseTest {
 
     @Before
     fun before() {
-        RealmManager.init()
+        initRealm(this.activityRule.activity, InstrumentationRegistry.getContext())
     }
 
     @Ignore

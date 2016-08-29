@@ -4,6 +4,7 @@ import retrofit.RestAdapter
 import java.util.*
 
 object Constants {
+    val DATABASE_VERSION = 4L
     val NETWORK_LOG_LEVEL = if (BuildConfig.DEBUG) RestAdapter.LogLevel.FULL else RestAdapter.LogLevel.NONE
     val OMDB_URL = "http://www.omdbapi.com/"
     val SUPPORTED_LOCALES: List<Locale> = listOf(Locale.ENGLISH, Locale.FRENCH)

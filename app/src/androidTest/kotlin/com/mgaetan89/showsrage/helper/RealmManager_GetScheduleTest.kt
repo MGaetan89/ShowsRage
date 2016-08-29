@@ -1,9 +1,11 @@
 package com.mgaetan89.showsrage.helper
 
 import android.os.Looper
+import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
+import com.mgaetan89.showsrage.initRealm
 import com.mgaetan89.showsrage.model.Schedule
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
@@ -13,12 +15,10 @@ import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@Ignore
 @RunWith(AndroidJUnit4::class)
 class RealmManager_GetScheduleTest {
     private var scheduleLaterAsync: RealmResults<Schedule>? = null
@@ -48,7 +48,7 @@ class RealmManager_GetScheduleTest {
 
     @Before
     fun before() {
-        RealmManager.init()
+        initRealm(this.activityRule.activity, InstrumentationRegistry.getContext())
     }
 
     @Test

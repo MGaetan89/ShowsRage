@@ -1,9 +1,11 @@
 package com.mgaetan89.showsrage.helper
 
 import android.os.Looper
+import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
+import com.mgaetan89.showsrage.initRealm
 import com.mgaetan89.showsrage.model.Show
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -15,7 +17,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@Ignore
 @RunWith(AndroidJUnit4::class)
 class RealmManager_DeleteShowTest {
     @JvmField
@@ -26,7 +27,7 @@ class RealmManager_DeleteShowTest {
 
     @Before
     fun before() {
-        RealmManager.init()
+        initRealm(this.activityRule.activity, InstrumentationRegistry.getContext())
 
         this.show = RealmManager.getShow(INDEXER_ID, null)!!
 
