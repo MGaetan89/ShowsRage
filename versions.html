@@ -35,12 +35,14 @@ weight: 8
                 </small>
             </a></h3>
 
+            {% assign current_tag_prefix = version.current_tag|split:'/'|first %}
+
             <ul class="table-of-content">
                 {% if version.milestone %}
                     <li><a href="{{ site.github.repository_url }}/milestones/{{ version.milestone }}" target="_blank">Planning</a></li>
                 {% endif %}
 
-                {% if version.current_tag != 'master' %}
+                {% if version.current_tag != 'master' and current_tag_prefix != 'release' %}
                     <li><a href="{{ site.github.releases_url }}/tag/{{ version.current_tag }}" target="_blank">Release</a></li>
                 {% endif %}
 
