@@ -34,6 +34,16 @@
 		</PreferenceScreen>
 
 		<PreferenceScreen
+			android:key="google_material_design_icons"
+			android:summary="Version 3.0.0"
+			android:title="Material Design Icons">
+
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:data="https://github.com/google/material-design-icons" />
+		</PreferenceScreen>
+
+		<PreferenceScreen
 			android:key="okhttp"
 			android:summary="Version 2.5.0"
 			android:title="OkHttp">
@@ -61,19 +71,6 @@
 			<intent
 				android:action="android.intent.action.VIEW"
 				android:data="http://square.github.io/retrofit/" />
-		</PreferenceScreen>
-	</PreferenceCategory>
-
-	<PreferenceCategory android:title="Creative Common Attribution 4.0 International License">
-
-		<PreferenceScreen
-			android:key="google_material_design_icons"
-			android:summary="Version 2.2.0"
-			android:title="Material Design Icons">
-
-			<intent
-				android:action="android.intent.action.VIEW"
-				android:data="https://github.com/google/material-design-icons" />
 		</PreferenceScreen>
 	</PreferenceCategory>
 </PreferenceScreen>
