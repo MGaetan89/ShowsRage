@@ -9,13 +9,11 @@ import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.extension.useDarkTheme
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.ImageLoader
-import com.mgaetan89.showsrage.helper.Migration
 import com.mgaetan89.showsrage.helper.toLocale
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.presenter.HistoryPresenter
 import io.realm.Realm
-import io.realm.RealmConfiguration
 
 class HistoryWidgetFactory(val context: Context) : RemoteViewsService.RemoteViewsFactory {
     private var itemLayout = R.layout.widget_adapter_histories_list_dark
@@ -96,18 +94,14 @@ class HistoryWidgetFactory(val context: Context) : RemoteViewsService.RemoteView
     private fun getHistory() {
         SickRageApi.instance.services?.getHistory()?.data?.let {
             val histories = it.filterNotNull()
-            val configuration = RealmConfiguration.Builder(this.context)
-                    .schemaVersion(2)
-                    .migration(Migration())
-                    .build()
 
             // TODO Use RealmManager
-            Realm.getInstance(configuration).let {
+            Realm.getDefaultInstance().let {
                 it.executeTransaction {
                     it.delete(History::class.java)
 
                     histories.forEach {
-                        it.id = it.date + "_" + it.status
+                        it.id = "${it.date}_${it.status}_${it.indexerId}_${it.season}_${it.episode}"
                     }
 
                     it.copyToRealmOrUpdate(histories)

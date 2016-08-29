@@ -10,6 +10,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.support.annotation.IdRes
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.NavigationView
 import android.support.design.widget.TabLayout
@@ -328,7 +329,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-        RealmManager.init(this, null)
+        RealmManager.init()
 
         val preferences = this.getPreferences()
 
@@ -370,8 +371,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.setSupportActionBar(this.toolbar)
 
-        // Display the list of shows
-        this.navigationView?.menu?.performIdentifierAction(R.id.menu_shows, 0)
+        this.navigationView?.menu?.performIdentifierAction(getInitialMenuId(this.intent?.action), 0)
     }
 
     override fun onDestroy() {
@@ -414,7 +414,15 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
     companion object {
         private const val COLOR_DARK_FACTOR = 0.8f
 
-        fun shouldCheckForUpdate(checkInterval: Long, manualCheck: Boolean, lastCheckTime: Long): Boolean {
+        @IdRes
+        internal fun getInitialMenuId(action: String?): Int {
+            return when (action) {
+                Constants.Intents.ACTION_DISPLAY_HISTORY -> R.id.menu_history
+                else -> R.id.menu_shows
+            }
+        }
+
+        internal fun shouldCheckForUpdate(checkInterval: Long, manualCheck: Boolean, lastCheckTime: Long): Boolean {
             // Always check for new version if the user triggered the version check himself
             if (manualCheck) {
                 return true
