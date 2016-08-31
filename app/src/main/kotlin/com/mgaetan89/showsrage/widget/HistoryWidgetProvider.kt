@@ -67,15 +67,17 @@ class HistoryWidgetProvider : AppWidgetProvider() {
 
     private fun getApplicationPendingIntent(context: Context?): PendingIntent {
         val intent = Intent(context, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
 
-        return PendingIntent.getActivity(context, REQUEST_CODE_APPLICATION, intent, 0)
+        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
     private fun getHistoryPendingIntent(context: Context?): PendingIntent {
         val intent = Intent(context, MainActivity::class.java)
         intent.action = Constants.Intents.ACTION_DISPLAY_HISTORY
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
 
-        return PendingIntent.getActivity(context, REQUEST_CODE_HISTORY, intent, 0)
+        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
     private fun getListAdapterIntent(context: Context?, appWidgetId: Int): Intent {
@@ -90,16 +92,10 @@ class HistoryWidgetProvider : AppWidgetProvider() {
         val intent = Intent(Constants.Intents.ACTION_REFRESH_WIDGET)
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
 
-        return PendingIntent.getBroadcast(context, REQUEST_CODE_REFRESH, intent, 0)
+        return PendingIntent.getBroadcast(context, 0, intent, 0)
     }
 
     private fun refreshWidget(context: Context?, widgetId: Int) {
         AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(widgetId, R.id.list)
-    }
-
-    companion object {
-        private const val REQUEST_CODE_APPLICATION = 0
-        private const val REQUEST_CODE_HISTORY = 1
-        private const val REQUEST_CODE_REFRESH = 2
     }
 }
