@@ -32,6 +32,7 @@ import com.mgaetan89.showsrage.model.ShowStatsWrapper
 import com.mgaetan89.showsrage.model.ShowsFilters
 import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.RealmChangeListener
+import io.realm.RealmObject
 import io.realm.RealmResults
 import retrofit.Callback
 import retrofit.RetrofitError
@@ -184,8 +185,11 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
                     firstProperty.compareTo(secondProperty)
                 })
             }
+            val currentFilteredShows = fragment.filteredShows.filter {
+                RealmObject.isValid(it)
+            }
 
-            if (filteredShows != fragment.filteredShows) {
+            if (filteredShows != currentFilteredShows) {
                 fragment.filteredShows.clear()
                 fragment.filteredShows.addAll(filteredShows)
                 fragment.adapter?.notifyDataSetChanged()

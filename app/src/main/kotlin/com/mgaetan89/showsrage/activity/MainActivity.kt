@@ -314,10 +314,11 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
     }
 
     fun updateRemoteControlVisibility() {
-        if (this.navigationView != null) {
-            val hasRemotePlaybackClient = (this.application as ShowsRageApplication?)?.hasPlayingVideo() ?: false
+        val application = this.application
+        val navigationView = this.navigationView
 
-            this.navigationView!!.menu.findItem(R.id.menu_remote_control).isVisible = hasRemotePlaybackClient
+        if (application is ShowsRageApplication && navigationView != null) {
+            navigationView.menu.findItem(R.id.menu_remote_control)?.isVisible = application.hasPlayingVideo()
         }
     }
 
