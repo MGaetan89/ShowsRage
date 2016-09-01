@@ -5,6 +5,7 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
+import com.mgaetan89.showsrage.initRealm
 import com.mgaetan89.showsrage.model.Episode
 import io.realm.RealmChangeListener
 import org.assertj.core.api.Assertions.assertThat
@@ -38,7 +39,7 @@ class RealmManager_GetEpisodeTest {
 
     @Before
     fun before() {
-        RealmManager.init(this.activityRule.activity, InstrumentationRegistry.getContext())
+        initRealm(this.activityRule.activity, InstrumentationRegistry.getContext())
     }
 
     @Test

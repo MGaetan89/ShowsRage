@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.helper
 
-import android.content.Context
 import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.model.LogEntry
@@ -17,7 +16,6 @@ import com.mgaetan89.showsrage.model.ShowStat
 import com.mgaetan89.showsrage.model.ShowsStat
 import io.realm.Realm
 import io.realm.RealmChangeListener
-import io.realm.RealmConfiguration
 import io.realm.RealmList
 import io.realm.RealmResults
 import io.realm.Sort
@@ -216,22 +214,7 @@ object RealmManager {
                 .findFirst()
     }
 
-    fun init(context: Context, testContext: Context?) {
-        val configuration = RealmConfiguration.Builder(context).let {
-            if (testContext != null) {
-                val testFile = "test.realm"
-
-                it.assetFile(testContext, testFile)
-                it.name(testFile)
-            }
-
-            it.schemaVersion(4)
-            it.migration(Migration())
-            it.build()
-        }
-
-        Realm.setDefaultConfiguration(configuration)
-
+    fun init() {
         this.close()
 
         this.realm = Realm.getDefaultInstance()

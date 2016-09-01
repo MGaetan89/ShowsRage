@@ -4,6 +4,7 @@ import retrofit.RestAdapter
 import java.util.*
 
 object Constants {
+    val DATABASE_VERSION = 4L
     val NETWORK_LOG_LEVEL = if (BuildConfig.DEBUG) RestAdapter.LogLevel.FULL else RestAdapter.LogLevel.NONE
     val OMDB_URL = "http://www.omdbapi.com/"
     val SUPPORTED_LOCALES: List<Locale> = listOf(Locale.ENGLISH, Locale.FRENCH)
@@ -28,9 +29,11 @@ object Constants {
     }
 
     object Intents {
+        val ACTION_DISPLAY_HISTORY = BuildConfig.APPLICATION_ID + ".action.display_history"
         val ACTION_EPISODE_ACTION_SELECTED = BuildConfig.APPLICATION_ID + ".action.episode_action_selected"
         val ACTION_EPISODE_SELECTED = BuildConfig.APPLICATION_ID + ".action.episode_selected"
         val ACTION_FILTER_SHOWS = BuildConfig.APPLICATION_ID + ".action.filter_shows"
+        val ACTION_REFRESH_WIDGET = BuildConfig.APPLICATION_ID + ".action.refresh_widget"
         val ACTION_SEARCH_RESULT_SELECTED = BuildConfig.APPLICATION_ID + ".action.search_result_selected"
         val ACTION_SHOW_SELECTED = BuildConfig.APPLICATION_ID + ".action.show_selected"
     }

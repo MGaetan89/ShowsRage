@@ -5,6 +5,7 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
+import com.mgaetan89.showsrage.initRealm
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.AfterClass
@@ -22,7 +23,7 @@ class RealmManager_GetScheduleSectionsTest {
 
     @Before
     fun before() {
-        RealmManager.init(this.activityRule.activity, InstrumentationRegistry.getContext())
+        initRealm(this.activityRule.activity, InstrumentationRegistry.getContext())
     }
 
     @Test
