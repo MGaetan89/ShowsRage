@@ -35,7 +35,7 @@
 
 		<PreferenceScreen
 			android:key="google_material_design_icons"
-			android:summary="Version 3.0.0"
+			android:summary="Version 3.0.1"
 			android:title="Material Design Icons">
 
 			<intent
