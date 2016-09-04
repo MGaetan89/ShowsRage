@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
     private var drawerLayout: DrawerLayout? = null
     private var drawerToggle: ActionBarDrawerToggle? = null
     private var navigationView: NavigationView? = null
-    private val receiver = ShowsRageReceiver(this)
+    private val receiver: ShowsRageReceiver by lazy { ShowsRageReceiver(this) }
     private var tabLayout: TabLayout? = null
     private var themeColors: ThemeColors? = null
     private var toolbar: ColoredToolbar? = null
@@ -400,6 +400,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.updateRemoteControlVisibility()
         this.checkForUpdate(false)
+        this.handleIntentAction()
     }
 
     private fun checkForUpdate(manualCheck: Boolean) {
@@ -409,6 +410,18 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         if (shouldCheckForUpdate(checkInterval, manualCheck, lastVersionCheckTime)) {
             SickRageApi.instance.services?.checkForUpdate(CheckForUpdateCallback(this, manualCheck))
+        }
+    }
+
+    private fun handleIntentAction() {
+        when (this.intent.action) {
+            Constants.Intents.ACTION_DISPLAY_SHOW -> {
+                with(Intent(Constants.Intents.ACTION_SHOW_SELECTED)) {
+                    putExtra(Constants.Bundle.INDEXER_ID, intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0))
+
+                    receiver.onReceive(this@MainActivity, this)
+                }
+            }
         }
     }
 

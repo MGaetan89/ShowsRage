@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.support.annotation.IdRes
+import android.support.annotation.MainThread
+import android.support.annotation.WorkerThread
 import android.support.v7.graphics.Palette
 import android.widget.ImageView
 import android.widget.RemoteViews
@@ -11,6 +13,7 @@ import com.bumptech.glide.BitmapRequestBuilder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.animation.GlideAnimation
+import com.bumptech.glide.request.target.AppWidgetTarget
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.bumptech.glide.request.target.Target
 import jp.wasabeef.glide.transformations.CropCircleTransformation
@@ -34,18 +37,26 @@ object ImageLoader {
         }
     }
 
+    @WorkerThread
     fun load(context: Context, remoteViews: RemoteViews, @IdRes viewId: Int, url: String?, circleTransform: Boolean) {
         this.getGlideInstance(context, url, circleTransform)?.let {
-            val bitmap = it.into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+            it.into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).let {
+                remoteViews.setImageViewBitmap(viewId, it.get())
 
-            remoteViews.setImageViewBitmap(viewId, bitmap.get())
+                Glide.clear(it)
+            }
+        }
+    }
 
-            Glide.clear(bitmap)
+    @MainThread
+    fun load(context: Context, remoteViews: RemoteViews, @IdRes viewId: Int, url: String?, circleTransform: Boolean, appWidgetId: Int) {
+        this.getGlideInstance(context, url, circleTransform)?.let {
+            it.into(AppWidgetTarget(context, remoteViews, viewId, appWidgetId))
         }
     }
 
     private fun getGlideInstance(context: Context, url: String?, circleTransform: Boolean): BitmapRequestBuilder<String, Bitmap>? {
-        val glide = Glide.with(context)
+        val glide = Glide.with(context.applicationContext)
                 .load(url)
                 .asBitmap()
                 .approximate()

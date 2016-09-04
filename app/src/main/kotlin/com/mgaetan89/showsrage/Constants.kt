@@ -30,6 +30,7 @@ object Constants {
 
     object Intents {
         val ACTION_DISPLAY_HISTORY = BuildConfig.APPLICATION_ID + ".action.display_history"
+        val ACTION_DISPLAY_SHOW = BuildConfig.APPLICATION_ID + ".action.display_show"
         val ACTION_EPISODE_ACTION_SELECTED = BuildConfig.APPLICATION_ID + ".action.episode_action_selected"
         val ACTION_EPISODE_SELECTED = BuildConfig.APPLICATION_ID + ".action.episode_selected"
         val ACTION_FILTER_SHOWS = BuildConfig.APPLICATION_ID + ".action.filter_shows"
