@@ -37,7 +37,15 @@
 				android:name="android.app.searchable"
 				android:resource="@xml/searchable" />
 		</activity>
+
+		<activity android:name=".activity.ShowWidgetConfigurationActivity">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+			</intent-filter>
+		</activity>
+
 		<activity android:name=".TestActivity" />
+
 		<activity
 			android:name=".activity.UpdateActivity"
 			android:excludeFromRecents="true"

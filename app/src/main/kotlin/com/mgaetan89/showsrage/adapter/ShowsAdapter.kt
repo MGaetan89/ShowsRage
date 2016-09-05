@@ -96,13 +96,12 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, val ignor
 
         override fun onClick(view: View?) {
             val context = view?.context ?: return
+            val show = shows.getOrNull(adapterPosition) ?: return
 
-            if (adapterPosition >= 0 && adapterPosition < shows.size) {
-                with(Intent(Constants.Intents.ACTION_SHOW_SELECTED)) {
-                    putExtra(Constants.Bundle.INDEXER_ID, shows[adapterPosition].indexerId)
+            with(Intent(Constants.Intents.ACTION_SHOW_SELECTED)) {
+                this.putExtra(Constants.Bundle.INDEXER_ID, show.indexerId)
 
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(this)
-                }
+                LocalBroadcastManager.getInstance(context).sendBroadcast(this)
             }
         }
     }

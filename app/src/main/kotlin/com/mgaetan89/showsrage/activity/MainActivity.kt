@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.activity
 
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.ColorStateList
@@ -41,6 +42,7 @@ import com.mgaetan89.showsrage.extension.getLocale
 import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.extension.getVersionCheckInterval
 import com.mgaetan89.showsrage.extension.saveLastVersionCheckTime
+import com.mgaetan89.showsrage.extension.updateAllWidgets
 import com.mgaetan89.showsrage.extension.useDarkTheme
 import com.mgaetan89.showsrage.fragment.HistoryFragment
 import com.mgaetan89.showsrage.fragment.LogsFragment
@@ -67,12 +69,15 @@ import com.mgaetan89.showsrage.model.RootDirs
 import com.mgaetan89.showsrage.model.Schedule
 import com.mgaetan89.showsrage.model.Serie
 import com.mgaetan89.showsrage.model.Show
+import com.mgaetan89.showsrage.model.ShowWidget
 import com.mgaetan89.showsrage.model.ShowsStat
 import com.mgaetan89.showsrage.model.ThemeColors
 import com.mgaetan89.showsrage.model.UpdateResponse
 import com.mgaetan89.showsrage.model.UpdateResponseWrapper
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.view.ColoredToolbar
+import com.mgaetan89.showsrage.widget.HistoryWidgetProvider
+import com.mgaetan89.showsrage.widget.ShowWidgetProvider
 import io.kolumbus.Kolumbus
 import retrofit.Callback
 import retrofit.RetrofitError
@@ -154,6 +159,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                         .explore(Serie::class.java)
                         .explore(Show::class.java)
                         .explore(ShowsStat::class.java)
+                        .explore(ShowWidget::class.java)
                         .withArchitect(ShowsArchitect())
                         .navigate(this)
             }
@@ -348,6 +354,12 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         SickRageApi.instance.init(preferences)
         SickRageApi.instance.services?.getRootDirs(RootDirsCallback(this))
+
+        // Refresh existing widgets
+        AppWidgetManager.getInstance(this).let {
+            it.updateAllWidgets(this, HistoryWidgetProvider::class.java)
+            it.updateAllWidgets(this, ShowWidgetProvider::class.java)
+        }
 
         this.appBarLayout = this.findViewById(R.id.app_bar) as AppBarLayout?
         this.drawerLayout = this.findViewById(R.id.drawer_layout) as DrawerLayout?

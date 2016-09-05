@@ -11,10 +11,19 @@ import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.helper.ImageLoader
-import com.mgaetan89.showsrage.model.Indexer
+import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.network.SickRageApi
+import com.mgaetan89.showsrage.presenter.ShowPresenter
 
 class ShowWidgetProvider : AppWidgetProvider() {
+    override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
+        super.onDeleted(context, appWidgetIds)
+
+        appWidgetIds?.forEach {
+            RealmManager.deleteShowWidget(it)
+        }
+    }
+
     override fun onEnabled(context: Context?) {
         super.onEnabled(context)
 
@@ -27,26 +36,29 @@ class ShowWidgetProvider : AppWidgetProvider() {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
 
         appWidgetIds?.forEach { appWidgetId ->
-            val views = RemoteViews(context?.packageName, R.layout.widget_show)
-            views.setOnClickPendingIntent(R.id.widget, this.getWidgetPendingIntent(context))
-            views.setTextViewText(R.id.show_name, "2 Broke Girls")
+            val showWidget = RealmManager.getShowWidget(appWidgetId)
 
-            context?.let {
-                val imageUrl = SickRageApi.instance.getPosterUrl(248741, Indexer.TVDB)
+            showWidget?.let {
+                val presenter = ShowPresenter(it.show)
+                val views = RemoteViews(context?.packageName, R.layout.widget_show)
+                views.setOnClickPendingIntent(R.id.widget, this.getWidgetPendingIntent(context, appWidgetId, presenter.getTvDbId()))
+                views.setTextViewText(R.id.show_name, presenter.getShowName())
 
-                ImageLoader.load(it, views, R.id.show_logo, imageUrl, true, appWidgetId)
+                context?.let {
+                    ImageLoader.load(it, views, R.id.show_logo, presenter.getPosterUrl(), true, appWidgetId)
+                }
+
+                appWidgetManager?.updateAppWidget(appWidgetId, views)
             }
-
-            appWidgetManager?.updateAppWidget(appWidgetId, views)
         }
     }
 
-    private fun getWidgetPendingIntent(context: Context?): PendingIntent {
+    private fun getWidgetPendingIntent(context: Context?, appWidgetId: Int, tvDbId: Int): PendingIntent {
         val intent = Intent(context, MainActivity::class.java)
         intent.action = Constants.Intents.ACTION_DISPLAY_SHOW
-        intent.putExtra(Constants.Bundle.INDEXER_ID, 248741)
+        intent.putExtra(Constants.Bundle.INDEXER_ID, tvDbId)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
 
-        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+        return PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_CANCEL_CURRENT)
     }
 }
