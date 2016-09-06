@@ -7,12 +7,17 @@
 	android:orientation="vertical"
 	tools:context="com.mgaetan89.showsrage.activity.ShowWidgetConfigurationActivity">
 
-	<android.support.v7.widget.Toolbar
-		android:id="@+id/toolbar"
+	<android.support.design.widget.AppBarLayout
+		android:id="@+id/app_bar"
 		android:layout_width="match_parent"
-		android:layout_height="?attr/actionBarSize"
-		android:background="@color/primary"
-		app:title="@string/app_name" />
+		android:layout_height="wrap_content">
+
+		<com.mgaetan89.showsrage.view.ColoredToolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="?attr/actionBarSize"
+			app:title="@string/app_name" />
+	</android.support.design.widget.AppBarLayout>
 
 	<include layout="@layout/fragment_shows_section" />
 </LinearLayout>
