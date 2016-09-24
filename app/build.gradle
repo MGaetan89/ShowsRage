@@ -2,6 +2,7 @@ apply plugin: 'jacoco'
 apply plugin: 'com.android.application'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 def properties = new Properties()
@@ -116,22 +117,16 @@ task jacocoTestReport(type: JacocoReport /*, dependsOn: ['test'] */) {
 	}
 }
 
-kapt {
-	generateStubs = true
-}
-
 def assertJAndroidVersion = '1.1.1'
-def googleServicesVersion = '9.4.0'
+def googleServicesVersion = '9.6.1'
 def jUnitVersion = '4.12'
 def kolumbusVersion = 'v0.9'
-def mockitoVersion = '2.1.0-beta.120'
+def mockitoVersion = '2.1.0-RC.1'
 def okHttpVersion = '2.5.0'
-def supportLibraryVersion = '24.2.0'
+def supportLibraryVersion = '24.2.1'
 def supportTestVersion = '0.5'
 
 dependencies {
-	kapt 'com.android.databinding:compiler:2.2.0-rc1'
-
 	compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
 	compile "com.android.support:cardview-v7:${supportLibraryVersion}"
 	compile "com.android.support:customtabs:${supportLibraryVersion}"
@@ -142,7 +137,7 @@ dependencies {
 	compile "com.android.support:support-annotations:${supportLibraryVersion}"
 	compile "com.android.support:support-v4:${supportLibraryVersion}"
 	compile "com.android.support:support-vector-drawable:${supportLibraryVersion}"
-	compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.3'
+	compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.4'
 	compile 'com.github.bumptech.glide:glide:3.7.0'
 	compile 'com.github.bumptech.glide:okhttp-integration:1.4.0'
 	compile "com.google.android.gms:play-services-cast:${googleServicesVersion}"
@@ -153,7 +148,7 @@ dependencies {
 	compile 'com.squareup.retrofit:retrofit:1.9.0'
 	compile 'com.takisoft.fix:preference-v7:24.2.0.0'
 	compile 'jp.wasabeef:glide-transformations:2.0.1'
-	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.3'
+	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.4'
 
 	debugCompile "com.github.MGaetan89.Kolumbus:kolumbus:${kolumbusVersion}"
 	releaseCompile "com.github.MGaetan89.Kolumbus:kolumbus-no-op:${kolumbusVersion}"
