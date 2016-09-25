@@ -13,12 +13,14 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.adapter.EpisodesAdapter
 import com.mgaetan89.showsrage.extension.getEpisodeSort
+import com.mgaetan89.showsrage.extension.getEpisodes
 import com.mgaetan89.showsrage.extension.getPreferences
-import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.extension.saveEpisodes
 import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.Episodes
 import com.mgaetan89.showsrage.model.Sort
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
 import retrofit.Callback
@@ -26,10 +28,11 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 
 class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefreshListener, RealmChangeListener<RealmResults<Episode>> {
-    private var adapter: EpisodesAdapter? = null
+    private val adapter: EpisodesAdapter by lazy { EpisodesAdapter(this.episodes, this.seasonNumber, this.indexerId, this.reversedOrder) }
     private var emptyView: TextView? = null
-    private var episodes: RealmResults<Episode>? = null
+    private val episodes: RealmResults<Episode> by lazy { this.realm.getEpisodes(this.indexerId, this.seasonNumber, this.reversedOrder, this) }
     private var indexerId: Int = 0
+    private val realm: Realm by lazy { Realm.getDefaultInstance() }
     private var recyclerView: RecyclerView? = null
     private var reversedOrder = false
     private var seasonNumber: Int = 0
@@ -42,13 +45,7 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
     }
 
     override fun onChange(episodes: RealmResults<Episode>) {
-        if (this.adapter == null && this.episodes != null) {
-            this.adapter = EpisodesAdapter(this.episodes!!, this.seasonNumber, this.indexerId, this.reversedOrder)
-
-            this.recyclerView?.adapter = this.adapter
-        }
-
-        if (this.episodes?.isEmpty() ?: true) {
+        if (this.episodes.isEmpty()) {
             this.emptyView?.visibility = View.VISIBLE
             this.recyclerView?.visibility = View.GONE
         } else {
@@ -56,7 +53,7 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
             this.recyclerView?.visibility = View.VISIBLE
         }
 
-        this.adapter?.notifyDataSetChanged()
+        this.adapter.notifyDataSetChanged()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +62,6 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
         this.indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
         this.reversedOrder = Sort.DESCENDING.equals(this.context.getPreferences().getEpisodeSort())
         this.seasonNumber = this.arguments.getInt(Constants.Bundle.SEASON_NUMBER)
-        this.episodes = RealmManager.getEpisodes(this.indexerId, this.seasonNumber, this.reversedOrder, this)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -87,6 +83,7 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
                         swipeRefreshLayout?.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
                     }
                 })
+                this.recyclerView!!.adapter = this.adapter
                 this.recyclerView!!.layoutManager = layoutManager
             }
 
@@ -95,14 +92,6 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
         }
 
         return view
-    }
-
-    override fun onDestroy() {
-        if (this.episodes?.isValid ?: false) {
-            this.episodes?.removeChangeListeners()
-        }
-
-        super.onDestroy()
     }
 
     override fun onDestroyView() {
@@ -125,6 +114,16 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
         this.onRefresh()
     }
 
+    override fun onStop() {
+        if (this.episodes.isValid) {
+            this.episodes.removeChangeListeners()
+        }
+
+        this.realm.close()
+
+        super.onStop()
+    }
+
     override fun success(episodes: Episodes?, response: Response?) {
         this.swipeRefreshLayout?.isRefreshing = false
 
@@ -133,6 +132,6 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
             it.value
         } ?: emptyList()
 
-        RealmManager.saveEpisodes(episodesList, this.indexerId, this.seasonNumber)
+        this.realm.saveEpisodes(episodesList, this.indexerId, this.seasonNumber)
     }
 }

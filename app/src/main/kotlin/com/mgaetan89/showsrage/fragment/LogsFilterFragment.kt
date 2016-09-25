@@ -9,11 +9,18 @@ import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
-import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.extension.getLogsGroup
 import com.mgaetan89.showsrage.helper.humanize
+import io.realm.Realm
 
 class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, DialogInterface.OnMultiChoiceClickListener {
-    private val items = RealmManager.getLogsGroup().toTypedArray()
+    private val items: Array<String> by lazy {
+        val realm = Realm.getDefaultInstance()
+        val logsGroup = realm.getLogsGroup()
+        realm.close()
+
+        logsGroup.toTypedArray()
+    }
     private val itemsFormatted = Array(this.items.size) { "" }
     private val selectedIndices = mutableSetOf<Int>()
 

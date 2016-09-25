@@ -81,7 +81,7 @@ class ShowWidgetConfigurationActivity : AppCompatActivity() {
 
     private fun addWidget(indexerId: Int) {
         val appWidgetId = this.intent.extras?.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
-        val show: Show? = RealmManager.getShow(indexerId, null)
+        val show: Show? = RealmManager.getShow(indexerId)
 
         if (appWidgetId == null || appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID || show == null) {
             this.finish()

@@ -9,18 +9,25 @@ import android.widget.RemoteViews
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
+import com.mgaetan89.showsrage.extension.deleteShowWidgets
 import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.helper.ImageLoader
 import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.presenter.ShowPresenter
+import io.realm.Realm
 
 class ShowWidgetProvider : AppWidgetProvider() {
     override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
         super.onDeleted(context, appWidgetIds)
 
-        appWidgetIds?.forEach {
-            RealmManager.deleteShowWidget(it)
+        if (appWidgetIds == null || appWidgetIds.isEmpty()) {
+            return
+        }
+
+        Realm.getDefaultInstance().let {
+            it.deleteShowWidgets(appWidgetIds.toTypedArray())
+            it.close()
         }
     }
 

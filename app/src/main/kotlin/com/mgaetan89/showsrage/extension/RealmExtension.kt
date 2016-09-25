@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.extension
 
+import android.support.annotation.Size
 import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.model.LogEntry
@@ -67,10 +68,10 @@ fun Realm.deleteShow(indexerId: Int) {
     }
 }
 
-fun Realm.deleteShowWidget(widgetId: Int) {
+fun Realm.deleteShowWidgets(@Size(min = 1) widgetIds: Array<Int>) {
     this.executeTransaction {
         it.where(ShowWidget::class.java)
-                .equalTo("widgetId", widgetId)
+                .`in`("widgetId", widgetIds)
                 .findAll()
                 .deleteAllFromRealm()
     }
@@ -172,15 +173,16 @@ fun Realm.getSeries(imdbId: String, listener: RealmChangeListener<RealmResults<S
     return series
 }
 
-fun Realm.getShow(indexerId: Int, listener: RealmChangeListener<Show>? = null): Show? {
-    val query = this.where(Show::class.java)
+fun Realm.getShow(indexerId: Int): Show? {
+    return this.where(Show::class.java)
             .equalTo("indexerId", indexerId)
+            .findFirst()
+}
 
-    if (listener == null) {
-        return query.findFirst()
-    }
-
-    val show = query.findFirstAsync()
+fun Realm.getShow(indexerId: Int, listener: RealmChangeListener<Show>): Show {
+    val show = this.where(Show::class.java)
+            .equalTo("indexerId", indexerId)
+            .findFirstAsync()
     show.addChangeListener(listener)
 
     return show
