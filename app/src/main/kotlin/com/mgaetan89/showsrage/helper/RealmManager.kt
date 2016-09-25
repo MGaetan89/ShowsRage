@@ -50,13 +50,9 @@ import io.realm.RealmResults
 object RealmManager {
     private var realm: Realm? = null
 
-    fun clearHistory() {
-        this.getRealm()?.clearHistory()
-    }
+    fun clearHistory() = this.getRealm()?.clearHistory()
 
-    fun clearSchedule() {
-        this.getRealm()?.clearSchedule()
-    }
+    fun clearSchedule() = this.getRealm()?.clearSchedule()
 
     fun close() {
         if (this.realm != null && !this.realm!!.isClosed) {
@@ -65,13 +61,9 @@ object RealmManager {
         }
     }
 
-    fun deleteShow(indexerId: Int) {
-        this.getRealm()?.deleteShow(indexerId)
-    }
+    fun deleteShow(indexerId: Int) = this.getRealm()?.deleteShow(indexerId)
 
-    fun deleteShowWidget(widgetId: Int) {
-        this.getRealm()?.deleteShowWidget(widgetId)
-    }
+    fun deleteShowWidget(widgetId: Int) = this.getRealm()?.deleteShowWidget(widgetId)
 
     fun getEpisode(episodeId: String, listener: RealmChangeListener<Episode>?): Episode? {
         return this.getRealm()?.getEpisode(episodeId, listener)
@@ -85,29 +77,21 @@ object RealmManager {
         return this.getRealm()?.getEpisodes(indexerId, season, reversedOrder, listener)
     }
 
-    fun getHistory(listener: RealmChangeListener<RealmResults<History>>): RealmResults<History>? {
-        return this.getRealm()?.getHistory(listener)
-    }
+    fun getHistory(listener: RealmChangeListener<RealmResults<History>>) = this.getRealm()?.getHistory(listener)
 
     fun getLogs(logLevel: LogLevel, groups: Array<String>?, listener: RealmChangeListener<RealmResults<LogEntry>>): RealmResults<LogEntry>? {
         return this.getRealm()?.getLogs(logLevel, groups, listener)
     }
 
-    fun getLogsGroup(): List<String> {
-        return this.getRealm()?.getLogsGroup() ?: emptyList()
-    }
+    fun getLogsGroup(): List<String> = this.getRealm()?.getLogsGroup() ?: emptyList()
 
-    fun getRootDirs(): RealmResults<RootDir>? {
-        return this.getRealm()?.getRootDirs()
-    }
+    fun getRootDirs() = this.getRealm()?.getRootDirs()
 
     fun getSchedule(section: String, listener: RealmChangeListener<RealmResults<Schedule>>): RealmResults<Schedule>? {
         return this.getRealm()?.getSchedule(section, listener)
     }
 
-    fun getScheduleSections(): List<String> {
-        return this.getRealm()?.getScheduleSections() ?: emptyList()
-    }
+    fun getScheduleSections() = this.getRealm()?.getScheduleSections() ?: emptyList()
 
     fun getSeries(imdbId: String, listener: RealmChangeListener<RealmResults<Serie>>): RealmResults<Serie>? {
         return this.getRealm()?.getSeries(imdbId, listener)
@@ -121,17 +105,11 @@ object RealmManager {
         return this.getRealm()?.getShows(anime, listener)
     }
 
-    fun getShowsStats(listener: RealmChangeListener<RealmResults<ShowsStat>>): RealmResults<ShowsStat>? {
-        return this.getRealm()?.getShowsStats(listener)
-    }
+    fun getShowsStats(listener: RealmChangeListener<RealmResults<ShowsStat>>) = this.getRealm()?.getShowsStats(listener)
 
-    fun getShowStat(indexerId: Int): RealmShowStat? {
-        return this.getRealm()?.getShowStats(indexerId)
-    }
+    fun getShowStat(indexerId: Int) = this.getRealm()?.getShowStats(indexerId)
 
-    fun getShowWidget(appWidgetId: Int): ShowWidget? {
-        return this.getRealm()?.getShowWidget(appWidgetId)
-    }
+    fun getShowWidget(appWidgetId: Int) = this.getRealm()?.getShowWidget(appWidgetId)
 
     fun init() {
         this.close()
@@ -143,55 +121,31 @@ object RealmManager {
         this.getRealm()?.saveEpisode(episode, indexerId, season, episodeNumber)
     }
 
-    fun saveEpisode(episode: OmDbEpisode) {
-        this.getRealm()?.saveEpisode(episode)
-    }
+    fun saveEpisode(episode: OmDbEpisode) = this.getRealm()?.saveEpisode(episode)
 
     fun saveEpisodes(episodes: List<Episode>, indexerId: Int, season: Int) {
         this.getRealm()?.saveEpisodes(episodes, indexerId, season)
     }
 
-    fun saveHistory(histories: List<History>) {
-        this.getRealm()?.saveHistory(histories)
-    }
+    fun saveHistory(histories: List<History>) = this.getRealm()?.saveHistory(histories)
 
-    fun saveLogs(logs: List<LogEntry>, logLevel: LogLevel) {
-        this.getRealm()?.saveLogs(logLevel, logs)
-    }
+    fun saveLogs(logs: List<LogEntry>, logLevel: LogLevel) = this.getRealm()?.saveLogs(logLevel, logs)
 
-    fun saveRootDirs(rootDirs: List<RootDir>) {
-        this.getRealm()?.saveRootDirs(rootDirs)
-    }
+    fun saveRootDirs(rootDirs: List<RootDir>) = this.getRealm()?.saveRootDirs(rootDirs)
 
-    fun saveSchedules(section: String, schedules: List<Schedule>) {
-        this.getRealm()?.saveSchedules(section, schedules)
-    }
+    fun saveSchedules(section: String, schedules: List<Schedule>) = this.getRealm()?.saveSchedules(section, schedules)
 
-    fun saveSerie(serie: Serie) {
-        this.getRealm()?.saveSerie(serie)
-    }
+    fun saveSerie(serie: Serie) = this.getRealm()?.saveSerie(serie)
 
-    fun saveShow(show: Show) {
-        this.getRealm()?.saveShow(show)
-    }
+    fun saveShow(show: Show) = this.getRealm()?.saveShow(show)
 
-    fun saveShows(shows: List<Show>) {
-        this.getRealm()?.saveShows(shows)
-    }
+    fun saveShows(shows: List<Show>) = this.getRealm()?.saveShows(shows)
 
-    fun saveShowsStat(stat: ShowsStat) {
-        this.getRealm()?.saveShowsStat(stat)
-    }
+    fun saveShowsStat(stat: ShowsStat) = this.getRealm()?.saveShowsStat(stat)
 
-    fun saveShowStat(stat: ShowStat, indexerId: Int): RealmShowStat {
-        return this.getRealm()?.saveShowStat(stat, indexerId) ?: RealmShowStat()
-    }
+    fun saveShowStat(stat: ShowStat, indexerId: Int) = this.getRealm()?.saveShowStat(stat, indexerId) ?: RealmShowStat()
 
-    fun saveShowWidget(showWidget: ShowWidget) {
-        this.getRealm()?.saveShowWidget(showWidget)
-    }
+    fun saveShowWidget(showWidget: ShowWidget) = this.getRealm()?.saveShowWidget(showWidget)
 
-    private fun getRealm(): Realm? {
-        return if (this.realm?.isClosed ?: true) null else this.realm
-    }
+    private fun getRealm() = if (this.realm?.isClosed ?: true) null else this.realm
 }
