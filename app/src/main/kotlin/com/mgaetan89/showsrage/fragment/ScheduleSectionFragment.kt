@@ -11,25 +11,23 @@ import android.widget.TextView
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.adapter.ScheduleAdapter
-import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.extension.getSchedule
 import com.mgaetan89.showsrage.model.Schedule
+import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
 
 class ScheduleSectionFragment : Fragment(), RealmChangeListener<RealmResults<Schedule>> {
-    private var adapter: ScheduleAdapter? = null
+    private val adapter: ScheduleAdapter by lazy { ScheduleAdapter(this.schedules) }
     private var emptyView: TextView? = null
+    private val realm: Realm by lazy { Realm.getDefaultInstance() }
     private var recyclerView: RecyclerView? = null
-    private var schedules: RealmResults<Schedule>? = null
+    private val schedules: RealmResults<Schedule> by lazy {
+        this.realm.getSchedule(this.arguments.getString(Constants.Bundle.SCHEDULE_SECTION, ""), this)
+    }
 
     override fun onChange(schedules: RealmResults<Schedule>) {
-        if (this.adapter == null && this.schedules != null) {
-            this.adapter = ScheduleAdapter(this.schedules!!)
-
-            this.recyclerView!!.adapter = this.adapter
-        }
-
-        if (this.schedules?.isEmpty() ?: true) {
+        if (this.schedules.isEmpty()) {
             this.emptyView?.visibility = View.VISIBLE
             this.recyclerView?.visibility = View.GONE
         } else {
@@ -37,15 +35,7 @@ class ScheduleSectionFragment : Fragment(), RealmChangeListener<RealmResults<Sch
             this.recyclerView?.visibility = View.VISIBLE
         }
 
-        this.adapter?.notifyDataSetChanged()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val section = this.arguments?.getString(Constants.Bundle.SCHEDULE_SECTION, "") ?: ""
-
-        this.schedules = RealmManager.getSchedule(section, this)
+        this.adapter.notifyDataSetChanged()
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -58,6 +48,7 @@ class ScheduleSectionFragment : Fragment(), RealmChangeListener<RealmResults<Sch
             if (this.recyclerView != null) {
                 val columnCount = this.resources.getInteger(R.integer.shows_column_count)
 
+                this.recyclerView!!.adapter = this.adapter
                 this.recyclerView!!.layoutManager = GridLayoutManager(this.activity, columnCount)
             }
         }
@@ -65,18 +56,20 @@ class ScheduleSectionFragment : Fragment(), RealmChangeListener<RealmResults<Sch
         return view
     }
 
-    override fun onDestroy() {
-        if (this.schedules?.isValid ?: false) {
-            this.schedules?.removeChangeListeners()
-        }
-
-        super.onDestroy()
-    }
-
     override fun onDestroyView() {
         this.emptyView = null
         this.recyclerView = null
 
         super.onDestroyView()
+    }
+
+    override fun onStop() {
+        if (this.schedules.isValid) {
+            this.schedules.removeChangeListeners()
+        }
+
+        this.realm.close()
+
+        super.onStop()
     }
 }

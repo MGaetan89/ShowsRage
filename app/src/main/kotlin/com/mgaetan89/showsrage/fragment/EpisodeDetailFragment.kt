@@ -30,13 +30,17 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.ShowsRageApplication
 import com.mgaetan89.showsrage.activity.MainActivity
+import com.mgaetan89.showsrage.extension.getEpisode
+import com.mgaetan89.showsrage.extension.getEpisodes
 import com.mgaetan89.showsrage.extension.getPreferences
+import com.mgaetan89.showsrage.extension.getRootDirs
+import com.mgaetan89.showsrage.extension.getShow
+import com.mgaetan89.showsrage.extension.saveEpisode
 import com.mgaetan89.showsrage.extension.streamInChromecast
 import com.mgaetan89.showsrage.extension.streamInVideoPlayer
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.helper.ImageLoader
-import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.helper.hasText
 import com.mgaetan89.showsrage.helper.setText
@@ -49,6 +53,7 @@ import com.mgaetan89.showsrage.model.SingleEpisode
 import com.mgaetan89.showsrage.network.OmDbApi
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.view.ColoredMediaRouteActionProvider
+import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
 import retrofit.Callback
@@ -187,6 +192,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     private var rated: TextView? = null
     private var rating: TextView? = null
     private var ratingStars: RatingBar? = null
+    private val realm: Realm by lazy { Realm.getDefaultInstance() }
     private var runtime: TextView? = null
     private var seasonNumber = 0
     private var show: Show? = null
@@ -236,7 +242,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
                     omDbApi.getEpisodeByTitle(showName!!, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
                 }
             } else {
-                this.omdbEpisodes = RealmManager.getEpisodes(OmDbEpisode.buildId(imdbId!!, this.seasonNumber.toString(), this.episodeNumber.toString()), this.omdbEpisodesListener)
+                this.omdbEpisodes = this.realm.getEpisodes(OmDbEpisode.buildId(imdbId!!, this.seasonNumber.toString(), this.episodeNumber.toString()), this.omdbEpisodesListener)
 
                 omDbApi.getEpisodeByImDbId(imdbId, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
             }
@@ -270,10 +276,10 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         val indexerId = arguments.getInt(Constants.Bundle.INDEXER_ID)
         this.episodeNumber = arguments.getInt(Constants.Bundle.EPISODE_NUMBER)
         this.seasonNumber = arguments.getInt(Constants.Bundle.SEASON_NUMBER)
-        this.show = RealmManager.getShow(indexerId)
+        this.show = this.realm.getShow(indexerId)
 
         if (episodeId != null) {
-            this.episode = RealmManager.getEpisode(episodeId, this)
+            this.episode = this.realm.getEpisode(episodeId, this)
         }
     }
 
@@ -367,18 +373,6 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         return view
     }
 
-    override fun onDestroy() {
-        if (this.episode?.isValid ?: false) {
-            this.episode?.removeChangeListeners()
-        }
-
-        if (this.omdbEpisodes?.isValid ?: false) {
-            this.omdbEpisodes?.removeChangeListeners()
-        }
-
-        super.onDestroy()
-    }
-
     override fun onDestroyView() {
         this.airs = null
         this.awards = null
@@ -450,13 +444,27 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         this.onRefresh()
     }
 
+    override fun onStop() {
+        if (this.episode?.isValid ?: false) {
+            this.episode?.removeChangeListeners()
+        }
+
+        if (this.omdbEpisodes?.isValid ?: false) {
+            this.omdbEpisodes?.removeChangeListeners()
+        }
+
+        this.realm.close()
+
+        super.onStop()
+    }
+
     override fun success(singleEpisode: SingleEpisode?, response: Response?) {
         this.swipeRefreshLayout?.isRefreshing = false
 
         val episode = singleEpisode?.data
 
         if (episode != null && this.show?.isValid ?: false) {
-            RealmManager.saveEpisode(episode, this.show!!.indexerId, this.seasonNumber, this.episodeNumber)
+            this.realm.saveEpisode(episode, this.show!!.indexerId, this.seasonNumber, this.episodeNumber)
         }
     }
 
@@ -549,7 +557,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             var location = this.episode!!.location
 
             if (!location.isNullOrEmpty()) {
-                RealmManager.getRootDirs()?.filterNotNull()?.forEach {
+                this.realm.getRootDirs().filterNotNull().forEach {
                     val currentLocation = it.location
 
                     if (location!!.startsWith(currentLocation)) {
@@ -683,7 +691,10 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 
         override fun success(episode: OmDbEpisode?, response: Response?) {
             if (episode != null) {
-                RealmManager.saveEpisode(episode)
+                Realm.getDefaultInstance().let {
+                    it.saveEpisode(episode)
+                    it.close()
+                }
             }
         }
     }

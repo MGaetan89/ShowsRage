@@ -20,17 +20,19 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.adapter.ShowsAdapter
 import com.mgaetan89.showsrage.extension.getPreferences
+import com.mgaetan89.showsrage.extension.getShows
 import com.mgaetan89.showsrage.extension.getShowsFilterState
 import com.mgaetan89.showsrage.extension.getShowsFilterStatus
 import com.mgaetan89.showsrage.extension.getShowsListLayout
 import com.mgaetan89.showsrage.extension.ignoreArticles
-import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.extension.saveShowStat
 import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.RealmShowStat
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.ShowStatsWrapper
 import com.mgaetan89.showsrage.model.ShowsFilters
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmObject
 import io.realm.RealmResults
@@ -44,6 +46,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
     private var adapter: ShowsAdapter? = null
     private var emptyView: TextView? = null
     private val filteredShows = mutableListOf<Show>()
+    private val realm: Realm by lazy { Realm.getDefaultInstance() }
     private val receiver = FilterReceiver(this)
     private var recyclerView: RecyclerView? = null
     private var shows: RealmResults<Show>? = null
@@ -65,13 +68,6 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val anime = if (this.arguments.containsKey(Constants.Bundle.ANIME)) {
-            this.arguments.getBoolean(Constants.Bundle.ANIME)
-        } else {
-            null
-        }
-
-        this.shows = RealmManager.getShows(anime, this)
         this.swipeRefreshLayout = this.activity.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
     }
 
@@ -118,14 +114,6 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
         return view
     }
 
-    override fun onDestroy() {
-        if (this.shows?.isValid ?: false) {
-            this.shows?.removeChangeListeners()
-        }
-
-        super.onDestroy()
-    }
-
     override fun onDestroyView() {
         this.emptyView = null
         this.recyclerView = null
@@ -146,6 +134,28 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
         val intentFilter = IntentFilter(Constants.Intents.ACTION_FILTER_SHOWS)
 
         LocalBroadcastManager.getInstance(this.context).registerReceiver(this.receiver, intentFilter)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        val anime = if (this.arguments.containsKey(Constants.Bundle.ANIME)) {
+            this.arguments.getBoolean(Constants.Bundle.ANIME)
+        } else {
+            null
+        }
+
+        this.shows = this.realm.getShows(anime, this)
+    }
+
+    override fun onStop() {
+        if (this.shows?.isValid ?: false) {
+            this.shows?.removeChangeListeners()
+        }
+
+        this.realm.close()
+
+        super.onStop()
     }
 
     private fun updateLayout() {
@@ -268,7 +278,9 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
                 val indexerId = it.key
 
                 if (showStatsData != null) {
-                    realmStat = RealmManager.saveShowStat(showStatsData, indexerId)
+                    val realm = Realm.getDefaultInstance()
+                    realmStat = realm.saveShowStat(showStatsData, indexerId)
+                    realm.close()
                 }
 
                 filteredShows.filter { it.isValid && it.indexerId == indexerId }.forEach {

@@ -1,10 +1,11 @@
 package com.mgaetan89.showsrage.presenter
 
-import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.extension.getShowStat
 import com.mgaetan89.showsrage.model.Indexer
 import com.mgaetan89.showsrage.model.RealmShowStat
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.Realm
 
 open class ShowPresenter(val show: Show?) {
     fun getBannerUrl() = if (this.isShowValid()) SickRageApi.instance.getBannerUrl(this.show!!.tvDbId, Indexer.TVDB) else ""
@@ -23,7 +24,11 @@ open class ShowPresenter(val show: Show?) {
         }
 
         if (this.show!!.stat == null) {
-            this.show.stat = RealmManager.getShowStat(this.show.indexerId)
+            val realm = Realm.getDefaultInstance()
+
+            this.show.stat = realm.getShowStat(this.show.indexerId)
+
+            realm.close()
         }
 
         return this.show.stat

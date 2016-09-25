@@ -1,11 +1,14 @@
 package com.mgaetan89.showsrage.helper
 
 import android.widget.TextView
+import com.mgaetan89.showsrage.extension.getShow
 import io.kolumbus.Architect
+import io.realm.Realm
 
 class ShowsArchitect : Architect() {
     override fun displayInt(textView: TextView, value: Int) {
-        val show = RealmManager.getShow(value)
+        val realm = Realm.getDefaultInstance()
+        val show = realm.getShow(value)
 
         if (show != null) {
             // TODO
@@ -19,5 +22,7 @@ class ShowsArchitect : Architect() {
         } else {
             super.displayInt(textView, value)
         }
+
+        realm.close()
     }
 }

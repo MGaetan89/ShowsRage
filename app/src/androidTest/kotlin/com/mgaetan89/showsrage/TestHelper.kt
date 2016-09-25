@@ -2,7 +2,6 @@ package com.mgaetan89.showsrage
 
 import android.content.Context
 import com.mgaetan89.showsrage.helper.Migration
-import com.mgaetan89.showsrage.helper.RealmManager
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
@@ -21,5 +20,4 @@ fun initRealm(context: Context, testContext: Context?) {
     }
 
     Realm.setDefaultConfiguration(configuration)
-    RealmManager.init()
 }

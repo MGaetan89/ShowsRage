@@ -214,10 +214,12 @@ fun Realm.getShowsStats(listener: RealmChangeListener<RealmResults<ShowsStat>>):
     return stats
 }
 
-fun Realm.getShowStats(indexerId: Int): RealmShowStat? {
-    return this.where(RealmShowStat::class.java)
+fun Realm.getShowStat(indexerId: Int): RealmShowStat? {
+    val stat = this.where(RealmShowStat::class.java)
             .equalTo("indexerId", indexerId)
-            .findFirst()
+            .findFirst() ?: return null
+
+    return this.copyFromRealm(stat)
 }
 
 fun Realm.getShowWidget(widgetId: Int): ShowWidget? {

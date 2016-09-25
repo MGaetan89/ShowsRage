@@ -6,6 +6,7 @@ import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.extension.getPreferences
+import com.mgaetan89.showsrage.extension.saveHistory
 import com.mgaetan89.showsrage.extension.useDarkTheme
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.ImageLoader
@@ -95,17 +96,8 @@ class HistoryWidgetFactory(val context: Context) : RemoteViewsService.RemoteView
         SickRageApi.instance.services?.getHistory()?.data?.let {
             val histories = it.filterNotNull()
 
-            // TODO Use RealmManager
             Realm.getDefaultInstance().let {
-                it.executeTransaction {
-                    it.delete(History::class.java)
-
-                    histories.forEach {
-                        it.id = "${it.date}_${it.status}_${it.indexerId}_${it.season}_${it.episode}"
-                    }
-
-                    it.copyToRealmOrUpdate(histories)
-                }
+                it.saveHistory(histories)
                 it.close()
             }
 
