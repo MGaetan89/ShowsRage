@@ -5,7 +5,7 @@
 
 		<PreferenceScreen
 			android:key="fastscroll"
-			android:summary="Version 0.2.3"
+			android:summary="Version 0.2.4"
 			android:title="Recycler Bubble">
 
 			<intent

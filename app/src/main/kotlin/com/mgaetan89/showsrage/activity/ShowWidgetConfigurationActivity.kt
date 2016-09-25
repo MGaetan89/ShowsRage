@@ -24,6 +24,7 @@ import com.mgaetan89.showsrage.extension.changeLocale
 import com.mgaetan89.showsrage.extension.getLocale
 import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.extension.getShowsListLayout
+import com.mgaetan89.showsrage.extension.ignoreArticles
 import com.mgaetan89.showsrage.extension.updateAllWidgets
 import com.mgaetan89.showsrage.extension.useDarkTheme
 import com.mgaetan89.showsrage.helper.RealmManager
@@ -32,6 +33,7 @@ import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.ShowWidget
 import com.mgaetan89.showsrage.view.ColoredToolbar
 import com.mgaetan89.showsrage.widget.ShowWidgetProvider
+import java.util.*
 
 class ShowWidgetConfigurationActivity : AppCompatActivity() {
     private val receiver = object : BroadcastReceiver() {
@@ -96,7 +98,14 @@ class ShowWidgetConfigurationActivity : AppCompatActivity() {
     private fun configureRecyclerView() {
         (this.findViewById(android.R.id.list) as RecyclerView?)?.let {
             val empty = this.findViewById(android.R.id.empty) as TextView?
-            val shows = RealmManager.getShows(null, null) ?: emptyList<Show>()
+            val ignoreArticles = this.getPreferences().ignoreArticles()
+            val shows = (RealmManager.getShows(null, null) ?: emptyList<Show>())
+                    .sortedWith(Comparator<Show> { first, second ->
+                        val firstProperty = Utils.getSortableShowName(first, ignoreArticles)
+                        val secondProperty = Utils.getSortableShowName(second, ignoreArticles)
+
+                        firstProperty.compareTo(secondProperty)
+                    })
 
             (this.findViewById(R.id.fastscroll) as FastScroller?)?.setRecyclerView(it)
 

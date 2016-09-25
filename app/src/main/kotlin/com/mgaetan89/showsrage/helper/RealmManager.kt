@@ -334,7 +334,7 @@ object RealmManager {
 
         // Remove information about shows that might have been removed
         val savedShows = this.getShows(null, null) ?: return
-        val removedIndexerIds = savedShows.map { it.indexerId } - shows.map { it.indexerId }
+        val removedIndexerIds = savedShows.map(Show::indexerId) - shows.map(Show::indexerId)
 
         removedIndexerIds.forEach {
             // deleteShow has its own transaction, so we need to run this outside of the above transaction
