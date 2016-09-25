@@ -4,14 +4,16 @@
 	android:id="@+id/widget"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:orientation="vertical">
+	android:orientation="vertical"
+	android:paddingBottom="@dimen/padding_half"
+	android:paddingTop="@dimen/padding_half">
 
 	<ImageView
 		android:id="@+id/show_logo"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_above="@+id/show_name"
-		android:padding="@dimen/padding_half"
+		android:paddingBottom="@dimen/padding_half"
 		android:src="@mipmap/ic_launcher"
 		tools:ignore="ContentDescription" />
 
@@ -27,7 +29,8 @@
 		android:shadowColor="@android:color/black"
 		android:shadowDy="1.5"
 		android:shadowRadius="4"
-		android:text="@string/app_name"
 		android:textColor="@android:color/white"
-		android:textSize="12.5sp" />
+		android:textSize="12.5sp"
+		tools:text="@string/app_name"
+		tools:textColor="@android:color/black" />
 </RelativeLayout>
