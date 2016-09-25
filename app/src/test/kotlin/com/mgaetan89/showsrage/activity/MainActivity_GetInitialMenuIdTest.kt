@@ -22,7 +22,8 @@ class MainActivity_GetInitialMenuIdTest(val action: String?, val menuId: Int) {
                     arrayOf<Any?>(null, R.id.menu_shows),
                     arrayOf<Any?>("", R.id.menu_shows),
                     arrayOf<Any?>("unknown_action", R.id.menu_shows),
-                    arrayOf<Any?>(Constants.Intents.ACTION_DISPLAY_HISTORY, R.id.menu_history)
+                    arrayOf<Any?>(Constants.Intents.ACTION_DISPLAY_HISTORY, R.id.menu_history),
+                    arrayOf<Any?>(Constants.Intents.ACTION_DISPLAY_SHOW, R.id.menu_shows)
             )
         }
     }

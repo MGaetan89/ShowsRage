@@ -2,7 +2,10 @@ package com.mgaetan89.showsrage.helper
 
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.model.LogEntry
+import com.mgaetan89.showsrage.model.Show
+import com.mgaetan89.showsrage.model.ShowWidget
 import io.realm.DynamicRealm
+import io.realm.FieldAttribute
 import io.realm.RealmMigration
 import io.realm.RealmSchema
 
@@ -31,6 +34,12 @@ class Migration : RealmMigration {
 
         if (localOldVersion == 3L) {
             this.updateToV4(schema)
+
+            localOldVersion++
+        }
+
+        if (localOldVersion == 4L) {
+            this.updateToV5(schema)
 
             localOldVersion++
         }
@@ -65,5 +74,11 @@ class Migration : RealmMigration {
     private fun updateToV4(schema: RealmSchema) {
         schema.get(LogEntry::class.java.simpleName)
                 .removePrimaryKey()
+    }
+
+    private fun updateToV5(schema: RealmSchema) {
+        schema.create(ShowWidget::class.java.simpleName)
+                .addField("widgetId", Int::class.java, FieldAttribute.PRIMARY_KEY)
+                .addRealmObjectField("show", schema.get(Show::class.java.simpleName))
     }
 }

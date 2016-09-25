@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.activity
 
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.ColorStateList
@@ -41,6 +42,7 @@ import com.mgaetan89.showsrage.extension.getLocale
 import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.extension.getVersionCheckInterval
 import com.mgaetan89.showsrage.extension.saveLastVersionCheckTime
+import com.mgaetan89.showsrage.extension.updateAllWidgets
 import com.mgaetan89.showsrage.extension.useDarkTheme
 import com.mgaetan89.showsrage.fragment.HistoryFragment
 import com.mgaetan89.showsrage.fragment.LogsFragment
@@ -67,12 +69,15 @@ import com.mgaetan89.showsrage.model.RootDirs
 import com.mgaetan89.showsrage.model.Schedule
 import com.mgaetan89.showsrage.model.Serie
 import com.mgaetan89.showsrage.model.Show
+import com.mgaetan89.showsrage.model.ShowWidget
 import com.mgaetan89.showsrage.model.ShowsStat
 import com.mgaetan89.showsrage.model.ThemeColors
 import com.mgaetan89.showsrage.model.UpdateResponse
 import com.mgaetan89.showsrage.model.UpdateResponseWrapper
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.view.ColoredToolbar
+import com.mgaetan89.showsrage.widget.HistoryWidgetProvider
+import com.mgaetan89.showsrage.widget.ShowWidgetProvider
 import io.kolumbus.Kolumbus
 import retrofit.Callback
 import retrofit.RetrofitError
@@ -87,7 +92,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
     private var drawerLayout: DrawerLayout? = null
     private var drawerToggle: ActionBarDrawerToggle? = null
     private var navigationView: NavigationView? = null
-    private val receiver = ShowsRageReceiver(this)
+    private val receiver: ShowsRageReceiver by lazy { ShowsRageReceiver(this) }
     private var tabLayout: TabLayout? = null
     private var themeColors: ThemeColors? = null
     private var toolbar: ColoredToolbar? = null
@@ -154,6 +159,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                         .explore(Serie::class.java)
                         .explore(Show::class.java)
                         .explore(ShowsStat::class.java)
+                        .explore(ShowWidget::class.java)
                         .withArchitect(ShowsArchitect())
                         .navigate(this)
             }
@@ -296,7 +302,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val colorPrimaryDark = floatArrayOf(0f, 0f, 0f)
             ColorUtils.colorToHSL(colorPrimary, colorPrimaryDark)
-            colorPrimaryDark[2] *= COLOR_DARK_FACTOR
+            colorPrimaryDark[2] *= Constants.COLOR_DARK_FACTOR
 
             this.window.statusBarColor = ColorUtils.HSLToColor(colorPrimaryDark)
         }
@@ -349,6 +355,12 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         SickRageApi.instance.init(preferences)
         SickRageApi.instance.services?.getRootDirs(RootDirsCallback(this))
 
+        // Refresh existing widgets
+        AppWidgetManager.getInstance(this).let {
+            it.updateAllWidgets(this, HistoryWidgetProvider::class.java)
+            it.updateAllWidgets(this, ShowWidgetProvider::class.java)
+        }
+
         this.appBarLayout = this.findViewById(R.id.app_bar) as AppBarLayout?
         this.drawerLayout = this.findViewById(R.id.drawer_layout) as DrawerLayout?
         this.navigationView = this.findViewById(R.id.drawer_content) as NavigationView?
@@ -400,6 +412,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.updateRemoteControlVisibility()
         this.checkForUpdate(false)
+        this.handleIntentAction()
     }
 
     private fun checkForUpdate(manualCheck: Boolean) {
@@ -412,9 +425,19 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         }
     }
 
-    companion object {
-        private const val COLOR_DARK_FACTOR = 0.8f
+    private fun handleIntentAction() {
+        when (this.intent.action) {
+            Constants.Intents.ACTION_DISPLAY_SHOW -> {
+                with(Intent(Constants.Intents.ACTION_SHOW_SELECTED)) {
+                    putExtra(Constants.Bundle.INDEXER_ID, intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0))
 
+                    receiver.onReceive(this@MainActivity, this)
+                }
+            }
+        }
+    }
+
+    companion object {
         @IdRes
         internal fun getInitialMenuId(action: String?): Int {
             return when (action) {

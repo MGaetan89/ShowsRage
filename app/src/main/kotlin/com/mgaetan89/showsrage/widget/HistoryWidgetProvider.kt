@@ -57,32 +57,32 @@ class HistoryWidgetProvider : AppWidgetProvider() {
             views.setRemoteAdapter(R.id.list, this.getListAdapterIntent(context, it))
             views.setTextViewText(R.id.title, context?.getString(R.string.history))
 
-            views.setOnClickPendingIntent(R.id.logo, this.getApplicationPendingIntent(context))
+            views.setOnClickPendingIntent(R.id.logo, this.getApplicationPendingIntent(context, it))
             views.setOnClickPendingIntent(R.id.refresh, this.getRefreshPendingIntent(context, it))
-            views.setOnClickPendingIntent(R.id.title, this.getHistoryPendingIntent(context))
+            views.setOnClickPendingIntent(R.id.title, this.getHistoryPendingIntent(context, it))
 
             appWidgetManager?.updateAppWidget(it, views)
         }
     }
 
-    private fun getApplicationPendingIntent(context: Context?): PendingIntent {
+    private fun getApplicationPendingIntent(context: Context?, widgetId: Int): PendingIntent {
         val intent = Intent(context, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
 
-        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+        return PendingIntent.getActivity(context, widgetId, intent, PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
-    private fun getHistoryPendingIntent(context: Context?): PendingIntent {
+    private fun getHistoryPendingIntent(context: Context?, widgetId: Int): PendingIntent {
         val intent = Intent(context, MainActivity::class.java)
         intent.action = Constants.Intents.ACTION_DISPLAY_HISTORY
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
 
-        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+        return PendingIntent.getActivity(context, widgetId, intent, PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
-    private fun getListAdapterIntent(context: Context?, appWidgetId: Int): Intent {
+    private fun getListAdapterIntent(context: Context?, widgetId: Int): Intent {
         val intent = Intent(context, HistoryWidgetService::class.java)
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
         intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
 
         return intent
@@ -92,7 +92,7 @@ class HistoryWidgetProvider : AppWidgetProvider() {
         val intent = Intent(Constants.Intents.ACTION_REFRESH_WIDGET)
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
 
-        return PendingIntent.getBroadcast(context, 0, intent, 0)
+        return PendingIntent.getBroadcast(context, widgetId, intent, PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
     private fun refreshWidget(context: Context?, widgetId: Int) {

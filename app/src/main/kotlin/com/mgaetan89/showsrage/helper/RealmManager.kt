@@ -13,6 +13,7 @@ import com.mgaetan89.showsrage.model.Schedule
 import com.mgaetan89.showsrage.model.Serie
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.ShowStat
+import com.mgaetan89.showsrage.model.ShowWidget
 import com.mgaetan89.showsrage.model.ShowsStat
 import io.realm.Realm
 import io.realm.RealmChangeListener
@@ -55,6 +56,17 @@ object RealmManager {
 
             // Remove the show from the Show table
             it.where(Show::class.java).equalTo("indexerId", indexerId).findFirst()?.deleteFromRealm()
+
+            // Remove the show from the ShowWidget table
+            it.where(ShowWidget::class.java).equalTo("show.indexerId", indexerId).findAll().deleteAllFromRealm()
+        }
+    }
+
+    fun deleteShowWidget(widgetId: Int) {
+        this.getRealm()?.executeTransaction {
+            it.where(ShowWidget::class.java)
+                    .equalTo("widgetId", widgetId)
+                    .findFirst()?.deleteFromRealm()
         }
     }
 
@@ -214,6 +226,14 @@ object RealmManager {
                 .findFirst()
     }
 
+    fun getShowWidget(appWidgetId: Int): ShowWidget? {
+        val realm = this.getRealm() ?: return null
+
+        return realm.where(ShowWidget::class.java)
+                .equalTo("widgetId", appWidgetId)
+                .findFirst()
+    }
+
     fun init() {
         this.close()
 
@@ -314,7 +334,7 @@ object RealmManager {
 
         // Remove information about shows that might have been removed
         val savedShows = this.getShows(null, null) ?: return
-        val removedIndexerIds = savedShows.map { it.indexerId } - shows.map { it.indexerId }
+        val removedIndexerIds = savedShows.map(Show::indexerId) - shows.map(Show::indexerId)
 
         removedIndexerIds.forEach {
             // deleteShow has its own transaction, so we need to run this outside of the above transaction
@@ -337,6 +357,12 @@ object RealmManager {
         }
 
         return realmStat
+    }
+
+    fun saveShowWidget(showWidget: ShowWidget) {
+        this.getRealm()?.executeTransaction {
+            it.copyToRealmOrUpdate(showWidget)
+        }
     }
 
     private fun clearRootDirs() {

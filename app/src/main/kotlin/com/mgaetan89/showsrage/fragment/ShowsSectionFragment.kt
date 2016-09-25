@@ -314,7 +314,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
                 }
             } ?: emptyMap()
 
-            return parameters.filterKeys { it.isNotEmpty() }
+            return parameters.filterKeys(String::isNotEmpty)
         }
 
         internal fun isShowValid(show: Show?): Boolean {

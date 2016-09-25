@@ -29,12 +29,23 @@
 			<intent-filter>
 				<action android:name="${applicationId}.action.display_history" />
 			</intent-filter>
+			<intent-filter>
+				<action android:name="${applicationId}.action.display_show" />
+			</intent-filter>
 
 			<meta-data
 				android:name="android.app.searchable"
 				android:resource="@xml/searchable" />
 		</activity>
+
+		<activity android:name=".activity.ShowWidgetConfigurationActivity">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+			</intent-filter>
+		</activity>
+
 		<activity android:name=".TestActivity" />
+
 		<activity
 			android:name=".activity.UpdateActivity"
 			android:excludeFromRecents="true"
@@ -59,6 +70,18 @@
 			<meta-data
 				android:name="android.appwidget.provider"
 				android:resource="@xml/widget_history" />
+		</receiver>
+
+		<receiver
+			android:name=".widget.ShowWidgetProvider"
+			android:label="@string/show">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+			</intent-filter>
+
+			<meta-data
+				android:name="android.appwidget.provider"
+				android:resource="@xml/widget_show" />
 		</receiver>
 
 		<service

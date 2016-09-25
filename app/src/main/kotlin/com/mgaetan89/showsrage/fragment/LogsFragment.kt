@@ -184,9 +184,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     override fun success(logs: Logs?, response: Response?) {
         this.swipeRefreshLayout?.isRefreshing = false
 
-        val logEntries = logs?.data?.map {
-            LogEntry(it)
-        } ?: emptyList()
+        val logEntries = logs?.data?.map(::LogEntry) ?: emptyList()
 
         RealmManager.saveLogs(logEntries, this.getLogLevel())
 

@@ -60,6 +60,7 @@ import java.net.MalformedURLException
 import java.net.URI
 import java.net.URISyntaxException
 import java.net.URL
+import java.util.*
 
 class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpisode>, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, RealmChangeListener<Episode> {
     private var airs: TextView? = null
@@ -620,9 +621,9 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 
     companion object {
         internal fun getDisplayableSubtitlesLanguages(subtitles: String): String {
-            val subtitlesNames = subtitles.split(",").filter { !it.isNullOrEmpty() }.map { it.toLocale() }.filterNotNull()
+            val subtitlesNames = subtitles.split(",").filter { !it.isNullOrEmpty() }.map(String::toLocale).filterNotNull()
 
-            return subtitlesNames.map { it.displayLanguage }.filter { !it.isNullOrEmpty() }.joinToString()
+            return subtitlesNames.map(Locale::getDisplayLanguage).filter { !it.isNullOrEmpty() }.joinToString()
         }
     }
 
