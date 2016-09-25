@@ -336,6 +336,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
+        RealmManager.init()
+
         val preferences = this.getPreferences()
 
         if (savedInstanceState == null) {
@@ -383,6 +385,12 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         this.setSupportActionBar(this.toolbar)
 
         this.navigationView?.menu?.performIdentifierAction(getInitialMenuId(this.intent?.action), 0)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        RealmManager.close()
     }
 
     override fun onPause() {

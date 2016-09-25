@@ -203,7 +203,7 @@ object RealmManager {
     }
 
     fun saveHistory(histories: List<History>) {
-        this.getRealm()?.clearHistory()
+        this.clearHistory()
 
         this.getRealm()?.executeTransaction {
             histories.forEach {
@@ -274,7 +274,7 @@ object RealmManager {
 
         removedIndexerIds.forEach {
             // deleteShow has its own transaction, so we need to run this outside of the above transaction
-            this.getRealm()?.deleteShow(it)
+            this.deleteShow(it)
         }
     }
 
@@ -326,7 +326,7 @@ object RealmManager {
 
     private fun prepareEpisodeForSaving(episode: Episode, indexerId: Int, season: Int, episodeNumber: Int) {
         val id = Episode.buildId(indexerId, season, episodeNumber)
-        val savedEpisode = this.getRealm()?.getEpisode(id, null)
+        val savedEpisode = this.getEpisode(id, null)
 
         episode.description = if (episode.description.isNullOrEmpty()) savedEpisode?.description else episode.description
         episode.fileSizeHuman = if (episode.fileSizeHuman.isNullOrEmpty()) savedEpisode?.fileSizeHuman else episode.fileSizeHuman

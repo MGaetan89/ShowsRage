@@ -19,7 +19,6 @@ import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.LogsAdapter
 import com.mgaetan89.showsrage.extension.getLogLevel
-import com.mgaetan89.showsrage.extension.getLogs
 import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.extension.saveLogLevel
 import com.mgaetan89.showsrage.helper.RealmManager
@@ -27,7 +26,6 @@ import com.mgaetan89.showsrage.model.LogEntry
 import com.mgaetan89.showsrage.model.LogLevel
 import com.mgaetan89.showsrage.model.Logs
 import com.mgaetan89.showsrage.network.SickRageApi
-import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
 import retrofit.Callback
@@ -40,7 +38,6 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     private var groups: Array<String>? = null
     private var logLevel: LogLevel? = null
     private var logs: RealmResults<LogEntry>? = null
-    private var realm: Realm? = null
     private var recyclerView: RecyclerView? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
@@ -76,8 +73,11 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 
                 this.adapter = null
 
-                this.logs?.removeChangeListeners()
-                this.logs = this.realm?.getLogs(this.getLogLevel(), this.groups, this)
+                if (this.logs?.isValid ?: false) {
+                    this.logs?.removeChangeListeners()
+                }
+
+                this.logs = RealmManager.getLogs(this.getLogLevel(), this.groups, this)
             }
         }
     }
@@ -103,7 +103,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        this.logs = this.realm?.getLogs(this.getLogLevel(), this)
+        this.logs = RealmManager.getLogs(this.getLogLevel(), this.groups, this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -145,6 +145,14 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
         return view
     }
 
+    override fun onDestroy() {
+        if (this.logs?.isValid ?: false) {
+            this.logs?.removeChangeListeners()
+        }
+
+        super.onDestroy()
+    }
+
     override fun onDestroyView() {
         this.emptyView = null
         this.recyclerView = null
@@ -171,19 +179,6 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
         this.swipeRefreshLayout?.isRefreshing = true
 
         SickRageApi.instance.services?.getLogs(this.getLogLevel(), this)
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        this.realm = Realm.getDefaultInstance()
-    }
-
-    override fun onStop() {
-        this.logs?.removeChangeListeners()
-        this.realm?.close()
-
-        super.onStop()
     }
 
     override fun success(logs: Logs?, response: Response?) {
@@ -221,8 +216,11 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
             // Update the list of logs
             this.adapter = null
 
-            this.logs?.removeChangeListeners()
-            this.logs = this.realm?.getLogs(it, this)
+            if (this.logs?.isValid ?: false) {
+                this.logs?.removeChangeListeners()
+            }
+
+            this.logs = RealmManager.getLogs(it, this.groups, this)
 
             // Refresh the list of logs
             this.onRefresh()

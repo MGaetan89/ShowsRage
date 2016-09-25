@@ -30,10 +30,7 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.ShowsRageApplication
 import com.mgaetan89.showsrage.activity.MainActivity
-import com.mgaetan89.showsrage.extension.getEpisode
-import com.mgaetan89.showsrage.extension.getEpisodes
 import com.mgaetan89.showsrage.extension.getPreferences
-import com.mgaetan89.showsrage.extension.getRootDirs
 import com.mgaetan89.showsrage.extension.streamInChromecast
 import com.mgaetan89.showsrage.extension.streamInVideoPlayer
 import com.mgaetan89.showsrage.helper.DateTimeHelper
@@ -52,7 +49,6 @@ import com.mgaetan89.showsrage.model.SingleEpisode
 import com.mgaetan89.showsrage.network.OmDbApi
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.view.ColoredMediaRouteActionProvider
-import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
 import retrofit.Callback
@@ -191,7 +187,6 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     private var rated: TextView? = null
     private var rating: TextView? = null
     private var ratingStars: RatingBar? = null
-    private var realm: Realm? = null
     private var runtime: TextView? = null
     private var seasonNumber = 0
     private var show: Show? = null
@@ -241,9 +236,9 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
                     omDbApi.getEpisodeByTitle(showName!!, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
                 }
             } else {
-                this.omdbEpisodes = this.realm?.getEpisodes(OmDbEpisode.buildId(imdbId!!, this.seasonNumber.toString(), this.episodeNumber.toString()), this.omdbEpisodesListener)
+                this.omdbEpisodes = RealmManager.getEpisodes(OmDbEpisode.buildId(imdbId!!, this.seasonNumber.toString(), this.episodeNumber.toString()), this.omdbEpisodesListener)
 
-                omDbApi.getEpisodeByImDbId(imdbId!!, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
+                omDbApi.getEpisodeByImDbId(imdbId, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
             }
         }
     }
@@ -278,7 +273,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         this.show = RealmManager.getShow(indexerId)
 
         if (episodeId != null) {
-            this.episode = this.realm?.getEpisode(episodeId, this)
+            this.episode = RealmManager.getEpisode(episodeId, this)
         }
     }
 
@@ -372,6 +367,18 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         return view
     }
 
+    override fun onDestroy() {
+        if (this.episode?.isValid ?: false) {
+            this.episode?.removeChangeListeners()
+        }
+
+        if (this.omdbEpisodes?.isValid ?: false) {
+            this.omdbEpisodes?.removeChangeListeners()
+        }
+
+        super.onDestroy()
+    }
+
     override fun onDestroyView() {
         this.airs = null
         this.awards = null
@@ -441,20 +448,6 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         super.onResume()
 
         this.onRefresh()
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        this.realm = Realm.getDefaultInstance()
-    }
-
-    override fun onStop() {
-        this.episode?.removeChangeListeners()
-        this.omdbEpisodes?.removeChangeListeners()
-        this.realm?.close()
-
-        super.onStop()
     }
 
     override fun success(singleEpisode: SingleEpisode?, response: Response?) {
@@ -556,7 +549,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             var location = this.episode!!.location
 
             if (!location.isNullOrEmpty()) {
-                this.realm?.getRootDirs()?.filterNotNull()?.forEach {
+                RealmManager.getRootDirs()?.filterNotNull()?.forEach {
                     val currentLocation = it.location
 
                     if (location!!.startsWith(currentLocation)) {

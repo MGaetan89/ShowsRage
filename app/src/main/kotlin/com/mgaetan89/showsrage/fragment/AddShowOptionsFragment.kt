@@ -16,12 +16,11 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.RootDirectoriesAdapter
-import com.mgaetan89.showsrage.extension.getRootDirs
 import com.mgaetan89.showsrage.helper.GenericCallback
+import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.GenericResponse
 import com.mgaetan89.showsrage.model.RootDir
 import com.mgaetan89.showsrage.network.SickRageApi
-import io.realm.Realm
 import retrofit.client.Response
 
 open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener {
@@ -29,7 +28,6 @@ open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickLis
     private var anime: SwitchCompat? = null
     private var language: Spinner? = null
     private var preferredQuality: Spinner? = null
-    private var realm: Realm? = null
     private var rootDirectory: Spinner? = null
     private var status: Spinner? = null
     private var subtitles: SwitchCompat? = null
@@ -67,7 +65,7 @@ open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickLis
             val rootDirectoryLayout = view.findViewById(R.id.root_directory_layout) as LinearLayout?
 
             if (rootDirectoryLayout != null) {
-                val rootDirectories = this.realm?.getRootDirs()
+                val rootDirectories = RealmManager.getRootDirs()
 
                 if (rootDirectories == null || rootDirectories.size < 2) {
                     rootDirectoryLayout.visibility = View.GONE
@@ -102,18 +100,6 @@ open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickLis
         this.subtitles = null
 
         super.onDestroyView()
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        this.realm = Realm.getDefaultInstance()
-    }
-
-    override fun onStop() {
-        this.realm?.close()
-
-        super.onStop()
     }
 
     fun getAllowedQuality(allowedQualitySpinner: Spinner?): String? {
