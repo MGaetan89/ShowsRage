@@ -76,7 +76,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     private var castingLayout: CardView? = null
     private var castingWriters: TextView? = null
     private var castMenu: MenuItem? = null
-    private var episode: Episode? = null
+    private lateinit var episode: Episode
     private var episodeNumber = 0
     private var fileSize: TextView? = null
     private var genre: TextView? = null
@@ -274,13 +274,11 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         val arguments = this.arguments
         val episodeId = arguments.getString(Constants.Bundle.EPISODE_ID)
         val indexerId = arguments.getInt(Constants.Bundle.INDEXER_ID)
+
+        this.episode = this.realm.getEpisode(episodeId ?: "", this)
         this.episodeNumber = arguments.getInt(Constants.Bundle.EPISODE_NUMBER)
         this.seasonNumber = arguments.getInt(Constants.Bundle.SEASON_NUMBER)
         this.show = this.realm.getShow(indexerId)
-
-        if (episodeId != null) {
-            this.episode = this.realm.getEpisode(episodeId, this)
-        }
     }
 
     override fun onCreateCallback(): MediaRouter.Callback? {
@@ -310,9 +308,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             }
         }
 
-        if (this.episode != null) {
-            this.displayStreamingMenus(this.episode!!)
-        }
+        this.displayStreamingMenus(this.episode)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -445,8 +441,8 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     }
 
     override fun onStop() {
-        if (this.episode?.isValid ?: false) {
-            this.episode?.removeChangeListeners()
+        if (this.episode.isValid) {
+            this.episode.removeChangeListeners()
         }
 
         if (this.omdbEpisodes?.isValid ?: false) {
@@ -552,23 +548,20 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 
     private fun getEpisodeVideoUrl(): Uri {
         var episodeUrl = SickRageApi.instance.videosUrl
+        var location = this.episode.location
 
-        if (this.episode != null) {
-            var location = this.episode!!.location
+        if (!location.isNullOrEmpty()) {
+            this.realm.getRootDirs().filterNotNull().forEach {
+                val currentLocation = it.location
 
-            if (!location.isNullOrEmpty()) {
-                this.realm.getRootDirs().filterNotNull().forEach {
-                    val currentLocation = it.location
+                if (location!!.startsWith(currentLocation)) {
+                    location = location!!.substring(currentLocation.length)
 
-                    if (location!!.startsWith(currentLocation)) {
-                        location = location!!.substring(currentLocation.length)
-
-                        return@forEach
-                    }
+                    return@forEach
                 }
-
-                episodeUrl += location
             }
+
+            episodeUrl += location
         }
 
         try {

@@ -54,6 +54,12 @@ fun Realm.deleteShow(indexerId: Int) {
                 .findAll()
                 .deleteAllFromRealm()
 
+        // Remove the show from the Schedule table
+        it.where(Schedule::class.java)
+                .equalTo("indexerId", indexerId)
+                .findAll()
+                .deleteAllFromRealm()
+
         // Remove the show from the Show table
         it.where(Show::class.java)
                 .equalTo("indexerId", indexerId)
@@ -77,15 +83,10 @@ fun Realm.deleteShowWidgets(@Size(min = 1) widgetIds: Array<Int>) {
     }
 }
 
-fun Realm.getEpisode(episodeId: String, listener: RealmChangeListener<Episode>?): Episode? {
-    val query = this.where(Episode::class.java)
+fun Realm.getEpisode(episodeId: String, listener: RealmChangeListener<Episode>): Episode {
+    val episode = this.where(Episode::class.java)
             .equalTo("id", episodeId)
-
-    if (listener == null) {
-        return query.findFirst()
-    }
-
-    val episode = query.findFirstAsync()
+            .findFirstAsync()
     episode.addChangeListener(listener)
 
     return episode
@@ -350,9 +351,15 @@ fun Realm.saveShowWidget(showWidget: ShowWidget) {
     }
 }
 
+private fun Realm.getEpisode(episodeId: String): Episode? {
+    return this.where(Episode::class.java)
+            .equalTo("id", episodeId)
+            .findFirst()
+}
+
 private fun Realm.prepareEpisodeForSaving(episode: Episode, indexerId: Int, season: Int, episodeNumber: Int) {
     val id = Episode.buildId(indexerId, season, episodeNumber)
-    val savedEpisode = this.getEpisode(id, null)
+    val savedEpisode = this.getEpisode(id)
 
     episode.description = if (episode.description.isNullOrEmpty()) savedEpisode?.description else episode.description
     episode.fileSizeHuman = if (episode.fileSizeHuman.isNullOrEmpty()) savedEpisode?.fileSizeHuman else episode.fileSizeHuman
