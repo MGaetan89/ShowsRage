@@ -6,7 +6,6 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.initRealm
-import com.mgaetan89.showsrage.model.ShowWidget
 import io.realm.Realm
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -18,7 +17,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class RealmExtension_DeleteShowWidgetsTest {
+class RealmExtension_GetScheduleSectionsTest {
     @JvmField
     @Rule
     val activityRule: ActivityTestRule<TestActivity> = ActivityTestRule(TestActivity::class.java)
@@ -28,29 +27,14 @@ class RealmExtension_DeleteShowWidgetsTest {
     @Before
     fun before() {
         initRealm(this.activityRule.activity, InstrumentationRegistry.getContext())
-
-        assertThat(this.getShowWidgets()).hasSize(20)
     }
 
     @Test
-    fun deleteShowWidgets() {
-        this.realm.deleteShowWidgets(arrayOf(INDEXER_ID))
+    fun getScheduleSections() {
+        val scheduleSections = this.realm.getScheduleSections()
 
-        assertThat(this.getShowWidgets()).hasSize(19)
-    }
-
-    @Test
-    fun deleteShowWidgets_multiple() {
-        this.realm.deleteShowWidgets(arrayOf(INDEXER_ID, 248741))
-
-        assertThat(this.getShowWidgets()).hasSize(19)
-    }
-
-    @Test
-    fun deleteShowWidgets_unknown() {
-        this.realm.deleteShowWidgets(arrayOf(-1))
-
-        assertThat(this.getShowWidgets()).hasSize(20)
+        assertThat(scheduleSections).hasSize(4)
+        assertThat(scheduleSections).containsOnly("soon", "later", "today", "missed")
     }
 
     @After
@@ -58,11 +42,7 @@ class RealmExtension_DeleteShowWidgetsTest {
         this.realm.close()
     }
 
-    private fun getShowWidgets() = this.realm.where(ShowWidget::class.java).findAll()
-
     companion object {
-        private const val INDEXER_ID = 257655
-
         @BeforeClass
         @JvmStatic
         fun beforeClass() {

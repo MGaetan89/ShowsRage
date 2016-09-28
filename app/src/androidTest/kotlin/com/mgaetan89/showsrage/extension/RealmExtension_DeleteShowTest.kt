@@ -72,17 +72,17 @@ class RealmExtension_DeleteShowTest {
     private fun getShowWidget() = this.realm.where(ShowWidget::class.java).equalTo("show.indexerId", INDEXER_ID).findAll()
 
     private fun validateInitialState() {
-        assertThat(this.getEpisodes()).hasSize(20)
+        assertThat(this.getEpisodes()).hasSize(54)
         assertThat(this.getQuality()).isNotNull()
         assertThat(this.getSchedule()).hasSize(1)
         assertThat(this.getShow()).isNotNull()
         assertThat(this.getShowStat()).isNotNull()
-        assertThat(this.getShowWidget()).hasSize(0) // TODO Include some Show Widgets in the test database
+        assertThat(this.getShowWidget()).hasSize(1)
 
     }
 
     companion object {
-        private const val INDEXER_ID = 121361
+        private const val INDEXER_ID = 257655
 
         @BeforeClass
         @JvmStatic
