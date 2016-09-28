@@ -162,7 +162,7 @@ fun Realm.getSchedule(section: String, listener: RealmChangeListener<RealmResult
 fun Realm.getScheduleSections(): List<String> {
     return this.where(Schedule::class.java)
             .distinct("section")
-            .map { it.section }
+            .map(Schedule::section)
             .filterNotNull()
 }
 

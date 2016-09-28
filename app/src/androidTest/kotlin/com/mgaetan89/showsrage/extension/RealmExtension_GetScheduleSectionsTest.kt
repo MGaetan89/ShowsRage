@@ -26,7 +26,7 @@ class RealmExtension_GetScheduleSectionsTest {
 
     @Before
     fun before() {
-        initRealm(this.activityRule.activity, InstrumentationRegistry.getContext())
+        initRealm(InstrumentationRegistry.getContext())
     }
 
     @Test

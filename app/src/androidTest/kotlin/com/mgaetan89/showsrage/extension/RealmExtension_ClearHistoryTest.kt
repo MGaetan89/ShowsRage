@@ -27,7 +27,7 @@ class RealmExtension_ClearHistoryTest {
 
     @Before
     fun before() {
-        initRealm(this.activityRule.activity, InstrumentationRegistry.getContext())
+        initRealm(InstrumentationRegistry.getContext())
 
         assertThat(this.getHistory()).hasSize(100)
     }

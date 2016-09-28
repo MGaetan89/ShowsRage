@@ -27,7 +27,7 @@ class RealmExtension_ClearScheduleTest {
 
     @Before
     fun before() {
-        initRealm(this.activityRule.activity, InstrumentationRegistry.getContext())
+        initRealm(InstrumentationRegistry.getContext())
 
         assertThat(this.getSchedule()).hasSize(36)
     }

@@ -26,7 +26,7 @@ class RealmExtension_GetRootDirsTest {
 
     @Before
     fun before() {
-        initRealm(this.activityRule.activity, InstrumentationRegistry.getContext())
+        initRealm(InstrumentationRegistry.getContext())
     }
 
     @Test
