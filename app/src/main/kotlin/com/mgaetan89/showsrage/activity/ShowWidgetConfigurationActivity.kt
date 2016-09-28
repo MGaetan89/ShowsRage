@@ -88,10 +88,10 @@ class ShowWidgetConfigurationActivity : AppCompatActivity() {
     }
 
     private fun addWidget(indexerId: Int) {
-        val appWidgetId = this.intent.extras?.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID) ?: return
-        val show = this.realm.getShow(indexerId) ?: return
+        val appWidgetId = this.intent.extras?.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+        val show = this.realm.getShow(indexerId)
 
-        if (appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
+        if (appWidgetId == null || appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID || show == null) {
             this.finish()
 
             return

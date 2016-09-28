@@ -162,7 +162,8 @@ fun Realm.getSchedule(section: String, listener: RealmChangeListener<RealmResult
 fun Realm.getScheduleSections(): List<String> {
     return this.where(Schedule::class.java)
             .distinct("section")
-            .map(Schedule::section)
+            .map { it.section }
+            .filterNotNull()
 }
 
 fun Realm.getSeries(imdbId: String, listener: RealmChangeListener<RealmResults<Serie>>): RealmResults<Serie> {

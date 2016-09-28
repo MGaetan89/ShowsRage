@@ -34,16 +34,16 @@ class RealmExtension_DeleteShowWidgetsTest {
 
     @Test
     fun deleteShowWidgets() {
-        this.realm.deleteShowWidgets(arrayOf(INDEXER_ID))
+        this.realm.deleteShowWidgets(arrayOf(68))
 
         assertThat(this.getShowWidgets()).hasSize(19)
     }
 
     @Test
     fun deleteShowWidgets_multiple() {
-        this.realm.deleteShowWidgets(arrayOf(INDEXER_ID, 248741))
+        this.realm.deleteShowWidgets(arrayOf(68, 101))
 
-        assertThat(this.getShowWidgets()).hasSize(19)
+        assertThat(this.getShowWidgets()).hasSize(18)
     }
 
     @Test
@@ -61,8 +61,6 @@ class RealmExtension_DeleteShowWidgetsTest {
     private fun getShowWidgets() = this.realm.where(ShowWidget::class.java).findAll()
 
     companion object {
-        private const val INDEXER_ID = 257655
-
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
