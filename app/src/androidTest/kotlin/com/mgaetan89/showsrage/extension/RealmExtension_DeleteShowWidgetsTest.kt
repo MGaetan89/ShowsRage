@@ -27,7 +27,7 @@ class RealmExtension_DeleteShowWidgetsTest {
 
     @Before
     fun before() {
-        initRealm(InstrumentationRegistry.getContext())
+        initRealm(this.activityRule.activity, InstrumentationRegistry.getContext())
 
         assertThat(this.getShowWidgets()).hasSize(20)
     }

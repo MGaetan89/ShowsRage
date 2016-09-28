@@ -26,7 +26,7 @@ class RealmExtension_GetLogsGroupTest {
 
     @Before
     fun before() {
-        initRealm(InstrumentationRegistry.getContext())
+        initRealm(this.activityRule.activity, InstrumentationRegistry.getContext())
     }
 
     @Test

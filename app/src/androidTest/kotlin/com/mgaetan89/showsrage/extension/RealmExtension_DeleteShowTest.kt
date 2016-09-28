@@ -30,7 +30,7 @@ class RealmExtension_DeleteShowTest {
 
     @Before
     fun before() {
-        initRealm(InstrumentationRegistry.getContext())
+        initRealm(this.activityRule.activity, InstrumentationRegistry.getContext())
 
         this.validateInitialState()
     }
