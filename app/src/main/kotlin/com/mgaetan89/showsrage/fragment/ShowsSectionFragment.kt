@@ -49,11 +49,11 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
     private val realm: Realm by lazy { Realm.getDefaultInstance() }
     private val receiver = FilterReceiver(this)
     private var recyclerView: RecyclerView? = null
-    private var shows: RealmResults<Show>? = null
+    private lateinit var shows: RealmResults<Show>
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     override fun onChange(shows: RealmResults<Show>) {
-        if (!(this.shows?.isEmpty() ?: true)) {
+        if (!this.shows.isEmpty()) {
             val command = getCommand(this.shows)
             val parameters = getCommandParameters(this.shows)
 
@@ -149,8 +149,8 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
     }
 
     override fun onStop() {
-        if (this.shows?.isValid ?: false) {
-            this.shows?.removeChangeListeners()
+        if (this.shows.isValid) {
+            this.shows.removeChangeListeners()
         }
 
         this.realm.close()
@@ -183,7 +183,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
             val ignoreArticles = preferences.ignoreArticles()
             val searchQuery = intent?.getStringExtra(Constants.Bundle.SEARCH_QUERY)
             val shows = fragment.shows
-            val filteredShows = if (shows == null || !shows.isLoaded) {
+            val filteredShows = if (!shows.isLoaded) {
                 emptyList()
             } else {
                 shows.filter {
@@ -289,8 +289,8 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
                     fragment.adapter?.notifyItemChanged(filteredShows.indexOf(it), Constants.Payloads.SHOWS_STATS)
                 }
 
-                if (shows?.isValid ?: false) {
-                    shows!!.filter { it.isValid && it.indexerId == indexerId }.forEach {
+                if (shows.isValid) {
+                    shows.filter { it.isValid && it.indexerId == indexerId }.forEach {
                         it.stat = realmStat ?: it.stat
                     }
                 }

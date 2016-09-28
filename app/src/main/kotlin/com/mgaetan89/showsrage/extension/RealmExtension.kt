@@ -190,15 +190,21 @@ fun Realm.getShow(indexerId: Int, listener: RealmChangeListener<Show>): Show {
     return show
 }
 
-fun Realm.getShows(anime: Boolean?, listener: RealmChangeListener<RealmResults<Show>>?): RealmResults<Show>? {
+fun Realm.getShows(anime: Boolean?): RealmResults<Show>? {
     val query = this.where(Show::class.java)
 
     if (anime != null) {
         query.equalTo("anime", if (anime) 1 else 0)
     }
 
-    if (listener == null) {
-        return query.findAllSorted("showName")
+    return query.findAllSorted("showName")
+}
+
+fun Realm.getShows(anime: Boolean?, listener: RealmChangeListener<RealmResults<Show>>): RealmResults<Show> {
+    val query = this.where(Show::class.java)
+
+    if (anime != null) {
+        query.equalTo("anime", if (anime) 1 else 0)
     }
 
     val shows = query.findAllSortedAsync("showName")
@@ -320,7 +326,7 @@ fun Realm.saveShows(shows: List<Show>) {
     }
 
     // Remove information about shows that might have been removed
-    val savedShows = this.getShows(null, null) ?: return
+    val savedShows = this.getShows(null) ?: return
     val removedIndexerIds = savedShows.map(Show::indexerId) - shows.map(Show::indexerId)
 
     removedIndexerIds.forEach {

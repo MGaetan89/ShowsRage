@@ -107,7 +107,7 @@ class ShowWidgetConfigurationActivity : AppCompatActivity() {
         (this.findViewById(android.R.id.list) as RecyclerView?)?.let {
             val empty = this.findViewById(android.R.id.empty) as TextView?
             val ignoreArticles = this.getPreferences().ignoreArticles()
-            val shows = (this.realm.getShows(null, null) ?: emptyList<Show>())
+            val shows = (this.realm.getShows(null) ?: emptyList<Show>())
                     .sortedWith(Comparator<Show> { first, second ->
                         val firstProperty = Utils.getSortableShowName(first, ignoreArticles)
                         val secondProperty = Utils.getSortableShowName(second, ignoreArticles)
