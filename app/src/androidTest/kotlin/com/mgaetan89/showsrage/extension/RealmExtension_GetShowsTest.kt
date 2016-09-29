@@ -6,7 +6,6 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.initRealm
-import com.mgaetan89.showsrage.model.Show
 import io.realm.Realm
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -16,7 +15,6 @@ import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.*
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_GetShowsTest {
@@ -37,7 +35,7 @@ class RealmExtension_GetShowsTest {
 
         assertThat(shows).isNotNull()
         assertThat(shows).hasSize(83)
-        assertThat(shows).isSortedAccordingTo(showComparator)
+        assertThat(shows).isSorted()
     }
 
     @Test
@@ -46,7 +44,7 @@ class RealmExtension_GetShowsTest {
 
         assertThat(shows).isNotNull()
         assertThat(shows).hasSize(3)
-        assertThat(shows).isSortedAccordingTo(showComparator)
+        assertThat(shows).isSorted()
     }
 
     @Test
@@ -55,7 +53,7 @@ class RealmExtension_GetShowsTest {
 
         assertThat(shows).isNotNull()
         assertThat(shows).hasSize(80)
-        assertThat(shows).isSortedAccordingTo(showComparator)
+        assertThat(shows).isSorted()
     }
 
     @After
@@ -64,10 +62,6 @@ class RealmExtension_GetShowsTest {
     }
 
     companion object {
-        private val showComparator = Comparator<Show> { first, second ->
-            (first.showName ?: "").compareTo(second?.showName ?: "")
-        }
-
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
