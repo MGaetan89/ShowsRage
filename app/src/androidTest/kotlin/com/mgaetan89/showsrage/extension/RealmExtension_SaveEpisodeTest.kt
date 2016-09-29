@@ -40,7 +40,7 @@ class RealmExtension_SaveEpisodeTest {
 
         this.realm.saveEpisode(episode, INDEXER_ID, SEASON_NUMBER, EPISODE_NUMBER)
 
-        this.validateEpisode(description = null, fileSizeHuman = null)
+        this.validateEpisode(episodeName = "Episode name", description = null, fileSizeHuman = null)
     }
 
     @Test
@@ -56,7 +56,7 @@ class RealmExtension_SaveEpisodeTest {
 
         this.realm.saveEpisode(episode, INDEXER_ID, SEASON_NUMBER, EPISODE_NUMBER)
 
-        this.validateEpisode("Episode description", "3.5 GB")
+        this.validateEpisode("", "Episode description", "3.5 GB")
     }
 
     @After
@@ -68,7 +68,7 @@ class RealmExtension_SaveEpisodeTest {
 
     private fun getEpisodes() = this.realm.where(Episode::class.java).findAll()
 
-    private fun validateEpisode(description: String?, fileSizeHuman: String?) {
+    private fun validateEpisode(episodeName: String?, description: String?, fileSizeHuman: String?) {
         assertThat(this.getEpisodes()).hasSize(1648)
 
         val episode = this.getEpisode(EPISODE_ID)
@@ -78,7 +78,7 @@ class RealmExtension_SaveEpisodeTest {
         assertThat(episode.fileSizeHuman).isEqualTo(fileSizeHuman)
         assertThat(episode.id).isEqualTo(EPISODE_ID)
         assertThat(episode.indexerId).isEqualTo(INDEXER_ID)
-        assertThat(episode.name).isEqualTo("Episode name")
+        assertThat(episode.name).isEqualTo(episodeName)
         assertThat(episode.number).isEqualTo(EPISODE_NUMBER)
         assertThat(episode.season).isEqualTo(SEASON_NUMBER)
     }
