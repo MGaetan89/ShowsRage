@@ -6,7 +6,7 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.initRealm
-import com.mgaetan89.showsrage.model.Episode
+import com.mgaetan89.showsrage.model.OmDbEpisode
 import io.realm.Realm
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -18,7 +18,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class RealmExtension_SaveEpisodeTest {
+class RealmExtension_SaveOmdbEpisodeTest {
     @JvmField
     @Rule
     val activityRule: ActivityTestRule<TestActivity> = ActivityTestRule(TestActivity::class.java)
@@ -29,18 +29,21 @@ class RealmExtension_SaveEpisodeTest {
     fun before() {
         initRealm(this.activityRule.activity, InstrumentationRegistry.getContext())
 
-        assertThat(this.getEpisodes()).hasSize(1647)
+        assertThat(this.getEpisodes()).hasSize(90)
     }
 
     @Test
     fun saveEpisode() {
-        val episode = Episode().apply {
-            this.name = "Episode name"
+        val episode = OmDbEpisode().apply {
+            this.episode = EPISODE_NUMBER
+            this.season = SEASON_NUMBER
+            this.seriesId = SERIES_ID
+            this.title = "Episode name"
         }
 
-        this.realm.saveEpisode(episode, INDEXER_ID, SEASON_NUMBER, EPISODE_NUMBER)
+        this.realm.saveEpisode(episode)
 
-        this.validateEpisode("Episode name", null, null)
+        this.validateEpisode("Episode name")
     }
 
     @Test
@@ -49,14 +52,15 @@ class RealmExtension_SaveEpisodeTest {
         this.saveEpisode()
 
         // Then we update it
-        val episode = Episode().apply {
-            this.description = "Episode description"
-            this.fileSizeHuman = "3.5 GB"
+        val episode = OmDbEpisode().apply {
+            this.episode = EPISODE_NUMBER
+            this.season = SEASON_NUMBER
+            this.seriesId = SERIES_ID
         }
 
-        this.realm.saveEpisode(episode, INDEXER_ID, SEASON_NUMBER, EPISODE_NUMBER)
+        this.realm.saveEpisode(episode)
 
-        this.validateEpisode("", "Episode description", "3.5 GB")
+        this.validateEpisode("")
     }
 
     @After
@@ -64,30 +68,28 @@ class RealmExtension_SaveEpisodeTest {
         this.realm.close()
     }
 
-    private fun getEpisode(id: String) = this.realm.where(Episode::class.java).equalTo("id", id).findFirst()
+    private fun getEpisode(id: String) = this.realm.where(OmDbEpisode::class.java).equalTo("id", id).findFirst()
 
-    private fun getEpisodes() = this.realm.where(Episode::class.java).findAll()
+    private fun getEpisodes() = this.realm.where(OmDbEpisode::class.java).findAll()
 
-    private fun validateEpisode(episodeName: String?, description: String?, fileSizeHuman: String?) {
-        assertThat(this.getEpisodes()).hasSize(1648)
+    private fun validateEpisode(episodeName: String?) {
+        assertThat(this.getEpisodes()).hasSize(91)
 
         val episode = this.getEpisode(EPISODE_ID)
 
         assertThat(episode).isNotNull()
-        assertThat(episode!!.description).isEqualTo(description)
-        assertThat(episode.fileSizeHuman).isEqualTo(fileSizeHuman)
+        assertThat(episode!!.episode).isEqualTo(EPISODE_NUMBER)
         assertThat(episode.id).isEqualTo(EPISODE_ID)
-        assertThat(episode.indexerId).isEqualTo(INDEXER_ID)
-        assertThat(episode.name).isEqualTo(episodeName)
-        assertThat(episode.number).isEqualTo(EPISODE_NUMBER)
         assertThat(episode.season).isEqualTo(SEASON_NUMBER)
+        assertThat(episode.seriesId).isEqualTo(SERIES_ID)
+        assertThat(episode.title).isEqualTo(episodeName)
     }
 
     companion object {
-        private const val EPISODE_NUMBER = 1
-        private const val SEASON_NUMBER = 8
-        private const val INDEXER_ID = 73838
-        private val EPISODE_ID = Episode.buildId(INDEXER_ID, SEASON_NUMBER, EPISODE_NUMBER)
+        private const val EPISODE_NUMBER = "1"
+        private const val SEASON_NUMBER = "5"
+        private const val SERIES_ID = "tt2193021"
+        private val EPISODE_ID = OmDbEpisode.buildId(SERIES_ID, SEASON_NUMBER, EPISODE_NUMBER)
 
         @BeforeClass
         @JvmStatic

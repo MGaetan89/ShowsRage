@@ -18,7 +18,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class RealmExtension_SaveEpisodeTest {
+class RealmExtension_SaveEpisodesTest {
     @JvmField
     @Rule
     val activityRule: ActivityTestRule<TestActivity> = ActivityTestRule(TestActivity::class.java)
@@ -33,30 +33,55 @@ class RealmExtension_SaveEpisodeTest {
     }
 
     @Test
-    fun saveEpisode() {
-        val episode = Episode().apply {
-            this.name = "Episode name"
+    fun saveEpisodes() {
+        val episodes = mutableListOf<Episode>()
+
+        for (i in 1..5) {
+            episodes.add(Episode().apply {
+                this.name = "Episode $i"
+                this.number = i
+            })
         }
 
-        this.realm.saveEpisode(episode, INDEXER_ID, SEASON_NUMBER, EPISODE_NUMBER)
+        this.realm.saveEpisodes(episodes, INDEXER_ID, SEASON_NUMBER)
 
-        this.validateEpisode("Episode name", null, null)
+        assertThat(this.getEpisodes()).hasSize(1652)
+
+        for (i in 1..5) {
+            this.validateEpisode(i, "Episode $i", null, null)
+        }
     }
 
     @Test
-    fun saveEpisode_update() {
-        // First we save an episode
-        this.saveEpisode()
+    fun saveEpisodes_empty() {
+        this.realm.saveEpisodes(emptyList(), INDEXER_ID, SEASON_NUMBER)
 
-        // Then we update it
-        val episode = Episode().apply {
-            this.description = "Episode description"
-            this.fileSizeHuman = "3.5 GB"
+        assertThat(this.getEpisodes()).hasSize(1648)
+    }
+
+    @Test
+    fun saveEpisodes_update() {
+        // First we save some episodes
+        this.saveEpisodes()
+
+        // Then we perform some updates
+        val episodes = mutableListOf<Episode>()
+
+        for (i in 1..5) {
+            episodes.add(Episode().apply {
+                this.description = "Episode $i description"
+                this.fileSizeHuman = "$i GB"
+                this.number = i
+            })
         }
 
-        this.realm.saveEpisode(episode, INDEXER_ID, SEASON_NUMBER, EPISODE_NUMBER)
+        this.realm.saveEpisodes(episodes, INDEXER_ID, SEASON_NUMBER)
 
-        this.validateEpisode("", "Episode description", "3.5 GB")
+        assertThat(this.getEpisodes()).hasSize(1652)
+
+        for (i in 1..5) {
+            this.validateEpisode(i, "", "Episode $i description", "$i GB")
+        }
     }
 
     @After
@@ -68,26 +93,23 @@ class RealmExtension_SaveEpisodeTest {
 
     private fun getEpisodes() = this.realm.where(Episode::class.java).findAll()
 
-    private fun validateEpisode(episodeName: String?, description: String?, fileSizeHuman: String?) {
-        assertThat(this.getEpisodes()).hasSize(1648)
-
-        val episode = this.getEpisode(EPISODE_ID)
+    private fun validateEpisode(episodeNumber: Int, episodeName: String?, description: String?, fileSizeHuman: String?) {
+        val episodeId = Episode.buildId(INDEXER_ID, SEASON_NUMBER, episodeNumber)
+        val episode = this.getEpisode(episodeId)
 
         assertThat(episode).isNotNull()
         assertThat(episode!!.description).isEqualTo(description)
         assertThat(episode.fileSizeHuman).isEqualTo(fileSizeHuman)
-        assertThat(episode.id).isEqualTo(EPISODE_ID)
+        assertThat(episode.id).isEqualTo(episodeId)
         assertThat(episode.indexerId).isEqualTo(INDEXER_ID)
         assertThat(episode.name).isEqualTo(episodeName)
-        assertThat(episode.number).isEqualTo(EPISODE_NUMBER)
+        assertThat(episode.number).isEqualTo(episodeNumber)
         assertThat(episode.season).isEqualTo(SEASON_NUMBER)
     }
 
     companion object {
-        private const val EPISODE_NUMBER = 1
         private const val SEASON_NUMBER = 8
         private const val INDEXER_ID = 73838
-        private val EPISODE_ID = Episode.buildId(INDEXER_ID, SEASON_NUMBER, EPISODE_NUMBER)
 
         @BeforeClass
         @JvmStatic
