@@ -40,7 +40,7 @@ class RealmExtension_SaveEpisodeTest {
 
         this.realm.saveEpisode(episode, INDEXER_ID, SEASON_NUMBER, EPISODE_NUMBER)
 
-        this.validateEpisode(description = "", fileSizeHuman = "")
+        this.validateEpisode(description = null, fileSizeHuman = null)
     }
 
     @Test
