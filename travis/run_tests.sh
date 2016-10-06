@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
+./gradlew build testDebug
+
 if [[ $ANDROID_ABI ]]; then
-	./gradlew build testDebug connectedDebugAndroidTest
-else
-	./gradlew build testDebug
+	./gradlew connectedDebugAndroidTest
 fi
