@@ -10,7 +10,7 @@ jdk:
 android:
   components:
     - android-24
-    - build-tools-24.0.2
+    - build-tools-24.0.3
     - extra-android-m2repository
     - extra-google-m2repository
     - platform-tools
@@ -33,7 +33,7 @@ before_cache:
 
 before_install:
   - echo y | android update sdk --all --no-ui --force --filter android-24
-  - echo y | android update sdk --all --no-ui --force --filter build-tools-24.0.2
+  - echo y | android update sdk --all --no-ui --force --filter build-tools-24.0.3
 
 before_script:
   - ./travis/prepare_emulator.sh
