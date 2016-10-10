@@ -39,7 +39,7 @@ before_script:
   - ./travis/prepare_emulator.sh
 
 script:
-  - ./travis/run_tests.sh
+  - travis_wait travis/run_tests.sh
 
 after_success:
   - ./gradlew jacocoTestReport coveralls
