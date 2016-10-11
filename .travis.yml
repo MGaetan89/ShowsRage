@@ -37,9 +37,18 @@ before_install:
 
 before_script:
   - ./travis/prepare_emulator.sh
+  - adb logcat -c
+  - adb logcat > build/logcat.log &
+  - LOGCAT_PID=$!
 
 script:
   - travis_wait travis/run_tests.sh
+
+after_failure:
+  - cat build/logcat.log
+
+after_script:
+  - kill $LOGCAT_PID
 
 after_success:
   - ./gradlew jacocoTestReport coveralls
