@@ -11,7 +11,9 @@ import com.mgaetan89.showsrage.extension.getShowStat
 import com.mgaetan89.showsrage.initRealm
 import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.Quality
+import com.mgaetan89.showsrage.model.RealmShowStat
 import com.mgaetan89.showsrage.model.Schedule
+import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.ShowWidget
 import io.realm.Realm
 import org.assertj.core.api.Assertions.assertThat
@@ -42,6 +44,13 @@ class RealmExtension_DeleteShowTest {
     fun deleteShow() {
         this.realm.deleteShow(INDEXER_ID)
 
+        assertThat(this.getAllEpisodes()).hasSize(1594)
+        assertThat(this.getAllQualities()).hasSize(82)
+        assertThat(this.getAllScheduled()).hasSize(35)
+        assertThat(this.getAllShows()).hasSize(82)
+        assertThat(this.getAllShowStats()).hasSize(82)
+        assertThat(this.getAllShowWidgets()).hasSize(1)
+
         assertThat(this.getEpisodes()).hasSize(0)
         assertThat(this.getQuality()).isNull()
         assertThat(this.getSchedule()).hasSize(0)
@@ -62,6 +71,18 @@ class RealmExtension_DeleteShowTest {
         this.realm.close()
     }
 
+    private fun getAllEpisodes() = this.realm.where(Episode::class.java).findAll()
+
+    private fun getAllQualities() = this.realm.where(Quality::class.java).findAll()
+
+    private fun getAllScheduled() = this.realm.where(Schedule::class.java).findAll()
+
+    private fun getAllShows() = this.realm.where(Show::class.java).findAll()
+
+    private fun getAllShowStats() = this.realm.where(RealmShowStat::class.java).findAll()
+
+    private fun getAllShowWidgets() = this.realm.where(ShowWidget::class.java).findAll()
+
     private fun getEpisodes() = this.realm.where(Episode::class.java).equalTo("indexerId", INDEXER_ID).findAll()
 
     private fun getQuality() = this.realm.where(Quality::class.java).equalTo("indexerId", INDEXER_ID).findFirst()
@@ -75,6 +96,13 @@ class RealmExtension_DeleteShowTest {
     private fun getShowWidget() = this.realm.where(ShowWidget::class.java).equalTo("show.indexerId", INDEXER_ID).findAll()
 
     private fun validateInitialState() {
+        assertThat(this.getAllEpisodes()).hasSize(1647)
+        assertThat(this.getAllQualities()).hasSize(83)
+        assertThat(this.getAllScheduled()).hasSize(36)
+        assertThat(this.getAllShows()).hasSize(83)
+        assertThat(this.getAllShowStats()).hasSize(83)
+        assertThat(this.getAllShowWidgets()).hasSize(1)
+
         assertThat(this.getEpisodes()).hasSize(53)
         assertThat(this.getQuality()).isNotNull()
         assertThat(this.getSchedule()).hasSize(1)
