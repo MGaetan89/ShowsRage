@@ -41,9 +41,6 @@ before_script:
 script:
   - travis_wait travis/run_tests.sh
 
-after_failure:
-  - cat build/logcat.log
-
 after_success:
   - ./gradlew jacocoTestReport coveralls
 
