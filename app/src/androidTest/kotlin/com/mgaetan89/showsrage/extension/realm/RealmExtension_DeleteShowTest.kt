@@ -49,7 +49,7 @@ class RealmExtension_DeleteShowTest {
         assertThat(this.getAllScheduled()).hasSize(35)
         assertThat(this.getAllShows()).hasSize(82)
         assertThat(this.getAllShowStats()).hasSize(82)
-        assertThat(this.getAllShowWidgets()).hasSize(1)
+        assertThat(this.getAllShowWidgets()).hasSize(20)
 
         assertThat(this.getEpisodes()).hasSize(0)
         assertThat(this.getQuality()).isNull()
@@ -101,7 +101,7 @@ class RealmExtension_DeleteShowTest {
         assertThat(this.getAllScheduled()).hasSize(36)
         assertThat(this.getAllShows()).hasSize(83)
         assertThat(this.getAllShowStats()).hasSize(83)
-        assertThat(this.getAllShowWidgets()).hasSize(1)
+        assertThat(this.getAllShowWidgets()).hasSize(20)
 
         assertThat(this.getEpisodes()).hasSize(53)
         assertThat(this.getQuality()).isNotNull()
