@@ -22,7 +22,7 @@ import org.junit.runner.RunWith
 class RealmExtension_SaveRootDirsTest {
     @JvmField
     @Rule
-    val activityRule: ActivityTestRule<TestActivity> = ActivityTestRule(TestActivity::class.java)
+    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
     private val realm: Realm by lazy { Realm.getDefaultInstance() }
 
