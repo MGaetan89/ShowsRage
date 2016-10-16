@@ -28,7 +28,7 @@ class RealmExtension_SaveEpisodesTest {
 
     @Before
     fun before() {
-        initRealm(this.activityRule.activity, InstrumentationRegistry.getContext())
+        initRealm(InstrumentationRegistry.getTargetContext(), InstrumentationRegistry.getContext())
 
         assertThat(this.getEpisodes()).hasSize(1647)
     }

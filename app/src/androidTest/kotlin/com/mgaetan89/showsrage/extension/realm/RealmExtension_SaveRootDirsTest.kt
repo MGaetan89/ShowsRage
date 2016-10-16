@@ -28,7 +28,7 @@ class RealmExtension_SaveRootDirsTest {
 
     @Before
     fun before() {
-        initRealm(this.activityRule.activity, InstrumentationRegistry.getContext())
+        initRealm(InstrumentationRegistry.getTargetContext(), InstrumentationRegistry.getContext())
 
         assertThat(this.getRootDirs()).hasSize(1)
     }

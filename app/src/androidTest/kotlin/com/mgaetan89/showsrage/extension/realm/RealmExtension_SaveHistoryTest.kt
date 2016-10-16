@@ -30,7 +30,7 @@ class RealmExtension_SaveHistoryTest {
 
     @Before
     fun before() {
-        initRealm(this.activityRule.activity, InstrumentationRegistry.getContext())
+        initRealm(InstrumentationRegistry.getTargetContext(), InstrumentationRegistry.getContext())
 
         assertThat(this.getHistory()).hasSize(100)
     }
