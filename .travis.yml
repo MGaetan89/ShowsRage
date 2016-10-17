@@ -39,10 +39,16 @@ before_script:
   - ./travis/prepare_emulator.sh
 
 script:
-  - travis_wait travis/run_tests.sh
+  - ./gradlew clean
+  - ./gradlew build
+  - ./gradlew testDebug
+  - [[ $ANDROID_ABI ]] && ./gradlew connectedCheck
 
 after_success:
   - ./gradlew jacocoTestReport coveralls
+
+after_failure:
+  - adb logcat -d
 
 sudo: false
 
