@@ -42,7 +42,7 @@ script:
   - ./gradlew clean
   - ./gradlew build
   - ./gradlew testDebug
-  - sh -c "if [[ $ANDROID_ABI ]]; then ./gradlew connectedCheck; fi"
+  - if [[ "$ANDROID_ABI" ]]; then ./gradlew connectedCheck; fi
 
 after_success:
   - ./gradlew jacocoTestReport coveralls
