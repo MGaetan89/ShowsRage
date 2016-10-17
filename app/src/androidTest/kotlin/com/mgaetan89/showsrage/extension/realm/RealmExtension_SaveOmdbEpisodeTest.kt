@@ -68,6 +68,7 @@ class RealmExtension_SaveOmdbEpisodeTest {
 
     @After
     fun after() {
+        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 

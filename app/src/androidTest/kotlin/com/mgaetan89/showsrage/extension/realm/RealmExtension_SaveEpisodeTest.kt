@@ -64,6 +64,7 @@ class RealmExtension_SaveEpisodeTest {
 
     @After
     fun after() {
+        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 

@@ -57,7 +57,7 @@ class RealmExtension_SaveEpisodesTest {
     fun saveEpisodes_empty() {
         this.realm.saveEpisodes(emptyList(), INDEXER_ID, SEASON_NUMBER)
 
-        assertThat(this.getEpisodes()).hasSize(1648)
+        assertThat(this.getEpisodes()).hasSize(1647)
     }
 
     @Test
@@ -87,6 +87,7 @@ class RealmExtension_SaveEpisodesTest {
 
     @After
     fun after() {
+        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 

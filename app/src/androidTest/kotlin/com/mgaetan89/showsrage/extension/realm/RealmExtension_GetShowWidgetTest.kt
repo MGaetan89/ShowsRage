@@ -49,6 +49,7 @@ class RealmExtension_GetShowWidgetTest {
 
     @After
     fun after() {
+        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 

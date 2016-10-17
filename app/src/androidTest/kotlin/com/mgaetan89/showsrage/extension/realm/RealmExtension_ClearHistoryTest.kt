@@ -42,6 +42,7 @@ class RealmExtension_ClearHistoryTest {
 
     @After
     fun after() {
+        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 

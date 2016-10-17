@@ -40,6 +40,7 @@ class RealmExtension_GetLogsGroupTest {
 
     @After
     fun after() {
+        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 

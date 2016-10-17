@@ -76,6 +76,7 @@ class RealmExtension_SaveHistoryTest {
 
     @After
     fun after() {
+        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 

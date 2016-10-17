@@ -56,6 +56,7 @@ class RealmExtension_DeleteShowWidgetsTest {
 
     @After
     fun after() {
+        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 

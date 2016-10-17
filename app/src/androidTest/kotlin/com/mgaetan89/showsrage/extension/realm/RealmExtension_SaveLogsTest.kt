@@ -87,6 +87,7 @@ class RealmExtension_SaveLogsTest {
 
     @After
     fun after() {
+        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 
