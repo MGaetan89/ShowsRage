@@ -61,7 +61,7 @@ class RealmExtension_SaveOmdbEpisodeTest {
 
         this.realm.saveEpisode(episode)
 
-        this.validateEpisode("")
+        this.validateEpisode(null)
     }
 
     @After
