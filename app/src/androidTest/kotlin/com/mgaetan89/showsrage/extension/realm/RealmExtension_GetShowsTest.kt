@@ -28,6 +28,8 @@ class RealmExtension_GetShowsTest {
     @Before
     fun before() {
         initRealm(InstrumentationRegistry.getTargetContext(), InstrumentationRegistry.getContext())
+
+        this.realm.isAutoRefresh = false
     }
 
     @Test
@@ -62,7 +64,6 @@ class RealmExtension_GetShowsTest {
 
     @After
     fun after() {
-        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 

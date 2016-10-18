@@ -28,6 +28,8 @@ class RealmExtension_GetScheduleSectionsTest {
     @Before
     fun before() {
         initRealm(InstrumentationRegistry.getTargetContext(), InstrumentationRegistry.getContext())
+
+        this.realm.isAutoRefresh = false
     }
 
     @Test
@@ -40,7 +42,6 @@ class RealmExtension_GetScheduleSectionsTest {
 
     @After
     fun after() {
-        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 

@@ -30,6 +30,8 @@ class RealmExtension_ClearScheduleTest {
     fun before() {
         initRealm(InstrumentationRegistry.getTargetContext(), InstrumentationRegistry.getContext())
 
+        this.realm.isAutoRefresh = false
+
         assertThat(this.getSchedule()).hasSize(36)
     }
 
@@ -42,7 +44,6 @@ class RealmExtension_ClearScheduleTest {
 
     @After
     fun after() {
-        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 

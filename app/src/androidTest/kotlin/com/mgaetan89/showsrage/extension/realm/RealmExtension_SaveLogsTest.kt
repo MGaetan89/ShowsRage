@@ -32,6 +32,8 @@ class RealmExtension_SaveLogsTest {
     fun before() {
         initRealm(InstrumentationRegistry.getTargetContext(), InstrumentationRegistry.getContext())
 
+        this.realm.isAutoRefresh = false
+
         this.validateLogs()
     }
 
@@ -87,7 +89,6 @@ class RealmExtension_SaveLogsTest {
 
     @After
     fun after() {
-        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 

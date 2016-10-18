@@ -30,6 +30,8 @@ class RealmExtension_SaveOmdbEpisodeTest {
     fun before() {
         initRealm(InstrumentationRegistry.getTargetContext(), InstrumentationRegistry.getContext())
 
+        this.realm.isAutoRefresh = false
+
         assertThat(this.getEpisodes()).hasSize(90)
     }
 
@@ -66,7 +68,6 @@ class RealmExtension_SaveOmdbEpisodeTest {
 
     @After
     fun after() {
-        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 

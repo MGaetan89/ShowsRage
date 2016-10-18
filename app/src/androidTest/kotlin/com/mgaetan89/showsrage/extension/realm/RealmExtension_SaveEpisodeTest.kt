@@ -30,6 +30,8 @@ class RealmExtension_SaveEpisodeTest {
     fun before() {
         initRealm(InstrumentationRegistry.getTargetContext(), InstrumentationRegistry.getContext())
 
+        this.realm.isAutoRefresh = false
+
         assertThat(this.getEpisodes()).hasSize(1647)
     }
 
@@ -62,7 +64,6 @@ class RealmExtension_SaveEpisodeTest {
 
     @After
     fun after() {
-        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 

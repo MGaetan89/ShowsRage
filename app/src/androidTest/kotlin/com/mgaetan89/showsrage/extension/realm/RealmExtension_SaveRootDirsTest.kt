@@ -30,6 +30,8 @@ class RealmExtension_SaveRootDirsTest {
     fun before() {
         initRealm(InstrumentationRegistry.getTargetContext(), InstrumentationRegistry.getContext())
 
+        this.realm.isAutoRefresh = false
+
         assertThat(this.getRootDirs()).hasSize(1)
     }
 
@@ -59,7 +61,6 @@ class RealmExtension_SaveRootDirsTest {
 
     @After
     fun after() {
-        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 

@@ -37,6 +37,8 @@ class RealmExtension_DeleteShowTest {
     fun before() {
         initRealm(InstrumentationRegistry.getTargetContext(), InstrumentationRegistry.getContext())
 
+        this.realm.isAutoRefresh = false
+
         this.validateInitialState()
     }
 
@@ -68,7 +70,6 @@ class RealmExtension_DeleteShowTest {
 
     @After
     fun after() {
-        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 
