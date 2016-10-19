@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.extension.realm
 
 import android.os.Looper
 import android.support.test.InstrumentationRegistry
+import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
@@ -29,11 +30,10 @@ class RealmExtension_GetScheduleTest {
     @Before
     fun before() {
         initRealm(InstrumentationRegistry.getTargetContext(), InstrumentationRegistry.getContext())
-
-        this.realm.isAutoRefresh = false
     }
 
     @Test
+    @UiThreadTest
     fun getSchedule() {
         this.realm.getSchedule("soon", RealmChangeListener {
             it.removeChangeListeners()
@@ -45,6 +45,7 @@ class RealmExtension_GetScheduleTest {
     }
 
     @Test
+    @UiThreadTest
     fun getSchedule_notFound() {
         this.realm.getSchedule("Monday", RealmChangeListener {
             it.removeChangeListeners()
@@ -55,6 +56,7 @@ class RealmExtension_GetScheduleTest {
 
     @After
     fun after() {
+        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 
