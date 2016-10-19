@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.extension.realm
 
 import android.os.Looper
 import android.support.test.InstrumentationRegistry
+import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
@@ -34,6 +35,7 @@ class RealmExtension_GetOmdbEpisodesTest {
     }
 
     @Test
+    @UiThreadTest
     fun getEpisodes() {
         this.realm.getEpisodes("tt2193021_4_18", RealmChangeListener {
             it.removeChangeListeners()
@@ -45,6 +47,7 @@ class RealmExtension_GetOmdbEpisodesTest {
     }
 
     @Test
+    @UiThreadTest
     fun getEpisodes_notFound() {
         this.realm.getEpisodes("0_0_0", RealmChangeListener {
             it.removeChangeListeners()

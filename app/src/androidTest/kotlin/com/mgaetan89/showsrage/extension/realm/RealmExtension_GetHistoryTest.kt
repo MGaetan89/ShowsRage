@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.extension.realm
 
 import android.os.Looper
 import android.support.test.InstrumentationRegistry
+import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
@@ -34,6 +35,7 @@ class RealmExtension_GetHistoryTest {
     }
 
     @Test
+    @UiThreadTest
     fun getHistory() {
         this.realm.getHistory(RealmChangeListener {
             it.removeChangeListeners()
