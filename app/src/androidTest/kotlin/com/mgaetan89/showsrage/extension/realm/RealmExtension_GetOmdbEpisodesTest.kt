@@ -30,8 +30,6 @@ class RealmExtension_GetOmdbEpisodesTest {
     @Before
     fun before() {
         initRealm(InstrumentationRegistry.getTargetContext(), InstrumentationRegistry.getContext())
-
-        this.realm.isAutoRefresh = false
     }
 
     @Test
@@ -60,6 +58,7 @@ class RealmExtension_GetOmdbEpisodesTest {
 
     @After
     fun after() {
+        this.realm.isAutoRefresh = false
         this.realm.close()
     }
 
