@@ -51,7 +51,7 @@ class RealmExtension_SaveShowsStatTest {
         val showsStat = showsStats.first()
         assertThat(showsStat).isNotNull()
         assertThat(showsStat.episodesDownloaded).isEqualTo(5)
-        assertThat(showsStat.episodesMissing).isEqualTo(15)
+        assertThat(showsStat.episodesMissing).isEqualTo(35)
         assertThat(showsStat.episodesSnatched).isEqualTo(10)
         assertThat(showsStat.episodesTotal).isEqualTo(50)
         assertThat(showsStat.showsActive).isEqualTo(20)

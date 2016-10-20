@@ -167,7 +167,7 @@ class RealmExtension_SaveSchedulesTest {
     private fun getSchedules(section: String) = this.realm.where(Schedule::class.java).equalTo("section", section).findAll()
 
     private fun validateSchedule(indexerId: Int, episodeNumber: Int, season: Int, section: String, episodeName: String) {
-        val id = "${indexerId}_${episodeNumber}_$season"
+        val id = "${indexerId}_${season}_$episodeNumber"
         val schedule = this.getSchedule(id)
 
         assertThat(schedule).isNotNull()
