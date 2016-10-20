@@ -43,6 +43,7 @@ class RealmExtension_SaveSchedulesTest {
 
         for (i in 1..5) {
             schedules.add(Schedule().apply {
+                this.airDate = "2016-07-12"
                 this.episode = i
                 this.indexerId = INDEXER_ID
                 this.season = 1
@@ -56,7 +57,7 @@ class RealmExtension_SaveSchedulesTest {
         assertThat(this.getSchedules(NEW_SECTION)).isEmpty()
 
         for (i in 1..5) {
-            this.validateSchedule(INDEXER_ID, i, 1, EXISTING_SECTION, "")
+            this.validateSchedule(INDEXER_ID, i, 1, EXISTING_SECTION, "2016-07-12", "")
         }
     }
 
@@ -79,6 +80,7 @@ class RealmExtension_SaveSchedulesTest {
 
         for (i in 1..5) {
             schedules.add(Schedule().apply {
+                this.episode = i
                 this.episodeName = "Episode name $i"
                 this.indexerId = INDEXER_ID
                 this.season = 1
@@ -92,7 +94,7 @@ class RealmExtension_SaveSchedulesTest {
         assertThat(this.getSchedules(NEW_SECTION)).isEmpty()
 
         for (i in 1..5) {
-            this.validateSchedule(INDEXER_ID, 0, 1, EXISTING_SECTION, "Episode name $i")
+            this.validateSchedule(INDEXER_ID, i, 1, EXISTING_SECTION, "", "Episode name $i")
         }
     }
 
@@ -102,6 +104,7 @@ class RealmExtension_SaveSchedulesTest {
 
         for (i in 1..5) {
             schedules.add(Schedule().apply {
+                this.airDate = "2016-07-12"
                 this.episode = i
                 this.indexerId = INDEXER_ID
                 this.season = 1
@@ -115,7 +118,7 @@ class RealmExtension_SaveSchedulesTest {
         assertThat(this.getSchedules(NEW_SECTION)).hasSize(5)
 
         for (i in 1..5) {
-            this.validateSchedule(INDEXER_ID, i, 1, NEW_SECTION, "")
+            this.validateSchedule(INDEXER_ID, i, 1, NEW_SECTION, "2016-07-12", "")
         }
     }
 
@@ -138,6 +141,7 @@ class RealmExtension_SaveSchedulesTest {
 
         for (i in 1..5) {
             schedules.add(Schedule().apply {
+                this.episode = i
                 this.episodeName = "Episode name $i"
                 this.indexerId = INDEXER_ID
                 this.season = 1
@@ -151,7 +155,7 @@ class RealmExtension_SaveSchedulesTest {
         assertThat(this.getSchedules(NEW_SECTION)).hasSize(5)
 
         for (i in 1..5) {
-            this.validateSchedule(INDEXER_ID, 0, 1, NEW_SECTION, "Episode name $i")
+            this.validateSchedule(INDEXER_ID, i, 1, NEW_SECTION, "", "Episode name $i")
         }
     }
 
@@ -166,11 +170,12 @@ class RealmExtension_SaveSchedulesTest {
 
     private fun getSchedules(section: String) = this.realm.where(Schedule::class.java).equalTo("section", section).findAll()
 
-    private fun validateSchedule(indexerId: Int, episodeNumber: Int, season: Int, section: String, episodeName: String) {
+    private fun validateSchedule(indexerId: Int, episodeNumber: Int, season: Int, section: String, airDate: String, episodeName: String) {
         val id = "${indexerId}_${season}_$episodeNumber"
         val schedule = this.getSchedule(id)
 
         assertThat(schedule).isNotNull()
+        assertThat(schedule.airDate).isEqualTo(airDate)
         assertThat(schedule.episode).isEqualTo(episodeNumber)
         assertThat(schedule.episodeName).isEqualTo(episodeName)
         assertThat(schedule.id).isEqualTo(id)
