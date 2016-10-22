@@ -44,12 +44,12 @@ class RealmExtension_SaveShowTest {
     fun saveShow() {
         val show = Show().apply {
             this.airs = "Monday 9:00 PM"
-            this.genre = RealmList(RealmString("Action"), RealmString("Drama"))
+            this.genre = RealmList(buildRealmString("Action"), buildRealmString("Drama"))
             this.imdbId = "tt123456"
             this.indexerId = 42
             this.location = "/home/videos/Show Name"
             this.qualityDetails = null
-            this.seasonList = RealmList(RealmString("2"), RealmString("1"))
+            this.seasonList = RealmList(buildRealmString("2"), buildRealmString("1"))
         }
 
         this.realm.saveShow(show)
@@ -61,16 +61,16 @@ class RealmExtension_SaveShowTest {
     fun saveShow_update() {
         val show = Show().apply {
             this.airs = "Thursday 10:00 PM"
-            this.genre = RealmList(RealmString("Action"), RealmString("Comedy"))
+            this.genre = RealmList(buildRealmString("Action"), buildRealmString("Comedy"))
             this.imdbId = "tt1234567"
             this.indexerId = 42
             this.location = "/home/videos/Show Name"
             this.qualityDetails = Quality().apply {
-                this.archive = RealmList(RealmString("fullhdwebdl"), RealmString("fullhdbluray"))
+                this.archive = RealmList(buildRealmString("fullhdwebdl"), buildRealmString("fullhdbluray"))
                 this.indexerId = 42
-                this.initial = RealmList(RealmString("fullhdtv"))
+                this.initial = RealmList(buildRealmString("fullhdtv"))
             }
-            this.seasonList = RealmList(RealmString("3"), RealmString("2"), RealmString("1"))
+            this.seasonList = RealmList(buildRealmString("3"), buildRealmString("2"), buildRealmString("1"))
         }
 
         this.realm.saveShow(show)
@@ -82,6 +82,8 @@ class RealmExtension_SaveShowTest {
     fun after() {
         this.realm.close()
     }
+
+    private fun buildRealmString(value: String) = RealmString().apply { this.value = value }
 
     private fun getShow(indexerId: Int) = this.realm.getShow(indexerId)
 
