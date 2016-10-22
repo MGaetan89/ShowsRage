@@ -317,12 +317,8 @@ fun Realm.saveShow(show: Show) {
 }
 
 fun Realm.saveShows(shows: List<Show>) {
-    this.executeTransaction {
-        shows.forEach { show ->
-            it.prepareShowForSaving(show)
-        }
-
-        it.copyToRealmOrUpdate(shows)
+    shows.forEach {
+        this.saveShow(it)
     }
 
     // Remove information about shows that might have been removed
@@ -330,7 +326,6 @@ fun Realm.saveShows(shows: List<Show>) {
     val removedIndexerIds = savedShows.map(Show::indexerId) - shows.map(Show::indexerId)
 
     removedIndexerIds.forEach {
-        // deleteShow has its own transaction, so we need to run this outside of the above transaction
         this.deleteShow(it)
     }
 }
