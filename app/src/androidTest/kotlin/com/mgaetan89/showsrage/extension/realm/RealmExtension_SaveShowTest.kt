@@ -94,12 +94,22 @@ class RealmExtension_SaveShowTest {
 
         assertThat(show).isNotNull()
         assertThat(show!!.airs).isEqualTo(airs)
-        assertThat(show.genre).isEqualTo(genre)
+        assertThat(show.genre).containsExactly(*genre!!.toTypedArray())
         assertThat(show.imdbId).isEqualTo(imdbId)
         assertThat(show.indexerId).isEqualTo(indexerId)
         assertThat(show.location).isEqualTo(location)
-        assertThat(show.qualityDetails).isEqualTo(qualityDetails)
-        assertThat(show.seasonList).isEqualTo(seasonList)
+
+        if (qualityDetails == null) {
+            assertThat(show.qualityDetails).isNull()
+        } else {
+            show.qualityDetails!!.let {
+                assertThat(it.archive).containsExactly(*qualityDetails.archive!!.toTypedArray())
+                assertThat(it.indexerId).isEqualTo(indexerId)
+                assertThat(it.initial).containsExactly(*qualityDetails.initial!!.toTypedArray())
+            }
+        }
+
+        assertThat(show.seasonList).containsExactly(*seasonList!!.toTypedArray())
     }
 
     companion object {
