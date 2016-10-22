@@ -40,7 +40,9 @@ class RealmExtension_GetScheduleTest {
 
             assertThat(it).hasSize(8)
 
-            // TODO Check that the schedule is sorted
+            for (i in 1 until it.size) {
+                assertThat(it[i].airDate > it [i - 1].airDate).isTrue()
+            }
         })
     }
 

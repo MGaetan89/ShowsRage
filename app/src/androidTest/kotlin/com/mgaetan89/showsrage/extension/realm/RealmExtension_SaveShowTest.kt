@@ -44,12 +44,12 @@ class RealmExtension_SaveShowTest {
     fun saveShow() {
         val show = Show().apply {
             this.airs = "Monday 9:00 PM"
-            this.genre = RealmList(buildRealmString("Action"), buildRealmString("Drama"))
+            this.genre = RealmList(RealmString("Action"), RealmString("Drama"))
             this.imdbId = "tt123456"
             this.indexerId = 42
             this.location = "/home/videos/Show Name"
             this.qualityDetails = null
-            this.seasonList = RealmList(buildRealmString("2"), buildRealmString("1"))
+            this.seasonList = RealmList(RealmString("2"), RealmString("1"))
         }
 
         this.realm.saveShow(show)
@@ -61,16 +61,16 @@ class RealmExtension_SaveShowTest {
     fun saveShow_update() {
         val show = Show().apply {
             this.airs = "Thursday 10:00 PM"
-            this.genre = RealmList(buildRealmString("Action"), buildRealmString("Comedy"))
+            this.genre = RealmList(RealmString("Action"), RealmString("Comedy"))
             this.imdbId = "tt1234567"
             this.indexerId = 42
             this.location = "/home/videos/Show Name"
             this.qualityDetails = Quality().apply {
-                this.archive = RealmList(buildRealmString("fullhdwebdl"), buildRealmString("fullhdbluray"))
+                this.archive = RealmList(RealmString("fullhdwebdl"), RealmString("fullhdbluray"))
                 this.indexerId = 42
-                this.initial = RealmList(buildRealmString("fullhdtv"))
+                this.initial = RealmList(RealmString("fullhdtv"))
             }
-            this.seasonList = RealmList(buildRealmString("3"), buildRealmString("2"), buildRealmString("1"))
+            this.seasonList = RealmList(RealmString("3"), RealmString("2"), RealmString("1"))
         }
 
         this.realm.saveShow(show)
@@ -83,8 +83,6 @@ class RealmExtension_SaveShowTest {
         this.realm.close()
     }
 
-    private fun buildRealmString(value: String) = RealmString().apply { this.value = value }
-
     private fun getShow(indexerId: Int) = this.realm.getShow(indexerId)
 
     private fun getShows() = this.realm.getShows(null)
@@ -96,7 +94,18 @@ class RealmExtension_SaveShowTest {
 
         assertThat(show).isNotNull()
         assertThat(show!!.airs).isEqualTo(airs)
-        assertThat(show.genre).containsExactly(*genre!!.toTypedArray())
+
+        if (genre == null) {
+            assertThat(show.genre).isNull()
+        } else {
+            assertThat(show.genre).isNotNull()
+            assertThat(show.genre).hasSize(genre.size)
+
+            show.genre!!.forEachIndexed { i, item ->
+                assertThat(item).isEqualTo(genre[i])
+            }
+        }
+
         assertThat(show.imdbId).isEqualTo(imdbId)
         assertThat(show.indexerId).isEqualTo(indexerId)
         assertThat(show.location).isEqualTo(location)
@@ -104,6 +113,8 @@ class RealmExtension_SaveShowTest {
         if (qualityDetails == null) {
             assertThat(show.qualityDetails).isNull()
         } else {
+            assertThat(show.qualityDetails).isNotNull()
+
             show.qualityDetails!!.let {
                 assertThat(it.archive).containsExactly(*qualityDetails.archive!!.toTypedArray())
                 assertThat(it.indexerId).isEqualTo(indexerId)
@@ -111,7 +122,16 @@ class RealmExtension_SaveShowTest {
             }
         }
 
-        assertThat(show.seasonList).containsExactly(*seasonList!!.toTypedArray())
+        if (seasonList == null) {
+            assertThat(show.seasonList).isNull()
+        } else {
+            assertThat(show.seasonList).isNotNull()
+            assertThat(show.seasonList).hasSize(seasonList.size)
+
+            show.seasonList!!.forEachIndexed { i, item ->
+                assertThat(item).isEqualTo(seasonList[i])
+            }
+        }
     }
 
     companion object {

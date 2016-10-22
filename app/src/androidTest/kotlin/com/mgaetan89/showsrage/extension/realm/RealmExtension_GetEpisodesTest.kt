@@ -6,9 +6,8 @@ import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
-import com.mgaetan89.showsrage.extension.getLogs
+import com.mgaetan89.showsrage.extension.getEpisodes
 import com.mgaetan89.showsrage.initRealm
-import com.mgaetan89.showsrage.model.LogLevel
 import io.realm.Realm
 import io.realm.RealmChangeListener
 import org.assertj.core.api.Assertions.assertThat
@@ -21,7 +20,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class RealmExtension_GetLogsTest {
+class RealmExtension_GetEpisodesTest {
     @JvmField
     @Rule
     val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
@@ -35,90 +34,68 @@ class RealmExtension_GetLogsTest {
 
     @Test
     @UiThreadTest
-    fun getLogs_existingLogLevel_emptyGroups() {
-        this.realm.getLogs(EXISTING_LOG_LEVEL, emptyArray<String>(), RealmChangeListener {
+    fun getEpisodes_existingShow_existingSeason_ascending() {
+        this.realm.getEpisodes(72173, 4, false, RealmChangeListener {
             it.removeChangeListeners()
 
-            assertThat(it).isNotNull()
-            assertThat(it).hasSize(50)
-
-            it.forEach {
-                assertThat(it.errorType).isEqualTo(EXISTING_LOG_LEVEL.name)
-            }
+            assertThat(it).hasSize(15)
 
             for (i in 1 until it.size) {
-                assertThat(it[i].dateTime < it [i - 1].dateTime).isTrue()
+                assertThat(it[i].number > it [i - 1].number).isTrue()
             }
         })
     }
 
     @Test
     @UiThreadTest
-    fun getLogs_existingLogLevel_noGroups() {
-        this.realm.getLogs(EXISTING_LOG_LEVEL, null, RealmChangeListener {
+    fun getEpisodes_existingShow_existingSeason_descending() {
+        this.realm.getEpisodes(72173, 4, true, RealmChangeListener {
             it.removeChangeListeners()
 
-            assertThat(it).isNotNull()
-            assertThat(it).hasSize(50)
-
-            it.forEach {
-                assertThat(it.errorType).isEqualTo(EXISTING_LOG_LEVEL.name)
-            }
+            assertThat(it).hasSize(15)
 
             for (i in 1 until it.size) {
-                assertThat(it[i].dateTime < it [i - 1].dateTime).isTrue()
+                assertThat(it[i].number < it [i - 1].number).isTrue()
             }
         })
     }
 
     @Test
     @UiThreadTest
-    fun getLogs_existingLogLevel_withGroups() {
-        this.realm.getLogs(EXISTING_LOG_LEVEL, arrayOf("WRONG GROUP", "POSTPROCESSER"), RealmChangeListener {
+    fun getEpisodes_existingShow_missingSeason_ascending() {
+        this.realm.getEpisodes(72173, 3, false, RealmChangeListener {
             it.removeChangeListeners()
 
-            assertThat(it).isNotNull()
-            assertThat(it).hasSize(4)
-
-            it.forEach {
-                assertThat(it.errorType).isEqualTo(EXISTING_LOG_LEVEL.name)
-            }
-
-            for (i in 1 until it.size) {
-                assertThat(it[i].dateTime < it [i - 1].dateTime).isTrue()
-            }
-        })
-    }
-
-    @Test
-    @UiThreadTest
-    fun getLogs_missingLogLevel_emptyGroups() {
-        this.realm.getLogs(MISSING_LOG_LEVEL, emptyArray<String>(), RealmChangeListener {
-            it.removeChangeListeners()
-
-            assertThat(it).isNotNull()
             assertThat(it).isEmpty()
         })
     }
 
     @Test
     @UiThreadTest
-    fun getLogs_missingLogLevel_noGroups() {
-        this.realm.getLogs(MISSING_LOG_LEVEL, null, RealmChangeListener {
+    fun getEpisodes_existingShow_missingSeason_descending() {
+        this.realm.getEpisodes(72173, 3, true, RealmChangeListener {
             it.removeChangeListeners()
 
-            assertThat(it).isNotNull()
             assertThat(it).isEmpty()
         })
     }
 
     @Test
     @UiThreadTest
-    fun getLogs_missingLogLevel_withGroups() {
-        this.realm.getLogs(MISSING_LOG_LEVEL, arrayOf("WRONG GROUP", "POSTPROCESSER"), RealmChangeListener {
+    fun getEpisodes_missingShow_missingSeason_ascending() {
+        this.realm.getEpisodes(42, 3, false, RealmChangeListener {
             it.removeChangeListeners()
 
-            assertThat(it).isNotNull()
+            assertThat(it).isEmpty()
+        })
+    }
+
+    @Test
+    @UiThreadTest
+    fun getEpisodes_missingShow_missingSeason_descending() {
+        this.realm.getEpisodes(42, 3, true, RealmChangeListener {
+            it.removeChangeListeners()
+
             assertThat(it).isEmpty()
         })
     }
@@ -130,9 +107,6 @@ class RealmExtension_GetLogsTest {
     }
 
     companion object {
-        private val EXISTING_LOG_LEVEL = LogLevel.INFO
-        private val MISSING_LOG_LEVEL = LogLevel.ERROR
-
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
