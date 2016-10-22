@@ -87,6 +87,19 @@ class RealmExtension_SaveShowTest {
 
     private fun getShows() = this.realm.getShows(null)
 
+    private fun validateRealmList(actual: RealmList<RealmString>?, expected: RealmList<RealmString>?) {
+        if (expected == null) {
+            assertThat(actual).isNull()
+        } else {
+            assertThat(actual).isNotNull()
+            assertThat(actual).hasSize(expected.size)
+
+            actual!!.forEachIndexed { i, item ->
+                assertThat(item.value).isEqualTo(expected[i].value)
+            }
+        }
+    }
+
     private fun validateShow(airs: String?, genre: RealmList<RealmString>?, imdbId: String?, indexerId: Int, location: String?, qualityDetails: Quality?, seasonList: RealmList<RealmString>?) {
         assertThat(this.getShows()).hasSize(84)
 
@@ -95,16 +108,7 @@ class RealmExtension_SaveShowTest {
         assertThat(show).isNotNull()
         assertThat(show!!.airs).isEqualTo(airs)
 
-        if (genre == null) {
-            assertThat(show.genre).isNull()
-        } else {
-            assertThat(show.genre).isNotNull()
-            assertThat(show.genre).hasSize(genre.size)
-
-            show.genre!!.forEachIndexed { i, item ->
-                assertThat(item).isEqualTo(genre[i])
-            }
-        }
+        this.validateRealmList(show.genre, genre)
 
         assertThat(show.imdbId).isEqualTo(imdbId)
         assertThat(show.indexerId).isEqualTo(indexerId)
@@ -116,22 +120,15 @@ class RealmExtension_SaveShowTest {
             assertThat(show.qualityDetails).isNotNull()
 
             show.qualityDetails!!.let {
-                assertThat(it.archive).containsExactly(*qualityDetails.archive!!.toTypedArray())
+                this.validateRealmList(it.archive, qualityDetails.archive)
+
                 assertThat(it.indexerId).isEqualTo(indexerId)
-                assertThat(it.initial).containsExactly(*qualityDetails.initial!!.toTypedArray())
+
+                this.validateRealmList(it.initial, qualityDetails.initial)
             }
         }
 
-        if (seasonList == null) {
-            assertThat(show.seasonList).isNull()
-        } else {
-            assertThat(show.seasonList).isNotNull()
-            assertThat(show.seasonList).hasSize(seasonList.size)
-
-            show.seasonList!!.forEachIndexed { i, item ->
-                assertThat(item).isEqualTo(seasonList[i])
-            }
-        }
+        this.validateRealmList(show.seasonList, seasonList)
     }
 
     companion object {
