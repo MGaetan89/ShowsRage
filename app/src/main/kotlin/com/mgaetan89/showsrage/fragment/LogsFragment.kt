@@ -20,6 +20,7 @@ import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.LogsAdapter
 import com.mgaetan89.showsrage.extension.getLogLevel
 import com.mgaetan89.showsrage.extension.getLogs
+import com.mgaetan89.showsrage.extension.getLogsGroup
 import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.extension.saveLogLevel
 import com.mgaetan89.showsrage.extension.saveLogs
@@ -102,8 +103,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.logs, menu)
 
-        // TODO Enable logs filter
-        //menu?.findItem(R.id.menu_filter)?.isVisible = this.realm.getLogsGroup().isNotEmpty()
+        menu?.findItem(R.id.menu_filter)?.isVisible = this.realm.getLogsGroup().isNotEmpty()
 
         val menuId = getMenuIdForLogLevel(this.getLogLevel())
 
