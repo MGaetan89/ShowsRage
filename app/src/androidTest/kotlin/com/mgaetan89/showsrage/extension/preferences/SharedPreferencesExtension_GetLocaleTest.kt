@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage.extension.preferences
 
 import android.content.SharedPreferences
+import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
@@ -19,13 +20,13 @@ import java.util.*
 class SharedPreferencesExtension_GetLocaleTest {
     @JvmField
     @Rule
-    val activityRule: ActivityTestRule<TestActivity> = ActivityTestRule(TestActivity::class.java)
+    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
     private lateinit var preference: SharedPreferences
 
     @Before
     fun before() {
-        this.preference = this.activityRule.activity.getPreferences()
+        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
     }
 
     @Test
