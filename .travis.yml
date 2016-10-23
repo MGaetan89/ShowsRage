@@ -9,8 +9,8 @@ jdk:
 
 android:
   components:
-    - android-24
-    - build-tools-24.0.3
+    - android-25
+    - build-tools-25.0.0
     - extra-android-m2repository
     - extra-google-m2repository
     - platform-tools
@@ -27,13 +27,14 @@ env:
     - ANDROID_TARGET=android-22
     - ANDROID_TARGET=android-23
     - ANDROID_TARGET=android-24
+    - ANDROID_TARGET=android-25
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 
 before_install:
-  - echo y | android update sdk --all --no-ui --force --filter android-24
-  - echo y | android update sdk --all --no-ui --force --filter build-tools-24.0.3
+  - echo y | android update sdk --all --no-ui --force --filter android-25
+  - echo y | android update sdk --all --no-ui --force --filter build-tools-25.0.0
 
 before_script:
   - ./travis/prepare_emulator.sh
