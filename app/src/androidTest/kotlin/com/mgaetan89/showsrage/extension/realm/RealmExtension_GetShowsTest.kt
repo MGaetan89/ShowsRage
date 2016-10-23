@@ -5,10 +5,8 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
-import com.mgaetan89.showsrage.buildComparator
 import com.mgaetan89.showsrage.extension.getShows
 import com.mgaetan89.showsrage.initRealm
-import com.mgaetan89.showsrage.model.Show
 import io.realm.Realm
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -40,7 +38,6 @@ class RealmExtension_GetShowsTest {
 
         assertThat(shows).isNotNull()
         assertThat(shows).hasSize(83)
-        assertThat(shows).isSortedAccordingTo(buildComparator(Show::showName))
     }
 
     @Test
@@ -49,7 +46,6 @@ class RealmExtension_GetShowsTest {
 
         assertThat(shows).isNotNull()
         assertThat(shows).hasSize(3)
-        assertThat(shows).isSortedAccordingTo(buildComparator(Show::showName))
     }
 
     @Test
@@ -58,7 +54,6 @@ class RealmExtension_GetShowsTest {
 
         assertThat(shows).isNotNull()
         assertThat(shows).hasSize(80)
-        assertThat(shows).isSortedAccordingTo(buildComparator(Show::showName))
     }
 
     @After

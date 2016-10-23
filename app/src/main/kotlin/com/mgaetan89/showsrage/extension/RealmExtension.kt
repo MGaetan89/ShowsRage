@@ -197,7 +197,7 @@ fun Realm.getShows(anime: Boolean?): RealmResults<Show>? {
         query.equalTo("anime", if (anime) 1 else 0)
     }
 
-    return query.findAllSorted("showName")
+    return query.findAll()
 }
 
 fun Realm.getShows(anime: Boolean?, listener: RealmChangeListener<RealmResults<Show>>): RealmResults<Show> {
@@ -207,7 +207,7 @@ fun Realm.getShows(anime: Boolean?, listener: RealmChangeListener<RealmResults<S
         query.equalTo("anime", if (anime) 1 else 0)
     }
 
-    val shows = query.findAllSortedAsync("showName")
+    val shows = query.findAllAsync()
     shows.addChangeListener(listener)
 
     return shows
