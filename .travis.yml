@@ -48,7 +48,7 @@ after_success:
   - ./gradlew jacocoTestReport coveralls
 
 after_failure:
-  - adb logcat -d
+  - if [[ "$ANDROID_ABI" ]]; then adb logcat -d; fi
 
 sudo: false
 
