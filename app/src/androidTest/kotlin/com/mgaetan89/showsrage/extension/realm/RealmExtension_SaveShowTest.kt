@@ -12,6 +12,7 @@ import com.mgaetan89.showsrage.initRealm
 import com.mgaetan89.showsrage.model.Quality
 import com.mgaetan89.showsrage.model.RealmString
 import com.mgaetan89.showsrage.model.Show
+import com.mgaetan89.showsrage.validateRealmList
 import io.realm.Realm
 import io.realm.RealmList
 import org.assertj.core.api.Assertions.assertThat
@@ -87,19 +88,6 @@ class RealmExtension_SaveShowTest {
 
     private fun getShows() = this.realm.getShows(null)
 
-    private fun validateRealmList(actual: RealmList<RealmString>?, expected: RealmList<RealmString>?) {
-        if (expected == null) {
-            assertThat(actual).isNull()
-        } else {
-            assertThat(actual).isNotNull()
-            assertThat(actual).hasSize(expected.size)
-
-            actual!!.forEachIndexed { i, item ->
-                assertThat(item.value).isEqualTo(expected[i].value)
-            }
-        }
-    }
-
     private fun validateShow(airs: String?, genre: RealmList<RealmString>?, imdbId: String?, indexerId: Int, location: String?, qualityDetails: Quality?, seasonList: RealmList<RealmString>?) {
         assertThat(this.getShows()).hasSize(84)
 
@@ -108,7 +96,7 @@ class RealmExtension_SaveShowTest {
         assertThat(show).isNotNull()
         assertThat(show!!.airs).isEqualTo(airs)
 
-        this.validateRealmList(show.genre, genre)
+        validateRealmList(show.genre, genre)
 
         assertThat(show.imdbId).isEqualTo(imdbId)
         assertThat(show.indexerId).isEqualTo(indexerId)
@@ -120,15 +108,15 @@ class RealmExtension_SaveShowTest {
             assertThat(show.qualityDetails).isNotNull()
 
             show.qualityDetails!!.let {
-                this.validateRealmList(it.archive, qualityDetails.archive)
+                validateRealmList(it.archive, qualityDetails.archive)
 
                 assertThat(it.indexerId).isEqualTo(indexerId)
 
-                this.validateRealmList(it.initial, qualityDetails.initial)
+                validateRealmList(it.initial, qualityDetails.initial)
             }
         }
 
-        this.validateRealmList(show.seasonList, seasonList)
+        validateRealmList(show.seasonList, seasonList)
     }
 
     companion object {
