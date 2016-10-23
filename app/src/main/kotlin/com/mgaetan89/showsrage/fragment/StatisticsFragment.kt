@@ -9,10 +9,12 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.mgaetan89.showsrage.R
-import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.extension.getShowsStats
+import com.mgaetan89.showsrage.extension.saveShowsStat
 import com.mgaetan89.showsrage.model.ShowsStat
 import com.mgaetan89.showsrage.model.ShowsStats
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
 import retrofit.Callback
@@ -29,8 +31,9 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
     private var episodesSnatchedBar: View? = null
     private var episodesTotal: TextView? = null
     private var progressLayout: LinearLayout? = null
+    private val realm: Realm by lazy { Realm.getDefaultInstance() }
     private var showsActive: TextView? = null
-    private var showsStats: RealmResults<ShowsStat>? = null
+    private lateinit var showsStats: RealmResults<ShowsStat>
     private var showsTotal: TextView? = null
     private var statisticsLayout: LinearLayout? = null
 
@@ -85,7 +88,6 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        this.showsStats = RealmManager.getShowsStats(this)
         SickRageApi.instance.services?.getShowsStats(this)
     }
 
@@ -114,14 +116,6 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
         return builder.create()
     }
 
-    override fun onDestroy() {
-        if (this.showsStats?.isValid ?: false) {
-            this.showsStats?.removeChangeListeners()
-        }
-
-        super.onDestroy()
-    }
-
     override fun onDestroyView() {
         this.episodesDownloaded = null
         this.episodesDownloadedBar = null
@@ -138,12 +132,26 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
         super.onDestroyView()
     }
 
-    override fun success(showsStats: ShowsStats?, response: Response?) {
-        val showsStat = showsStats?.data
+    override fun onStart() {
+        super.onStart()
 
-        if (showsStat != null) {
-            RealmManager.saveShowsStat(showsStat)
+        this.showsStats = this.realm.getShowsStats(this)
+    }
+
+    override fun onStop() {
+        if (this.showsStats.isValid) {
+            this.showsStats.removeChangeListeners()
         }
+
+        this.realm.close()
+
+        super.onStop()
+    }
+
+    override fun success(showsStats: ShowsStats?, response: Response?) {
+        val showsStat = showsStats?.data ?: return
+
+        this.realm.saveShowsStat(showsStat)
     }
 
     companion object {

@@ -16,11 +16,12 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.RootDirectoriesAdapter
+import com.mgaetan89.showsrage.extension.getRootDirs
 import com.mgaetan89.showsrage.helper.GenericCallback
-import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.GenericResponse
 import com.mgaetan89.showsrage.model.RootDir
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.Realm
 import retrofit.client.Response
 
 open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener {
@@ -65,9 +66,10 @@ open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickLis
             val rootDirectoryLayout = view.findViewById(R.id.root_directory_layout) as LinearLayout?
 
             if (rootDirectoryLayout != null) {
-                val rootDirectories = RealmManager.getRootDirs()
+                val realm = Realm.getDefaultInstance()
+                val rootDirectories = realm.getRootDirs()
 
-                if (rootDirectories == null || rootDirectories.size < 2) {
+                if (rootDirectories.size < 2) {
                     rootDirectoryLayout.visibility = View.GONE
                 } else {
                     this.rootDirectory = view.findViewById(R.id.root_directory) as Spinner?
@@ -78,6 +80,8 @@ open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickLis
 
                     rootDirectoryLayout.visibility = View.VISIBLE
                 }
+
+                realm.close()
             }
         }
 

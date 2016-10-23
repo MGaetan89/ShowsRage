@@ -42,6 +42,7 @@ import com.mgaetan89.showsrage.extension.getLocale
 import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.extension.getVersionCheckInterval
 import com.mgaetan89.showsrage.extension.saveLastVersionCheckTime
+import com.mgaetan89.showsrage.extension.saveRootDirs
 import com.mgaetan89.showsrage.extension.updateAllWidgets
 import com.mgaetan89.showsrage.extension.useDarkTheme
 import com.mgaetan89.showsrage.fragment.HistoryFragment
@@ -52,7 +53,6 @@ import com.mgaetan89.showsrage.fragment.ScheduleFragment
 import com.mgaetan89.showsrage.fragment.SettingsFragment
 import com.mgaetan89.showsrage.fragment.ShowsFragment
 import com.mgaetan89.showsrage.fragment.StatisticsFragment
-import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.helper.ShowsArchitect
 import com.mgaetan89.showsrage.helper.ShowsRageReceiver
 import com.mgaetan89.showsrage.helper.Utils
@@ -79,6 +79,7 @@ import com.mgaetan89.showsrage.view.ColoredToolbar
 import com.mgaetan89.showsrage.widget.HistoryWidgetProvider
 import com.mgaetan89.showsrage.widget.ShowWidgetProvider
 import io.kolumbus.Kolumbus
+import io.realm.Realm
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
@@ -336,8 +337,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-        RealmManager.init()
-
         val preferences = this.getPreferences()
 
         if (savedInstanceState == null) {
@@ -385,12 +384,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         this.setSupportActionBar(this.toolbar)
 
         this.navigationView?.menu?.performIdentifierAction(getInitialMenuId(this.intent?.action), 0)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        RealmManager.close()
     }
 
     override fun onPause() {
@@ -545,7 +538,10 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         }
 
         override fun success(rootDirs: RootDirs?, response: Response?) {
-            RealmManager.saveRootDirs(rootDirs?.data ?: emptyList())
+            Realm.getDefaultInstance().let {
+                it.saveRootDirs(rootDirs?.data ?: emptyList())
+                it.close()
+            }
         }
     }
 }

@@ -8,10 +8,11 @@ import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.ShowPagerAdapter
 import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.extension.getSeasonSort
-import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.extension.getShow
 import com.mgaetan89.showsrage.model.Seasons
 import com.mgaetan89.showsrage.model.Sort
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.Realm
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
@@ -34,13 +35,16 @@ class ShowFragment : TabbedFragment(), Callback<Seasons> {
         }
 
         val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
-        val show = RealmManager.getShow(indexerId)
+        val realm = Realm.getDefaultInstance()
+        val show = realm.getShow(indexerId)
         val sort = activity.getPreferences().getSeasonSort()
         val seasons = show?.seasonList?.map { it.value.toInt() } ?: emptyList()
 
+        realm.close()
+
         this.displaySeasons(if (Sort.ASCENDING.equals(sort)) seasons.sorted() else seasons.sortedDescending())
 
-        SickRageApi.instance.services?.getSeasons(show?.indexerId ?: 0, sort.label, this)
+        SickRageApi.instance.services?.getSeasons(indexerId, sort.label, this)
     }
 
     override fun onDestroy() {

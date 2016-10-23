@@ -23,19 +23,23 @@ import com.mgaetan89.showsrage.adapter.ShowsAdapter
 import com.mgaetan89.showsrage.extension.changeLocale
 import com.mgaetan89.showsrage.extension.getLocale
 import com.mgaetan89.showsrage.extension.getPreferences
+import com.mgaetan89.showsrage.extension.getShow
+import com.mgaetan89.showsrage.extension.getShows
 import com.mgaetan89.showsrage.extension.getShowsListLayout
 import com.mgaetan89.showsrage.extension.ignoreArticles
+import com.mgaetan89.showsrage.extension.saveShowWidget
 import com.mgaetan89.showsrage.extension.updateAllWidgets
 import com.mgaetan89.showsrage.extension.useDarkTheme
-import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.ShowWidget
 import com.mgaetan89.showsrage.view.ColoredToolbar
 import com.mgaetan89.showsrage.widget.ShowWidgetProvider
+import io.realm.Realm
 import java.util.*
 
 class ShowWidgetConfigurationActivity : AppCompatActivity() {
+    private val realm: Realm by lazy { Realm.getDefaultInstance() }
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (Constants.Intents.ACTION_SHOW_SELECTED.equals(intent?.action)) {
@@ -50,8 +54,6 @@ class ShowWidgetConfigurationActivity : AppCompatActivity() {
         this.setResult(RESULT_CANCELED)
 
         this.setContentView(R.layout.activity_show_widget_configuration)
-
-        RealmManager.init()
 
         if (savedInstanceState == null) {
             val preferences = this.getPreferences()
@@ -79,9 +81,15 @@ class ShowWidgetConfigurationActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    override fun onStop() {
+        this.realm.close()
+
+        super.onStop()
+    }
+
     private fun addWidget(indexerId: Int) {
         val appWidgetId = this.intent.extras?.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
-        val show: Show? = RealmManager.getShow(indexerId, null)
+        val show = this.realm.getShow(indexerId)
 
         if (appWidgetId == null || appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID || show == null) {
             this.finish()
@@ -99,7 +107,7 @@ class ShowWidgetConfigurationActivity : AppCompatActivity() {
         (this.findViewById(android.R.id.list) as RecyclerView?)?.let {
             val empty = this.findViewById(android.R.id.empty) as TextView?
             val ignoreArticles = this.getPreferences().ignoreArticles()
-            val shows = (RealmManager.getShows(null, null) ?: emptyList<Show>())
+            val shows = (this.realm.getShows(null) ?: emptyList<Show>())
                     .sortedWith(Comparator<Show> { first, second ->
                         val firstProperty = Utils.getSortableShowName(first, ignoreArticles)
                         val secondProperty = Utils.getSortableShowName(second, ignoreArticles)
@@ -128,7 +136,7 @@ class ShowWidgetConfigurationActivity : AppCompatActivity() {
         showWidget.widgetId = appWidgetId
         showWidget.show = show
 
-        RealmManager.saveShowWidget(showWidget)
+        this.realm.saveShowWidget(showWidget)
     }
 
     private fun sendResult(appWidgetId: Int) {

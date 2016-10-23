@@ -21,10 +21,11 @@ import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.ShowsPagerAdapter
 import com.mgaetan89.showsrage.extension.getPreferences
+import com.mgaetan89.showsrage.extension.saveShows
 import com.mgaetan89.showsrage.extension.splitShowsAnimes
-import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.model.Shows
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.Realm
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
@@ -148,7 +149,10 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
 
         val showsList = shows?.data?.values ?: return
 
-        RealmManager.saveShows(showsList.toList())
+        Realm.getDefaultInstance().let {
+            it.saveShows(showsList.toList())
+            it.close()
+        }
     }
 
     override fun getAdapter(): PagerAdapter {

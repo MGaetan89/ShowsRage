@@ -35,10 +35,14 @@ import android.widget.TextView
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
+import com.mgaetan89.showsrage.extension.deleteShow
+import com.mgaetan89.showsrage.extension.getSeries
+import com.mgaetan89.showsrage.extension.getShow
+import com.mgaetan89.showsrage.extension.saveSerie
+import com.mgaetan89.showsrage.extension.saveShow
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.helper.ImageLoader
-import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.helper.hasText
 import com.mgaetan89.showsrage.helper.setText
@@ -50,6 +54,7 @@ import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.SingleShow
 import com.mgaetan89.showsrage.network.OmDbApi
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmList
 import io.realm.RealmResults
@@ -71,6 +76,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     private var fanArt: ImageView? = null
     private var genre: TextView? = null
     private var imdb: Button? = null
+    private val indexerId: Int by lazy { this.arguments.getInt(Constants.Bundle.INDEXER_ID) }
     private var languageCountry: TextView? = null
     private var location: TextView? = null
     private var name: TextView? = null
@@ -85,6 +91,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     private var rated: TextView? = null
     private var rating: TextView? = null
     private var ratingStars: RatingBar? = null
+    private val realm: Realm by lazy { Realm.getDefaultInstance() }
     private var resumeMenu: MenuItem? = null
     private var runtime: TextView? = null
     private var series: RealmResults<Serie>? = null
@@ -171,7 +178,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         }
     }
     private var serviceConnection: ServiceConnection? = null
-    private var show: Show? = null
+    private lateinit var show: Show
     private var status: TextView? = null
     private var subtitles: TextView? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
@@ -225,7 +232,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
         if (imdbId != null) {
             if (this.series == null) {
-                this.series = RealmManager.getSeries(imdbId, this.seriesListener)
+                this.series = this.realm.getSeries(imdbId, this.seriesListener)
             }
 
             this.omDbApi?.getShow(imdbId, OmdbShowCallback())
@@ -367,18 +374,18 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
 
     override fun onClick(view: View?) {
-        if (view == null || this.show == null) {
+        if (view == null || !this.show.isLoaded) {
             return
         }
 
         val activity = this.activity
         var color = ContextCompat.getColor(activity, R.color.primary)
         val url = when (view.id) {
-            R.id.show_imdb -> "http://www.imdb.com/title/${this.show!!.imdbId}"
-            R.id.show_the_tvdb -> "http://thetvdb.com/?tab=series&id=${this.show!!.tvDbId}"
+            R.id.show_imdb -> "http://www.imdb.com/title/${this.show.imdbId}"
+            R.id.show_the_tvdb -> "http://thetvdb.com/?tab=series&id=${this.show.tvDbId}"
             R.id.show_web_search -> {
                 val intent = Intent(Intent.ACTION_WEB_SEARCH)
-                intent.putExtra(SearchManager.QUERY, this.show!!.showName)
+                intent.putExtra(SearchManager.QUERY, this.show.showName)
 
                 this.startActivity(intent)
 
@@ -403,14 +410,6 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
                 .setToolbarColor(color)
                 .build()
         tabIntent.launchUrl(this.activity, Uri.parse(url))
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
-
-        this.show = RealmManager.getShow(indexerId, this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -479,14 +478,6 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
         if (this.serviceConnection != null) {
             this.context.unbindService(this.serviceConnection)
-        }
-
-        if (this.series?.isValid ?: false) {
-            this.series?.removeChangeListeners()
-        }
-
-        if (this.show?.isValid ?: false) {
-            this.show?.removeChangeListeners()
         }
 
         super.onDestroy()
@@ -635,21 +626,37 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         this.onRefresh()
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        this.show = this.realm.getShow(this.indexerId, this)
+    }
+
+    override fun onStop() {
+        if (this.series?.isValid ?: false) {
+            this.series?.removeChangeListeners()
+        }
+
+        if (this.show.isValid) {
+            this.show.removeChangeListeners()
+        }
+
+        this.realm.close()
+
+        super.onStop()
+    }
+
     override fun success(singleShow: SingleShow?, response: Response?) {
         this.swipeRefreshLayout?.isRefreshing = false
 
         val show = singleShow?.data ?: return
 
-        RealmManager.saveShow(show)
+        this.realm.saveShow(show)
     }
 
     private fun changeQuality() {
-        if (this.show == null) {
-            return
-        }
-
         val arguments = Bundle()
-        arguments.putInt(Constants.Bundle.INDEXER_ID, this.show!!.indexerId)
+        arguments.putInt(Constants.Bundle.INDEXER_ID, this.indexerId)
 
         val fragment = ChangeQualityFragment()
         fragment.arguments = arguments
@@ -665,15 +672,15 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
 
     private fun deleteShow() {
-        if (this.show == null || !this.show!!.isLoaded) {
+        if (!this.show.isLoaded) {
             return
         }
 
-        val indexerId = this.show!!.indexerId
+        val indexerId = this.indexerId
         val callback = DeleteShowCallback(this.activity, indexerId)
 
         AlertDialog.Builder(this.context)
-                .setTitle(this.getString(R.string.delete_show_title, this.show!!.showName))
+                .setTitle(this.getString(R.string.delete_show_title, this.show.showName))
                 .setMessage(R.string.delete_show_message)
                 .setPositiveButton(R.string.keep, { dialog, which ->
                     SickRageApi.instance.services?.deleteShow(indexerId, 0, callback)
@@ -716,13 +723,9 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
 
     private fun pauseOrResumeShow(pause: Boolean) {
-        if (this.show == null) {
-            return
-        }
-
         this.showHidePauseResumeMenus(!pause)
 
-        SickRageApi.instance.services?.pauseShow(this.show!!.indexerId, if (pause) 1 else 0, object : GenericCallback(this.activity) {
+        SickRageApi.instance.services?.pauseShow(this.indexerId, if (pause) 1 else 0, object : GenericCallback(this.activity) {
             override fun failure(error: RetrofitError?) {
                 super.failure(error)
 
@@ -732,9 +735,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
 
     private fun rescanShow() {
-        if (this.show != null) {
-            SickRageApi.instance.services?.rescanShow(this.show!!.indexerId, GenericCallback(this.activity))
-        }
+        SickRageApi.instance.services?.rescanShow(this.indexerId, GenericCallback(this.activity))
     }
 
     private fun showHidePauseResumeMenus(isPause: Boolean) {
@@ -743,16 +744,17 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
 
     private fun updateShow() {
-        if (this.show != null) {
-            SickRageApi.instance.services?.updateShow(this.show!!.indexerId, GenericCallback(this.activity))
-        }
+        SickRageApi.instance.services?.updateShow(this.indexerId, GenericCallback(this.activity))
     }
 
     private class DeleteShowCallback(activity: FragmentActivity, val indexerId: Int) : GenericCallback(activity) {
         override fun success(genericResponse: GenericResponse?, response: Response?) {
             super.success(genericResponse, response)
 
-            RealmManager.deleteShow(this.indexerId)
+            Realm.getDefaultInstance().let {
+                it.deleteShow(this.indexerId)
+                it.close()
+            }
 
             val activity = this.getActivity() ?: return
             val intent = Intent(activity, MainActivity::class.java)
@@ -768,7 +770,10 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
         override fun success(serie: Serie?, response: Response?) {
             if (serie != null) {
-                RealmManager.saveSerie(serie)
+                Realm.getDefaultInstance().let {
+                    it.saveSerie(serie)
+                    it.close()
+                }
             }
         }
     }
@@ -786,9 +791,9 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
             val fragment = this.fragmentReference.get() ?: return
             fragment.tabSession = customTabsClient?.newSession(null)
 
-            if (fragment.show?.isValid ?: false) {
-                fragment.tabSession?.mayLaunchUrl(Uri.parse("http://www.imdb.com/title/${fragment.show!!.imdbId}"), null, null)
-                fragment.tabSession?.mayLaunchUrl(Uri.parse("http://thetvdb.com/?tab=series&id=${fragment.show!!.tvDbId}"), null, null)
+            if (fragment.show.isValid) {
+                fragment.tabSession?.mayLaunchUrl(Uri.parse("http://www.imdb.com/title/${fragment.show.imdbId}"), null, null)
+                fragment.tabSession?.mayLaunchUrl(Uri.parse("http://thetvdb.com/?tab=series&id=${fragment.show.tvDbId}"), null, null)
             }
         }
 

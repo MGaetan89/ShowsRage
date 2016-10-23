@@ -5,14 +5,18 @@ import android.support.v4.view.PagerAdapter
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.SchedulePagerAdapter
-import com.mgaetan89.showsrage.helper.RealmManager
+import com.mgaetan89.showsrage.extension.clearSchedule
+import com.mgaetan89.showsrage.extension.getScheduleSections
+import com.mgaetan89.showsrage.extension.saveSchedules
 import com.mgaetan89.showsrage.model.Schedules
 import com.mgaetan89.showsrage.network.SickRageApi
+import io.realm.Realm
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 
 class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
+    private val realm: Realm by lazy { Realm.getDefaultInstance() }
     private val sectionIds = mutableListOf<String>()
     private val sectionLabels = mutableListOf<String>()
 
@@ -32,7 +36,7 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
             activity.setTitle(R.string.schedule)
         }
 
-        this.setSections(RealmManager.getScheduleSections())
+        this.setSections(this.realm.getScheduleSections())
         this.onRefresh()
     }
 
@@ -49,6 +53,12 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
         SickRageApi.instance.services?.getSchedule(this)
     }
 
+    override fun onStop() {
+        this.realm.close()
+
+        super.onStop()
+    }
+
     override fun success(schedules: Schedules?, response: Response?) {
         this.swipeRefreshLayout?.isRefreshing = false
 
@@ -61,11 +71,11 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
             data[it]?.isNotEmpty() ?: false
         })
 
-        RealmManager.clearSchedule()
+        this.realm.clearSchedule()
 
         data.forEach {
             if (it.value.isNotEmpty()) {
-                RealmManager.saveSchedules(it.key, it.value)
+                this.realm.saveSchedules(it.key, it.value)
             }
         }
     }

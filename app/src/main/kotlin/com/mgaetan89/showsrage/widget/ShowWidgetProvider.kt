@@ -9,18 +9,25 @@ import android.widget.RemoteViews
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
+import com.mgaetan89.showsrage.extension.deleteShowWidgets
 import com.mgaetan89.showsrage.extension.getPreferences
+import com.mgaetan89.showsrage.extension.getShowWidget
 import com.mgaetan89.showsrage.helper.ImageLoader
-import com.mgaetan89.showsrage.helper.RealmManager
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.presenter.ShowPresenter
+import io.realm.Realm
 
 class ShowWidgetProvider : AppWidgetProvider() {
     override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
         super.onDeleted(context, appWidgetIds)
 
-        appWidgetIds?.forEach {
-            RealmManager.deleteShowWidget(it)
+        if (appWidgetIds == null || appWidgetIds.isEmpty()) {
+            return
+        }
+
+        Realm.getDefaultInstance().let {
+            it.deleteShowWidgets(appWidgetIds.toTypedArray())
+            it.close()
         }
     }
 
@@ -35,8 +42,10 @@ class ShowWidgetProvider : AppWidgetProvider() {
     override fun onUpdate(context: Context?, appWidgetManager: AppWidgetManager?, appWidgetIds: IntArray?) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
 
+        val realm = Realm.getDefaultInstance()
+
         appWidgetIds?.forEach { appWidgetId ->
-            val showWidget = RealmManager.getShowWidget(appWidgetId)
+            val showWidget = realm.getShowWidget(appWidgetId)
 
             showWidget?.let {
                 val presenter = ShowPresenter(it.show)
@@ -51,6 +60,8 @@ class ShowWidgetProvider : AppWidgetProvider() {
                 appWidgetManager?.updateAppWidget(appWidgetId, views)
             }
         }
+
+        realm.close()
     }
 
     private fun getWidgetPendingIntent(context: Context?, appWidgetId: Int, tvDbId: Int): PendingIntent {
