@@ -280,8 +280,11 @@ fun Realm.saveLogs(logLevel: LogLevel, logs: List<LogEntry>) {
                 .findAll()
                 .deleteAllFromRealm()
 
+        // Remove invalid LogEntry
+        val filteredLogs = logs.filter { !it.errorType.isNullOrEmpty() }
+
         // Save the new logs in the database
-        it.copyToRealm(logs)
+        it.copyToRealm(filteredLogs)
     }
 }
 

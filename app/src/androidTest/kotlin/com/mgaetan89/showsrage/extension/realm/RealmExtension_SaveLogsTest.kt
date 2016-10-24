@@ -87,6 +87,24 @@ class RealmExtension_SaveLogsTest {
         this.validateLogs()
     }
 
+    @Test
+    fun saveLogs_invalidEntries() {
+        val logs = mutableListOf<LogEntry>()
+
+        for (i in 1..15) {
+            logs.add(LogEntry().apply {
+                this.dateTime = if (i % 2 == 0) "dateTime_$i" else ""
+                this.errorType = if (i % 2 == 0) LogLevel.DEBUG.name else ""
+                this.group = if (i % 2 == 0) "group_$i" else ""
+                this.message = if (i % 2 == 0) "message_$i" else ""
+            })
+        }
+
+        this.realm.saveLogs(LogLevel.DEBUG, logs)
+
+        this.validateLogs(debugLogs = 7)
+    }
+
     @After
     fun after() {
         this.realm.close()
