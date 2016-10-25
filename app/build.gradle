@@ -118,7 +118,7 @@ task jacocoTestReport(type: JacocoReport /*, dependsOn: ['test'] */) {
 }
 
 def assertJAndroidVersion = '1.1.1'
-def googleServicesVersion = '9.8.00'
+def googleServicesVersion = '9.8.0'
 def jUnitVersion = '4.12'
 def kolumbusVersion = 'v0.9'
 def okHttpVersion = '2.5.0'
@@ -156,7 +156,7 @@ dependencies {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
 	testCompile "junit:junit:${jUnitVersion}"
-	testCompile 'org.mockito:mockito-core:2.2.7'
+	testCompile 'org.mockito:mockito-core:2.2.8'
 
 	androidTestCompile "com.android.support:support-annotations:${supportLibraryVersion}"
 	androidTestCompile "com.android.support.test:rules:${supportTestVersion}"
