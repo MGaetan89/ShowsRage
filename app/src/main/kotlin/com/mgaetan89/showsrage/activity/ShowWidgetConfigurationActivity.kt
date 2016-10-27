@@ -39,7 +39,7 @@ import io.realm.Realm
 import java.util.*
 
 class ShowWidgetConfigurationActivity : AppCompatActivity() {
-    private val realm: Realm by lazy { Realm.getDefaultInstance() }
+    private lateinit var realm: Realm
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (Constants.Intents.ACTION_SHOW_SELECTED.equals(intent?.action)) {
@@ -50,6 +50,8 @@ class ShowWidgetConfigurationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        this.realm = Realm.getDefaultInstance()
 
         this.setResult(RESULT_CANCELED)
 
@@ -78,13 +80,9 @@ class ShowWidgetConfigurationActivity : AppCompatActivity() {
     override fun onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(this.receiver)
 
-        super.onDestroy()
-    }
-
-    override fun onStop() {
         this.realm.close()
 
-        super.onStop()
+        super.onDestroy()
     }
 
     private fun addWidget(indexerId: Int) {

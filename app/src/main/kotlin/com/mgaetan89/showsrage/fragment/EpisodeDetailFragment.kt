@@ -192,7 +192,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     private var rated: TextView? = null
     private var rating: TextView? = null
     private var ratingStars: RatingBar? = null
-    private val realm: Realm by lazy { Realm.getDefaultInstance() }
+    private lateinit var realm: Realm
     private var runtime: TextView? = null
     private var seasonNumber = 0
     private var show: Show? = null
@@ -215,40 +215,6 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         error?.printStackTrace()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        val restAdapter = RestAdapter.Builder()
-                .setEndpoint(Constants.OMDB_URL)
-                .setLogLevel(Constants.NETWORK_LOG_LEVEL)
-                .build()
-        val omDbApi = restAdapter.create(OmDbApi::class.java)
-
-        this.activity?.title = if (this.seasonNumber <= 0) {
-            this.getString(R.string.specials)
-        } else {
-            this.getString(R.string.season_number, this.seasonNumber)
-        }
-
-        if (this.show != null) {
-            val imdbId = this.show!!.imdbId
-
-            // We might not have the IMDB id yet
-            if (imdbId.isNullOrEmpty()) {
-                // So we try to get the data by using the show name
-                val showName = this.show!!.showName
-
-                if (!showName.isNullOrEmpty()) {
-                    omDbApi.getEpisodeByTitle(showName!!, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
-                }
-            } else {
-                this.omdbEpisodes = this.realm.getEpisodes(OmDbEpisode.buildId(imdbId!!, this.seasonNumber.toString(), this.episodeNumber.toString()), this.omdbEpisodesListener)
-
-                omDbApi.getEpisodeByImDbId(imdbId, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
-            }
-        }
-    }
-
     override fun onChange(episode: Episode) {
         if (!episode.isLoaded) {
             return
@@ -266,19 +232,6 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         Toast.makeText(this.context, this.getString(R.string.episode_search, this.episodeNumber, this.seasonNumber), Toast.LENGTH_SHORT).show()
 
         SickRageApi.instance.services?.searchEpisode(this.show!!.indexerId, this.seasonNumber, this.episodeNumber, GenericCallback(this.activity))
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val arguments = this.arguments
-        val episodeId = arguments.getString(Constants.Bundle.EPISODE_ID)
-        val indexerId = arguments.getInt(Constants.Bundle.INDEXER_ID)
-
-        this.episode = this.realm.getEpisode(episodeId ?: "", this)
-        this.episodeNumber = arguments.getInt(Constants.Bundle.EPISODE_NUMBER)
-        this.seasonNumber = arguments.getInt(Constants.Bundle.SEASON_NUMBER)
-        this.show = this.realm.getShow(indexerId)
     }
 
     override fun onCreateCallback(): MediaRouter.Callback? {
@@ -438,6 +391,51 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         super.onResume()
 
         this.onRefresh()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        this.realm = Realm.getDefaultInstance()
+
+        val arguments = this.arguments
+        val episodeId = arguments.getString(Constants.Bundle.EPISODE_ID)
+        val indexerId = arguments.getInt(Constants.Bundle.INDEXER_ID)
+
+        this.episode = this.realm.getEpisode(episodeId ?: "", this)
+        this.episodeNumber = arguments.getInt(Constants.Bundle.EPISODE_NUMBER)
+        this.seasonNumber = arguments.getInt(Constants.Bundle.SEASON_NUMBER)
+        this.show = this.realm.getShow(indexerId)
+
+        val restAdapter = RestAdapter.Builder()
+                .setEndpoint(Constants.OMDB_URL)
+                .setLogLevel(Constants.NETWORK_LOG_LEVEL)
+                .build()
+        val omDbApi = restAdapter.create(OmDbApi::class.java)
+
+        this.activity?.title = if (this.seasonNumber <= 0) {
+            this.getString(R.string.specials)
+        } else {
+            this.getString(R.string.season_number, this.seasonNumber)
+        }
+
+        if (this.show != null) {
+            val imdbId = this.show!!.imdbId
+
+            // We might not have the IMDB id yet
+            if (imdbId.isNullOrEmpty()) {
+                // So we try to get the data by using the show name
+                val showName = this.show!!.showName
+
+                if (!showName.isNullOrEmpty()) {
+                    omDbApi.getEpisodeByTitle(showName!!, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
+                }
+            } else {
+                this.omdbEpisodes = this.realm.getEpisodes(OmDbEpisode.buildId(imdbId!!, this.seasonNumber.toString(), this.episodeNumber.toString()), this.omdbEpisodesListener)
+
+                omDbApi.getEpisodeByImDbId(imdbId, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
+            }
+        }
     }
 
     override fun onStop() {

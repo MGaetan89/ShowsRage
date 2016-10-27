@@ -46,7 +46,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
     private var adapter: ShowsAdapter? = null
     private var emptyView: TextView? = null
     private val filteredShows = mutableListOf<Show>()
-    private val realm: Realm by lazy { Realm.getDefaultInstance() }
+    private lateinit var realm: Realm
     private val receiver = FilterReceiver(this)
     private var recyclerView: RecyclerView? = null
     private lateinit var shows: RealmResults<Show>
@@ -145,6 +145,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
             null
         }
 
+        this.realm = Realm.getDefaultInstance()
         this.shows = this.realm.getShows(anime, this)
     }
 
