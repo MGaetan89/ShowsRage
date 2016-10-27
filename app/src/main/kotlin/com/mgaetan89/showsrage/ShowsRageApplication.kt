@@ -23,7 +23,9 @@ class ShowsRageApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        val configuration = RealmConfiguration.Builder(this).let {
+        Realm.init(this)
+
+        val configuration = RealmConfiguration.Builder().let {
             it.schemaVersion(Constants.DATABASE_VERSION)
             it.migration(Migration())
             it.build()

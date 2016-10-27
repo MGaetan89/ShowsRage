@@ -28,8 +28,8 @@ fun <T> buildComparator(valueExtractor: (T) -> String?, descending: Boolean = fa
 }
 
 fun initRealm(context: Context, testContext: Context) {
-    val configuration = RealmConfiguration.Builder(context).let {
-        it.assetFile(testContext, "test.realm")
+    val configuration = RealmConfiguration.Builder().let {
+        it.assetFile("test.realm")
         it.schemaVersion(Constants.DATABASE_VERSION)
         it.migration(Migration())
         it.build()
