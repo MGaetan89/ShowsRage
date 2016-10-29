@@ -28,7 +28,7 @@ fun <T> buildComparator(valueExtractor: (T) -> String?, descending: Boolean = fa
 }
 
 fun initRealm(context: Context, testContext: Context) {
-    Realm.init(testContext)
+    Realm.init(context)
 
     val configuration = RealmConfiguration.Builder().let {
         it.assetFile("test.realm")
