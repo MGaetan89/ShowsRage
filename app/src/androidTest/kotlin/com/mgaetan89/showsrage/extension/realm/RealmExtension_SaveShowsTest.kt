@@ -1,13 +1,11 @@
 package com.mgaetan89.showsrage.extension.realm
 
 import android.os.Looper
-import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.extension.getShows
 import com.mgaetan89.showsrage.extension.saveShows
-import com.mgaetan89.showsrage.initRealm
 import com.mgaetan89.showsrage.model.Show
 import io.realm.Realm
 import org.assertj.core.api.Assertions.assertThat
@@ -23,14 +21,12 @@ import org.junit.runner.RunWith
 class RealmExtension_SaveShowsTest {
     @JvmField
     @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+    val activityRule = ActivityTestRule(TestActivity::class.java)
 
     private val realm: Realm by lazy { Realm.getDefaultInstance() }
 
     @Before
     fun before() {
-        initRealm(InstrumentationRegistry.getTargetContext(), InstrumentationRegistry.getContext())
-
         this.realm.isAutoRefresh = false
 
         assertThat(this.getShows()).hasSize(83)

@@ -1,12 +1,10 @@
 package com.mgaetan89.showsrage.extension.realm
 
 import android.os.Looper
-import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.extension.saveLogs
-import com.mgaetan89.showsrage.initRealm
 import com.mgaetan89.showsrage.model.LogEntry
 import com.mgaetan89.showsrage.model.LogLevel
 import io.realm.Realm
@@ -24,14 +22,12 @@ import org.junit.runner.RunWith
 class RealmExtension_SaveLogsTest {
     @JvmField
     @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+    val activityRule = ActivityTestRule(TestActivity::class.java)
 
     private val realm: Realm by lazy { Realm.getDefaultInstance() }
 
     @Before
     fun before() {
-        initRealm(InstrumentationRegistry.getTargetContext(), InstrumentationRegistry.getContext())
-
         this.realm.isAutoRefresh = false
 
         this.validateLogs()

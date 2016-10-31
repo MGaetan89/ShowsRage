@@ -46,13 +46,21 @@ object Utils {
         return ThemeColors(primaryColor, accentColor)
     }
 
-    fun initRealm(context: Context) {
+    fun initRealm(context: Context, assetFile: String = "", deleteRealm: Boolean = false) {
         Realm.init(context)
 
         val configuration = RealmConfiguration.Builder().let {
+            if (assetFile.isNotEmpty()) {
+                it.assetFile(assetFile)
+            }
+
             it.schemaVersion(Constants.DATABASE_VERSION)
             it.migration(Migration())
             it.build()
+        }
+
+        if (deleteRealm) {
+            Realm.deleteRealm(configuration)
         }
 
         Realm.setDefaultConfiguration(configuration)
