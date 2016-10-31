@@ -1,10 +1,7 @@
 package com.mgaetan89.showsrage
 
 import android.content.Context
-import com.mgaetan89.showsrage.helper.Migration
 import com.mgaetan89.showsrage.model.RealmString
-import io.realm.Realm
-import io.realm.RealmConfiguration
 import io.realm.RealmList
 import org.assertj.core.api.Assertions.assertThat
 import java.util.*
@@ -28,6 +25,7 @@ fun <T> buildComparator(valueExtractor: (T) -> String?, descending: Boolean = fa
 }
 
 fun initRealm(context: Context, testContext: Context) {
+    /*
     Realm.init(context)
 
     val configuration = RealmConfiguration.Builder().let {
@@ -39,6 +37,7 @@ fun initRealm(context: Context, testContext: Context) {
 
     Realm.deleteRealm(configuration)
     Realm.setDefaultConfiguration(configuration)
+    */
 }
 
 fun validateRealmList(actual: RealmList<RealmString>?, expected: RealmList<RealmString>?) {

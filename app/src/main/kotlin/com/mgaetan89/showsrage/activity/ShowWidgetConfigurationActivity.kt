@@ -51,6 +51,8 @@ class ShowWidgetConfigurationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        Utils.initRealm(this)
+
         this.realm = Realm.getDefaultInstance()
 
         this.setResult(RESULT_CANCELED)

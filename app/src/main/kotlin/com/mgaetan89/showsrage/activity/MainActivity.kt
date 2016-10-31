@@ -335,6 +335,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.setContentView(R.layout.activity_main)
 
+        Utils.initRealm(this)
+
         this.firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         val preferences = this.getPreferences()
