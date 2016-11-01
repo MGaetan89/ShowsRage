@@ -9,6 +9,6 @@ class TestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Utils.initRealm(InstrumentationRegistry.getContext(), "test.realm", deleteRealm = true)
+        Utils.initRealm(InstrumentationRegistry.getTargetContext(), "test.realm", deleteRealm = true)
     }
 }
