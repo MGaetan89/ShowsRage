@@ -22,13 +22,13 @@ import org.junit.runner.RunWith
 class RealmExtension_ClearHistoryTest {
     @JvmField
     @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java)
+    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
     private val realm: Realm by lazy { Realm.getDefaultInstance() }
 
     @Before
     fun before() {
-        Utils.initRealm(InstrumentationRegistry.getTargetContext(), "test.realm", deleteRealm = true)
+        Utils.initRealm(InstrumentationRegistry.getContext(), "test.realm", deleteRealm = true)
 
         this.realm.isAutoRefresh = false
 
