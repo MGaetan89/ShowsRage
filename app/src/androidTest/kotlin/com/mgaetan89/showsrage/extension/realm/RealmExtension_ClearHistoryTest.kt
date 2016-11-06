@@ -1,11 +1,12 @@
 package com.mgaetan89.showsrage.extension.realm
 
 import android.os.Looper
-import android.support.test.annotation.UiThreadTest
+import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.extension.clearHistory
+import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.History
 import io.realm.Realm
 import org.assertj.core.api.Assertions.assertThat
@@ -21,19 +22,20 @@ import org.junit.runner.RunWith
 class RealmExtension_ClearHistoryTest {
     @JvmField
     @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java)
+    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
     private val realm: Realm by lazy { Realm.getDefaultInstance() }
 
     @Before
     fun before() {
+        Utils.initRealm(InstrumentationRegistry.getContext(), "test.realm", deleteRealm = true)
+
         this.realm.isAutoRefresh = false
 
         assertThat(this.getHistory()).hasSize(100)
     }
 
     @Test
-    @UiThreadTest
     fun clearHistory() {
         this.realm.clearHistory()
 
