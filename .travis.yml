@@ -40,8 +40,6 @@ before_script:
   - ./travis/prepare_emulator.sh
 
 script:
-  - ./gradlew clean
-  - ./gradlew build
   - ./gradlew testDebug
   - if [[ "$ANDROID_ABI" ]]; then adb shell "mkdir -p /data/data/com.mgaetan89.showsrage.dev.test/files"; fi
   - if [[ "$ANDROID_ABI" ]]; then ./gradlew connectedCheck; fi
