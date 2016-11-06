@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage.extension.realm
 
 import android.os.Looper
+import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
@@ -12,12 +13,10 @@ import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@Ignore
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_ClearHistoryTest {
     @JvmField
@@ -34,6 +33,7 @@ class RealmExtension_ClearHistoryTest {
     }
 
     @Test
+    @UiThreadTest
     fun clearHistory() {
         this.realm.clearHistory()
 
