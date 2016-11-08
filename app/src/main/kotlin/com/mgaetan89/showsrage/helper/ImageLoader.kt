@@ -32,27 +32,21 @@ object ImageLoader {
     fun load(imageView: ImageView?, url: String?, circleTransform: Boolean, paletteListener: Palette.PaletteAsyncListener?, onImageResult: OnImageResult?) {
         val context = imageView?.context ?: return
 
-        this.getGlideInstance(context, url, circleTransform)?.let {
-            it.into(BitmapTarget(imageView!!, paletteListener, onImageResult))
-        }
+        this.getGlideInstance(context, url, circleTransform)?.into(BitmapTarget(imageView!!, paletteListener, onImageResult))
     }
 
     @WorkerThread
     fun load(context: Context, remoteViews: RemoteViews, @IdRes viewId: Int, url: String?, circleTransform: Boolean) {
-        this.getGlideInstance(context, url, circleTransform)?.let {
-            it.into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).let {
-                remoteViews.setImageViewBitmap(viewId, it.get())
+        this.getGlideInstance(context, url, circleTransform)?.into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)?.let {
+            remoteViews.setImageViewBitmap(viewId, it.get())
 
-                Glide.clear(it)
-            }
+            Glide.clear(it)
         }
     }
 
     @MainThread
     fun load(context: Context, remoteViews: RemoteViews, @IdRes viewId: Int, url: String?, circleTransform: Boolean, appWidgetId: Int) {
-        this.getGlideInstance(context, url, circleTransform)?.let {
-            it.into(AppWidgetTarget(context, remoteViews, viewId, appWidgetId))
-        }
+        this.getGlideInstance(context, url, circleTransform)?.into(AppWidgetTarget(context, remoteViews, viewId, appWidgetId))
     }
 
     private fun getGlideInstance(context: Context, url: String?, circleTransform: Boolean): BitmapRequestBuilder<String, Bitmap>? {

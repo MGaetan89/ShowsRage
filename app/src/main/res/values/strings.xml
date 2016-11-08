@@ -54,7 +54,7 @@
 	<string name="episode">Episode</string>
 	<string name="episode_name">E<xliff:g example="01" id="number">%1$02d</xliff:g> - <xliff:g example="Pilot" id="name">%2$s</xliff:g></string>
 	<string name="episode_name_short">E<xliff:g example="01" id="number">%1$02d</xliff:g></string>
-	<string name="episode_search">Searching for episode <xliff:g example="1" id="episode">%1$d</xliff:g> in season <xliff:g example="1" id="season">%2$s</xliff:g></string>
+	<string name="episode_search">Searching for episode <xliff:g example="1" id="episode">%1$d</xliff:g> in season <xliff:g example="1" id="season">%2$d</xliff:g></string>
 	<string name="episodes">Episodes</string>
 	<string name="episodes_sort">Episodes sort</string>
 	<string name="error">Error</string>
@@ -170,7 +170,7 @@
 	<string name="stream_in_chromecast">Stream over Google Cast™</string>
 	<string name="subtitled">Subtitled</string>
 	<string name="subtitles">Subtitles</string>
-	<string name="subtitles_search">Searching for subtitles for episode <xliff:g example="1" id="episode">%1$d</xliff:g> in season <xliff:g example="1" id="season">%2$s</xliff:g></string>
+	<string name="subtitles_search">Searching for subtitles for episode <xliff:g example="1" id="episode">%1$d</xliff:g> in season <xliff:g example="1" id="season">%2$d</xliff:g></string>
 	<string name="subtitles_value">Subtitles: <xliff:g example="Yes" id="subtitles">%1$s</xliff:g></string>
 	<string name="symbolic_link">Symbolic link</string>
 	<string name="test">Test</string>
@@ -182,7 +182,7 @@
 	<string name="unknown">Unknown</string>
 	<string name="update">Update</string>
 	<string name="update_available">A new version of SickRage is available</string>
-	<string name="update_available_detailed">Current version: <xliff:g example="v1.0.0" id="current_version">%1$s</xliff:g>\nLatest version: <xliff:g example="v2.0.0" id="latest_version">%2$s</xliff:g>\n<xliff:g example="42" id="commits_offsets">%3$s</xliff:g> new commits</string>
+	<string name="update_available_detailed">Current version: <xliff:g example="v1.0.0" id="current_version">%1$s</xliff:g>\nLatest version: <xliff:g example="v2.0.0" id="latest_version">%2$s</xliff:g>\n<xliff:g example="42" id="commits_offsets">%3$d</xliff:g> new commits</string>
 	<string name="update_failed">SickRage\'s update failed</string>
 	<string name="update_sickrage">Update SickRage</string>
 	<string name="updating_sickrage">SickRage is updating…</string>

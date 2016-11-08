@@ -302,14 +302,12 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
         internal fun getCommand(shows: Iterable<Show>?): String {
             val command = StringBuilder()
 
-            shows?.forEach {
-                if (isShowValid(it)) {
-                    if (command.length > 0) {
-                        command.append("|")
-                    }
-
-                    command.append("show.stats_").append(it.indexerId)
+            shows?.filter { isShowValid(it) }?.forEach {
+                if (command.isNotEmpty()) {
+                    command.append("|")
                 }
+
+                command.append("show.stats_").append(it.indexerId)
             }
 
             return command.toString()

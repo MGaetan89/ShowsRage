@@ -52,7 +52,7 @@ class ShowPagerAdapterTest {
 
     @Test
     fun getItem_Season() {
-        for (i in 1..this.seasons.size - 1) {
+        for (i in 1 until this.seasons.size) {
             val fragment = this.adapter.getItem(i)
             assertTrue(fragment != null)
             assertThat(fragment).isInstanceOf(SeasonFragment::class.java)

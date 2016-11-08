@@ -70,25 +70,22 @@ class ColoredToolbar : Toolbar {
             if (overflowIcon != null) {
                 child.post {
                     overflowIcon.alpha = (0.7f * 255f).toInt()
-                    overflowIcon.colorFilter = ColoredToolbar@this.colorFilter
+                    overflowIcon.colorFilter = ColoredToolbar@ this.colorFilter
                 }
             }
 
-            for (i in 0..(child.childCount - 1)) {
-                val actionMenuChild = child.getChildAt(i)
-
-                if (actionMenuChild is ActionMenuItemView) {
-                    for (j in 0..(actionMenuChild.compoundDrawables.size - 1)) {
-                        val drawable = actionMenuChild.compoundDrawables[j]
-
-                        if (drawable != null) {
-                            actionMenuChild.post {
-                                drawable.colorFilter = ColoredToolbar@this.colorFilter
-                            }
-                        }
+            (0 until child.childCount)
+                    .map { child.getChildAt(it) }
+                    .filterIsInstance<ActionMenuItemView>()
+                    .forEach { actionMenuChild ->
+                        actionMenuChild.compoundDrawables
+                                .filterNotNull()
+                                .forEach {
+                                    actionMenuChild.post {
+                                        it.colorFilter = ColoredToolbar@ this.colorFilter
+                                    }
+                                }
                     }
-                }
-            }
         } else if (child is ViewGroup) {
             this.setGroupColor(child)
         } else {
@@ -98,7 +95,7 @@ class ColoredToolbar : Toolbar {
 
     private fun setGroupColor(group: ViewGroup?) {
         if (group != null) {
-            for (i in 0..(group.childCount - 1)) {
+            for (i in 0 until group.childCount) {
                 this.setChildColor(group.getChildAt(i))
             }
         }
