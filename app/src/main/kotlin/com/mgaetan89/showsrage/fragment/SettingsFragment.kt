@@ -151,23 +151,23 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
             return
         }
 
-        for (i in 0..(preferenceGroup.preferenceCount - 1)) {
-            val preference = preferenceGroup.getPreference(i)
+        (0 until preferenceGroup.preferenceCount)
+                .map { preferenceGroup.getPreference(it) }
+                .forEach {
+                    if (it is PreferenceGroup) {
+                        when (it.key) {
+                            "application_version" -> it.summary = BuildConfig.VERSION_NAME
+                            "screen_server_api_key" -> it.summary = this.getPreferenceValue("api_key", "")
+                        }
 
-            if (preference is PreferenceGroup) {
-                when (preference.key) {
-                    "application_version" -> preference.summary = BuildConfig.VERSION_NAME
-                    "screen_server_api_key" -> preference.summary = this.getPreferenceValue("api_key", "")
+                        this.updatePreferenceGroup(it)
+                    } else {
+                        when (it.key) {
+                            Fields.DISPLAY_LANGUAGE.field -> this.setupDisplayLanguage(it)
+                            else -> this.updatePreference(it)
+                        }
+                    }
                 }
-
-                this.updatePreferenceGroup(preference)
-            } else {
-                when (preference.key) {
-                    Fields.DISPLAY_LANGUAGE.field -> this.setupDisplayLanguage(preference)
-                    else -> this.updatePreference(preference)
-                }
-            }
-        }
     }
 
     companion object {

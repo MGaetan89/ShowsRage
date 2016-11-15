@@ -31,7 +31,7 @@ class LogsAdapter(val logs: List<LogEntry>) : RecyclerView.Adapter<LogsAdapter.V
         }
 
         fun bind(logEntry: LogPresenter) {
-            this.binding.setLog(logEntry)
+            this.binding.log = logEntry
         }
     }
 }

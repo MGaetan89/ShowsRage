@@ -54,7 +54,7 @@
 	<string name="episode">Episode</string>
 	<string name="episode_name">E<xliff:g example="01" id="number">%1$02d</xliff:g> - <xliff:g example="Pilot" id="name">%2$s</xliff:g></string>
 	<string name="episode_name_short">E<xliff:g example="01" id="number">%1$02d</xliff:g></string>
-	<string name="episode_search">Recherche de l\'épisode <xliff:g example="1" id="episode">%1$d</xliff:g> de la saison <xliff:g example="1" id="season">%2$s</xliff:g></string>
+	<string name="episode_search">Recherche de l\'épisode <xliff:g example="1" id="episode">%1$d</xliff:g> de la saison <xliff:g example="1" id="season">%2$d</xliff:g></string>
 	<string name="episodes">Episodes</string>
 	<string name="episodes_sort">Tri des épisodes</string>
 	<string name="error">Erreur</string>
@@ -170,7 +170,7 @@
 	<string name="stream_in_chromecast">Caster via Google Cast™</string>
 	<string name="subtitled">Sous-titré</string>
 	<string name="subtitles">Sous-titres</string>
-	<string name="subtitles_search">Recherche de sous-titres pour l\'épisode <xliff:g example="1" id="episode">%1$d</xliff:g> de la saison <xliff:g example="1" id="season">%2$s</xliff:g></string>
+	<string name="subtitles_search">Recherche de sous-titres pour l\'épisode <xliff:g example="1" id="episode">%1$d</xliff:g> de la saison <xliff:g example="1" id="season">%2$d</xliff:g></string>
 	<string name="subtitles_value">Sous-titres : <xliff:g example="Oui" id="subtitles">%1$s</xliff:g></string>
 	<string name="symbolic_link">Lien symbolique</string>
 	<string name="test">Tester</string>
@@ -182,7 +182,7 @@
 	<string name="unknown">Inconnue</string>
 	<string name="update">Mettre à jour</string>
 	<string name="update_available">Une nouvelle version de SickRage est disponible</string>
-	<string name="update_available_detailed">Version actuelle: <xliff:g example="v1.0.0" id="current_version">%1$s</xliff:g>\nDernière version: <xliff:g example="v2.0.0" id="latest_version">%2$s</xliff:g>\n<xliff:g example="42" id="commits_offsets">%3$s</xliff:g> nouveaux commits</string>
+	<string name="update_available_detailed">Version actuelle: <xliff:g example="v1.0.0" id="current_version">%1$s</xliff:g>\nDernière version: <xliff:g example="v2.0.0" id="latest_version">%2$s</xliff:g>\n<xliff:g example="42" id="commits_offsets">%3$d</xliff:g> nouveaux commits</string>
 	<string name="update_failed">La mise à jour de SickRage a échouée</string>
 	<string name="update_sickrage">Mette à jour SickRage</string>
 	<string name="updating_sickrage">Mise à jour de SickRage en cours…</string>
