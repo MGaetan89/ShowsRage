@@ -5,8 +5,10 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.extension.clearHistory
+import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.History
 import io.realm.Realm
+import io.realm.clearContext
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.AfterClass
@@ -26,6 +28,10 @@ class RealmExtension_ClearHistoryTest {
 
     @Before
     fun before() {
+        clearContext()
+
+        Utils.initRealm(this.activityRule.activity, "test.realm", deleteRealm = true)
+
         this.realm.isAutoRefresh = false
 
         assertThat(this.getHistory()).hasSize(100)
