@@ -4,12 +4,15 @@ import android.os.Looper
 import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.extension.clearHistory
-import com.mgaetan89.showsrage.helper.Utils
+import com.mgaetan89.showsrage.helper.Migration
 import com.mgaetan89.showsrage.model.History
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import io.realm.clearContext
+import io.realm.setContext
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.AfterClass
@@ -31,7 +34,19 @@ class RealmExtension_ClearHistoryTest {
     fun before() {
         clearContext()
 
-        Utils.initRealm(InstrumentationRegistry.getContext(), "test.realm", deleteRealm = true)
+        Realm.init(this.activityRule.activity)
+
+        setContext(InstrumentationRegistry.getContext())
+
+        val configuration = RealmConfiguration.Builder().let {
+            it.assetFile("test.realm")
+            it.schemaVersion(Constants.DATABASE_VERSION)
+            it.migration(Migration())
+            it.build()
+        }
+
+        Realm.deleteRealm(configuration)
+        Realm.setDefaultConfiguration(configuration)
 
         this.realm.isAutoRefresh = false
 
