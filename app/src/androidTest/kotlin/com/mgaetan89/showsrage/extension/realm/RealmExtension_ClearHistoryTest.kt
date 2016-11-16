@@ -1,7 +1,6 @@
 package com.mgaetan89.showsrage.extension.realm
 
 import android.os.Looper
-import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.activity.MainActivity
@@ -23,7 +22,7 @@ import org.junit.runner.RunWith
 class RealmExtension_ClearHistoryTest {
     @JvmField
     @Rule
-    val activityRule = ActivityTestRule(MainActivity::class.java, false, false)
+    val activityRule = ActivityTestRule(MainActivity::class.java, false, true)
 
     private val realm: Realm by lazy { Realm.getDefaultInstance() }
 
@@ -31,7 +30,7 @@ class RealmExtension_ClearHistoryTest {
     fun before() {
         clearContext()
 
-        Utils.initRealm(InstrumentationRegistry.getContext(), "test.realm", deleteRealm = true)
+        Utils.initRealm(this.activityRule.activity, "test.realm", deleteRealm = true)
 
         this.realm.isAutoRefresh = false
 
