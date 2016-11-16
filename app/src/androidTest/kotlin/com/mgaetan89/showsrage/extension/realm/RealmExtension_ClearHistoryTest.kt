@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage.extension.realm
 
 import android.os.Looper
+import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.TestActivity
@@ -30,7 +31,7 @@ class RealmExtension_ClearHistoryTest {
     fun before() {
         clearContext()
 
-        Utils.initRealm(this.activityRule.activity, "test.realm", deleteRealm = true)
+        Utils.initRealm(InstrumentationRegistry.getContext(), "test.realm", deleteRealm = true)
 
         this.realm.isAutoRefresh = false
 
