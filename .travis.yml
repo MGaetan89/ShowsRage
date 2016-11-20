@@ -1,5 +1,7 @@
 language: android
 
+sudo: false
+
 branches:
   except:
     - gh-pages
@@ -38,10 +40,15 @@ before_install:
 
 before_script:
   - ./travis/prepare_emulator.sh
+  - if [[ "$ANDROID_ABI" ]]; then adb shell "mkdir -p /data/data/com.mgaetan89.showsrage.dev.test/files"; fi
 
 script:
+  - ./gradlew clean
   - ./gradlew testDebug
   - if [[ "$ANDROID_ABI" ]]; then ./gradlew connectedCheck; fi
+
+after_script:
+  - if [[ "$ANDROID_ABI" ]]; then adb rm -rf /data/data/com.mgaetan89.showsrage.dev.test; fi
 
 after_success:
   - ./gradlew jacocoTestReport coveralls
@@ -49,10 +56,7 @@ after_success:
 after_failure:
   - if [[ "$ANDROID_ABI" ]]; then adb logcat -d; fi
 
-sudo: false
-
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+    - $HOME/.gradle/
     - $HOME/.m2/
