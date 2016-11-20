@@ -7,11 +7,17 @@ import com.mgaetan89.showsrage.extension.getHistory
 import com.mgaetan89.showsrage.model.History
 import io.realm.RealmChangeListener
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_GetHistoryTest : RealmTest() {
+    @Before
+    fun before() {
+        this.realm.isAutoRefresh = true
+    }
+
     @Test
     @UiThreadTest
     fun getHistory() {
