@@ -1,10 +1,13 @@
 package com.mgaetan89.showsrage.extension.realm
 
+import android.os.Looper
 import android.support.test.annotation.UiThreadTest
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.extension.getEpisodes
 import io.realm.RealmChangeListener
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.AfterClass
+import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -76,5 +79,21 @@ class RealmExtension_GetEpisodesTest : RealmTest() {
 
             assertThat(it).isEmpty()
         })
+    }
+
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun beforeClass() {
+            if (Looper.myLooper() == null) {
+                Looper.prepare()
+            }
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun afterClass() {
+            Looper.myLooper().quit()
+        }
     }
 }
