@@ -1,14 +1,11 @@
 package com.mgaetan89.showsrage.extension.realm
 
-import android.os.Looper
 import android.support.test.annotation.UiThreadTest
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.extension.getLogs
 import com.mgaetan89.showsrage.model.LogLevel
 import io.realm.RealmChangeListener
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.AfterClass
-import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -107,19 +104,5 @@ class RealmExtension_GetLogsTest : RealmTest() {
     companion object {
         private val EXISTING_LOG_LEVEL = LogLevel.INFO
         private val MISSING_LOG_LEVEL = LogLevel.ERROR
-
-        @BeforeClass
-        @JvmStatic
-        fun beforeClass() {
-            if (Looper.myLooper() == null) {
-                Looper.prepare()
-            }
-        }
-
-        @AfterClass
-        @JvmStatic
-        fun afterClass() {
-            Looper.myLooper().quit()
-        }
     }
 }

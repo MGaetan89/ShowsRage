@@ -5,6 +5,7 @@ import android.support.test.rule.ActivityTestRule
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.helper.Migration
+import com.mgaetan89.showsrage.tests.LooperRule
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.setContext
@@ -16,6 +17,10 @@ abstract class RealmTest {
     @JvmField
     @Rule
     val activityRule = ActivityTestRule(TestActivity::class.java, false, true)
+
+    @JvmField
+    @Rule
+    val looperRule = LooperRule()
 
     val realm: Realm by lazy { Realm.getDefaultInstance() }
 
