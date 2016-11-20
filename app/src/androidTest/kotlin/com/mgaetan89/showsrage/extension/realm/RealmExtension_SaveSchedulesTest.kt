@@ -1,33 +1,17 @@
 package com.mgaetan89.showsrage.extension.realm
 
-import android.os.Looper
-import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.extension.saveSchedules
 import com.mgaetan89.showsrage.model.Schedule
-import io.realm.Realm
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.After
-import org.junit.AfterClass
 import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class RealmExtension_SaveSchedulesTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java)
-
-    private val realm: Realm by lazy { Realm.getDefaultInstance() }
-
+class RealmExtension_SaveSchedulesTest : RealmTest() {
     @Before
     fun before() {
-        this.realm.isAutoRefresh = false
-
         assertThat(this.getSchedules()).hasSize(36)
         assertThat(this.getSchedules(EXISTING_SECTION)).hasSize(8)
         assertThat(this.getSchedules(NEW_SECTION)).isEmpty()
@@ -155,11 +139,6 @@ class RealmExtension_SaveSchedulesTest {
         }
     }
 
-    @After
-    fun after() {
-        this.realm.close()
-    }
-
     private fun getSchedule(id: String) = this.realm.where(Schedule::class.java).equalTo("id", id).findFirst()
 
     private fun getSchedules() = this.realm.where(Schedule::class.java).findAll()
@@ -184,19 +163,5 @@ class RealmExtension_SaveSchedulesTest {
         private const val EXISTING_SECTION = "soon"
         private const val INDEXER_ID = 280494
         private const val NEW_SECTION = "Monday"
-
-        @BeforeClass
-        @JvmStatic
-        fun beforeClass() {
-            if (Looper.myLooper() == null) {
-                Looper.prepare()
-            }
-        }
-
-        @AfterClass
-        @JvmStatic
-        fun afterClass() {
-            Looper.myLooper().quit()
-        }
     }
 }

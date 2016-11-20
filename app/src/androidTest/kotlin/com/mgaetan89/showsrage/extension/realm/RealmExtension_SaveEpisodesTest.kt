@@ -1,33 +1,17 @@
 package com.mgaetan89.showsrage.extension.realm
 
-import android.os.Looper
-import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.extension.saveEpisodes
 import com.mgaetan89.showsrage.model.Episode
-import io.realm.Realm
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.After
-import org.junit.AfterClass
 import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class RealmExtension_SaveEpisodesTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java)
-
-    private val realm: Realm by lazy { Realm.getDefaultInstance() }
-
+class RealmExtension_SaveEpisodesTest : RealmTest() {
     @Before
     fun before() {
-        this.realm.isAutoRefresh = false
-
         assertThat(this.getEpisodes()).hasSize(1647)
     }
 
@@ -83,11 +67,6 @@ class RealmExtension_SaveEpisodesTest {
         }
     }
 
-    @After
-    fun after() {
-        this.realm.close()
-    }
-
     private fun getEpisode(id: String) = this.realm.where(Episode::class.java).equalTo("id", id).findFirst()
 
     private fun getEpisodes() = this.realm.where(Episode::class.java).findAll()
@@ -109,19 +88,5 @@ class RealmExtension_SaveEpisodesTest {
     companion object {
         private const val SEASON_NUMBER = 8
         private const val INDEXER_ID = 73838
-
-        @BeforeClass
-        @JvmStatic
-        fun beforeClass() {
-            if (Looper.myLooper() == null) {
-                Looper.prepare()
-            }
-        }
-
-        @AfterClass
-        @JvmStatic
-        fun afterClass() {
-            Looper.myLooper().quit()
-        }
     }
 }

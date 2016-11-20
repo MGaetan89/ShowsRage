@@ -40,6 +40,8 @@ abstract class RealmTest {
 
         Realm.deleteRealm(configuration)
         Realm.setDefaultConfiguration(configuration)
+
+        this.realm.isAutoRefresh = false
     }
 
     @After

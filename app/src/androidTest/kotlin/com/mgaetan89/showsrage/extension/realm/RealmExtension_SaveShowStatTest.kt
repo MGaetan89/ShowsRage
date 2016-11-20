@@ -1,34 +1,18 @@
 package com.mgaetan89.showsrage.extension.realm
 
-import android.os.Looper
-import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.extension.saveShowStat
 import com.mgaetan89.showsrage.model.RealmShowStat
 import com.mgaetan89.showsrage.model.ShowStat
-import io.realm.Realm
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.After
-import org.junit.AfterClass
 import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class RealmExtension_SaveShowStatTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java)
-
-    private val realm: Realm by lazy { Realm.getDefaultInstance() }
-
+class RealmExtension_SaveShowStatTest : RealmTest() {
     @Before
     fun before() {
-        this.realm.isAutoRefresh = false
-
         assertThat(this.getRealmShowStat()).hasSize(83)
     }
 
@@ -48,11 +32,6 @@ class RealmExtension_SaveShowStatTest {
         val realmShowStat = this.realm.saveShowStat(this.getShowStat(60, 65, 70), INDEXER_ID)
 
         this.validateRealmShowStat(realmShowStat, 70, 65, 105)
-    }
-
-    @After
-    fun after() {
-        this.realm.close()
     }
 
     private fun getRealmShowStat() = this.realm.where(RealmShowStat::class.java).findAll()
@@ -83,19 +62,5 @@ class RealmExtension_SaveShowStatTest {
 
     companion object {
         private const val INDEXER_ID = 73839
-
-        @BeforeClass
-        @JvmStatic
-        fun beforeClass() {
-            if (Looper.myLooper() == null) {
-                Looper.prepare()
-            }
-        }
-
-        @AfterClass
-        @JvmStatic
-        fun afterClass() {
-            Looper.myLooper().quit()
-        }
     }
 }

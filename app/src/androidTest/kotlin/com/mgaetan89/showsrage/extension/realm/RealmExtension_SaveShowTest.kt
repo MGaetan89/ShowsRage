@@ -1,9 +1,6 @@
 package com.mgaetan89.showsrage.extension.realm
 
-import android.os.Looper
-import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.extension.getShow
 import com.mgaetan89.showsrage.extension.getShows
 import com.mgaetan89.showsrage.extension.saveShow
@@ -11,29 +8,16 @@ import com.mgaetan89.showsrage.model.Quality
 import com.mgaetan89.showsrage.model.RealmString
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.validateRealmList
-import io.realm.Realm
 import io.realm.RealmList
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.After
-import org.junit.AfterClass
 import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class RealmExtension_SaveShowTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java)
-
-    private val realm: Realm by lazy { Realm.getDefaultInstance() }
-
+class RealmExtension_SaveShowTest : RealmTest() {
     @Before
     fun before() {
-        this.realm.isAutoRefresh = false
-
         assertThat(this.getShows()).hasSize(83)
     }
 
@@ -75,11 +59,6 @@ class RealmExtension_SaveShowTest {
         this.validateShow(show.airs, show.genre, show.imdbId, show.indexerId, show.location, show.qualityDetails, show.seasonList)
     }
 
-    @After
-    fun after() {
-        this.realm.close()
-    }
-
     private fun getShow(indexerId: Int) = this.realm.getShow(indexerId)
 
     private fun getShows() = this.realm.getShows(null)
@@ -113,21 +92,5 @@ class RealmExtension_SaveShowTest {
         }
 
         validateRealmList(show.seasonList, seasonList)
-    }
-
-    companion object {
-        @BeforeClass
-        @JvmStatic
-        fun beforeClass() {
-            if (Looper.myLooper() == null) {
-                Looper.prepare()
-            }
-        }
-
-        @AfterClass
-        @JvmStatic
-        fun afterClass() {
-            Looper.myLooper().quit()
-        }
     }
 }

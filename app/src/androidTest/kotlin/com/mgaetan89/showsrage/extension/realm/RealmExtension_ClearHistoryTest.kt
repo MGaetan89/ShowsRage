@@ -12,8 +12,6 @@ import org.junit.runner.RunWith
 class RealmExtension_ClearHistoryTest : RealmTest() {
     @Before
     fun before() {
-        this.realm.isAutoRefresh = false
-
         assertThat(this.getHistory()).hasSize(100)
     }
 

@@ -12,8 +12,6 @@ import org.junit.runner.RunWith
 class RealmExtension_ClearScheduleTest : RealmTest() {
     @Before
     fun before() {
-        this.realm.isAutoRefresh = false
-
         assertThat(this.getSchedule()).hasSize(36)
     }
 
