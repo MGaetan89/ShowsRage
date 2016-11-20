@@ -40,16 +40,12 @@ before_install:
 
 before_script:
   - ./travis/prepare_emulator.sh
-  - if [[ "$ANDROID_ABI" ]]; then adb shell "mkdir -p /data/data/com.mgaetan89.showsrage.dev.test/files"; fi
+  - if [[ "$ANDROID_ABI" ]]; then adb shell "run-as com.mgaetan89.showsrage.dev.test; mkdir files"; fi
 
 script:
   - ./gradlew clean
   - ./gradlew testDebug
   - if [[ "$ANDROID_ABI" ]]; then ./gradlew connectedCheck; fi
-
-after_script:
-  - if [[ "$ANDROID_ABI" ]]; then adb uninstall com.mgaetan89.showsrage.dev; fi
-  - if [[ "$ANDROID_ABI" ]]; then adb uninstall com.mgaetan89.showsrage.dev.test; fi
 
 after_success:
   - ./gradlew jacocoTestReport coveralls
