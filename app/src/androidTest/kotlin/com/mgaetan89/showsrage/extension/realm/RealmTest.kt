@@ -3,6 +3,7 @@ package com.mgaetan89.showsrage.extension.realm
 import android.os.Looper
 import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
+import com.mgaetan89.showsrage.BuildConfig
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.helper.Migration
@@ -15,6 +16,7 @@ import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
+import java.io.File
 
 abstract class RealmTest {
     @JvmField
@@ -23,7 +25,7 @@ abstract class RealmTest {
 
     @JvmField
     @Rule
-    val temporaryFolderRule = TemporaryFolder(this.activityRule.activity.filesDir)
+    val temporaryFolderRule = TemporaryFolder(File("/data/data/${BuildConfig.APPLICATION_ID}/files"))
 
     val realm: Realm by lazy { Realm.getDefaultInstance() }
 
