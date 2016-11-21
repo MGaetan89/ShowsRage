@@ -40,7 +40,6 @@ before_install:
 
 before_script:
   - ./travis/prepare_emulator.sh
-  - if [[ "$ANDROID_ABI" ]]; then adb shell "run-as com.mgaetan89.showsrage.dev.test; mkdir files"; fi
 
 script:
   - ./gradlew clean

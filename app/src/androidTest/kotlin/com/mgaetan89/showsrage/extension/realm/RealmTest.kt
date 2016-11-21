@@ -14,11 +14,16 @@ import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
+import org.junit.rules.TemporaryFolder
 
 abstract class RealmTest {
     @JvmField
     @Rule
     val activityRule = ActivityTestRule(TestActivity::class.java, false, true)
+
+    @JvmField
+    @Rule
+    val temporaryFolderRule = TemporaryFolder(this.activityRule.activity.filesDir)
 
     val realm: Realm by lazy { Realm.getDefaultInstance() }
 
