@@ -3,9 +3,9 @@ package com.mgaetan89.showsrage.extension.realm
 import android.os.Looper
 import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
-import com.mgaetan89.showsrage.BuildConfig
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.TestActivity
+import com.mgaetan89.showsrage.dev.test.BuildConfig
 import com.mgaetan89.showsrage.helper.Migration
 import io.realm.Realm
 import io.realm.RealmConfiguration
