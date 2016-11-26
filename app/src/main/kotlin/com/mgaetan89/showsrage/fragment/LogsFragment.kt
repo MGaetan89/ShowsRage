@@ -41,7 +41,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     private var groups: Array<String>? = null
     private var logLevel: LogLevel? = null
     private lateinit var logs: RealmResults<LogEntry>
-    private val realm: Realm by lazy { Realm.getDefaultInstance() }
+    private lateinit var realm: Realm
     private var recyclerView: RecyclerView? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
@@ -169,6 +169,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     override fun onStart() {
         super.onStart()
 
+        this.realm = Realm.getDefaultInstance()
         this.logs = this.realm.getLogs(this.getLogLevel(), this.groups, this)
     }
 

@@ -28,11 +28,11 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 
 class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefreshListener, RealmChangeListener<RealmResults<Episode>> {
-    private val adapter: EpisodesAdapter by lazy { EpisodesAdapter(this.episodes, this.seasonNumber, this.indexerId, this.reversedOrder) }
+    private lateinit var adapter: EpisodesAdapter
     private var emptyView: TextView? = null
-    private val episodes: RealmResults<Episode> by lazy { this.realm.getEpisodes(this.indexerId, this.seasonNumber, this.reversedOrder, this) }
+    private lateinit var episodes: RealmResults<Episode>
     private var indexerId: Int = 0
-    private val realm: Realm by lazy { Realm.getDefaultInstance() }
+    private lateinit var realm: Realm
     private var recyclerView: RecyclerView? = null
     private var reversedOrder = false
     private var seasonNumber: Int = 0
@@ -83,7 +83,6 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
                         swipeRefreshLayout?.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
                     }
                 })
-                this.recyclerView!!.adapter = this.adapter
                 this.recyclerView!!.layoutManager = layoutManager
             }
 
@@ -112,6 +111,15 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
         super.onResume()
 
         this.onRefresh()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        this.realm = Realm.getDefaultInstance()
+        this.episodes = this.realm.getEpisodes(this.indexerId, this.seasonNumber, this.reversedOrder, this)
+        this.adapter = EpisodesAdapter(this.episodes, this.seasonNumber, this.indexerId, this.reversedOrder)
+        this.recyclerView?.adapter = this.adapter
     }
 
     override fun onStop() {

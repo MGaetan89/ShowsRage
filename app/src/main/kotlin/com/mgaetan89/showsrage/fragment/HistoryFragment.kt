@@ -35,8 +35,8 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
     private var adapter: HistoriesAdapter? = null
     private var clearHistory: FloatingActionButton? = null
     private var emptyView: TextView? = null
-    private val histories: RealmResults<History> by lazy { this.realm.getHistory(this) }
-    private val realm: Realm by lazy { Realm.getDefaultInstance() }
+    private lateinit var histories: RealmResults<History>
+    private lateinit var realm: Realm
     private var recyclerView: RecyclerView? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
@@ -96,7 +96,6 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
 
             if (this.recyclerView != null) {
                 val columnCount = this.resources.getInteger(R.integer.shows_column_count)
-                this.adapter = HistoriesAdapter(this.histories)
 
                 this.recyclerView!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
@@ -105,7 +104,6 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
                         swipeRefreshLayout?.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
                     }
                 })
-                this.recyclerView!!.adapter = adapter
                 this.recyclerView!!.layoutManager = GridLayoutManager(this.activity, columnCount)
             }
 
@@ -135,6 +133,15 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
         super.onResume()
 
         this.onRefresh()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        this.realm = Realm.getDefaultInstance()
+        this.histories = this.realm.getHistory(this)
+        this.adapter = HistoriesAdapter(this.histories)
+        this.recyclerView?.adapter = adapter
     }
 
     override fun onStop() {

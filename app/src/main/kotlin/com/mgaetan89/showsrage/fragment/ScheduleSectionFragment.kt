@@ -18,13 +18,11 @@ import io.realm.RealmChangeListener
 import io.realm.RealmResults
 
 class ScheduleSectionFragment : Fragment(), RealmChangeListener<RealmResults<Schedule>> {
-    private val adapter: ScheduleAdapter by lazy { ScheduleAdapter(this.schedules) }
+    private lateinit var adapter: ScheduleAdapter
     private var emptyView: TextView? = null
-    private val realm: Realm by lazy { Realm.getDefaultInstance() }
+    private lateinit var realm: Realm
     private var recyclerView: RecyclerView? = null
-    private val schedules: RealmResults<Schedule> by lazy {
-        this.realm.getSchedule(this.arguments.getString(Constants.Bundle.SCHEDULE_SECTION, ""), this)
-    }
+    private lateinit var schedules: RealmResults<Schedule>
 
     override fun onChange(schedules: RealmResults<Schedule>) {
         if (this.schedules.isEmpty()) {
@@ -48,7 +46,6 @@ class ScheduleSectionFragment : Fragment(), RealmChangeListener<RealmResults<Sch
             if (this.recyclerView != null) {
                 val columnCount = this.resources.getInteger(R.integer.shows_column_count)
 
-                this.recyclerView!!.adapter = this.adapter
                 this.recyclerView!!.layoutManager = GridLayoutManager(this.activity, columnCount)
             }
         }
@@ -61,6 +58,15 @@ class ScheduleSectionFragment : Fragment(), RealmChangeListener<RealmResults<Sch
         this.recyclerView = null
 
         super.onDestroyView()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        this.realm = Realm.getDefaultInstance()
+        this.schedules = this.realm.getSchedule(this.arguments.getString(Constants.Bundle.SCHEDULE_SECTION, ""), this)
+        this.adapter = ScheduleAdapter(this.schedules)
+        this.recyclerView?.adapter = this.adapter
     }
 
     override fun onStop() {

@@ -16,7 +16,6 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 
 class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
-    private val realm: Realm by lazy { Realm.getDefaultInstance() }
     private val sectionIds = mutableListOf<String>()
     private val sectionLabels = mutableListOf<String>()
 
@@ -36,8 +35,12 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
             activity.setTitle(R.string.schedule)
         }
 
-        this.setSections(this.realm.getScheduleSections())
+        val realm = Realm.getDefaultInstance()
+
+        this.setSections(realm.getScheduleSections())
         this.onRefresh()
+
+        realm.close()
     }
 
     override fun onDestroy() {
@@ -53,12 +56,6 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
         SickRageApi.instance.services?.getSchedule(this)
     }
 
-    override fun onStop() {
-        this.realm.close()
-
-        super.onStop()
-    }
-
     override fun success(schedules: Schedules?, response: Response?) {
         this.swipeRefreshLayout?.isRefreshing = false
 
@@ -71,13 +68,16 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
             data[it]?.isNotEmpty() ?: false
         })
 
-        this.realm.clearSchedule()
+        val realm = Realm.getDefaultInstance()
+        realm.clearSchedule()
 
         data.forEach {
             if (it.value.isNotEmpty()) {
-                this.realm.saveSchedules(it.key, it.value)
+                realm.saveSchedules(it.key, it.value)
             }
         }
+
+        realm.close()
     }
 
     override fun getAdapter(): PagerAdapter {

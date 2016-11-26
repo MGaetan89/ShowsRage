@@ -91,7 +91,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     private var rated: TextView? = null
     private var rating: TextView? = null
     private var ratingStars: RatingBar? = null
-    private val realm: Realm by lazy { Realm.getDefaultInstance() }
+    private lateinit var realm: Realm
     private var resumeMenu: MenuItem? = null
     private var runtime: TextView? = null
     private var series: RealmResults<Serie>? = null
@@ -629,6 +629,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     override fun onStart() {
         super.onStart()
 
+        this.realm = Realm.getDefaultInstance()
         this.show = this.realm.getShow(this.indexerId, this)
     }
 

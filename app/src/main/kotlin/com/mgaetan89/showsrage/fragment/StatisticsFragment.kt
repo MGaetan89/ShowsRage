@@ -31,7 +31,7 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
     private var episodesSnatchedBar: View? = null
     private var episodesTotal: TextView? = null
     private var progressLayout: LinearLayout? = null
-    private val realm: Realm by lazy { Realm.getDefaultInstance() }
+    private lateinit var realm: Realm
     private var showsActive: TextView? = null
     private lateinit var showsStats: RealmResults<ShowsStat>
     private var showsTotal: TextView? = null
@@ -135,6 +135,7 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
     override fun onStart() {
         super.onStart()
 
+        this.realm = Realm.getDefaultInstance()
         this.showsStats = this.realm.getShowsStats(this)
     }
 

@@ -5,9 +5,12 @@ import android.graphics.Color
 import android.support.annotation.ColorInt
 import android.support.v4.content.ContextCompat
 import android.support.v7.graphics.Palette
+import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.ThemeColors
+import io.realm.Realm
+import io.realm.RealmConfiguration
 
 object Utils {
     fun getContrastColor(@ColorInt color: Int): Int {
@@ -41,5 +44,25 @@ object Utils {
         val primaryColor = primary?.rgb ?: ContextCompat.getColor(context, R.color.primary)
 
         return ThemeColors(primaryColor, accentColor)
+    }
+
+    fun initRealm(context: Context, assetFile: String = "", deleteRealm: Boolean = false) {
+        Realm.init(context)
+
+        val configuration = RealmConfiguration.Builder().let {
+            if (assetFile.isNotEmpty()) {
+                it.assetFile(assetFile)
+            }
+
+            it.schemaVersion(Constants.DATABASE_VERSION)
+            it.migration(Migration())
+            it.build()
+        }
+
+        if (deleteRealm) {
+            Realm.deleteRealm(configuration)
+        }
+
+        Realm.setDefaultConfiguration(configuration)
     }
 }
