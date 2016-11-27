@@ -31,6 +31,7 @@ import com.mgaetan89.showsrage.extension.useDarkTheme
 import com.mgaetan89.showsrage.helper.ImageLoader
 import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.Show
+import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.presenter.ShowPresenter
 import io.realm.Realm
 import java.util.*
@@ -51,6 +52,8 @@ class ShowShortcutConfigurationActivity : AppCompatActivity() {
         Utils.initRealm(this)
 
         this.realm = Realm.getDefaultInstance()
+
+        SickRageApi.instance.init(this.getPreferences())
 
         this.setResult(RESULT_CANCELED)
 
