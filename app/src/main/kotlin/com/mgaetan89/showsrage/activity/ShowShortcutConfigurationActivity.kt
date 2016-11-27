@@ -150,7 +150,9 @@ class ShowShortcutConfigurationActivity : AppCompatActivity() {
 
             Glide.clear(futureBitmap)
 
-            return Bitmap.createScaledBitmap(bitmap, 100, 100, true)
+            val size = this.activity.resources.getDimensionPixelSize(R.dimen.shortcut_icon_size)
+
+            return Bitmap.createScaledBitmap(bitmap, size, size, true)
         }
 
         override fun onPostExecute(bitmap: Bitmap) {
