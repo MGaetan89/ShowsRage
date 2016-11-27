@@ -38,9 +38,11 @@
 				android:resource="@xml/searchable" />
 		</activity>
 
-		<activity android:name=".activity.ShowWidgetConfigurationActivity">
+		<activity
+			android:name=".activity.ShowShortcutConfigurationActivity"
+			android:label="@string/show">
 			<intent-filter>
-				<action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+				<action android:name="android.intent.action.CREATE_SHORTCUT" />
 			</intent-filter>
 		</activity>
 
@@ -70,18 +72,6 @@
 			<meta-data
 				android:name="android.appwidget.provider"
 				android:resource="@xml/widget_history" />
-		</receiver>
-
-		<receiver
-			android:name=".widget.ShowWidgetProvider"
-			android:label="@string/show">
-			<intent-filter>
-				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-			</intent-filter>
-
-			<meta-data
-				android:name="android.appwidget.provider"
-				android:resource="@xml/widget_show" />
 		</receiver>
 
 		<service

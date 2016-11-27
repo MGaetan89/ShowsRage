@@ -9,7 +9,6 @@ import com.mgaetan89.showsrage.model.Quality
 import com.mgaetan89.showsrage.model.RealmShowStat
 import com.mgaetan89.showsrage.model.Schedule
 import com.mgaetan89.showsrage.model.Show
-import com.mgaetan89.showsrage.model.ShowWidget
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -31,14 +30,12 @@ class RealmExtension_DeleteShowTest : RealmTest() {
         assertThat(this.getAllScheduled()).hasSize(35)
         assertThat(this.getAllShows()).hasSize(82)
         assertThat(this.getAllShowStats()).hasSize(82)
-        assertThat(this.getAllShowWidgets()).hasSize(20)
 
         assertThat(this.getEpisodes()).hasSize(0)
         assertThat(this.getQuality()).isNull()
         assertThat(this.getSchedule()).hasSize(0)
         assertThat(this.getShow()).isNull()
         assertThat(this.getShowStat()).isNull()
-        assertThat(this.getShowWidget()).hasSize(0)
     }
 
     @Test
@@ -58,8 +55,6 @@ class RealmExtension_DeleteShowTest : RealmTest() {
 
     private fun getAllShowStats() = this.realm.where(RealmShowStat::class.java).findAll()
 
-    private fun getAllShowWidgets() = this.realm.where(ShowWidget::class.java).findAll()
-
     private fun getEpisodes() = this.realm.where(Episode::class.java).equalTo("indexerId", INDEXER_ID).findAll()
 
     private fun getQuality() = this.realm.where(Quality::class.java).equalTo("indexerId", INDEXER_ID).findFirst()
@@ -70,22 +65,18 @@ class RealmExtension_DeleteShowTest : RealmTest() {
 
     private fun getShowStat() = this.realm.getShowStat(INDEXER_ID)
 
-    private fun getShowWidget() = this.realm.where(ShowWidget::class.java).equalTo("show.indexerId", INDEXER_ID).findAll()
-
     private fun validateInitialState() {
         assertThat(this.getAllEpisodes()).hasSize(1647)
         assertThat(this.getAllQualities()).hasSize(83)
         assertThat(this.getAllScheduled()).hasSize(36)
         assertThat(this.getAllShows()).hasSize(83)
         assertThat(this.getAllShowStats()).hasSize(83)
-        assertThat(this.getAllShowWidgets()).hasSize(20)
 
         assertThat(this.getEpisodes()).hasSize(53)
         assertThat(this.getQuality()).isNotNull()
         assertThat(this.getSchedule()).hasSize(1)
         assertThat(this.getShow()).isNotNull()
         assertThat(this.getShowStat()).isNotNull()
-        assertThat(this.getShowWidget()).hasSize(1)
 
     }
 

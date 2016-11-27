@@ -5,7 +5,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical"
-	tools:context="com.mgaetan89.showsrage.activity.ShowWidgetConfigurationActivity">
+	tools:context="com.mgaetan89.showsrage.activity.ShowShortcutConfigurationActivity">
 
 	<android.support.design.widget.AppBarLayout
 		android:id="@+id/app_bar"

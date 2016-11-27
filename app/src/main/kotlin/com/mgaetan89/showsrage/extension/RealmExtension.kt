@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.extension
 
-import android.support.annotation.Size
 import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.model.LogEntry
@@ -14,7 +13,6 @@ import com.mgaetan89.showsrage.model.Schedule
 import com.mgaetan89.showsrage.model.Serie
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.ShowStat
-import com.mgaetan89.showsrage.model.ShowWidget
 import com.mgaetan89.showsrage.model.ShowsStat
 import io.realm.Realm
 import io.realm.RealmChangeListener
@@ -63,21 +61,6 @@ fun Realm.deleteShow(indexerId: Int) {
         // Remove the show from the Show table
         it.where(Show::class.java)
                 .equalTo("indexerId", indexerId)
-                .findAll()
-                .deleteAllFromRealm()
-
-        // Remove the show from the ShowWidget table
-        it.where(ShowWidget::class.java)
-                .equalTo("show.indexerId", indexerId)
-                .findAll()
-                .deleteAllFromRealm()
-    }
-}
-
-fun Realm.deleteShowWidgets(@Size(min = 1) widgetIds: Array<Int>) {
-    this.executeTransaction {
-        it.where(ShowWidget::class.java)
-                .`in`("widgetId", widgetIds)
                 .findAll()
                 .deleteAllFromRealm()
     }
@@ -230,12 +213,6 @@ fun Realm.getShowStat(indexerId: Int): RealmShowStat? {
     return this.copyFromRealm(stat)
 }
 
-fun Realm.getShowWidget(widgetId: Int): ShowWidget? {
-    return this.where(ShowWidget::class.java)
-            .equalTo("widgetId", widgetId)
-            .findFirst()
-}
-
 fun Realm.saveEpisode(episode: Episode, indexerId: Int, season: Int, episodeNumber: Int) {
     this.executeTransaction {
         it.prepareEpisodeForSaving(episode, indexerId, season, episodeNumber)
@@ -348,12 +325,6 @@ fun Realm.saveShowStat(stat: ShowStat, indexerId: Int): RealmShowStat {
     }
 
     return realmStat
-}
-
-fun Realm.saveShowWidget(showWidget: ShowWidget) {
-    this.executeTransaction {
-        it.copyToRealmOrUpdate(showWidget)
-    }
 }
 
 private fun Realm.getEpisode(episodeId: String): Episode? {
