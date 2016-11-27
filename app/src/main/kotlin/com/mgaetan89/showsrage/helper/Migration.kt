@@ -34,6 +34,14 @@ class Migration : RealmMigration {
 
             localOldVersion++
         }
+
+        if (localOldVersion == 4L) {
+            // Database was updated to v5 during the development of v1.6
+            // But no changes were kept in the final release of v1.6
+            // So no work needs to be done here
+
+            localOldVersion++
+        }
     }
 
     override fun equals(other: Any?): Boolean {

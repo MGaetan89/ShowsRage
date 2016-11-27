@@ -5,7 +5,7 @@ import java.util.*
 
 object Constants {
     val COLOR_DARK_FACTOR = 0.8f
-    val DATABASE_VERSION = 4L
+    val DATABASE_VERSION = 5L
     val NETWORK_LOG_LEVEL = if (BuildConfig.DEBUG) RestAdapter.LogLevel.FULL else RestAdapter.LogLevel.NONE
     val OMDB_URL = "http://www.omdbapi.com/"
     val SUPPORTED_LOCALES: List<Locale> = listOf(Locale.ENGLISH, Locale.FRENCH)
