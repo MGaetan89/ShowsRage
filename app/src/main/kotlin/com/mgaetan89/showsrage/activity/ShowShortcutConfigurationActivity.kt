@@ -1,21 +1,21 @@
 package com.mgaetan89.showsrage.activity
 
-import android.appwidget.AppWidgetManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Build
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.AsyncTask
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
-import android.support.v4.graphics.ColorUtils
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.futuremind.recyclerviewfastscroll.FastScroller
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
@@ -27,23 +27,21 @@ import com.mgaetan89.showsrage.extension.getShow
 import com.mgaetan89.showsrage.extension.getShows
 import com.mgaetan89.showsrage.extension.getShowsListLayout
 import com.mgaetan89.showsrage.extension.ignoreArticles
-import com.mgaetan89.showsrage.extension.saveShowWidget
-import com.mgaetan89.showsrage.extension.updateAllWidgets
 import com.mgaetan89.showsrage.extension.useDarkTheme
+import com.mgaetan89.showsrage.helper.ImageLoader
 import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.Show
-import com.mgaetan89.showsrage.model.ShowWidget
-import com.mgaetan89.showsrage.view.ColoredToolbar
-import com.mgaetan89.showsrage.widget.ShowWidgetProvider
+import com.mgaetan89.showsrage.network.SickRageApi
+import com.mgaetan89.showsrage.presenter.ShowPresenter
 import io.realm.Realm
 import java.util.*
 
-class ShowWidgetConfigurationActivity : AppCompatActivity() {
+class ShowShortcutConfigurationActivity : AppCompatActivity() {
     private lateinit var realm: Realm
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (Constants.Intents.ACTION_SHOW_SELECTED.equals(intent?.action)) {
-                addWidget(intent?.getIntExtra(Constants.Bundle.INDEXER_ID, 0) ?: 0)
+                addShortcut(intent?.getIntExtra(Constants.Bundle.INDEXER_ID, 0) ?: 0)
             }
         }
     }
@@ -55,9 +53,11 @@ class ShowWidgetConfigurationActivity : AppCompatActivity() {
 
         this.realm = Realm.getDefaultInstance()
 
+        SickRageApi.instance.init(this.getPreferences())
+
         this.setResult(RESULT_CANCELED)
 
-        this.setContentView(R.layout.activity_show_widget_configuration)
+        this.setContentView(R.layout.activity_show_shortcut_configuration)
 
         if (savedInstanceState == null) {
             val preferences = this.getPreferences()
@@ -76,7 +76,6 @@ class ShowWidgetConfigurationActivity : AppCompatActivity() {
         LocalBroadcastManager.getInstance(this).registerReceiver(this.receiver, IntentFilter(Constants.Intents.ACTION_SHOW_SELECTED))
 
         this.configureRecyclerView()
-        this.setColors()
     }
 
     override fun onDestroy() {
@@ -87,20 +86,8 @@ class ShowWidgetConfigurationActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun addWidget(indexerId: Int) {
-        val appWidgetId = this.intent.extras?.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
-        val show = this.realm.getShow(indexerId)
-
-        if (appWidgetId == null || appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID || show == null) {
-            this.finish()
-
-            return
-        }
-
-        this.saveShowWidget(appWidgetId, show)
-        this.updateWidget()
-        this.sendResult(appWidgetId)
-        this.finish()
+    private fun addShortcut(indexerId: Int) {
+        BitmapLoaderTask(this).execute(indexerId)
     }
 
     private fun configureRecyclerView() {
@@ -131,39 +118,52 @@ class ShowWidgetConfigurationActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveShowWidget(appWidgetId: Int, show: Show) {
-        val showWidget = ShowWidget()
-        showWidget.widgetId = appWidgetId
-        showWidget.show = show
+    private fun sendResult(show: Show?, icon: Bitmap) {
+        show?.let {
+            val shortcutIntent = Intent(this, MainActivity::class.java)
+            shortcutIntent.action = Constants.Intents.ACTION_DISPLAY_SHOW
+            shortcutIntent.putExtra(Constants.Bundle.INDEXER_ID, show.tvDbId)
+            shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
 
-        this.realm.saveShowWidget(showWidget)
-    }
+            val addIntent = Intent(Intent.ACTION_CREATE_SHORTCUT)
+            addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
+            addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, show.showName)
+            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, icon)
+            addIntent.putExtra("duplicate", false)
 
-    private fun sendResult(appWidgetId: Int) {
-        val result = Intent()
-        result.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-
-        this.setResult(RESULT_OK, result)
-    }
-
-    private fun setColors() {
-        // TODO Find out why we need to do this instead of simply letting Android theming
-        val colorPrimary = ContextCompat.getColor(this, R.color.primary)
-        val textColor = Utils.getContrastColor(colorPrimary)
-
-        this.findViewById(R.id.app_bar)?.setBackgroundColor(colorPrimary)
-        (this.findViewById(R.id.toolbar) as ColoredToolbar?)?.setItemColor(textColor)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val colorPrimaryDark = floatArrayOf(0f, 0f, 0f)
-            ColorUtils.colorToHSL(colorPrimary, colorPrimaryDark)
-            colorPrimaryDark[2] *= Constants.COLOR_DARK_FACTOR
-
-            this.window.statusBarColor = ColorUtils.HSLToColor(colorPrimaryDark)
+            this.setResult(RESULT_OK, addIntent)
         }
+
+        this.finish()
     }
 
-    private fun updateWidget() {
-        AppWidgetManager.getInstance(this).updateAllWidgets(this, ShowWidgetProvider::class.java)
+    private class BitmapLoaderTask(private val activity: ShowShortcutConfigurationActivity) : AsyncTask<Int, Void, Bitmap>() {
+        private var indexerId: Int = 0
+
+        override fun doInBackground(vararg indexerIds: Int?): Bitmap {
+            this.indexerId = indexerIds.first() ?: 0
+
+            val realm = Realm.getDefaultInstance()
+            val show = realm.getShow(this.indexerId)
+            val url = ShowPresenter(show).getPosterUrl()
+            realm.close()
+
+            val futureBitmap = ImageLoader.getBitmap(this.activity, url, true) ?: return BitmapFactory.decodeResource(this.activity.resources, R.mipmap.ic_launcher)
+            val bitmap = futureBitmap.get()
+
+            Glide.clear(futureBitmap)
+
+            val size = this.activity.resources.getDimensionPixelSize(R.dimen.shortcut_icon_size)
+
+            return Bitmap.createScaledBitmap(bitmap, size, size, true)
+        }
+
+        override fun onPostExecute(bitmap: Bitmap) {
+            super.onPostExecute(bitmap)
+
+            val show = this.activity.realm.getShow(this.indexerId)
+
+            this.activity.sendResult(show, bitmap)
+        }
     }
 }

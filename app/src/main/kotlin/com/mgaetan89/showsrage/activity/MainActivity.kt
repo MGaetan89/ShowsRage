@@ -69,7 +69,6 @@ import com.mgaetan89.showsrage.model.RootDirs
 import com.mgaetan89.showsrage.model.Schedule
 import com.mgaetan89.showsrage.model.Serie
 import com.mgaetan89.showsrage.model.Show
-import com.mgaetan89.showsrage.model.ShowWidget
 import com.mgaetan89.showsrage.model.ShowsStat
 import com.mgaetan89.showsrage.model.ThemeColors
 import com.mgaetan89.showsrage.model.UpdateResponse
@@ -77,7 +76,6 @@ import com.mgaetan89.showsrage.model.UpdateResponseWrapper
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.view.ColoredToolbar
 import com.mgaetan89.showsrage.widget.HistoryWidgetProvider
-import com.mgaetan89.showsrage.widget.ShowWidgetProvider
 import io.kolumbus.Kolumbus
 import io.realm.Realm
 import retrofit.Callback
@@ -160,7 +158,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                         .explore(Serie::class.java)
                         .explore(Show::class.java)
                         .explore(ShowsStat::class.java)
-                        .explore(ShowWidget::class.java)
                         .withArchitect(ShowsArchitect())
                         .navigate(this)
             }
@@ -359,7 +356,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         // Refresh existing widgets
         AppWidgetManager.getInstance(this).let {
             it.updateAllWidgets(this, HistoryWidgetProvider::class.java)
-            it.updateAllWidgets(this, ShowWidgetProvider::class.java)
         }
 
         this.appBarLayout = this.findViewById(R.id.app_bar) as AppBarLayout?

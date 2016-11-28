@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.support.annotation.IdRes
-import android.support.annotation.MainThread
 import android.support.annotation.WorkerThread
 import android.support.v7.graphics.Palette
 import android.widget.ImageView
@@ -12,8 +11,8 @@ import android.widget.RemoteViews
 import com.bumptech.glide.BitmapRequestBuilder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.animation.GlideAnimation
-import com.bumptech.glide.request.target.AppWidgetTarget
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.bumptech.glide.request.target.Target
 import jp.wasabeef.glide.transformations.CropCircleTransformation
@@ -23,6 +22,10 @@ object ImageLoader {
         fun onImageError(imageView: ImageView, exception: Exception?, errorDrawable: Drawable?)
 
         fun onImageReady(imageView: ImageView, resource: Bitmap?)
+    }
+
+    fun getBitmap(context: Context, url: String?, circleTransform: Boolean): FutureTarget<Bitmap>? {
+        return this.getGlideInstance(context, url, circleTransform)?.into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
     }
 
     fun load(imageView: ImageView?, url: String?, circleTransform: Boolean) {
@@ -37,16 +40,11 @@ object ImageLoader {
 
     @WorkerThread
     fun load(context: Context, remoteViews: RemoteViews, @IdRes viewId: Int, url: String?, circleTransform: Boolean) {
-        this.getGlideInstance(context, url, circleTransform)?.into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)?.let {
+        this.getBitmap(context, url, circleTransform)?.let {
             remoteViews.setImageViewBitmap(viewId, it.get())
 
             Glide.clear(it)
         }
-    }
-
-    @MainThread
-    fun load(context: Context, remoteViews: RemoteViews, @IdRes viewId: Int, url: String?, circleTransform: Boolean, appWidgetId: Int) {
-        this.getGlideInstance(context, url, circleTransform)?.into(AppWidgetTarget(context, remoteViews, viewId, appWidgetId))
     }
 
     private fun getGlideInstance(context: Context, url: String?, circleTransform: Boolean): BitmapRequestBuilder<String, Bitmap>? {
