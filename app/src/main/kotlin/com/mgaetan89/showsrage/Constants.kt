@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage
 
+import com.mgaetan89.showsrage.model.LogLevel
 import retrofit.RestAdapter
 import java.util.*
 
@@ -22,6 +23,10 @@ object Constants {
         val SEARCH_QUERY = "search_query"
         val SEASON_NUMBER = "season_number"
         val UPDATE_MODEL = "update_model"
+    }
+
+    object Defaults {
+        val LOG_LEVEL = LogLevel.ERROR
     }
 
     object Event {

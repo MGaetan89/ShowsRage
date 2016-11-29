@@ -37,7 +37,7 @@ fun SharedPreferences?.getLocale(): Locale {
 }
 
 fun SharedPreferences.getLogLevel(): LogLevel {
-    val default = LogLevel.ERROR
+    val default = Constants.Defaults.LOG_LEVEL
     val logsLevelString = this.getString(Fields.LOGS_LEVEL.field, default.name)
 
     return try {

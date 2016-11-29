@@ -652,7 +652,10 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
         val show = singleShow?.data ?: return
 
-        this.realm.saveShow(show)
+        Realm.getDefaultInstance().let {
+            it.saveShow(show)
+            it.close()
+        }
     }
 
     private fun changeQuality() {

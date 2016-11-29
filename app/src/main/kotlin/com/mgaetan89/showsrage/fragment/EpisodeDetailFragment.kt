@@ -458,7 +458,10 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         val episode = singleEpisode?.data
 
         if (episode != null && this.show?.isValid ?: false) {
-            this.realm.saveEpisode(episode, this.show!!.indexerId, this.seasonNumber, this.episodeNumber)
+            Realm.getDefaultInstance().let {
+                it.saveEpisode(episode, this.show!!.indexerId, this.seasonNumber, this.episodeNumber)
+                it.close()
+            }
         }
     }
 

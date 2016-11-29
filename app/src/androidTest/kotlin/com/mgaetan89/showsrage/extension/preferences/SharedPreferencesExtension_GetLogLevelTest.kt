@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.extension.Fields
 import com.mgaetan89.showsrage.extension.getLogLevel
@@ -45,7 +46,7 @@ class SharedPreferencesExtension_GetLogLevelTest {
 
         val logLevel = this.preference.getLogLevel()
 
-        assertThat(logLevel).isEqualTo(LogLevel.ERROR)
+        assertThat(logLevel).isEqualTo(Constants.Defaults.LOG_LEVEL)
     }
 
     @Test
@@ -72,7 +73,7 @@ class SharedPreferencesExtension_GetLogLevelTest {
 
         val logLevel = this.preference.getLogLevel()
 
-        assertThat(logLevel).isEqualTo(LogLevel.ERROR)
+        assertThat(logLevel).isEqualTo(Constants.Defaults.LOG_LEVEL)
     }
 
     @Test
@@ -81,7 +82,7 @@ class SharedPreferencesExtension_GetLogLevelTest {
 
         val logLevel = this.preference.getLogLevel()
 
-        assertThat(logLevel).isEqualTo(LogLevel.ERROR)
+        assertThat(logLevel).isEqualTo(Constants.Defaults.LOG_LEVEL)
     }
 
     @Test

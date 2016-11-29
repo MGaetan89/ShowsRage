@@ -354,9 +354,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         SickRageApi.instance.services?.getRootDirs(RootDirsCallback(this))
 
         // Refresh existing widgets
-        AppWidgetManager.getInstance(this).let {
-            it.updateAllWidgets(this, HistoryWidgetProvider::class.java)
-        }
+        AppWidgetManager.getInstance(this).updateAllWidgets(this, HistoryWidgetProvider::class.java)
 
         this.appBarLayout = this.findViewById(R.id.app_bar) as AppBarLayout?
         this.drawerLayout = this.findViewById(R.id.drawer_layout) as DrawerLayout?

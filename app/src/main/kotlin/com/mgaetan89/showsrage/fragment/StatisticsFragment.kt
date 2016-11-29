@@ -152,7 +152,10 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
     override fun success(showsStats: ShowsStats?, response: Response?) {
         val showsStat = showsStats?.data ?: return
 
-        this.realm.saveShowsStat(showsStat)
+        Realm.getDefaultInstance().let {
+            it.saveShowsStat(showsStat)
+            it.close()
+        }
     }
 
     companion object {
