@@ -10,6 +10,7 @@ import com.mgaetan89.showsrage.extension.saveHistory
 import com.mgaetan89.showsrage.extension.useDarkTheme
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.ImageLoader
+import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.helper.toLocale
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.network.SickRageApi
@@ -23,6 +24,8 @@ class HistoryWidgetFactory(val context: Context) : RemoteViewsService.RemoteView
 
     init {
         SickRageApi.instance.init(this.context.getPreferences())
+
+        Utils.initRealm(this.context)
 
         this.setLayoutFiles()
     }

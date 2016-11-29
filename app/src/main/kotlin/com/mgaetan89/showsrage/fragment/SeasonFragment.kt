@@ -140,6 +140,9 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
             it.value
         } ?: emptyList()
 
-        this.realm.saveEpisodes(episodesList, this.indexerId, this.seasonNumber)
+        Realm.getDefaultInstance().let {
+            it.saveEpisodes(episodesList, this.indexerId, this.seasonNumber)
+            it.close()
+        }
     }
 }

@@ -157,7 +157,10 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
     override fun success(histories: Histories?, response: Response?) {
         this.swipeRefreshLayout?.isRefreshing = false
 
-        this.realm.saveHistory(histories?.data ?: emptyList())
+        Realm.getDefaultInstance().let {
+            it.saveHistory(histories?.data ?: emptyList())
+            it.close()
+        }
     }
 
     private fun clearHistory() {
