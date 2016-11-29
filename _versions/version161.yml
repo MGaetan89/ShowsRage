@@ -1,0 +1,10 @@
+---
+name: Version 1.6-beta1
+release_date: 29/11/2016
+current_tag: v1.6-beta1
+previous_tag: v1.5
+features:
+- Filter logs
+- Widget to display the <em>History</em>
+- Widget to quickly access a show
+---
