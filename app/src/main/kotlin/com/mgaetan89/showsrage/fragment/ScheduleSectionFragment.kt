@@ -65,7 +65,7 @@ class ScheduleSectionFragment : Fragment(), RealmChangeListener<RealmResults<Sch
 
         this.realm = Realm.getDefaultInstance()
         this.schedules = this.realm.getSchedule(this.arguments.getString(Constants.Bundle.SCHEDULE_SECTION, ""), this)
-        this.adapter = ScheduleAdapter(this.schedules)
+        this.adapter = ScheduleAdapter(this.context, this.schedules)
         this.recyclerView?.adapter = this.adapter
     }
 

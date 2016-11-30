@@ -55,12 +55,22 @@
 
 		<PreferenceScreen
 			android:key="realm_java"
-			android:summary="Version 2.1.1"
+			android:summary="Version 2.2.1"
 			android:title="Realm Java">
 
 			<intent
 				android:action="android.intent.action.VIEW"
 				android:data="https://realm.io/" />
+		</PreferenceScreen>
+
+		<PreferenceScreen
+			android:key="realm_android_adapters"
+			android:summary="Version 1.4.0"
+			android:title="Realm Android Adapters">
+
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:data="https://github.com/realm/realm-android-adapters" />
 		</PreferenceScreen>
 
 		<PreferenceScreen

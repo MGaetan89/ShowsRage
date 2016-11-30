@@ -146,6 +146,7 @@ dependencies {
 	compile "com.squareup.okhttp:okhttp-urlconnection:${okHttpVersion}"
 	compile 'com.squareup.retrofit:retrofit:1.9.0'
 	compile 'com.takisoft.fix:preference-v7:25.0.1.0'
+	compile 'io.realm:android-adapters:1.4.0'
 	compile 'jp.wasabeef:glide-transformations:2.0.1'
 	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.5-2'
 

@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.adapter
 
+import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.support.v4.content.LocalBroadcastManager
@@ -18,12 +19,12 @@ import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.databinding.AdapterScheduleListBinding
 import com.mgaetan89.showsrage.model.Schedule
 import com.mgaetan89.showsrage.presenter.SchedulePresenter
+import io.realm.RealmRecyclerViewAdapter
+import io.realm.RealmResults
 
-class ScheduleAdapter(val schedules: List<Schedule>) : RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
-    override fun getItemCount() = this.schedules.size
-
+class ScheduleAdapter(context: Context, schedules: RealmResults<Schedule>) : RealmRecyclerViewAdapter<Schedule, ScheduleAdapter.ViewHolder>(context, schedules, true) {
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        val schedule = this.schedules[position]
+        val schedule = this.getItem(position)
 
         holder?.bind(SchedulePresenter(schedule, holder.itemView?.context))
     }
@@ -63,7 +64,7 @@ class ScheduleAdapter(val schedules: List<Schedule>) : RecyclerView.Adapter<Sche
                     }
                 }
             } else {
-                val schedule = schedules[adapterPosition]
+                val schedule = getItem(adapterPosition) ?: return
                 val plot = schedule.episodePlot
 
                 if (!plot.isNullOrEmpty()) {
@@ -92,7 +93,7 @@ class ScheduleAdapter(val schedules: List<Schedule>) : RecyclerView.Adapter<Sche
 
         override fun onMenuItemClick(item: MenuItem?): Boolean {
             val context = this.actions?.context ?: return false
-            val schedule = schedules[adapterPosition]
+            val schedule = getItem(adapterPosition) ?: return false
 
             with(Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED)) {
                 putExtra(Constants.Bundle.EPISODE_NUMBER, schedule.episode)

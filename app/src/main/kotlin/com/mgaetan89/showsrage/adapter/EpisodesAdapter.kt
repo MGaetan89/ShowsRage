@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.adapter
 
+import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.support.v4.content.LocalBroadcastManager
@@ -16,12 +17,12 @@ import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.databinding.AdapterEpisodesListBinding
 import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.presenter.EpisodePresenter
+import io.realm.RealmRecyclerViewAdapter
+import io.realm.RealmResults
 
-class EpisodesAdapter(val episodes: List<Episode>, val seasonNumber: Int, val indexerId: Int, val reversed: Boolean) : RecyclerView.Adapter<EpisodesAdapter.ViewHolder>() {
-    override fun getItemCount() = this.episodes.size
-
+class EpisodesAdapter(context: Context, episodes: RealmResults<Episode>, val seasonNumber: Int, val indexerId: Int, val reversed: Boolean) : RealmRecyclerViewAdapter<Episode, EpisodesAdapter.ViewHolder>(context, episodes, true) {
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        val episode = this.episodes[position]
+        val episode = this.getItem(position) ?: return
 
         if (!episode.isValid) {
             return
@@ -90,16 +91,16 @@ class EpisodesAdapter(val episodes: List<Episode>, val seasonNumber: Int, val in
                     }
                 }
             } else {
-                if (adapterPosition >= 0 && adapterPosition < episodes.size) {
-                    with(Intent(Constants.Intents.ACTION_EPISODE_SELECTED)) {
-                        putExtra(Constants.Bundle.EPISODE_ID, episodes[adapterPosition].id)
-                        putExtra(Constants.Bundle.EPISODE_NUMBER, getEpisodeNumber(adapterPosition))
-                        putExtra(Constants.Bundle.EPISODES_COUNT, itemCount)
-                        putExtra(Constants.Bundle.INDEXER_ID, indexerId)
-                        putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)
+                val episode = getItem(adapterPosition) ?: return
 
-                        LocalBroadcastManager.getInstance(context).sendBroadcast(this)
-                    }
+                with(Intent(Constants.Intents.ACTION_EPISODE_SELECTED)) {
+                    putExtra(Constants.Bundle.EPISODE_ID, episode.id)
+                    putExtra(Constants.Bundle.EPISODE_NUMBER, getEpisodeNumber(adapterPosition))
+                    putExtra(Constants.Bundle.EPISODES_COUNT, itemCount)
+                    putExtra(Constants.Bundle.INDEXER_ID, indexerId)
+                    putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)
+
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(this)
                 }
             }
         }
