@@ -184,7 +184,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
             val ignoreArticles = preferences.ignoreArticles()
             val searchQuery = intent?.getStringExtra(Constants.Bundle.SEARCH_QUERY)
             val shows = fragment.shows
-            val filteredShows = if (!shows.isLoaded) {
+            val filteredShows = if (!shows.isValid || !shows.isLoaded) {
                 emptyList()
             } else {
                 shows.filter {
