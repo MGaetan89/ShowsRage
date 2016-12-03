@@ -3,41 +3,19 @@ package com.mgaetan89.showsrage.widget
 import android.content.Context
 import android.view.View
 import android.widget.RemoteViews
-import android.widget.RemoteViewsService
 import com.mgaetan89.showsrage.R
-import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.extension.saveHistory
-import com.mgaetan89.showsrage.extension.useDarkTheme
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.ImageLoader
-import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.helper.toLocale
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.presenter.HistoryPresenter
 import io.realm.Realm
 
-class HistoryWidgetFactory(val context: Context) : RemoteViewsService.RemoteViewsFactory {
-    private var itemLayout = R.layout.widget_adapter_histories_list_dark
-    private var histories = mutableListOf<History>()
-    private var loadingLayout = R.layout.widget_adapter_loading_dark
-
-    init {
-        SickRageApi.instance.init(this.context.getPreferences())
-
-        Utils.initRealm(this.context)
-
-        this.setLayoutFiles()
-    }
-
-    override fun getCount() = this.histories.size
-
-    override fun getItemId(position: Int) = position.toLong()
-
-    override fun getLoadingView() = RemoteViews(this.context.packageName, this.loadingLayout)
-
+class HistoryWidgetFactory(context: Context) : ListWidgetFactory<History>(context) {
     override fun getViewAt(position: Int): RemoteViews {
-        val history = this.histories[position]
+        val history = this.getItem(position)
         val presenter = HistoryPresenter(history)
         val logoUrl = presenter.getPosterUrl()
 
@@ -57,18 +35,20 @@ class HistoryWidgetFactory(val context: Context) : RemoteViewsService.RemoteView
         return views
     }
 
-    override fun getViewTypeCount() = 1
+    override fun getItems(): List<History> {
+        SickRageApi.instance.services?.getHistory()?.data?.let {
+            val histories = it.filterNotNull()
 
-    override fun hasStableIds() = true
+            Realm.getDefaultInstance().let {
+                it.saveHistory(histories)
+                it.close()
+            }
 
-    override fun onCreate() = Unit
+            return histories
+        }
 
-    override fun onDataSetChanged() {
-        this.setLayoutFiles()
-        this.getHistory()
+        return emptyList()
     }
-
-    override fun onDestroy() = Unit
 
     private fun getEpisodeDate(history: History): String {
         val status = history.getStatusTranslationResource()
@@ -93,29 +73,5 @@ class HistoryWidgetFactory(val context: Context) : RemoteViewsService.RemoteView
 
     private fun getEpisodeTitle(presenter: HistoryPresenter): String {
         return this.context.getString(R.string.show_name_episode, presenter.getShowName(), presenter.getSeason(), presenter.getEpisode())
-    }
-
-    private fun getHistory() {
-        SickRageApi.instance.services?.getHistory()?.data?.let {
-            val histories = it.filterNotNull()
-
-            Realm.getDefaultInstance().let {
-                it.saveHistory(histories)
-                it.close()
-            }
-
-            this.histories.clear()
-            this.histories.addAll(histories)
-        }
-    }
-
-    private fun setLayoutFiles() {
-        if (this.context.getPreferences().useDarkTheme()) {
-            this.itemLayout = R.layout.widget_adapter_histories_list_dark
-            this.loadingLayout = R.layout.widget_adapter_loading_dark
-        } else {
-            this.itemLayout = R.layout.widget_adapter_histories_list_light
-            this.loadingLayout = R.layout.widget_adapter_loading_light
-        }
     }
 }

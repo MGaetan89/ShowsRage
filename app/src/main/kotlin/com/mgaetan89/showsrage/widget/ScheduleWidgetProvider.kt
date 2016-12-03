@@ -9,9 +9,9 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 
-class HistoryWidgetProvider : ListWidgetProvider() {
+class ScheduleWidgetProvider : ListWidgetProvider() {
     override fun getListAdapterIntent(context: Context?, widgetId: Int): Intent {
-        val intent = Intent(context, HistoryWidgetService::class.java)
+        val intent = Intent(context, ScheduleWidgetService::class.java)
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
         intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
 
@@ -20,11 +20,11 @@ class HistoryWidgetProvider : ListWidgetProvider() {
 
     override fun getTitlePendingIntent(context: Context?, widgetId: Int): PendingIntent {
         val intent = Intent(context, MainActivity::class.java)
-        intent.action = Constants.Intents.ACTION_DISPLAY_HISTORY
+        intent.action = Constants.Intents.ACTION_DISPLAY_SCHEDULE
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
 
         return PendingIntent.getActivity(context, widgetId, intent, PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
-    override fun getWidgetTitle(context: Context?) = context?.getString(R.string.history)
+    override fun getWidgetTitle(context: Context?) = context?.getString(R.string.schedule)
 }

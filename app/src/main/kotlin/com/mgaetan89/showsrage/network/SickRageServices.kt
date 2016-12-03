@@ -58,6 +58,9 @@ interface SickRageServices {
     @GET("/{api_path}/{api_key}/?cmd=future")
     fun getSchedule(callback: Callback<Schedules>)
 
+    @GET("/{api_path}/{api_key}/?cmd=future")
+    fun getSchedule(): Schedules
+
     @GET("/{api_path}/{api_key}/?cmd=show.seasonlist")
     fun getSeasons(@Query("indexerid") indexerId: Int, @Query("sort") sort: String, callback: Callback<Seasons>)
 
