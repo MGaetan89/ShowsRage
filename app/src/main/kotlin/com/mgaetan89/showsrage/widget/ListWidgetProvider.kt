@@ -60,13 +60,13 @@ abstract class ListWidgetProvider : AppWidgetProvider() {
         }
     }
 
-    protected abstract fun getListAdapterIntent(context: Context?, widgetId: Int): Intent
+    internal abstract fun getListAdapterIntent(context: Context?, widgetId: Int): Intent
 
     protected abstract fun getTitlePendingIntent(context: Context?, widgetId: Int): PendingIntent
 
-    protected abstract fun getWidgetEmptyText(context: Context?): String?
+    internal abstract fun getWidgetEmptyText(context: Context?): String?
 
-    protected abstract fun getWidgetTitle(context: Context?): String?
+    internal abstract fun getWidgetTitle(context: Context?): String?
 
     private fun getApplicationPendingIntent(context: Context?, widgetId: Int): PendingIntent {
         val intent = Intent(context, MainActivity::class.java)
