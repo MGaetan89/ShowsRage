@@ -26,5 +26,7 @@ class ScheduleWidgetProvider : ListWidgetProvider() {
         return PendingIntent.getActivity(context, widgetId, intent, PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
+    override fun getWidgetEmptyText(context: Context?) = context?.getString(R.string.no_coming_episodes)
+
     override fun getWidgetTitle(context: Context?) = context?.getString(R.string.schedule)
 }

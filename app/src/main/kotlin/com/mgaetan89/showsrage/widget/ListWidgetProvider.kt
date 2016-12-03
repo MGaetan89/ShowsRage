@@ -49,6 +49,7 @@ abstract class ListWidgetProvider : AppWidgetProvider() {
             views.setEmptyView(R.id.list, R.id.empty)
             views.setImageViewResource(R.id.refresh, R.drawable.ic_refresh_white_24dp)
             views.setRemoteAdapter(R.id.list, this.getListAdapterIntent(context, it))
+            views.setTextViewText(R.id.empty, this.getWidgetEmptyText(context))
             views.setTextViewText(R.id.title, this.getWidgetTitle(context))
 
             views.setOnClickPendingIntent(R.id.logo, this.getApplicationPendingIntent(context, it))
@@ -62,6 +63,8 @@ abstract class ListWidgetProvider : AppWidgetProvider() {
     protected abstract fun getListAdapterIntent(context: Context?, widgetId: Int): Intent
 
     protected abstract fun getTitlePendingIntent(context: Context?, widgetId: Int): PendingIntent
+
+    protected abstract fun getWidgetEmptyText(context: Context?): String?
 
     protected abstract fun getWidgetTitle(context: Context?): String?
 

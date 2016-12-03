@@ -10,7 +10,7 @@ import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.network.SickRageApi
 
 abstract class ListWidgetFactory<out T>(protected val context: Context) : RemoteViewsService.RemoteViewsFactory {
-    protected var itemLayout = R.layout.widget_adapter_histories_list_dark
+    protected var itemLayout = R.layout.widget_list_adapter_dark
         private set
     private var items = mutableListOf<T>()
     private var loadingLayout = R.layout.widget_adapter_loading_dark
@@ -50,10 +50,10 @@ abstract class ListWidgetFactory<out T>(protected val context: Context) : Remote
 
     private fun setLayoutFiles() {
         if (this.context.getPreferences().useDarkTheme()) {
-            this.itemLayout = R.layout.widget_adapter_histories_list_dark
+            this.itemLayout = R.layout.widget_list_adapter_dark
             this.loadingLayout = R.layout.widget_adapter_loading_dark
         } else {
-            this.itemLayout = R.layout.widget_adapter_histories_list_light
+            this.itemLayout = R.layout.widget_list_adapter_light
             this.loadingLayout = R.layout.widget_adapter_loading_light
         }
     }
