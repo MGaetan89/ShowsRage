@@ -11,6 +11,10 @@ import com.mgaetan89.showsrage.activity.MainActivity
 
 class ScheduleWidgetProvider : ListWidgetProvider() {
     override fun getListAdapterIntent(context: Context?, widgetId: Int): Intent {
+        if (context == null) {
+            return Intent()
+        }
+
         val intent = Intent(context, ScheduleWidgetService::class.java)
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
         intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))

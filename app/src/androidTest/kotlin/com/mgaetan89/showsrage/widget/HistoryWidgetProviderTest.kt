@@ -14,7 +14,7 @@ import org.junit.runner.RunWith
 class HistoryWidgetProviderTest {
     @JvmField
     @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+    val activityRule = ActivityTestRule(TestActivity::class.java, false, true)
 
     private lateinit var provider: HistoryWidgetProvider
 
@@ -37,8 +37,8 @@ class HistoryWidgetProviderTest {
         val intent = this.provider.getListAdapterIntent(null, 42)
 
         assertThat(intent).isNotNull()
-        assertThat(intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)).isEqualTo(42)
-        assertThat(intent.component.className).isEqualTo(HistoryWidgetService::class.java.name)
+        assertThat(intent.extras).isNull()
+        assertThat(intent.component).isNull()
     }
 
     @Test

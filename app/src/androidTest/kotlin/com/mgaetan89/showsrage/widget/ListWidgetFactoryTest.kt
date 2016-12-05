@@ -16,7 +16,7 @@ import org.mockito.Mockito.`when`
 abstract class ListWidgetFactoryTest<T : ListWidgetFactory<Any>> {
     @JvmField
     @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+    val activityRule = ActivityTestRule(TestActivity::class.java, false, true)
 
     protected lateinit var factory: T
 
