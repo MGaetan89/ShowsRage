@@ -2,13 +2,12 @@ package com.mgaetan89.showsrage.widget
 
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.presenter.HistoryPresenter
-import com.mgaetan89.showsrage.presenter.SchedulePresenter
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
+import org.mockito.Mockito.spy
 
 @RunWith(AndroidJUnit4::class)
 class HistoryWidgetFactoryTest : ListWidgetFactoryTest<HistoryWidgetFactory>() {
@@ -19,7 +18,7 @@ class HistoryWidgetFactoryTest : ListWidgetFactoryTest<HistoryWidgetFactory>() {
 
     @Test
     fun getEpisodeTitle() {
-        val presenter = mock(HistoryPresenter::class.java)
+        val presenter = spy(HistoryPresenter(null))
         `when`(presenter.getEpisode()).thenReturn(2)
         `when`(presenter.getSeason()).thenReturn(4)
         `when`(presenter.getShowName()).thenReturn("Show Name")

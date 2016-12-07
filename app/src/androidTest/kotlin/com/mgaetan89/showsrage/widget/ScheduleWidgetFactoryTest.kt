@@ -7,7 +7,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
+import org.mockito.Mockito.spy
 
 @RunWith(AndroidJUnit4::class)
 class ScheduleWidgetFactoryTest : ListWidgetFactoryTest<ScheduleWidgetFactory>() {
@@ -18,7 +18,7 @@ class ScheduleWidgetFactoryTest : ListWidgetFactoryTest<ScheduleWidgetFactory>()
 
     @Test
     fun getEpisodeTitle() {
-        val presenter = mock(SchedulePresenter::class.java)
+        val presenter = spy(SchedulePresenter(null, null))
         `when`(presenter.getEpisode()).thenReturn(2)
         `when`(presenter.getSeason()).thenReturn(4)
         `when`(presenter.getShowName()).thenReturn("Show Name")
