@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage.widget
 
 import android.content.Context
+import android.util.Log
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.mgaetan89.showsrage.R
@@ -8,6 +9,7 @@ import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.extension.useDarkTheme
 import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.network.SickRageApi
+import retrofit.RetrofitError
 
 abstract class ListWidgetFactory<out T>(protected val context: Context) : RemoteViewsService.RemoteViewsFactory {
     internal var itemLayout = R.layout.widget_list_adapter_dark
@@ -42,11 +44,17 @@ abstract class ListWidgetFactory<out T>(protected val context: Context) : Remote
         this.setLayoutFiles()
 
         this.items.clear()
-        this.items.addAll(this.getItems())
+
+        try {
+            this.items.addAll(this.getItems())
+        } catch (exception: RetrofitError) {
+            Log.e("ListWidgetFactory", "A network error has occurred", exception)
+        }
     }
 
     override fun onDestroy() = Unit
 
+    @Throws(RetrofitError::class)
     protected abstract fun getItems(): List<T>
 
     internal fun setLayoutFiles() {
