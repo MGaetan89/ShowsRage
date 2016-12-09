@@ -284,10 +284,10 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
                     realm.close()
                 }
 
-                filteredShows.filter { it.isValid && it.indexerId == indexerId }.forEach {
-                    it.stat = realmStat ?: it.stat
+                filteredShows.filter { it.isValid && it.indexerId == indexerId }.forEachIndexed { i, show ->
+                    show.stat = realmStat ?: show.stat
 
-                    fragment.adapter?.notifyItemChanged(filteredShows.indexOf(it), Constants.Payloads.SHOWS_STATS)
+                    fragment.adapter?.notifyItemChanged(i, Constants.Payloads.SHOWS_STATS)
                 }
 
                 if (shows.isValid) {
