@@ -20,7 +20,7 @@ class HistoryWidgetFactory(context: Context) : ListWidgetFactory<History>(contex
         val logoUrl = presenter.getPosterUrl()
 
         val views = RemoteViews(this.context.packageName, this.itemLayout)
-        views.setTextViewText(R.id.episode_date, this.getEpisodeDate(history))
+        views.setTextViewText(R.id.episode_date, if (history != null) this.getEpisodeDate(history) else "")
         views.setContentDescription(R.id.episode_logo, presenter.getShowName())
         views.setTextViewText(R.id.episode_title, this.getEpisodeTitle(presenter))
 

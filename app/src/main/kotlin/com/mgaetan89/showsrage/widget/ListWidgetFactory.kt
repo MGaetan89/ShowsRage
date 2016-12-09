@@ -26,7 +26,7 @@ abstract class ListWidgetFactory<out T>(protected val context: Context) : Remote
 
     override fun getCount() = this.items.size
 
-    fun getItem(position: Int) = this.items[position]
+    fun getItem(position: Int) = this.items.getOrNull(position)
 
     override fun getItemId(position: Int) = position.toLong()
 
