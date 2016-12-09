@@ -4,13 +4,12 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.TestActivity
+import com.mgaetan89.showsrage.extension.Fields
 import com.mgaetan89.showsrage.extension.getPreferences
-import com.mgaetan89.showsrage.extension.useDarkTheme
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.`when`
 
 @RunWith(AndroidJUnit4::class)
 abstract class ListWidgetFactoryTest<T : ListWidgetFactory<Any>> {
@@ -32,7 +31,9 @@ abstract class ListWidgetFactoryTest<T : ListWidgetFactory<Any>> {
 
     @Test
     fun setLayoutFiles_darkTheme() {
-        `when`(this.activityRule.activity.getPreferences().useDarkTheme()).thenReturn(true)
+        this.activityRule.activity.getPreferences().edit().putBoolean(Fields.THEME.field, true).apply()
+
+        this.factory.setLayoutFiles()
 
         assertThat(this.factory.itemLayout).isEqualTo(R.layout.widget_list_adapter_dark)
         assertThat(this.factory.loadingLayout).isEqualTo(R.layout.widget_adapter_loading_dark)
@@ -40,7 +41,9 @@ abstract class ListWidgetFactoryTest<T : ListWidgetFactory<Any>> {
 
     @Test
     fun setLayoutFiles_lightTheme() {
-        `when`(this.activityRule.activity.getPreferences().useDarkTheme()).thenReturn(true)
+        this.activityRule.activity.getPreferences().edit().putBoolean(Fields.THEME.field, false).apply()
+
+        this.factory.setLayoutFiles()
 
         assertThat(this.factory.itemLayout).isEqualTo(R.layout.widget_list_adapter_light)
         assertThat(this.factory.loadingLayout).isEqualTo(R.layout.widget_adapter_loading_light)

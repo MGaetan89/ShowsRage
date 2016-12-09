@@ -5,6 +5,10 @@ import android.os.Binder
 import android.widget.RemoteViewsService
 
 class HistoryWidgetService : RemoteViewsService() {
+    private val binder by lazy { ServiceBinder() }
+
+    override fun onBind(intent: Intent?) = this.binder
+
     override fun onGetViewFactory(intent: Intent?) = HistoryWidgetFactory(this)
 
     inner class ServiceBinder : Binder() {
