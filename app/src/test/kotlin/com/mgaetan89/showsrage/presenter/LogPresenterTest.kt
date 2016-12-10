@@ -7,6 +7,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.mockito.Mockito.doReturn
+import org.mockito.Mockito.spy
 
 @RunWith(Parameterized::class)
 class LogPresenterTest(val logEntry: LogEntry?, val dateTime: CharSequence?, val errorColor: Int, val errorType: String, val group: String?, val message: String) {
@@ -14,7 +16,8 @@ class LogPresenterTest(val logEntry: LogEntry?, val dateTime: CharSequence?, val
 
     @Before
     fun before() {
-        this.presenter = LogPresenter(this.logEntry)
+        this.presenter = spy(LogPresenter(this.logEntry))
+        doReturn(this.logEntry != null).`when`(this.presenter).isLogEntryValid()
     }
 
     @Test

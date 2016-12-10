@@ -140,7 +140,7 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
 
         this.realm = Realm.getDefaultInstance()
         this.histories = this.realm.getHistory(this)
-        this.adapter = HistoriesAdapter(this.histories)
+        this.adapter = HistoriesAdapter(this.context, this.histories)
         this.recyclerView?.adapter = adapter
     }
 

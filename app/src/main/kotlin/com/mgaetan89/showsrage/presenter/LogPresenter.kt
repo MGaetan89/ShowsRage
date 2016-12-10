@@ -5,21 +5,23 @@ import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.humanize
 import com.mgaetan89.showsrage.model.LogEntry
 
-class LogPresenter(val logEntry: LogEntry?) {
+open class LogPresenter(val logEntry: LogEntry?) {
     fun getDateTime(): CharSequence? {
-        if (this.logEntry == null) {
+        if (!this.isLogEntryValid()) {
             return ""
         }
 
-        return DateTimeHelper.getRelativeDate(this.logEntry.dateTime, "yyyy-MM-dd hh:mm:ss", 0)
+        return DateTimeHelper.getRelativeDate(this.logEntry!!.dateTime, "yyyy-MM-dd hh:mm:ss", 0)
     }
 
     @ColorRes
-    fun getErrorColor() = this.logEntry?.getErrorColor() ?: android.R.color.white
+    fun getErrorColor() = if (this.isLogEntryValid()) this.logEntry!!.getErrorColor() else android.R.color.white
 
-    fun getErrorType() = this.logEntry?.errorType ?: ""
+    fun getErrorType() = if (this.isLogEntryValid()) this.logEntry!!.errorType ?: "" else ""
 
-    fun getGroup() = this.logEntry?.group?.humanize()
+    fun getGroup() = if (this.isLogEntryValid()) this.logEntry!!.group?.humanize() else null
 
-    fun getMessage() = this.logEntry?.message?.trim() ?: ""
+    fun getMessage() = if (this.isLogEntryValid()) this.logEntry!!.message.trim() else ""
+
+    internal open fun isLogEntryValid() = this.logEntry != null && this.logEntry.isValid
 }

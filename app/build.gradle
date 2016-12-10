@@ -19,7 +19,7 @@ android {
 		applicationId 'com.mgaetan89.showsrage'
 		minSdkVersion 15
 		targetSdkVersion 25
-		versionCode 29
+		versionCode 30
 		versionName '1.6-beta1'
 		resConfigs 'en', 'fr'
 		testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
@@ -146,6 +146,7 @@ dependencies {
 	compile "com.squareup.okhttp:okhttp-urlconnection:${okHttpVersion}"
 	compile 'com.squareup.retrofit:retrofit:1.9.0'
 	compile 'com.takisoft.fix:preference-v7:25.0.1.0'
+	compile 'io.realm:android-adapters:1.4.1'
 	compile 'jp.wasabeef:glide-transformations:2.0.1'
 	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.5-2'
 
@@ -156,7 +157,7 @@ dependencies {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
 	testCompile "junit:junit:${jUnitVersion}"
-	testCompile 'org.mockito:mockito-core:2.2.26'
+	testCompile 'org.mockito:mockito-core:2.2.29'
 
 	androidTestCompile "com.android.support:support-annotations:${supportLibraryVersion}"
 	androidTestCompile "com.android.support.test:rules:${supportTestVersion}"

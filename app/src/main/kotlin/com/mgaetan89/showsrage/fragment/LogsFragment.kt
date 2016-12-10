@@ -84,9 +84,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 
     override fun onChange(logs: RealmResults<LogEntry>) {
         if (this.adapter == null) {
-            this.adapter = LogsAdapter(this.logs)
-
-            this.recyclerView?.adapter = this.adapter
+            this.setAdapter()
         }
 
         if (this.logs.isEmpty()) {
@@ -171,6 +169,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 
         this.realm = Realm.getDefaultInstance()
         this.logs = this.realm.getLogs(this.getLogLevel(), this.groups, this)
+        this.setAdapter()
     }
 
     override fun onStop() {
@@ -246,6 +245,12 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 
             true
         } ?: false
+    }
+
+    private fun setAdapter() {
+        this.adapter = LogsAdapter(this.context, this.logs)
+
+        this.recyclerView?.adapter = this.adapter
     }
 
     companion object {
