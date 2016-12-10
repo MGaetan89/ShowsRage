@@ -3,7 +3,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@color/cardview_light_background"
+	android:background="@color/cardview_dark_background"
 	android:orientation="vertical">
 
 	<RelativeLayout
@@ -41,7 +41,8 @@
 			android:layout_toStartOf="@+id/refresh"
 			android:ellipsize="end"
 			android:maxLines="1"
-			android:text="@string/history" />
+			android:textColor="@android:color/white"
+			tools:text="@string/history" />
 
 		<ImageView
 			android:id="@+id/refresh"
@@ -67,6 +68,6 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:gravity="center"
-		android:text="@string/no_shows"
-		android:textColor="@color/cardview_dark_background" />
+		android:textColor="@color/cardview_light_background"
+		tools:text="@string/no_history" />
 </LinearLayout>

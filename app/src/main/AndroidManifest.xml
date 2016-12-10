@@ -30,6 +30,9 @@
 				<action android:name="${applicationId}.action.display_history" />
 			</intent-filter>
 			<intent-filter>
+				<action android:name="${applicationId}.action.display_schedule" />
+			</intent-filter>
+			<intent-filter>
 				<action android:name="${applicationId}.action.display_show" />
 			</intent-filter>
 
@@ -76,6 +79,23 @@
 
 		<service
 			android:name=".widget.HistoryWidgetService"
+			android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+		<receiver
+			android:name=".widget.ScheduleWidgetProvider"
+			android:label="@string/schedule">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+				<action android:name="${applicationId}.action.refresh_widget" />
+			</intent-filter>
+
+			<meta-data
+				android:name="android.appwidget.provider"
+				android:resource="@xml/widget_schedule" />
+		</receiver>
+
+		<service
+			android:name=".widget.ScheduleWidgetService"
 			android:permission="android.permission.BIND_REMOTEVIEWS" />
 
 		<service

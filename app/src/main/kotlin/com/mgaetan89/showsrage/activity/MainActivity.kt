@@ -76,6 +76,7 @@ import com.mgaetan89.showsrage.model.UpdateResponseWrapper
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.view.ColoredToolbar
 import com.mgaetan89.showsrage.widget.HistoryWidgetProvider
+import com.mgaetan89.showsrage.widget.ScheduleWidgetProvider
 import io.kolumbus.Kolumbus
 import io.realm.Realm
 import retrofit.Callback
@@ -354,7 +355,10 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         SickRageApi.instance.services?.getRootDirs(RootDirsCallback(this))
 
         // Refresh existing widgets
-        AppWidgetManager.getInstance(this).updateAllWidgets(this, HistoryWidgetProvider::class.java)
+        AppWidgetManager.getInstance(this).let {
+            it.updateAllWidgets(this, HistoryWidgetProvider::class.java)
+            it.updateAllWidgets(this, ScheduleWidgetProvider::class.java)
+        }
 
         this.appBarLayout = this.findViewById(R.id.app_bar) as AppBarLayout?
         this.drawerLayout = this.findViewById(R.id.drawer_layout) as DrawerLayout?
@@ -431,6 +435,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         internal fun getInitialMenuId(action: String?): Int {
             return when (action) {
                 Constants.Intents.ACTION_DISPLAY_HISTORY -> R.id.menu_history
+                Constants.Intents.ACTION_DISPLAY_SCHEDULE -> R.id.menu_schedule
                 else -> R.id.menu_shows
             }
         }

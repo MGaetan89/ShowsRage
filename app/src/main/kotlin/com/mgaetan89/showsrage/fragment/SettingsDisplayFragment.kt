@@ -11,6 +11,7 @@ import com.mgaetan89.showsrage.extension.getLocale
 import com.mgaetan89.showsrage.extension.updateAllWidgets
 import com.mgaetan89.showsrage.extension.useDarkTheme
 import com.mgaetan89.showsrage.widget.HistoryWidgetProvider
+import com.mgaetan89.showsrage.widget.ScheduleWidgetProvider
 
 class SettingsDisplayFragment : SettingsFragment() {
     override fun getTitleResourceId() = R.string.display
@@ -47,6 +48,9 @@ class SettingsDisplayFragment : SettingsFragment() {
     }
 
     private fun updateWidgets() {
-        AppWidgetManager.getInstance(context).updateAllWidgets(context, HistoryWidgetProvider::class.java)
+        AppWidgetManager.getInstance(this.context).let {
+            it.updateAllWidgets(this.context, HistoryWidgetProvider::class.java)
+            it.updateAllWidgets(this.context, ScheduleWidgetProvider::class.java)
+        }
     }
 }
