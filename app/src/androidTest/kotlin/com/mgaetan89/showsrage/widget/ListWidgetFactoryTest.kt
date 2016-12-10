@@ -20,6 +20,13 @@ abstract class ListWidgetFactoryTest<T : ListWidgetFactory<Any>> {
     protected lateinit var factory: T
 
     @Test
+    fun getItemId() {
+        assertThat(this.factory.getItemId(-1)).isEqualTo(-1L)
+        assertThat(this.factory.getItemId(0)).isEqualTo(0L)
+        assertThat(this.factory.getItemId(1)).isEqualTo(1L)
+    }
+
+    @Test
     fun getViewTypeCount() {
         assertThat(this.factory.viewTypeCount).isEqualTo(1)
     }
