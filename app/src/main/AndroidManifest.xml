@@ -77,10 +77,6 @@
 				android:resource="@xml/widget_history" />
 		</receiver>
 
-		<service
-			android:name=".widget.HistoryWidgetService"
-			android:permission="android.permission.BIND_REMOTEVIEWS" />
-
 		<receiver
 			android:name=".widget.ScheduleWidgetProvider"
 			android:label="@string/schedule">
@@ -93,6 +89,18 @@
 				android:name="android.appwidget.provider"
 				android:resource="@xml/widget_schedule" />
 		</receiver>
+
+		<service
+			android:name=".widget.HistoryWidgetService"
+			android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+		<service
+			android:name=".service.LogsAutoUpdateService"
+			android:exported="false">
+			<intent-filter>
+				<action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+			</intent-filter>
+		</service>
 
 		<service
 			android:name=".widget.ScheduleWidgetService"

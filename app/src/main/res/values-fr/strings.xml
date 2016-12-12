@@ -90,6 +90,10 @@
 	<string name="location">Emplacement : <xliff:g example="/Séries/2 Broke Girls" id="location">%1$s</xliff:g></string>
 	<string name="logo_designer">Créateur du logo</string>
 	<string name="logs">Logs</string>
+	<string name="logs_auto_update">Rafraichissement automatique des logs</string>
+	<string name="minute_1">Une fois par minute</string>
+	<string name="minute_2">Toutes les 2 minutes</string>
+	<string name="minute_5">Toutes les 5 minutes</string>
 	<string name="missed">Manqués</string>
 	<string name="missing">Manquant : <xliff:g example="1" id="missing">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
 	<string name="more_information">Plus d\'informations</string>
@@ -146,6 +150,7 @@
 	<string name="season_episode_name">S<xliff:g example="01" id="season">%1$02d</xliff:g>E<xliff:g example="01" id="episode">%2$02d</xliff:g> - <xliff:g example="Pilot" id="name">%3$s</xliff:g></string>
 	<string name="season_number">Saison %1$d</string>
 	<string name="seasons_sort">Tri des saisons</string>
+	<string name="seconds_30">Toutes les 30 secondes</string>
 	<string name="self_signed_certificate">Certificat auto-signé ?</string>
 	<string name="server">Serveur</string>
 	<string name="server_information">Information sur le serveur</string>

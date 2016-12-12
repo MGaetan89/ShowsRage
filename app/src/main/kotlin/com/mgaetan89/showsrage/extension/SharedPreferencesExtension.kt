@@ -47,6 +47,12 @@ fun SharedPreferences.getLogLevel(): LogLevel {
     }
 }
 
+fun SharedPreferences?.getLogsAutoUpdateInterval(): Int {
+    val logsAutoUpdateInterval = this?.getString(Fields.LOGS_AUTO_UPDATE_INTERVAL.field, "0") ?: "0"
+
+    return if (logsAutoUpdateInterval.isNullOrEmpty()) 0 else logsAutoUpdateInterval.toInt()
+}
+
 fun SharedPreferences.getPortNumber(): String {
     return this.getString(Fields.PORT_NUMBER.field, "") ?: ""
 }
@@ -158,6 +164,7 @@ enum class Fields(val field: String) {
     IGNORE_ARTICLES("display_ignore_articles"),
     LAST_VERSION_CHECK_TIME("last_version_check_time"),
     LOGS_LEVEL("logs_level"),
+    LOGS_AUTO_UPDATE_INTERVAL("behavior_logs_auto_update"),
     PORT_NUMBER("server_port_number"),
     SEASON_SORT("display_seasons_sort"),
     SELF_SIGNED_CERTIFICATE("self_signed_certificate"),
