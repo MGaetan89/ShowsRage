@@ -13,6 +13,13 @@
 		android:key="behavior_version_check"
 		android:title="@string/version_check" />
 
+	<ListPreference
+		android:defaultValue="0"
+		android:entries="@array/logs_auto_update_keys"
+		android:entryValues="@array/logs_auto_update_values"
+		android:key="behavior_logs_auto_update"
+		android:title="@string/logs_auto_update" />
+
 	<Preference
 		android:key="behavior_clear_local"
 		android:title="@string/clear_local_data" />

@@ -14,12 +14,16 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.firebase.jobdispatcher.FirebaseJobDispatcher
+import com.firebase.jobdispatcher.GooglePlayDriver
+import com.firebase.jobdispatcher.TriggerConfiguration
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.LogsAdapter
 import com.mgaetan89.showsrage.extension.getLogLevel
 import com.mgaetan89.showsrage.extension.getLogs
+import com.mgaetan89.showsrage.extension.getLogsAutoUpdateInterval
 import com.mgaetan89.showsrage.extension.getLogsGroup
 import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.extension.saveLogLevel
@@ -28,6 +32,7 @@ import com.mgaetan89.showsrage.model.LogEntry
 import com.mgaetan89.showsrage.model.LogLevel
 import com.mgaetan89.showsrage.model.Logs
 import com.mgaetan89.showsrage.network.SickRageApi
+import com.mgaetan89.showsrage.service.LogsAutoUpdateService
 import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
@@ -39,6 +44,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     private var adapter: LogsAdapter? = null
     private var emptyView: TextView? = null
     private var groups: Array<String>? = null
+    private var jobDispatcher: FirebaseJobDispatcher? = null
     private var logLevel: LogLevel? = null
     private lateinit var logs: RealmResults<LogEntry>
     private lateinit var realm: Realm
@@ -170,9 +176,12 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
         this.realm = Realm.getDefaultInstance()
         this.logs = this.realm.getLogs(this.getLogLevel(), this.groups, this)
         this.setAdapter()
+        this.scheduleAutoUpdate()
     }
 
     override fun onStop() {
+        this.jobDispatcher?.cancel(AUTO_UPDATE_JOB_TAG)
+
         if (this.logs.isValid) {
             this.logs.removeChangeListeners()
         }
@@ -247,6 +256,26 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
         } ?: false
     }
 
+    private fun scheduleAutoUpdate() {
+        val autoUpdateInterval = this.context?.getPreferences().getLogsAutoUpdateInterval()
+
+        if (autoUpdateInterval > 0) {
+            this.jobDispatcher = FirebaseJobDispatcher(GooglePlayDriver(this.context))
+
+            this.jobDispatcher?.let {
+                val tolerance = autoUpdateInterval * TOLERANCE_RATIO
+                val jobBuilder = it.newJobBuilder()
+                        .setRecurring(true)
+                        .setService(LogsAutoUpdateService::class.java)
+                        .setTag(AUTO_UPDATE_JOB_TAG)
+
+                TriggerConfiguration.executionWindow(jobBuilder, autoUpdateInterval, autoUpdateInterval + tolerance.toInt())
+
+                it.schedule(jobBuilder.build())
+            }
+        }
+    }
+
     private fun setAdapter() {
         this.adapter = LogsAdapter(this.context, this.logs)
 
@@ -254,7 +283,9 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     }
 
     companion object {
+        private const val AUTO_UPDATE_JOB_TAG = "logs-auto-update-tag"
         private const val REQUEST_CODE_FILTER = 1
+        private const val TOLERANCE_RATIO = 0.1
 
         internal fun getLogLevelForMenuId(menuId: Int?): LogLevel? {
             return when (menuId) {
