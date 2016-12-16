@@ -76,7 +76,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     private var fanArt: ImageView? = null
     private var genre: TextView? = null
     private var imdb: Button? = null
-    private val indexerId: Int by lazy { this.arguments.getInt(Constants.Bundle.INDEXER_ID) }
+    private val indexerId by lazy { this.arguments.getInt(Constants.Bundle.INDEXER_ID) }
     private var languageCountry: TextView? = null
     private var location: TextView? = null
     private var name: TextView? = null
@@ -213,7 +213,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
 
     override fun onChange(show: Show) {
-        if (!show.isLoaded) {
+        if (!show.isLoaded || !show.isValid) {
             return
         }
 
