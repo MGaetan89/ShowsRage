@@ -16,7 +16,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.firebase.jobdispatcher.FirebaseJobDispatcher
 import com.firebase.jobdispatcher.GooglePlayDriver
-import com.firebase.jobdispatcher.TriggerConfiguration
+import com.firebase.jobdispatcher.Trigger
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
@@ -264,14 +264,14 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 
             this.jobDispatcher?.let {
                 val tolerance = autoUpdateInterval * TOLERANCE_RATIO
-                val jobBuilder = it.newJobBuilder()
+                val job = it.newJobBuilder()
                         .setRecurring(true)
                         .setService(LogsAutoUpdateService::class.java)
                         .setTag(AUTO_UPDATE_JOB_TAG)
+                        .setTrigger(Trigger.executionWindow(autoUpdateInterval, autoUpdateInterval + tolerance.toInt()))
+                        .build()
 
-                TriggerConfiguration.executionWindow(jobBuilder, autoUpdateInterval, autoUpdateInterval + tolerance.toInt())
-
-                it.schedule(jobBuilder.build())
+                it.schedule(job)
             }
         }
     }
