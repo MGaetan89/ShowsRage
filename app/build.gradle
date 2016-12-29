@@ -149,7 +149,7 @@ dependencies {
 	compile 'com.takisoft.fix:preference-v7:25.0.1.0'
 	compile 'io.realm:android-adapters:1.4.1'
 	compile 'jp.wasabeef:glide-transformations:2.0.1'
-	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.5-3'
+	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.6'
 
 	debugCompile "com.github.MGaetan89.Kolumbus:kolumbus:${kolumbusVersion}"
 	releaseCompile "com.github.MGaetan89.Kolumbus:kolumbus-no-op:${kolumbusVersion}"
@@ -158,7 +158,7 @@ dependencies {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
 	testCompile "junit:junit:${jUnitVersion}"
-	testCompile 'org.mockito:mockito-core:2.3.5'
+	testCompile 'org.mockito:mockito-core:2.5.0'
 
 	androidTestCompile "com.android.support:support-annotations:${supportLibraryVersion}"
 	androidTestCompile "com.android.support.test:rules:${supportTestVersion}"
