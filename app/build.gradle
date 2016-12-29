@@ -70,7 +70,7 @@ android {
 	}
 
 	adbOptions {
-		installOptions '-r', '-s'
+		installOptions '-r', '-t'
 	}
 
 	testOptions {
