@@ -69,6 +69,10 @@ android {
 		abortOnError false
 	}
 
+	adbOptions {
+		installOptions '-r', '-s'
+	}
+
 	testOptions {
 		unitTests {
 			returnDefaultValues = true
