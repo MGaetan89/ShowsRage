@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage.extension.realm
 
 import android.os.Looper
+import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.TestActivity
@@ -23,11 +24,7 @@ abstract class RealmTest {
 
     @Before
     fun configureRealm() {
-        setContext(null)
-
-        Realm.init(this.activityRule.activity)
-
-        //setContext(InstrumentationRegistry.getContext())
+        Realm.init(InstrumentationRegistry.getContext())
 
         val configuration = RealmConfiguration.Builder()
                 .assetFile("test.realm")
