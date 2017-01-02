@@ -24,11 +24,10 @@ abstract class RealmTest {
 
     @Before
     fun configureRealm() {
-        Realm.init(InstrumentationRegistry.getContext())
+        Realm.init(InstrumentationRegistry.getTargetContext())
 
         val configuration = RealmConfiguration.Builder()
                 .assetFile("test.realm")
-                .directory(this.activityRule.activity.filesDir)
                 .schemaVersion(Constants.DATABASE_VERSION)
                 .migration(Migration())
                 .build()
