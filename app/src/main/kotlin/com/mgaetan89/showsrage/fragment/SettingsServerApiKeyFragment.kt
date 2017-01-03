@@ -14,7 +14,7 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 import java.lang.ref.WeakReference
 
-open class SettingsServerApiKeyFragment : SettingsServerFragment() {
+class SettingsServerApiKeyFragment : SettingsServerFragment() {
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
         if ("get_api_key_action".equals(preference?.key)) {
             this.getApiKey()

@@ -62,8 +62,8 @@ class ShowPresenterTest(
 
             return listOf(
                     arrayOf(null, "", "", false, "", "", ""),
-                    arrayOf(getShow(gson, "ABC", 0, "HD", "Show 1", 123), "?cmd=show.getbanner&tvdbid=123", "ABC", false, "?cmd=show.getposter&tvdbid=123", "HD", "Show 1"),
-                    arrayOf(getShow(gson, "CBS", 1, "HD1080p", "Show 2", 456), "?cmd=show.getbanner&tvdbid=456", "CBS", true, "?cmd=show.getposter&tvdbid=456", "HD1080p", "Show 2")
+                    arrayOf(getShow(gson, "ABC", 0, "HD", "Show 1", 123), "https://127.0.0.1:8083/api/apiKey/?cmd=show.getbanner&tvdbid=123", "ABC", false, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=123", "HD", "Show 1"),
+                    arrayOf(getShow(gson, "CBS", 1, "HD1080p", "Show 2", 456), "https://127.0.0.1:8083/api/apiKey/?cmd=show.getbanner&tvdbid=456", "CBS", true, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=456", "HD1080p", "Show 2")
             )
         }
 

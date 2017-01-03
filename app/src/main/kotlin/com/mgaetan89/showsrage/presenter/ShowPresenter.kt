@@ -7,7 +7,7 @@ import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.Realm
 
-open class ShowPresenter(val show: Show?) {
+class ShowPresenter(val show: Show?) {
     fun getBannerUrl() = if (this.isShowValid()) SickRageApi.instance.getBannerUrl(this.show!!.tvDbId, Indexer.TVDB) else ""
 
     fun getNetwork() = if (this.isShowValid()) this.show!!.network else ""
@@ -38,5 +38,5 @@ open class ShowPresenter(val show: Show?) {
 
     fun isPaused() = if (this.isShowValid()) this.show!!.paused == 1 else false
 
-    internal open fun isShowValid() = this.show != null && this.show.isValid
+    internal fun isShowValid() = this.show != null && this.show.isValid
 }

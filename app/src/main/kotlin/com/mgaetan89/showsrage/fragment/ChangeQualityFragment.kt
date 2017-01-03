@@ -10,7 +10,7 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.network.SickRageApi
 
-open class ChangeQualityFragment : DialogFragment(), DialogInterface.OnClickListener {
+class ChangeQualityFragment : DialogFragment(), DialogInterface.OnClickListener {
     override fun onClick(dialog: DialogInterface?, which: Int) {
         val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
         val parentFragment = this.parentFragment

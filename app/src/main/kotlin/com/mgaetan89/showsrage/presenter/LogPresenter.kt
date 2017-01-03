@@ -5,7 +5,7 @@ import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.humanize
 import com.mgaetan89.showsrage.model.LogEntry
 
-open class LogPresenter(val logEntry: LogEntry?) {
+class LogPresenter(val logEntry: LogEntry?) {
     fun getDateTime(): CharSequence? {
         if (!this.isLogEntryValid()) {
             return ""
@@ -23,5 +23,5 @@ open class LogPresenter(val logEntry: LogEntry?) {
 
     fun getMessage() = if (this.isLogEntryValid()) this.logEntry!!.message.trim() else ""
 
-    internal open fun isLogEntryValid() = this.logEntry != null && this.logEntry.isValid
+    internal fun isLogEntryValid() = this.logEntry != null && this.logEntry.isValid
 }

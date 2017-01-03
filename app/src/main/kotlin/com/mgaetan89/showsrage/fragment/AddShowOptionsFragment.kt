@@ -24,7 +24,7 @@ import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.Realm
 import retrofit.client.Response
 
-open class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener {
+class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener {
     private var allowedQuality: Spinner? = null
     private var anime: SwitchCompat? = null
     private var language: Spinner? = null
