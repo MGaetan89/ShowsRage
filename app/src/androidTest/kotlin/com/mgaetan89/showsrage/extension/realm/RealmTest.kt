@@ -24,7 +24,7 @@ abstract class RealmTest {
 
     @Before
     fun configureRealm() {
-        Realm.init(InstrumentationRegistry.getTargetContext())
+        Realm.init(InstrumentationRegistry.getContext())
 
         val configuration = RealmConfiguration.Builder()
                 .assetFile("test.realm")
