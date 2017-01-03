@@ -3,6 +3,7 @@ package com.mgaetan89.showsrage.extension.realm
 import android.os.Looper
 import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
+import com.mgaetan89.showsrage.BuildConfig
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.helper.Migration
@@ -14,6 +15,7 @@ import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
+import java.io.File
 
 abstract class RealmTest {
     @JvmField
@@ -28,7 +30,7 @@ abstract class RealmTest {
 
         val configuration = RealmConfiguration.Builder()
                 .assetFile("test.realm")
-                .directory(this.activityRule.activity.filesDir)
+                .directory(File("/data/data/%s/files".format(BuildConfig.APPLICATION_ID)))
                 .schemaVersion(Constants.DATABASE_VERSION)
                 .migration(Migration())
                 .build()
