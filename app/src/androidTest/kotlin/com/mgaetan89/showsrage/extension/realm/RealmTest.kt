@@ -14,16 +14,11 @@ import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
-import org.junit.rules.TemporaryFolder
 
 abstract class RealmTest {
     @JvmField
     @Rule
     val activityRule = ActivityTestRule(TestActivity::class.java)
-
-    @JvmField
-    @Rule
-    val temporaryFolderRule = TemporaryFolder()
 
     val realm: Realm by lazy { Realm.getDefaultInstance() }
 
@@ -33,7 +28,6 @@ abstract class RealmTest {
 
         val configuration = RealmConfiguration.Builder()
                 .assetFile("test.realm")
-                .directory(this.temporaryFolderRule.root)
                 .schemaVersion(Constants.DATABASE_VERSION)
                 .migration(Migration())
                 .build()
