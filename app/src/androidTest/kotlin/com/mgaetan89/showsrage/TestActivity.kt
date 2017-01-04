@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage
 
 import android.os.Bundle
+import android.support.test.InstrumentationRegistry
 import android.support.v7.app.AppCompatActivity
 import com.mgaetan89.showsrage.helper.Migration
 import io.realm.Realm
@@ -10,10 +11,11 @@ class TestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Realm.init(this)
+        Realm.init(InstrumentationRegistry.getTargetContext())
 
         val configuration = RealmConfiguration.Builder()
                 .assetFile("test.realm")
+                .directory(this.filesDir)
                 .schemaVersion(Constants.DATABASE_VERSION)
                 .migration(Migration())
                 .build()
