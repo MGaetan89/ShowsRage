@@ -218,9 +218,11 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         }
 
         if (this.serviceConnection == null) {
-            this.serviceConnection = ServiceConnection(this)
+            this.context?.let {
+                this.serviceConnection = ServiceConnection(this)
 
-            CustomTabsClient.bindCustomTabsService(this.context, "com.android.chrome", this.serviceConnection)
+                CustomTabsClient.bindCustomTabsService(it, "com.android.chrome", this.serviceConnection)
+            }
         }
 
         this.activity?.title = show.showName

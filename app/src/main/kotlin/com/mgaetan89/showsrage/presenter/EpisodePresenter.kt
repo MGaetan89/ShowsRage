@@ -7,11 +7,7 @@ import com.mgaetan89.showsrage.model.Episode
 
 class EpisodePresenter(val episode: Episode?) {
     fun getAirDate(): CharSequence? {
-        if (this.episode == null) {
-            return null
-        }
-
-        val airDate = this.episode.airDate
+        val airDate = this._getEpisode()?.airDate ?: return null
 
         if (airDate.isNullOrEmpty()) {
             return null
@@ -21,15 +17,13 @@ class EpisodePresenter(val episode: Episode?) {
     }
 
     fun getQuality(): String {
-        if (this.episode == null) {
-            return ""
-        }
-
-        val quality = this.episode.quality
+        val quality = this._getEpisode()?.quality ?: return ""
 
         return if ("N/A".equals(quality, true)) "" else quality
     }
 
     @ColorRes
-    fun getStatusColor() = this.episode?.getStatusBackgroundColor() ?: android.R.color.transparent
+    fun getStatusColor() = this._getEpisode()?.getStatusBackgroundColor() ?: android.R.color.transparent
+
+    private fun _getEpisode() = if (this.episode?.isValid ?: false) this.episode else null
 }

@@ -480,7 +480,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     }
 
     private fun displayEpisode(episode: Episode) {
-        if (!episode.isLoaded) {
+        if (!episode.isValid) {
             return
         }
 

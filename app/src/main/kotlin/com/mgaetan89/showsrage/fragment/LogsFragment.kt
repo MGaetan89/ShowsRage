@@ -201,7 +201,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
             it.close()
         }
 
-        this.activity.supportInvalidateOptionsMenu()
+        this.activity?.supportInvalidateOptionsMenu()
     }
 
     private fun getLogLevel(): LogLevel {
