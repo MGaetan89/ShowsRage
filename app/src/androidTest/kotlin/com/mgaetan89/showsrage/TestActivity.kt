@@ -11,7 +11,7 @@ class TestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Realm.init(InstrumentationRegistry.getTargetContext())
+        Realm.init(InstrumentationRegistry.getContext())
 
         val configuration = RealmConfiguration.Builder()
                 .assetFile("test.realm")
