@@ -15,7 +15,7 @@ class TestActivity : AppCompatActivity() {
 
         val configuration = RealmConfiguration.Builder()
                 .assetFile("test.realm")
-                .directory(this.filesDir)
+                .directory(this.applicationContext.filesDir)
                 .schemaVersion(Constants.DATABASE_VERSION)
                 .migration(Migration())
                 .build()
