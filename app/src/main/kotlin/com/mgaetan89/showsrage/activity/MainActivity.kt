@@ -228,7 +228,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                 fragmentTransaction.addToBackStack(backStackName)
             }
 
-            fragmentTransaction.commit()
+            fragmentTransaction.commitAllowingStateLoss()
         }
 
         return eventHandled

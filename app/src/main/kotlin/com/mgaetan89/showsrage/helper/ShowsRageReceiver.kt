@@ -91,7 +91,7 @@ class ShowsRageReceiver(activity: MainActivity) : BroadcastReceiver() {
         activity.supportFragmentManager.beginTransaction()
                 .addToBackStack("show")
                 .replace(R.id.content, fragment)
-                .commit()
+                .commitAllowingStateLoss()
     }
 
     private fun searchEpisode(seasonNumber: Int, episodeNumber: Int, indexerId: Int) {
