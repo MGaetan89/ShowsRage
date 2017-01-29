@@ -146,7 +146,7 @@ dependencies {
 	compile "com.squareup.okhttp:okhttp:${okHttpVersion}"
 	compile "com.squareup.okhttp:okhttp-urlconnection:${okHttpVersion}"
 	compile 'com.squareup.retrofit:retrofit:1.9.0'
-	compile 'com.takisoft.fix:preference-v7:25.1.0.0'
+	compile 'com.takisoft.fix:preference-v7:25.1.0.2'
 	compile 'io.realm:android-adapters:1.4.1'
 	compile 'jp.wasabeef:glide-transformations:2.0.1'
 	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.6'
@@ -158,7 +158,7 @@ dependencies {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	}
 	testCompile "junit:junit:${jUnitVersion}"
-	testCompile 'org.mockito:mockito-core:2.6.2'
+	testCompile 'org.mockito:mockito-core:2.7.0'
 
 	androidTestCompile "com.android.support:support-annotations:${supportLibraryVersion}"
 	androidTestCompile "com.android.support.test:rules:${supportTestVersion}"
