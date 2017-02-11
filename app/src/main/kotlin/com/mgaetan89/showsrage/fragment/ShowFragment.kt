@@ -38,11 +38,11 @@ class ShowFragment : TabbedFragment(), Callback<Seasons> {
         val realm = Realm.getDefaultInstance()
         val show = realm.getShow(indexerId)
         val sort = activity.getPreferences().getSeasonSort()
-        val seasons = show?.seasonList?.map { it.value.toInt() } ?: emptyList()
+        val seasons = show?.getSeasonsListInt() ?: emptyList()
 
         realm.close()
 
-        this.displaySeasons(if (Sort.ASCENDING.equals(sort)) seasons.sorted() else seasons.sortedDescending())
+        this.displaySeasons(if (Sort.ASCENDING == sort) seasons.sorted() else seasons.sortedDescending())
 
         SickRageApi.instance.services?.getSeasons(indexerId, sort.label, this)
     }
