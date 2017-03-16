@@ -183,7 +183,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
         this.jobDispatcher?.cancel(AUTO_UPDATE_JOB_TAG)
 
         if (this.logs.isValid) {
-            this.logs.removeChangeListeners()
+            this.logs.removeAllChangeListeners()
         }
 
         this.realm.close()
@@ -218,7 +218,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 
     private fun getLogs(logLevel: LogLevel) {
         if (this.logs.isValid) {
-            this.logs.removeChangeListeners()
+            this.logs.removeAllChangeListeners()
         }
 
         this.logs = this.realm.getLogs(logLevel, this.groups, this)

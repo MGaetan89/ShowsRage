@@ -34,8 +34,8 @@ class EpisodesAdapter(episodes: RealmResults<Episode>, val seasonNumber: Int, va
         if (holder?.status != null) {
             val status = episode.getStatusTranslationResource()
 
-            holder?.status.text = if (status != 0) {
-                holder?.status.resources?.getString(status)
+            holder.status.text = if (status != 0) {
+                holder.status.resources?.getString(status)
             } else {
                 episode.status
             }
@@ -81,7 +81,7 @@ class EpisodesAdapter(episodes: RealmResults<Episode>, val seasonNumber: Int, va
         override fun onClick(view: View?) {
             val context = view?.context ?: return
 
-            if (view?.id == R.id.episode_actions) {
+            if (view.id == R.id.episode_actions) {
                 if (this.actions != null) {
                     with(PopupMenu(context, this.actions)) {
                         inflate(R.menu.episode_action)

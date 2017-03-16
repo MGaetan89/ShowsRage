@@ -65,7 +65,7 @@ import java.net.MalformedURLException
 import java.net.URI
 import java.net.URISyntaxException
 import java.net.URL
-import java.util.*
+import java.util.Locale
 
 class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpisode>, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, RealmChangeListener<Episode> {
     private var airs: TextView? = null
@@ -358,7 +358,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
             R.id.menu_episode_set_status_ignored,
             R.id.menu_episode_set_status_skipped,
             R.id.menu_episode_set_status_wanted -> {
-                this.setEpisodeStatus(this.seasonNumber, this.episodeNumber, this.show?.indexerId ?: 0, item!!.itemId)
+                this.setEpisodeStatus(this.seasonNumber, this.episodeNumber, this.show?.indexerId ?: 0, item.itemId)
 
                 return true
             }
@@ -428,23 +428,23 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
                 val showName = this.show!!.showName
 
                 if (!showName.isNullOrEmpty()) {
-                    omDbApi.getEpisodeByTitle(showName!!, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
+                    omDbApi.getEpisodeByTitle(showName!!, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback())
                 }
             } else {
                 this.omdbEpisodes = this.realm.getEpisodes(OmDbEpisode.buildId(imdbId!!, this.seasonNumber.toString(), this.episodeNumber.toString()), this.omdbEpisodesListener)
 
-                omDbApi.getEpisodeByImDbId(imdbId, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback(this))
+                omDbApi.getEpisodeByImDbId(imdbId, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback())
             }
         }
     }
 
     override fun onStop() {
         if (this.episode.isValid) {
-            this.episode.removeChangeListeners()
+            this.episode.removeAllChangeListeners()
         }
 
         if (this.omdbEpisodes?.isValid ?: false) {
-            this.omdbEpisodes?.removeChangeListeners()
+            this.omdbEpisodes?.removeAllChangeListeners()
         }
 
         this.realm.close()
@@ -630,11 +630,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
     }
 
     private class MediaRouterCallback(fragment: EpisodeDetailFragment) : MediaRouter.Callback() {
-        private val fragmentReference: WeakReference<EpisodeDetailFragment>
-
-        init {
-            this.fragmentReference = WeakReference(fragment)
-        }
+        private val fragmentReference = WeakReference(fragment)
 
         override fun onRouteSelected(router: MediaRouter?, route: MediaRouter.RouteInfo?) {
             this.updateRemotePlayer(route)
@@ -672,13 +668,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
         }
     }
 
-    private class OmdbEpisodeCallback(fragment: EpisodeDetailFragment) : Callback<OmDbEpisode> {
-        private val fragmentReference: WeakReference<EpisodeDetailFragment>
-
-        init {
-            this.fragmentReference = WeakReference(fragment)
-        }
-
+    private class OmdbEpisodeCallback : Callback<OmDbEpisode> {
         override fun failure(error: RetrofitError?) {
             error?.printStackTrace()
         }

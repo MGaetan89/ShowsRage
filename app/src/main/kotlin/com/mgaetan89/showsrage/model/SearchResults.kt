@@ -1,4 +1,3 @@
 package com.mgaetan89.showsrage.model
 
-class SearchResults : ServerResponse<SearchResult>() {
-}
+class SearchResults : ServerResponse<SearchResult>()

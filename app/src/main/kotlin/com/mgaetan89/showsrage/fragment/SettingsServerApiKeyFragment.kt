@@ -16,7 +16,7 @@ import java.lang.ref.WeakReference
 
 class SettingsServerApiKeyFragment : SettingsServerFragment() {
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-        if ("get_api_key_action".equals(preference?.key)) {
+        if ("get_api_key_action" == preference?.key) {
             this.getApiKey()
 
             return true
@@ -41,11 +41,7 @@ class SettingsServerApiKeyFragment : SettingsServerFragment() {
     }
 
     private class ApiKeyCallback(fragment: SettingsFragment) : Callback<ApiKey> {
-        private val fragmentReference: WeakReference<SettingsFragment>
-
-        init {
-            this.fragmentReference = WeakReference(fragment)
-        }
+        private val fragmentReference = WeakReference(fragment)
 
         override fun failure(error: RetrofitError?) {
             this.showApiKeyResult(null)

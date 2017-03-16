@@ -40,7 +40,7 @@ import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 import java.lang.ref.WeakReference
-import java.util.*
+import java.util.Comparator
 
 class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>> {
     private var adapter: ShowsAdapter? = null
@@ -151,7 +151,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 
     override fun onStop() {
         if (this.shows.isValid) {
-            this.shows.removeChangeListeners()
+            this.shows.removeAllChangeListeners()
         }
 
         this.realm.close()
@@ -170,11 +170,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
     }
 
     internal class FilterReceiver(fragment: ShowsSectionFragment) : BroadcastReceiver() {
-        private val fragmentReference: WeakReference<ShowsSectionFragment>
-
-        init {
-            this.fragmentReference = WeakReference(fragment)
-        }
+        private val fragmentReference = WeakReference(fragment)
 
         override fun onReceive(context: Context?, intent: Intent?) {
             val fragment = this.fragmentReference.get() ?: return
@@ -256,11 +252,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
     }
 
     private class ShowStatsCallback(fragment: ShowsSectionFragment) : Callback<ShowStatsWrapper> {
-        private val fragmentReference: WeakReference<ShowsSectionFragment>
-
-        init {
-            this.fragmentReference = WeakReference(fragment)
-        }
+        private val fragmentReference = WeakReference(fragment)
 
         override fun failure(error: RetrofitError?) {
             error?.printStackTrace()

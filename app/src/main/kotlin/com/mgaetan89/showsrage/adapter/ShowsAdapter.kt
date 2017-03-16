@@ -43,13 +43,13 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, val ignor
             if (nextEpisodeAirDate.isNullOrEmpty()) {
                 val status = show.getStatusTranslationResource()
 
-                holder?.nextEpisodeDate.text = if (status != 0) {
-                    holder?.nextEpisodeDate.resources.getString(status)
+                holder.nextEpisodeDate.text = if (status != 0) {
+                    holder.nextEpisodeDate.resources.getString(status)
                 } else {
                     show.status
                 }
             } else {
-                holder?.nextEpisodeDate.text = DateTimeHelper.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)
+                holder.nextEpisodeDate.text = DateTimeHelper.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)
             }
         }
     }

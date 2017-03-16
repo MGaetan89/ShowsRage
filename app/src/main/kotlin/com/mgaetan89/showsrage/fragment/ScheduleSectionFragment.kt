@@ -71,7 +71,7 @@ class ScheduleSectionFragment : Fragment(), RealmChangeListener<RealmResults<Sch
 
     override fun onStop() {
         if (this.schedules.isValid) {
-            this.schedules.removeChangeListeners()
+            this.schedules.removeAllChangeListeners()
         }
 
         this.realm.close()

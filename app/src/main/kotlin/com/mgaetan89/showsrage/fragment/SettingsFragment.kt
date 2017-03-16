@@ -66,7 +66,7 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
 
         this.activity.setTitle(this.getTitleResourceId())
 
-        if ("SettingsFragment".equals(this.javaClass.simpleName)) {
+        if ("SettingsFragment" == this.javaClass.simpleName) {
             val serverAddress = this.context.getPreferences().getServerAddress()
 
             this.setScreensIcon()
@@ -136,7 +136,7 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
         if (preference is EditTextPreference) {
             val text = preference.text
 
-            if (Fields.SERVER_PASSWORD.field.equals(preference.key) && !text.isNullOrEmpty()) {
+            if (Fields.SERVER_PASSWORD.field == preference.key && !text.isNullOrEmpty()) {
                 preference.summary = "*****"
             } else {
                 preference.summary = text

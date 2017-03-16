@@ -1,4 +1,3 @@
 package com.mgaetan89.showsrage.model
 
-class SingleEpisode : ServerResponse<Episode>() {
-}
+class SingleEpisode : ServerResponse<Episode>()

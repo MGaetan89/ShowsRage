@@ -15,8 +15,7 @@ class UpdateResponse(
             parcel.readValue(Version::class.java.classLoader) as Version?,
             parcel.readValue(Version::class.java.classLoader) as Version?,
             parcel.readByte().toInt() != 0
-    ) {
-    }
+    )
 
     override fun describeContents() = 0
 

@@ -146,7 +146,7 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
 
     override fun onStop() {
         if (this.histories.isValid) {
-            this.histories.removeChangeListeners()
+            this.histories.removeAllChangeListeners()
         }
 
         this.realm.close()

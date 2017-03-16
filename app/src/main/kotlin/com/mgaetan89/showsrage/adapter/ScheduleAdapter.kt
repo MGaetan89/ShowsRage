@@ -54,7 +54,7 @@ class ScheduleAdapter(schedules: RealmResults<Schedule>) : RealmRecyclerViewAdap
         override fun onClick(view: View?) {
             val context = view?.context ?: return
 
-            if (view?.id == R.id.episode_actions) {
+            if (view.id == R.id.episode_actions) {
                 if (this.actions != null) {
                     with(PopupMenu(context, this.actions)) {
                         inflate(R.menu.episode_action)

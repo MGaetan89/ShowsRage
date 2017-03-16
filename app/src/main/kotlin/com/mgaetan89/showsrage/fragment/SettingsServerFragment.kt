@@ -112,8 +112,8 @@ open class SettingsServerFragment : SettingsFragment(), Callback<GenericResponse
                 .setCancelable(true)
                 .setTitle(R.string.testing_server_settings)
                 .setMessage(this.getString(R.string.connecting_to, SickRageApi.instance.getApiUrl()))
-                .setNegativeButton(R.string.cancel, { dialog, which ->
-                    SettingsServerFragment@this.canceled = true
+                .setNegativeButton(R.string.cancel, { dialog, _ ->
+                    SettingsServerFragment@ this.canceled = true
 
                     dialog.dismiss()
                 })

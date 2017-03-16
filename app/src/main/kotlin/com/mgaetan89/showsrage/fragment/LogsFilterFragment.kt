@@ -69,11 +69,11 @@ class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, Di
 
     companion object {
         internal fun getCheckedStates(size: Int, selectedIndices: Set<Int>): BooleanArray {
-            return arrayOfNulls<Boolean>(size).mapIndexed { i, item -> selectedIndices.contains(i) }.toBooleanArray()
+            return arrayOfNulls<Boolean>(size).mapIndexed { i, _ -> selectedIndices.contains(i) }.toBooleanArray()
         }
 
         internal fun getSelectedItems(items: Array<String>, selectedIndices: Set<Int>): Array<String> {
-            return items.filterIndexed { i, item -> selectedIndices.contains(i) }.toTypedArray()
+            return items.filterIndexed { i, _ -> selectedIndices.contains(i) }.toTypedArray()
         }
 
         internal fun setSelectedIndices(selectedIndices: MutableSet<Int>, items: Array<String>, groups: Array<String>?) {

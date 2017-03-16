@@ -9,11 +9,7 @@ import retrofit.client.Response
 import java.lang.ref.WeakReference
 
 open class GenericCallback(activity: FragmentActivity) : Callback<GenericResponse> {
-    val activityReference: WeakReference<FragmentActivity>
-
-    init {
-        this.activityReference = WeakReference(activity)
-    }
+    val activityReference = WeakReference(activity)
 
     override fun failure(error: RetrofitError?) {
         error?.printStackTrace()
