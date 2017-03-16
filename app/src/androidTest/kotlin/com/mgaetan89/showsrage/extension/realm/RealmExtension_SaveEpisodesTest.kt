@@ -17,13 +17,11 @@ class RealmExtension_SaveEpisodesTest : RealmTest() {
 
     @Test
     fun saveEpisodes() {
-        val episodes = mutableListOf<Episode>()
-
-        for (i in 1..5) {
-            episodes.add(Episode().apply {
-                this.name = "Episode $i"
-                this.number = i
-            })
+        val episodes = (1..5).map {
+            Episode().apply {
+                this.name = "Episode $it"
+                this.number = it
+            }
         }
 
         this.realm.saveEpisodes(episodes, INDEXER_ID, SEASON_NUMBER)
@@ -48,14 +46,12 @@ class RealmExtension_SaveEpisodesTest : RealmTest() {
         this.saveEpisodes()
 
         // Then we perform some updates
-        val episodes = mutableListOf<Episode>()
-
-        for (i in 1..5) {
-            episodes.add(Episode().apply {
-                this.description = "Episode $i description"
-                this.fileSizeHuman = "$i GB"
-                this.number = i
-            })
+        val episodes = (1..5).map {
+            Episode().apply {
+                this.description = "Episode $it description"
+                this.fileSizeHuman = "$it GB"
+                this.number = it
+            }
         }
 
         this.realm.saveEpisodes(episodes, INDEXER_ID, SEASON_NUMBER)

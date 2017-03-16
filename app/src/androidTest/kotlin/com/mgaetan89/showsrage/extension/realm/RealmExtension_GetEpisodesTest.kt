@@ -20,7 +20,7 @@ class RealmExtension_GetEpisodesTest : RealmTest() {
     @UiThreadTest
     fun getEpisodes_existingShow_existingSeason_ascending() {
         this.realm.getEpisodes(72173, 4, false, RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).hasSize(15)
 
@@ -34,7 +34,7 @@ class RealmExtension_GetEpisodesTest : RealmTest() {
     @UiThreadTest
     fun getEpisodes_existingShow_existingSeason_descending() {
         this.realm.getEpisodes(72173, 4, true, RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).hasSize(15)
 
@@ -48,7 +48,7 @@ class RealmExtension_GetEpisodesTest : RealmTest() {
     @UiThreadTest
     fun getEpisodes_existingShow_missingSeason_ascending() {
         this.realm.getEpisodes(72173, 3, false, RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).isEmpty()
         })
@@ -58,7 +58,7 @@ class RealmExtension_GetEpisodesTest : RealmTest() {
     @UiThreadTest
     fun getEpisodes_existingShow_missingSeason_descending() {
         this.realm.getEpisodes(72173, 3, true, RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).isEmpty()
         })
@@ -68,7 +68,7 @@ class RealmExtension_GetEpisodesTest : RealmTest() {
     @UiThreadTest
     fun getEpisodes_missingShow_missingSeason_ascending() {
         this.realm.getEpisodes(42, 3, false, RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).isEmpty()
         })
@@ -78,7 +78,7 @@ class RealmExtension_GetEpisodesTest : RealmTest() {
     @UiThreadTest
     fun getEpisodes_missingShow_missingSeason_descending() {
         this.realm.getEpisodes(42, 3, true, RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).isEmpty()
         })

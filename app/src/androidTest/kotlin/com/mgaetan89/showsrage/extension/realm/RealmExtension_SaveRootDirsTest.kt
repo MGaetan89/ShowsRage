@@ -17,14 +17,12 @@ class RealmExtension_SaveRootDirsTest : RealmTest() {
 
     @Test
     fun saveRootDirs() {
-        val rootDirs = mutableListOf<RootDir>()
-
-        for (i in 1..3) {
-            rootDirs.add(RootDir().apply {
-                this.defaultDir = i % 2
-                this.location = "/path/$i"
-                this.valid = i % 2
-            })
+        val rootDirs = (1..3).map {
+            RootDir().apply {
+                this.defaultDir = it % 2
+                this.location = "/path/$it"
+                this.valid = it % 2
+            }
         }
 
         this.realm.saveRootDirs(rootDirs)

@@ -20,7 +20,7 @@ class RealmExtension_GetSeriesTest : RealmTest() {
     @UiThreadTest
     fun getSeries() {
         this.realm.getSeries("tt0176385", RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).hasSize(1)
             assertThat(it.first().imdbId).isEqualTo("tt0176385")
@@ -32,7 +32,7 @@ class RealmExtension_GetSeriesTest : RealmTest() {
     @UiThreadTest
     fun getSeries_notFound() {
         this.realm.getSeries("tt0", RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).hasSize(1)
             assertThat(it.first().imdbId).isEqualTo("tt0")

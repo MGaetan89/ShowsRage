@@ -17,16 +17,14 @@ class RealmExtension_SaveHistoryTest : RealmTest() {
 
     @Test
     fun saveHistory() {
-        val historiesToSave = mutableListOf<History>()
-
-        for (i in 1..3) {
-            historiesToSave.add(History().apply {
-                this.episode = i
-                this.date = "date_$i"
+        val historiesToSave = (1..3).map {
+            History().apply {
+                this.episode = it
+                this.date = "date_$it"
                 this.indexerId = INDEXER_ID
-                this.season = i * 10
-                this.status = "status_$i"
-            })
+                this.season = it * 10
+                this.status = "status_$it"
+            }
         }
 
         this.realm.saveHistory(historiesToSave)

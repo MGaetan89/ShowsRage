@@ -20,7 +20,7 @@ class RealmExtension_GetShowsStatsTest : RealmTest() {
     @UiThreadTest
     fun getShowsStats() {
         this.realm.getShowsStats(RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).hasSize(1)
             assertThat(it.first().episodesDownloaded).isEqualTo(4977)
