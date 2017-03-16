@@ -107,7 +107,9 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.logs, menu)
 
-        menu?.findItem(R.id.menu_filter)?.isVisible = this.realm.getLogsGroup().isNotEmpty()
+        if (!this.realm.isClosed) {
+            menu?.findItem(R.id.menu_filter)?.isVisible = this.realm.getLogsGroup().isNotEmpty()
+        }
 
         val menuId = getMenuIdForLogLevel(this.getLogLevel())
 

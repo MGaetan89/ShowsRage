@@ -20,6 +20,10 @@ object Utils {
     }
 
     fun getSortableShowName(show: Show, ignoreArticles: Boolean): String {
+        if (!show.isValid) {
+            return ""
+        }
+
         return if (ignoreArticles) {
             show.showName?.replaceFirst("^(?:an?|the)\\s+".toRegex(RegexOption.IGNORE_CASE), "")?.toLowerCase()
         } else {
