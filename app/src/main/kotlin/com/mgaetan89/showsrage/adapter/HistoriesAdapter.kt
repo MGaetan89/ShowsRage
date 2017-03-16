@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.adapter
 
-import android.content.Context
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -16,7 +15,7 @@ import com.mgaetan89.showsrage.presenter.HistoryPresenter
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
 
-class HistoriesAdapter(context: Context, histories: RealmResults<History>) : RealmRecyclerViewAdapter<History, HistoriesAdapter.ViewHolder>(context, histories, true) {
+class HistoriesAdapter(histories: RealmResults<History>) : RealmRecyclerViewAdapter<History, HistoriesAdapter.ViewHolder>(histories, true) {
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val history = this.getItem(position) ?: return
 

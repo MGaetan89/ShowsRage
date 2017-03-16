@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.adapter
 
-import android.content.Context
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -13,7 +12,7 @@ import com.mgaetan89.showsrage.presenter.LogPresenter
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
 
-class LogsAdapter(context: Context, logs: RealmResults<LogEntry>) : RealmRecyclerViewAdapter<LogEntry, LogsAdapter.ViewHolder>(context, logs, true) {
+class LogsAdapter(logs: RealmResults<LogEntry>) : RealmRecyclerViewAdapter<LogEntry, LogsAdapter.ViewHolder>(logs, true) {
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder?.bind(LogPresenter(this.getItem(position)))
     }

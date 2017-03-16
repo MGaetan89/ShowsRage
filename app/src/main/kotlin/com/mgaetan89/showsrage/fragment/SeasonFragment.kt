@@ -118,7 +118,7 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
 
         this.realm = Realm.getDefaultInstance()
         this.episodes = this.realm.getEpisodes(this.indexerId, this.seasonNumber, this.reversedOrder, this)
-        this.adapter = EpisodesAdapter(this.context, this.episodes, this.seasonNumber, this.indexerId, this.reversedOrder)
+        this.adapter = EpisodesAdapter( this.episodes, this.seasonNumber, this.indexerId, this.reversedOrder)
         this.recyclerView?.adapter = this.adapter
     }
 

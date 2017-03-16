@@ -277,7 +277,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     }
 
     private fun setAdapter() {
-        this.adapter = LogsAdapter(this.context, this.logs)
+        this.adapter = LogsAdapter(this.logs)
 
         this.recyclerView?.adapter = this.adapter
     }
