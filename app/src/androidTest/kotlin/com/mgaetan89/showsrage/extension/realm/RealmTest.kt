@@ -24,11 +24,7 @@ abstract class RealmTest {
 
     @Before
     fun configureRealm() {
-        setContext(null)
-
-        Realm.init(this.activityRule.activity)
-
-        setContext(InstrumentationRegistry.getContext())
+        Realm.init(InstrumentationRegistry.getTargetContext())
 
         val configuration = RealmConfiguration.Builder()
                 .assetFile("test.realm")
