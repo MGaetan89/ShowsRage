@@ -2,7 +2,7 @@ package com.mgaetan89.showsrage
 
 import com.mgaetan89.showsrage.model.LogLevel
 import retrofit.RestAdapter
-import java.util.*
+import java.util.Locale
 
 object Constants {
     val COLOR_DARK_FACTOR = 0.8f
@@ -17,6 +17,7 @@ object Constants {
         val EPISODE_NUMBER = "episode_number"
         val EPISODES_COUNT = "episodes_count"
         val INDEXER_ID = "indexer_id"
+        val INIT_ONLY = "init_only"
         val LOGS_GROUPS = "logs_groups"
         val MENU_ID = "menu_id"
         val SCHEDULE_SECTION = "schedule_section"

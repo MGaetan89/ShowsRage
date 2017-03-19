@@ -383,7 +383,9 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.setSupportActionBar(this.toolbar)
 
-        this.navigationView?.menu?.performIdentifierAction(getInitialMenuId(this.intent?.action), 0)
+        if (savedInstanceState == null && !this.intent.extras.containsKey(Constants.Bundle.INIT_ONLY)) {
+            this.navigationView?.menu?.performIdentifierAction(getInitialMenuId(this.intent?.action), 0)
+        }
     }
 
     override fun onPause() {
