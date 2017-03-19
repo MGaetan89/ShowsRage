@@ -2,7 +2,9 @@ package com.mgaetan89.showsrage.extension.realm
 
 import android.content.Intent
 import android.os.Looper
+import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
+import android.util.Log
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.helper.Utils
@@ -26,12 +28,21 @@ abstract class RealmTest {
 
     val realm: Realm by lazy { Realm.getDefaultInstance() }
 
+    val realmConfiguration = Utils.createRealmConfiguration("test.realm")
+
     @Before
     fun configureRealm() {
-        val realmConfiguration = Utils.createRealmConfiguration("test.realm")
+        Log.w("RealmTest", "Activity assets: ${this.activityRule.activity.assets.list("")}")
+        Log.w("RealmTest", "Activity assets /: ${this.activityRule.activity.assets.list("/")}")
+        Log.w("RealmTest", "Activity assets /assets: ${this.activityRule.activity.assets.list("/assets")}")
+        Log.w("RealmTest", "Context assets: ${InstrumentationRegistry.getContext().assets.list("")}")
+        Log.w("RealmTest", "Context assets /: ${InstrumentationRegistry.getContext().assets.list("/")}")
+        Log.w("RealmTest", "Context assets /assets: ${InstrumentationRegistry.getContext().assets.list("/assets")}")
+        Log.w("RealmTest", "Target Context assets: ${InstrumentationRegistry.getTargetContext().assets.list("")}")
+        Log.w("RealmTest", "Target Context assets /: ${InstrumentationRegistry.getTargetContext().assets.list("/")}")
+        Log.w("RealmTest", "Target Context assets /assets: ${InstrumentationRegistry.getTargetContext().assets.list("/assets")}")
 
-        Realm.deleteRealm(realmConfiguration)
-        Realm.setDefaultConfiguration(realmConfiguration)
+        Realm.setDefaultConfiguration(this.realmConfiguration)
 
         this.realm.isAutoRefresh = false
     }
@@ -39,6 +50,8 @@ abstract class RealmTest {
     @After
     fun after() {
         this.realm.close()
+
+        Realm.deleteRealm(this.realmConfiguration)
     }
 
     companion object {
