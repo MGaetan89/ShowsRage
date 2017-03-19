@@ -3,13 +3,12 @@ package com.mgaetan89.showsrage.extension.realm
 import android.os.Looper
 import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
-import android.util.Log
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.helper.Migration
 import io.realm.Realm
 import io.realm.RealmConfiguration
-import io.realm.setContext
+import io.realm.setRealmApplicationContext
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
@@ -25,12 +24,7 @@ abstract class RealmTest {
 
     @Before
     fun configureRealm() {
-        Log.w("RealmTestAssets", "Assets Context: ${InstrumentationRegistry.getContext().assets.list("").contentToString()}")
-        Log.w("RealmTestAssets", "Assets Context: ${InstrumentationRegistry.getContext().assets.list("/").contentToString()}")
-        Log.w("RealmTestAssets", "Assets Context: ${InstrumentationRegistry.getContext().assets.list("/assets").contentToString()}")
-        Log.w("RealmTestAssets", "Assets target Context: ${InstrumentationRegistry.getTargetContext().assets.list("").contentToString()}")
-        Log.w("RealmTestAssets", "Assets target Context: ${InstrumentationRegistry.getTargetContext().assets.list("/").contentToString()}")
-        Log.w("RealmTestAssets", "Assets target Context: ${InstrumentationRegistry.getTargetContext().assets.list("/assets").contentToString()}")
+        setRealmApplicationContext(null)
 
         Realm.init(InstrumentationRegistry.getTargetContext())
 
@@ -50,7 +44,7 @@ abstract class RealmTest {
     fun after() {
         this.realm.close()
 
-        setContext(null)
+        setRealmApplicationContext(null)
     }
 
     companion object {
