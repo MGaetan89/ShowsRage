@@ -2,7 +2,6 @@ package com.mgaetan89.showsrage.extension.realm
 
 import android.content.Intent
 import android.os.Looper
-import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.activity.MainActivity
@@ -32,8 +31,7 @@ abstract class RealmTest {
         val realmConfiguration = Utils.createRealmConfiguration("test.realm")
 
         Realm.deleteRealm(realmConfiguration)
-
-        Utils.initRealm(InstrumentationRegistry.getTargetContext(), "test.realm")
+        Realm.setDefaultConfiguration(realmConfiguration)
 
         this.realm.isAutoRefresh = false
     }
