@@ -28,7 +28,7 @@ abstract class RealmTest {
 
     val realm: Realm by lazy { Realm.getDefaultInstance() }
 
-    val realmConfiguration = Utils.createRealmConfiguration("test.realm")
+    val realmConfiguration by lazy { Utils.createRealmConfiguration("test.realm") }
 
     @Before
     fun configureRealm() {
