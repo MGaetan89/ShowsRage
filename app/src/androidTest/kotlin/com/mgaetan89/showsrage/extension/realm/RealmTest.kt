@@ -3,7 +3,7 @@ package com.mgaetan89.showsrage.extension.realm
 import android.os.Looper
 import android.support.test.rule.ActivityTestRule
 import com.mgaetan89.showsrage.Constants
-import com.mgaetan89.showsrage.activity.MainActivity
+import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.helper.Migration
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -16,7 +16,7 @@ import org.junit.Rule
 abstract class RealmTest {
     @JvmField
     @Rule
-    val activityRule = ActivityTestRule(MainActivity::class.java)
+    val activityRule = ActivityTestRule(TestActivity::class.java)
 
     val realm: Realm by lazy { Realm.getDefaultInstance() }
 
