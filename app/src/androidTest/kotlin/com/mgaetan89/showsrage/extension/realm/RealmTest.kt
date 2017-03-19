@@ -29,10 +29,6 @@ abstract class RealmTest {
     @After
     fun after() {
         this.realm.close()
-
-        val realmConfiguration = Utils.createRealmConfiguration("test.realm")
-
-        Realm.deleteRealm(realmConfiguration)
     }
 
     companion object {
