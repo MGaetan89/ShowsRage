@@ -3,6 +3,7 @@ package com.mgaetan89.showsrage.extension.realm
 import android.os.Looper
 import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
+import android.util.Log
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.TestActivity
 import com.mgaetan89.showsrage.helper.Migration
@@ -24,6 +25,13 @@ abstract class RealmTest {
 
     @Before
     fun configureRealm() {
+        Log.w("RealmTestAssets", "Assets Context: ${InstrumentationRegistry.getContext().assets.list("").contentToString()}")
+        Log.w("RealmTestAssets", "Assets Context: ${InstrumentationRegistry.getContext().assets.list("/").contentToString()}")
+        Log.w("RealmTestAssets", "Assets Context: ${InstrumentationRegistry.getContext().assets.list("/assets").contentToString()}")
+        Log.w("RealmTestAssets", "Assets target Context: ${InstrumentationRegistry.getTargetContext().assets.list("").contentToString()}")
+        Log.w("RealmTestAssets", "Assets target Context: ${InstrumentationRegistry.getTargetContext().assets.list("/").contentToString()}")
+        Log.w("RealmTestAssets", "Assets target Context: ${InstrumentationRegistry.getTargetContext().assets.list("/assets").contentToString()}")
+
         Realm.init(InstrumentationRegistry.getTargetContext())
 
         val configuration = RealmConfiguration.Builder()
