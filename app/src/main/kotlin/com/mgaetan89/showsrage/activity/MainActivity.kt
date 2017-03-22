@@ -333,8 +333,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.setContentView(R.layout.activity_main)
 
-        Utils.initRealm(this)
-
         this.firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         val preferences = this.getPreferences()
@@ -383,7 +381,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.setSupportActionBar(this.toolbar)
 
-        if (savedInstanceState == null && !this.intent.extras.containsKey(Constants.Bundle.INIT_ONLY)) {
+        if (savedInstanceState == null && !this.intent.getBooleanExtra(Constants.Bundle.INIT_ONLY, false)) {
             this.navigationView?.menu?.performIdentifierAction(getInitialMenuId(this.intent?.action), 0)
         }
     }

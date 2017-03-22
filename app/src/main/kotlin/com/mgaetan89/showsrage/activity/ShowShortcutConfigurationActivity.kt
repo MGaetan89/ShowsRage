@@ -49,8 +49,6 @@ class ShowShortcutConfigurationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Utils.initRealm(this)
-
         this.realm = Realm.getDefaultInstance()
 
         SickRageApi.instance.init(this.getPreferences())
