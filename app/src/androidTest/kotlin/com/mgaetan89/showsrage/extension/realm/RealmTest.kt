@@ -29,7 +29,9 @@ abstract class RealmTest {
 
     @Before
     fun configureRealm() {
-        Realm.setDefaultConfiguration(this.realmConfiguration)
+        this.activityRule.runOnUiThread {
+            Realm.setDefaultConfiguration(this.realmConfiguration)
+        }
 
         this.realm.isAutoRefresh = false
     }
