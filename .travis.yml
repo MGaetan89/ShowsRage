@@ -33,9 +33,6 @@ env:
 
 matrix:
   allow_failures:
-    - env: ANDROID_TARGET=android-17   ANDROID_ABI=armeabi-v7a
-    - env: ANDROID_TARGET=android-18   ANDROID_ABI=armeabi-v7a
-    - env: ANDROID_TARGET=android-19   ANDROID_ABI=armeabi-v7a
     - env: ANDROID_TARGET=android-21   ANDROID_ABI=armeabi-v7a
 
 before_cache:
