@@ -43,7 +43,7 @@ class ScheduleAdapter(schedules: RealmResults<Schedule>) : RealmRecyclerViewAdap
 
             this.binding = DataBindingUtil.bind(view)
 
-            this.actions = this.binding.includeContent.episodeActions
+            this.actions = this.binding.includeContent?.episodeActions
             this.actions?.setOnClickListener(this)
         }
 

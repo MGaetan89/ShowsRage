@@ -49,7 +49,7 @@ class HistoriesAdapter(histories: RealmResults<History>) : RealmRecyclerViewAdap
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding: AdapterHistoriesListBinding = DataBindingUtil.bind(view)
-        val date: TextView? = this.binding.includeContent.episodeDate
+        val date: TextView? = this.binding.includeContent?.episodeDate
 
         fun bind(history: HistoryPresenter?) {
             this.binding.setHistory(history)

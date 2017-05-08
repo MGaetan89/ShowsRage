@@ -67,9 +67,9 @@ class EpisodesAdapter(episodes: RealmResults<Episode>, val seasonNumber: Int, va
 
             this.binding = DataBindingUtil.bind(view)
 
-            this.actions = this.binding.includeContent.episodeActions
-            this.name = this.binding.includeContent.episodeName
-            this.status = this.binding.includeContent.episodeStatus
+            this.actions = this.binding.includeContent?.episodeActions
+            this.name = this.binding.includeContent?.episodeName
+            this.status = this.binding.includeContent?.episodeStatus
 
             this.actions?.setOnClickListener(this)
         }
