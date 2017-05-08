@@ -13,7 +13,7 @@ if (rootProject.file('local.properties').exists()) {
 
 android {
 	compileSdkVersion 25
-	buildToolsVersion '25.0.2'
+	buildToolsVersion '25.0.3'
 
 	defaultConfig {
 		applicationId 'com.mgaetan89.showsrage'
@@ -118,7 +118,7 @@ task jacocoTestReport(type: JacocoReport /*, dependsOn: ['test'] */) {
 }
 
 def assertJAndroidVersion = '1.1.1'
-def googleServicesVersion = '10.2.1'
+def googleServicesVersion = '10.2.4'
 def jUnitVersion = '4.12'
 def kolumbusVersion = 'v0.9'
 def okHttpVersion = '2.5.0'
@@ -126,7 +126,7 @@ def supportLibraryVersion = '25.3.1'
 def supportTestVersion = '0.5'
 
 dependencies {
-	kapt 'com.android.databinding:compiler:2.3.1'
+	kapt 'com.android.databinding:compiler:2.4.0-alpha7'
 
 	compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
 	compile "com.android.support:cardview-v7:${supportLibraryVersion}"
@@ -151,7 +151,7 @@ dependencies {
 	compile 'com.takisoft.fix:preference-v7:25.3.1.0'
 	compile 'io.realm:android-adapters:2.0.0'
 	compile 'jp.wasabeef:glide-transformations:2.0.1'
-	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.1.1'
+	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.1.2-3'
 
 	debugCompile("com.github.MGaetan89.Kolumbus:kolumbus:${kolumbusVersion}") {
 		exclude group: 'org.jetbrains.kotlin'
