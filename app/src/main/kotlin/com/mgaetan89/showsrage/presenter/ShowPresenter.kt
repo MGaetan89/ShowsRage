@@ -34,8 +34,6 @@ class ShowPresenter(val show: Show?) {
         return this.show.stat
     }
 
-    fun getTvDbId() = if (this.isShowValid()) this.show!!.tvDbId else 0
-
     fun isPaused() = if (this.isShowValid()) this.show!!.paused == 1 else false
 
     internal fun isShowValid() = this.show != null && this.show.isValid
