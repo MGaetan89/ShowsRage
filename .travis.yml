@@ -6,8 +6,7 @@ branches:
   except:
     - gh-pages
 
-jdk:
-  - oraclejdk8
+jdk: oraclejdk8
 
 android:
   components:
@@ -31,12 +30,9 @@ env:
     - ANDROID_TARGET=android-24
     - ANDROID_TARGET=android-25
 
-matrix:
-  allow_failures:
-    - env: ANDROID_TARGET=android-21   ANDROID_ABI=armeabi-v7a
-
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
 
 before_install:
   - echo y | android update sdk --all --no-ui --force --filter android-25
@@ -58,5 +54,7 @@ after_failure:
 
 cache:
   directories:
-    - $HOME/.gradle/
+    - $HOME/.android/build-cache/
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
     - $HOME/.m2/
