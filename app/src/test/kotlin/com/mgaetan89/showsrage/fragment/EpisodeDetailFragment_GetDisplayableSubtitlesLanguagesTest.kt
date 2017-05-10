@@ -5,7 +5,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import java.util.*
+import java.util.Locale
 
 @RunWith(Parameterized::class)
 class EpisodeDetailFragment_GetDisplayableSubtitlesLanguagesTest(val subtitles: String, val result: String) {

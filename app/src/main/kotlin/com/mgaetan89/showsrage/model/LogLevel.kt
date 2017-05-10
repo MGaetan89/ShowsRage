@@ -1,6 +1,6 @@
 package com.mgaetan89.showsrage.model
 
-import java.util.*
+import java.util.Locale
 
 enum class LogLevel(val logLevels: Array<String>) {
     DEBUG(arrayOf("DEBUG", "ERROR", "INFO", "WARNING")),

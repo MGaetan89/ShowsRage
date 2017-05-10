@@ -3,7 +3,7 @@ package com.mgaetan89.showsrage
 import com.mgaetan89.showsrage.model.RealmString
 import io.realm.RealmList
 import org.assertj.core.api.Assertions.assertThat
-import java.util.*
+import java.util.Comparator
 
 fun <T> buildComparator(valueExtractor: (T) -> String?, descending: Boolean = false): Comparator<T> {
     return Comparator { first, second ->
