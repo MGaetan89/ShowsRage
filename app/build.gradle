@@ -65,6 +65,10 @@ android {
 		enabled = true
 	}
 
+	dexOptions {
+		preDexLibraries = false
+	}
+
 	lintOptions {
 		abortOnError false
 	}
