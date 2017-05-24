@@ -19,15 +19,13 @@ class RealmExtension_SaveSchedulesTest : RealmTest() {
 
     @Test
     fun saveSchedules_existingSection() {
-        val schedules = mutableListOf<Schedule>()
-
-        for (i in 1..5) {
-            schedules.add(Schedule().apply {
+        val schedules = (1..5).map {
+            Schedule().apply {
                 this.airDate = "2016-07-12"
-                this.episode = i
+                this.episode = it
                 this.indexerId = INDEXER_ID
                 this.season = 1
-            })
+            }
         }
 
         this.realm.saveSchedules(EXISTING_SECTION, schedules)
@@ -56,15 +54,13 @@ class RealmExtension_SaveSchedulesTest : RealmTest() {
         this.saveSchedules_existingSection()
 
         // Then we perform some updates
-        val schedules = mutableListOf<Schedule>()
-
-        for (i in 1..5) {
-            schedules.add(Schedule().apply {
-                this.episode = i
-                this.episodeName = "Episode name $i"
+        val schedules = (1..5).map {
+            Schedule().apply {
+                this.episode = it
+                this.episodeName = "Episode name $it"
                 this.indexerId = INDEXER_ID
                 this.season = 1
-            })
+            }
         }
 
         this.realm.saveSchedules(EXISTING_SECTION, schedules)
@@ -80,15 +76,13 @@ class RealmExtension_SaveSchedulesTest : RealmTest() {
 
     @Test
     fun saveSchedules_newSection() {
-        val schedules = mutableListOf<Schedule>()
-
-        for (i in 1..5) {
-            schedules.add(Schedule().apply {
+        val schedules = (1..5).map {
+            Schedule().apply {
                 this.airDate = "2016-07-12"
-                this.episode = i
+                this.episode = it
                 this.indexerId = INDEXER_ID
                 this.season = 1
-            })
+            }
         }
 
         this.realm.saveSchedules(NEW_SECTION, schedules)
@@ -117,15 +111,13 @@ class RealmExtension_SaveSchedulesTest : RealmTest() {
         this.saveSchedules_newSection()
 
         // Then we perform some updates
-        val schedules = mutableListOf<Schedule>()
-
-        for (i in 1..5) {
-            schedules.add(Schedule().apply {
-                this.episode = i
-                this.episodeName = "Episode name $i"
+        val schedules = (1..5).map {
+            Schedule().apply {
+                this.episode = it
+                this.episodeName = "Episode name $it"
                 this.indexerId = INDEXER_ID
                 this.season = 1
-            })
+            }
         }
 
         this.realm.saveSchedules(NEW_SECTION, schedules)

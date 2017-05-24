@@ -20,7 +20,7 @@ class RealmExtension_GetScheduleTest : RealmTest() {
     @UiThreadTest
     fun getSchedule() {
         this.realm.getSchedule("soon", RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).hasSize(8)
 
@@ -34,7 +34,7 @@ class RealmExtension_GetScheduleTest : RealmTest() {
     @UiThreadTest
     fun getSchedule_notFound() {
         this.realm.getSchedule("Monday", RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).isEmpty()
         })

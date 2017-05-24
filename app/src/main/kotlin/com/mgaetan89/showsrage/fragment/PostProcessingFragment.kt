@@ -13,7 +13,7 @@ import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.network.SickRageApi
 
-open class PostProcessingFragment : DialogFragment(), DialogInterface.OnClickListener {
+class PostProcessingFragment : DialogFragment(), DialogInterface.OnClickListener {
     private var forceProcessing: SwitchCompat? = null
     private var processingMethod: Spinner? = null
     private var replaceFiles: SwitchCompat? = null

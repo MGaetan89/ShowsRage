@@ -4,7 +4,7 @@ import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.model.Indexer
 import com.mgaetan89.showsrage.network.SickRageApi
 
-open class HistoryPresenter(val history: History?) {
+class HistoryPresenter(val history: History?) {
     fun getEpisode() = if (this.isHistoryValid()) this.history!!.episode else 0
 
     fun getPosterUrl() = if (this.isHistoryValid()) SickRageApi.instance.getPosterUrl(this.history!!.tvDbId, Indexer.TVDB) else ""
@@ -12,7 +12,7 @@ open class HistoryPresenter(val history: History?) {
     fun getProvider() = if (this.isHistoryValid()) this.history!!.provider else ""
 
     fun getProviderQuality(): String? {
-        return if (this.isHistoryValid() && "-1".equals(this.history!!.provider)) this.history.quality else null
+        return if (this.isHistoryValid() && "-1" == this.history!!.provider) this.history.quality else null
     }
 
     fun getQuality() = if (this.isHistoryValid()) this.history!!.quality else ""
@@ -21,5 +21,5 @@ open class HistoryPresenter(val history: History?) {
 
     fun getShowName() = if (this.isHistoryValid()) this.history!!.showName else ""
 
-    internal open fun isHistoryValid() = this.history != null && this.history.isValid
+    internal fun isHistoryValid() = this.history != null && this.history.isValid
 }

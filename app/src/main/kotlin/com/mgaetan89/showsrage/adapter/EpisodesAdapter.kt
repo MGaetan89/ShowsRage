@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.adapter
 
-import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.support.v4.content.LocalBroadcastManager
@@ -20,7 +19,7 @@ import com.mgaetan89.showsrage.presenter.EpisodePresenter
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
 
-class EpisodesAdapter(context: Context, episodes: RealmResults<Episode>, val seasonNumber: Int, val indexerId: Int, val reversed: Boolean) : RealmRecyclerViewAdapter<Episode, EpisodesAdapter.ViewHolder>(context, episodes, true) {
+class EpisodesAdapter(episodes: RealmResults<Episode>, val seasonNumber: Int, val indexerId: Int, val reversed: Boolean) : RealmRecyclerViewAdapter<Episode, EpisodesAdapter.ViewHolder>(episodes, true) {
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val episode = this.getItem(position) ?: return
 
@@ -35,8 +34,8 @@ class EpisodesAdapter(context: Context, episodes: RealmResults<Episode>, val sea
         if (holder?.status != null) {
             val status = episode.getStatusTranslationResource()
 
-            holder?.status.text = if (status != 0) {
-                holder?.status.resources?.getString(status)
+            holder.status.text = if (status != 0) {
+                holder.status.resources?.getString(status)
             } else {
                 episode.status
             }
@@ -68,9 +67,9 @@ class EpisodesAdapter(context: Context, episodes: RealmResults<Episode>, val sea
 
             this.binding = DataBindingUtil.bind(view)
 
-            this.actions = this.binding.includeContent.episodeActions
-            this.name = this.binding.includeContent.episodeName
-            this.status = this.binding.includeContent.episodeStatus
+            this.actions = this.binding.includeContent?.episodeActions
+            this.name = this.binding.includeContent?.episodeName
+            this.status = this.binding.includeContent?.episodeStatus
 
             this.actions?.setOnClickListener(this)
         }
@@ -82,7 +81,7 @@ class EpisodesAdapter(context: Context, episodes: RealmResults<Episode>, val sea
         override fun onClick(view: View?) {
             val context = view?.context ?: return
 
-            if (view?.id == R.id.episode_actions) {
+            if (view.id == R.id.episode_actions) {
                 if (this.actions != null) {
                     with(PopupMenu(context, this.actions)) {
                         inflate(R.menu.episode_action)
@@ -91,6 +90,10 @@ class EpisodesAdapter(context: Context, episodes: RealmResults<Episode>, val sea
                     }
                 }
             } else {
+                if (adapterPosition !in (0 until itemCount)) {
+                    return
+                }
+
                 val episode = getItem(adapterPosition) ?: return
 
                 with(Intent(Constants.Intents.ACTION_EPISODE_SELECTED)) {

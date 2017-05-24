@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
                 AlertDialog.Builder(this)
                         .setMessage(R.string.restart_confirm)
-                        .setPositiveButton(R.string.restart, { dialog, which ->
+                        .setPositiveButton(R.string.restart, { _, _ ->
                             SickRageApi.instance.services?.restart(this)
                         })
                         .setNegativeButton(android.R.string.cancel, null)
@@ -228,7 +228,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
                 fragmentTransaction.addToBackStack(backStackName)
             }
 
-            fragmentTransaction.commit()
+            fragmentTransaction.commitAllowingStateLoss()
         }
 
         return eventHandled
@@ -333,8 +333,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.setContentView(R.layout.activity_main)
 
-        Utils.initRealm(this)
-
         this.firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         val preferences = this.getPreferences()
@@ -352,7 +350,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         }
 
         SickRageApi.instance.init(preferences)
-        SickRageApi.instance.services?.getRootDirs(RootDirsCallback(this))
+        SickRageApi.instance.services?.getRootDirs(RootDirsCallback())
 
         // Refresh existing widgets
         AppWidgetManager.getInstance(this).let {
@@ -383,7 +381,9 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.setSupportActionBar(this.toolbar)
 
-        this.navigationView?.menu?.performIdentifierAction(getInitialMenuId(this.intent?.action), 0)
+        if (savedInstanceState == null && !this.intent.getBooleanExtra(Constants.Bundle.INIT_ONLY, false)) {
+            this.navigationView?.menu?.performIdentifierAction(getInitialMenuId(this.intent?.action), 0)
+        }
     }
 
     override fun onPause() {
@@ -457,11 +457,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
     }
 
     private class CheckForUpdateCallback(activity: AppCompatActivity, val manualCheck: Boolean) : Callback<UpdateResponseWrapper> {
-        private val activityReference: WeakReference<AppCompatActivity>
-
-        init {
-            this.activityReference = WeakReference(activity)
-        }
+        private val activityReference = WeakReference(activity)
 
         override fun failure(error: RetrofitError?) {
             // SickRage may not support this request
@@ -527,13 +523,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
         }
     }
 
-    private class RootDirsCallback(activity: AppCompatActivity) : Callback<RootDirs> {
-        private val activityReference: WeakReference<AppCompatActivity>
-
-        init {
-            this.activityReference = WeakReference(activity)
-        }
-
+    private class RootDirsCallback : Callback<RootDirs> {
         override fun failure(error: RetrofitError?) {
             error?.printStackTrace()
         }

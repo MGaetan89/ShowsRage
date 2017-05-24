@@ -76,7 +76,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     private var fanArt: ImageView? = null
     private var genre: TextView? = null
     private var imdb: Button? = null
-    private val indexerId: Int by lazy { this.arguments.getInt(Constants.Bundle.INDEXER_ID) }
+    private val indexerId by lazy { this.arguments.getInt(Constants.Bundle.INDEXER_ID) }
     private var languageCountry: TextView? = null
     private var location: TextView? = null
     private var name: TextView? = null
@@ -213,14 +213,16 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
 
     override fun onChange(show: Show) {
-        if (!show.isLoaded) {
+        if (!show.isLoaded || !show.isValid) {
             return
         }
 
         if (this.serviceConnection == null) {
-            this.serviceConnection = ServiceConnection(this)
+            this.context?.let {
+                this.serviceConnection = ServiceConnection(this)
 
-            CustomTabsClient.bindCustomTabsService(this.context, "com.android.chrome", this.serviceConnection)
+                CustomTabsClient.bindCustomTabsService(it, "com.android.chrome", this.serviceConnection)
+            }
         }
 
         this.activity?.title = show.showName
@@ -635,11 +637,11 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
     override fun onStop() {
         if (this.series?.isValid ?: false) {
-            this.series?.removeChangeListeners()
+            this.series?.removeAllChangeListeners()
         }
 
         if (this.show.isValid) {
-            this.show.removeChangeListeners()
+            this.show.removeAllChangeListeners()
         }
 
         this.realm.close()
@@ -686,10 +688,10 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
         AlertDialog.Builder(this.context)
                 .setTitle(this.getString(R.string.delete_show_title, this.show.showName))
                 .setMessage(R.string.delete_show_message)
-                .setPositiveButton(R.string.keep, { dialog, which ->
+                .setPositiveButton(R.string.keep, { _, _ ->
                     SickRageApi.instance.services?.deleteShow(indexerId, 0, callback)
                 })
-                .setNegativeButton(R.string.delete, { dialog, which ->
+                .setNegativeButton(R.string.delete, { _, _ ->
                     SickRageApi.instance.services?.deleteShow(indexerId, 1, callback)
                 })
                 .setNeutralButton(R.string.cancel, null)
@@ -783,11 +785,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
     }
 
     private class ServiceConnection(fragment: ShowOverviewFragment) : CustomTabsServiceConnection() {
-        private val fragmentReference: WeakReference<ShowOverviewFragment>
-
-        init {
-            this.fragmentReference = WeakReference(fragment)
-        }
+        private val fragmentReference = WeakReference(fragment)
 
         override fun onCustomTabsServiceConnected(componentName: ComponentName?, customTabsClient: CustomTabsClient?) {
             customTabsClient?.warmup(0L)

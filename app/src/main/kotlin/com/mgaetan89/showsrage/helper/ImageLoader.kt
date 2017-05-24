@@ -35,7 +35,7 @@ object ImageLoader {
     fun load(imageView: ImageView?, url: String?, circleTransform: Boolean, paletteListener: Palette.PaletteAsyncListener?, onImageResult: OnImageResult?) {
         val context = imageView?.context ?: return
 
-        this.getGlideInstance(context, url, circleTransform)?.into(BitmapTarget(imageView!!, paletteListener, onImageResult))
+        this.getGlideInstance(context, url, circleTransform)?.into(BitmapTarget(imageView, paletteListener, onImageResult))
     }
 
     @WorkerThread

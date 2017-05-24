@@ -13,6 +13,18 @@ import io.realm.Realm
 import io.realm.RealmConfiguration
 
 object Utils {
+    fun createRealmConfiguration(assetFile: String?): RealmConfiguration {
+        return RealmConfiguration.Builder().let {
+            if (!assetFile.isNullOrBlank()) {
+                it.assetFile(assetFile)
+            }
+
+            it.schemaVersion(Constants.DATABASE_VERSION)
+            it.migration(Migration())
+            it.build()
+        }
+    }
+
     fun getContrastColor(@ColorInt color: Int): Int {
         val y = (299 * Color.red(color) + 587 * Color.green(color) + 114 * Color.blue(color)) / 1000
 
@@ -20,6 +32,10 @@ object Utils {
     }
 
     fun getSortableShowName(show: Show, ignoreArticles: Boolean): String {
+        if (!show.isValid) {
+            return ""
+        }
+
         return if (ignoreArticles) {
             show.showName?.replaceFirst("^(?:an?|the)\\s+".toRegex(RegexOption.IGNORE_CASE), "")?.toLowerCase()
         } else {
@@ -46,22 +62,10 @@ object Utils {
         return ThemeColors(primaryColor, accentColor)
     }
 
-    fun initRealm(context: Context, assetFile: String = "", deleteRealm: Boolean = false) {
+    fun initRealm(context: Context, assetFile: String? = null) {
         Realm.init(context)
 
-        val configuration = RealmConfiguration.Builder().let {
-            if (assetFile.isNotEmpty()) {
-                it.assetFile(assetFile)
-            }
-
-            it.schemaVersion(Constants.DATABASE_VERSION)
-            it.migration(Migration())
-            it.build()
-        }
-
-        if (deleteRealm) {
-            Realm.deleteRealm(configuration)
-        }
+        val configuration = this.createRealmConfiguration(assetFile)
 
         Realm.setDefaultConfiguration(configuration)
     }

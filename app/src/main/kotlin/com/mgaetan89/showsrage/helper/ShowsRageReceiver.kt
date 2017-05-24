@@ -17,18 +17,14 @@ import com.mgaetan89.showsrage.network.SickRageApi
 import java.lang.ref.WeakReference
 
 class ShowsRageReceiver(activity: MainActivity) : BroadcastReceiver() {
-    val activityReference: WeakReference<MainActivity>
-
-    init {
-        this.activityReference = WeakReference(activity)
-    }
+    val activityReference = WeakReference(activity)
 
     override fun onReceive(context: Context?, intent: Intent?) {
         when (intent?.action) {
-            Constants.Intents.ACTION_EPISODE_ACTION_SELECTED -> this.handleEpisodeActionSelected(intent!!)
-            Constants.Intents.ACTION_EPISODE_SELECTED -> this.handleEpisodeSelected(intent!!)
-            Constants.Intents.ACTION_SEARCH_RESULT_SELECTED -> this.handleSearchResultSelected(intent!!)
-            Constants.Intents.ACTION_SHOW_SELECTED -> this.handleShowSelected(intent!!)
+            Constants.Intents.ACTION_EPISODE_ACTION_SELECTED -> this.handleEpisodeActionSelected(intent)
+            Constants.Intents.ACTION_EPISODE_SELECTED -> this.handleEpisodeSelected(intent)
+            Constants.Intents.ACTION_SEARCH_RESULT_SELECTED -> this.handleSearchResultSelected(intent)
+            Constants.Intents.ACTION_SHOW_SELECTED -> this.handleShowSelected(intent)
         }
     }
 
@@ -91,7 +87,7 @@ class ShowsRageReceiver(activity: MainActivity) : BroadcastReceiver() {
         activity.supportFragmentManager.beginTransaction()
                 .addToBackStack("show")
                 .replace(R.id.content, fragment)
-                .commit()
+                .commitAllowingStateLoss()
     }
 
     private fun searchEpisode(seasonNumber: Int, episodeNumber: Int, indexerId: Int) {
@@ -115,10 +111,10 @@ class ShowsRageReceiver(activity: MainActivity) : BroadcastReceiver() {
 
         AlertDialog.Builder(activity)
                 .setMessage(R.string.replace_existing_episode)
-                .setPositiveButton(R.string.replace, { dialog, which ->
+                .setPositiveButton(R.string.replace, { _, _ ->
                     SickRageApi.instance.services?.setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 1, status, activity)
                 })
-                .setNegativeButton(R.string.keep, { dialog, which ->
+                .setNegativeButton(R.string.keep, { _, _ ->
                     SickRageApi.instance.services?.setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 0, status, activity)
                 })
                 .setNeutralButton(R.string.cancel, null)

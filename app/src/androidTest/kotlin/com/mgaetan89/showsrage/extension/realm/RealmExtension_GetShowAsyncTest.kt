@@ -20,7 +20,7 @@ class RealmExtension_GetShowAsyncTest : RealmTest() {
     @UiThreadTest
     fun getShow() {
         this.realm.getShow(292174, RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it.indexerId).isEqualTo(292174292174)
             assertThat(it.showName).isEqualTo("Dark Matter")
@@ -31,7 +31,7 @@ class RealmExtension_GetShowAsyncTest : RealmTest() {
     @UiThreadTest
     fun getShow_notFound() {
         this.realm.getShow(0, RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it.indexerId).isEqualTo(0)
             assertThat(it.showName).isEqualTo("")

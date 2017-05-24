@@ -51,6 +51,16 @@ open class Show : RealmObject() {
     @SerializedName("tvrage_name")
     open var tvRageName: String = ""
 
+    fun getSeasonsListInt(): List<Int> {
+        return this.seasonList?.map {
+            try {
+                it.value.toInt()
+            } catch(exception: NumberFormatException) {
+                -1
+            }
+        }?.filter { it >= 0 } ?: emptyList()
+    }
+
     @StringRes
     fun getStatusTranslationResource(): Int {
         val normalizedStatus = this.status?.toLowerCase()

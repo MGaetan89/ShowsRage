@@ -7,7 +7,7 @@ import com.mgaetan89.showsrage.model.Indexer
 import com.mgaetan89.showsrage.model.Schedule
 import com.mgaetan89.showsrage.network.SickRageApi
 
-open class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
+class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
     fun getAirDate(): CharSequence? {
         val schedule = this._getSchedule() ?: return null
         val airDate = schedule.airDate
@@ -78,5 +78,5 @@ open class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
         return airTime.replaceFirst("(?i)^(monday|tuesday|wednesday|thursday|friday|saturday|sunday) ".toRegex(), "")
     }
 
-    internal open fun _getSchedule() = if (this.schedule?.isValid ?: false) this.schedule else null
+    internal fun _getSchedule() = if (this.schedule?.isValid ?: false) this.schedule else null
 }

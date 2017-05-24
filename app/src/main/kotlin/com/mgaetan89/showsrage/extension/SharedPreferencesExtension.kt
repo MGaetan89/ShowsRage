@@ -7,7 +7,7 @@ import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.model.LogLevel
 import com.mgaetan89.showsrage.model.ShowsFilters
 import com.mgaetan89.showsrage.model.Sort
-import java.util.*
+import java.util.Locale
 
 fun SharedPreferences.getApiKey(): String {
     return this.getString(Fields.API_KEY.field, "") ?: ""

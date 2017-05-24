@@ -20,7 +20,7 @@ class RealmExtension_GetShowsAsyncTest : RealmTest() {
     @UiThreadTest
     fun getShows_all() {
         this.realm.getShows(null, RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).isNotNull()
             assertThat(it).hasSize(83)
@@ -31,7 +31,7 @@ class RealmExtension_GetShowsAsyncTest : RealmTest() {
     @UiThreadTest
     fun getShows_animes() {
         this.realm.getShows(true, RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).isNotNull()
             assertThat(it).hasSize(3)
@@ -42,7 +42,7 @@ class RealmExtension_GetShowsAsyncTest : RealmTest() {
     @UiThreadTest
     fun getShows_show() {
         this.realm.getShows(false, RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).isNotNull()
             assertThat(it).hasSize(80)

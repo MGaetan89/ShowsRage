@@ -12,18 +12,15 @@ class ColoredMediaRouteButton : MediaRouteButton {
     @ColorInt
     var color = Color.WHITE
 
-    constructor(context: Context) : super(context) {
-    }
+    constructor(context: Context) : super(context)
 
     constructor(context: Context, @ColorInt color: Int) : super(context) {
         this.color = color
     }
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-    }
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-    }
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun setRemoteIndicatorDrawable(d: Drawable?) {
         if (d == null) {
@@ -32,9 +29,9 @@ class ColoredMediaRouteButton : MediaRouteButton {
 
         // Delay the call to super so the color passed in the constructor can be assigned
         this.post {
-            DrawableCompat.setTint(DrawableCompat.wrap(d), ColoredMediaRouteButton@this.color)
+            DrawableCompat.setTint(DrawableCompat.wrap(d), ColoredMediaRouteButton@ this.color)
 
-            ColoredMediaRouteButton@super.setRemoteIndicatorDrawable(d)
+            ColoredMediaRouteButton@ super.setRemoteIndicatorDrawable(d)
         }
     }
 }

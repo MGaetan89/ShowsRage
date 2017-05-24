@@ -181,7 +181,7 @@ class SickRageApi private constructor() : RequestInterceptor {
             this.okHttpClient!!.sslSocketFactory = sslContext.socketFactory
         }
 
-        this.okHttpClient!!.setHostnameVerifier { hostname, session -> true }
+        this.okHttpClient!!.setHostnameVerifier { _, _ -> true }
     }
 
     companion object {
@@ -222,7 +222,7 @@ class SickRageApi private constructor() : RequestInterceptor {
                     })
                     .setExclusionStrategies(object : ExclusionStrategy {
                         override fun shouldSkipField(f: FieldAttributes): Boolean {
-                            return f.declaringClass.equals(RealmObject::class.java)
+                            return f.declaringClass == RealmObject::class.java
                         }
 
                         override fun shouldSkipClass(clazz: Class<*>): Boolean {

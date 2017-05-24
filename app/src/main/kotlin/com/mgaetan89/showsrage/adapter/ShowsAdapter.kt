@@ -22,6 +22,10 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, val ignor
     override fun getItemCount() = this.shows.size
 
     override fun getSectionTitle(position: Int): String {
+        if (position !in (0 until this.shows.size)) {
+            return ""
+        }
+
         val showName = Utils.getSortableShowName(this.shows[position], this.ignoreArticles)
 
         return showName.firstOrNull()?.toUpperCase()?.toString() ?: ""
@@ -43,13 +47,13 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, val ignor
             if (nextEpisodeAirDate.isNullOrEmpty()) {
                 val status = show.getStatusTranslationResource()
 
-                holder?.nextEpisodeDate.text = if (status != 0) {
-                    holder?.nextEpisodeDate.resources.getString(status)
+                holder.nextEpisodeDate.text = if (status != 0) {
+                    holder.nextEpisodeDate.resources.getString(status)
                 } else {
                     show.status
                 }
             } else {
-                holder?.nextEpisodeDate.text = DateTimeHelper.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)
+                holder.nextEpisodeDate.text = DateTimeHelper.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)
             }
         }
     }
@@ -97,6 +101,10 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, val ignor
         override fun onClick(view: View?) {
             val context = view?.context ?: return
             val show = shows.getOrNull(adapterPosition) ?: return
+
+            if (!show.isValid) {
+                return
+            }
 
             with(Intent(Constants.Intents.ACTION_SHOW_SELECTED)) {
                 this.putExtra(Constants.Bundle.INDEXER_ID, show.indexerId)

@@ -288,11 +288,7 @@ class RemoteControlFragment : DialogFragment(), View.OnClickListener, SeekBar.On
     }
 
     private class PlayPauseStopCallback(fragment: RemoteControlFragment) : RemotePlaybackClient.SessionActionCallback() {
-        private val fragmentReference: WeakReference<RemoteControlFragment>
-
-        init {
-            this.fragmentReference = WeakReference(fragment)
-        }
+        private val fragmentReference = WeakReference(fragment)
 
         override fun onResult(data: Bundle?, sessionId: String?, sessionStatus: MediaSessionStatus?) {
             super.onResult(data, sessionId, sessionStatus)
@@ -304,11 +300,7 @@ class RemoteControlFragment : DialogFragment(), View.OnClickListener, SeekBar.On
     }
 
     private class StatusCallback(fragment: RemoteControlFragment) : RemotePlaybackClient.ItemActionCallback() {
-        private val fragmentReference: WeakReference<RemoteControlFragment>
-
-        init {
-            this.fragmentReference = WeakReference(fragment)
-        }
+        private val fragmentReference = WeakReference(fragment)
 
         override fun onResult(data: Bundle?, sessionId: String?, sessionStatus: MediaSessionStatus?, itemId: String?, itemStatus: MediaItemStatus?) {
             super.onResult(data, sessionId, sessionStatus, itemId, itemStatus)

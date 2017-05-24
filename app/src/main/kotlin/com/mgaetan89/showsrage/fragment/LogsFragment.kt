@@ -16,7 +16,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.firebase.jobdispatcher.FirebaseJobDispatcher
 import com.firebase.jobdispatcher.GooglePlayDriver
-import com.firebase.jobdispatcher.TriggerConfiguration
+import com.firebase.jobdispatcher.Trigger
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
@@ -107,7 +107,9 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.logs, menu)
 
-        menu?.findItem(R.id.menu_filter)?.isVisible = this.realm.getLogsGroup().isNotEmpty()
+        if (!this.realm.isClosed) {
+            menu?.findItem(R.id.menu_filter)?.isVisible = this.realm.getLogsGroup().isNotEmpty()
+        }
 
         val menuId = getMenuIdForLogLevel(this.getLogLevel())
 
@@ -183,7 +185,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
         this.jobDispatcher?.cancel(AUTO_UPDATE_JOB_TAG)
 
         if (this.logs.isValid) {
-            this.logs.removeChangeListeners()
+            this.logs.removeAllChangeListeners()
         }
 
         this.realm.close()
@@ -201,7 +203,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
             it.close()
         }
 
-        this.activity.supportInvalidateOptionsMenu()
+        this.activity?.supportInvalidateOptionsMenu()
     }
 
     private fun getLogLevel(): LogLevel {
@@ -218,7 +220,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 
     private fun getLogs(logLevel: LogLevel) {
         if (this.logs.isValid) {
-            this.logs.removeChangeListeners()
+            this.logs.removeAllChangeListeners()
         }
 
         this.logs = this.realm.getLogs(logLevel, this.groups, this)
@@ -264,20 +266,20 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 
             this.jobDispatcher?.let {
                 val tolerance = autoUpdateInterval * TOLERANCE_RATIO
-                val jobBuilder = it.newJobBuilder()
+                val job = it.newJobBuilder()
                         .setRecurring(true)
                         .setService(LogsAutoUpdateService::class.java)
                         .setTag(AUTO_UPDATE_JOB_TAG)
+                        .setTrigger(Trigger.executionWindow(autoUpdateInterval, autoUpdateInterval + tolerance.toInt()))
+                        .build()
 
-                TriggerConfiguration.executionWindow(jobBuilder, autoUpdateInterval, autoUpdateInterval + tolerance.toInt())
-
-                it.schedule(jobBuilder.build())
+                it.schedule(job)
             }
         }
     }
 
     private fun setAdapter() {
-        this.adapter = LogsAdapter(this.context, this.logs)
+        this.adapter = LogsAdapter(this.logs)
 
         this.recyclerView?.adapter = this.adapter
     }

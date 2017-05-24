@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.adapter
 
-import android.content.Context
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -16,7 +15,7 @@ import com.mgaetan89.showsrage.presenter.HistoryPresenter
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
 
-class HistoriesAdapter(context: Context, histories: RealmResults<History>) : RealmRecyclerViewAdapter<History, HistoriesAdapter.ViewHolder>(context, histories, true) {
+class HistoriesAdapter(histories: RealmResults<History>) : RealmRecyclerViewAdapter<History, HistoriesAdapter.ViewHolder>(histories, true) {
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val history = this.getItem(position) ?: return
 
@@ -25,18 +24,18 @@ class HistoriesAdapter(context: Context, histories: RealmResults<History>) : Rea
         if (holder?.date != null) {
             val status = history.getStatusTranslationResource()
             val statusString = if (status != 0) {
-                holder?.date.resources.getString(status)
+                holder.date.resources.getString(status)
             } else {
                 history.status
             }
 
-            holder?.date.text = holder?.date.resources.getString(R.string.spaced_texts, statusString, DateTimeHelper.getRelativeDate(history.date, "yyyy-MM-dd hh:mm", 0)?.toString()?.toLowerCase())
+            holder.date.text = holder.date.resources.getString(R.string.spaced_texts, statusString, DateTimeHelper.getRelativeDate(history.date, "yyyy-MM-dd hh:mm", 0)?.toString()?.toLowerCase())
 
             if ("subtitled".equals(history.status, true)) {
                 val language = history.resource?.toLocale()?.displayLanguage
 
                 if (!language.isNullOrEmpty()) {
-                    holder?.date.append(" [$language]")
+                    holder.date.append(" [$language]")
                 }
             }
         }
@@ -49,13 +48,8 @@ class HistoriesAdapter(context: Context, histories: RealmResults<History>) : Rea
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val date: TextView?
-        private val binding: AdapterHistoriesListBinding
-
-        init {
-            this.binding = DataBindingUtil.bind(view)
-            this.date = this.binding.includeContent.episodeDate
-        }
+        private val binding: AdapterHistoriesListBinding = DataBindingUtil.bind(view)
+        val date: TextView? = this.binding.includeContent?.episodeDate
 
         fun bind(history: HistoryPresenter?) {
             this.binding.setHistory(history)

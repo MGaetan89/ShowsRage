@@ -18,12 +18,10 @@ class RealmExtension_SaveShowsTest : RealmTest() {
 
     @Test
     fun saveShows() {
-        val shows = mutableListOf<Show>()
-
-        for (i in 1..3) {
-            shows.add(Show().apply {
-                this.indexerId = i
-            })
+        val shows = (1..3).map {
+            Show().apply {
+                this.indexerId = it
+            }
         }
 
         this.realm.saveShows(shows)

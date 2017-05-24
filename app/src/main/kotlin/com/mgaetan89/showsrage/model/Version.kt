@@ -4,8 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class Version(val branch: String = "", val commit: String = "", val version: String = "") : Parcelable {
-    constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(), parcel.readString()) {
-    }
+    constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(), parcel.readString())
 
     override fun describeContents() = 0
 

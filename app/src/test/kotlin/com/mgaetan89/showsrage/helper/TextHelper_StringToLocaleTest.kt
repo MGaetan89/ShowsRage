@@ -4,7 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import java.util.*
+import java.util.Locale
 
 @RunWith(Parameterized::class)
 class TextHelper_StringToLocaleTest(val string: String, val locale: Locale?) {

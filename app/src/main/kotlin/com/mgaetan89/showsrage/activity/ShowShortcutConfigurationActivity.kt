@@ -34,22 +34,20 @@ import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.presenter.ShowPresenter
 import io.realm.Realm
-import java.util.*
+import java.util.Comparator
 
 class ShowShortcutConfigurationActivity : AppCompatActivity() {
     private lateinit var realm: Realm
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (Constants.Intents.ACTION_SHOW_SELECTED.equals(intent?.action)) {
-                addShortcut(intent?.getIntExtra(Constants.Bundle.INDEXER_ID, 0) ?: 0)
+            if (Constants.Intents.ACTION_SHOW_SELECTED == intent?.action) {
+                addShortcut(intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0))
             }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Utils.initRealm(this)
 
         this.realm = Realm.getDefaultInstance()
 

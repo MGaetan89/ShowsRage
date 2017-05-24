@@ -3,7 +3,7 @@ package com.mgaetan89.showsrage.helper
 import android.support.v4.app.Fragment
 import android.view.View
 import android.widget.TextView
-import java.util.*
+import java.util.Locale
 
 fun String?.hasText() = !this.isNullOrBlank() && !"N/A".equals(this, true)
 

@@ -1,15 +1,16 @@
 package com.mgaetan89.showsrage.adapter
 
-import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.mgaetan89.showsrage.model.RootDir
+import io.realm.RealmBaseAdapter
+import io.realm.RealmResults
 
-class RootDirectoriesAdapter(context: Context, rootDirectories: List<RootDir>) : ArrayAdapter<RootDir>(context, android.R.layout.simple_list_item_1, rootDirectories) {
+class RootDirectoriesAdapter(rootDirectories: RealmResults<RootDir>) : RealmBaseAdapter<RootDir>(rootDirectories) {
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View? {
-        val view = super.getView(position, convertView, parent)
+        val view = convertView ?: LayoutInflater.from(parent?.context).inflate(android.R.layout.simple_list_item_1, parent, false)
 
         this.setView(view, this.getItem(position))
 
@@ -17,7 +18,7 @@ class RootDirectoriesAdapter(context: Context, rootDirectories: List<RootDir>) :
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
-        val view = super.getView(position, convertView, parent)
+        val view = convertView ?: LayoutInflater.from(parent?.context).inflate(android.R.layout.simple_list_item_1, parent, false)
 
         this.setView(view, this.getItem(position))
 

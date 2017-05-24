@@ -22,7 +22,7 @@ fun setBackgroundTint(textView: TextView, @ColorRes tint: Int) {
 fun setImageUrl(imageView: ImageView, imageUrl: String?, circle: Boolean) {
     val currentUrl = imageView.getTag(R.id.image_view_url)
 
-    if (currentUrl == null || !currentUrl.equals(imageUrl)) {
+    if (currentUrl == null || currentUrl != imageUrl) {
         ImageLoader.load(imageView, imageUrl, circle)
 
         imageView.setTag(R.id.image_view_url, imageUrl)

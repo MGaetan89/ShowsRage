@@ -20,7 +20,7 @@ class RealmExtension_GetOmdbEpisodesTest : RealmTest() {
     @UiThreadTest
     fun getEpisodes() {
         this.realm.getEpisodes("tt2193021_4_18", RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).hasSize(1)
             assertThat(it.first().id).isEqualTo("tt2193021_4_18")
@@ -32,7 +32,7 @@ class RealmExtension_GetOmdbEpisodesTest : RealmTest() {
     @UiThreadTest
     fun getEpisodes_notFound() {
         this.realm.getEpisodes("0_0_0", RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).hasSize(1)
             assertThat(it.first().id).isEqualTo("0_0_0")

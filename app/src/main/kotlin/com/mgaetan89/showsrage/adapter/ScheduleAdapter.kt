@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.adapter
 
-import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.support.v4.content.LocalBroadcastManager
@@ -22,7 +21,7 @@ import com.mgaetan89.showsrage.presenter.SchedulePresenter
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
 
-class ScheduleAdapter(context: Context, schedules: RealmResults<Schedule>) : RealmRecyclerViewAdapter<Schedule, ScheduleAdapter.ViewHolder>(context, schedules, true) {
+class ScheduleAdapter(schedules: RealmResults<Schedule>) : RealmRecyclerViewAdapter<Schedule, ScheduleAdapter.ViewHolder>(schedules, true) {
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val schedule = this.getItem(position)
 
@@ -44,7 +43,7 @@ class ScheduleAdapter(context: Context, schedules: RealmResults<Schedule>) : Rea
 
             this.binding = DataBindingUtil.bind(view)
 
-            this.actions = this.binding.includeContent.episodeActions
+            this.actions = this.binding.includeContent?.episodeActions
             this.actions?.setOnClickListener(this)
         }
 
@@ -55,7 +54,7 @@ class ScheduleAdapter(context: Context, schedules: RealmResults<Schedule>) : Rea
         override fun onClick(view: View?) {
             val context = view?.context ?: return
 
-            if (view?.id == R.id.episode_actions) {
+            if (view.id == R.id.episode_actions) {
                 if (this.actions != null) {
                     with(PopupMenu(context, this.actions)) {
                         inflate(R.menu.episode_action)

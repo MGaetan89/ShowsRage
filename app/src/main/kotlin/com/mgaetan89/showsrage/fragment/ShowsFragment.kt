@@ -30,7 +30,7 @@ import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 
-open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, SearchView.OnQueryTextListener {
+class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, SearchView.OnQueryTextListener {
     private var splitShowsAnimes = false
     private var searchQuery: String? = null
 
@@ -64,7 +64,7 @@ open class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListen
             this.activity.supportFragmentManager.beginTransaction()
                     .addToBackStack("add_show")
                     .replace(R.id.content, AddShowFragment())
-                    .commit()
+                    .commitAllowingStateLoss()
         }
     }
 

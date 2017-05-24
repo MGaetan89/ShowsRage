@@ -60,7 +60,7 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
         super.onCreate(savedInstanceState)
 
         this.indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
-        this.reversedOrder = Sort.DESCENDING.equals(this.context.getPreferences().getEpisodeSort())
+        this.reversedOrder = Sort.DESCENDING == this.context.getPreferences().getEpisodeSort()
         this.seasonNumber = this.arguments.getInt(Constants.Bundle.SEASON_NUMBER)
     }
 
@@ -118,13 +118,13 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
 
         this.realm = Realm.getDefaultInstance()
         this.episodes = this.realm.getEpisodes(this.indexerId, this.seasonNumber, this.reversedOrder, this)
-        this.adapter = EpisodesAdapter(this.context, this.episodes, this.seasonNumber, this.indexerId, this.reversedOrder)
+        this.adapter = EpisodesAdapter(this.episodes, this.seasonNumber, this.indexerId, this.reversedOrder)
         this.recyclerView?.adapter = this.adapter
     }
 
     override fun onStop() {
         if (this.episodes.isValid) {
-            this.episodes.removeChangeListeners()
+            this.episodes.removeAllChangeListeners()
         }
 
         this.realm.close()

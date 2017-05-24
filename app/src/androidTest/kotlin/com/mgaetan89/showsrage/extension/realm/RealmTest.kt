@@ -1,14 +1,12 @@
 package com.mgaetan89.showsrage.extension.realm
 
+import android.content.Intent
 import android.os.Looper
-import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import com.mgaetan89.showsrage.Constants
-import com.mgaetan89.showsrage.TestActivity
-import com.mgaetan89.showsrage.helper.Migration
+import com.mgaetan89.showsrage.activity.MainActivity
+import com.mgaetan89.showsrage.helper.Utils
 import io.realm.Realm
-import io.realm.RealmConfiguration
-import io.realm.setContext
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
@@ -18,27 +16,22 @@ import org.junit.Rule
 abstract class RealmTest {
     @JvmField
     @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, true)
+    val activityRule = object : ActivityTestRule<MainActivity>(MainActivity::class.java) {
+        override fun getActivityIntent(): Intent {
+            return super.getActivityIntent().apply {
+                this.putExtra(Constants.Bundle.INIT_ONLY, true)
+            }
+        }
+    }
 
     val realm: Realm by lazy { Realm.getDefaultInstance() }
+    private val realmConfiguration by lazy { Utils.createRealmConfiguration("test.realm") }
 
     @Before
     fun configureRealm() {
-        setContext(null)
-
-        Realm.init(this.activityRule.activity)
-
-        setContext(InstrumentationRegistry.getContext())
-
-        val configuration = RealmConfiguration.Builder().let {
-            it.assetFile("test.realm")
-            it.schemaVersion(Constants.DATABASE_VERSION)
-            it.migration(Migration())
-            it.build()
+        this.activityRule.runOnUiThread {
+            Realm.setDefaultConfiguration(this.realmConfiguration)
         }
-
-        Realm.deleteRealm(configuration)
-        Realm.setDefaultConfiguration(configuration)
 
         this.realm.isAutoRefresh = false
     }
@@ -47,7 +40,7 @@ abstract class RealmTest {
     fun after() {
         this.realm.close()
 
-        setContext(null)
+        Realm.deleteRealm(this.realmConfiguration)
     }
 
     companion object {

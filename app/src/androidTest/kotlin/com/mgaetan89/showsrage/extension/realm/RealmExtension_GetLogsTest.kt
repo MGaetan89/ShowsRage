@@ -21,7 +21,7 @@ class RealmExtension_GetLogsTest : RealmTest() {
     @UiThreadTest
     fun getLogs_existingLogLevel_emptyGroups() {
         this.realm.getLogs(EXISTING_LOG_LEVEL, emptyArray<String>(), RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).isNotNull()
             assertThat(it).hasSize(50)
@@ -40,7 +40,7 @@ class RealmExtension_GetLogsTest : RealmTest() {
     @UiThreadTest
     fun getLogs_existingLogLevel_noGroups() {
         this.realm.getLogs(EXISTING_LOG_LEVEL, null, RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).isNotNull()
             assertThat(it).hasSize(50)
@@ -59,7 +59,7 @@ class RealmExtension_GetLogsTest : RealmTest() {
     @UiThreadTest
     fun getLogs_existingLogLevel_withGroups() {
         this.realm.getLogs(EXISTING_LOG_LEVEL, arrayOf("WRONG GROUP", "POSTPROCESSER"), RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).isNotNull()
             assertThat(it).hasSize(4)
@@ -78,7 +78,7 @@ class RealmExtension_GetLogsTest : RealmTest() {
     @UiThreadTest
     fun getLogs_missingLogLevel_emptyGroups() {
         this.realm.getLogs(MISSING_LOG_LEVEL, emptyArray<String>(), RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).isNotNull()
             assertThat(it).isEmpty()
@@ -89,7 +89,7 @@ class RealmExtension_GetLogsTest : RealmTest() {
     @UiThreadTest
     fun getLogs_missingLogLevel_noGroups() {
         this.realm.getLogs(MISSING_LOG_LEVEL, null, RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).isNotNull()
             assertThat(it).isEmpty()
@@ -100,7 +100,7 @@ class RealmExtension_GetLogsTest : RealmTest() {
     @UiThreadTest
     fun getLogs_missingLogLevel_withGroups() {
         this.realm.getLogs(MISSING_LOG_LEVEL, arrayOf("WRONG GROUP", "POSTPROCESSER"), RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).isNotNull()
             assertThat(it).isEmpty()

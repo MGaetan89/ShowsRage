@@ -19,15 +19,13 @@ class RealmExtension_SaveLogsTest : RealmTest() {
 
     @Test
     fun saveLogs() {
-        val logs = mutableListOf<LogEntry>()
-
-        for (i in 1..15) {
-            logs.add(LogEntry().apply {
-                this.dateTime = "dateTime_$i"
+        val logs = (1..15).map {
+            LogEntry().apply {
+                this.dateTime = "dateTime_$it"
                 this.errorType = LogLevel.DEBUG.name
-                this.group = "group_$i"
-                this.message = "message_$i"
-            })
+                this.group = "group_$it"
+                this.message = "message_$it"
+            }
         }
 
         this.realm.saveLogs(LogLevel.DEBUG, logs)
@@ -37,15 +35,13 @@ class RealmExtension_SaveLogsTest : RealmTest() {
 
     @Test
     fun saveLogs_newContent() {
-        val logs = mutableListOf<LogEntry>()
-
-        for (i in 1..15) {
-            logs.add(LogEntry().apply {
-                this.dateTime = "dateTime_$i"
+        val logs = (1..15).map {
+            LogEntry().apply {
+                this.dateTime = "dateTime_$it"
                 this.errorType = LogLevel.ERROR.name
-                this.group = "group_$i"
-                this.message = "message_$i"
-            })
+                this.group = "group_$it"
+                this.message = "message_$it"
+            }
         }
 
         this.realm.saveLogs(LogLevel.ERROR, logs)
@@ -69,15 +65,13 @@ class RealmExtension_SaveLogsTest : RealmTest() {
 
     @Test
     fun saveLogs_invalidEntries() {
-        val logs = mutableListOf<LogEntry>()
-
-        for (i in 1..15) {
-            logs.add(LogEntry().apply {
-                this.dateTime = if (i % 2 == 0) "dateTime_$i" else ""
-                this.errorType = if (i % 2 == 0) LogLevel.DEBUG.name else ""
-                this.group = if (i % 2 == 0) "group_$i" else ""
-                this.message = if (i % 2 == 0) "message_$i" else ""
-            })
+        val logs = (1..15).map {
+            LogEntry().apply {
+                this.dateTime = if (it % 2 == 0) "dateTime_$it" else ""
+                this.errorType = if (it % 2 == 0) LogLevel.DEBUG.name else ""
+                this.group = if (it % 2 == 0) "group_$it" else ""
+                this.message = if (it % 2 == 0) "message_$it" else ""
+            }
         }
 
         this.realm.saveLogs(LogLevel.DEBUG, logs)

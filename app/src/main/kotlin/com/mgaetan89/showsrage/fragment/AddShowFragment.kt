@@ -127,11 +127,11 @@ class AddShowFragment : Fragment(), Callback<SearchResults>, SearchView.OnQueryT
 
     companion object {
         fun getQueryFromIntent(intent: Intent?): String? {
-            if (!Intent.ACTION_SEARCH.equals(intent?.action)) {
+            if (Intent.ACTION_SEARCH != intent?.action) {
                 return ""
             }
 
-            return intent!!.getStringExtra(SearchManager.QUERY)
+            return intent.getStringExtra(SearchManager.QUERY)
         }
 
         fun getSearchResults(searchResults: SearchResults?) = searchResults?.data?.results ?: emptyList()

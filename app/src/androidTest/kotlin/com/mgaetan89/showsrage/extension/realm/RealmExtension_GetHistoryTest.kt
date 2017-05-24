@@ -22,7 +22,7 @@ class RealmExtension_GetHistoryTest : RealmTest() {
     @UiThreadTest
     fun getHistory() {
         this.realm.getHistory(RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it).hasSize(100)
             assertThat(it).isSortedAccordingTo(buildComparator(History::date, true))

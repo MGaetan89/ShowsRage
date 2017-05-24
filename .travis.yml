@@ -6,13 +6,12 @@ branches:
   except:
     - gh-pages
 
-jdk:
-  - oraclejdk8
+jdk: oraclejdk8
 
 android:
   components:
     - android-25
-    - build-tools-25.0.1
+    - build-tools-25.0.3
     - extra-android-m2repository
     - extra-google-m2repository
     - platform-tools
@@ -31,23 +30,16 @@ env:
     - ANDROID_TARGET=android-24
     - ANDROID_TARGET=android-25
 
-matrix:
-  allow_failures:
-    - env: ANDROID_TARGET=android-17   ANDROID_ABI=armeabi-v7a
-    - env: ANDROID_TARGET=android-18   ANDROID_ABI=armeabi-v7a
-    - env: ANDROID_TARGET=android-19   ANDROID_ABI=armeabi-v7a
-    - env: ANDROID_TARGET=android-21   ANDROID_ABI=armeabi-v7a
-
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
 
 before_install:
   - echo y | android update sdk --all --no-ui --force --filter android-25
-  - echo y | android update sdk --all --no-ui --force --filter build-tools-25.0.1
+  - echo y | android update sdk --all --no-ui --force --filter build-tools-25.0.3
 
 before_script:
   - ./travis/prepare_emulator.sh
-  - if [[ "$ANDROID_ABI" ]]; then adb shell "mkdir -p /data/data/com.mgaetan89.showsrage.dev.test/files"; fi
 
 script:
   - ./gradlew clean
@@ -62,5 +54,7 @@ after_failure:
 
 cache:
   directories:
-    - $HOME/.gradle/
+    - $HOME/.android/build-cache/
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
     - $HOME/.m2/

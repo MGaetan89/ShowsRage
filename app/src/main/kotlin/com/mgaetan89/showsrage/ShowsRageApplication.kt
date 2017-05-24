@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.media.MediaItemStatus
 import android.support.v7.media.MediaSessionStatus
 import android.support.v7.media.RemotePlaybackClient
+import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.PlayingVideoData
 
 class ShowsRageApplication : Application() {
@@ -16,6 +17,12 @@ class ShowsRageApplication : Application() {
         }
 
     fun hasPlayingVideo() = this.playingVideo != null
+
+    override fun onCreate() {
+        super.onCreate()
+
+        Utils.initRealm(this)
+    }
 
     private fun startVideo() {
         val route = this.playingVideo?.route ?: return

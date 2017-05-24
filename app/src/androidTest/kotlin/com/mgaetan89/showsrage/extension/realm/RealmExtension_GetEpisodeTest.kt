@@ -20,7 +20,7 @@ class RealmExtension_GetEpisodeTest : RealmTest() {
     @UiThreadTest
     fun getEpisode() {
         this.realm.getEpisode("72173_4_1", RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it.id).isEqualTo("72173_4_1")
             assertThat(it.name).isEqualTo("Flight of the Phoenix")
@@ -31,7 +31,7 @@ class RealmExtension_GetEpisodeTest : RealmTest() {
     @UiThreadTest
     fun getEpisode_notFound() {
         this.realm.getEpisode("0_0_0", RealmChangeListener {
-            it.removeChangeListeners()
+            it.removeAllChangeListeners()
 
             assertThat(it.id).isEqualTo("0_0_0")
             assertThat(it.name).isEqualTo("")

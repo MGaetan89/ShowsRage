@@ -4,7 +4,7 @@ import android.content.Context
 import android.text.format.DateUtils
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
 object DateTimeHelper {
     fun getRelativeDate(dateTime: String?, format: String, minResolution: Long): CharSequence? {
