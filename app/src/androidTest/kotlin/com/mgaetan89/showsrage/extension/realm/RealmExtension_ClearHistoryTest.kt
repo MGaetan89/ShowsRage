@@ -5,9 +5,11 @@ import com.mgaetan89.showsrage.extension.clearHistory
 import com.mgaetan89.showsrage.model.History
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@Ignore
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_ClearHistoryTest : RealmTest() {
     @Before
