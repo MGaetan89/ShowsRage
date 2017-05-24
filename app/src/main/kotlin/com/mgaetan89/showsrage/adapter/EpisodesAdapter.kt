@@ -90,6 +90,10 @@ class EpisodesAdapter(episodes: RealmResults<Episode>, val seasonNumber: Int, va
                     }
                 }
             } else {
+                if (adapterPosition !in (0 until itemCount)) {
+                    return
+                }
+
                 val episode = getItem(adapterPosition) ?: return
 
                 with(Intent(Constants.Intents.ACTION_EPISODE_SELECTED)) {

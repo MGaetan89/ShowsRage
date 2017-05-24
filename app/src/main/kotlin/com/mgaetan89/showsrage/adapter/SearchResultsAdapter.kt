@@ -43,7 +43,7 @@ class SearchResultsAdapter(val searchResults: List<SearchResultItem>) : Recycler
 
         override fun onClick(view: View?) {
             val context = view?.context ?: return
-            val id = searchResults[this.adapterPosition].getIndexerId()
+            val id = searchResults.getOrNull(this.adapterPosition)?.getIndexerId() ?: return
 
             if (id != 0) {
                 with(Intent(Constants.Intents.ACTION_SEARCH_RESULT_SELECTED)) {

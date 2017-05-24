@@ -64,7 +64,7 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
             this.activity.supportFragmentManager.beginTransaction()
                     .addToBackStack("add_show")
                     .replace(R.id.content, AddShowFragment())
-                    .commit()
+                    .commitAllowingStateLoss()
         }
     }
 

@@ -22,6 +22,10 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, val ignor
     override fun getItemCount() = this.shows.size
 
     override fun getSectionTitle(position: Int): String {
+        if (position !in (0 until this.shows.size)) {
+            return ""
+        }
+
         val showName = Utils.getSortableShowName(this.shows[position], this.ignoreArticles)
 
         return showName.firstOrNull()?.toUpperCase()?.toString() ?: ""
