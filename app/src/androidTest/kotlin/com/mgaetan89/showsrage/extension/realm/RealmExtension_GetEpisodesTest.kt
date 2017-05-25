@@ -6,11 +6,9 @@ import com.mgaetan89.showsrage.extension.getEpisodes
 import io.realm.RealmChangeListener
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@Ignore
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_GetEpisodesTest : RealmTest() {
     @Before

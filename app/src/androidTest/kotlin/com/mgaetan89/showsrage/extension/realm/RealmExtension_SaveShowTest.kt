@@ -11,11 +11,9 @@ import com.mgaetan89.showsrage.validateRealmList
 import io.realm.RealmList
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@Ignore
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_SaveShowTest : RealmTest() {
     @Before

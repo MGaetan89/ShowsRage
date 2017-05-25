@@ -55,7 +55,7 @@
 
 		<PreferenceScreen
 			android:key="realm_java"
-			android:summary="Version 3.2.1"
+			android:summary="Version 3.3.0"
 			android:title="Realm Java">
 
 			<intent
