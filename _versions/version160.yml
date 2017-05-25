@@ -5,6 +5,7 @@ previous_tag: v1.5
 milestone: 1.6
 features:
 - Filter logs
+- Add an option to update logs automatically (off by default)
 - Widget to display the <em>History</em>
 - Widget to display the <em>Schedule</em>
 - Widget to quickly access a show
