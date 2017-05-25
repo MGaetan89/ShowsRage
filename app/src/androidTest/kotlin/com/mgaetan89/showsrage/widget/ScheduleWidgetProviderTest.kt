@@ -3,6 +3,7 @@ package com.mgaetan89.showsrage.widget
 import android.appwidget.AppWidgetManager
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.TestActivity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -43,7 +44,8 @@ class ScheduleWidgetProviderTest {
 
     @Test
     fun getWidgetEmptyText() {
-        assertThat(this.provider.getWidgetEmptyText(this.activityRule.activity)).isEqualTo("No coming episodes")
+        assertThat(this.provider.getWidgetEmptyText(this.activityRule.activity))
+                .isEqualTo(this.activityRule.activity.getString(R.string.no_coming_episodes))
     }
 
     @Test
@@ -53,7 +55,8 @@ class ScheduleWidgetProviderTest {
 
     @Test
     fun getWidgetTitle() {
-        assertThat(this.provider.getWidgetTitle(this.activityRule.activity)).isEqualTo("Schedule")
+        assertThat(this.provider.getWidgetTitle(this.activityRule.activity))
+                .isEqualTo(this.activityRule.activity.getString(R.string.schedule))
     }
 
     @Test
