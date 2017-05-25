@@ -1,0 +1,8 @@
+---
+name: Version 1.6-beta3
+release_date: 25/05/2017
+current_tag: v1.6-beta3
+previous_tag: v1.6-beta2
+fixes:
+- Fixes a lot of crashes from 1.6-beta2
+---
