@@ -4,18 +4,18 @@
 	<PreferenceCategory android:title="Apache License, Version 2.0">
 
 		<PreferenceScreen
-			android:key="fastscroll"
-			android:summary="Version 0.2.4"
-			android:title="Recycler Bubble">
+			android:key="firebase_jobdispatcher"
+			android:summary="Version 0.6.0"
+			android:title="Firebase JobDispatcher">
 
 			<intent
 				android:action="android.intent.action.VIEW"
-				android:data="https://github.com/FutureMind/recycler-fast-scroll" />
+				android:data="https://github.com/firebase/firebase-jobdispatcher-android" />
 		</PreferenceScreen>
 
 		<PreferenceScreen
 			android:key="glide"
-			android:summary="Version 3.7.0"
+			android:summary="Version 3.8.0"
 			android:title="Glide">
 
 			<intent
@@ -25,7 +25,7 @@
 
 		<PreferenceScreen
 			android:key="glide_transformations"
-			android:summary="Version 2.0.1"
+			android:summary="Version 2.0.2"
 			android:title="Glide Transformations">
 
 			<intent
@@ -55,7 +55,7 @@
 
 		<PreferenceScreen
 			android:key="realm_java"
-			android:summary="Version 2.2.1"
+			android:summary="Version 3.2.1"
 			android:title="Realm Java">
 
 			<intent
@@ -65,12 +65,22 @@
 
 		<PreferenceScreen
 			android:key="realm_android_adapters"
-			android:summary="Version 1.4.1"
+			android:summary="Version 2.1.0"
 			android:title="Realm Android Adapters">
 
 			<intent
 				android:action="android.intent.action.VIEW"
 				android:data="https://github.com/realm/realm-android-adapters" />
+		</PreferenceScreen>
+
+		<PreferenceScreen
+			android:key="fastscroll"
+			android:summary="Version 0.2.5"
+			android:title="Recycler Bubble">
+
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:data="https://github.com/FutureMind/recycler-fast-scroll" />
 		</PreferenceScreen>
 
 		<PreferenceScreen
