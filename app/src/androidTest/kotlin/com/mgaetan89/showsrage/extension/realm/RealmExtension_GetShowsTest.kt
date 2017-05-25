@@ -3,11 +3,9 @@ package com.mgaetan89.showsrage.extension.realm
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.extension.getShows
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@Ignore
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_GetShowsTest : RealmTest() {
     @Test

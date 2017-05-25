@@ -381,7 +381,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
         this.setSupportActionBar(this.toolbar)
 
-        if (savedInstanceState == null && !this.intent.getBooleanExtra(Constants.Bundle.INIT_ONLY, false)) {
+        if (savedInstanceState == null) {
             this.navigationView?.menu?.performIdentifierAction(getInitialMenuId(this.intent?.action), 0)
         }
     }

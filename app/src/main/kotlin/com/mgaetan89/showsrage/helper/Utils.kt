@@ -17,6 +17,7 @@ object Utils {
         return RealmConfiguration.Builder().let {
             if (!assetFile.isNullOrBlank()) {
                 it.assetFile(assetFile)
+                it.name("asset_$assetFile")
             }
 
             it.schemaVersion(Constants.DATABASE_VERSION)

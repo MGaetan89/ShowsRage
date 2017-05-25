@@ -17,7 +17,6 @@ object Constants {
         val EPISODE_NUMBER = "episode_number"
         val EPISODES_COUNT = "episodes_count"
         val INDEXER_ID = "indexer_id"
-        val INIT_ONLY = "init_only"
         val LOGS_GROUPS = "logs_groups"
         val MENU_ID = "menu_id"
         val SCHEDULE_SECTION = "schedule_section"
