@@ -8,30 +8,24 @@ import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.MediaRouteButton
 import android.util.AttributeSet
 
-class ColoredMediaRouteButton : MediaRouteButton {
-    @ColorInt
-    var color = Color.WHITE
+class ColoredMediaRouteButton @JvmOverloads constructor(
+		context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : MediaRouteButton(context, attrs, defStyleAttr) {
+	@ColorInt
+	var color = Color.WHITE
 
-    constructor(context: Context) : super(context)
+	constructor(context: Context, @ColorInt color: Int) : this(context) {
+		this.color = color
+	}
 
-    constructor(context: Context, @ColorInt color: Int) : super(context) {
-        this.color = color
-    }
+	override fun setRemoteIndicatorDrawable(d: Drawable?) {
+		d?.let {
+			// Delay the call to super so the color passed in the constructor can be assigned
+			this.post {
+				DrawableCompat.setTint(DrawableCompat.wrap(d), color)
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
-
-    override fun setRemoteIndicatorDrawable(d: Drawable?) {
-        if (d == null) {
-            return
-        }
-
-        // Delay the call to super so the color passed in the constructor can be assigned
-        this.post {
-            DrawableCompat.setTint(DrawableCompat.wrap(d), ColoredMediaRouteButton@ this.color)
-
-            ColoredMediaRouteButton@ super.setRemoteIndicatorDrawable(d)
-        }
-    }
+				setRemoteIndicatorDrawable(d)
+			}
+		}
+	}
 }

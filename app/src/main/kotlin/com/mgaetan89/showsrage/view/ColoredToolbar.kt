@@ -17,87 +17,75 @@ import android.widget.TextView
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.helper.Utils
 
-class ColoredToolbar : Toolbar {
-    private var colorFilter: PorterDuffColorFilter? = null
+class ColoredToolbar @JvmOverloads constructor(
+		context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : Toolbar(context, attrs, defStyleAttr) {
+	private var colorFilter: PorterDuffColorFilter? = null
 
-    @ColorInt
-    private var itemColor: Int = 0
+	@ColorInt
+	private var itemColor = 0
 
-    constructor(context: Context) : super(context) {
-        this.init(context)
-    }
+	init {
+		this.setItemColor(Utils.getContrastColor(ContextCompat.getColor(context, R.color.primary)))
+	}
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        this.init(context)
-    }
+	override fun invalidate() {
+		super.invalidate()
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        this.init(context)
-    }
+		this.setGroupColor(this)
+	}
 
-    override fun invalidate() {
-        super.invalidate()
+	fun setItemColor(@ColorInt color: Int) {
+		this.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+		this.itemColor = color
 
-        this.setGroupColor(this)
-    }
+		this.setGroupColor(this)
+	}
 
-    fun setItemColor(@ColorInt color: Int) {
-        this.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
-        this.itemColor = color
+	override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+		super.onLayout(changed, l, t, r, b)
 
-        this.setGroupColor(this)
-    }
+		this.setGroupColor(this)
+	}
 
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        super.onLayout(changed, l, t, r, b)
+	private fun setChildColor(child: View) {
+		when (child) {
+			is ImageView -> {
+				child.alpha = 0.7f
+				child.colorFilter = this.colorFilter
+			}
+			is TextView -> child.setTextColor(this.itemColor)
+			is ActionMenuView -> {
+				child.overflowIcon?.let {
+					child.post {
+						it.alpha = (0.7f * 255f).toInt()
+						it.colorFilter = ColoredToolbar@ this.colorFilter
+					}
+				}
 
-        this.setGroupColor(this)
-    }
+				(0 until child.childCount)
+						.map(child::getChildAt)
+						.filterIsInstance<ActionMenuItemView>()
+						.forEach { actionMenuChild ->
+							actionMenuChild.compoundDrawables
+									.filterNotNull()
+									.forEach {
+										actionMenuChild.post {
+											it.colorFilter = ColoredToolbar@ this.colorFilter
+										}
+									}
+						}
+			}
+			is ViewGroup -> this.setGroupColor(child)
+			else -> Log.d("ColoredToolbar", child.javaClass.name + " is not supported")
+		}
+	}
 
-    private fun init(context: Context) {
-        this.setItemColor(Utils.getContrastColor(ContextCompat.getColor(context, R.color.primary)))
-    }
-
-    private fun setChildColor(child: View) {
-        if (child is ImageView) {
-            child.alpha = 0.7f
-            child.colorFilter = this.colorFilter
-        } else if (child is TextView) {
-            child.setTextColor(this.itemColor)
-        } else if (child is ActionMenuView) {
-            val overflowIcon = child.overflowIcon
-
-            if (overflowIcon != null) {
-                child.post {
-                    overflowIcon.alpha = (0.7f * 255f).toInt()
-                    overflowIcon.colorFilter = ColoredToolbar@ this.colorFilter
-                }
-            }
-
-            (0 until child.childCount)
-                    .map { child.getChildAt(it) }
-                    .filterIsInstance<ActionMenuItemView>()
-                    .forEach { actionMenuChild ->
-                        actionMenuChild.compoundDrawables
-                                .filterNotNull()
-                                .forEach {
-                                    actionMenuChild.post {
-                                        it.colorFilter = ColoredToolbar@ this.colorFilter
-                                    }
-                                }
-                    }
-        } else if (child is ViewGroup) {
-            this.setGroupColor(child)
-        } else {
-            Log.d("ColoredToolbar", child.javaClass.name + " is not supported")
-        }
-    }
-
-    private fun setGroupColor(group: ViewGroup?) {
-        if (group != null) {
-            for (i in 0 until group.childCount) {
-                this.setChildColor(group.getChildAt(i))
-            }
-        }
-    }
+	private fun setGroupColor(group: ViewGroup?) {
+		group?.let {
+			for (i in 0 until it.childCount) {
+				this.setChildColor(it.getChildAt(i))
+			}
+		}
+	}
 }
