@@ -9,32 +9,32 @@ import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.PlayingVideoData
 
 class ShowsRageApplication : Application() {
-    var playingVideo: PlayingVideoData? = null
-        set(value) {
-            field = value
+	var playingVideo: PlayingVideoData? = null
+		set(value) {
+			field = value
 
-            this.startVideo()
-        }
+			this.startVideo()
+		}
 
-    fun hasPlayingVideo() = this.playingVideo != null
+	fun hasPlayingVideo() = this.playingVideo != null
 
-    override fun onCreate() {
-        super.onCreate()
+	override fun onCreate() {
+		super.onCreate()
 
-        Utils.initRealm(this)
-    }
+		Utils.initRealm(this)
+	}
 
-    private fun startVideo() {
-        val route = this.playingVideo?.route ?: return
-        val videoUri = this.playingVideo?.videoUri ?: return
-        val removePlaybackClient = RemotePlaybackClient(this.applicationContext, route)
+	private fun startVideo() {
+		val route = this.playingVideo?.route ?: return
+		val videoUri = this.playingVideo?.videoUri ?: return
+		val removePlaybackClient = RemotePlaybackClient(this.applicationContext, route)
 
-        removePlaybackClient.play(videoUri, "video/*", null, 0, null, object : RemotePlaybackClient.ItemActionCallback() {
-            override fun onResult(data: Bundle?, sessionId: String?, sessionStatus: MediaSessionStatus?, itemId: String?, itemStatus: MediaItemStatus?) {
-                super.onResult(data, sessionId, sessionStatus, itemId, itemStatus)
+		removePlaybackClient.play(videoUri, "video/*", null, 0, null, object : RemotePlaybackClient.ItemActionCallback() {
+			override fun onResult(data: Bundle?, sessionId: String?, sessionStatus: MediaSessionStatus?, itemId: String?, itemStatus: MediaItemStatus?) {
+				super.onResult(data, sessionId, sessionStatus, itemId, itemStatus)
 
-                playingVideo?.itemId = itemId
-            }
-        })
-    }
+				playingVideo?.itemId = itemId
+			}
+		})
+	}
 }

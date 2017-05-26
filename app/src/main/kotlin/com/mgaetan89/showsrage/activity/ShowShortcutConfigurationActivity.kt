@@ -37,136 +37,136 @@ import io.realm.Realm
 import java.util.Comparator
 
 class ShowShortcutConfigurationActivity : AppCompatActivity() {
-    private lateinit var realm: Realm
-    private val receiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if (Constants.Intents.ACTION_SHOW_SELECTED == intent?.action) {
-                addShortcut(intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0))
-            }
-        }
-    }
+	private lateinit var realm: Realm
+	private val receiver = object : BroadcastReceiver() {
+		override fun onReceive(context: Context?, intent: Intent?) {
+			if (Constants.Intents.ACTION_SHOW_SELECTED == intent?.action) {
+				addShortcut(intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0))
+			}
+		}
+	}
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
 
-        this.realm = Realm.getDefaultInstance()
+		this.realm = Realm.getDefaultInstance()
 
-        SickRageApi.instance.init(this.getPreferences())
+		SickRageApi.instance.init(this.getPreferences())
 
-        this.setResult(RESULT_CANCELED)
+		this.setResult(RESULT_CANCELED)
 
-        this.setContentView(R.layout.activity_show_shortcut_configuration)
+		this.setContentView(R.layout.activity_show_shortcut_configuration)
 
-        if (savedInstanceState == null) {
-            val preferences = this.getPreferences()
+		if (savedInstanceState == null) {
+			val preferences = this.getPreferences()
 
-            // Set the correct language
-            this.resources.changeLocale(preferences.getLocale())
+			// Set the correct language
+			this.resources.changeLocale(preferences.getLocale())
 
-            // Set the correct theme
-            if (preferences.useDarkTheme()) {
-                this.delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                this.delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
+			// Set the correct theme
+			if (preferences.useDarkTheme()) {
+				this.delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+			} else {
+				this.delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+			}
+		}
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(this.receiver, IntentFilter(Constants.Intents.ACTION_SHOW_SELECTED))
+		LocalBroadcastManager.getInstance(this).registerReceiver(this.receiver, IntentFilter(Constants.Intents.ACTION_SHOW_SELECTED))
 
-        this.configureRecyclerView()
-    }
+		this.configureRecyclerView()
+	}
 
-    override fun onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(this.receiver)
+	override fun onDestroy() {
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(this.receiver)
 
-        this.realm.close()
+		this.realm.close()
 
-        super.onDestroy()
-    }
+		super.onDestroy()
+	}
 
-    private fun addShortcut(indexerId: Int) {
-        BitmapLoaderTask(this).execute(indexerId)
-    }
+	private fun addShortcut(indexerId: Int) {
+		BitmapLoaderTask(this).execute(indexerId)
+	}
 
-    private fun configureRecyclerView() {
-        (this.findViewById(android.R.id.list) as RecyclerView?)?.let {
-            val empty = this.findViewById(android.R.id.empty) as TextView?
-            val ignoreArticles = this.getPreferences().ignoreArticles()
-            val shows = (this.realm.getShows(null) ?: emptyList<Show>())
-                    .sortedWith(Comparator<Show> { first, second ->
-                        val firstProperty = Utils.getSortableShowName(first, ignoreArticles)
-                        val secondProperty = Utils.getSortableShowName(second, ignoreArticles)
+	private fun configureRecyclerView() {
+		(this.findViewById(android.R.id.list) as RecyclerView?)?.let {
+			val empty = this.findViewById(android.R.id.empty) as TextView?
+			val ignoreArticles = this.getPreferences().ignoreArticles()
+			val shows = (this.realm.getShows(null) ?: emptyList<Show>())
+					.sortedWith(Comparator<Show> { first, second ->
+						val firstProperty = Utils.getSortableShowName(first, ignoreArticles)
+						val secondProperty = Utils.getSortableShowName(second, ignoreArticles)
 
-                        firstProperty.compareTo(secondProperty)
-                    })
+						firstProperty.compareTo(secondProperty)
+					})
 
-            (this.findViewById(R.id.fastscroll) as FastScroller?)?.setRecyclerView(it)
+			(this.findViewById(R.id.fastscroll) as FastScroller?)?.setRecyclerView(it)
 
-            it.adapter = ShowsAdapter(shows, this.getPreferences().getShowsListLayout(), false)
-            it.layoutManager = LinearLayoutManager(this)
-            it.setPadding(0, 0, 0, 0)
+			it.adapter = ShowsAdapter(shows, this.getPreferences().getShowsListLayout(), false)
+			it.layoutManager = LinearLayoutManager(this)
+			it.setPadding(0, 0, 0, 0)
 
-            if (shows.isEmpty()) {
-                empty?.visibility = View.VISIBLE
-                it.visibility = View.GONE
-            } else {
-                empty?.visibility = View.GONE
-                it.visibility = View.VISIBLE
-            }
-        }
-    }
+			if (shows.isEmpty()) {
+				empty?.visibility = View.VISIBLE
+				it.visibility = View.GONE
+			} else {
+				empty?.visibility = View.GONE
+				it.visibility = View.VISIBLE
+			}
+		}
+	}
 
-    private fun sendResult(show: Show?, icon: Bitmap) {
-        show?.let {
-            val shortcutIntent = Intent(this, MainActivity::class.java)
-            shortcutIntent.action = Constants.Intents.ACTION_DISPLAY_SHOW
-            shortcutIntent.putExtra(Constants.Bundle.INDEXER_ID, show.tvDbId)
-            shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+	private fun sendResult(show: Show?, icon: Bitmap) {
+		show?.let {
+			val shortcutIntent = Intent(this, MainActivity::class.java)
+			shortcutIntent.action = Constants.Intents.ACTION_DISPLAY_SHOW
+			shortcutIntent.putExtra(Constants.Bundle.INDEXER_ID, show.tvDbId)
+			shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
 
-            val addIntent = Intent(Intent.ACTION_CREATE_SHORTCUT)
-            addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
-            addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, show.showName)
-            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, icon)
-            addIntent.putExtra("duplicate", false)
+			val addIntent = Intent(Intent.ACTION_CREATE_SHORTCUT)
+			addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
+			addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, show.showName)
+			addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, icon)
+			addIntent.putExtra("duplicate", false)
 
-            this.setResult(RESULT_OK, addIntent)
-        }
+			this.setResult(RESULT_OK, addIntent)
+		}
 
-        this.finish()
-    }
+		this.finish()
+	}
 
-    private class BitmapLoaderTask(private val activity: ShowShortcutConfigurationActivity) : AsyncTask<Int, Void, Bitmap>() {
-        private var indexerId: Int = 0
+	private class BitmapLoaderTask(private val activity: ShowShortcutConfigurationActivity) : AsyncTask<Int, Void, Bitmap>() {
+		private var indexerId = 0
 
-        override fun doInBackground(vararg indexerIds: Int?): Bitmap {
-            this.indexerId = indexerIds.first() ?: 0
+		override fun doInBackground(vararg indexerIds: Int?): Bitmap {
+			this.indexerId = indexerIds.first() ?: 0
 
-            val realm = Realm.getDefaultInstance()
-            val show = realm.getShow(this.indexerId)
-            val url = ShowPresenter(show).getPosterUrl()
-            val default = BitmapFactory.decodeResource(this.activity.resources, R.mipmap.ic_launcher)
-            realm.close()
+			val realm = Realm.getDefaultInstance()
+			val show = realm.getShow(this.indexerId)
+			val url = ShowPresenter(show).getPosterUrl()
+			val default = BitmapFactory.decodeResource(this.activity.resources, R.mipmap.ic_launcher)
+			realm.close()
 
-            val futureBitmap = ImageLoader.getBitmap(this.activity, url, true) ?: return default
-            val bitmap = try {
-                futureBitmap.get()
-            } catch(exception: Exception) {
-                default
-            }
+			val futureBitmap = ImageLoader.getBitmap(this.activity, url, true) ?: return default
+			val bitmap = try {
+				futureBitmap.get()
+			} catch(exception: Exception) {
+				default
+			}
 
-            Glide.clear(futureBitmap)
+			Glide.clear(futureBitmap)
 
-            val size = this.activity.resources.getDimensionPixelSize(R.dimen.shortcut_icon_size)
+			val size = this.activity.resources.getDimensionPixelSize(R.dimen.shortcut_icon_size)
 
-            return Bitmap.createScaledBitmap(bitmap, size, size, true)
-        }
+			return Bitmap.createScaledBitmap(bitmap, size, size, true)
+		}
 
-        override fun onPostExecute(bitmap: Bitmap) {
-            super.onPostExecute(bitmap)
+		override fun onPostExecute(bitmap: Bitmap) {
+			super.onPostExecute(bitmap)
 
-            val show = this.activity.realm.getShow(this.indexerId)
+			val show = this.activity.realm.getShow(this.indexerId)
 
-            this.activity.sendResult(show, bitmap)
-        }
-    }
+			this.activity.sendResult(show, bitmap)
+		}
+	}
 }

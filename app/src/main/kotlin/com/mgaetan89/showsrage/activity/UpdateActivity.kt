@@ -18,56 +18,57 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 
 class UpdateActivity : AppCompatActivity(), Callback<GenericResponse>, DialogInterface.OnClickListener {
-    override fun failure(error: RetrofitError?) {
-        error?.printStackTrace()
-    }
+	override fun failure(error: RetrofitError?) {
+		error?.printStackTrace()
+	}
 
-    override fun onBackPressed() {
-        super.onBackPressed()
+	override fun onBackPressed() {
+		super.onBackPressed()
 
-        this.finish()
-    }
+		this.finish()
+	}
 
-    override fun onClick(dialog: DialogInterface?, which: Int) {
-        when (which) {
-            DialogInterface.BUTTON_POSITIVE -> this.updateSickRage()
-            DialogInterface.BUTTON_NEGATIVE -> this.finish()
-        }
-    }
+	override fun onClick(dialog: DialogInterface?, which: Int) {
+		when (which) {
+			DialogInterface.BUTTON_POSITIVE -> this.updateSickRage()
+			DialogInterface.BUTTON_NEGATIVE -> this.finish()
+		}
+	}
 
-    override fun success(genericResponse: GenericResponse?, response: Response?) {
-        if (genericResponse?.message?.isNotBlank() ?: false) {
-            Toast.makeText(this, genericResponse!!.message, Toast.LENGTH_SHORT).show()
-        }
+	override fun success(genericResponse: GenericResponse?, response: Response?) {
+		val message = genericResponse?.message.orEmpty()
+		if (message.isNotBlank()) {
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+		}
 
-        this.finish()
-    }
+		this.finish()
+	}
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
 
-        SickRageApi.instance.init(this.getPreferences())
+		SickRageApi.instance.init(this.getPreferences())
 
-        val update = this.intent.extras.getParcelable<UpdateResponse>(Constants.Bundle.UPDATE_MODEL)
-        val builder = AlertDialog.Builder(this)
-                .setTitle(R.string.update_sickrage)
+		val update = this.intent.extras.getParcelable<UpdateResponse>(Constants.Bundle.UPDATE_MODEL)
+		val builder = AlertDialog.Builder(this)
+				.setTitle(R.string.update_sickrage)
 
-        if (update != null) {
-            builder.setMessage(this.getString(R.string.update_available_detailed, update.currentVersion?.version, update.latestVersion?.version, update.commitsOffset))
-        }
+		if (update != null) {
+			builder.setMessage(this.getString(R.string.update_available_detailed, update.currentVersion?.version, update.latestVersion?.version, update.commitsOffset))
+		}
 
-        builder.setPositiveButton(R.string.update, this)
-                .setNegativeButton(R.string.ignore, this)
-                .show()
-    }
+		builder.setPositiveButton(R.string.update, this)
+				.setNegativeButton(R.string.ignore, this)
+				.show()
+	}
 
-    private fun updateSickRage() {
-        SickRageApi.instance.services?.updateSickRage(this)
+	private fun updateSickRage() {
+		SickRageApi.instance.services?.updateSickRage(this)
 
-        this.startService(Intent(this, UpdateService::class.java))
+		this.startService(Intent(this, UpdateService::class.java))
 
-        Toast.makeText(this, R.string.updating_sickrage, Toast.LENGTH_SHORT).show()
+		Toast.makeText(this, R.string.updating_sickrage, Toast.LENGTH_SHORT).show()
 
-        this.finish()
-    }
+		this.finish()
+	}
 }

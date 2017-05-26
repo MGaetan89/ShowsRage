@@ -5,10 +5,10 @@ import android.content.res.Resources
 import java.util.Locale
 
 fun Resources.changeLocale(locale: Locale) {
-    Locale.setDefault(locale)
+	Locale.setDefault(locale)
 
-    val configuration = Configuration()
-    configuration.locale = locale
+	val configuration = Configuration()
+	configuration.locale = locale
 
-    this.updateConfiguration(configuration, this.displayMetrics)
+	this.updateConfiguration(configuration, this.displayMetrics)
 }
