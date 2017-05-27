@@ -1,7 +1,6 @@
 package com.mgaetan89.showsrage.adapter
 
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.PopupMenu
@@ -10,11 +9,12 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
-import com.mgaetan89.showsrage.databinding.AdapterScheduleListBinding
+import com.mgaetan89.showsrage.helper.ImageLoader
 import com.mgaetan89.showsrage.model.Schedule
 import com.mgaetan89.showsrage.presenter.SchedulePresenter
 import io.realm.RealmRecyclerViewAdapter
@@ -22,9 +22,9 @@ import io.realm.RealmResults
 
 class ScheduleAdapter(schedules: RealmResults<Schedule>) : RealmRecyclerViewAdapter<Schedule, ScheduleAdapter.ViewHolder>(schedules, true) {
 	override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-		val schedule = this.getItem(position)
+		val schedule = this.getItem(position).takeIf { it != null && it.isValid } ?: return
 
-		holder?.bind(SchedulePresenter(schedule, holder.itemView?.context))
+		holder?.bind(schedule)
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
@@ -34,72 +34,89 @@ class ScheduleAdapter(schedules: RealmResults<Schedule>) : RealmRecyclerViewAdap
 	}
 
 	inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener, PopupMenu.OnMenuItemClickListener {
-		private val binding: AdapterScheduleListBinding = DataBindingUtil.bind(view)
-		private val actions = this.binding.includeContent?.episodeActions
+		private val actions = view.findViewById(R.id.episode_actions) as ImageView
+		private val airDateTime = view.findViewById(R.id.episode_air_date_time) as TextView
+		private val logo = view.findViewById(R.id.episode_logo) as ImageView
+		private val name = view.findViewById(R.id.episode_name) as TextView
+		private val networkQuality = view.findViewById(R.id.episode_network_quality) as TextView
 
 		init {
+			this.actions.setOnClickListener(this)
+			this.name.isSelected = true
+
 			view.setOnClickListener(this)
-
-			this.actions?.setOnClickListener(this)
 		}
 
-		fun bind(schedule: SchedulePresenter) {
-			this.binding.setSchedule(schedule)
+		fun bind(schedule: Schedule) {
+			val context = this.itemView.context
+			val presenter = SchedulePresenter(schedule, context)
+
+			this.airDateTime.text = presenter.getAirDateTime()
+
+			this.logo.contentDescription = presenter.getShowName()
+			ImageLoader.load(this.logo, presenter.getPosterUrl(), true)
+
+			this.name.text = context.getString(R.string.show_name_episode, presenter.getShowName(), presenter.getSeason(), presenter.getEpisode())
+			this.networkQuality.text = context.getString(R.string.separated_texts, presenter.getNetwork(), presenter.getQuality())
 		}
 
-		override fun onClick(view: View?) {
-			val context = view?.context ?: return
-
-			if (view.id == R.id.episode_actions) {
-				if (this.actions != null) {
-					with(PopupMenu(context, this.actions)) {
-						inflate(R.menu.episode_action)
-						setOnMenuItemClickListener(this@ViewHolder)
-						show()
-					}
-				}
-			} else {
-				val schedule = getItem(adapterPosition) ?: return
-				val plot = schedule.episodePlot
-
-				if (!plot.isNullOrEmpty()) {
-					var message = context.getString(R.string.season_episode_name, schedule.season, schedule.episode, schedule.episodeName)
-					message += "\n\n"
-					message += plot
-
-					val dialog = AlertDialog.Builder(context)
-							.setTitle(schedule.showName)
-							.setMessage(message)
-							.setPositiveButton(R.string.close, null)
-							.show()
-
-					try {
-						val textView = dialog.window.decorView.findViewById(android.R.id.message) as TextView?
-						textView?.setTextIsSelectable(true)
-					} catch(exception: Exception) {
-						exception.printStackTrace()
-						// The TextView was not found
-					}
-				} else {
-					Toast.makeText(context, R.string.no_plot, Toast.LENGTH_SHORT).show()
-				}
+		override fun onClick(view: View) {
+			when (view.id) {
+				R.id.episode_actions -> this.showActions()
+				else -> this.showPlot()
 			}
 		}
 
-		override fun onMenuItemClick(item: MenuItem?): Boolean {
-			val context = this.actions?.context ?: return false
-			val schedule = getItem(adapterPosition) ?: return false
+		override fun onMenuItemClick(item: MenuItem) = this.notifyEpisodeActionSelected(item)
 
-			with(Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED)) {
-				putExtra(Constants.Bundle.EPISODE_NUMBER, schedule.episode)
-				putExtra(Constants.Bundle.INDEXER_ID, schedule.indexerId)
-				putExtra(Constants.Bundle.MENU_ID, item?.itemId)
-				putExtra(Constants.Bundle.SEASON_NUMBER, schedule.season)
+		private fun notifyEpisodeActionSelected(item: MenuItem): Boolean {
+			val schedule = getItem(this.adapterPosition).takeIf { it != null && it.isValid } ?: return false
 
-				LocalBroadcastManager.getInstance(context).sendBroadcast(this)
+			Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED).also {
+				it.putExtra(Constants.Bundle.EPISODE_NUMBER, schedule.episode)
+				it.putExtra(Constants.Bundle.INDEXER_ID, schedule.indexerId)
+				it.putExtra(Constants.Bundle.MENU_ID, item.itemId)
+				it.putExtra(Constants.Bundle.SEASON_NUMBER, schedule.season)
+
+				LocalBroadcastManager.getInstance(this.itemView.context).sendBroadcast(it)
 			}
 
 			return true
+		}
+
+		private fun showActions() {
+			PopupMenu(this.actions.context, this.actions).also {
+				it.inflate(R.menu.episode_action)
+				it.setOnMenuItemClickListener(this)
+				it.show()
+			}
+		}
+
+		private fun showPlot() {
+			val context = this.itemView.context
+			val schedule = getItem(this.adapterPosition).takeIf { it != null && it.isValid } ?: return
+			val plot = schedule.episodePlot
+
+			if (!plot.isNullOrEmpty()) {
+				var message = context.getString(R.string.season_episode_name, schedule.season, schedule.episode, schedule.episodeName)
+				message += "\n\n"
+				message += plot
+
+				val dialog = AlertDialog.Builder(context)
+						.setTitle(schedule.showName)
+						.setMessage(message)
+						.setPositiveButton(R.string.close, null)
+						.show()
+
+				try {
+					val textView = dialog.window.decorView.findViewById(android.R.id.message) as TextView?
+					textView?.setTextIsSelectable(true)
+				} catch (exception: Exception) {
+					exception.printStackTrace()
+				}
+			} else {
+				Toast.makeText(context, R.string.no_plot, Toast.LENGTH_SHORT).show()
+			}
 		}
 	}
 }

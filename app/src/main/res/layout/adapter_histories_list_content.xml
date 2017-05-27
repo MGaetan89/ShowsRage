@@ -1,71 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="@dimen/list_item_height"
+	android:background="?selectableItemBackground"
+	android:clickable="true"
+	android:focusable="true"
+	android:paddingEnd="@dimen/padding"
+	android:paddingLeft="@dimen/padding"
+	android:paddingRight="@dimen/padding"
+	android:paddingStart="@dimen/padding">
 
-	<data>
+	<ImageView
+		android:id="@+id/episode_logo"
+		android:layout_width="40dp"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:layout_marginEnd="@dimen/padding"
+		android:layout_marginRight="@dimen/padding"
+		tools:ignore="ContentDescription"
+		tools:src="@mipmap/ic_launcher" />
 
-		<variable
-			name="history"
-			type="com.mgaetan89.showsrage.presenter.HistoryPresenter" />
-	</data>
-
-	<RelativeLayout
+	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="@dimen/list_item_height"
-		android:background="?selectableItemBackground"
-		android:clickable="true"
-		android:paddingEnd="@dimen/padding"
-		android:paddingLeft="@dimen/padding"
-		android:paddingRight="@dimen/padding"
-		android:paddingStart="@dimen/padding">
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:layout_toEndOf="@+id/episode_logo"
+		android:layout_toRightOf="@+id/episode_logo"
+		android:orientation="vertical">
 
-		<ImageView
-			android:id="@+id/episode_logo"
-			android:layout_width="40dp"
+		<TextView
+			android:id="@+id/episode_name"
+			style="@style/TextAppearance.AppCompat.Subhead"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_centerVertical="true"
-			android:layout_marginEnd="@dimen/padding"
-			android:layout_marginRight="@dimen/padding"
-			android:contentDescription="@{history.showName}"
-			app:circle="@{true}"
-			app:imageUrl="@{history.posterUrl}"
-			tools:src="@mipmap/ic_launcher" />
+			android:ellipsize="marquee"
+			android:marqueeRepeatLimit="marquee_forever"
+			android:scrollHorizontally="true"
+			android:singleLine="true"
+			tools:text="@string/show_name_episode" />
 
-		<LinearLayout
-			android:layout_width="match_parent"
+		<TextView
+			android:id="@+id/episode_date"
+			style="@style/TextAppearance.AppCompat.Caption"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_centerVertical="true"
-			android:layout_toEndOf="@+id/episode_logo"
-			android:layout_toRightOf="@+id/episode_logo"
-			android:orientation="vertical">
+			tools:text="2011-09-19" />
 
-			<TextView
-				style="@style/TextAppearance.AppCompat.Subhead"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:ellipsize="marquee"
-				android:marqueeRepeatLimit="marquee_forever"
-				android:scrollHorizontally="true"
-				android:singleLine="true"
-				android:text="@{@string/show_name_episode(history.showName, history.season, history.episode)}"
-				app:selected="@{true}"
-				tools:text="@string/show_name_episode" />
-
-			<TextView
-				android:id="@+id/episode_date"
-				style="@style/TextAppearance.AppCompat.Caption"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				tools:text="2011-09-19" />
-
-			<TextView
-				style="@style/TextAppearance.AppCompat.Caption"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="end|right"
-				android:text="@{history.providerQuality ?? @string/provider_quality(history.provider, history.quality)}"
-				tools:text="@string/provider_quality" />
-		</LinearLayout>
-	</RelativeLayout>
-</layout>
+		<TextView
+			android:id="@+id/episode_provider_quality"
+			style="@style/TextAppearance.AppCompat.Caption"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="end|right"
+			tools:text="@string/provider_quality" />
+	</LinearLayout>
+</RelativeLayout>

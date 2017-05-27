@@ -1,8 +1,10 @@
 package com.mgaetan89.showsrage.adapter
 
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import android.content.res.ColorStateList
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
+import android.support.v4.view.ViewCompat
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -13,7 +15,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
-import com.mgaetan89.showsrage.databinding.AdapterEpisodesListBinding
 import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.presenter.EpisodePresenter
 import io.realm.RealmRecyclerViewAdapter
@@ -23,19 +24,7 @@ class EpisodesAdapter(episodes: RealmResults<Episode>, val seasonNumber: Int, va
 	override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
 		val episode = this.getItem(position).takeIf { it != null && it.isValid } ?: return
 
-		holder?.bind(EpisodePresenter(episode))
-
-		holder?.name?.text = holder?.name?.resources?.getString(R.string.episode_name, this.getEpisodeNumber(position), episode.name)
-
-		if (holder?.status != null) {
-			val status = episode.getStatusTranslationResource()
-
-			holder.status.text = if (status != 0) {
-				holder.status.resources?.getString(status)
-			} else {
-				episode.status
-			}
-		}
+		holder?.bind(episode)
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
@@ -44,79 +33,82 @@ class EpisodesAdapter(episodes: RealmResults<Episode>, val seasonNumber: Int, va
 		return ViewHolder(view)
 	}
 
-	fun getEpisodeNumber(position: Int): Int {
-		if (this.reversed) {
-			return this.itemCount - position
-		}
-
-		return position + 1
-	}
-
 	inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener, PopupMenu.OnMenuItemClickListener {
-		val name: TextView?
-		val status: TextView?
-		private val actions: ImageView?
-		private val binding: AdapterEpisodesListBinding
+		private val actions = view.findViewById(R.id.episode_actions) as ImageView
+		private val date = view.findViewById(R.id.episode_date) as TextView
+		private val name = view.findViewById(R.id.episode_name) as TextView
+		private val quality = view.findViewById(R.id.episode_quality) as TextView
+		private val status = view.findViewById(R.id.episode_status) as TextView
 
 		init {
+			this.actions.setOnClickListener(this)
+			this.name.isSelected = true
+
 			view.setOnClickListener(this)
-
-			this.binding = DataBindingUtil.bind(view)
-
-			this.actions = this.binding.includeContent?.episodeActions
-			this.name = this.binding.includeContent?.episodeName
-			this.status = this.binding.includeContent?.episodeStatus
-
-			this.actions?.setOnClickListener(this)
 		}
 
-		fun bind(episode: EpisodePresenter) {
-			this.binding.setEpisode(episode)
+		fun bind(episode: Episode) {
+			val context = this.itemView.context
+			val presenter = EpisodePresenter(episode)
+
+			this.date.text = presenter.getAirDate() ?: context.getString(R.string.never)
+			this.name.text = context.getString(R.string.episode_name, this.getEpisodeNumber(this.adapterPosition), episode.name)
+			this.quality.text = presenter.getQuality()
+
+			val backgroundColor = ContextCompat.getColor(context, presenter.getStatusColor())
+			val status = episode.getStatusTranslationResource()
+			ViewCompat.setBackgroundTintList(this.status, ColorStateList.valueOf(backgroundColor))
+			this.status.text = if (status != 0) context.getString(status) else episode.status
 		}
 
-		override fun onClick(view: View?) {
-			val context = view?.context ?: return
-
-			if (view.id == R.id.episode_actions) {
-				if (this.actions != null) {
-					with(PopupMenu(context, this.actions)) {
-						inflate(R.menu.episode_action)
-						setOnMenuItemClickListener(this@ViewHolder)
-						show()
-					}
-				}
-			} else {
-				if (adapterPosition !in (0 until itemCount)) {
-					return
-				}
-
-				val episode = getItem(adapterPosition) ?: return
-
-				with(Intent(Constants.Intents.ACTION_EPISODE_SELECTED)) {
-					putExtra(Constants.Bundle.EPISODE_ID, episode.id)
-					putExtra(Constants.Bundle.EPISODE_NUMBER, getEpisodeNumber(adapterPosition))
-					putExtra(Constants.Bundle.EPISODES_COUNT, itemCount)
-					putExtra(Constants.Bundle.INDEXER_ID, indexerId)
-					putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)
-
-					LocalBroadcastManager.getInstance(context).sendBroadcast(this)
-				}
+		override fun onClick(view: View) {
+			when (view.id) {
+				R.id.episode_actions -> this.showActions()
+				else -> this.notifyEpisodeSelected()
 			}
 		}
 
-		override fun onMenuItemClick(item: MenuItem?): Boolean {
-			val context = this.actions?.context ?: return false
-
-			with(Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED)) {
-				putExtra(Constants.Bundle.EPISODE_NUMBER, getEpisodeNumber(adapterPosition))
-				putExtra(Constants.Bundle.INDEXER_ID, indexerId)
-				putExtra(Constants.Bundle.MENU_ID, item?.itemId)
-				putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)
-
-				LocalBroadcastManager.getInstance(context).sendBroadcast(this)
-			}
+		override fun onMenuItemClick(item: MenuItem): Boolean {
+			this.notifyEpisodeActionSelected(item)
 
 			return true
+		}
+
+		private fun getEpisodeNumber(position: Int) = if (reversed) itemCount - position else position + 1
+
+		private fun notifyEpisodeActionSelected(item: MenuItem) {
+			Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED).also {
+				it.putExtra(Constants.Bundle.EPISODE_NUMBER, this.getEpisodeNumber(this.adapterPosition))
+				it.putExtra(Constants.Bundle.INDEXER_ID, indexerId)
+				it.putExtra(Constants.Bundle.MENU_ID, item.itemId)
+				it.putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)
+
+				LocalBroadcastManager.getInstance(this.itemView.context).sendBroadcast(it)
+			}
+		}
+
+		private fun notifyEpisodeSelected() {
+			if (this.adapterPosition in (0 until itemCount)) {
+				val episode = getItem(this.adapterPosition).takeIf { it != null && it.isValid } ?: return
+
+				Intent(Constants.Intents.ACTION_EPISODE_SELECTED).also {
+					it.putExtra(Constants.Bundle.EPISODE_ID, episode.id)
+					it.putExtra(Constants.Bundle.EPISODE_NUMBER, this.getEpisodeNumber(this.adapterPosition))
+					it.putExtra(Constants.Bundle.EPISODES_COUNT, itemCount)
+					it.putExtra(Constants.Bundle.INDEXER_ID, indexerId)
+					it.putExtra(Constants.Bundle.SEASON_NUMBER, seasonNumber)
+
+					LocalBroadcastManager.getInstance(this.itemView.context).sendBroadcast(it)
+				}
+			}
+		}
+
+		private fun showActions() {
+			PopupMenu(this.actions.context, this.actions).also {
+				it.inflate(R.menu.episode_action)
+				it.setOnMenuItemClickListener(this)
+				it.show()
+			}
 		}
 	}
 }
