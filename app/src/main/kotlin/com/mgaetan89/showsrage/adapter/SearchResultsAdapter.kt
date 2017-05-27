@@ -14,44 +14,42 @@ import com.mgaetan89.showsrage.model.SearchResultItem
 import com.mgaetan89.showsrage.presenter.SearchResultPresenter
 
 class SearchResultsAdapter(val searchResults: List<SearchResultItem>) : RecyclerView.Adapter<SearchResultsAdapter.ViewHolder>() {
-    override fun getItemCount() = this.searchResults.size
+	override fun getItemCount() = this.searchResults.size
 
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        val searchResult = this.searchResults[position]
+	override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+		val searchResult = this.searchResults[position]
 
-        holder?.bind(SearchResultPresenter(searchResult))
-    }
+		holder?.bind(SearchResultPresenter(searchResult))
+	}
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.adapter_search_results_list, parent, false)
+	override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
+		val view = LayoutInflater.from(parent?.context).inflate(R.layout.adapter_search_results_list, parent, false)
 
-        return ViewHolder(view)
-    }
+		return ViewHolder(view)
+	}
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
-        private val binding: AdapterSearchResultsListBinding
+	inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+		private val binding: AdapterSearchResultsListBinding = DataBindingUtil.bind(view)
 
-        init {
-            view.setOnClickListener(this)
+		init {
+			view.setOnClickListener(this)
+		}
 
-            this.binding = DataBindingUtil.bind(view)
-        }
+		fun bind(searchResult: SearchResultPresenter) {
+			this.binding.setResult(searchResult)
+		}
 
-        fun bind(searchResult: SearchResultPresenter) {
-            this.binding.setResult(searchResult)
-        }
+		override fun onClick(view: View?) {
+			val context = view?.context ?: return
+			val id = searchResults.getOrNull(this.adapterPosition)?.getIndexerId() ?: return
 
-        override fun onClick(view: View?) {
-            val context = view?.context ?: return
-            val id = searchResults.getOrNull(this.adapterPosition)?.getIndexerId() ?: return
+			if (id != 0) {
+				with(Intent(Constants.Intents.ACTION_SEARCH_RESULT_SELECTED)) {
+					putExtra(Constants.Bundle.INDEXER_ID, id)
 
-            if (id != 0) {
-                with(Intent(Constants.Intents.ACTION_SEARCH_RESULT_SELECTED)) {
-                    putExtra(Constants.Bundle.INDEXER_ID, id)
-
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(this)
-                }
-            }
-        }
-    }
+					LocalBroadcastManager.getInstance(context).sendBroadcast(this)
+				}
+			}
+		}
+	}
 }

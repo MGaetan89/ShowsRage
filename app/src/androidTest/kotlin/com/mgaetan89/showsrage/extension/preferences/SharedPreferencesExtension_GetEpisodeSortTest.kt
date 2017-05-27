@@ -18,46 +18,46 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_GetEpisodeSortTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun getEpisodeSort_Ascending() {
-        this.preference.edit().putBoolean(Fields.EPISODE_SORT.field, true).apply()
+	@Test
+	fun getEpisodeSort_Ascending() {
+		this.preference.edit().putBoolean(Fields.EPISODE_SORT.field, true).apply()
 
-        val episodeSort = this.preference.getEpisodeSort()
+		val episodeSort = this.preference.getEpisodeSort()
 
-        assertThat(episodeSort).isEqualTo(Sort.ASCENDING)
-    }
+		assertThat(episodeSort).isEqualTo(Sort.ASCENDING)
+	}
 
-    @Test
-    fun getEpisodeSort_Descending() {
-        this.preference.edit().putBoolean(Fields.EPISODE_SORT.field, false).apply()
+	@Test
+	fun getEpisodeSort_Descending() {
+		this.preference.edit().putBoolean(Fields.EPISODE_SORT.field, false).apply()
 
-        val episodeSort = this.preference.getEpisodeSort()
+		val episodeSort = this.preference.getEpisodeSort()
 
-        assertThat(episodeSort).isEqualTo(Sort.DESCENDING)
-    }
+		assertThat(episodeSort).isEqualTo(Sort.DESCENDING)
+	}
 
-    @Test
-    fun getEpisodeSort_Missing() {
-        assertThat(this.preference.contains(Fields.EPISODE_SORT.field)).isFalse()
+	@Test
+	fun getEpisodeSort_Missing() {
+		assertThat(this.preference.contains(Fields.EPISODE_SORT.field)).isFalse()
 
-        val episodeSort = this.preference.getEpisodeSort()
+		val episodeSort = this.preference.getEpisodeSort()
 
-        assertThat(episodeSort).isEqualTo(Sort.DESCENDING)
-    }
+		assertThat(episodeSort).isEqualTo(Sort.DESCENDING)
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

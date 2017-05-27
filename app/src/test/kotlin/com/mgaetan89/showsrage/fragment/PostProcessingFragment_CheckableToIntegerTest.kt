@@ -11,30 +11,30 @@ import org.mockito.Mockito.mock
 
 @RunWith(Parameterized::class)
 class PostProcessingFragment_CheckableToIntegerTest(val checkable: Checkable?, val checked: Boolean, val result: Int) {
-    @Before
-    fun before() {
-        if (this.checkable != null) {
-            this.checkable.isChecked = this.checked
+	@Before
+	fun before() {
+		if (this.checkable != null) {
+			this.checkable.isChecked = this.checked
 
-            `when`(this.checkable.isChecked).thenReturn(this.checked)
-        }
-    }
+			`when`(this.checkable.isChecked).thenReturn(this.checked)
+		}
+	}
 
-    @Test
-    fun checkableToInteger() {
-        assertThat(PostProcessingFragment.checkableToInteger(this.checkable)).isEqualTo(this.result)
-    }
+	@Test
+	fun checkableToInteger() {
+		assertThat(PostProcessingFragment.checkableToInteger(this.checkable)).isEqualTo(this.result)
+	}
 
-    companion object {
-        @JvmStatic
-        @Parameterized.Parameters
-        fun data(): Collection<Array<Any?>> {
-            return listOf(
-                    arrayOf(null, false, 0),
-                    arrayOf(null, true, 0),
-                    arrayOf<Any?>(mock(Checkable::class.java), false, 0),
-                    arrayOf<Any?>(mock(Checkable::class.java), true, 1)
-            )
-        }
-    }
+	companion object {
+		@JvmStatic
+		@Parameterized.Parameters
+		fun data(): Collection<Array<Any?>> {
+			return listOf(
+					arrayOf(null, false, 0),
+					arrayOf(null, true, 0),
+					arrayOf<Any?>(mock(Checkable::class.java), false, 0),
+					arrayOf<Any?>(mock(Checkable::class.java), true, 1)
+			)
+		}
+	}
 }

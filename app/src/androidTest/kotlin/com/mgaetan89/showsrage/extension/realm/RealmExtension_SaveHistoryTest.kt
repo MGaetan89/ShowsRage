@@ -10,51 +10,51 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_SaveHistoryTest : RealmTest() {
-    @Before
-    fun before() {
-        assertThat(this.getHistory()).hasSize(100)
-    }
+	@Before
+	fun before() {
+		assertThat(this.getHistory()).hasSize(100)
+	}
 
-    @Test
-    fun saveHistory() {
-        val historiesToSave = (1..3).map {
-            History().apply {
-                this.episode = it
-                this.date = "date_$it"
-                this.indexerId = INDEXER_ID
-                this.season = it * 10
-                this.status = "status_$it"
-            }
-        }
+	@Test
+	fun saveHistory() {
+		val historiesToSave = (1..3).map {
+			History().apply {
+				this.episode = it
+				this.date = "date_$it"
+				this.indexerId = INDEXER_ID
+				this.season = it * 10
+				this.status = "status_$it"
+			}
+		}
 
-        this.realm.saveHistory(historiesToSave)
+		this.realm.saveHistory(historiesToSave)
 
-        val histories = this.getHistory()
+		val histories = this.getHistory()
 
-        assertThat(histories).hasSize(3)
+		assertThat(histories).hasSize(3)
 
-        for (i in 1..3) {
-            val history = histories[i - 1]
+		for (i in 1..3) {
+			val history = histories[i - 1]
 
-            assertThat(history.episode).isEqualTo(i)
-            assertThat(history.date).isEqualTo("date_$i")
-            assertThat(history.id).isEqualTo("date_${i}_status_${i}_${INDEXER_ID}_${i * 10}_$i")
-            assertThat(history.indexerId).isEqualTo(INDEXER_ID)
-            assertThat(history.season).isEqualTo(i * 10)
-            assertThat(history.status).isEqualTo("status_$i")
-        }
-    }
+			assertThat(history.episode).isEqualTo(i)
+			assertThat(history.date).isEqualTo("date_$i")
+			assertThat(history.id).isEqualTo("date_${i}_status_${i}_${INDEXER_ID}_${i * 10}_$i")
+			assertThat(history.indexerId).isEqualTo(INDEXER_ID)
+			assertThat(history.season).isEqualTo(i * 10)
+			assertThat(history.status).isEqualTo("status_$i")
+		}
+	}
 
-    @Test
-    fun saveHistory_empty() {
-        this.realm.saveHistory(emptyList())
+	@Test
+	fun saveHistory_empty() {
+		this.realm.saveHistory(emptyList())
 
-        assertThat(this.getHistory()).hasSize(0)
-    }
+		assertThat(this.getHistory()).hasSize(0)
+	}
 
-    private fun getHistory() = this.realm.where(History::class.java).findAll()
+	private fun getHistory() = this.realm.where(History::class.java).findAll()
 
-    companion object {
-        private const val INDEXER_ID = 73838
-    }
+	companion object {
+		private const val INDEXER_ID = 73838
+	}
 }

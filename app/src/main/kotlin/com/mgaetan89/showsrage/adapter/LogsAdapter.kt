@@ -13,25 +13,21 @@ import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
 
 class LogsAdapter(logs: RealmResults<LogEntry>) : RealmRecyclerViewAdapter<LogEntry, LogsAdapter.ViewHolder>(logs, true) {
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        holder?.bind(LogPresenter(this.getItem(position)))
-    }
+	override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+		holder?.bind(LogPresenter(this.getItem(position)))
+	}
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.adapter_logs_list, parent, false)
+	override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
+		val view = LayoutInflater.from(parent?.context).inflate(R.layout.adapter_logs_list, parent, false)
 
-        return ViewHolder(view)
-    }
+		return ViewHolder(view)
+	}
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val binding: AdapterLogsListBinding
+	class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+		private val binding: AdapterLogsListBinding = DataBindingUtil.bind(view)
 
-        init {
-            this.binding = DataBindingUtil.bind(view)
-        }
-
-        fun bind(logEntry: LogPresenter) {
-            this.binding.log = logEntry
-        }
-    }
+		fun bind(logEntry: LogPresenter) {
+			this.binding.log = logEntry
+		}
+	}
 }

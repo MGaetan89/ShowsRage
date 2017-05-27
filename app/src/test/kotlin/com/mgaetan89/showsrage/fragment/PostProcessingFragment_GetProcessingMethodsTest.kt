@@ -17,55 +17,55 @@ import org.mockito.Mockito.spy
 
 @RunWith(Parameterized::class)
 class PostProcessingFragment_GetProcessingMethodsTest(val spinner: Spinner?, val processingMethod: String?) {
-    private lateinit var fragment: PostProcessingFragment
+	private lateinit var fragment: PostProcessingFragment
 
-    @Before
-    fun before() {
-        val resources = mock(Resources::class.java)
-        `when`(resources.getStringArray(R.array.processing_methods_values)).thenReturn(arrayOf("", "copy", "move", "hardlink", "symlink"))
+	@Before
+	fun before() {
+		val resources = mock(Resources::class.java)
+		`when`(resources.getStringArray(R.array.processing_methods_values)).thenReturn(arrayOf("", "copy", "move", "hardlink", "symlink"))
 
-        val activity = mock(FragmentActivity::class.java)
-        `when`(activity.resources).thenReturn(resources)
+		val activity = mock(FragmentActivity::class.java)
+		`when`(activity.resources).thenReturn(resources)
 
-        this.fragment = spy(PostProcessingFragment())
+		this.fragment = spy(PostProcessingFragment())
 
-        try {
-            val fragmentHostField = Fragment::class.java.getDeclaredField("mHost")
-            fragmentHostField.isAccessible = true
-            fragmentHostField.set(this.fragment, EmptyFragmentHostCallback(activity))
-        } catch (ignored: IllegalAccessException) {
-        } catch (ignored: NoSuchFieldException) {
-        }
+		try {
+			val fragmentHostField = Fragment::class.java.getDeclaredField("mHost")
+			fragmentHostField.isAccessible = true
+			fragmentHostField.set(this.fragment, EmptyFragmentHostCallback(activity))
+		} catch (ignored: IllegalAccessException) {
+		} catch (ignored: NoSuchFieldException) {
+		}
 
-        `when`(this.fragment.resources).thenReturn(resources)
-    }
+		`when`(this.fragment.resources).thenReturn(resources)
+	}
 
-    @Test
-    fun getProcessingMethod() {
-        assertThat(this.fragment.getProcessingMethod(this.spinner)).isEqualTo(this.processingMethod)
-    }
+	@Test
+	fun getProcessingMethod() {
+		assertThat(this.fragment.getProcessingMethod(this.spinner)).isEqualTo(this.processingMethod)
+	}
 
-    companion object {
-        @JvmStatic
-        @Parameterized.Parameters
-        fun data(): Collection<Array<Any?>> {
-            return listOf(
-                    arrayOf<Any?>(null, null),
-                    arrayOf<Any?>(getMockedSpinner(-1), null),
-                    arrayOf<Any?>(getMockedSpinner(0), null),
-                    arrayOf<Any?>(getMockedSpinner(1), "copy"),
-                    arrayOf<Any?>(getMockedSpinner(2), "move"),
-                    arrayOf<Any?>(getMockedSpinner(3), "hardlink"),
-                    arrayOf<Any?>(getMockedSpinner(4), "symlink"),
-                    arrayOf<Any?>(getMockedSpinner(5), null)
-            )
-        }
+	companion object {
+		@JvmStatic
+		@Parameterized.Parameters
+		fun data(): Collection<Array<Any?>> {
+			return listOf(
+					arrayOf<Any?>(null, null),
+					arrayOf<Any?>(getMockedSpinner(-1), null),
+					arrayOf<Any?>(getMockedSpinner(0), null),
+					arrayOf<Any?>(getMockedSpinner(1), "copy"),
+					arrayOf<Any?>(getMockedSpinner(2), "move"),
+					arrayOf<Any?>(getMockedSpinner(3), "hardlink"),
+					arrayOf<Any?>(getMockedSpinner(4), "symlink"),
+					arrayOf<Any?>(getMockedSpinner(5), null)
+			)
+		}
 
-        private fun getMockedSpinner(selectedItemPosition: Int): Spinner {
-            val spinner = mock(Spinner::class.java)
-            `when`(spinner.selectedItemPosition).thenReturn(selectedItemPosition)
+		private fun getMockedSpinner(selectedItemPosition: Int): Spinner {
+			val spinner = mock(Spinner::class.java)
+			`when`(spinner.selectedItemPosition).thenReturn(selectedItemPosition)
 
-            return spinner
-        }
-    }
+			return spinner
+		}
+	}
 }

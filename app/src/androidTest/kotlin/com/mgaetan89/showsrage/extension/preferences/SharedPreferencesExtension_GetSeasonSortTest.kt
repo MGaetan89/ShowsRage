@@ -18,46 +18,46 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_GetSeasonSortTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun getSeasonSort_Ascending() {
-        this.preference.edit().putBoolean(Fields.SEASON_SORT.field, true).apply()
+	@Test
+	fun getSeasonSort_Ascending() {
+		this.preference.edit().putBoolean(Fields.SEASON_SORT.field, true).apply()
 
-        val seasonSort = this.preference.getSeasonSort()
+		val seasonSort = this.preference.getSeasonSort()
 
-        assertThat(seasonSort).isEqualTo(Sort.ASCENDING)
-    }
+		assertThat(seasonSort).isEqualTo(Sort.ASCENDING)
+	}
 
-    @Test
-    fun getSeasonSort_Descending() {
-        this.preference.edit().putBoolean(Fields.SEASON_SORT.field, false).apply()
+	@Test
+	fun getSeasonSort_Descending() {
+		this.preference.edit().putBoolean(Fields.SEASON_SORT.field, false).apply()
 
-        val seasonSort = this.preference.getSeasonSort()
+		val seasonSort = this.preference.getSeasonSort()
 
-        assertThat(seasonSort).isEqualTo(Sort.DESCENDING)
-    }
+		assertThat(seasonSort).isEqualTo(Sort.DESCENDING)
+	}
 
-    @Test
-    fun getSeasonSort_Missing() {
-        assertThat(this.preference.contains(Fields.SEASON_SORT.field)).isFalse()
+	@Test
+	fun getSeasonSort_Missing() {
+		assertThat(this.preference.contains(Fields.SEASON_SORT.field)).isFalse()
 
-        val seasonSort = this.preference.getSeasonSort()
+		val seasonSort = this.preference.getSeasonSort()
 
-        assertThat(seasonSort).isEqualTo(Sort.DESCENDING)
-    }
+		assertThat(seasonSort).isEqualTo(Sort.DESCENDING)
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

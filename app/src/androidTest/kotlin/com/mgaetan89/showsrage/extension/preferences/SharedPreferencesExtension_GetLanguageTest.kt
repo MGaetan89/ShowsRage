@@ -17,55 +17,55 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_GetLanguageTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun getLanguage() {
-        this.preference.edit().putString(Fields.DISPLAY_LANGUAGE.field, "fr").apply()
+	@Test
+	fun getLanguage() {
+		this.preference.edit().putString(Fields.DISPLAY_LANGUAGE.field, "fr").apply()
 
-        val language = this.preference.getLanguage()
+		val language = this.preference.getLanguage()
 
-        assertThat(language).isEqualTo("fr")
-    }
+		assertThat(language).isEqualTo("fr")
+	}
 
-    @Test
-    fun getLanguage_Empty() {
-        this.preference.edit().putString(Fields.DISPLAY_LANGUAGE.field, "").apply()
+	@Test
+	fun getLanguage_Empty() {
+		this.preference.edit().putString(Fields.DISPLAY_LANGUAGE.field, "").apply()
 
-        val language = this.preference.getLanguage()
+		val language = this.preference.getLanguage()
 
-        assertThat(language).isEmpty()
-    }
+		assertThat(language).isEmpty()
+	}
 
-    @Test
-    fun getLanguage_Missing() {
-        assertThat(this.preference.contains(Fields.DISPLAY_LANGUAGE.field)).isFalse()
+	@Test
+	fun getLanguage_Missing() {
+		assertThat(this.preference.contains(Fields.DISPLAY_LANGUAGE.field)).isFalse()
 
-        val language = this.preference.getLanguage()
+		val language = this.preference.getLanguage()
 
-        assertThat(language).isEmpty()
-    }
+		assertThat(language).isEmpty()
+	}
 
-    @Test
-    fun getLanguage_Null() {
-        this.preference.edit().putString(Fields.DISPLAY_LANGUAGE.field, null).apply()
+	@Test
+	fun getLanguage_Null() {
+		this.preference.edit().putString(Fields.DISPLAY_LANGUAGE.field, null).apply()
 
-        val language = this.preference.getLanguage()
+		val language = this.preference.getLanguage()
 
-        assertThat(language).isEmpty()
-    }
+		assertThat(language).isEmpty()
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

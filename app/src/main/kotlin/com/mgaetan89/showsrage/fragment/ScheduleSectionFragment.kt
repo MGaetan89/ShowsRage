@@ -18,64 +18,64 @@ import io.realm.RealmChangeListener
 import io.realm.RealmResults
 
 class ScheduleSectionFragment : Fragment(), RealmChangeListener<RealmResults<Schedule>> {
-    private lateinit var adapter: ScheduleAdapter
-    private var emptyView: TextView? = null
-    private lateinit var realm: Realm
-    private var recyclerView: RecyclerView? = null
-    private lateinit var schedules: RealmResults<Schedule>
+	private lateinit var adapter: ScheduleAdapter
+	private var emptyView: TextView? = null
+	private lateinit var realm: Realm
+	private var recyclerView: RecyclerView? = null
+	private lateinit var schedules: RealmResults<Schedule>
 
-    override fun onChange(schedules: RealmResults<Schedule>) {
-        if (this.schedules.isEmpty()) {
-            this.emptyView?.visibility = View.VISIBLE
-            this.recyclerView?.visibility = View.GONE
-        } else {
-            this.emptyView?.visibility = View.GONE
-            this.recyclerView?.visibility = View.VISIBLE
-        }
+	override fun onChange(schedules: RealmResults<Schedule>) {
+		if (this.schedules.isEmpty()) {
+			this.emptyView?.visibility = View.VISIBLE
+			this.recyclerView?.visibility = View.GONE
+		} else {
+			this.emptyView?.visibility = View.GONE
+			this.recyclerView?.visibility = View.VISIBLE
+		}
 
-        this.adapter.notifyDataSetChanged()
-    }
+		this.adapter.notifyDataSetChanged()
+	}
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_schedule_section, container, false)
+	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		val view = inflater?.inflate(R.layout.fragment_schedule_section, container, false)
 
-        if (view != null) {
-            this.emptyView = view.findViewById(android.R.id.empty) as TextView?
-            this.recyclerView = view.findViewById(android.R.id.list) as RecyclerView?
+		if (view != null) {
+			this.emptyView = view.findViewById(android.R.id.empty) as TextView?
+			this.recyclerView = view.findViewById(android.R.id.list) as RecyclerView?
 
-            if (this.recyclerView != null) {
-                val columnCount = this.resources.getInteger(R.integer.shows_column_count)
+			if (this.recyclerView != null) {
+				val columnCount = this.resources.getInteger(R.integer.shows_column_count)
 
-                this.recyclerView!!.layoutManager = GridLayoutManager(this.activity, columnCount)
-            }
-        }
+				this.recyclerView!!.layoutManager = GridLayoutManager(this.activity, columnCount)
+			}
+		}
 
-        return view
-    }
+		return view
+	}
 
-    override fun onDestroyView() {
-        this.emptyView = null
-        this.recyclerView = null
+	override fun onDestroyView() {
+		this.emptyView = null
+		this.recyclerView = null
 
-        super.onDestroyView()
-    }
+		super.onDestroyView()
+	}
 
-    override fun onStart() {
-        super.onStart()
+	override fun onStart() {
+		super.onStart()
 
-        this.realm = Realm.getDefaultInstance()
-        this.schedules = this.realm.getSchedule(this.arguments.getString(Constants.Bundle.SCHEDULE_SECTION, ""), this)
-        this.adapter = ScheduleAdapter(this.schedules)
-        this.recyclerView?.adapter = this.adapter
-    }
+		this.realm = Realm.getDefaultInstance()
+		this.schedules = this.realm.getSchedule(this.arguments.getString(Constants.Bundle.SCHEDULE_SECTION, ""), this)
+		this.adapter = ScheduleAdapter(this.schedules)
+		this.recyclerView?.adapter = this.adapter
+	}
 
-    override fun onStop() {
-        if (this.schedules.isValid) {
-            this.schedules.removeAllChangeListeners()
-        }
+	override fun onStop() {
+		if (this.schedules.isValid) {
+			this.schedules.removeAllChangeListeners()
+		}
 
-        this.realm.close()
+		this.realm.close()
 
-        super.onStop()
-    }
+		super.onStop()
+	}
 }

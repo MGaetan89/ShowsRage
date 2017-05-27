@@ -6,30 +6,30 @@ import com.mgaetan89.showsrage.R
 import io.realm.Realm
 
 class SettingsBehaviorFragment : SettingsFragment() {
-    override fun getTitleResourceId() = R.string.behavior
+	override fun getTitleResourceId() = R.string.behavior
 
-    override fun getXmlResourceFile() = R.xml.settings_behavior
+	override fun getXmlResourceFile() = R.xml.settings_behavior
 
-    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-        if ("behavior_clear_local" == preference?.key) {
-            this.confirmClearLocalData()
+	override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+		if ("behavior_clear_local" == preference?.key) {
+			this.confirmClearLocalData()
 
-            return true
-        }
+			return true
+		}
 
-        return super.onPreferenceTreeClick(preference)
-    }
+		return super.onPreferenceTreeClick(preference)
+	}
 
-    private fun confirmClearLocalData() {
-        AlertDialog.Builder(this.activity)
-                .setMessage(R.string.clear_local_data_confirm)
-                .setPositiveButton(R.string.clear, { _, _ ->
-                    Realm.getDefaultInstance().let {
-                        it.executeTransaction(Realm::deleteAll)
-                        it.close()
-                    }
-                })
-                .setNegativeButton(android.R.string.cancel, null)
-                .show()
-    }
+	private fun confirmClearLocalData() {
+		AlertDialog.Builder(this.activity)
+				.setMessage(R.string.clear_local_data_confirm)
+				.setPositiveButton(R.string.clear, { _, _ ->
+					Realm.getDefaultInstance().let {
+						it.executeTransaction(Realm::deleteAll)
+						it.close()
+					}
+				})
+				.setNegativeButton(android.R.string.cancel, null)
+				.show()
+	}
 }

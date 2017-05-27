@@ -11,16 +11,16 @@ import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 
 class Setters_SetTextColorResTest {
-    @Test
-    fun setTextColorRes() {
-        val context = mock(Context::class.java)
-        `when`(context.resources).thenReturn(mock(Resources::class.java))
+	@Test
+	fun setTextColorRes() {
+		val context = mock(Context::class.java)
+		`when`(context.resources).thenReturn(mock(Resources::class.java))
 
-        val textView = mock(TextView::class.java)
-        `when`(textView.context).thenReturn(context)
+		val textView = mock(TextView::class.java)
+		`when`(textView.context).thenReturn(context)
 
-        setTextColorRes(textView, R.color.primary)
+		setTextColorRes(textView, R.color.primary)
 
-        verify(textView).setTextColor(anyInt())
-    }
+		verify(textView).setTextColor(anyInt())
+	}
 }

@@ -13,26 +13,26 @@ import org.mockito.Mockito.mock
 
 @RunWith(Parameterized::class)
 class AddShowFragment_OnQueryTextSubmitTest(val query: String?, val valid: Boolean) {
-    private lateinit var fragment: AddShowFragment
+	private lateinit var fragment: AddShowFragment
 
-    @Before
-    fun before() {
-        val preferences = mock(SharedPreferences::class.java)
-        `when`(preferences.getString(anyString(), anyString())).thenReturn("")
+	@Before
+	fun before() {
+		val preferences = mock(SharedPreferences::class.java)
+		`when`(preferences.getString(anyString(), anyString())).thenReturn("")
 
-        SickRageApi.instance.init(preferences)
+		SickRageApi.instance.init(preferences)
 
-        this.fragment = AddShowFragment()
-    }
+		this.fragment = AddShowFragment()
+	}
 
-    @Test
-    fun onQueryTextSubmit() {
-        assertThat(this.fragment.onQueryTextSubmit(this.query)).isEqualTo(this.valid)
-    }
+	@Test
+	fun onQueryTextSubmit() {
+		assertThat(this.fragment.onQueryTextSubmit(this.query)).isEqualTo(this.valid)
+	}
 
-    companion object {
-        @JvmStatic
-        @Parameterized.Parameters
-        fun data() = AddShowFragment_IsQueryValidTest.data()
-    }
+	companion object {
+		@JvmStatic
+		@Parameterized.Parameters
+		fun data() = AddShowFragment_IsQueryValidTest.data()
+	}
 }

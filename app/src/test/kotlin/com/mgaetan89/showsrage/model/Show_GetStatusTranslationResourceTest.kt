@@ -10,34 +10,34 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class Show_GetStatusTranslationResourceTest(val show: Show, val statusTranslationResource: Int) {
-    @Test
-    fun getStatusTranslationResource() {
-        assertThat(this.show.getStatusTranslationResource()).isEqualTo(this.statusTranslationResource)
-    }
+	@Test
+	fun getStatusTranslationResource() {
+		assertThat(this.show.getStatusTranslationResource()).isEqualTo(this.statusTranslationResource)
+	}
 
-    companion object {
-        @JvmStatic
-        @Parameterized.Parameters
-        fun data(): Collection<Array<Any>> {
-            val gson = SickRageApi.gson
+	companion object {
+		@JvmStatic
+		@Parameterized.Parameters
+		fun data(): Collection<Array<Any>> {
+			val gson = SickRageApi.gson
 
-            return listOf(
-                    arrayOf(getJsonForStatus(gson, null), 0),
-                    arrayOf(getJsonForStatus(gson, ""), 0),
-                    arrayOf(getJsonForStatus(gson, "continuing"), R.string.continuing),
-                    arrayOf(getJsonForStatus(gson, "Continuing"), R.string.continuing),
-                    arrayOf(getJsonForStatus(gson, "ended"), R.string.ended),
-                    arrayOf(getJsonForStatus(gson, "Ended"), R.string.ended),
-                    arrayOf(getJsonForStatus(gson, "unknown"), R.string.unknown),
-                    arrayOf(getJsonForStatus(gson, "Unknown"), R.string.unknown),
-                    arrayOf(gson.fromJson("{}", Show::class.java), 0),
-                    arrayOf(getJsonForStatus(gson, "status"), 0),
-                    arrayOf(getJsonForStatus(gson, "Status"), 0)
-            )
-        }
+			return listOf(
+					arrayOf(getJsonForStatus(gson, null), 0),
+					arrayOf(getJsonForStatus(gson, ""), 0),
+					arrayOf(getJsonForStatus(gson, "continuing"), R.string.continuing),
+					arrayOf(getJsonForStatus(gson, "Continuing"), R.string.continuing),
+					arrayOf(getJsonForStatus(gson, "ended"), R.string.ended),
+					arrayOf(getJsonForStatus(gson, "Ended"), R.string.ended),
+					arrayOf(getJsonForStatus(gson, "unknown"), R.string.unknown),
+					arrayOf(getJsonForStatus(gson, "Unknown"), R.string.unknown),
+					arrayOf(gson.fromJson("{}", Show::class.java), 0),
+					arrayOf(getJsonForStatus(gson, "status"), 0),
+					arrayOf(getJsonForStatus(gson, "Status"), 0)
+			)
+		}
 
-        private fun getJsonForStatus(gson: Gson, status: String?): Show {
-            return gson.fromJson("{status: \"$status\"}", Show::class.java)
-        }
-    }
+		private fun getJsonForStatus(gson: Gson, status: String?): Show {
+			return gson.fromJson("{status: \"$status\"}", Show::class.java)
+		}
+	}
 }

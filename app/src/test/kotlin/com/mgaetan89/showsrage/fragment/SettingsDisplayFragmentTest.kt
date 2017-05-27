@@ -5,13 +5,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class SettingsDisplayFragmentTest {
-    @Test
-    fun getTitleResourceId() {
-        assertThat(SettingsDisplayFragment().getTitleResourceId()).isEqualTo(R.string.display)
-    }
+	@Test
+	fun getTitleResourceId() {
+		assertThat(SettingsDisplayFragment().getTitleResourceId()).isEqualTo(R.string.display)
+	}
 
-    @Test
-    fun getXmlResourceFile() {
-        assertThat(SettingsDisplayFragment().getXmlResourceFile()).isEqualTo(R.xml.settings_display)
-    }
+	@Test
+	fun getXmlResourceFile() {
+		assertThat(SettingsDisplayFragment().getXmlResourceFile()).isEqualTo(R.xml.settings_display)
+	}
 }

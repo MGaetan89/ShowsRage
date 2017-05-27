@@ -17,55 +17,55 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_GetServerUsernameTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun getServerUsername() {
-        this.preference.edit().putString(Fields.SERVER_USERNAME.field, "serverUsername").apply()
+	@Test
+	fun getServerUsername() {
+		this.preference.edit().putString(Fields.SERVER_USERNAME.field, "serverUsername").apply()
 
-        val serverUsername = this.preference.getServerUsername()
+		val serverUsername = this.preference.getServerUsername()
 
-        assertThat(serverUsername).isEqualTo("serverUsername")
-    }
+		assertThat(serverUsername).isEqualTo("serverUsername")
+	}
 
-    @Test
-    fun getServerUsername_Empty() {
-        this.preference.edit().putString(Fields.SERVER_USERNAME.field, "").apply()
+	@Test
+	fun getServerUsername_Empty() {
+		this.preference.edit().putString(Fields.SERVER_USERNAME.field, "").apply()
 
-        val serverUsername = this.preference.getServerUsername()
+		val serverUsername = this.preference.getServerUsername()
 
-        assertThat(serverUsername).isEmpty()
-    }
+		assertThat(serverUsername).isEmpty()
+	}
 
-    @Test
-    fun getServerUsername_Missing() {
-        assertThat(this.preference.contains(Fields.SERVER_USERNAME.field)).isFalse()
+	@Test
+	fun getServerUsername_Missing() {
+		assertThat(this.preference.contains(Fields.SERVER_USERNAME.field)).isFalse()
 
-        val serverUsername = this.preference.getServerUsername()
+		val serverUsername = this.preference.getServerUsername()
 
-        assertThat(serverUsername).isNull()
-    }
+		assertThat(serverUsername).isNull()
+	}
 
-    @Test
-    fun getServerUsername_Null() {
-        this.preference.edit().putString(Fields.SERVER_USERNAME.field, null).apply()
+	@Test
+	fun getServerUsername_Null() {
+		this.preference.edit().putString(Fields.SERVER_USERNAME.field, null).apply()
 
-        val serverUsername = this.preference.getServerUsername()
+		val serverUsername = this.preference.getServerUsername()
 
-        assertThat(serverUsername).isNull()
-    }
+		assertThat(serverUsername).isNull()
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

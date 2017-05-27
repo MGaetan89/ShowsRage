@@ -11,32 +11,32 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_GetOmdbEpisodesTest : RealmTest() {
-    @Before
-    fun before() {
-        this.realm.isAutoRefresh = true
-    }
+	@Before
+	fun before() {
+		this.realm.isAutoRefresh = true
+	}
 
-    @Test
-    @UiThreadTest
-    fun getEpisodes() {
-        this.realm.getEpisodes("tt2193021_4_18", RealmChangeListener {
-            it.removeAllChangeListeners()
+	@Test
+	@UiThreadTest
+	fun getEpisodes() {
+		this.realm.getEpisodes("tt2193021_4_18", RealmChangeListener {
+			it.removeAllChangeListeners()
 
-            assertThat(it).hasSize(1)
-            assertThat(it.first().id).isEqualTo("tt2193021_4_18")
-            assertThat(it.first().title).isEqualTo("Eleven-Fifty-Nine")
-        })
-    }
+			assertThat(it).hasSize(1)
+			assertThat(it.first().id).isEqualTo("tt2193021_4_18")
+			assertThat(it.first().title).isEqualTo("Eleven-Fifty-Nine")
+		})
+	}
 
-    @Test
-    @UiThreadTest
-    fun getEpisodes_notFound() {
-        this.realm.getEpisodes("0_0_0", RealmChangeListener {
-            it.removeAllChangeListeners()
+	@Test
+	@UiThreadTest
+	fun getEpisodes_notFound() {
+		this.realm.getEpisodes("0_0_0", RealmChangeListener {
+			it.removeAllChangeListeners()
 
-            assertThat(it).hasSize(1)
-            assertThat(it.first().id).isEqualTo("0_0_0")
-            assertThat(it.first().title).isNull()
-        })
-    }
+			assertThat(it).hasSize(1)
+			assertThat(it.first().id).isEqualTo("0_0_0")
+			assertThat(it.first().title).isNull()
+		})
+	}
 }

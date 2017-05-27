@@ -9,25 +9,25 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class ShowsSectionFragment_GetCommandTest(val shows: List<Show>?, val command: String) {
-    @Test
-    fun getCommand() {
-        assertThat(ShowsSectionFragment.getCommand(this.shows)).isEqualTo(this.command)
-    }
+	@Test
+	fun getCommand() {
+		assertThat(ShowsSectionFragment.getCommand(this.shows)).isEqualTo(this.command)
+	}
 
-    companion object {
-        @JvmStatic
-        @Parameterized.Parameters
-        fun data(): Collection<Array<Any?>> {
-            val gson = SickRageApi.gson
+	companion object {
+		@JvmStatic
+		@Parameterized.Parameters
+		fun data(): Collection<Array<Any?>> {
+			val gson = SickRageApi.gson
 
-            return listOf(
-                    arrayOf<Any?>(null, ""),
-                    arrayOf<Any?>(emptyList<Any>(), ""),
-                    arrayOf<Any?>(listOf(gson.fromJson("{indexerid: 123}", Show::class.java)), "show.stats_123"),
-                    arrayOf<Any?>(listOf(gson.fromJson("{indexerid: 123}", Show::class.java), null, gson.fromJson("{indexerid: 456}", Show::class.java)), "show.stats_123|show.stats_456"),
-                    arrayOf<Any?>(listOf(gson.fromJson("{indexerid: 123}", Show::class.java), gson.fromJson("{indexerid: 456}", Show::class.java), gson.fromJson("{}", Show::class.java)), "show.stats_123|show.stats_456"),
-                    arrayOf<Any?>(listOf(gson.fromJson("{indexerid: 123}", Show::class.java), null, gson.fromJson("{}", Show::class.java)), "show.stats_123")
-            )
-        }
-    }
+			return listOf(
+					arrayOf<Any?>(null, ""),
+					arrayOf<Any?>(emptyList<Any>(), ""),
+					arrayOf<Any?>(listOf(gson.fromJson("{indexerid: 123}", Show::class.java)), "show.stats_123"),
+					arrayOf<Any?>(listOf(gson.fromJson("{indexerid: 123}", Show::class.java), null, gson.fromJson("{indexerid: 456}", Show::class.java)), "show.stats_123|show.stats_456"),
+					arrayOf<Any?>(listOf(gson.fromJson("{indexerid: 123}", Show::class.java), gson.fromJson("{indexerid: 456}", Show::class.java), gson.fromJson("{}", Show::class.java)), "show.stats_123|show.stats_456"),
+					arrayOf<Any?>(listOf(gson.fromJson("{indexerid: 123}", Show::class.java), null, gson.fromJson("{}", Show::class.java)), "show.stats_123")
+			)
+		}
+	}
 }

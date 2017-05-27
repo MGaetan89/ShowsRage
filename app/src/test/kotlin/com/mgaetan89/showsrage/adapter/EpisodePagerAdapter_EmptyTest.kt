@@ -7,15 +7,15 @@ import org.junit.Test
 import org.mockito.Mockito.mock
 
 class EpisodePagerAdapter_EmptyTest {
-    private lateinit var adapter: EpisodePagerAdapter
+	private lateinit var adapter: EpisodePagerAdapter
 
-    @Before
-    fun before() {
-        this.adapter = EpisodePagerAdapter(null, mock(Fragment::class.java), emptyList<Int>())
-    }
+	@Before
+	fun before() {
+		this.adapter = EpisodePagerAdapter(null, mock(Fragment::class.java), emptyList<Int>())
+	}
 
-    @Test
-    fun getCount() {
-        assertThat(this.adapter.count).isEqualTo(0)
-    }
+	@Test
+	fun getCount() {
+		assertThat(this.adapter.count).isEqualTo(0)
+	}
 }

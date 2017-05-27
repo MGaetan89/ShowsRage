@@ -11,32 +11,32 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_GetScheduleTest : RealmTest() {
-    @Before
-    fun before() {
-        this.realm.isAutoRefresh = true
-    }
+	@Before
+	fun before() {
+		this.realm.isAutoRefresh = true
+	}
 
-    @Test
-    @UiThreadTest
-    fun getSchedule() {
-        this.realm.getSchedule("soon", RealmChangeListener {
-            it.removeAllChangeListeners()
+	@Test
+	@UiThreadTest
+	fun getSchedule() {
+		this.realm.getSchedule("soon", RealmChangeListener {
+			it.removeAllChangeListeners()
 
-            assertThat(it).hasSize(8)
+			assertThat(it).hasSize(8)
 
-            for (i in 1 until it.size) {
-                assertThat(it[i].airDate > it [i - 1].airDate).isTrue()
-            }
-        })
-    }
+			for (i in 1 until it.size) {
+				assertThat(it[i].airDate > it [i - 1].airDate).isTrue()
+			}
+		})
+	}
 
-    @Test
-    @UiThreadTest
-    fun getSchedule_notFound() {
-        this.realm.getSchedule("Monday", RealmChangeListener {
-            it.removeAllChangeListeners()
+	@Test
+	@UiThreadTest
+	fun getSchedule_notFound() {
+		this.realm.getSchedule("Monday", RealmChangeListener {
+			it.removeAllChangeListeners()
 
-            assertThat(it).isEmpty()
-        })
-    }
+			assertThat(it).isEmpty()
+		})
+	}
 }

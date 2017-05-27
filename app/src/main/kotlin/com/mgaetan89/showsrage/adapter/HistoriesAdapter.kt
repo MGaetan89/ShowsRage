@@ -16,43 +16,43 @@ import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
 
 class HistoriesAdapter(histories: RealmResults<History>) : RealmRecyclerViewAdapter<History, HistoriesAdapter.ViewHolder>(histories, true) {
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        val history = this.getItem(position) ?: return
+	override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+		val history = this.getItem(position) ?: return
 
-        holder?.bind(HistoryPresenter(history))
+		holder?.bind(HistoryPresenter(history))
 
-        if (holder?.date != null) {
-            val status = history.getStatusTranslationResource()
-            val statusString = if (status != 0) {
-                holder.date.resources.getString(status)
-            } else {
-                history.status
-            }
+		if (holder?.date != null) {
+			val status = history.getStatusTranslationResource()
+			val statusString = if (status != 0) {
+				holder.date.resources.getString(status)
+			} else {
+				history.status
+			}
 
-            holder.date.text = holder.date.resources.getString(R.string.spaced_texts, statusString, DateTimeHelper.getRelativeDate(history.date, "yyyy-MM-dd hh:mm", 0)?.toString()?.toLowerCase())
+			holder.date.text = holder.date.resources.getString(R.string.spaced_texts, statusString, DateTimeHelper.getRelativeDate(history.date, "yyyy-MM-dd hh:mm", 0)?.toString()?.toLowerCase())
 
-            if ("subtitled".equals(history.status, true)) {
-                val language = history.resource?.toLocale()?.displayLanguage
+			if ("subtitled".equals(history.status, true)) {
+				val language = history.resource?.toLocale()?.displayLanguage
 
-                if (!language.isNullOrEmpty()) {
-                    holder.date.append(" [$language]")
-                }
-            }
-        }
-    }
+				if (!language.isNullOrEmpty()) {
+					holder.date.append(" [$language]")
+				}
+			}
+		}
+	}
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.adapter_histories_list, parent, false)
+	override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
+		val view = LayoutInflater.from(parent?.context).inflate(R.layout.adapter_histories_list, parent, false)
 
-        return ViewHolder(view)
-    }
+		return ViewHolder(view)
+	}
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val binding: AdapterHistoriesListBinding = DataBindingUtil.bind(view)
-        val date: TextView? = this.binding.includeContent?.episodeDate
+	class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+		private val binding: AdapterHistoriesListBinding = DataBindingUtil.bind(view)
+		val date: TextView? = this.binding.includeContent?.episodeDate
 
-        fun bind(history: HistoryPresenter?) {
-            this.binding.setHistory(history)
-        }
-    }
+		fun bind(history: HistoryPresenter?) {
+			this.binding.setHistory(history)
+		}
+	}
 }

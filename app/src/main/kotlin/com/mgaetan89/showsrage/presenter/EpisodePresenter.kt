@@ -6,24 +6,24 @@ import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.model.Episode
 
 class EpisodePresenter(val episode: Episode?) {
-    fun getAirDate(): CharSequence? {
-        val airDate = this._getEpisode()?.airDate ?: return null
+	fun getAirDate(): CharSequence? {
+		val airDate = this._getEpisode()?.airDate ?: return null
 
-        if (airDate.isNullOrEmpty()) {
-            return null
-        }
+		if (airDate.isNullOrEmpty()) {
+			return null
+		}
 
-        return DateTimeHelper.getRelativeDate(airDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)
-    }
+		return DateTimeHelper.getRelativeDate(airDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)
+	}
 
-    fun getQuality(): String {
-        val quality = this._getEpisode()?.quality ?: return ""
+	fun getQuality(): String {
+		val quality = this._getEpisode()?.quality ?: return ""
 
-        return if ("N/A".equals(quality, true)) "" else quality
-    }
+		return if ("N/A".equals(quality, true)) "" else quality
+	}
 
-    @ColorRes
-    fun getStatusColor() = this._getEpisode()?.getStatusBackgroundColor() ?: android.R.color.transparent
+	@ColorRes
+	fun getStatusColor() = this._getEpisode()?.getStatusBackgroundColor() ?: android.R.color.transparent
 
-    private fun _getEpisode() = if (this.episode?.isValid ?: false) this.episode else null
+	private fun _getEpisode() = if (this.episode?.isValid ?: false) this.episode else null
 }

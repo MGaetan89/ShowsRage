@@ -32,153 +32,153 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 
 class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClickListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, RealmChangeListener<RealmResults<History>> {
-    private var adapter: HistoriesAdapter? = null
-    private var clearHistory: FloatingActionButton? = null
-    private var emptyView: TextView? = null
-    private lateinit var histories: RealmResults<History>
-    private lateinit var realm: Realm
-    private var recyclerView: RecyclerView? = null
-    private var swipeRefreshLayout: SwipeRefreshLayout? = null
+	private var adapter: HistoriesAdapter? = null
+	private var clearHistory: FloatingActionButton? = null
+	private var emptyView: TextView? = null
+	private lateinit var histories: RealmResults<History>
+	private lateinit var realm: Realm
+	private var recyclerView: RecyclerView? = null
+	private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
-    override fun failure(error: RetrofitError?) {
-        this.swipeRefreshLayout?.isRefreshing = false
+	override fun failure(error: RetrofitError?) {
+		this.swipeRefreshLayout?.isRefreshing = false
 
-        error?.printStackTrace()
-    }
+		error?.printStackTrace()
+	}
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+	override fun onActivityCreated(savedInstanceState: Bundle?) {
+		super.onActivityCreated(savedInstanceState)
 
-        val activity = this.activity
+		val activity = this.activity
 
-        if (activity is MainActivity) {
-            activity.displayHomeAsUp(false)
-            activity.setTitle(R.string.history)
-        }
-    }
+		if (activity is MainActivity) {
+			activity.displayHomeAsUp(false)
+			activity.setTitle(R.string.history)
+		}
+	}
 
-    override fun onChange(histories: RealmResults<History>) {
-        if (this.histories.isEmpty()) {
-            this.clearHistory?.visibility = View.GONE
-            this.emptyView?.visibility = View.VISIBLE
-            this.recyclerView?.visibility = View.GONE
-        } else {
-            this.clearHistory?.visibility = View.VISIBLE
-            this.emptyView?.visibility = View.GONE
-            this.recyclerView?.visibility = View.VISIBLE
-        }
+	override fun onChange(histories: RealmResults<History>) {
+		if (this.histories.isEmpty()) {
+			this.clearHistory?.visibility = View.GONE
+			this.emptyView?.visibility = View.VISIBLE
+			this.recyclerView?.visibility = View.GONE
+		} else {
+			this.clearHistory?.visibility = View.VISIBLE
+			this.emptyView?.visibility = View.GONE
+			this.recyclerView?.visibility = View.VISIBLE
+		}
 
-        this.adapter?.notifyDataSetChanged()
-    }
+		this.adapter?.notifyDataSetChanged()
+	}
 
-    override fun onClick(view: View?) {
-        val id = view?.id ?: return
+	override fun onClick(view: View?) {
+		val id = view?.id ?: return
 
-        if (id == R.id.clear_history) {
-            this.clearHistory()
-        }
-    }
+		if (id == R.id.clear_history) {
+			this.clearHistory()
+		}
+	}
 
-    override fun onClick(dialog: DialogInterface?, which: Int) {
-        SickRageApi.instance.services?.clearHistory(ClearHistoryCallback(this.activity))
-    }
+	override fun onClick(dialog: DialogInterface?, which: Int) {
+		SickRageApi.instance.services?.clearHistory(ClearHistoryCallback(this.activity))
+	}
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_history, container, false)
+	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		val view = inflater?.inflate(R.layout.fragment_history, container, false)
 
-        if (view != null) {
-            this.clearHistory = view.findViewById(R.id.clear_history) as FloatingActionButton?
-            this.emptyView = view.findViewById(android.R.id.empty) as TextView?
-            this.recyclerView = view.findViewById(android.R.id.list) as RecyclerView?
-            this.swipeRefreshLayout = view.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
+		if (view != null) {
+			this.clearHistory = view.findViewById(R.id.clear_history) as FloatingActionButton?
+			this.emptyView = view.findViewById(android.R.id.empty) as TextView?
+			this.recyclerView = view.findViewById(android.R.id.list) as RecyclerView?
+			this.swipeRefreshLayout = view.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
 
-            this.clearHistory?.setOnClickListener(this)
+			this.clearHistory?.setOnClickListener(this)
 
-            if (this.recyclerView != null) {
-                val columnCount = this.resources.getInteger(R.integer.shows_column_count)
+			if (this.recyclerView != null) {
+				val columnCount = this.resources.getInteger(R.integer.shows_column_count)
 
-                this.recyclerView!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                    override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                        super.onScrolled(recyclerView, dx, dy)
+				this.recyclerView!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+					override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+						super.onScrolled(recyclerView, dx, dy)
 
-                        swipeRefreshLayout?.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
-                    }
-                })
-                this.recyclerView!!.layoutManager = GridLayoutManager(this.activity, columnCount)
-            }
+						swipeRefreshLayout?.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
+					}
+				})
+				this.recyclerView!!.layoutManager = GridLayoutManager(this.activity, columnCount)
+			}
 
-            this.swipeRefreshLayout?.setColorSchemeResources(R.color.accent)
-            this.swipeRefreshLayout?.setOnRefreshListener(this)
-        }
+			this.swipeRefreshLayout?.setColorSchemeResources(R.color.accent)
+			this.swipeRefreshLayout?.setOnRefreshListener(this)
+		}
 
-        return view
-    }
+		return view
+	}
 
-    override fun onDestroyView() {
-        this.clearHistory = null
-        this.emptyView = null
-        this.recyclerView = null
-        this.swipeRefreshLayout = null
+	override fun onDestroyView() {
+		this.clearHistory = null
+		this.emptyView = null
+		this.recyclerView = null
+		this.swipeRefreshLayout = null
 
-        super.onDestroyView()
-    }
+		super.onDestroyView()
+	}
 
-    override fun onRefresh() {
-        this.swipeRefreshLayout?.isRefreshing = true
+	override fun onRefresh() {
+		this.swipeRefreshLayout?.isRefreshing = true
 
-        SickRageApi.instance.services?.getHistory(this)
-    }
+		SickRageApi.instance.services?.getHistory(this)
+	}
 
-    override fun onResume() {
-        super.onResume()
+	override fun onResume() {
+		super.onResume()
 
-        this.onRefresh()
-    }
+		this.onRefresh()
+	}
 
-    override fun onStart() {
-        super.onStart()
+	override fun onStart() {
+		super.onStart()
 
-        this.realm = Realm.getDefaultInstance()
-        this.histories = this.realm.getHistory(this)
-        this.adapter = HistoriesAdapter(this.histories)
-        this.recyclerView?.adapter = adapter
-    }
+		this.realm = Realm.getDefaultInstance()
+		this.histories = this.realm.getHistory(this)
+		this.adapter = HistoriesAdapter(this.histories)
+		this.recyclerView?.adapter = adapter
+	}
 
-    override fun onStop() {
-        if (this.histories.isValid) {
-            this.histories.removeAllChangeListeners()
-        }
+	override fun onStop() {
+		if (this.histories.isValid) {
+			this.histories.removeAllChangeListeners()
+		}
 
-        this.realm.close()
+		this.realm.close()
 
-        super.onStop()
-    }
+		super.onStop()
+	}
 
-    override fun success(histories: Histories?, response: Response?) {
-        this.swipeRefreshLayout?.isRefreshing = false
+	override fun success(histories: Histories?, response: Response?) {
+		this.swipeRefreshLayout?.isRefreshing = false
 
-        Realm.getDefaultInstance().let {
-            it.saveHistory(histories?.data ?: emptyList())
-            it.close()
-        }
-    }
+		Realm.getDefaultInstance().let {
+			it.saveHistory(histories?.data ?: emptyList())
+			it.close()
+		}
+	}
 
-    private fun clearHistory() {
-        AlertDialog.Builder(this.context)
-                .setMessage(R.string.clear_history_confirm)
-                .setPositiveButton(R.string.clear, this)
-                .setNegativeButton(android.R.string.cancel, null)
-                .show()
-    }
+	private fun clearHistory() {
+		AlertDialog.Builder(this.context)
+				.setMessage(R.string.clear_history_confirm)
+				.setPositiveButton(R.string.clear, this)
+				.setNegativeButton(android.R.string.cancel, null)
+				.show()
+	}
 
-    private class ClearHistoryCallback(activity: FragmentActivity) : GenericCallback(activity) {
-        override fun success(genericResponse: GenericResponse?, response: Response?) {
-            super.success(genericResponse, response)
+	private class ClearHistoryCallback(activity: FragmentActivity) : GenericCallback(activity) {
+		override fun success(genericResponse: GenericResponse?, response: Response?) {
+			super.success(genericResponse, response)
 
-            Realm.getDefaultInstance().let {
-                it.clearHistory()
-                it.close()
-            }
-        }
-    }
+			Realm.getDefaultInstance().let {
+				it.clearHistory()
+				it.close()
+			}
+		}
+	}
 }

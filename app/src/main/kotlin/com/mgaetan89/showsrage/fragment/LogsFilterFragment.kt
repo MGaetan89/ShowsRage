@@ -14,82 +14,82 @@ import com.mgaetan89.showsrage.helper.humanize
 import io.realm.Realm
 
 class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, DialogInterface.OnMultiChoiceClickListener {
-    private val items: Array<String> by lazy {
-        val realm = Realm.getDefaultInstance()
-        val logsGroup = realm.getLogsGroup()
-        realm.close()
+	private val items: Array<String> by lazy {
+		val realm = Realm.getDefaultInstance()
+		val logsGroup = realm.getLogsGroup()
+		realm.close()
 
-        logsGroup.toTypedArray()
-    }
-    private val itemsFormatted = Array(this.items.size) { "" }
-    private val selectedIndices = mutableSetOf<Int>()
+		logsGroup.toTypedArray()
+	}
+	private val itemsFormatted = Array(this.items.size) { "" }
+	private val selectedIndices = mutableSetOf<Int>()
 
-    init {
-        this.items.forEachIndexed { i, item ->
-            this.itemsFormatted[i] = item.humanize()
-        }
-    }
+	init {
+		this.items.forEachIndexed { i, item ->
+			this.itemsFormatted[i] = item.humanize()
+		}
+	}
 
-    override fun onClick(dialog: DialogInterface?, which: Int) {
-        val selectedItems = getSelectedItems(this.items, this.selectedIndices)
-        val data = Intent()
-        data.putExtra(Constants.Bundle.LOGS_GROUPS, selectedItems)
+	override fun onClick(dialog: DialogInterface?, which: Int) {
+		val selectedItems = getSelectedItems(this.items, this.selectedIndices)
+		val data = Intent()
+		data.putExtra(Constants.Bundle.LOGS_GROUPS, selectedItems)
 
-        this.targetFragment.onActivityResult(this.targetRequestCode, Activity.RESULT_OK, data)
+		this.targetFragment.onActivityResult(this.targetRequestCode, Activity.RESULT_OK, data)
 
-        dialog?.dismiss()
-    }
+		dialog?.dismiss()
+	}
 
-    override fun onClick(dialog: DialogInterface?, which: Int, isChecked: Boolean) {
-        if (isChecked) {
-            this.selectedIndices.add(which)
-        } else {
-            this.selectedIndices.remove(which)
-        }
-    }
+	override fun onClick(dialog: DialogInterface?, which: Int, isChecked: Boolean) {
+		if (isChecked) {
+			this.selectedIndices.add(which)
+		} else {
+			this.selectedIndices.remove(which)
+		}
+	}
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
 
-        val groups = this.arguments.getStringArray(Constants.Bundle.LOGS_GROUPS)
+		val groups = this.arguments.getStringArray(Constants.Bundle.LOGS_GROUPS)
 
-        setSelectedIndices(this.selectedIndices, this.items, groups)
-    }
+		setSelectedIndices(this.selectedIndices, this.items, groups)
+	}
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val checked = getCheckedStates(this.items.size, this.selectedIndices)
-        val builder = AlertDialog.Builder(this.context)
-        builder.setTitle(R.string.filter)
-        builder.setMultiChoiceItems(this.itemsFormatted, checked, this)
-        builder.setNegativeButton(R.string.cancel, null)
-        builder.setPositiveButton(R.string.filter, this)
+	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+		val checked = getCheckedStates(this.items.size, this.selectedIndices)
+		val builder = AlertDialog.Builder(this.context)
+		builder.setTitle(R.string.filter)
+		builder.setMultiChoiceItems(this.itemsFormatted, checked, this)
+		builder.setNegativeButton(R.string.cancel, null)
+		builder.setPositiveButton(R.string.filter, this)
 
-        return builder.show()
-    }
+		return builder.show()
+	}
 
-    companion object {
-        internal fun getCheckedStates(size: Int, selectedIndices: Set<Int>): BooleanArray {
-            return arrayOfNulls<Boolean>(size).mapIndexed { i, _ -> selectedIndices.contains(i) }.toBooleanArray()
-        }
+	companion object {
+		internal fun getCheckedStates(size: Int, selectedIndices: Set<Int>): BooleanArray {
+			return arrayOfNulls<Boolean>(size).mapIndexed { i, _ -> selectedIndices.contains(i) }.toBooleanArray()
+		}
 
-        internal fun getSelectedItems(items: Array<String>, selectedIndices: Set<Int>): Array<String> {
-            return items.filterIndexed { i, _ -> selectedIndices.contains(i) }.toTypedArray()
-        }
+		internal fun getSelectedItems(items: Array<String>, selectedIndices: Set<Int>): Array<String> {
+			return items.filterIndexed { i, _ -> selectedIndices.contains(i) }.toTypedArray()
+		}
 
-        internal fun setSelectedIndices(selectedIndices: MutableSet<Int>, items: Array<String>, groups: Array<String>?) {
-            selectedIndices.clear()
+		internal fun setSelectedIndices(selectedIndices: MutableSet<Int>, items: Array<String>, groups: Array<String>?) {
+			selectedIndices.clear()
 
-            if (groups == null || groups.isEmpty()) {
-                selectedIndices.addAll(items.indices)
-            } else {
-                groups.forEach {
-                    val index = items.indexOf(it)
+			if (groups == null || groups.isEmpty()) {
+				selectedIndices.addAll(items.indices)
+			} else {
+				groups.forEach {
+					val index = items.indexOf(it)
 
-                    if (index >= 0) {
-                        selectedIndices.add(index)
-                    }
-                }
-            }
-        }
-    }
+					if (index >= 0) {
+						selectedIndices.add(index)
+					}
+				}
+			}
+		}
+	}
 }

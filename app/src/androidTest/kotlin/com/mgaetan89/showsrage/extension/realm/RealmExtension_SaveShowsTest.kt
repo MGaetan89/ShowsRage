@@ -11,23 +11,23 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_SaveShowsTest : RealmTest() {
-    @Before
-    fun before() {
-        assertThat(this.getShows()).hasSize(83)
-    }
+	@Before
+	fun before() {
+		assertThat(this.getShows()).hasSize(83)
+	}
 
-    @Test
-    fun saveShows() {
-        val shows = (1..3).map {
-            Show().apply {
-                this.indexerId = it
-            }
-        }
+	@Test
+	fun saveShows() {
+		val shows = (1..3).map {
+			Show().apply {
+				this.indexerId = it
+			}
+		}
 
-        this.realm.saveShows(shows)
+		this.realm.saveShows(shows)
 
-        assertThat(this.getShows()).hasSize(3)
-    }
+		assertThat(this.getShows()).hasSize(3)
+	}
 
-    private fun getShows() = this.realm.getShows(null)
+	private fun getShows() = this.realm.getShows(null)
 }

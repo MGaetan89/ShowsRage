@@ -17,71 +17,71 @@ import org.mockito.Mockito.mock
 
 @RunWith(Parameterized::class)
 class SickRageApi_GetPosterUrlTest(
-        val useHttps: Boolean, val address: String, val port: String, val path: String,
-        val apiKey: String, val indexerId: Int, val indexer: Indexer?, val url: String
+		val useHttps: Boolean, val address: String, val port: String, val path: String,
+		val apiKey: String, val indexerId: Int, val indexer: Indexer?, val url: String
 ) {
-    @Before
-    fun before() {
-        val preferences = mock(SharedPreferences::class.java)
-        `when`(preferences.useHttps()).thenReturn(this.useHttps)
-        `when`(preferences.getServerAddress()).thenReturn(this.address)
-        `when`(preferences.getPortNumber()).thenReturn(this.port)
-        `when`(preferences.getServerPath()).thenReturn(this.path)
-        `when`(preferences.getApiKey()).thenReturn(this.apiKey)
+	@Before
+	fun before() {
+		val preferences = mock(SharedPreferences::class.java)
+		`when`(preferences.useHttps()).thenReturn(this.useHttps)
+		`when`(preferences.getServerAddress()).thenReturn(this.address)
+		`when`(preferences.getPortNumber()).thenReturn(this.port)
+		`when`(preferences.getServerPath()).thenReturn(this.path)
+		`when`(preferences.getApiKey()).thenReturn(this.apiKey)
 
-        SickRageApi.instance.init(preferences)
-    }
+		SickRageApi.instance.init(preferences)
+	}
 
-    @Test
-    fun getPosterUrl() {
-        assertThat(SickRageApi.instance.getPosterUrl(this.indexerId, this.indexer)).isEqualTo(this.url)
-    }
+	@Test
+	fun getPosterUrl() {
+		assertThat(SickRageApi.instance.getPosterUrl(this.indexerId, this.indexer)).isEqualTo(this.url)
+	}
 
-    companion object {
-        @JvmStatic
-        @Parameterized.Parameters(name = "[{6}] {index} - {0}://{1}:{2}/{3}/{4}/")
-        fun data(): Collection<Array<Any?>> {
-            return listOf(
-                    // TVDB
-                    arrayOf(false, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getposter"),
-                    arrayOf(false, "127.0.0.1", "", "", "", 123, null, "http://127.0.0.1/?cmd=show.getposter"),
-                    arrayOf<Any?>(false, "127.0.0.1", "8083", "", "", 0, Indexer.TVDB, "http://127.0.0.1:8083/?cmd=show.getposter&tvdbid=0"),
-                    arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/?cmd=show.getposter&tvdbid=123"),
-                    arrayOf<Any?>(false, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/?cmd=show.getposter&tvdbid=123"),
-                    arrayOf<Any?>(false, "127.0.0.1", "8083", "api/", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/?cmd=show.getposter&tvdbid=123"),
-                    arrayOf<Any?>(false, "127.0.0.1", "8083", "/api/", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/?cmd=show.getposter&tvdbid=123"),
-                    arrayOf<Any?>(false, "127.0.0.1", "8083", "/api1/api2/", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api1/api2/?cmd=show.getposter&tvdbid=123"),
-                    arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=123"),
-                    arrayOf(true, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getposter"),
-                    arrayOf(true, "127.0.0.1", "", "", "", 123, null, "https://127.0.0.1/?cmd=show.getposter"),
-                    arrayOf<Any?>(true, "127.0.0.1", "8083", "", "", 0, Indexer.TVDB, "https://127.0.0.1:8083/?cmd=show.getposter&tvdbid=0"),
-                    arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "", 123, Indexer.TVDB, "https://127.0.0.1:8083/api/?cmd=show.getposter&tvdbid=123"),
-                    arrayOf<Any?>(true, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVDB, "https://127.0.0.1:8083/api/?cmd=show.getposter&tvdbid=123"),
-                    arrayOf<Any?>(true, "127.0.0.1", "8083", "api/", "", 123, Indexer.TVDB, "https://127.0.0.1:8083/api/?cmd=show.getposter&tvdbid=123"),
-                    arrayOf<Any?>(true, "127.0.0.1", "8083", "/api/", "", 123, Indexer.TVDB, "https://127.0.0.1:8083/api/?cmd=show.getposter&tvdbid=123"),
-                    arrayOf<Any?>(true, "127.0.0.1", "8083", "/api1/api2/", "", 123, Indexer.TVDB, "https://127.0.0.1:8083/api1/api2/?cmd=show.getposter&tvdbid=123"),
-                    arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVDB, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=123"),
+	companion object {
+		@JvmStatic
+		@Parameterized.Parameters(name = "[{6}] {index} - {0}://{1}:{2}/{3}/{4}/")
+		fun data(): Collection<Array<Any?>> {
+			return listOf(
+					// TVDB
+					arrayOf(false, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getposter"),
+					arrayOf(false, "127.0.0.1", "", "", "", 123, null, "http://127.0.0.1/?cmd=show.getposter"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "", "", 0, Indexer.TVDB, "http://127.0.0.1:8083/?cmd=show.getposter&tvdbid=0"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/?cmd=show.getposter&tvdbid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/?cmd=show.getposter&tvdbid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "api/", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/?cmd=show.getposter&tvdbid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api/", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/?cmd=show.getposter&tvdbid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api1/api2/", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api1/api2/?cmd=show.getposter&tvdbid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=123"),
+					arrayOf(true, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getposter"),
+					arrayOf(true, "127.0.0.1", "", "", "", 123, null, "https://127.0.0.1/?cmd=show.getposter"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "", "", 0, Indexer.TVDB, "https://127.0.0.1:8083/?cmd=show.getposter&tvdbid=0"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "", 123, Indexer.TVDB, "https://127.0.0.1:8083/api/?cmd=show.getposter&tvdbid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVDB, "https://127.0.0.1:8083/api/?cmd=show.getposter&tvdbid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "api/", "", 123, Indexer.TVDB, "https://127.0.0.1:8083/api/?cmd=show.getposter&tvdbid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "/api/", "", 123, Indexer.TVDB, "https://127.0.0.1:8083/api/?cmd=show.getposter&tvdbid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "/api1/api2/", "", 123, Indexer.TVDB, "https://127.0.0.1:8083/api1/api2/?cmd=show.getposter&tvdbid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVDB, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvdbid=123"),
 
-                    // TVRage
-                    arrayOf(false, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getposter"),
-                    arrayOf(false, "127.0.0.1", "", "", "", 123, null, "http://127.0.0.1/?cmd=show.getposter"),
-                    arrayOf<Any?>(false, "127.0.0.1", "8083", "", "", 0, Indexer.TVRAGE, "http://127.0.0.1:8083/?cmd=show.getposter&tvrageid=0"),
-                    arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/?cmd=show.getposter&tvrageid=123"),
-                    arrayOf<Any?>(false, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/?cmd=show.getposter&tvrageid=123"),
-                    arrayOf<Any?>(false, "127.0.0.1", "8083", "api/", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/?cmd=show.getposter&tvrageid=123"),
-                    arrayOf<Any?>(false, "127.0.0.1", "8083", "/api/", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/?cmd=show.getposter&tvrageid=123"),
-                    arrayOf<Any?>(false, "127.0.0.1", "8083", "/api1/api2/", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api1/api2/?cmd=show.getposter&tvrageid=123"),
-                    arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvrageid=123"),
-                    arrayOf(true, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getposter"),
-                    arrayOf(true, "127.0.0.1", "", "", "", 123, null, "https://127.0.0.1/?cmd=show.getposter"),
-                    arrayOf<Any?>(true, "127.0.0.1", "8083", "", "", 0, Indexer.TVRAGE, "https://127.0.0.1:8083/?cmd=show.getposter&tvrageid=0"),
-                    arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/?cmd=show.getposter&tvrageid=123"),
-                    arrayOf<Any?>(true, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/?cmd=show.getposter&tvrageid=123"),
-                    arrayOf<Any?>(true, "127.0.0.1", "8083", "api/", "", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/?cmd=show.getposter&tvrageid=123"),
-                    arrayOf<Any?>(true, "127.0.0.1", "8083", "/api/", "", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/?cmd=show.getposter&tvrageid=123"),
-                    arrayOf<Any?>(true, "127.0.0.1", "8083", "/api1/api2/", "", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api1/api2/?cmd=show.getposter&tvrageid=123"),
-                    arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvrageid=123")
-            )
-        }
-    }
+					// TVRage
+					arrayOf(false, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getposter"),
+					arrayOf(false, "127.0.0.1", "", "", "", 123, null, "http://127.0.0.1/?cmd=show.getposter"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "", "", 0, Indexer.TVRAGE, "http://127.0.0.1:8083/?cmd=show.getposter&tvrageid=0"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/?cmd=show.getposter&tvrageid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/?cmd=show.getposter&tvrageid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "api/", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/?cmd=show.getposter&tvrageid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api/", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/?cmd=show.getposter&tvrageid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api1/api2/", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api1/api2/?cmd=show.getposter&tvrageid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvrageid=123"),
+					arrayOf(true, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getposter"),
+					arrayOf(true, "127.0.0.1", "", "", "", 123, null, "https://127.0.0.1/?cmd=show.getposter"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "", "", 0, Indexer.TVRAGE, "https://127.0.0.1:8083/?cmd=show.getposter&tvrageid=0"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/?cmd=show.getposter&tvrageid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/?cmd=show.getposter&tvrageid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "api/", "", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/?cmd=show.getposter&tvrageid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "/api/", "", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/?cmd=show.getposter&tvrageid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "/api1/api2/", "", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api1/api2/?cmd=show.getposter&tvrageid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getposter&tvrageid=123")
+			)
+		}
+	}
 }

@@ -8,21 +8,21 @@ import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 
 class Setters_SetSelectedTest {
-    @Test
-    fun setSelectedFalse() {
-        val textView = mock(TextView::class.java)
+	@Test
+	fun setSelectedFalse() {
+		val textView = mock(TextView::class.java)
 
-        setSelected(textView, false)
+		setSelected(textView, false)
 
-        verify(textView).isSelected = false
-    }
+		verify(textView).isSelected = false
+	}
 
-    @Test
-    fun setSelectedTrue() {
-        val textView = mock(TextView::class.java)
+	@Test
+	fun setSelectedTrue() {
+		val textView = mock(TextView::class.java)
 
-        setSelected(textView, true)
+		setSelected(textView, true)
 
-        verify(textView).isSelected = true
-    }
+		verify(textView).isSelected = true
+	}
 }

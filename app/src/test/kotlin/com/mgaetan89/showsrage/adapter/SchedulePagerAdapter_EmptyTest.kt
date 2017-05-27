@@ -5,15 +5,15 @@ import org.junit.Before
 import org.junit.Test
 
 class SchedulePagerAdapter_EmptyTest {
-    private lateinit var adapter: SchedulePagerAdapter
+	private lateinit var adapter: SchedulePagerAdapter
 
-    @Before
-    fun before() {
-        this.adapter = SchedulePagerAdapter(null, emptyList<String>(), emptyList<String>())
-    }
+	@Before
+	fun before() {
+		this.adapter = SchedulePagerAdapter(null, emptyList<String>(), emptyList<String>())
+	}
 
-    @Test
-    fun getCount() {
-        assertThat(this.adapter.count).isEqualTo(0)
-    }
+	@Test
+	fun getCount() {
+		assertThat(this.adapter.count).isEqualTo(0)
+	}
 }

@@ -8,11 +8,11 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_GetScheduleSectionsTest : RealmTest() {
-    @Test
-    fun getScheduleSections() {
-        val scheduleSections = this.realm.getScheduleSections()
+	@Test
+	fun getScheduleSections() {
+		val scheduleSections = this.realm.getScheduleSections()
 
-        assertThat(scheduleSections).hasSize(4)
-        assertThat(scheduleSections).containsOnly("soon", "later", "today", "missed")
-    }
+		assertThat(scheduleSections).hasSize(4)
+		assertThat(scheduleSections).containsOnly("soon", "later", "today", "missed")
+	}
 }

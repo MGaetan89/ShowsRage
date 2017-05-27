@@ -17,55 +17,55 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_GetPortNumberTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun getPortNumber() {
-        this.preference.edit().putString(Fields.PORT_NUMBER.field, "portNumber").apply()
+	@Test
+	fun getPortNumber() {
+		this.preference.edit().putString(Fields.PORT_NUMBER.field, "portNumber").apply()
 
-        val portNumber = this.preference.getPortNumber()
+		val portNumber = this.preference.getPortNumber()
 
-        assertThat(portNumber).isEqualTo("portNumber")
-    }
+		assertThat(portNumber).isEqualTo("portNumber")
+	}
 
-    @Test
-    fun getPortNumber_Empty() {
-        this.preference.edit().putString(Fields.PORT_NUMBER.field, "").apply()
+	@Test
+	fun getPortNumber_Empty() {
+		this.preference.edit().putString(Fields.PORT_NUMBER.field, "").apply()
 
-        val portNumber = this.preference.getPortNumber()
+		val portNumber = this.preference.getPortNumber()
 
-        assertThat(portNumber).isEmpty()
-    }
+		assertThat(portNumber).isEmpty()
+	}
 
-    @Test
-    fun getPortNumber_Missing() {
-        assertThat(this.preference.contains(Fields.PORT_NUMBER.field)).isFalse()
+	@Test
+	fun getPortNumber_Missing() {
+		assertThat(this.preference.contains(Fields.PORT_NUMBER.field)).isFalse()
 
-        val portNumber = this.preference.getPortNumber()
+		val portNumber = this.preference.getPortNumber()
 
-        assertThat(portNumber).isEmpty()
-    }
+		assertThat(portNumber).isEmpty()
+	}
 
-    @Test
-    fun getPortNumber_Null() {
-        this.preference.edit().putString(Fields.PORT_NUMBER.field, null).apply()
+	@Test
+	fun getPortNumber_Null() {
+		this.preference.edit().putString(Fields.PORT_NUMBER.field, null).apply()
 
-        val portNumber = this.preference.getPortNumber()
+		val portNumber = this.preference.getPortNumber()
 
-        assertThat(portNumber).isEmpty()
-    }
+		assertThat(portNumber).isEmpty()
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

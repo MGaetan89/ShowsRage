@@ -20,82 +20,82 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_GetLogLevelTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun getLogLevel_Debug() {
-        this.preference.saveLogLevel(LogLevel.DEBUG)
+	@Test
+	fun getLogLevel_Debug() {
+		this.preference.saveLogLevel(LogLevel.DEBUG)
 
-        val logLevel = this.preference.getLogLevel()
+		val logLevel = this.preference.getLogLevel()
 
-        assertThat(logLevel).isEqualTo(LogLevel.DEBUG)
-    }
+		assertThat(logLevel).isEqualTo(LogLevel.DEBUG)
+	}
 
-    @Test
-    fun getLogLevel_Empty() {
-        this.preference.edit().putString(Fields.LOGS_LEVEL.field, "").apply()
+	@Test
+	fun getLogLevel_Empty() {
+		this.preference.edit().putString(Fields.LOGS_LEVEL.field, "").apply()
 
-        val logLevel = this.preference.getLogLevel()
+		val logLevel = this.preference.getLogLevel()
 
-        assertThat(logLevel).isEqualTo(Constants.Defaults.LOG_LEVEL)
-    }
+		assertThat(logLevel).isEqualTo(Constants.Defaults.LOG_LEVEL)
+	}
 
-    @Test
-    fun getLogLevel_Error() {
-        this.preference.saveLogLevel(LogLevel.ERROR)
+	@Test
+	fun getLogLevel_Error() {
+		this.preference.saveLogLevel(LogLevel.ERROR)
 
-        val logLevel = this.preference.getLogLevel()
+		val logLevel = this.preference.getLogLevel()
 
-        assertThat(logLevel).isEqualTo(LogLevel.ERROR)
-    }
+		assertThat(logLevel).isEqualTo(LogLevel.ERROR)
+	}
 
-    @Test
-    fun getLogLevel_Info() {
-        this.preference.saveLogLevel(LogLevel.INFO)
+	@Test
+	fun getLogLevel_Info() {
+		this.preference.saveLogLevel(LogLevel.INFO)
 
-        val logLevel = this.preference.getLogLevel()
+		val logLevel = this.preference.getLogLevel()
 
-        assertThat(logLevel).isEqualTo(LogLevel.INFO)
-    }
+		assertThat(logLevel).isEqualTo(LogLevel.INFO)
+	}
 
-    @Test
-    fun getLogLevel_Missing() {
-        assertThat(this.preference.contains(Fields.LOGS_LEVEL.field)).isFalse()
+	@Test
+	fun getLogLevel_Missing() {
+		assertThat(this.preference.contains(Fields.LOGS_LEVEL.field)).isFalse()
 
-        val logLevel = this.preference.getLogLevel()
+		val logLevel = this.preference.getLogLevel()
 
-        assertThat(logLevel).isEqualTo(Constants.Defaults.LOG_LEVEL)
-    }
+		assertThat(logLevel).isEqualTo(Constants.Defaults.LOG_LEVEL)
+	}
 
-    @Test
-    fun getLogLevel_Null() {
-        this.preference.edit().putString(Fields.LOGS_LEVEL.field, null).apply()
+	@Test
+	fun getLogLevel_Null() {
+		this.preference.edit().putString(Fields.LOGS_LEVEL.field, null).apply()
 
-        val logLevel = this.preference.getLogLevel()
+		val logLevel = this.preference.getLogLevel()
 
-        assertThat(logLevel).isEqualTo(Constants.Defaults.LOG_LEVEL)
-    }
+		assertThat(logLevel).isEqualTo(Constants.Defaults.LOG_LEVEL)
+	}
 
-    @Test
-    fun getLogLevel_Warning() {
-        this.preference.saveLogLevel(LogLevel.WARNING)
+	@Test
+	fun getLogLevel_Warning() {
+		this.preference.saveLogLevel(LogLevel.WARNING)
 
-        val logLevel = this.preference.getLogLevel()
+		val logLevel = this.preference.getLogLevel()
 
-        assertThat(logLevel).isEqualTo(LogLevel.WARNING)
-    }
+		assertThat(logLevel).isEqualTo(LogLevel.WARNING)
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

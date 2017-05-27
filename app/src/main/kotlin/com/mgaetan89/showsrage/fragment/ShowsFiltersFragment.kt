@@ -21,89 +21,89 @@ import com.mgaetan89.showsrage.extension.saveShowsFilter
 import com.mgaetan89.showsrage.model.ShowsFilters
 
 class ShowsFiltersFragment : DialogFragment(), CompoundButton.OnCheckedChangeListener, DialogInterface.OnClickListener {
-    private var activePaused: RadioGroup? = null
-    private var statusAll: CheckBox? = null
-    private var statusContinuing: CheckBox? = null
-    private var statusEnded: CheckBox? = null
-    private var statusUnknown: CheckBox? = null
+	private var activePaused: RadioGroup? = null
+	private var statusAll: CheckBox? = null
+	private var statusContinuing: CheckBox? = null
+	private var statusEnded: CheckBox? = null
+	private var statusUnknown: CheckBox? = null
 
-    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        if (buttonView?.id == R.id.filter_status_all) {
-            this.setCheckBoxStateQuietly(this.statusContinuing, isChecked)
-            this.setCheckBoxStateQuietly(this.statusEnded, isChecked)
-            this.setCheckBoxStateQuietly(this.statusUnknown, isChecked)
-        } else {
-            if (!isChecked) {
-                this.setCheckBoxStateQuietly(this.statusAll, isChecked)
-            } else {
-                if (this.statusContinuing?.isChecked ?: false && this.statusEnded?.isChecked ?: false && this.statusUnknown?.isChecked ?: false) {
-                    this.setCheckBoxStateQuietly(this.statusAll, isChecked)
-                }
-            }
-        }
-    }
+	override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+		if (buttonView?.id == R.id.filter_status_all) {
+			this.setCheckBoxStateQuietly(this.statusContinuing, isChecked)
+			this.setCheckBoxStateQuietly(this.statusEnded, isChecked)
+			this.setCheckBoxStateQuietly(this.statusUnknown, isChecked)
+		} else {
+			if (!isChecked) {
+				this.setCheckBoxStateQuietly(this.statusAll, isChecked)
+			} else {
+				if (this.statusContinuing?.isChecked ?: false && this.statusEnded?.isChecked ?: false && this.statusUnknown?.isChecked ?: false) {
+					this.setCheckBoxStateQuietly(this.statusAll, isChecked)
+				}
+			}
+		}
+	}
 
-    override fun onClick(dialog: DialogInterface?, which: Int) {
-        val showState = ShowsFilters.State.getStateForViewId(this.activePaused?.checkedRadioButtonId)
-        val showStatus = ShowsFilters.Status.getStatusForStates(this.statusAll?.isChecked, this.statusContinuing?.isChecked, this.statusEnded?.isChecked, this.statusUnknown?.isChecked)
+	override fun onClick(dialog: DialogInterface?, which: Int) {
+		val showState = ShowsFilters.State.getStateForViewId(this.activePaused?.checkedRadioButtonId)
+		val showStatus = ShowsFilters.Status.getStatusForStates(this.statusAll?.isChecked, this.statusContinuing?.isChecked, this.statusEnded?.isChecked, this.statusUnknown?.isChecked)
 
-        this.context.getPreferences().saveShowsFilter(showState, showStatus)
+		this.context.getPreferences().saveShowsFilter(showState, showStatus)
 
-        val intent = Intent(Constants.Intents.ACTION_FILTER_SHOWS)
-        intent.putExtra(Constants.Bundle.SEARCH_QUERY, this.arguments?.getString(Constants.Bundle.SEARCH_QUERY))
+		val intent = Intent(Constants.Intents.ACTION_FILTER_SHOWS)
+		intent.putExtra(Constants.Bundle.SEARCH_QUERY, this.arguments?.getString(Constants.Bundle.SEARCH_QUERY))
 
-        LocalBroadcastManager.getInstance(this.context).sendBroadcast(intent)
+		LocalBroadcastManager.getInstance(this.context).sendBroadcast(intent)
 
-        this.dismiss()
-    }
+		this.dismiss()
+	}
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val preferences = this.context.getPreferences()
-        val state = preferences.getShowsFilterState()
-        val status = preferences.getShowsFilterStatus()
-        val view = LayoutInflater.from(this.context).inflate(R.layout.fragment_shows_filter, null)
+	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+		val preferences = this.context.getPreferences()
+		val state = preferences.getShowsFilterState()
+		val status = preferences.getShowsFilterStatus()
+		val view = LayoutInflater.from(this.context).inflate(R.layout.fragment_shows_filter, null)
 
-        if (view != null) {
-            this.activePaused = view.findViewById(R.id.filter_active_paused) as RadioGroup?
-            this.statusAll = view.findViewById(R.id.filter_status_all) as CheckBox?
-            this.statusContinuing = view.findViewById(R.id.filter_status_continuing) as CheckBox?
-            this.statusEnded = view.findViewById(R.id.filter_status_ended) as CheckBox?
-            this.statusUnknown = view.findViewById(R.id.filter_status_unknown) as CheckBox?
+		if (view != null) {
+			this.activePaused = view.findViewById(R.id.filter_active_paused) as RadioGroup?
+			this.statusAll = view.findViewById(R.id.filter_status_all) as CheckBox?
+			this.statusContinuing = view.findViewById(R.id.filter_status_continuing) as CheckBox?
+			this.statusEnded = view.findViewById(R.id.filter_status_ended) as CheckBox?
+			this.statusUnknown = view.findViewById(R.id.filter_status_unknown) as CheckBox?
 
-            (view.findViewById(ShowsFilters.State.getViewIdForState(state)) as RadioButton?)?.isChecked = true
+			(view.findViewById(ShowsFilters.State.getViewIdForState(state)) as RadioButton?)?.isChecked = true
 
-            this.statusAll?.isChecked = ShowsFilters.Status.isAll(status)
-            this.statusContinuing?.isChecked = ShowsFilters.Status.isContinuing(status)
-            this.statusEnded?.isChecked = ShowsFilters.Status.isEnded(status)
-            this.statusUnknown?.isChecked = ShowsFilters.Status.isUnknown(status)
+			this.statusAll?.isChecked = ShowsFilters.Status.isAll(status)
+			this.statusContinuing?.isChecked = ShowsFilters.Status.isContinuing(status)
+			this.statusEnded?.isChecked = ShowsFilters.Status.isEnded(status)
+			this.statusUnknown?.isChecked = ShowsFilters.Status.isUnknown(status)
 
-            this.statusAll?.setOnCheckedChangeListener(this)
-            this.statusContinuing?.setOnCheckedChangeListener(this)
-            this.statusEnded?.setOnCheckedChangeListener(this)
-            this.statusUnknown?.setOnCheckedChangeListener(this)
-        }
+			this.statusAll?.setOnCheckedChangeListener(this)
+			this.statusContinuing?.setOnCheckedChangeListener(this)
+			this.statusEnded?.setOnCheckedChangeListener(this)
+			this.statusUnknown?.setOnCheckedChangeListener(this)
+		}
 
-        return AlertDialog.Builder(this.context)
-                .setTitle(R.string.filter)
-                .setView(view)
-                .setPositiveButton(R.string.filter, this)
-                .setNegativeButton(R.string.cancel, null)
-                .show()
-    }
+		return AlertDialog.Builder(this.context)
+				.setTitle(R.string.filter)
+				.setView(view)
+				.setPositiveButton(R.string.filter, this)
+				.setNegativeButton(R.string.cancel, null)
+				.show()
+	}
 
-    override fun onDestroyView() {
-        this.activePaused = null
-        this.statusAll = null
-        this.statusContinuing = null
-        this.statusEnded = null
-        this.statusUnknown = null
+	override fun onDestroyView() {
+		this.activePaused = null
+		this.statusAll = null
+		this.statusContinuing = null
+		this.statusEnded = null
+		this.statusUnknown = null
 
-        super.onDestroyView()
-    }
+		super.onDestroyView()
+	}
 
-    private fun setCheckBoxStateQuietly(checkBox: CheckBox?, checked: Boolean) {
-        checkBox?.setOnCheckedChangeListener(null)
-        checkBox?.isChecked = checked
-        checkBox?.setOnCheckedChangeListener(this)
-    }
+	private fun setCheckBoxStateQuietly(checkBox: CheckBox?, checked: Boolean) {
+		checkBox?.setOnCheckedChangeListener(null)
+		checkBox?.isChecked = checked
+		checkBox?.setOnCheckedChangeListener(this)
+	}
 }

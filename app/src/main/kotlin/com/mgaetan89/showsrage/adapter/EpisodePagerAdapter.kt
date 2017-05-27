@@ -10,26 +10,26 @@ import com.mgaetan89.showsrage.fragment.EpisodeDetailFragment
 import com.mgaetan89.showsrage.model.Episode
 
 class EpisodePagerAdapter(fragmentManager: FragmentManager?, val fragment: Fragment, val episodes: List<Int>) : FragmentStatePagerAdapter(fragmentManager) {
-    override fun getCount() = this.episodes.size
+	override fun getCount() = this.episodes.size
 
-    override fun getItem(position: Int): Fragment? {
-        val episodeNumber = this.episodes[position]
-        val indexerId = this.fragment.arguments?.getInt(Constants.Bundle.INDEXER_ID) ?: 0
-        val seasonNumber = this.fragment.arguments?.getInt(Constants.Bundle.SEASON_NUMBER) ?: 0
+	override fun getItem(position: Int): Fragment? {
+		val episodeNumber = this.episodes[position]
+		val indexerId = this.fragment.arguments?.getInt(Constants.Bundle.INDEXER_ID) ?: 0
+		val seasonNumber = this.fragment.arguments?.getInt(Constants.Bundle.SEASON_NUMBER) ?: 0
 
-        val arguments = Bundle(this.fragment.arguments)
-        arguments.putString(Constants.Bundle.EPISODE_ID, Episode.buildId(indexerId, seasonNumber, episodeNumber))
-        arguments.putInt(Constants.Bundle.EPISODE_NUMBER, episodeNumber)
+		val arguments = Bundle(this.fragment.arguments)
+		arguments.putString(Constants.Bundle.EPISODE_ID, Episode.buildId(indexerId, seasonNumber, episodeNumber))
+		arguments.putInt(Constants.Bundle.EPISODE_NUMBER, episodeNumber)
 
-        val fragment = EpisodeDetailFragment()
-        fragment.arguments = arguments
+		val fragment = EpisodeDetailFragment()
+		fragment.arguments = arguments
 
-        return fragment
-    }
+		return fragment
+	}
 
-    override fun getPageTitle(position: Int): CharSequence? {
-        val episode = this.episodes[position]
+	override fun getPageTitle(position: Int): CharSequence? {
+		val episode = this.episodes[position]
 
-        return this.fragment.getString(R.string.episode_name_short, episode)
-    }
+		return this.fragment.getString(R.string.episode_name_short, episode)
+	}
 }

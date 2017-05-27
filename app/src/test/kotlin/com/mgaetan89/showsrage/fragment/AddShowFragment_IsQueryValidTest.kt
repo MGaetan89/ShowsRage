@@ -7,22 +7,22 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class AddShowFragment_IsQueryValidTest(val query: String?, val valid: Boolean) {
-    @Test
-    fun isQueryValid() {
-        assertThat(AddShowFragment.isQueryValid(this.query)).isEqualTo(this.valid)
-    }
+	@Test
+	fun isQueryValid() {
+		assertThat(AddShowFragment.isQueryValid(this.query)).isEqualTo(this.valid)
+	}
 
-    companion object {
-        @JvmStatic
-        @Parameterized.Parameters
-        fun data(): Collection<Array<Any?>> {
-            return listOf(
-                    arrayOf<Any?>(null, false),
-                    arrayOf<Any?>("", false),
-                    arrayOf<Any?>(" ", false),
-                    arrayOf<Any?>("  ", false),
-                    arrayOf<Any?>(" some query ", true)
-            )
-        }
-    }
+	companion object {
+		@JvmStatic
+		@Parameterized.Parameters
+		fun data(): Collection<Array<Any?>> {
+			return listOf(
+					arrayOf<Any?>(null, false),
+					arrayOf<Any?>("", false),
+					arrayOf<Any?>(" ", false),
+					arrayOf<Any?>("  ", false),
+					arrayOf<Any?>(" some query ", true)
+			)
+		}
+	}
 }

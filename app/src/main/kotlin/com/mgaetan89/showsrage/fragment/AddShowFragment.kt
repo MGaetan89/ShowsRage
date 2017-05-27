@@ -26,116 +26,114 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 
 class AddShowFragment : Fragment(), Callback<SearchResults>, SearchView.OnQueryTextListener {
-    private var adapter: SearchResultsAdapter? = null
-    private var emptyView: TextView? = null
-    private var recyclerView: RecyclerView? = null
-    private val searchResults = mutableListOf<SearchResultItem>()
+	private var adapter: SearchResultsAdapter? = null
+	private var emptyView: TextView? = null
+	private var recyclerView: RecyclerView? = null
+	private val searchResults = mutableListOf<SearchResultItem>()
 
-    init {
-        this.setHasOptionsMenu(true)
-    }
+	init {
+		this.setHasOptionsMenu(true)
+	}
 
-    override fun failure(error: RetrofitError?) {
-        error?.printStackTrace()
-    }
+	override fun failure(error: RetrofitError?) {
+		error?.printStackTrace()
+	}
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+	override fun onActivityCreated(savedInstanceState: Bundle?) {
+		super.onActivityCreated(savedInstanceState)
 
-        val activity = this.activity
+		val activity = this.activity
 
-        if (activity is MainActivity) {
-            activity.displayHomeAsUp(true)
-        }
-    }
+		if (activity is MainActivity) {
+			activity.displayHomeAsUp(true)
+		}
+	}
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.add_show, menu)
+	override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+		inflater?.inflate(R.menu.add_show, menu)
 
-        val activity = this.activity
-        val searchManager = activity.getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchMenu = menu?.findItem(R.id.menu_search)
+		val activity = this.activity
+		val searchManager = activity.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+		val searchMenu = menu?.findItem(R.id.menu_search)
 
-        with(MenuItemCompat.getActionView(searchMenu) as SearchView) {
-            setIconifiedByDefault(false)
-            setOnQueryTextListener(this@AddShowFragment)
-            setSearchableInfo(searchManager.getSearchableInfo(activity.componentName))
-            setQuery(getQueryFromIntent(activity.intent), true)
-        }
-    }
+		with(MenuItemCompat.getActionView(searchMenu) as SearchView) {
+			setIconifiedByDefault(false)
+			setOnQueryTextListener(this@AddShowFragment)
+			setSearchableInfo(searchManager.getSearchableInfo(activity.componentName))
+			setQuery(getQueryFromIntent(activity.intent), true)
+		}
+	}
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_add_show, container, false)
+	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		val view = inflater?.inflate(R.layout.fragment_add_show, container, false)
 
-        if (view != null) {
-            this.emptyView = view.findViewById(android.R.id.empty) as TextView?
-            this.recyclerView = view.findViewById(android.R.id.list) as RecyclerView?
+		if (view != null) {
+			this.emptyView = view.findViewById(android.R.id.empty) as TextView?
+			this.recyclerView = view.findViewById(android.R.id.list) as RecyclerView?
 
-            if (this.recyclerView != null) {
-                val columnCount = this.resources.getInteger(R.integer.shows_column_count)
-                this.adapter = SearchResultsAdapter(this.searchResults)
+			if (this.recyclerView != null) {
+				val columnCount = this.resources.getInteger(R.integer.shows_column_count)
+				this.adapter = SearchResultsAdapter(this.searchResults)
 
-                this.recyclerView!!.adapter = this.adapter
-                this.recyclerView!!.layoutManager = GridLayoutManager(this.activity, columnCount)
-            }
-        }
+				this.recyclerView!!.adapter = this.adapter
+				this.recyclerView!!.layoutManager = GridLayoutManager(this.activity, columnCount)
+			}
+		}
 
-        return view
-    }
+		return view
+	}
 
-    override fun onDestroy() {
-        this.searchResults.clear()
+	override fun onDestroy() {
+		this.searchResults.clear()
 
-        super.onDestroy()
-    }
+		super.onDestroy()
+	}
 
-    override fun onDestroyView() {
-        this.emptyView = null
-        this.recyclerView = null
+	override fun onDestroyView() {
+		this.emptyView = null
+		this.recyclerView = null
 
-        super.onDestroyView()
-    }
+		super.onDestroyView()
+	}
 
-    override fun onQueryTextChange(newText: String?): Boolean {
-        return false
-    }
+	override fun onQueryTextChange(newText: String?) = false
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        if (isQueryValid(query)) {
-            SickRageApi.instance.services?.search(query!!, this)
+	override fun onQueryTextSubmit(query: String?): Boolean {
+		if (isQueryValid(query)) {
+			SickRageApi.instance.services?.search(query!!, this)
 
-            return true
-        }
+			return true
+		}
 
-        return false
-    }
+		return false
+	}
 
-    override fun success(searchResults: SearchResults?, response: Response?) {
-        this.searchResults.clear()
-        this.searchResults.addAll(getSearchResults(searchResults))
+	override fun success(searchResults: SearchResults?, response: Response?) {
+		this.searchResults.clear()
+		this.searchResults.addAll(getSearchResults(searchResults))
 
-        if (this.searchResults.isEmpty()) {
-            this.emptyView?.visibility = View.VISIBLE
-            this.recyclerView?.visibility = View.GONE
-        } else {
-            this.emptyView?.visibility = View.GONE
-            this.recyclerView?.visibility = View.VISIBLE
-        }
+		if (this.searchResults.isEmpty()) {
+			this.emptyView?.visibility = View.VISIBLE
+			this.recyclerView?.visibility = View.GONE
+		} else {
+			this.emptyView?.visibility = View.GONE
+			this.recyclerView?.visibility = View.VISIBLE
+		}
 
-        this.adapter?.notifyDataSetChanged()
-    }
+		this.adapter?.notifyDataSetChanged()
+	}
 
-    companion object {
-        fun getQueryFromIntent(intent: Intent?): String? {
-            if (Intent.ACTION_SEARCH != intent?.action) {
-                return ""
-            }
+	companion object {
+		fun getQueryFromIntent(intent: Intent?): String? {
+			if (Intent.ACTION_SEARCH != intent?.action) {
+				return ""
+			}
 
-            return intent.getStringExtra(SearchManager.QUERY)
-        }
+			return intent.getStringExtra(SearchManager.QUERY)
+		}
 
-        fun getSearchResults(searchResults: SearchResults?) = searchResults?.data?.results ?: emptyList()
+		fun getSearchResults(searchResults: SearchResults?) = searchResults?.data?.results ?: emptyList()
 
-        fun isQueryValid(query: String?) = !query.isNullOrBlank()
-    }
+		fun isQueryValid(query: String?) = !query.isNullOrBlank()
+	}
 }

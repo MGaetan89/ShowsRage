@@ -17,53 +17,53 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_UseDarkThemeTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun useDarkTheme_False() {
-        this.preference.edit().putBoolean(Fields.THEME.field, false).apply()
+	@Test
+	fun useDarkTheme_False() {
+		this.preference.edit().putBoolean(Fields.THEME.field, false).apply()
 
-        val useDarkTheme = this.preference.useDarkTheme()
+		val useDarkTheme = this.preference.useDarkTheme()
 
-        assertThat(useDarkTheme).isFalse()
-    }
+		assertThat(useDarkTheme).isFalse()
+	}
 
-    @Test
-    fun useDarkTheme_Missing() {
-        this.preference.edit().putBoolean(Fields.THEME.field, false).apply()
+	@Test
+	fun useDarkTheme_Missing() {
+		this.preference.edit().putBoolean(Fields.THEME.field, false).apply()
 
-        val useDarkTheme = this.preference.useDarkTheme()
+		val useDarkTheme = this.preference.useDarkTheme()
 
-        assertThat(useDarkTheme).isFalse()
-    }
+		assertThat(useDarkTheme).isFalse()
+	}
 
-    @Test
-    fun useDarkTheme_Null() {
-        val useDarkTheme = null.useDarkTheme()
+	@Test
+	fun useDarkTheme_Null() {
+		val useDarkTheme = null.useDarkTheme()
 
-        assertThat(useDarkTheme).isTrue()
-    }
+		assertThat(useDarkTheme).isTrue()
+	}
 
-    @Test
-    fun useDarkTheme_True() {
-        this.preference.edit().putBoolean(Fields.THEME.field, true).apply()
+	@Test
+	fun useDarkTheme_True() {
+		this.preference.edit().putBoolean(Fields.THEME.field, true).apply()
 
-        val useDarkTheme = this.preference.useDarkTheme()
+		val useDarkTheme = this.preference.useDarkTheme()
 
-        assertThat(useDarkTheme).isTrue()
-    }
+		assertThat(useDarkTheme).isTrue()
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

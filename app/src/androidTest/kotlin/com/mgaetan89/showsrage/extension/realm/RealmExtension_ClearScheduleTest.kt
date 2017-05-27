@@ -10,17 +10,17 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_ClearScheduleTest : RealmTest() {
-    @Before
-    fun before() {
-        assertThat(this.getSchedule()).hasSize(36)
-    }
+	@Before
+	fun before() {
+		assertThat(this.getSchedule()).hasSize(36)
+	}
 
-    @Test
-    fun clearSchedule() {
-        this.realm.clearSchedule()
+	@Test
+	fun clearSchedule() {
+		this.realm.clearSchedule()
 
-        assertThat(this.getSchedule()).isEmpty()
-    }
+		assertThat(this.getSchedule()).isEmpty()
+	}
 
-    private fun getSchedule() = this.realm.where(Schedule::class.java).findAll()
+	private fun getSchedule() = this.realm.where(Schedule::class.java).findAll()
 }

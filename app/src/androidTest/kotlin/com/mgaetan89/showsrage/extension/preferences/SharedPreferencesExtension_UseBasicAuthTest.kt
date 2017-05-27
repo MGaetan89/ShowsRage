@@ -17,46 +17,46 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_UseBasicAuthTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun useBasicAuth_False() {
-        this.preference.edit().putBoolean(Fields.BASIC_AUTH.field, false).apply()
+	@Test
+	fun useBasicAuth_False() {
+		this.preference.edit().putBoolean(Fields.BASIC_AUTH.field, false).apply()
 
-        val useBasicAuth = this.preference.useBasicAuth()
+		val useBasicAuth = this.preference.useBasicAuth()
 
-        assertThat(useBasicAuth).isFalse()
-    }
+		assertThat(useBasicAuth).isFalse()
+	}
 
-    @Test
-    fun useBasicAuth_Missing() {
-        this.preference.edit().putBoolean(Fields.BASIC_AUTH.field, false).apply()
+	@Test
+	fun useBasicAuth_Missing() {
+		this.preference.edit().putBoolean(Fields.BASIC_AUTH.field, false).apply()
 
-        val useBasicAuth = this.preference.useBasicAuth()
+		val useBasicAuth = this.preference.useBasicAuth()
 
-        assertThat(useBasicAuth).isFalse()
-    }
+		assertThat(useBasicAuth).isFalse()
+	}
 
-    @Test
-    fun useBasicAuth_True() {
-        this.preference.edit().putBoolean(Fields.BASIC_AUTH.field, true).apply()
+	@Test
+	fun useBasicAuth_True() {
+		this.preference.edit().putBoolean(Fields.BASIC_AUTH.field, true).apply()
 
-        val useBasicAuth = this.preference.useBasicAuth()
+		val useBasicAuth = this.preference.useBasicAuth()
 
-        assertThat(useBasicAuth).isTrue()
-    }
+		assertThat(useBasicAuth).isTrue()
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

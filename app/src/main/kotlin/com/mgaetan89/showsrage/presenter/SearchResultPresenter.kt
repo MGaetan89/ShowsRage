@@ -6,16 +6,16 @@ import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.model.SearchResultItem
 
 class SearchResultPresenter(val searchResult: SearchResultItem?) {
-    fun getFirstAired(): CharSequence? {
-        if (this.searchResult == null) {
-            return ""
-        }
+	fun getFirstAired(): CharSequence? {
+		if (this.searchResult == null) {
+			return ""
+		}
 
-        return DateTimeHelper.getRelativeDate(this.searchResult.firstAired, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)
-    }
+		return DateTimeHelper.getRelativeDate(this.searchResult.firstAired, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)
+	}
 
-    @StringRes
-    fun getIndexerNameRes() = this.searchResult?.getIndexerNameResource() ?: 0
+	@StringRes
+	fun getIndexerNameRes() = this.searchResult?.getIndexerNameResource() ?: 0
 
-    fun getName() = this.searchResult?.name ?: ""
+	fun getName() = this.searchResult?.name ?: ""
 }

@@ -9,27 +9,27 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class ShowsAdapter_GetItemCountTest(val shows: List<Show>, val itemCount: Int) {
-    private lateinit var adapter: ShowsAdapter
+	private lateinit var adapter: ShowsAdapter
 
-    @Before
-    fun before() {
-        this.adapter = ShowsAdapter(this.shows, 0, false)
-    }
+	@Before
+	fun before() {
+		this.adapter = ShowsAdapter(this.shows, 0, false)
+	}
 
-    @Test
-    fun getItemCount() {
-        assertThat(this.adapter.itemCount).isEqualTo(this.itemCount)
-    }
+	@Test
+	fun getItemCount() {
+		assertThat(this.adapter.itemCount).isEqualTo(this.itemCount)
+	}
 
-    companion object {
-        @JvmStatic
-        @Parameterized.Parameters
-        fun data(): Collection<Array<Any>> {
-            return listOf(
-                    arrayOf(emptyList<Any>(), 0),
-                    arrayOf(listOf(Show()), 1),
-                    arrayOf(listOf(Show(), Show(), Show()), 3)
-            )
-        }
-    }
+	companion object {
+		@JvmStatic
+		@Parameterized.Parameters
+		fun data(): Collection<Array<Any>> {
+			return listOf(
+					arrayOf(emptyList<Any>(), 0),
+					arrayOf(listOf(Show()), 1),
+					arrayOf(listOf(Show(), Show(), Show()), 3)
+			)
+		}
+	}
 }

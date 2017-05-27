@@ -8,21 +8,21 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class AddShowFragment_OnQueryTextChangeTest(val query: String?, val valid: Boolean) {
-    private lateinit var fragment: AddShowFragment
+	private lateinit var fragment: AddShowFragment
 
-    @Before
-    fun before() {
-        this.fragment = AddShowFragment()
-    }
+	@Before
+	fun before() {
+		this.fragment = AddShowFragment()
+	}
 
-    @Test
-    fun onQueryTextChange() {
-        assertThat(this.fragment.onQueryTextChange(this.query)).isFalse()
-    }
+	@Test
+	fun onQueryTextChange() {
+		assertThat(this.fragment.onQueryTextChange(this.query)).isFalse()
+	}
 
-    companion object {
-        @JvmStatic
-        @Parameterized.Parameters
-        fun data() = AddShowFragment_IsQueryValidTest.data()
-    }
+	companion object {
+		@JvmStatic
+		@Parameterized.Parameters
+		fun data() = AddShowFragment_IsQueryValidTest.data()
+	}
 }

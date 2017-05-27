@@ -5,13 +5,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class SettingsBehaviorFragmentTest {
-    @Test
-    fun getTitleResourceId() {
-        assertThat(SettingsBehaviorFragment().getTitleResourceId()).isEqualTo(R.string.behavior)
-    }
+	@Test
+	fun getTitleResourceId() {
+		assertThat(SettingsBehaviorFragment().getTitleResourceId()).isEqualTo(R.string.behavior)
+	}
 
-    @Test
-    fun getXmlResourceFile() {
-        assertThat(SettingsBehaviorFragment().getXmlResourceFile()).isEqualTo(R.xml.settings_behavior)
-    }
+	@Test
+	fun getXmlResourceFile() {
+		assertThat(SettingsBehaviorFragment().getXmlResourceFile()).isEqualTo(R.xml.settings_behavior)
+	}
 }

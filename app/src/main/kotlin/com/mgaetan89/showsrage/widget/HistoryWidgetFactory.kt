@@ -14,64 +14,64 @@ import com.mgaetan89.showsrage.presenter.HistoryPresenter
 import io.realm.Realm
 
 class HistoryWidgetFactory(context: Context) : ListWidgetFactory<History>(context) {
-    override fun getViewAt(position: Int): RemoteViews {
-        val history = this.getItem(position)
-        val presenter = HistoryPresenter(history)
-        val logoUrl = presenter.getPosterUrl()
+	override fun getViewAt(position: Int): RemoteViews {
+		val history = this.getItem(position)
+		val presenter = HistoryPresenter(history)
+		val logoUrl = presenter.getPosterUrl()
 
-        val views = RemoteViews(this.context.packageName, this.itemLayout)
-        views.setTextViewText(R.id.episode_date, if (history != null) this.getEpisodeDate(history) else "")
-        views.setContentDescription(R.id.episode_logo, presenter.getShowName())
-        views.setTextViewText(R.id.episode_title, this.getEpisodeTitle(presenter))
+		val views = RemoteViews(this.context.packageName, this.itemLayout)
+		views.setTextViewText(R.id.episode_date, if (history != null) this.getEpisodeDate(history) else "")
+		views.setContentDescription(R.id.episode_logo, presenter.getShowName())
+		views.setTextViewText(R.id.episode_title, this.getEpisodeTitle(presenter))
 
-        if (logoUrl.isEmpty()) {
-            views.setViewVisibility(R.id.episode_logo, View.INVISIBLE)
-        } else {
-            ImageLoader.load(this.context, views, R.id.episode_logo, logoUrl, true)
+		if (logoUrl.isEmpty()) {
+			views.setViewVisibility(R.id.episode_logo, View.INVISIBLE)
+		} else {
+			ImageLoader.load(this.context, views, R.id.episode_logo, logoUrl, true)
 
-            views.setViewVisibility(R.id.episode_logo, View.VISIBLE)
-        }
+			views.setViewVisibility(R.id.episode_logo, View.VISIBLE)
+		}
 
-        return views
-    }
+		return views
+	}
 
-    override fun getItems(): List<History> {
-        SickRageApi.instance.services?.getHistory()?.data?.let {
-            val histories = it.filterNotNull()
+	override fun getItems(): List<History> {
+		SickRageApi.instance.services?.getHistory()?.data?.let {
+			val histories = it.filterNotNull()
 
-            Realm.getDefaultInstance().let {
-                it.saveHistory(histories)
-                it.close()
-            }
+			Realm.getDefaultInstance().let {
+				it.saveHistory(histories)
+				it.close()
+			}
 
-            return histories
-        }
+			return histories
+		}
 
-        return emptyList()
-    }
+		return emptyList()
+	}
 
-    private fun getEpisodeDate(history: History): String {
-        val status = history.getStatusTranslationResource()
-        val statusString = if (status != 0) {
-            this.context.getString(status)
-        } else {
-            history.status
-        }
+	private fun getEpisodeDate(history: History): String {
+		val status = history.getStatusTranslationResource()
+		val statusString = if (status != 0) {
+			this.context.getString(status)
+		} else {
+			history.status
+		}
 
-        var text = this.context.getString(R.string.spaced_texts, statusString, DateTimeHelper.getRelativeDate(history.date, "yyyy-MM-dd hh:mm", 0)?.toString()?.toLowerCase())
+		var text = this.context.getString(R.string.spaced_texts, statusString, DateTimeHelper.getRelativeDate(history.date, "yyyy-MM-dd hh:mm", 0)?.toString()?.toLowerCase())
 
-        if ("subtitled".equals(history.status, true)) {
-            val language = history.resource?.toLocale()?.displayLanguage
+		if ("subtitled".equals(history.status, true)) {
+			val language = history.resource?.toLocale()?.displayLanguage
 
-            if (!language.isNullOrEmpty()) {
-                text += " [$language]"
-            }
-        }
+			if (!language.isNullOrEmpty()) {
+				text += " [$language]"
+			}
+		}
 
-        return text
-    }
+		return text
+	}
 
-    internal fun getEpisodeTitle(presenter: HistoryPresenter): String {
-        return this.context.getString(R.string.show_name_episode, presenter.getShowName(), presenter.getSeason(), presenter.getEpisode())
-    }
+	internal fun getEpisodeTitle(presenter: HistoryPresenter): String {
+		return this.context.getString(R.string.show_name_episode, presenter.getShowName(), presenter.getSeason(), presenter.getEpisode())
+	}
 }

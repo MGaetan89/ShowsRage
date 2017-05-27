@@ -8,11 +8,11 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_GetLogsGroupTest : RealmTest() {
-    @Test
-    fun getLogsGroup() {
-        val logsGroup = this.realm.getLogsGroup()
+	@Test
+	fun getLogsGroup() {
+		val logsGroup = this.realm.getLogsGroup()
 
-        assertThat(logsGroup).hasSize(4)
-        assertThat(logsGroup).containsExactly("POSTPROCESSER", "SEARCHQUEUE-BACKLOG-75897", "SEARCHQUEUE-DAILY-SEARCH", "TORNADO")
-    }
+		assertThat(logsGroup).hasSize(4)
+		assertThat(logsGroup).containsExactly("POSTPROCESSER", "SEARCHQUEUE-BACKLOG-75897", "SEARCHQUEUE-DAILY-SEARCH", "TORNADO")
+	}
 }

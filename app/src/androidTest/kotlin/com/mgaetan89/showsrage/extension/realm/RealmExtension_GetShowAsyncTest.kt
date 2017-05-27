@@ -11,30 +11,30 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_GetShowAsyncTest : RealmTest() {
-    @Before
-    fun before() {
-        this.realm.isAutoRefresh = true
-    }
+	@Before
+	fun before() {
+		this.realm.isAutoRefresh = true
+	}
 
-    @Test
-    @UiThreadTest
-    fun getShow() {
-        this.realm.getShow(292174, RealmChangeListener {
-            it.removeAllChangeListeners()
+	@Test
+	@UiThreadTest
+	fun getShow() {
+		this.realm.getShow(292174, RealmChangeListener {
+			it.removeAllChangeListeners()
 
-            assertThat(it.indexerId).isEqualTo(292174292174)
-            assertThat(it.showName).isEqualTo("Dark Matter")
-        })
-    }
+			assertThat(it.indexerId).isEqualTo(292174292174)
+			assertThat(it.showName).isEqualTo("Dark Matter")
+		})
+	}
 
-    @Test
-    @UiThreadTest
-    fun getShow_notFound() {
-        this.realm.getShow(0, RealmChangeListener {
-            it.removeAllChangeListeners()
+	@Test
+	@UiThreadTest
+	fun getShow_notFound() {
+		this.realm.getShow(0, RealmChangeListener {
+			it.removeAllChangeListeners()
 
-            assertThat(it.indexerId).isEqualTo(0)
-            assertThat(it.showName).isEqualTo("")
-        })
-    }
+			assertThat(it.indexerId).isEqualTo(0)
+			assertThat(it.showName).isEqualTo("")
+		})
+	}
 }

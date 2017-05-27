@@ -8,23 +8,23 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_GetShowTest : RealmTest() {
-    @Test
-    fun getShow() {
-        val show = this.realm.getShow(INDEXER_ID)
+	@Test
+	fun getShow() {
+		val show = this.realm.getShow(INDEXER_ID)
 
-        assertThat(show).isNotNull()
-        assertThat(show!!.indexerId).isEqualTo(INDEXER_ID)
-        assertThat(show.showName).isEqualTo("Futurama")
-    }
+		assertThat(show).isNotNull()
+		assertThat(show!!.indexerId).isEqualTo(INDEXER_ID)
+		assertThat(show.showName).isEqualTo("Futurama")
+	}
 
-    @Test
-    fun getShow_unknown() {
-        val show = this.realm.getShow(-1)
+	@Test
+	fun getShow_unknown() {
+		val show = this.realm.getShow(-1)
 
-        assertThat(show).isNull()
-    }
+		assertThat(show).isNull()
+	}
 
-    companion object {
-        private const val INDEXER_ID = 73871
-    }
+	companion object {
+		private const val INDEXER_ID = 73871
+	}
 }

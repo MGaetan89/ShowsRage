@@ -16,81 +16,81 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_SaveShowTest : RealmTest() {
-    @Before
-    fun before() {
-        assertThat(this.getShows()).hasSize(83)
-    }
+	@Before
+	fun before() {
+		assertThat(this.getShows()).hasSize(83)
+	}
 
-    @Test
-    fun saveShow() {
-        val show = Show().apply {
-            this.airs = "Monday 9:00 PM"
-            this.genre = RealmList(RealmString("Action"), RealmString("Drama"))
-            this.imdbId = "tt123456"
-            this.indexerId = 42
-            this.location = "/home/videos/Show Name"
-            this.qualityDetails = null
-            this.seasonList = RealmList(RealmString("2"), RealmString("1"))
-        }
+	@Test
+	fun saveShow() {
+		val show = Show().apply {
+			this.airs = "Monday 9:00 PM"
+			this.genre = RealmList(RealmString("Action"), RealmString("Drama"))
+			this.imdbId = "tt123456"
+			this.indexerId = 42
+			this.location = "/home/videos/Show Name"
+			this.qualityDetails = null
+			this.seasonList = RealmList(RealmString("2"), RealmString("1"))
+		}
 
-        this.realm.saveShow(show)
+		this.realm.saveShow(show)
 
-        this.validateShow(show.airs, show.genre, show.imdbId, show.indexerId, show.location, show.qualityDetails, show.seasonList)
-    }
+		this.validateShow(show.airs, show.genre, show.imdbId, show.indexerId, show.location, show.qualityDetails, show.seasonList)
+	}
 
-    @Test
-    fun saveShow_update() {
-        val show = Show().apply {
-            this.airs = "Thursday 10:00 PM"
-            this.genre = RealmList(RealmString("Action"), RealmString("Comedy"))
-            this.imdbId = "tt1234567"
-            this.indexerId = 42
-            this.location = "/home/videos/Show Name"
-            this.qualityDetails = Quality().apply {
-                this.archive = RealmList(RealmString("fullhdwebdl"), RealmString("fullhdbluray"))
-                this.indexerId = 42
-                this.initial = RealmList(RealmString("fullhdtv"))
-            }
-            this.seasonList = RealmList(RealmString("3"), RealmString("2"), RealmString("1"))
-        }
+	@Test
+	fun saveShow_update() {
+		val show = Show().apply {
+			this.airs = "Thursday 10:00 PM"
+			this.genre = RealmList(RealmString("Action"), RealmString("Comedy"))
+			this.imdbId = "tt1234567"
+			this.indexerId = 42
+			this.location = "/home/videos/Show Name"
+			this.qualityDetails = Quality().apply {
+				this.archive = RealmList(RealmString("fullhdwebdl"), RealmString("fullhdbluray"))
+				this.indexerId = 42
+				this.initial = RealmList(RealmString("fullhdtv"))
+			}
+			this.seasonList = RealmList(RealmString("3"), RealmString("2"), RealmString("1"))
+		}
 
-        this.realm.saveShow(show)
+		this.realm.saveShow(show)
 
-        this.validateShow(show.airs, show.genre, show.imdbId, show.indexerId, show.location, show.qualityDetails, show.seasonList)
-    }
+		this.validateShow(show.airs, show.genre, show.imdbId, show.indexerId, show.location, show.qualityDetails, show.seasonList)
+	}
 
-    private fun getShow(indexerId: Int) = this.realm.getShow(indexerId)
+	private fun getShow(indexerId: Int) = this.realm.getShow(indexerId)
 
-    private fun getShows() = this.realm.getShows(null)
+	private fun getShows() = this.realm.getShows(null)
 
-    private fun validateShow(airs: String?, genre: RealmList<RealmString>?, imdbId: String?, indexerId: Int, location: String?, qualityDetails: Quality?, seasonList: RealmList<RealmString>?) {
-        assertThat(this.getShows()).hasSize(84)
+	private fun validateShow(airs: String?, genre: RealmList<RealmString>?, imdbId: String?, indexerId: Int, location: String?, qualityDetails: Quality?, seasonList: RealmList<RealmString>?) {
+		assertThat(this.getShows()).hasSize(84)
 
-        val show = this.getShow(indexerId)
+		val show = this.getShow(indexerId)
 
-        assertThat(show).isNotNull()
-        assertThat(show!!.airs).isEqualTo(airs)
+		assertThat(show).isNotNull()
+		assertThat(show!!.airs).isEqualTo(airs)
 
-        validateRealmList(show.genre, genre)
+		validateRealmList(show.genre, genre)
 
-        assertThat(show.imdbId).isEqualTo(imdbId)
-        assertThat(show.indexerId).isEqualTo(indexerId)
-        assertThat(show.location).isEqualTo(location)
+		assertThat(show.imdbId).isEqualTo(imdbId)
+		assertThat(show.indexerId).isEqualTo(indexerId)
+		assertThat(show.location).isEqualTo(location)
 
-        if (qualityDetails == null) {
-            assertThat(show.qualityDetails).isNull()
-        } else {
-            assertThat(show.qualityDetails).isNotNull()
+		if (qualityDetails == null) {
+			assertThat(show.qualityDetails).isNull()
+		} else {
+			assertThat(show.qualityDetails).isNotNull()
 
-            show.qualityDetails!!.let {
-                validateRealmList(it.archive, qualityDetails.archive)
+			show.qualityDetails!!.let {
+				validateRealmList(it.archive, qualityDetails.archive)
 
-                assertThat(it.indexerId).isEqualTo(indexerId)
+				assertThat(it.indexerId).isEqualTo(indexerId)
 
-                validateRealmList(it.initial, qualityDetails.initial)
-            }
-        }
+				validateRealmList(it.initial, qualityDetails.initial)
+			}
+		}
 
-        validateRealmList(show.seasonList, seasonList)
-    }
+		validateRealmList(show.seasonList, seasonList)
+	}
 }

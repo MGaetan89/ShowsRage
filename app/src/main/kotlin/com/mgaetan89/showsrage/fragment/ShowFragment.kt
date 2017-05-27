@@ -18,55 +18,55 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 
 class ShowFragment : TabbedFragment(), Callback<Seasons> {
-    private val seasons = mutableListOf<Int>()
+	private val seasons = mutableListOf<Int>()
 
-    override fun failure(error: RetrofitError?) {
-        error?.printStackTrace()
-    }
+	override fun failure(error: RetrofitError?) {
+		error?.printStackTrace()
+	}
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+	override fun onActivityCreated(savedInstanceState: Bundle?) {
+		super.onActivityCreated(savedInstanceState)
 
-        val activity = this.activity
+		val activity = this.activity
 
-        if (activity is MainActivity) {
-            activity.displayHomeAsUp(true)
-            activity.setTitle(R.string.show)
-        }
+		if (activity is MainActivity) {
+			activity.displayHomeAsUp(true)
+			activity.setTitle(R.string.show)
+		}
 
-        val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
-        val realm = Realm.getDefaultInstance()
-        val show = realm.getShow(indexerId)
-        val sort = activity.getPreferences().getSeasonSort()
-        val seasons = show?.getSeasonsListInt() ?: emptyList()
+		val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
+		val realm = Realm.getDefaultInstance()
+		val show = realm.getShow(indexerId)
+		val sort = activity.getPreferences().getSeasonSort()
+		val seasons = show?.getSeasonsListInt() ?: emptyList()
 
-        realm.close()
+		realm.close()
 
-        this.displaySeasons(if (Sort.ASCENDING == sort) seasons.sorted() else seasons.sortedDescending())
+		this.displaySeasons(if (Sort.ASCENDING == sort) seasons.sorted() else seasons.sortedDescending())
 
-        SickRageApi.instance.services?.getSeasons(indexerId, sort.label, this)
-    }
+		SickRageApi.instance.services?.getSeasons(indexerId, sort.label, this)
+	}
 
-    override fun onDestroy() {
-        this.seasons.clear()
+	override fun onDestroy() {
+		this.seasons.clear()
 
-        super.onDestroy()
-    }
+		super.onDestroy()
+	}
 
-    override fun success(seasons: Seasons?, response: Response?) {
-        this.displaySeasons(seasons?.data)
-    }
+	override fun success(seasons: Seasons?, response: Response?) {
+		this.displaySeasons(seasons?.data)
+	}
 
-    override fun getAdapter(): PagerAdapter {
-        return ShowPagerAdapter(this.childFragmentManager, this, this.seasons)
-    }
+	override fun getAdapter(): PagerAdapter {
+		return ShowPagerAdapter(this.childFragmentManager, this, this.seasons)
+	}
 
-    override fun useSwipeToRefresh() = false
+	override fun useSwipeToRefresh() = false
 
-    private fun displaySeasons(seasons: Iterable<Int>?) {
-        this.seasons.clear()
-        this.seasons.addAll(seasons ?: emptyList())
+	private fun displaySeasons(seasons: Iterable<Int>?) {
+		this.seasons.clear()
+		this.seasons.addAll(seasons ?: emptyList())
 
-        this.updateState(this.seasons.isEmpty())
-    }
+		this.updateState(this.seasons.isEmpty())
+	}
 }

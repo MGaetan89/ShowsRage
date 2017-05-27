@@ -11,41 +11,41 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_GetShowsAsyncTest : RealmTest() {
-    @Before
-    fun before() {
-        this.realm.isAutoRefresh = true
-    }
+	@Before
+	fun before() {
+		this.realm.isAutoRefresh = true
+	}
 
-    @Test
-    @UiThreadTest
-    fun getShows_all() {
-        this.realm.getShows(null, RealmChangeListener {
-            it.removeAllChangeListeners()
+	@Test
+	@UiThreadTest
+	fun getShows_all() {
+		this.realm.getShows(null, RealmChangeListener {
+			it.removeAllChangeListeners()
 
-            assertThat(it).isNotNull()
-            assertThat(it).hasSize(83)
-        })
-    }
+			assertThat(it).isNotNull()
+			assertThat(it).hasSize(83)
+		})
+	}
 
-    @Test
-    @UiThreadTest
-    fun getShows_animes() {
-        this.realm.getShows(true, RealmChangeListener {
-            it.removeAllChangeListeners()
+	@Test
+	@UiThreadTest
+	fun getShows_animes() {
+		this.realm.getShows(true, RealmChangeListener {
+			it.removeAllChangeListeners()
 
-            assertThat(it).isNotNull()
-            assertThat(it).hasSize(3)
-        })
-    }
+			assertThat(it).isNotNull()
+			assertThat(it).hasSize(3)
+		})
+	}
 
-    @Test
-    @UiThreadTest
-    fun getShows_show() {
-        this.realm.getShows(false, RealmChangeListener {
-            it.removeAllChangeListeners()
+	@Test
+	@UiThreadTest
+	fun getShows_show() {
+		this.realm.getShows(false, RealmChangeListener {
+			it.removeAllChangeListeners()
 
-            assertThat(it).isNotNull()
-            assertThat(it).hasSize(80)
-        })
-    }
+			assertThat(it).isNotNull()
+			assertThat(it).hasSize(80)
+		})
+	}
 }
