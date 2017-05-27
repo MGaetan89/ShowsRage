@@ -294,6 +294,8 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 			this.swipeRefreshLayout = view.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
 			this.year = view.findViewById(R.id.episode_year) as TextView?
 
+			this.name?.isSelected = true
+
 			this.swipeRefreshLayout?.setColorSchemeResources(R.color.accent)
 			this.swipeRefreshLayout?.setOnRefreshListener(this)
 

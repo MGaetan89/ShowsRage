@@ -1,29 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:bind="http://schemas.android.com/apk/res-auto">
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+	style="@style/SR.CardView"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_margin="@dimen/padding_half">
 
-	<data>
-
-		<variable
-			name="show"
-			type="com.mgaetan89.showsrage.presenter.ShowPresenter" />
-
-		<variable
-			name="stats"
-			type="com.mgaetan89.showsrage.model.RealmShowStat" />
-	</data>
-
-	<android.support.v7.widget.CardView
-		style="@style/SR.CardView"
+	<ViewStub
+		android:id="@+id/stub"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_margin="@dimen/padding_half">
-
-		<ViewStub
-			android:id="@+id/stub"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			bind:show="@{show}"
-			bind:stats="@{stats}" />
-	</android.support.v7.widget.CardView>
-</layout>
+		android:layout_height="wrap_content" />
+</android.support.v7.widget.CardView>

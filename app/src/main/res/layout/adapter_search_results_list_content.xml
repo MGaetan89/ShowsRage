@@ -1,53 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="@dimen/list_item_height"
+	android:layout_centerVertical="true"
+	android:background="?selectableItemBackground"
+	android:gravity="center_vertical"
+	android:orientation="vertical"
+	android:paddingEnd="@dimen/padding"
+	android:paddingLeft="@dimen/padding"
+	android:paddingRight="@dimen/padding"
+	android:paddingStart="@dimen/padding">
 
-	<data>
+	<TextView
+		android:id="@+id/show_name"
+		style="@style/TextAppearance.AppCompat.Subhead"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:ellipsize="marquee"
+		android:marqueeRepeatLimit="marquee_forever"
+		android:scrollHorizontally="true"
+		android:singleLine="true"
+		tools:text="2 Broke Girls" />
 
-		<variable
-			name="result"
-			type="com.mgaetan89.showsrage.presenter.SearchResultPresenter" />
-	</data>
+	<TextView
+		android:id="@+id/show_first_aired"
+		style="@style/TextAppearance.AppCompat.Caption"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		tools:text="2015-04-27" />
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="@dimen/list_item_height"
-		android:layout_centerVertical="true"
-		android:background="?selectableItemBackground"
-		android:gravity="center_vertical"
-		android:orientation="vertical"
-		android:paddingEnd="@dimen/padding"
-		android:paddingLeft="@dimen/padding"
-		android:paddingRight="@dimen/padding"
-		android:paddingStart="@dimen/padding">
-
-		<TextView
-			style="@style/TextAppearance.AppCompat.Subhead"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:ellipsize="marquee"
-			android:marqueeRepeatLimit="marquee_forever"
-			android:scrollHorizontally="true"
-			android:singleLine="true"
-			android:text="@{result.name}"
-			app:selected="@{true}"
-			tools:text="2 Broke Girls" />
-
-		<TextView
-			style="@style/TextAppearance.AppCompat.Caption"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@{result.firstAired}"
-			tools:text="2015-04-27" />
-
-		<TextView
-			android:id="@+id/show_indexer"
-			style="@style/TextAppearance.AppCompat.Caption"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="end|right"
-			app:textRes="@{result.indexerNameRes}"
-			tools:text="@string/the_tvdb" />
-	</LinearLayout>
-</layout>
+	<TextView
+		android:id="@+id/show_indexer"
+		style="@style/TextAppearance.AppCompat.Caption"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="end|right"
+		tools:text="@string/the_tvdb" />
+</LinearLayout>
