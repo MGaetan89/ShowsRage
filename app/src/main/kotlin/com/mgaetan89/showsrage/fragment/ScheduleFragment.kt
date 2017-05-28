@@ -11,6 +11,7 @@ import com.mgaetan89.showsrage.extension.saveSchedules
 import com.mgaetan89.showsrage.model.Schedules
 import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.Realm
+import kotlinx.android.synthetic.main.fragment_tabbed.swipe_refresh
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
@@ -20,7 +21,7 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
 	private val sectionLabels = mutableListOf<String>()
 
 	override fun failure(error: RetrofitError?) {
-		this.swipeRefreshLayout?.isRefreshing = false
+		this.swipe_refresh.isRefreshing = false
 
 		error?.printStackTrace()
 	}
@@ -51,13 +52,13 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
 	}
 
 	override fun onRefresh() {
-		this.swipeRefreshLayout?.isRefreshing = true
+		this.swipe_refresh.isRefreshing = true
 
 		SickRageApi.instance.services?.getSchedule(this)
 	}
 
 	override fun success(schedules: Schedules?, response: Response?) {
-		this.swipeRefreshLayout?.isRefreshing = false
+		this.swipe_refresh.isRefreshing = false
 
 		val data = schedules?.data ?: return
 

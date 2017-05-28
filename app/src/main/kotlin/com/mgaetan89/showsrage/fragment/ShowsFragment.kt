@@ -26,6 +26,7 @@ import com.mgaetan89.showsrage.model.Shows
 import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_shows.add_show
+import kotlinx.android.synthetic.main.fragment_tabbed.swipe_refresh
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
@@ -39,7 +40,7 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 	}
 
 	override fun failure(error: RetrofitError?) {
-		this.swipeRefreshLayout?.isRefreshing = false
+		this.swipe_refresh.isRefreshing = false
 
 		error?.printStackTrace()
 	}
@@ -127,7 +128,7 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 	}
 
 	override fun onRefresh() {
-		this.swipeRefreshLayout?.isRefreshing = true
+		this.swipe_refresh.isRefreshing = true
 
 		SickRageApi.instance.services?.getShows(this)
 	}
@@ -145,7 +146,7 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 	}
 
 	override fun success(shows: Shows?, response: Response?) {
-		this.swipeRefreshLayout?.isRefreshing = false
+		this.swipe_refresh.isRefreshing = false
 
 		val showsList = shows?.data?.values ?: return
 
