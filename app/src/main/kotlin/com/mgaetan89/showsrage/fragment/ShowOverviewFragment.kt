@@ -20,7 +20,6 @@ import android.support.v4.view.ViewCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.graphics.Palette
-import android.support.v7.widget.CardView
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.Menu
@@ -28,10 +27,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
@@ -58,6 +54,36 @@ import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmList
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.fragment_show_overview.show_airs
+import kotlinx.android.synthetic.main.fragment_show_overview.show_awards
+import kotlinx.android.synthetic.main.fragment_show_overview.show_awards_layout
+import kotlinx.android.synthetic.main.fragment_show_overview.show_banner
+import kotlinx.android.synthetic.main.fragment_show_overview.show_casting_actors
+import kotlinx.android.synthetic.main.fragment_show_overview.show_casting_directors
+import kotlinx.android.synthetic.main.fragment_show_overview.show_casting_layout
+import kotlinx.android.synthetic.main.fragment_show_overview.show_casting_writers
+import kotlinx.android.synthetic.main.fragment_show_overview.show_fan_art
+import kotlinx.android.synthetic.main.fragment_show_overview.show_genre
+import kotlinx.android.synthetic.main.fragment_show_overview.show_imdb
+import kotlinx.android.synthetic.main.fragment_show_overview.show_language_country
+import kotlinx.android.synthetic.main.fragment_show_overview.show_location
+import kotlinx.android.synthetic.main.fragment_show_overview.show_name
+import kotlinx.android.synthetic.main.fragment_show_overview.show_network
+import kotlinx.android.synthetic.main.fragment_show_overview.show_next_episode_date
+import kotlinx.android.synthetic.main.fragment_show_overview.show_plot
+import kotlinx.android.synthetic.main.fragment_show_overview.show_plot_layout
+import kotlinx.android.synthetic.main.fragment_show_overview.show_poster
+import kotlinx.android.synthetic.main.fragment_show_overview.show_quality
+import kotlinx.android.synthetic.main.fragment_show_overview.show_rated
+import kotlinx.android.synthetic.main.fragment_show_overview.show_rating
+import kotlinx.android.synthetic.main.fragment_show_overview.show_rating_stars
+import kotlinx.android.synthetic.main.fragment_show_overview.show_runtime
+import kotlinx.android.synthetic.main.fragment_show_overview.show_status
+import kotlinx.android.synthetic.main.fragment_show_overview.show_subtitles
+import kotlinx.android.synthetic.main.fragment_show_overview.show_the_tvdb
+import kotlinx.android.synthetic.main.fragment_show_overview.show_web_search
+import kotlinx.android.synthetic.main.fragment_show_overview.show_year
+import kotlinx.android.synthetic.main.fragment_show_overview.swipe_refresh
 import retrofit.Callback
 import retrofit.RestAdapter
 import retrofit.RetrofitError
@@ -65,141 +91,83 @@ import retrofit.client.Response
 import java.lang.ref.WeakReference
 
 class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListener, ImageLoader.OnImageResult, SwipeRefreshLayout.OnRefreshListener, Palette.PaletteAsyncListener, RealmChangeListener<Show> {
-	private var airs: TextView? = null
-	private var awards: TextView? = null
-	private var awardsLayout: CardView? = null
-	private var banner: ImageView? = null
-	private var castingActors: TextView? = null
-	private var castingDirectors: TextView? = null
-	private var castingLayout: CardView? = null
-	private var castingWriters: TextView? = null
-	private var fanArt: ImageView? = null
-	private var genre: TextView? = null
-	private var imdb: Button? = null
 	private val indexerId by lazy { this.arguments.getInt(Constants.Bundle.INDEXER_ID) }
-	private var languageCountry: TextView? = null
-	private var location: TextView? = null
-	private var name: TextView? = null
-	private var network: TextView? = null
-	private var nextEpisodeDate: TextView? = null
 	private var omDbApi: OmDbApi? = null
 	private var pauseMenu: MenuItem? = null
-	private var plot: TextView? = null
-	private var plotLayout: CardView? = null
-	private var poster: ImageView? = null
-	private var quality: TextView? = null
-	private var rated: TextView? = null
-	private var rating: TextView? = null
-	private var ratingStars: RatingBar? = null
 	private lateinit var realm: Realm
 	private var resumeMenu: MenuItem? = null
-	private var runtime: TextView? = null
 	private var series: RealmResults<Serie>? = null
 	private val seriesListener = RealmChangeListener<RealmResults<Serie>> { series ->
 		val serie = series.firstOrNull() ?: return@RealmChangeListener
 
-		if (this.awards != null) {
-			setText(this, this.awards!!, serie.awards, 0, this.awardsLayout)
-		}
+		setText(this, this.show_awards, serie.awards, 0, this.show_awards_layout)
 
 		val actors = serie.actors
 		val director = serie.director
 		val writer = serie.writer
 
 		if (actors.hasText() || director.hasText() || writer.hasText()) {
-			if (this.castingActors != null) {
-				setText(this, this.castingActors!!, actors, R.string.actors, null)
-			}
+			setText(this, this.show_casting_actors, actors, R.string.actors, null)
+			setText(this, this.show_casting_directors, director, R.string.directors, null)
+			setText(this, this.show_casting_writers, writer, R.string.writers, null)
 
-			if (this.castingDirectors != null) {
-				setText(this, this.castingDirectors!!, director, R.string.directors, null)
-			}
-
-			this.castingLayout?.visibility = View.VISIBLE
-
-			if (this.castingWriters != null) {
-				setText(this, this.castingWriters!!, writer, R.string.writers, null)
-			}
+			this.show_casting_layout.visibility = View.VISIBLE
 		} else {
-			this.castingLayout?.visibility = View.GONE
+			this.show_casting_layout.visibility = View.GONE
 		}
 
-		if (this.languageCountry != null) {
-			val country = serie.country
-			val language = serie.language
+		val country = serie.country
+		val language = serie.language
 
-			if (language.hasText()) {
-				this.languageCountry!!.text = if (country.hasText()) {
-					this.getString(R.string.language_county, language, country)
-				} else {
-					this.getString(R.string.language_value, language)
-				}
-				this.languageCountry!!.visibility = View.VISIBLE
+		if (language.hasText()) {
+			this.show_language_country.text = if (country.hasText()) {
+				this.getString(R.string.language_county, language, country)
 			} else {
-				this.languageCountry!!.visibility = View.GONE
+				this.getString(R.string.language_value, language)
 			}
+			this.show_language_country.visibility = View.VISIBLE
+		} else {
+			this.show_language_country.visibility = View.GONE
 		}
 
-		if (this.plot != null) {
-			setText(this, this.plot!!, serie.plot, 0, this.plotLayout)
+		setText(this, this.show_plot, serie.plot, 0, this.show_plot_layout)
+		setText(this, this.show_rated, serie.rated, R.string.rated, null)
+
+		val imdbRating = serie.imdbRating
+		val imdbVotes = serie.imdbVotes
+
+		if (imdbRating.hasText() && imdbVotes.hasText()) {
+			this.show_rating.text = this.getString(R.string.rating, imdbRating, imdbVotes)
+			this.show_rating.visibility = View.VISIBLE
+		} else {
+			this.show_rating.visibility = View.GONE
 		}
 
-		if (this.rated != null) {
-			setText(this, this.rated!!, serie.rated, R.string.rated, null)
+		try {
+			this.show_rating_stars.rating = serie.imdbRating?.toFloat() ?: 0f
+			this.show_rating_stars.visibility = View.VISIBLE
+		} catch (exception: Exception) {
+			this.show_rating_stars.visibility = View.GONE
 		}
 
-		if (this.rating != null) {
-			val imdbRating = serie.imdbRating
-			val imdbVotes = serie.imdbVotes
-
-			if (imdbRating.hasText() && imdbVotes.hasText()) {
-				this.rating!!.text = this.getString(R.string.rating, imdbRating, imdbVotes)
-				this.rating!!.visibility = View.VISIBLE
-			} else {
-				this.rating!!.visibility = View.GONE
-			}
-		}
-
-		if (this.ratingStars != null) {
-			try {
-				this.ratingStars!!.rating = serie.imdbRating?.toFloat() ?: 0f
-				this.ratingStars!!.visibility = View.VISIBLE
-			} catch(exception: Exception) {
-				this.ratingStars!!.visibility = View.GONE
-			}
-		}
-
-		if (this.runtime != null) {
-			setText(this, this.runtime!!, serie.runtime, R.string.runtime, null)
-		}
-
-		if (this.year != null) {
-			setText(this, this.year!!, serie.year, R.string.year, null)
-		}
+		setText(this, this.show_runtime, serie.runtime, R.string.runtime, null)
+		setText(this, this.show_year, serie.year, R.string.year, null)
 	}
 	private var serviceConnection: ServiceConnection? = null
 	private lateinit var show: Show
-	private var status: TextView? = null
-	private var subtitles: TextView? = null
-	private var swipeRefreshLayout: SwipeRefreshLayout? = null
 	private var tabSession: CustomTabsSession? = null
-	private var theTvDb: Button? = null
-	private var webSearch: Button? = null
-	private var year: TextView? = null
 
 	init {
 		this.setHasOptionsMenu(true)
 	}
 
 	override fun failure(error: RetrofitError?) {
-		this.swipeRefreshLayout?.isRefreshing = false
+		this.swipe_refresh.isRefreshing = false
 
 		error?.printStackTrace()
 	}
 
-	fun getSetShowQualityCallback(): Callback<GenericResponse> {
-		return GenericCallback(this.activity)
-	}
+	fun getSetShowQualityCallback() = GenericCallback(this.activity)
 
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
 		super.onActivityCreated(savedInstanceState)
@@ -240,139 +208,79 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 			this.omDbApi?.getShow(imdbId, OmdbShowCallback())
 		}
 
-		if (this.airs != null) {
-			val airs = show.airs
+		val airs = show.airs
 
-			this.airs!!.text = if (airs.isNullOrEmpty()) {
-				this.getString(R.string.airs, "N/A")
-			} else {
-				this.getString(R.string.airs, airs)
-			}
+		this.show_airs.text = this.getString(R.string.airs, if (airs.isNullOrEmpty()) "N/A" else airs)
+		this.show_airs.visibility = View.VISIBLE
 
-			this.airs!!.visibility = View.VISIBLE
+		ImageLoader.load(this.show_banner, SickRageApi.instance.getBannerUrl(show.tvDbId, Indexer.TVDB), false, null, this)
+		this.show_banner.contentDescription = show.showName
+
+		ImageLoader.load(this.show_fan_art, SickRageApi.instance.getFanArtUrl(show.tvDbId, Indexer.TVDB), false, null, this)
+		this.show_fan_art.contentDescription = show.showName
+
+		val genresList = show.genre
+
+		if (genresList?.isNotEmpty() ?: false) {
+			val genres = genresList!!.joinToString { it.value }
+
+			this.show_genre.text = this.getString(R.string.genre, genres)
+			this.show_genre.visibility = View.VISIBLE
+		} else {
+			this.show_genre.visibility = View.GONE
 		}
 
-		if (this.banner != null) {
-			ImageLoader.load(
-					this.banner,
-					SickRageApi.instance.getBannerUrl(show.tvDbId, Indexer.TVDB),
-					false, null, this
-			)
+		this.show_imdb.visibility = if (imdbId.isNullOrEmpty()) View.GONE else View.VISIBLE
 
-			this.banner!!.contentDescription = show.showName
+		this.show_language_country.text = this.getString(R.string.language_value, show.language)
+		this.show_language_country.visibility = View.VISIBLE
+
+		val location = show.location
+
+		this.show_location.text = this.getString(R.string.location, if (location.isNullOrEmpty()) "N/A" else location)
+		this.show_location.visibility = View.VISIBLE
+
+		this.show_name.text = show.showName
+		this.show_name.visibility = View.VISIBLE
+
+		if (nextEpisodeAirDate.isNullOrEmpty()) {
+			this.show_next_episode_date.visibility = View.GONE
+		} else {
+			this.show_next_episode_date.text = this.getString(R.string.next_episode, DateTimeHelper.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS))
+			this.show_next_episode_date.visibility = View.VISIBLE
 		}
 
-		if (this.fanArt != null) {
-			ImageLoader.load(
-					this.fanArt,
-					SickRageApi.instance.getFanArtUrl(show.tvDbId, Indexer.TVDB),
-					false, null, this
-			)
+		this.show_network.text = this.getString(R.string.network, show.network)
+		this.show_network.visibility = View.VISIBLE
 
-			this.fanArt!!.contentDescription = show.showName
+		ImageLoader.load(this.show_poster, SickRageApi.instance.getPosterUrl(show.tvDbId, Indexer.TVDB), false, this, null)
+		this.show_poster.contentDescription = show.showName
+
+		val quality = show.quality
+
+		if ("custom".equals(quality, true)) {
+			val qualityDetails = show.qualityDetails
+			val allowed = listToString(this.getTranslatedQualities(qualityDetails?.initial, true))
+			val preferred = listToString(this.getTranslatedQualities(qualityDetails?.archive, false))
+
+			this.show_quality.text = this.getString(R.string.quality_custom, allowed, preferred)
+		} else {
+			this.show_quality.text = this.getString(R.string.quality, quality)
 		}
 
-		if (this.genre != null) {
-			val genresList = show.genre
+		this.show_quality.visibility = View.VISIBLE
 
-			if (genresList?.isNotEmpty() ?: false) {
-				val genres = genresList!!.joinToString { it.value }
+		if (nextEpisodeAirDate.isNullOrEmpty()) {
+			val status = show.getStatusTranslationResource()
 
-				this.genre!!.text = this.getString(R.string.genre, genres)
-				this.genre!!.visibility = View.VISIBLE
-			} else {
-				this.genre!!.visibility = View.GONE
-			}
+			this.show_status.text = if (status != 0) this.getString(status) else show.status
+			this.show_status.visibility = View.VISIBLE
+		} else {
+			this.show_status.visibility = View.GONE
 		}
 
-		if (this.imdb != null) {
-			this.imdb!!.visibility = if (imdbId.isNullOrEmpty()) {
-				View.GONE
-			} else {
-				View.VISIBLE
-			}
-		}
-
-		if (this.languageCountry != null) {
-			this.languageCountry!!.text = this.getString(R.string.language_value, show.language)
-			this.languageCountry!!.visibility = View.VISIBLE
-		}
-
-		if (this.location != null) {
-			val location = show.location
-
-			this.location!!.text = if (location.isNullOrEmpty()) {
-				this.getString(R.string.location, "N/A")
-			} else {
-				this.getString(R.string.location, location)
-			}
-			this.location!!.visibility = View.VISIBLE
-		}
-
-		if (this.name != null) {
-			this.name!!.text = show.showName
-			this.name!!.visibility = View.VISIBLE
-		}
-
-		if (this.nextEpisodeDate != null) {
-			if (nextEpisodeAirDate.isNullOrEmpty()) {
-				this.nextEpisodeDate!!.visibility = View.GONE
-			} else {
-				this.nextEpisodeDate!!.text = this.getString(R.string.next_episode, DateTimeHelper.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS))
-				this.nextEpisodeDate!!.visibility = View.VISIBLE
-			}
-		}
-
-		if (this.network != null) {
-			this.network!!.text = this.getString(R.string.network, show.network)
-			this.network!!.visibility = View.VISIBLE
-		}
-
-		if (this.poster != null) {
-			ImageLoader.load(
-					this.poster,
-					SickRageApi.instance.getPosterUrl(show.tvDbId, Indexer.TVDB),
-					false, this, null
-			)
-
-			this.poster!!.contentDescription = show.showName
-		}
-
-		if (this.quality != null) {
-			val quality = show.quality
-
-			if ("custom".equals(quality, true)) {
-				val qualityDetails = show.qualityDetails
-				val allowed = listToString(this.getTranslatedQualities(qualityDetails?.initial, true))
-				val preferred = listToString(this.getTranslatedQualities(qualityDetails?.archive, false))
-
-				this.quality!!.text = this.getString(R.string.quality_custom, allowed, preferred)
-			} else {
-				this.quality!!.text = this.getString(R.string.quality, quality)
-			}
-
-			this.quality!!.visibility = View.VISIBLE
-		}
-
-		if (this.status != null) {
-			if (nextEpisodeAirDate.isNullOrEmpty()) {
-				val status = show.getStatusTranslationResource()
-
-				this.status!!.text = if (status != 0) {
-					this.getString(status)
-				} else {
-					show.status
-				}
-				this.status!!.visibility = View.VISIBLE
-			} else {
-				this.status!!.visibility = View.GONE
-			}
-		}
-
-		this.subtitles?.let {
-			it.text = this.getString(R.string.subtitles_value, this.getString(if (show.subtitles == 0) R.string.no else R.string.yes))
-			it.visibility = View.VISIBLE
-		}
+		this.show_subtitles.text = this.getString(R.string.subtitles_value, this.getString(if (show.subtitles == 0) R.string.no else R.string.yes))
+		this.show_subtitles.visibility = View.VISIBLE
 	}
 
 	override fun onClick(view: View?) {
@@ -424,51 +332,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 	}
 
 	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		val view = inflater?.inflate(R.layout.fragment_show_overview, container, false)
-
-		if (view != null) {
-			this.airs = view.findViewById(R.id.show_airs) as TextView?
-			this.awards = view.findViewById(R.id.show_awards) as TextView?
-			this.awardsLayout = view.findViewById(R.id.show_awards_layout) as CardView?
-			this.banner = view.findViewById(R.id.show_banner) as ImageView?
-			this.castingActors = view.findViewById(R.id.show_casting_actors) as TextView?
-			this.castingDirectors = view.findViewById(R.id.show_casting_directors) as TextView?
-			this.castingLayout = view.findViewById(R.id.show_casting_layout) as CardView?
-			this.castingWriters = view.findViewById(R.id.show_casting_writers) as TextView?
-			this.fanArt = view.findViewById(R.id.show_fan_art) as ImageView?
-			this.genre = view.findViewById(R.id.show_genre) as TextView?
-			this.imdb = view.findViewById(R.id.show_imdb) as Button?
-			this.languageCountry = view.findViewById(R.id.show_language_country) as TextView?
-			this.location = view.findViewById(R.id.show_location) as TextView?
-			this.name = view.findViewById(R.id.show_name) as TextView?
-			this.network = view.findViewById(R.id.show_network) as TextView?
-			this.nextEpisodeDate = view.findViewById(R.id.show_next_episode_date) as TextView?
-			this.plot = view.findViewById(R.id.show_plot) as TextView?
-			this.plotLayout = view.findViewById(R.id.show_plot_layout) as CardView?
-			this.poster = view.findViewById(R.id.show_poster) as ImageView?
-			this.quality = view.findViewById(R.id.show_quality) as TextView?
-			this.rated = view.findViewById(R.id.show_rated) as TextView?
-			this.rating = view.findViewById(R.id.show_rating) as TextView?
-			this.ratingStars = view.findViewById(R.id.show_rating_stars) as RatingBar?
-			this.runtime = view.findViewById(R.id.show_runtime) as TextView?
-			this.status = view.findViewById(R.id.show_status) as TextView?
-			this.subtitles = view.findViewById(R.id.show_subtitles) as TextView?
-			this.swipeRefreshLayout = view.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
-			this.theTvDb = view.findViewById(R.id.show_the_tvdb) as Button?
-			this.webSearch = view.findViewById(R.id.show_web_search) as Button?
-			this.year = view.findViewById(R.id.show_year) as TextView?
-
-			this.imdb?.setOnClickListener(this)
-			this.theTvDb?.setOnClickListener(this)
-			this.webSearch?.setOnClickListener(this)
-
-			this.swipeRefreshLayout?.setColorSchemeResources(R.color.accent)
-			this.swipeRefreshLayout?.setOnRefreshListener(this)
-
-			this.checkSupportWebSearch()
-		}
-
-		return view
+		return inflater?.inflate(R.layout.fragment_show_overview, container, false)
 	}
 
 	override fun onDestroy() {
@@ -483,41 +347,6 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		}
 
 		super.onDestroy()
-	}
-
-	override fun onDestroyView() {
-		this.airs = null
-		this.awards = null
-		this.awardsLayout = null
-		this.banner = null
-		this.castingActors = null
-		this.castingDirectors = null
-		this.castingLayout = null
-		this.castingWriters = null
-		this.fanArt = null
-		this.genre = null
-		this.imdb = null
-		this.languageCountry = null
-		this.location = null
-		this.name = null
-		this.nextEpisodeDate = null
-		this.network = null
-		this.plot = null
-		this.plotLayout = null
-		this.poster = null
-		this.quality = null
-		this.rated = null
-		this.rating = null
-		this.ratingStars = null
-		this.runtime = null
-		this.status = null
-		this.subtitles = null
-		this.swipeRefreshLayout = null
-		this.theTvDb = null
-		this.webSearch = null
-		this.year = null
-
-		super.onDestroyView()
 	}
 
 	override fun onGenerated(palette: Palette?) {
@@ -540,20 +369,14 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		val colorStateList = ColorStateList.valueOf(colorPrimary)
 		val textColor = Utils.getContrastColor(colorPrimary)
 
-		if (this.imdb != null) {
-			ViewCompat.setBackgroundTintList(this.imdb, colorStateList)
-			this.imdb!!.setTextColor(textColor)
-		}
+		ViewCompat.setBackgroundTintList(this.show_imdb, colorStateList)
+		this.show_imdb.setTextColor(textColor)
 
-		if (this.theTvDb != null) {
-			ViewCompat.setBackgroundTintList(this.theTvDb, colorStateList)
-			this.theTvDb!!.setTextColor(textColor)
-		}
+		ViewCompat.setBackgroundTintList(this.show_the_tvdb, colorStateList)
+		this.show_the_tvdb.setTextColor(textColor)
 
-		if (this.webSearch != null) {
-			ViewCompat.setBackgroundTintList(this.webSearch, colorStateList)
-			this.webSearch!!.setTextColor(textColor)
-		}
+		ViewCompat.setBackgroundTintList(this.show_web_search, colorStateList)
+		this.show_web_search.setTextColor(textColor)
 	}
 
 	override fun onImageError(imageView: ImageView, exception: Exception?, errorDrawable: Drawable?) {
@@ -615,7 +438,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 	}
 
 	override fun onRefresh() {
-		this.swipeRefreshLayout?.isRefreshing = true
+		this.swipe_refresh.isRefreshing = true
 
 		val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
 
@@ -649,8 +472,21 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		super.onStop()
 	}
 
+	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+
+		this.show_imdb.setOnClickListener(this)
+		this.show_the_tvdb.setOnClickListener(this)
+		this.show_web_search.setOnClickListener(this)
+
+		this.swipe_refresh.setColorSchemeResources(R.color.accent)
+		this.swipe_refresh.setOnRefreshListener(this)
+
+		this.checkSupportWebSearch()
+	}
+
 	override fun success(singleShow: SingleShow?, response: Response?) {
-		this.swipeRefreshLayout?.isRefreshing = false
+		this.swipe_refresh.isRefreshing = false
 
 		val show = singleShow?.data ?: return
 
@@ -674,7 +510,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		val manager = this.context.packageManager
 		val activities = manager.queryIntentActivities(webSearchIntent, 0)
 
-		this.webSearch?.visibility = if (activities.size > 0) View.VISIBLE else View.GONE
+		this.show_web_search.visibility = if (activities.size > 0) View.VISIBLE else View.GONE
 	}
 
 	private fun deleteShow() {
@@ -688,12 +524,12 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		AlertDialog.Builder(this.context)
 				.setTitle(this.getString(R.string.delete_show_title, this.show.showName))
 				.setMessage(R.string.delete_show_message)
-				.setPositiveButton(R.string.keep, { _, _ ->
+				.setPositiveButton(R.string.keep) { _, _ ->
 					SickRageApi.instance.services?.deleteShow(indexerId, 0, callback)
-				})
-				.setNegativeButton(R.string.delete, { _, _ ->
+				}
+				.setNegativeButton(R.string.delete) { _, _ ->
 					SickRageApi.instance.services?.deleteShow(indexerId, 1, callback)
-				})
+				}
 				.setNeutralButton(R.string.cancel, null)
 				.show()
 	}

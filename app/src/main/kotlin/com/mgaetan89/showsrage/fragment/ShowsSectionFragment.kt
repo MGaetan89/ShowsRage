@@ -9,12 +9,9 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.futuremind.recyclerviewfastscroll.FastScroller
 import com.futuremind.recyclerviewfastscroll.viewprovider.DefaultScrollerViewProvider
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
@@ -36,6 +33,9 @@ import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmObject
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.fragment_shows_section.empty
+import kotlinx.android.synthetic.main.fragment_shows_section.fastscroll
+import kotlinx.android.synthetic.main.fragment_shows_section.list
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
@@ -43,12 +43,9 @@ import java.lang.ref.WeakReference
 import java.util.Comparator
 
 class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>> {
-	private var adapter: ShowsAdapter? = null
-	private var emptyView: TextView? = null
 	private val filteredShows = mutableListOf<Show>()
 	private lateinit var realm: Realm
 	private val receiver = FilterReceiver(this)
-	private var recyclerView: RecyclerView? = null
 	private lateinit var shows: RealmResults<Show>
 	private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
@@ -72,51 +69,10 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 	}
 
 	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		val view = inflater?.inflate(R.layout.fragment_shows_section, container, false)
-
-		if (view != null) {
-			val fastScroller = view.findViewById(R.id.fastscroll) as FastScroller?
-
-			this.emptyView = view.findViewById(android.R.id.empty) as TextView?
-			this.recyclerView = view.findViewById(android.R.id.list) as RecyclerView?
-
-			if (this.recyclerView != null) {
-				val preferences = context.getPreferences()
-				val ignoreArticles = preferences.ignoreArticles()
-				val showsListLayout = preferences.getShowsListLayout()
-				val columnCount = this.resources.getInteger(R.integer.shows_column_count)
-
-				this.adapter = ShowsAdapter(this.filteredShows, showsListLayout, ignoreArticles)
-
-				this.recyclerView!!.adapter = this.adapter
-				this.recyclerView!!.layoutManager = GridLayoutManager(this.context, columnCount)
-
-				fastScroller?.let {
-					it.setViewProvider(object : DefaultScrollerViewProvider() {
-						override fun onHandleGrabbed() {
-							super.onHandleGrabbed()
-
-							swipeRefreshLayout?.isEnabled = false
-						}
-
-						override fun onHandleReleased() {
-							super.onHandleReleased()
-
-							swipeRefreshLayout?.isEnabled = true
-						}
-					})
-
-					it.setRecyclerView(this.recyclerView)
-				}
-			}
-		}
-
-		return view
+		return inflater?.inflate(R.layout.fragment_shows_section, container, false)
 	}
 
 	override fun onDestroyView() {
-		this.emptyView = null
-		this.recyclerView = null
 		this.swipeRefreshLayout = null
 
 		super.onDestroyView()
@@ -159,13 +115,41 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 		super.onStop()
 	}
 
+	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+
+		val preferences = this.context.getPreferences()
+		val ignoreArticles = preferences.ignoreArticles()
+		val showsListLayout = preferences.getShowsListLayout()
+		val columnCount = this.resources.getInteger(R.integer.shows_column_count)
+
+		this.list.adapter = ShowsAdapter(this.filteredShows, showsListLayout, ignoreArticles)
+		this.list.layoutManager = GridLayoutManager(this.context, columnCount)
+
+		this.fastscroll.setViewProvider(object : DefaultScrollerViewProvider() {
+			override fun onHandleGrabbed() {
+				super.onHandleGrabbed()
+
+				swipeRefreshLayout?.isEnabled = false
+			}
+
+			override fun onHandleReleased() {
+				super.onHandleReleased()
+
+				swipeRefreshLayout?.isEnabled = true
+			}
+		})
+
+		this.fastscroll.setRecyclerView(this.list)
+	}
+
 	private fun updateLayout() {
 		if (this.filteredShows.isEmpty()) {
-			this.emptyView?.visibility = View.VISIBLE
-			this.recyclerView?.visibility = View.GONE
+			this.empty.visibility = View.VISIBLE
+			this.list.visibility = View.GONE
 		} else {
-			this.emptyView?.visibility = View.GONE
-			this.recyclerView?.visibility = View.VISIBLE
+			this.empty.visibility = View.GONE
+			this.list.visibility = View.VISIBLE
 		}
 	}
 
@@ -199,7 +183,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 			if (filteredShows != currentFilteredShows) {
 				fragment.filteredShows.clear()
 				fragment.filteredShows.addAll(filteredShows)
-				fragment.adapter?.notifyDataSetChanged()
+				fragment.list.adapter?.notifyDataSetChanged()
 			}
 
 			fragment.updateLayout()
@@ -279,7 +263,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 				filteredShows.filter { it.isValid && it.indexerId == indexerId }.forEachIndexed { i, show ->
 					show.stat = realmStat ?: show.stat
 
-					fragment.adapter?.notifyItemChanged(i, Constants.Payloads.SHOWS_STATS)
+					fragment.list.adapter?.notifyItemChanged(i, Constants.Payloads.SHOWS_STATS)
 				}
 
 				if (shows.isValid) {
@@ -320,8 +304,6 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 			return parameters.filterKeys(String::isNotEmpty)
 		}
 
-		internal fun isShowValid(show: Show?): Boolean {
-			return show != null && show.indexerId > 0
-		}
+		internal fun isShowValid(show: Show?) = show != null && show.indexerId > 0
 	}
 }

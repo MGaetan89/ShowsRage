@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v4.view.MenuItemCompat
@@ -14,7 +13,6 @@ import android.support.v7.app.MediaRouteDiscoveryFragment
 import android.support.v7.media.MediaControlIntent
 import android.support.v7.media.MediaRouteSelector
 import android.support.v7.media.MediaRouter
-import android.support.v7.widget.CardView
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.Menu
@@ -22,9 +20,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
 import android.widget.Toast
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
@@ -56,6 +51,32 @@ import com.mgaetan89.showsrage.view.ColoredMediaRouteActionProvider
 import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_airs
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_awards
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_awards_layout
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_casting_actors
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_casting_directors
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_casting_layout
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_casting_writers
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_file_size
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_genre
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_language_country
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_location
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_more_information_layout
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_name
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_plot
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_plot_layout
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_poster
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_quality
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_rated
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_rating
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_rating_stars
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_runtime
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_status
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_subtitles
+import kotlinx.android.synthetic.main.fragment_episode_detail.episode_year
+import kotlinx.android.synthetic.main.fragment_episode_detail.search_episode
+import kotlinx.android.synthetic.main.fragment_episode_detail.swipe_refresh
 import retrofit.Callback
 import retrofit.RestAdapter
 import retrofit.RetrofitError
@@ -68,138 +89,82 @@ import java.net.URL
 import java.util.Locale
 
 class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpisode>, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, RealmChangeListener<Episode> {
-	private var airs: TextView? = null
-	private var awards: TextView? = null
-	private var awardsLayout: CardView? = null
-	private var castingActors: TextView? = null
-	private var castingDirectors: TextView? = null
-	private var castingLayout: CardView? = null
-	private var castingWriters: TextView? = null
 	private var castMenu: MenuItem? = null
 	private lateinit var episode: Episode
 	private var episodeNumber = 0
-	private var fileSize: TextView? = null
-	private var genre: TextView? = null
-	private var languageCountry: TextView? = null
-	private var location: TextView? = null
-	private var moreInformationLayout: CardView? = null
-	private var name: TextView? = null
 	private var omdbEpisodes: RealmResults<OmDbEpisode>? = null
 	private val omdbEpisodesListener = RealmChangeListener<RealmResults<OmDbEpisode>> { episodes ->
 		val episode = episodes.firstOrNull() ?: return@RealmChangeListener
 
-		if (this.awards != null) {
-			setText(this, this.awards!!, episode.awards, 0, this.awardsLayout)
-		}
+		setText(this, this.episode_awards, episode.awards, 0, this.episode_awards_layout)
 
 		val actors = episode.actors
 		val director = episode.director
 		val writer = episode.writer
 
 		if (actors.hasText() || director.hasText() || writer.hasText()) {
-			if (this.castingActors != null) {
-				setText(this, this.castingActors!!, actors, R.string.actors, null)
-			}
+			setText(this, this.episode_casting_actors, actors, R.string.actors, null)
+			setText(this, this.episode_casting_directors, director, R.string.directors, null)
+			setText(this, this.episode_casting_writers, writer, R.string.writers, null)
 
-			if (this.castingDirectors != null) {
-				setText(this, this.castingDirectors!!, director, R.string.directors, null)
-			}
-
-			if (this.castingLayout != null) {
-				this.castingLayout!!.visibility = View.VISIBLE
-			}
-
-			if (this.castingWriters != null) {
-				setText(this, this.castingWriters!!, writer, R.string.writers, null)
-			}
+			this.episode_casting_layout.visibility = View.VISIBLE
 		} else {
-			if (this.castingLayout != null) {
-				this.castingLayout!!.visibility = View.GONE
-			}
+			this.episode_casting_layout.visibility = View.GONE
 		}
 
-		if (this.genre != null) {
-			setText(this, this.genre!!, episode.genre, R.string.genre, null)
-		}
+		setText(this, this.episode_genre, episode.genre, R.string.genre, null)
 
-		if (this.languageCountry != null) {
-			val country = episode.country
-			val language = episode.language
+		val country = episode.country
+		val language = episode.language
 
-			if (language.hasText()) {
-				if (country.hasText()) {
-					this.languageCountry!!.text = this.getString(R.string.language_county, language, country)
-				} else {
-					this.languageCountry!!.text = this.getString(R.string.language_value, language)
-				}
-
-				this.languageCountry!!.visibility = View.VISIBLE
+		if (language.hasText()) {
+			if (country.hasText()) {
+				this.episode_language_country.text = this.getString(R.string.language_county, language, country)
 			} else {
-				this.languageCountry!!.visibility = View.GONE
+				this.episode_language_country.text = this.getString(R.string.language_value, language)
 			}
+
+			this.episode_language_country.visibility = View.VISIBLE
+		} else {
+			this.episode_language_country.visibility = View.GONE
 		}
 
-		if (this.poster != null) {
-			if (episode.poster.isNullOrEmpty()) {
-				this.poster!!.visibility = View.GONE
-			} else {
-				ImageLoader.load(this.poster, episode.poster, false)
+		if (episode.poster.isNullOrEmpty()) {
+			this.episode_poster.visibility = View.GONE
+		} else {
+			ImageLoader.load(this.episode_poster, episode.poster, false)
 
-				this.poster!!.contentDescription = episode.title
-				this.poster!!.visibility = View.VISIBLE
-			}
+			this.episode_poster.contentDescription = episode.title
+			this.episode_poster.visibility = View.VISIBLE
 		}
 
-		if (this.rated != null) {
-			setText(this, this.rated!!, episode.rated, R.string.rated, null)
+		setText(this, this.episode_rated, episode.rated, R.string.rated, null)
+
+		val imdbRating = episode.imdbRating
+		val imdbVotes = episode.imdbVotes
+
+		if (imdbRating.hasText() && imdbVotes.hasText()) {
+			this.episode_rating.text = this.getString(R.string.rating, imdbRating, imdbVotes)
+			this.episode_rating.visibility = View.VISIBLE
+		} else {
+			this.episode_rating.visibility = View.GONE
 		}
 
-		if (this.rating != null) {
-			val imdbRating = episode.imdbRating
-			val imdbVotes = episode.imdbVotes
-
-			if (imdbRating.hasText() && imdbVotes.hasText()) {
-				this.rating!!.text = this.getString(R.string.rating, imdbRating, imdbVotes)
-				this.rating!!.visibility = View.VISIBLE
-			} else {
-				this.rating!!.visibility = View.GONE
-			}
+		try {
+			this.episode_rating_stars.rating = episode.imdbRating?.toFloat() ?: 0f
+			this.episode_rating_stars.visibility = View.VISIBLE
+		} catch (exception: Exception) {
+			this.episode_rating_stars.visibility = View.GONE
 		}
 
-		if (this.ratingStars != null) {
-			try {
-				this.ratingStars!!.rating = episode.imdbRating?.toFloat() ?: 0f
-				this.ratingStars!!.visibility = View.VISIBLE
-			} catch (exception: Exception) {
-				this.ratingStars!!.visibility = View.GONE
-			}
-		}
-
-		if (this.runtime != null) {
-			setText(this, this.runtime!!, episode.runtime, R.string.runtime, null)
-		}
-
-		if (this.year != null) {
-			setText(this, this.year!!, episode.year, R.string.year, null)
-		}
+		setText(this, this.episode_runtime, episode.runtime, R.string.runtime, null)
+		setText(this, this.episode_year, episode.year, R.string.year, null)
 	}
 
 	private var playVideoMenu: MenuItem? = null
-	private var plot: TextView? = null
-	private var plotLayout: CardView? = null
-	private var poster: ImageView? = null
-	private var quality: TextView? = null
-	private var rated: TextView? = null
-	private var rating: TextView? = null
-	private var ratingStars: RatingBar? = null
 	private lateinit var realm: Realm
-	private var runtime: TextView? = null
 	private var seasonNumber = 0
 	private var show: Show? = null
-	private var status: TextView? = null
-	private var subtitles: TextView? = null
-	private var swipeRefreshLayout: SwipeRefreshLayout? = null
-	private var year: TextView? = null
 
 	init {
 		this.setHasOptionsMenu(true)
@@ -210,7 +175,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 	}
 
 	override fun failure(error: RetrofitError?) {
-		this.swipeRefreshLayout?.isRefreshing = false
+		this.swipe_refresh.isRefreshing = false
 
 		error?.printStackTrace()
 	}
@@ -265,93 +230,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 	}
 
 	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		val view = inflater?.inflate(R.layout.fragment_episode_detail, container, false)
-
-		if (view != null) {
-			this.airs = view.findViewById(R.id.episode_airs) as TextView?
-			this.awards = view.findViewById(R.id.episode_awards) as TextView?
-			this.awardsLayout = view.findViewById(R.id.episode_awards_layout) as CardView?
-			this.castingActors = view.findViewById(R.id.episode_casting_actors) as TextView?
-			this.castingDirectors = view.findViewById(R.id.episode_casting_directors) as TextView?
-			this.castingLayout = view.findViewById(R.id.episode_casting_layout) as CardView?
-			this.castingWriters = view.findViewById(R.id.episode_casting_writers) as TextView?
-			this.fileSize = view.findViewById(R.id.episode_file_size) as TextView?
-			this.genre = view.findViewById(R.id.episode_genre) as TextView?
-			this.languageCountry = view.findViewById(R.id.episode_language_country) as TextView?
-			this.location = view.findViewById(R.id.episode_location) as TextView?
-			this.moreInformationLayout = view.findViewById(R.id.episode_more_information_layout) as CardView?
-			this.name = view.findViewById(R.id.episode_name) as TextView?
-			this.plot = view.findViewById(R.id.episode_plot) as TextView?
-			this.plotLayout = view.findViewById(R.id.episode_plot_layout) as CardView?
-			this.poster = view.findViewById(R.id.episode_poster) as ImageView?
-			this.quality = view.findViewById(R.id.episode_quality) as TextView?
-			this.rated = view.findViewById(R.id.episode_rated) as TextView?
-			this.rating = view.findViewById(R.id.episode_rating) as TextView?
-			this.ratingStars = view.findViewById(R.id.episode_rating_stars) as RatingBar?
-			this.runtime = view.findViewById(R.id.episode_runtime) as TextView?
-			this.status = view.findViewById(R.id.episode_status) as TextView?
-			this.subtitles = view.findViewById(R.id.episode_subtitles) as TextView?
-			this.swipeRefreshLayout = view.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
-			this.year = view.findViewById(R.id.episode_year) as TextView?
-
-			this.name?.isSelected = true
-
-			this.swipeRefreshLayout?.setColorSchemeResources(R.color.accent)
-			this.swipeRefreshLayout?.setOnRefreshListener(this)
-
-			val searchEpisode = view.findViewById(R.id.search_episode) as FloatingActionButton?
-
-			if (searchEpisode != null) {
-				val activity = this.activity
-
-				if (activity is MainActivity) {
-					val colors = activity.getThemColors()
-
-					if (colors != null) {
-						val colorPrimary = colors.primary
-
-						if (colorPrimary != 0) {
-							searchEpisode.backgroundTintList = ColorStateList.valueOf(colorPrimary)
-							DrawableCompat.setTint(DrawableCompat.wrap(searchEpisode.drawable), Utils.getContrastColor(colorPrimary))
-						}
-					}
-				}
-
-				searchEpisode.setOnClickListener(this)
-			}
-		}
-
-		return view
-	}
-
-	override fun onDestroyView() {
-		this.airs = null
-		this.awards = null
-		this.awardsLayout = null
-		this.castingActors = null
-		this.castingDirectors = null
-		this.castingLayout = null
-		this.castingWriters = null
-		this.fileSize = null
-		this.genre = null
-		this.languageCountry = null
-		this.location = null
-		this.moreInformationLayout = null
-		this.name = null
-		this.plot = null
-		this.plotLayout = null
-		this.poster = null
-		this.quality = null
-		this.rated = null
-		this.rating = null
-		this.ratingStars = null
-		this.runtime = null
-		this.status = null
-		this.subtitles = null
-		this.swipeRefreshLayout = null
-		this.year = null
-
-		super.onDestroyView()
+		return inflater?.inflate(R.layout.fragment_episode_detail, container, false)
 	}
 
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -382,7 +261,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 	}
 
 	override fun onRefresh() {
-		this.swipeRefreshLayout?.isRefreshing = true
+		this.swipe_refresh.isRefreshing = true
 
 		if (this.show != null) {
 			SickRageApi.instance.services?.getEpisode(this.show!!.indexerId, this.seasonNumber, this.episodeNumber, this)
@@ -454,8 +333,34 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 		super.onStop()
 	}
 
+	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+
+		this.episode_name.isSelected = true
+
+		this.swipe_refresh.setColorSchemeResources(R.color.accent)
+		this.swipe_refresh.setOnRefreshListener(this)
+
+		val activity = this.activity
+
+		if (activity is MainActivity) {
+			val colors = activity.getThemColors()
+
+			if (colors != null) {
+				val colorPrimary = colors.primary
+
+				if (colorPrimary != 0) {
+					this.search_episode.backgroundTintList = ColorStateList.valueOf(colorPrimary)
+					DrawableCompat.setTint(DrawableCompat.wrap(this.search_episode.drawable), Utils.getContrastColor(colorPrimary))
+				}
+			}
+		}
+
+		this.search_episode.setOnClickListener(this)
+	}
+
 	override fun success(singleEpisode: SingleEpisode?, response: Response?) {
-		this.swipeRefreshLayout?.isRefreshing = false
+		this.swipe_refresh.isRefreshing = false
 
 		val episode = singleEpisode?.data
 
@@ -486,61 +391,53 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 			return
 		}
 
-		this.airs?.text = this.getString(R.string.airs, DateTimeHelper.getRelativeDate(episode.airDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS))
-		this.airs?.visibility = View.VISIBLE
+		this.episode_airs.text = this.getString(R.string.airs, DateTimeHelper.getRelativeDate(episode.airDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS))
+		this.episode_airs.visibility = View.VISIBLE
 
 		if (episode.fileSize == 0L) {
-			this.moreInformationLayout?.visibility = View.GONE
+			this.episode_more_information_layout.visibility = View.GONE
 		} else {
-			this.fileSize?.text = this.getString(R.string.file_size, episode.fileSizeHuman)
-			this.location?.text = this.getString(R.string.location, episode.location)
-			this.moreInformationLayout?.visibility = View.VISIBLE
+			this.episode_file_size.text = this.getString(R.string.file_size, episode.fileSizeHuman)
+			this.episode_location.text = this.getString(R.string.location, episode.location)
+			this.episode_more_information_layout.visibility = View.VISIBLE
 		}
 
-		this.name?.text = episode.name
-		this.name?.visibility = View.VISIBLE
+		this.episode_name.text = episode.name
+		this.episode_name.visibility = View.VISIBLE
 
-		if (this.plot != null) {
-			val description = episode.description
+		val description = episode.description
 
-			if (description.isNullOrEmpty()) {
-				this.plotLayout?.visibility = View.GONE
-			} else {
-				this.plot?.text = description
-				this.plotLayout?.visibility = View.VISIBLE
-			}
+		if (description.isNullOrEmpty()) {
+			this.episode_plot_layout.visibility = View.GONE
+		} else {
+			this.episode_plot.text = description
+			this.episode_plot_layout.visibility = View.VISIBLE
 		}
 
-		if (this.quality != null) {
-			val quality = episode.quality
+		val quality = episode.quality
 
-			if ("N/A".equals(quality, ignoreCase = true)) {
-				this.quality!!.visibility = View.GONE
-			} else {
-				this.quality!!.text = this.getString(R.string.quality, quality)
-				this.quality!!.visibility = View.VISIBLE
-			}
+		if ("N/A".equals(quality, ignoreCase = true)) {
+			this.episode_quality.visibility = View.GONE
+		} else {
+			this.episode_quality.text = this.getString(R.string.quality, quality)
+			this.episode_quality.visibility = View.VISIBLE
 		}
 
-		if (this.status != null) {
-			val status = episode.getStatusTranslationResource()
-			val statusString = if (status != 0) {
-				this.getString(status)
-			} else {
-				episode.status
-			}
-
-			this.status!!.text = this.getString(R.string.status_value, statusString)
-			this.status!!.visibility = View.VISIBLE
+		val status = episode.getStatusTranslationResource()
+		val statusString = if (status != 0) {
+			this.getString(status)
+		} else {
+			episode.status
 		}
 
-		this.subtitles?.let {
-			if (episode.subtitles.isNullOrEmpty()) {
-				it.visibility = View.GONE
-			} else {
-				it.text = this.getString(R.string.subtitles_value, getDisplayableSubtitlesLanguages(episode.subtitles))
-				it.visibility = View.VISIBLE
-			}
+		this.episode_status.text = this.getString(R.string.status_value, statusString)
+		this.episode_status.visibility = View.VISIBLE
+
+		if (episode.subtitles.isNullOrEmpty()) {
+			this.episode_subtitles.visibility = View.GONE
+		} else {
+			this.episode_subtitles.text = this.getString(R.string.subtitles_value, getDisplayableSubtitlesLanguages(episode.subtitles))
+			this.episode_subtitles.visibility = View.VISIBLE
 		}
 	}
 

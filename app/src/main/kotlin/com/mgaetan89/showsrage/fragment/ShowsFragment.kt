@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.MenuItemCompat
-import android.support.v4.view.PagerAdapter
 import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.Menu
@@ -26,6 +25,7 @@ import com.mgaetan89.showsrage.extension.splitShowsAnimes
 import com.mgaetan89.showsrage.model.Shows
 import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.Realm
+import kotlinx.android.synthetic.main.fragment_shows.add_show
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
@@ -141,7 +141,7 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		view?.findViewById(R.id.add_show)?.setOnClickListener(this)
+		this.add_show.setOnClickListener(this)
 	}
 
 	override fun success(shows: Shows?, response: Response?) {
@@ -155,9 +155,7 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 		}
 	}
 
-	override fun getAdapter(): PagerAdapter {
-		return ShowsPagerAdapter(this.childFragmentManager, this, this.splitShowsAnimes)
-	}
+	override fun getAdapter() = ShowsPagerAdapter(this.childFragmentManager, this, this.splitShowsAnimes)
 
 	override fun getTabMode() = TabLayout.MODE_FIXED
 
