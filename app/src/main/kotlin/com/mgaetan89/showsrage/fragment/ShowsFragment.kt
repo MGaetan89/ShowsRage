@@ -40,7 +40,7 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 	}
 
 	override fun failure(error: RetrofitError?) {
-		this.swipe_refresh.isRefreshing = false
+		this.swipe_refresh?.isRefreshing = false
 
 		error?.printStackTrace()
 	}
