@@ -77,4 +77,12 @@ class ChangeQualityFragment : DialogFragment(), DialogInterface.OnClickListener 
 
 		return null
 	}
+
+	companion object {
+		fun newInstance(indexerId: Int) = ChangeQualityFragment().apply {
+			this.arguments = Bundle().apply {
+				this.putInt(Constants.Bundle.INDEXER_ID, indexerId)
+			}
+		}
+	}
 }

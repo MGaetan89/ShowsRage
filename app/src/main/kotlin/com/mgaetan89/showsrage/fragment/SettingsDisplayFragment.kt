@@ -53,4 +53,8 @@ class SettingsDisplayFragment : SettingsFragment() {
 			it.updateAllWidgets(this.context, ScheduleWidgetProvider::class.java)
 		}
 	}
+
+	companion object {
+		fun newInstance() = SettingsDisplayFragment()
+	}
 }

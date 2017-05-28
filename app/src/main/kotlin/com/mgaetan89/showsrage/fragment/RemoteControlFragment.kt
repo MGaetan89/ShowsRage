@@ -348,5 +348,7 @@ class RemoteControlFragment : DialogFragment(), View.OnClickListener, SeekBar.On
 
 			return formattedTime + "%02d:".format(minutes) + "%02d".format(localTime)
 		}
+
+		fun newInstance() = RemoteControlFragment()
 	}
 }

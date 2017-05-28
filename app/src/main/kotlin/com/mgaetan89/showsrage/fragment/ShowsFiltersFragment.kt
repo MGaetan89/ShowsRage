@@ -106,4 +106,12 @@ class ShowsFiltersFragment : DialogFragment(), CompoundButton.OnCheckedChangeLis
 		checkBox?.isChecked = checked
 		checkBox?.setOnCheckedChangeListener(this)
 	}
+
+	companion object {
+		fun newInstance(searchQuery: String?) = ShowsFiltersFragment().apply {
+			this.arguments = Bundle().apply {
+				this.putString(Constants.Bundle.SEARCH_QUERY, searchQuery)
+			}
+		}
+	}
 }

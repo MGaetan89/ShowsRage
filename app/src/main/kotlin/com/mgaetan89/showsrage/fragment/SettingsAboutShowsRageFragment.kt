@@ -6,4 +6,8 @@ class SettingsAboutShowsRageFragment : SettingsAboutFragment() {
 	override fun getTitleResourceId() = R.string.app_name
 
 	override fun getXmlResourceFile() = R.xml.settings_about_showsrage
+
+	companion object {
+		fun newInstance() = SettingsAboutShowsRageFragment()
+	}
 }

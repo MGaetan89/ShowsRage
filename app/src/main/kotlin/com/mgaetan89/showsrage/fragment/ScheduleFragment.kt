@@ -114,5 +114,7 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
 				else -> 0
 			}
 		}
+
+		fun newInstance() = ScheduleFragment()
 	}
 }

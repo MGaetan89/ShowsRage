@@ -173,5 +173,7 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
 
 			return this.numberFormat.format(100f * a / b)
 		}
+
+		fun newInstance() = StatisticsFragment()
 	}
 }

@@ -173,16 +173,18 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
 	companion object {
 		internal fun getSettingFragmentForScreen(screen: String?): SettingsFragment? {
 			return when (screen) {
-				"screen_about" -> SettingsAboutFragment()
-				"screen_about_licenses" -> SettingsAboutLicensesFragment()
-				"screen_about_shows_rage" -> SettingsAboutShowsRageFragment()
-				"screen_behavior" -> SettingsBehaviorFragment()
-				"screen_display" -> SettingsDisplayFragment()
-				"screen_experimental_features" -> SettingsExperimentalFeaturesFragment()
-				"screen_server" -> SettingsServerFragment()
-				"screen_server_api_key" -> SettingsServerApiKeyFragment()
+				"screen_about" -> SettingsAboutFragment.newInstance()
+				"screen_about_licenses" -> SettingsAboutLicensesFragment.newInstance()
+				"screen_about_shows_rage" -> SettingsAboutShowsRageFragment.newInstance()
+				"screen_behavior" -> SettingsBehaviorFragment.newInstance()
+				"screen_display" -> SettingsDisplayFragment.newInstance()
+				"screen_experimental_features" -> SettingsExperimentalFeaturesFragment.newInstance()
+				"screen_server" -> SettingsServerFragment.newInstance()
+				"screen_server_api_key" -> SettingsServerApiKeyFragment.newInstance()
 				else -> null
 			}
 		}
+
+		fun newInstance() = SettingsFragment()
 	}
 }

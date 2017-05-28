@@ -40,6 +40,10 @@ class SettingsServerApiKeyFragment : SettingsServerFragment() {
 		SickRageApi.instance.services?.getApiKey(username, password, ApiKeyCallback(this))
 	}
 
+	companion object {
+		fun newInstance() = SettingsServerApiKeyFragment()
+	}
+
 	private class ApiKeyCallback(fragment: SettingsFragment) : Callback<ApiKey> {
 		private val fragmentReference = WeakReference(fragment)
 

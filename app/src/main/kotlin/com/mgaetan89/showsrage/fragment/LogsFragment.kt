@@ -211,11 +211,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 	}
 
 	private fun handleLogsGroupFilter() {
-		val arguments = Bundle()
-		arguments.putStringArray(Constants.Bundle.LOGS_GROUPS, this.groups)
-
-		val fragment = LogsFilterFragment()
-		fragment.arguments = arguments
+		val fragment = LogsFilterFragment.newInstance(this.groups)
 		fragment.setTargetFragment(this, REQUEST_CODE_FILTER)
 		fragment.show(this.childFragmentManager, "logs_filter")
 	}
@@ -286,5 +282,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 				else -> 0
 			}
 		}
+
+		fun newInstance() = LogsFragment()
 	}
 }

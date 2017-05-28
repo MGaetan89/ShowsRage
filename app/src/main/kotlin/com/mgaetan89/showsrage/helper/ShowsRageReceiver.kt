@@ -3,7 +3,6 @@ package com.mgaetan89.showsrage.helper
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.widget.Toast
 import com.mgaetan89.showsrage.Constants
@@ -47,16 +46,13 @@ class ShowsRageReceiver(activity: MainActivity) : BroadcastReceiver() {
 
 	private fun handleEpisodeSelected(intent: Intent) {
 		val activity = this.activityReference.get() ?: return
+		val episodeId = intent.getStringExtra(Constants.Bundle.EPISODE_ID)
+		val episodeNumber = intent.getIntExtra(Constants.Bundle.EPISODE_NUMBER, 0)
+		val episodesCount = intent.getIntExtra(Constants.Bundle.EPISODES_COUNT, 0)
+		val seasonNumber = intent.getIntExtra(Constants.Bundle.EPISODES_COUNT, 0)
+		val indexerId = intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0)
 
-		val arguments = Bundle()
-		arguments.putString(Constants.Bundle.EPISODE_ID, intent.getStringExtra(Constants.Bundle.EPISODE_ID))
-		arguments.putInt(Constants.Bundle.EPISODE_NUMBER, intent.getIntExtra(Constants.Bundle.EPISODE_NUMBER, 0))
-		arguments.putInt(Constants.Bundle.EPISODES_COUNT, intent.getIntExtra(Constants.Bundle.EPISODES_COUNT, 0))
-		arguments.putInt(Constants.Bundle.SEASON_NUMBER, intent.getIntExtra(Constants.Bundle.SEASON_NUMBER, 0))
-		arguments.putInt(Constants.Bundle.INDEXER_ID, intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0))
-
-		val fragment = EpisodeFragment()
-		fragment.arguments = arguments
+		val fragment = EpisodeFragment.newInstance(episodeId, episodeNumber, episodesCount, seasonNumber, indexerId)
 
 		activity.supportFragmentManager.beginTransaction()
 				.addToBackStack("episode")
@@ -66,23 +62,16 @@ class ShowsRageReceiver(activity: MainActivity) : BroadcastReceiver() {
 
 	private fun handleSearchResultSelected(intent: Intent) {
 		val activity = this.activityReference.get() ?: return
+		val indexerId = intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0)
 
-		val arguments = Bundle()
-		arguments.putInt(Constants.Bundle.INDEXER_ID, intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0))
-
-		val fragment = AddShowOptionsFragment()
-		fragment.arguments = arguments
-		fragment.show(activity.supportFragmentManager, "add_show")
+		AddShowOptionsFragment.newInstance(indexerId)
+				.show(activity.supportFragmentManager, "add_show")
 	}
 
 	private fun handleShowSelected(intent: Intent) {
 		val activity = this.activityReference.get() ?: return
-
-		val arguments = Bundle()
-		arguments.putInt(Constants.Bundle.INDEXER_ID, intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0))
-
-		val fragment = ShowFragment()
-		fragment.arguments = arguments
+		val indexerId = intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0)
+		val fragment = ShowFragment.newInstance(indexerId)
 
 		activity.supportFragmentManager.beginTransaction()
 				.addToBackStack("show")

@@ -172,6 +172,12 @@ class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener
 
 			return null
 		}
+
+		fun newInstance(indexerId: Int) = AddShowOptionsFragment().apply {
+			this.arguments = Bundle().apply {
+				this.putInt(Constants.Bundle.INDEXER_ID, indexerId)
+			}
+		}
 	}
 
 	private class AddShowCallback(activity: FragmentActivity) : GenericCallback(activity) {

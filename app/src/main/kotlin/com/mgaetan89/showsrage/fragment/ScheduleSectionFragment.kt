@@ -62,4 +62,12 @@ class ScheduleSectionFragment : Fragment(), RealmChangeListener<RealmResults<Sch
 
 		this.list.layoutManager = GridLayoutManager(this.activity, columnCount)
 	}
+
+	companion object {
+		fun newInstance(section: String) = ScheduleSectionFragment().apply {
+			this.arguments = Bundle().apply {
+				this.putString(Constants.Bundle.SCHEDULE_SECTION, section)
+			}
+		}
+	}
 }

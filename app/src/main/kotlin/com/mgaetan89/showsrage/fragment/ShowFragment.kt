@@ -69,4 +69,12 @@ class ShowFragment : TabbedFragment(), Callback<Seasons> {
 
 		this.updateState(this.seasons.isEmpty())
 	}
+
+	companion object {
+		fun newInstance(indexerId: Int) = ShowFragment().apply {
+			this.arguments = Bundle().apply {
+				this.putInt(Constants.Bundle.INDEXER_ID, indexerId)
+			}
+		}
+	}
 }

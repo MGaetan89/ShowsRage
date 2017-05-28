@@ -64,7 +64,7 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 
 			this.activity.supportFragmentManager.beginTransaction()
 					.addToBackStack("add_show")
-					.replace(R.id.content, AddShowFragment())
+					.replace(R.id.content, AddShowFragment.newInstance())
 					.commitAllowingStateLoss()
 		}
 	}
@@ -95,13 +95,8 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 		if (item?.itemId == R.id.menu_filter) {
-			val arguments = Bundle()
-			arguments.putString(Constants.Bundle.SEARCH_QUERY, this.searchQuery)
-
-			val fragment = ShowsFiltersFragment()
-			fragment.arguments = arguments
-
-			fragment.show(this.childFragmentManager, "shows_filters")
+			ShowsFiltersFragment.newInstance(this.searchQuery)
+					.show(this.childFragmentManager, "shows_filters")
 
 			return true
 		}
@@ -179,5 +174,9 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 
 			activity.firebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SEARCH, params)
 		}
+	}
+
+	companion object {
+		fun newInstance() = ShowsFragment()
 	}
 }

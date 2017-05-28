@@ -32,4 +32,8 @@ class SettingsBehaviorFragment : SettingsFragment() {
 				.setNegativeButton(android.R.string.cancel, null)
 				.show()
 	}
+
+	companion object {
+		fun newInstance() = SettingsBehaviorFragment()
+	}
 }

@@ -115,5 +115,7 @@ class AddShowFragment : Fragment(), Callback<SearchResults>, SearchView.OnQueryT
 		fun getSearchResults(searchResults: SearchResults?) = searchResults?.data?.results ?: emptyList()
 
 		fun isQueryValid(query: String?) = !query.isNullOrBlank()
+
+		fun newInstance() = AddShowFragment()
 	}
 }

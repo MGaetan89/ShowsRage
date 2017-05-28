@@ -149,6 +149,10 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
 				.show()
 	}
 
+	companion object {
+		fun newInstance() = HistoryFragment()
+	}
+
 	private class ClearHistoryCallback(activity: FragmentActivity) : GenericCallback(activity) {
 		override fun success(genericResponse: GenericResponse?, response: Response?) {
 			super.success(genericResponse, response)

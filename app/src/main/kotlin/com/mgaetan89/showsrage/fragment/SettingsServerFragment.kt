@@ -121,4 +121,8 @@ open class SettingsServerFragment : SettingsFragment(), Callback<GenericResponse
 
 		SickRageApi.instance.services?.ping(this)
 	}
+
+	companion object {
+		fun newInstance() = SettingsServerFragment()
+	}
 }

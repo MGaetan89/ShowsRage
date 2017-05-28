@@ -497,12 +497,8 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 	}
 
 	private fun changeQuality() {
-		val arguments = Bundle()
-		arguments.putInt(Constants.Bundle.INDEXER_ID, this.indexerId)
-
-		val fragment = ChangeQualityFragment()
-		fragment.arguments = arguments
-		fragment.show(this.childFragmentManager, "change_quality")
+		ChangeQualityFragment.newInstance(this.indexerId)
+				.show(this.childFragmentManager, "change_quality")
 	}
 
 	private fun checkSupportWebSearch() {

@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 				this.checkForUpdate(true)
 			}
 
-			R.id.menu_history -> fragment = HistoryFragment()
+			R.id.menu_history -> fragment = HistoryFragment.newInstance()
 
 			R.id.menu_kolumbus -> {
 				eventHandled = false
@@ -159,18 +159,20 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 						.navigate(this)
 			}
 
-			R.id.menu_logs -> fragment = LogsFragment()
+			R.id.menu_logs -> fragment = LogsFragment.newInstance()
 
 			R.id.menu_post_processing -> {
 				eventHandled = false
 
-				PostProcessingFragment().show(this.supportFragmentManager, "post_processing")
+				PostProcessingFragment.newInstance()
+						.show(this.supportFragmentManager, "post_processing")
 			}
 
 			R.id.menu_remote_control -> {
 				eventHandled = false
 
-				RemoteControlFragment().show(this.supportFragmentManager, "remote_control")
+				RemoteControlFragment.newInstance()
+						.show(this.supportFragmentManager, "remote_control")
 			}
 
 			R.id.menu_restart -> {
@@ -185,19 +187,20 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 						.show()
 			}
 
-			R.id.menu_schedule -> fragment = ScheduleFragment()
+			R.id.menu_schedule -> fragment = ScheduleFragment.newInstance()
 
 			R.id.menu_settings -> {
 				backStackName = "settings"
-				fragment = SettingsFragment()
+				fragment = SettingsFragment.newInstance()
 			}
 
-			R.id.menu_shows -> fragment = ShowsFragment()
+			R.id.menu_shows -> fragment = ShowsFragment.newInstance()
 
 			R.id.menu_statistics -> {
 				eventHandled = false
 
-				StatisticsFragment().show(this.supportFragmentManager, "statistics")
+				StatisticsFragment.newInstance()
+						.show(this.supportFragmentManager, "statistics")
 			}
 		}
 

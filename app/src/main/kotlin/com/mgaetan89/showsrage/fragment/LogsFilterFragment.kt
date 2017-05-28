@@ -76,6 +76,12 @@ class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, Di
 			return items.filterIndexed { i, _ -> selectedIndices.contains(i) }.toTypedArray()
 		}
 
+		fun newInstance(groups: Array<String>?) = LogsFilterFragment().apply {
+			this.arguments = Bundle().apply {
+				this.putStringArray(Constants.Bundle.LOGS_GROUPS, groups)
+			}
+		}
+
 		internal fun setSelectedIndices(selectedIndices: MutableSet<Int>, items: Array<String>, groups: Array<String>?) {
 			selectedIndices.clear()
 

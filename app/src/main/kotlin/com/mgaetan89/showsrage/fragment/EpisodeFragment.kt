@@ -54,4 +54,16 @@ class EpisodeFragment : TabbedFragment() {
 	}
 
 	override fun useSwipeToRefresh() = false
+
+	companion object {
+		fun newInstance(episodeId: String, episodeNumber: Int, episodesCount: Int, seasonNumber: Int, indexerId: Int) = EpisodeFragment().apply {
+			this.arguments = Bundle().apply {
+				this.putString(Constants.Bundle.EPISODE_ID, episodeId)
+				this.putInt(Constants.Bundle.EPISODE_NUMBER, episodeNumber)
+				this.putInt(Constants.Bundle.EPISODES_COUNT, episodesCount)
+				this.putInt(Constants.Bundle.SEASON_NUMBER, seasonNumber)
+				this.putInt(Constants.Bundle.INDEXER_ID, indexerId)
+			}
+		}
+	}
 }

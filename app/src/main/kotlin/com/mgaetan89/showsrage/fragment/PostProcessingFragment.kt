@@ -63,4 +63,8 @@ class PostProcessingFragment : DialogFragment(), DialogInterface.OnClickListener
 
 		return null
 	}
+
+	companion object {
+		fun newInstance() = PostProcessingFragment()
+	}
 }

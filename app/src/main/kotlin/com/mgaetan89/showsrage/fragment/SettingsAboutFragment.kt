@@ -6,4 +6,8 @@ open class SettingsAboutFragment : SettingsFragment() {
 	override fun getTitleResourceId() = R.string.about
 
 	override fun getXmlResourceFile() = R.xml.settings_about
+
+	companion object {
+		fun newInstance() = SettingsAboutFragment()
+	}
 }

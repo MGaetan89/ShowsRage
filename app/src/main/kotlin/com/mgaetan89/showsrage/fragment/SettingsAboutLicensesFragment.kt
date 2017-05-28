@@ -6,4 +6,8 @@ class SettingsAboutLicensesFragment : SettingsAboutFragment() {
 	override fun getTitleResourceId() = R.string.licenses
 
 	override fun getXmlResourceFile() = R.xml.settings_about_licenses
+
+	companion object {
+		fun newInstance() = SettingsAboutLicensesFragment()
+	}
 }
