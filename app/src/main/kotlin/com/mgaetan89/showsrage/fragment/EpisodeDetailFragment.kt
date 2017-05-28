@@ -376,7 +376,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 		val activity = this.activity
 
 		if (activity is MainActivity) {
-			activity.firebaseAnalytics?.logEvent(Constants.Event.PLAY_EPISODE_VIDEO, null)
+			activity.firebaseAnalytics?.logEvent(EVENT_PLAY_EPISODE_VIDEO, null)
 		}
 
 		val intent = Intent(Intent.ACTION_VIEW)
@@ -521,6 +521,8 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 	}
 
 	companion object {
+		private const val EVENT_PLAY_EPISODE_VIDEO = "play_episode_video"
+
 		internal fun getDisplayableSubtitlesLanguages(subtitles: String): String {
 			val subtitlesNames = subtitles.split(",").filter { !it.isNullOrEmpty() }.map(String::toLocale).filterNotNull()
 
@@ -562,8 +564,12 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 			if (activity is MainActivity) {
 				activity.updateRemoteControlVisibility()
 
-				activity.firebaseAnalytics?.logEvent(Constants.Event.CAST_EPISODE_VIDEO, null)
+				activity.firebaseAnalytics?.logEvent(EVENT_CAST_EPISODE_VIDEO, null)
 			}
+		}
+
+		companion object {
+			private const val EVENT_CAST_EPISODE_VIDEO = "cast_episode_video"
 		}
 	}
 

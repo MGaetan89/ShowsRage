@@ -289,7 +289,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			val colorPrimaryDark = floatArrayOf(0f, 0f, 0f)
 			ColorUtils.colorToHSL(colorPrimary, colorPrimaryDark)
-			colorPrimaryDark[2] *= Constants.COLOR_DARK_FACTOR
+			colorPrimaryDark[2] *= COLOR_DARK_FACTOR
 
 			this.window.statusBarColor = ColorUtils.HSLToColor(colorPrimaryDark)
 		}
@@ -409,6 +409,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 	}
 
 	companion object {
+		private const val COLOR_DARK_FACTOR = 0.8f
+
 		@IdRes
 		internal fun getInitialMenuId(action: String?): Int {
 			return when (action) {

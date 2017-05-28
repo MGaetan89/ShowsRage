@@ -5,8 +5,6 @@ import retrofit.RestAdapter
 import java.util.Locale
 
 object Constants {
-	val COLOR_DARK_FACTOR = 0.8f
-	val DATABASE_VERSION = 5L
 	val NETWORK_LOG_LEVEL = if (BuildConfig.DEBUG) RestAdapter.LogLevel.FULL else RestAdapter.LogLevel.NONE
 	val OMDB_URL = "http://www.omdbapi.com/"
 	val SUPPORTED_LOCALES = listOf(Locale.ENGLISH, Locale.FRENCH)
@@ -27,11 +25,6 @@ object Constants {
 
 	object Defaults {
 		val LOG_LEVEL = LogLevel.ERROR
-	}
-
-	object Event {
-		val CAST_EPISODE_VIDEO = "cast_episode_video"
-		val PLAY_EPISODE_VIDEO = "play_episode_video"
 	}
 
 	object Intents {
