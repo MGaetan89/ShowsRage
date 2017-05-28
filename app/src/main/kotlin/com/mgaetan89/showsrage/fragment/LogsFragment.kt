@@ -13,7 +13,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.firebase.jobdispatcher.FirebaseJobDispatcher
 import com.firebase.jobdispatcher.GooglePlayDriver
 import com.firebase.jobdispatcher.Trigger
@@ -36,27 +35,26 @@ import com.mgaetan89.showsrage.service.LogsAutoUpdateService
 import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.fragment_logs.empty
+import kotlinx.android.synthetic.main.fragment_logs.list
+import kotlinx.android.synthetic.main.fragment_logs.swipe_refresh
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 
 class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResults<LogEntry>>, SwipeRefreshLayout.OnRefreshListener {
-	private var adapter: LogsAdapter? = null
-	private var emptyView: TextView? = null
 	private var groups: Array<String>? = null
 	private var jobDispatcher: FirebaseJobDispatcher? = null
 	private var logLevel: LogLevel? = null
 	private lateinit var logs: RealmResults<LogEntry>
 	private lateinit var realm: Realm
-	private var recyclerView: RecyclerView? = null
-	private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
 	init {
 		this.setHasOptionsMenu(true)
 	}
 
 	override fun failure(error: RetrofitError?) {
-		this.swipeRefreshLayout?.isRefreshing = false
+		this.swipe_refresh.isRefreshing = false
 
 		error?.printStackTrace()
 	}
@@ -81,7 +79,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 			if (resultCode == Activity.RESULT_OK) {
 				this.groups = data?.getStringArrayExtra(Constants.Bundle.LOGS_GROUPS)
 
-				this.adapter = null
+				this.list.adapter = null
 
 				this.getLogs(this.getLogLevel())
 			}
@@ -89,19 +87,19 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 	}
 
 	override fun onChange(logs: RealmResults<LogEntry>) {
-		if (this.adapter == null) {
-			this.setAdapter()
+		if (this.list.adapter == null) {
+			this.list.adapter = LogsAdapter(this.logs)
 		}
 
 		if (this.logs.isEmpty()) {
-			this.emptyView?.visibility = View.VISIBLE
-			this.recyclerView?.visibility = View.GONE
+			this.empty.visibility = View.VISIBLE
+			this.list.visibility = View.GONE
 		} else {
-			this.emptyView?.visibility = View.GONE
-			this.recyclerView?.visibility = View.VISIBLE
+			this.empty.visibility = View.GONE
+			this.list.visibility = View.VISIBLE
 		}
 
-		this.adapter?.notifyDataSetChanged()
+		this.list.adapter?.notifyDataSetChanged()
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -119,37 +117,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 	}
 
 	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		val view = inflater?.inflate(R.layout.fragment_logs, container, false)
-
-		if (view != null) {
-			this.emptyView = view.findViewById(android.R.id.empty) as TextView?
-			this.recyclerView = view.findViewById(android.R.id.list) as RecyclerView?
-			this.swipeRefreshLayout = view.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
-
-			if (this.recyclerView != null) {
-				this.recyclerView!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-					override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-						super.onScrolled(recyclerView, dx, dy)
-
-						swipeRefreshLayout?.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
-					}
-				})
-				this.recyclerView!!.layoutManager = LinearLayoutManager(this.activity)
-			}
-
-			this.swipeRefreshLayout?.setColorSchemeResources(R.color.accent)
-			this.swipeRefreshLayout?.setOnRefreshListener(this)
-		}
-
-		return view
-	}
-
-	override fun onDestroyView() {
-		this.emptyView = null
-		this.recyclerView = null
-		this.swipeRefreshLayout = null
-
-		super.onDestroyView()
+		return inflater?.inflate(R.layout.fragment_logs, container, false)
 	}
 
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -167,7 +135,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 	}
 
 	override fun onRefresh() {
-		this.swipeRefreshLayout?.isRefreshing = true
+		this.swipe_refresh.isRefreshing = true
 
 		SickRageApi.instance.services?.getLogs(this.getLogLevel(), this)
 	}
@@ -177,7 +145,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 
 		this.realm = Realm.getDefaultInstance()
 		this.logs = this.realm.getLogs(this.getLogLevel(), this.groups, this)
-		this.setAdapter()
+		this.list.adapter = LogsAdapter(this.logs)
 		this.scheduleAutoUpdate()
 	}
 
@@ -193,8 +161,24 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 		super.onStop()
 	}
 
+	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+
+		this.list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+			override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+				super.onScrolled(recyclerView, dx, dy)
+
+				swipe_refresh.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
+			}
+		})
+		this.list.layoutManager = LinearLayoutManager(this.activity)
+
+		this.swipe_refresh.setColorSchemeResources(R.color.accent)
+		this.swipe_refresh.setOnRefreshListener(this)
+	}
+
 	override fun success(logs: Logs?, response: Response?) {
-		this.swipeRefreshLayout?.isRefreshing = false
+		this.swipe_refresh.isRefreshing = false
 
 		val logEntries = logs?.data?.map(::LogEntry) ?: emptyList()
 
@@ -247,7 +231,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 			this.context.getPreferences().saveLogLevel(it)
 
 			// Update the list of logs
-			this.adapter = null
+			this.list.adapter = null
 
 			this.getLogs(it)
 
@@ -276,12 +260,6 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 				it.schedule(job)
 			}
 		}
-	}
-
-	private fun setAdapter() {
-		this.adapter = LogsAdapter(this.logs)
-
-		this.recyclerView?.adapter = this.adapter
 	}
 
 	companion object {

@@ -4,8 +4,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.ImageLoader
@@ -14,6 +12,10 @@ import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.presenter.HistoryPresenter
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.adapter_histories_list_content.view.episode_date
+import kotlinx.android.synthetic.main.adapter_histories_list_content.view.episode_logo
+import kotlinx.android.synthetic.main.adapter_histories_list_content.view.episode_name
+import kotlinx.android.synthetic.main.adapter_histories_list_content.view.episode_provider_quality
 
 class HistoriesAdapter(histories: RealmResults<History>) : RealmRecyclerViewAdapter<History, HistoriesAdapter.ViewHolder>(histories, true) {
 	override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
@@ -29,10 +31,10 @@ class HistoriesAdapter(histories: RealmResults<History>) : RealmRecyclerViewAdap
 	}
 
 	class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-		private val date = view.findViewById(R.id.episode_date) as TextView
-		private val logo = view.findViewById(R.id.episode_logo) as ImageView
-		private val name = view.findViewById(R.id.episode_name) as TextView
-		private val providerQuality = view.findViewById(R.id.episode_provider_quality) as TextView
+		private val date = view.episode_date
+		private val logo = view.episode_logo
+		private val name = view.episode_name
+		private val providerQuality = view.episode_provider_quality
 
 		init {
 			this.name.isSelected = true

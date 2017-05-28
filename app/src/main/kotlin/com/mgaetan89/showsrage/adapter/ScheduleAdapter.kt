@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.mgaetan89.showsrage.Constants
@@ -19,6 +18,11 @@ import com.mgaetan89.showsrage.model.Schedule
 import com.mgaetan89.showsrage.presenter.SchedulePresenter
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.adapter_schedule_list_content.view.episode_actions
+import kotlinx.android.synthetic.main.adapter_schedule_list_content.view.episode_air_date_time
+import kotlinx.android.synthetic.main.adapter_schedule_list_content.view.episode_logo
+import kotlinx.android.synthetic.main.adapter_schedule_list_content.view.episode_name
+import kotlinx.android.synthetic.main.adapter_schedule_list_content.view.episode_network_quality
 
 class ScheduleAdapter(schedules: RealmResults<Schedule>) : RealmRecyclerViewAdapter<Schedule, ScheduleAdapter.ViewHolder>(schedules, true) {
 	override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
@@ -34,11 +38,11 @@ class ScheduleAdapter(schedules: RealmResults<Schedule>) : RealmRecyclerViewAdap
 	}
 
 	inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener, PopupMenu.OnMenuItemClickListener {
-		private val actions = view.findViewById(R.id.episode_actions) as ImageView
-		private val airDateTime = view.findViewById(R.id.episode_air_date_time) as TextView
-		private val logo = view.findViewById(R.id.episode_logo) as ImageView
-		private val name = view.findViewById(R.id.episode_name) as TextView
-		private val networkQuality = view.findViewById(R.id.episode_network_quality) as TextView
+		private val actions = view.episode_actions
+		private val airDateTime = view.episode_air_date_time
+		private val logo = view.episode_logo
+		private val name = view.episode_name
+		private val networkQuality = view.episode_network_quality
 
 		init {
 			this.actions.setOnClickListener(this)

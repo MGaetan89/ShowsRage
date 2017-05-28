@@ -12,25 +12,20 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.support.annotation.IdRes
-import android.support.design.widget.AppBarLayout
 import android.support.design.widget.NavigationView
-import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.graphics.ColorUtils
 import android.support.v4.graphics.drawable.DrawableCompat
-import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.mgaetan89.showsrage.Constants
@@ -74,11 +69,17 @@ import com.mgaetan89.showsrage.model.ThemeColors
 import com.mgaetan89.showsrage.model.UpdateResponse
 import com.mgaetan89.showsrage.model.UpdateResponseWrapper
 import com.mgaetan89.showsrage.network.SickRageApi
-import com.mgaetan89.showsrage.view.ColoredToolbar
 import com.mgaetan89.showsrage.widget.HistoryWidgetProvider
 import com.mgaetan89.showsrage.widget.ScheduleWidgetProvider
 import io.kolumbus.Kolumbus
 import io.realm.Realm
+import kotlinx.android.synthetic.main.activity_main.app_bar
+import kotlinx.android.synthetic.main.activity_main.drawer_content
+import kotlinx.android.synthetic.main.activity_main.drawer_layout
+import kotlinx.android.synthetic.main.activity_main.tabs
+import kotlinx.android.synthetic.main.activity_main.toolbar
+import kotlinx.android.synthetic.main.drawer_header.view.app_logo
+import kotlinx.android.synthetic.main.drawer_header.view.app_name
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
@@ -87,15 +88,10 @@ import java.lang.ref.WeakReference
 class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationView.OnNavigationItemSelectedListener {
 	var firebaseAnalytics: FirebaseAnalytics? = null
 		private set
-	private var appBarLayout: AppBarLayout? = null
 	private var drawerHeader: LinearLayout? = null
-	private var drawerLayout: DrawerLayout? = null
 	private var drawerToggle: ActionBarDrawerToggle? = null
-	private var navigationView: NavigationView? = null
 	private val receiver: ShowsRageReceiver by lazy { ShowsRageReceiver(this) }
-	private var tabLayout: TabLayout? = null
 	private var themeColors: ThemeColors? = null
-	private var toolbar: ColoredToolbar? = null
 
 	fun displayHomeAsUp(displayHomeAsUp: Boolean) {
 		val actionBar = this.supportActionBar
@@ -116,8 +112,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 	fun getThemColors() = this.themeColors
 
 	override fun onBackPressed() {
-		if (this.navigationView != null && this.drawerLayout?.isDrawerOpen(this.navigationView) ?: false) {
-			this.drawerLayout?.closeDrawers()
+		if (this.drawer_layout.isDrawerOpen(this.drawer_content)) {
+			this.drawer_layout.closeDrawers()
 		} else {
 			super.onBackPressed()
 		}
@@ -205,21 +201,19 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 			}
 		}
 
-		if (this.navigationView != null) {
-			this.drawerLayout?.closeDrawer(this.navigationView)
-		}
+		this.drawer_layout.closeDrawer(this.drawer_content)
 
 		if (eventHandled) {
 			item.isChecked = true
 
-			this.tabLayout?.removeAllTabs()
-			this.tabLayout?.visibility = View.GONE
+			this.tabs.removeAllTabs()
+			this.tabs.visibility = View.GONE
 		}
 
 		if (fragment != null) {
 			this.resetThemeColors()
 
-			this.toolbar?.menu?.clear()
+			this.toolbar.menu?.clear()
 
 			val fragmentTransaction = this.supportFragmentManager.beginTransaction()
 			fragmentTransaction.replace(R.id.content, fragment)
@@ -261,42 +255,33 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 		val (colorPrimary, colorAccent) = colors
 		val textColor = Utils.getContrastColor(colorPrimary)
 
-		this.appBarLayout?.setBackgroundColor(colorPrimary)
+		this.app_bar.setBackgroundColor(colorPrimary)
 
 		this.drawerHeader?.let {
 			it.setBackgroundColor(colorPrimary)
 
-			val logo = it.findViewById(R.id.app_logo) as ImageView?
-			val name = it.findViewById(R.id.app_name) as TextView?
+			val drawable = DrawableCompat.wrap(it.app_logo.drawable)
+			DrawableCompat.setTint(drawable, textColor)
 
-			if (logo != null) {
-				val drawable = DrawableCompat.wrap(logo.drawable)
-				DrawableCompat.setTint(drawable, textColor)
-			}
-
-			name?.setTextColor(textColor)
+			it.app_name.setTextColor(textColor)
 		}
 
-		this.navigationView?.let {
-			val colorsIcon = intArrayOf(colorPrimary, it.itemIconTintList?.defaultColor ?: Color.WHITE)
-			val colorsText = intArrayOf(colorPrimary, it.itemTextColor?.defaultColor ?: Color.WHITE)
-			val states = arrayOf(
-					intArrayOf(android.R.attr.state_checked),
-					intArrayOf()
-			)
+		val colorsIcon = intArrayOf(colorPrimary, this.drawer_content.itemIconTintList?.defaultColor ?: Color.WHITE)
+		val colorsText = intArrayOf(colorPrimary, this.drawer_content.itemTextColor?.defaultColor ?: Color.WHITE)
+		val states = arrayOf(
+				intArrayOf(android.R.attr.state_checked),
+				intArrayOf()
+		)
 
-			it.itemIconTintList = ColorStateList(states, colorsIcon)
-			it.itemTextColor = ColorStateList(states, colorsText)
-		}
+		this.drawer_content.itemIconTintList = ColorStateList(states, colorsIcon)
+		this.drawer_content.itemTextColor = ColorStateList(states, colorsText)
 
-		this.tabLayout?.let {
-			val selectedTextColor = ColorUtils.setAlphaComponent(textColor, (0.7f * 255f).toInt())
+		val selectedTextColor = ColorUtils.setAlphaComponent(textColor, (0.7f * 255f).toInt())
 
-			it.setSelectedTabIndicatorColor(colorAccent)
-			it.setTabTextColors(selectedTextColor, textColor)
-		}
+		this.tabs.setSelectedTabIndicatorColor(colorAccent)
+		this.tabs.setTabTextColors(selectedTextColor, textColor)
 
-		this.toolbar?.setItemColor(textColor)
+		this.toolbar.setItemColor(textColor)
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			val colorPrimaryDark = floatArrayOf(0f, 0f, 0f)
@@ -324,7 +309,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 		val application = this.application
 
 		if (application is ShowsRageApplication) {
-			this.navigationView?.menu?.findItem(R.id.menu_remote_control)?.isVisible = application.hasPlayingVideo()
+			this.drawer_content.menu?.findItem(R.id.menu_remote_control)?.isVisible = application.hasPlayingVideo()
 		}
 	}
 
@@ -358,31 +343,21 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 			it.updateAllWidgets(this, ScheduleWidgetProvider::class.java)
 		}
 
-		this.appBarLayout = this.findViewById(R.id.app_bar) as AppBarLayout?
-		this.drawerLayout = this.findViewById(R.id.drawer_layout) as DrawerLayout?
-		this.navigationView = this.findViewById(R.id.drawer_content) as NavigationView?
-		this.tabLayout = this.findViewById(R.id.tabs) as TabLayout?
-		this.toolbar = this.findViewById(R.id.toolbar) as ColoredToolbar?
+		this.drawerToggle = ActionBarDrawerToggle(this, this.drawer_layout, this.toolbar, R.string.open_menu, R.string.close_menu)
 
-		this.drawerLayout?.let {
-			this.drawerToggle = ActionBarDrawerToggle(this, it, this.toolbar, R.string.open_menu, R.string.close_menu)
-
-			it.addDrawerListener(this.drawerToggle!!)
-			it.post {
-				drawerToggle?.syncState()
-			}
+		this.drawer_layout.addDrawerListener(this.drawerToggle!!)
+		this.drawer_layout.post {
+			drawerToggle?.syncState()
 		}
 
-		this.navigationView?.let {
-			this.drawerHeader = it.inflateHeaderView(R.layout.drawer_header) as LinearLayout?
+		this.drawerHeader = this.drawer_content.inflateHeaderView(R.layout.drawer_header) as LinearLayout
 
-			it.setNavigationItemSelectedListener(this)
-		}
+		this.drawer_content.setNavigationItemSelectedListener(this)
 
 		this.setSupportActionBar(this.toolbar)
 
 		if (savedInstanceState == null) {
-			this.navigationView?.menu?.performIdentifierAction(getInitialMenuId(this.intent?.action), 0)
+			this.drawer_content.menu?.performIdentifierAction(getInitialMenuId(this.intent?.action), 0)
 		}
 	}
 

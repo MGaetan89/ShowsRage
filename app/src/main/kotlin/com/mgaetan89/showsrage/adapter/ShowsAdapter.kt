@@ -7,7 +7,6 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewStub
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -20,6 +19,7 @@ import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.RealmShowStat
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.presenter.ShowPresenter
+import kotlinx.android.synthetic.main.adapter_shows_list.view.stub
 
 class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, val ignoreArticles: Boolean) : RecyclerView.Adapter<ShowsAdapter.ViewHolder>(), SectionTitleProvider {
 	override fun getItemCount() = this.shows.size
@@ -58,19 +58,26 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, val ignor
 	}
 
 	inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
-		private val logo = view.findViewById(R.id.show_logo) as ImageView
-		private val name = view.findViewById(R.id.show_name) as TextView?
-		private val networkQuality = view.findViewById(R.id.show_network_quality) as TextView?
-		private val nextEpisodeAirDate = view.findViewById(R.id.show_next_episode_date) as TextView?
-		private val paused = view.findViewById(R.id.show_paused)
-		private val stats = view.findViewById(R.id.show_stats) as ProgressBar
+		private val logo: ImageView
+		private val name: TextView?
+		private val networkQuality: TextView?
+		private val nextEpisodeAirDate: TextView?
+		private val paused: View
+		private val stats: ProgressBar
 
 		init {
-			this.name?.isSelected = true
-
-			val stub = view.findViewById(R.id.stub) as ViewStub
+			val stub = view.stub
 			stub.layoutResource = itemLayoutResource
 			stub.inflate()
+
+			this.logo = view.findViewById(R.id.show_logo) as ImageView
+			this.name = view.findViewById(R.id.show_name) as TextView?
+			this.networkQuality = view.findViewById(R.id.show_network_quality) as TextView?
+			this.nextEpisodeAirDate = view.findViewById(R.id.show_next_episode_date) as TextView?
+			this.paused = view.findViewById(R.id.show_paused)
+			this.stats = view.findViewById(R.id.show_stats) as ProgressBar
+
+			this.name?.isSelected = true
 
 			view.setOnClickListener(this)
 		}

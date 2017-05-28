@@ -5,12 +5,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.model.LogEntry
 import com.mgaetan89.showsrage.presenter.LogPresenter
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.adapter_logs_list.view.log_date_time
+import kotlinx.android.synthetic.main.adapter_logs_list.view.log_error_type
+import kotlinx.android.synthetic.main.adapter_logs_list.view.log_group
+import kotlinx.android.synthetic.main.adapter_logs_list.view.log_message
 
 class LogsAdapter(logs: RealmResults<LogEntry>) : RealmRecyclerViewAdapter<LogEntry, LogsAdapter.ViewHolder>(logs, true) {
 	override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
@@ -26,10 +29,10 @@ class LogsAdapter(logs: RealmResults<LogEntry>) : RealmRecyclerViewAdapter<LogEn
 	}
 
 	class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-		private val dateTime = view.findViewById(R.id.log_date_time) as TextView
-		private val errorType = view.findViewById(R.id.log_error_type) as TextView
-		private val group = view.findViewById(R.id.log_group) as TextView
-		private val message = view.findViewById(R.id.log_message) as TextView
+		private val dateTime = view.log_date_time
+		private val errorType = view.log_error_type
+		private val group = view.log_group
+		private val message = view.log_message
 
 		init {
 			this.group.isSelected = true

@@ -12,11 +12,8 @@ import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.futuremind.recyclerviewfastscroll.FastScroller
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.adapter.ShowsAdapter
@@ -34,6 +31,9 @@ import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.presenter.ShowPresenter
 import io.realm.Realm
+import kotlinx.android.synthetic.main.fragment_shows_section.empty
+import kotlinx.android.synthetic.main.fragment_shows_section.fastscroll
+import kotlinx.android.synthetic.main.fragment_shows_section.list
 import java.util.Comparator
 
 class ShowShortcutConfigurationActivity : AppCompatActivity() {
@@ -89,30 +89,29 @@ class ShowShortcutConfigurationActivity : AppCompatActivity() {
 	}
 
 	private fun configureRecyclerView() {
-		(this.findViewById(android.R.id.list) as RecyclerView?)?.let {
-			val empty = this.findViewById(android.R.id.empty) as TextView?
-			val ignoreArticles = this.getPreferences().ignoreArticles()
-			val shows = (this.realm.getShows(null) ?: emptyList<Show>())
-					.sortedWith(Comparator<Show> { first, second ->
-						val firstProperty = Utils.getSortableShowName(first, ignoreArticles)
-						val secondProperty = Utils.getSortableShowName(second, ignoreArticles)
+		val recyclerView = this.list
+		val ignoreArticles = this.getPreferences().ignoreArticles()
+		val showsListLayout = this.getPreferences().getShowsListLayout()
+		val shows = (this.realm.getShows(null) ?: emptyList<Show>())
+				.sortedWith(Comparator<Show> { first, second ->
+					val firstProperty = Utils.getSortableShowName(first, ignoreArticles)
+					val secondProperty = Utils.getSortableShowName(second, ignoreArticles)
 
-						firstProperty.compareTo(secondProperty)
-					})
+					firstProperty.compareTo(secondProperty)
+				})
 
-			(this.findViewById(R.id.fastscroll) as FastScroller?)?.setRecyclerView(it)
+		this.fastscroll.setRecyclerView(recyclerView)
 
-			it.adapter = ShowsAdapter(shows, this.getPreferences().getShowsListLayout(), false)
-			it.layoutManager = LinearLayoutManager(this)
-			it.setPadding(0, 0, 0, 0)
+		recyclerView.adapter = ShowsAdapter(shows, showsListLayout, ignoreArticles)
+		recyclerView.layoutManager = LinearLayoutManager(this)
+		recyclerView.setPadding(0, 0, 0, 0)
 
-			if (shows.isEmpty()) {
-				empty?.visibility = View.VISIBLE
-				it.visibility = View.GONE
-			} else {
-				empty?.visibility = View.GONE
-				it.visibility = View.VISIBLE
-			}
+		if (shows.isEmpty()) {
+			this.empty?.visibility = View.VISIBLE
+			recyclerView.visibility = View.GONE
+		} else {
+			this.empty?.visibility = View.GONE
+			recyclerView.visibility = View.VISIBLE
 		}
 	}
 

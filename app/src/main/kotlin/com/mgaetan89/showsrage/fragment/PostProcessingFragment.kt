@@ -7,9 +7,9 @@ import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.SwitchCompat
 import android.view.LayoutInflater
-import android.widget.Checkable
 import android.widget.Spinner
 import com.mgaetan89.showsrage.R
+import com.mgaetan89.showsrage.extension.toInt
 import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.network.SickRageApi
 
@@ -19,9 +19,9 @@ class PostProcessingFragment : DialogFragment(), DialogInterface.OnClickListener
 	private var replaceFiles: SwitchCompat? = null
 
 	override fun onClick(dialog: DialogInterface?, which: Int) {
-		val force = checkableToInteger(this.forceProcessing)
+		val force = this.forceProcessing?.isChecked.toInt()
 		val method = this.getProcessingMethod(this.processingMethod)
-		val replace = checkableToInteger(this.replaceFiles)
+		val replace = this.replaceFiles?.isChecked.toInt()
 
 		SickRageApi.instance.services?.postProcess(replace, force, method, GenericCallback(this.activity))
 	}
@@ -53,26 +53,14 @@ class PostProcessingFragment : DialogFragment(), DialogInterface.OnClickListener
 	}
 
 	fun getProcessingMethod(spinner: Spinner?): String? {
-		var processingMethodIndex = 0
-
-		if (spinner != null) {
-			processingMethodIndex = spinner.selectedItemPosition
-		}
-
+		val processingMethodIndex = spinner?.selectedItemPosition ?: 0
 		if (processingMethodIndex > 0) {
 			val processingMethods = this.resources.getStringArray(R.array.processing_methods_values)
-
 			if (processingMethodIndex < processingMethods.size) {
 				return processingMethods[processingMethodIndex]
 			}
 		}
 
 		return null
-	}
-
-	companion object {
-		fun checkableToInteger(checkable: Checkable?): Int {
-			return if (checkable?.isChecked ?: false) 1 else 0
-		}
 	}
 }

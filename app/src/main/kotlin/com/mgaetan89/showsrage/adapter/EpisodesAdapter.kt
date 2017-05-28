@@ -11,14 +11,17 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.presenter.EpisodePresenter
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.adapter_episodes_list_content.view.episode_actions
+import kotlinx.android.synthetic.main.adapter_episodes_list_content.view.episode_date
+import kotlinx.android.synthetic.main.adapter_episodes_list_content.view.episode_name
+import kotlinx.android.synthetic.main.adapter_episodes_list_content.view.episode_quality
+import kotlinx.android.synthetic.main.adapter_episodes_list_content.view.episode_status
 
 class EpisodesAdapter(episodes: RealmResults<Episode>, val seasonNumber: Int, val indexerId: Int, val reversed: Boolean) : RealmRecyclerViewAdapter<Episode, EpisodesAdapter.ViewHolder>(episodes, true) {
 	override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
@@ -34,11 +37,11 @@ class EpisodesAdapter(episodes: RealmResults<Episode>, val seasonNumber: Int, va
 	}
 
 	inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener, PopupMenu.OnMenuItemClickListener {
-		private val actions = view.findViewById(R.id.episode_actions) as ImageView
-		private val date = view.findViewById(R.id.episode_date) as TextView
-		private val name = view.findViewById(R.id.episode_name) as TextView
-		private val quality = view.findViewById(R.id.episode_quality) as TextView
-		private val status = view.findViewById(R.id.episode_status) as TextView
+		private val actions = view.episode_actions
+		private val date = view.episode_date
+		private val name = view.episode_name
+		private val quality = view.episode_quality
+		private val status = view.episode_status
 
 		init {
 			this.actions.setOnClickListener(this)
