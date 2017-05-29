@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.MenuItemCompat
-import android.support.v4.view.PagerAdapter
 import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.Menu
@@ -26,159 +25,158 @@ import com.mgaetan89.showsrage.extension.splitShowsAnimes
 import com.mgaetan89.showsrage.model.Shows
 import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.Realm
+import kotlinx.android.synthetic.main.fragment_shows.add_show
+import kotlinx.android.synthetic.main.fragment_tabbed.swipe_refresh
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 
 class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, SearchView.OnQueryTextListener {
-    private var splitShowsAnimes = false
-    private var searchQuery: String? = null
+	private var splitShowsAnimes = false
+	private var searchQuery: String? = null
 
-    init {
-        this.setHasOptionsMenu(true)
-    }
+	init {
+		this.setHasOptionsMenu(true)
+	}
 
-    override fun failure(error: RetrofitError?) {
-        this.swipeRefreshLayout?.isRefreshing = false
+	override fun failure(error: RetrofitError?) {
+		this.swipe_refresh?.isRefreshing = false
 
-        error?.printStackTrace()
-    }
+		error?.printStackTrace()
+	}
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+	override fun onActivityCreated(savedInstanceState: Bundle?) {
+		super.onActivityCreated(savedInstanceState)
 
-        val activity = this.activity
+		val activity = this.activity
 
-        if (activity is MainActivity) {
-            activity.displayHomeAsUp(false)
-            activity.setTitle(R.string.shows)
-        }
+		if (activity is MainActivity) {
+			activity.displayHomeAsUp(false)
+			activity.setTitle(R.string.shows)
+		}
 
-        this.onRefresh()
-    }
+		this.onRefresh()
+	}
 
-    override fun onClick(view: View?) {
-        if (view?.id == R.id.add_show) {
-            this.activity.findViewById(R.id.tabs)?.visibility = View.GONE
+	override fun onClick(view: View?) {
+		if (view?.id == R.id.add_show) {
+			this.activity.findViewById(R.id.tabs)?.visibility = View.GONE
 
-            this.activity.supportFragmentManager.beginTransaction()
-                    .addToBackStack("add_show")
-                    .replace(R.id.content, AddShowFragment())
-                    .commitAllowingStateLoss()
-        }
-    }
+			this.activity.supportFragmentManager.beginTransaction()
+					.addToBackStack("add_show")
+					.replace(R.id.content, AddShowFragment.newInstance())
+					.commitAllowingStateLoss()
+		}
+	}
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
 
-        this.splitShowsAnimes = this.context.getPreferences().splitShowsAnimes()
-    }
+		this.splitShowsAnimes = this.context.getPreferences().splitShowsAnimes()
+	}
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.shows, menu)
+	override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+		inflater?.inflate(R.menu.shows, menu)
 
-        val activity = this.activity
-        val searchMenu = menu?.findItem(R.id.menu_search)
+		val activity = this.activity
+		val searchMenu = menu?.findItem(R.id.menu_search)
 
-        if (activity != null && searchMenu != null) {
-            val searchManager = activity.getSystemService(Context.SEARCH_SERVICE) as SearchManager
-            val searchView = MenuItemCompat.getActionView(searchMenu) as SearchView
-            searchView.setOnQueryTextListener(this)
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.componentName))
-        }
-    }
+		if (activity != null && searchMenu != null) {
+			val searchManager = activity.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+			val searchView = MenuItemCompat.getActionView(searchMenu) as SearchView
+			searchView.setOnQueryTextListener(this)
+			searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.componentName))
+		}
+	}
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_shows, container, false)
-    }
+	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		return inflater?.inflate(R.layout.fragment_shows, container, false)
+	}
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.menu_filter) {
-            val arguments = Bundle()
-            arguments.putString(Constants.Bundle.SEARCH_QUERY, this.searchQuery)
+	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+		if (item?.itemId == R.id.menu_filter) {
+			ShowsFiltersFragment.newInstance(this.searchQuery)
+					.show(this.childFragmentManager, "shows_filters")
 
-            val fragment = ShowsFiltersFragment()
-            fragment.arguments = arguments
+			return true
+		}
 
-            fragment.show(this.childFragmentManager, "shows_filters")
+		return super.onOptionsItemSelected(item)
+	}
 
-            return true
-        }
+	override fun onQueryTextChange(newText: String?): Boolean {
+		this.searchQuery = newText
 
-        return super.onOptionsItemSelected(item)
-    }
+		this.logSearchEvent()
+		this.sendFilterMessage()
 
-    override fun onQueryTextChange(newText: String?): Boolean {
-        this.searchQuery = newText
+		return true
+	}
 
-        this.logSearchEvent()
-        this.sendFilterMessage()
+	override fun onQueryTextSubmit(query: String?): Boolean {
+		this.searchQuery = query
 
-        return true
-    }
+		this.logSearchEvent()
+		this.sendFilterMessage()
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        this.searchQuery = query
+		return true
+	}
 
-        this.logSearchEvent()
-        this.sendFilterMessage()
+	override fun onRefresh() {
+		this.swipe_refresh.isRefreshing = true
 
-        return true
-    }
+		SickRageApi.instance.services?.getShows(this)
+	}
 
-    override fun onRefresh() {
-        this.swipeRefreshLayout?.isRefreshing = true
+	override fun onStart() {
+		super.onStart()
 
-        SickRageApi.instance.services?.getShows(this)
-    }
+		this.updateState(!this.splitShowsAnimes)
+	}
 
-    override fun onStart() {
-        super.onStart()
+	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 
-        this.updateState(!this.splitShowsAnimes)
-    }
+		this.add_show.setOnClickListener(this)
+	}
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+	override fun success(shows: Shows?, response: Response?) {
+		this.swipe_refresh.isRefreshing = false
 
-        view?.findViewById(R.id.add_show)?.setOnClickListener(this)
-    }
+		val showsList = shows?.data?.values ?: return
 
-    override fun success(shows: Shows?, response: Response?) {
-        this.swipeRefreshLayout?.isRefreshing = false
+		Realm.getDefaultInstance().let {
+			it.saveShows(showsList.toList())
+			it.close()
+		}
+	}
 
-        val showsList = shows?.data?.values ?: return
+	override fun getAdapter() = ShowsPagerAdapter(this.childFragmentManager, this, this.splitShowsAnimes)
 
-        Realm.getDefaultInstance().let {
-            it.saveShows(showsList.toList())
-            it.close()
-        }
-    }
+	override fun getTabMode() = TabLayout.MODE_FIXED
 
-    override fun getAdapter(): PagerAdapter {
-        return ShowsPagerAdapter(this.childFragmentManager, this, this.splitShowsAnimes)
-    }
+	override fun useSwipeToRefresh() = true
 
-    override fun getTabMode() = TabLayout.MODE_FIXED
+	internal fun sendFilterMessage() {
+		val intent = Intent(Constants.Intents.ACTION_FILTER_SHOWS)
+		intent.putExtra(Constants.Bundle.SEARCH_QUERY, this.searchQuery)
 
-    override fun useSwipeToRefresh() = true
+		LocalBroadcastManager.getInstance(this.context).sendBroadcast(intent)
+	}
 
-    internal fun sendFilterMessage() {
-        val intent = Intent(Constants.Intents.ACTION_FILTER_SHOWS)
-        intent.putExtra(Constants.Bundle.SEARCH_QUERY, this.searchQuery)
+	private fun logSearchEvent() {
+		val activity = this.activity
 
-        LocalBroadcastManager.getInstance(this.context).sendBroadcast(intent)
-    }
+		if (activity is MainActivity && !this.searchQuery.isNullOrBlank()) {
+			val params = Bundle().apply {
+				putString(FirebaseAnalytics.Param.SEARCH_TERM, searchQuery)
+			}
 
-    private fun logSearchEvent() {
-        val activity = this.activity
+			activity.firebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SEARCH, params)
+		}
+	}
 
-        if (activity is MainActivity && !this.searchQuery.isNullOrBlank()) {
-            val params = Bundle().apply {
-                putString(FirebaseAnalytics.Param.SEARCH_TERM, searchQuery)
-            }
-
-            activity.firebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SEARCH, params)
-        }
-    }
+	companion object {
+		fun newInstance() = ShowsFragment()
+	}
 }

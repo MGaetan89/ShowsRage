@@ -17,55 +17,55 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_GetVersionCheckIntervalTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun getVersionCheckInterval() {
-        this.preference.edit().putString(Fields.VERSION_CHECK_INTERVAL.field, "86400000").apply()
+	@Test
+	fun getVersionCheckInterval() {
+		this.preference.edit().putString(Fields.VERSION_CHECK_INTERVAL.field, "86400000").apply()
 
-        val versionCheckInterval = this.preference.getVersionCheckInterval()
+		val versionCheckInterval = this.preference.getVersionCheckInterval()
 
-        assertThat(versionCheckInterval).isEqualTo(86400000L)
-    }
+		assertThat(versionCheckInterval).isEqualTo(86400000L)
+	}
 
-    @Test
-    fun getVersionCheckInterval_Empty() {
-        this.preference.edit().putString(Fields.VERSION_CHECK_INTERVAL.field, "").apply()
+	@Test
+	fun getVersionCheckInterval_Empty() {
+		this.preference.edit().putString(Fields.VERSION_CHECK_INTERVAL.field, "").apply()
 
-        val versionCheckInterval = this.preference.getVersionCheckInterval()
+		val versionCheckInterval = this.preference.getVersionCheckInterval()
 
-        assertThat(versionCheckInterval).isEqualTo(0L)
-    }
+		assertThat(versionCheckInterval).isEqualTo(0L)
+	}
 
-    @Test
-    fun getVersionCheckInterval_Missing() {
-        assertThat(this.preference.contains(Fields.VERSION_CHECK_INTERVAL.field)).isFalse()
+	@Test
+	fun getVersionCheckInterval_Missing() {
+		assertThat(this.preference.contains(Fields.VERSION_CHECK_INTERVAL.field)).isFalse()
 
-        val versionCheckInterval = this.preference.getVersionCheckInterval()
+		val versionCheckInterval = this.preference.getVersionCheckInterval()
 
-        assertThat(versionCheckInterval).isEqualTo(0L)
-    }
+		assertThat(versionCheckInterval).isEqualTo(0L)
+	}
 
-    @Test
-    fun getVersionCheckInterval_Null() {
-        this.preference.edit().putString(Fields.VERSION_CHECK_INTERVAL.field, null).apply()
+	@Test
+	fun getVersionCheckInterval_Null() {
+		this.preference.edit().putString(Fields.VERSION_CHECK_INTERVAL.field, null).apply()
 
-        val versionCheckInterval = this.preference.getVersionCheckInterval()
+		val versionCheckInterval = this.preference.getVersionCheckInterval()
 
-        assertThat(versionCheckInterval).isEqualTo(0L)
-    }
+		assertThat(versionCheckInterval).isEqualTo(0L)
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

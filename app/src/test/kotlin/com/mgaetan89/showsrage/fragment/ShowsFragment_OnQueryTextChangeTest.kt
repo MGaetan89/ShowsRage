@@ -10,34 +10,34 @@ import org.mockito.Mockito.verify
 
 @RunWith(Parameterized::class)
 class ShowsFragment_OnQueryTextChangeTest(val newText: String?) {
-    private lateinit var fragment: ShowsFragment
+	private lateinit var fragment: ShowsFragment
 
-    @Before
-    fun before() {
-        this.fragment = spy(ShowsFragment())
-    }
+	@Before
+	fun before() {
+		this.fragment = spy(ShowsFragment())
+	}
 
-    @Test
-    fun onQueryTextChange() {
-        try {
-            assertTrue(this.fragment.onQueryTextChange(this.newText))
-            verify<ShowsFragment>(this.fragment).sendFilterMessage()
-        } catch (exception: NullPointerException) {
-            // LocalBroadcastManager.getInstance(Context) returns null in tests
-        }
+	@Test
+	fun onQueryTextChange() {
+		try {
+			assertTrue(this.fragment.onQueryTextChange(this.newText))
+			verify<ShowsFragment>(this.fragment).sendFilterMessage()
+		} catch (exception: NullPointerException) {
+			// LocalBroadcastManager.getInstance(Context) returns null in tests
+		}
 
-    }
+	}
 
-    companion object {
-        @JvmStatic
-        @Parameterized.Parameters
-        fun data(): Collection<Array<Any?>> {
-            return listOf(
-                    arrayOf<Any?>(null),
-                    arrayOf<Any?>(""),
-                    arrayOf<Any?>(" "),
-                    arrayOf<Any?>("Search Query")
-            )
-        }
-    }
+	companion object {
+		@JvmStatic
+		@Parameterized.Parameters
+		fun data(): Collection<Array<Any?>> {
+			return listOf(
+					arrayOf<Any?>(null),
+					arrayOf<Any?>(""),
+					arrayOf<Any?>(" "),
+					arrayOf<Any?>("Search Query")
+			)
+		}
+	}
 }

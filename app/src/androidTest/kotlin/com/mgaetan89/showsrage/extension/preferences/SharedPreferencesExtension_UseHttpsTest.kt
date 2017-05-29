@@ -17,46 +17,46 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_UseHttpsTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun useHttps_False() {
-        this.preference.edit().putBoolean(Fields.HTTPS.field, false).apply()
+	@Test
+	fun useHttps_False() {
+		this.preference.edit().putBoolean(Fields.HTTPS.field, false).apply()
 
-        val useHttps = this.preference.useHttps()
+		val useHttps = this.preference.useHttps()
 
-        assertThat(useHttps).isFalse()
-    }
+		assertThat(useHttps).isFalse()
+	}
 
-    @Test
-    fun useHttps_Missing() {
-        this.preference.edit().putBoolean(Fields.HTTPS.field, false).apply()
+	@Test
+	fun useHttps_Missing() {
+		this.preference.edit().putBoolean(Fields.HTTPS.field, false).apply()
 
-        val useHttps = this.preference.useHttps()
+		val useHttps = this.preference.useHttps()
 
-        assertThat(useHttps).isFalse()
-    }
+		assertThat(useHttps).isFalse()
+	}
 
-    @Test
-    fun useHttps_True() {
-        this.preference.edit().putBoolean(Fields.HTTPS.field, true).apply()
+	@Test
+	fun useHttps_True() {
+		this.preference.edit().putBoolean(Fields.HTTPS.field, true).apply()
 
-        val useHttps = this.preference.useHttps()
+		val useHttps = this.preference.useHttps()
 
-        assertThat(useHttps).isTrue()
-    }
+		assertThat(useHttps).isTrue()
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

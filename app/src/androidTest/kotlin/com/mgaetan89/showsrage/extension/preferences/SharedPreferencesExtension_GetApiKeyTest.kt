@@ -17,55 +17,55 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_GetApiKeyTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun getApiKey() {
-        this.preference.edit().putString(Fields.API_KEY.field, "apiKey").apply()
+	@Test
+	fun getApiKey() {
+		this.preference.edit().putString(Fields.API_KEY.field, "apiKey").apply()
 
-        val apiKey = this.preference.getApiKey()
+		val apiKey = this.preference.getApiKey()
 
-        assertThat(apiKey).isEqualTo("apiKey")
-    }
+		assertThat(apiKey).isEqualTo("apiKey")
+	}
 
-    @Test
-    fun getApiKey_Empty() {
-        this.preference.edit().putString(Fields.API_KEY.field, "").apply()
+	@Test
+	fun getApiKey_Empty() {
+		this.preference.edit().putString(Fields.API_KEY.field, "").apply()
 
-        val apiKey = this.preference.getApiKey()
+		val apiKey = this.preference.getApiKey()
 
-        assertThat(apiKey).isEmpty()
-    }
+		assertThat(apiKey).isEmpty()
+	}
 
-    @Test
-    fun getApiKey_Missing() {
-        assertThat(this.preference.contains(Fields.API_KEY.field)).isFalse()
+	@Test
+	fun getApiKey_Missing() {
+		assertThat(this.preference.contains(Fields.API_KEY.field)).isFalse()
 
-        val apiKey = this.preference.getApiKey()
+		val apiKey = this.preference.getApiKey()
 
-        assertThat(apiKey).isEmpty()
-    }
+		assertThat(apiKey).isEmpty()
+	}
 
-    @Test
-    fun getApiKey_Null() {
-        this.preference.edit().putString(Fields.API_KEY.field, null).apply()
+	@Test
+	fun getApiKey_Null() {
+		this.preference.edit().putString(Fields.API_KEY.field, null).apply()
 
-        val apiKey = this.preference.getApiKey()
+		val apiKey = this.preference.getApiKey()
 
-        assertThat(apiKey).isEmpty()
-    }
+		assertThat(apiKey).isEmpty()
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

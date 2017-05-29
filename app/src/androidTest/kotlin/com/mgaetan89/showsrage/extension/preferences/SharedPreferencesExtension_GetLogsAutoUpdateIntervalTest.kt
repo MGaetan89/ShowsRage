@@ -17,55 +17,55 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_GetLogsAutoUpdateIntervalTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun getLogsAutoUpdateInterval() {
-        this.preference.edit().putString(Fields.LOGS_AUTO_UPDATE_INTERVAL.field, "30").apply()
+	@Test
+	fun getLogsAutoUpdateInterval() {
+		this.preference.edit().putString(Fields.LOGS_AUTO_UPDATE_INTERVAL.field, "30").apply()
 
-        val autoUpdateInterval = this.preference.getLogsAutoUpdateInterval()
+		val autoUpdateInterval = this.preference.getLogsAutoUpdateInterval()
 
-        assertThat(autoUpdateInterval).isEqualTo(30)
-    }
+		assertThat(autoUpdateInterval).isEqualTo(30)
+	}
 
-    @Test
-    fun getLogsAutoUpdateInterval_Empty() {
-        this.preference.edit().putString(Fields.LOGS_AUTO_UPDATE_INTERVAL.field, "").apply()
+	@Test
+	fun getLogsAutoUpdateInterval_Empty() {
+		this.preference.edit().putString(Fields.LOGS_AUTO_UPDATE_INTERVAL.field, "").apply()
 
-        val autoUpdateInterval = this.preference.getLogsAutoUpdateInterval()
+		val autoUpdateInterval = this.preference.getLogsAutoUpdateInterval()
 
-        assertThat(autoUpdateInterval).isEqualTo(0)
-    }
+		assertThat(autoUpdateInterval).isEqualTo(0)
+	}
 
-    @Test
-    fun getLogsAutoUpdateInterval_Missing() {
-        assertThat(this.preference.contains(Fields.LOGS_AUTO_UPDATE_INTERVAL.field)).isFalse()
+	@Test
+	fun getLogsAutoUpdateInterval_Missing() {
+		assertThat(this.preference.contains(Fields.LOGS_AUTO_UPDATE_INTERVAL.field)).isFalse()
 
-        val autoUpdateInterval = this.preference.getLogsAutoUpdateInterval()
+		val autoUpdateInterval = this.preference.getLogsAutoUpdateInterval()
 
-        assertThat(autoUpdateInterval).isEqualTo(0)
-    }
+		assertThat(autoUpdateInterval).isEqualTo(0)
+	}
 
-    @Test
-    fun getLogsAutoUpdateInterval_Null() {
-        this.preference.edit().putString(Fields.LOGS_AUTO_UPDATE_INTERVAL.field, null).apply()
+	@Test
+	fun getLogsAutoUpdateInterval_Null() {
+		this.preference.edit().putString(Fields.LOGS_AUTO_UPDATE_INTERVAL.field, null).apply()
 
-        val autoUpdateInterval = this.preference.getLogsAutoUpdateInterval()
+		val autoUpdateInterval = this.preference.getLogsAutoUpdateInterval()
 
-        assertThat(autoUpdateInterval).isEqualTo(0)
-    }
+		assertThat(autoUpdateInterval).isEqualTo(0)
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

@@ -10,20 +10,20 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class ScheduleWidgetFactoryTest : ListWidgetFactoryTest<ScheduleWidgetFactory>() {
-    @Before
-    fun before() {
-        this.factory = ScheduleWidgetFactory(this.activityRule.activity)
-    }
+	@Before
+	fun before() {
+		this.factory = ScheduleWidgetFactory(this.activityRule.activity)
+	}
 
-    @Test
-    fun getEpisodeTitle() {
-        val schedule = Schedule().apply {
-            this.episode = 2
-            this.season = 4
-            this.showName = "Show Name"
-        }
-        val presenter = SchedulePresenter(schedule, null)
+	@Test
+	fun getEpisodeTitle() {
+		val schedule = Schedule().apply {
+			this.episode = 2
+			this.season = 4
+			this.showName = "Show Name"
+		}
+		val presenter = SchedulePresenter(schedule, null)
 
-        assertThat(this.factory.getEpisodeTitle(presenter)).isEqualTo("Show Name - S04E02")
-    }
+		assertThat(this.factory.getEpisodeTitle(presenter)).isEqualTo("Show Name - S04E02")
+	}
 }

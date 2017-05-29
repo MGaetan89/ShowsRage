@@ -10,32 +10,32 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_SaveRootDirsTest : RealmTest() {
-    @Before
-    fun before() {
-        assertThat(this.getRootDirs()).hasSize(1)
-    }
+	@Before
+	fun before() {
+		assertThat(this.getRootDirs()).hasSize(1)
+	}
 
-    @Test
-    fun saveRootDirs() {
-        val rootDirs = (1..3).map {
-            RootDir().apply {
-                this.defaultDir = it % 2
-                this.location = "/path/$it"
-                this.valid = it % 2
-            }
-        }
+	@Test
+	fun saveRootDirs() {
+		val rootDirs = (1..3).map {
+			RootDir().apply {
+				this.defaultDir = it % 2
+				this.location = "/path/$it"
+				this.valid = it % 2
+			}
+		}
 
-        this.realm.saveRootDirs(rootDirs)
+		this.realm.saveRootDirs(rootDirs)
 
-        assertThat(this.getRootDirs()).hasSize(3)
-    }
+		assertThat(this.getRootDirs()).hasSize(3)
+	}
 
-    @Test
-    fun saveRootDirs_empty() {
-        this.realm.saveRootDirs(emptyList())
+	@Test
+	fun saveRootDirs_empty() {
+		this.realm.saveRootDirs(emptyList())
 
-        assertThat(this.getRootDirs()).hasSize(0)
-    }
+		assertThat(this.getRootDirs()).hasSize(0)
+	}
 
-    private fun getRootDirs() = this.realm.where(RootDir::class.java).findAll()
+	private fun getRootDirs() = this.realm.where(RootDir::class.java).findAll()
 }

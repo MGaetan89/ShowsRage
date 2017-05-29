@@ -17,54 +17,54 @@ import org.mockito.Mockito.spy
 
 @RunWith(Parameterized::class)
 class AddShowOptionsFragment_GetStatusTest(val spinner: Spinner?, val status: String?) {
-    private lateinit var fragment: AddShowOptionsFragment
+	private lateinit var fragment: AddShowOptionsFragment
 
-    @Before
-    fun before() {
-        val resources = mock(Resources::class.java)
-        `when`(resources.getStringArray(R.array.status_keys)).thenReturn(arrayOf("wanted", "skipped", "archived", "ignored"))
+	@Before
+	fun before() {
+		val resources = mock(Resources::class.java)
+		`when`(resources.getStringArray(R.array.status_keys)).thenReturn(arrayOf("wanted", "skipped", "archived", "ignored"))
 
-        val activity = mock(FragmentActivity::class.java)
-        `when`(activity.resources).thenReturn(resources)
+		val activity = mock(FragmentActivity::class.java)
+		`when`(activity.resources).thenReturn(resources)
 
-        this.fragment = spy(AddShowOptionsFragment())
+		this.fragment = spy(AddShowOptionsFragment())
 
-        try {
-            val fragmentHostField = Fragment::class.java.getDeclaredField("mHost")
-            fragmentHostField.isAccessible = true
-            fragmentHostField.set(this.fragment, EmptyFragmentHostCallback(activity))
-        } catch (ignored: IllegalAccessException) {
-        } catch (ignored: NoSuchFieldException) {
-        }
+		try {
+			val fragmentHostField = Fragment::class.java.getDeclaredField("mHost")
+			fragmentHostField.isAccessible = true
+			fragmentHostField.set(this.fragment, EmptyFragmentHostCallback(activity))
+		} catch (ignored: IllegalAccessException) {
+		} catch (ignored: NoSuchFieldException) {
+		}
 
-        `when`(this.fragment.resources).thenReturn(resources)
-    }
+		`when`(this.fragment.resources).thenReturn(resources)
+	}
 
-    @Test
-    fun getStatus() {
-        assertThat(this.fragment.getStatus(this.spinner)).isEqualTo(this.status)
-    }
+	@Test
+	fun getStatus() {
+		assertThat(this.fragment.getStatus(this.spinner)).isEqualTo(this.status)
+	}
 
-    companion object {
-        @JvmStatic
-        @Parameterized.Parameters
-        fun data(): Collection<Array<Any?>> {
-            return listOf(
-                    arrayOf<Any?>(null, "wanted"),
-                    arrayOf<Any?>(getMockedSpinner(-1), null),
-                    arrayOf<Any?>(getMockedSpinner(0), "wanted"),
-                    arrayOf<Any?>(getMockedSpinner(1), "skipped"),
-                    arrayOf<Any?>(getMockedSpinner(2), "archived"),
-                    arrayOf<Any?>(getMockedSpinner(3), "ignored"),
-                    arrayOf<Any?>(getMockedSpinner(4), null)
-            )
-        }
+	companion object {
+		@JvmStatic
+		@Parameterized.Parameters
+		fun data(): Collection<Array<Any?>> {
+			return listOf(
+					arrayOf<Any?>(null, "wanted"),
+					arrayOf<Any?>(getMockedSpinner(-1), null),
+					arrayOf<Any?>(getMockedSpinner(0), "wanted"),
+					arrayOf<Any?>(getMockedSpinner(1), "skipped"),
+					arrayOf<Any?>(getMockedSpinner(2), "archived"),
+					arrayOf<Any?>(getMockedSpinner(3), "ignored"),
+					arrayOf<Any?>(getMockedSpinner(4), null)
+			)
+		}
 
-        private fun getMockedSpinner(selectedItemPosition: Int): Spinner {
-            val spinner = mock(Spinner::class.java)
-            `when`(spinner.selectedItemPosition).thenReturn(selectedItemPosition)
+		private fun getMockedSpinner(selectedItemPosition: Int): Spinner {
+			val spinner = mock(Spinner::class.java)
+			`when`(spinner.selectedItemPosition).thenReturn(selectedItemPosition)
 
-            return spinner
-        }
-    }
+			return spinner
+		}
+	}
 }

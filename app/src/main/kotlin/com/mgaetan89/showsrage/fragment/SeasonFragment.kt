@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.adapter.EpisodesAdapter
@@ -23,126 +22,110 @@ import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.fragment_season.empty
+import kotlinx.android.synthetic.main.fragment_season.list
+import kotlinx.android.synthetic.main.fragment_season.swipe_refresh
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 
 class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefreshListener, RealmChangeListener<RealmResults<Episode>> {
-    private lateinit var adapter: EpisodesAdapter
-    private var emptyView: TextView? = null
-    private lateinit var episodes: RealmResults<Episode>
-    private var indexerId: Int = 0
-    private lateinit var realm: Realm
-    private var recyclerView: RecyclerView? = null
-    private var reversedOrder = false
-    private var seasonNumber: Int = 0
-    private var swipeRefreshLayout: SwipeRefreshLayout? = null
+	private lateinit var episodes: RealmResults<Episode>
+	private var indexerId: Int = 0
+	private lateinit var realm: Realm
+	private var reversedOrder = false
+	private var seasonNumber: Int = 0
 
-    override fun failure(error: RetrofitError?) {
-        this.swipeRefreshLayout?.isRefreshing = false
+	override fun failure(error: RetrofitError?) {
+		this.swipe_refresh.isRefreshing = false
 
-        error?.printStackTrace()
-    }
+		error?.printStackTrace()
+	}
 
-    override fun onChange(episodes: RealmResults<Episode>) {
-        if (this.episodes.isEmpty()) {
-            this.emptyView?.visibility = View.VISIBLE
-            this.recyclerView?.visibility = View.GONE
-        } else {
-            this.emptyView?.visibility = View.GONE
-            this.recyclerView?.visibility = View.VISIBLE
-        }
+	override fun onChange(episodes: RealmResults<Episode>) {
+		if (this.episodes.isEmpty()) {
+			this.empty.visibility = View.VISIBLE
+			this.list.visibility = View.GONE
+		} else {
+			this.empty.visibility = View.GONE
+			this.list.visibility = View.VISIBLE
+		}
 
-        this.adapter.notifyDataSetChanged()
-    }
+		this.list.adapter?.notifyDataSetChanged()
+	}
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
 
-        this.indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
-        this.reversedOrder = Sort.DESCENDING == this.context.getPreferences().getEpisodeSort()
-        this.seasonNumber = this.arguments.getInt(Constants.Bundle.SEASON_NUMBER)
-    }
+		this.indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
+		this.reversedOrder = Sort.DESCENDING == this.context.getPreferences().getEpisodeSort()
+		this.seasonNumber = this.arguments.getInt(Constants.Bundle.SEASON_NUMBER)
+	}
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_season, container, false)
+	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		return inflater?.inflate(R.layout.fragment_season, container, false)
+	}
 
-        if (view != null) {
-            this.emptyView = view.findViewById(android.R.id.empty) as TextView?
-            this.recyclerView = view.findViewById(android.R.id.list) as RecyclerView?
-            this.swipeRefreshLayout = view.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
+	override fun onRefresh() {
+		this.swipe_refresh.isRefreshing = true
 
-            if (this.recyclerView != null) {
-                val columnCount = this.resources.getInteger(R.integer.shows_column_count)
-                val layoutManager = GridLayoutManager(this.activity, columnCount)
+		SickRageApi.instance.services?.getEpisodes(this.indexerId, this.seasonNumber, this)
+	}
 
-                this.recyclerView!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                    override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                        super.onScrolled(recyclerView, dx, dy)
+	override fun onResume() {
+		super.onResume()
 
-                        swipeRefreshLayout?.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
-                    }
-                })
-                this.recyclerView!!.layoutManager = layoutManager
-            }
+		this.onRefresh()
+	}
 
-            this.swipeRefreshLayout?.setColorSchemeResources(R.color.accent)
-            this.swipeRefreshLayout?.setOnRefreshListener(this)
-        }
+	override fun onStart() {
+		super.onStart()
 
-        return view
-    }
+		this.realm = Realm.getDefaultInstance()
+		this.episodes = this.realm.getEpisodes(this.indexerId, this.seasonNumber, this.reversedOrder, this)
+		this.list.adapter = EpisodesAdapter(this.episodes, this.seasonNumber, this.indexerId, this.reversedOrder)
+	}
 
-    override fun onDestroyView() {
-        this.emptyView = null
-        this.recyclerView = null
-        this.swipeRefreshLayout = null
+	override fun onStop() {
+		if (this.episodes.isValid) {
+			this.episodes.removeAllChangeListeners()
+		}
 
-        super.onDestroyView()
-    }
+		this.realm.close()
 
-    override fun onRefresh() {
-        this.swipeRefreshLayout?.isRefreshing = true
+		super.onStop()
+	}
 
-        SickRageApi.instance.services?.getEpisodes(this.indexerId, this.seasonNumber, this)
-    }
+	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 
-    override fun onResume() {
-        super.onResume()
+		val columnCount = this.resources.getInteger(R.integer.shows_column_count)
+		val layoutManager = GridLayoutManager(this.activity, columnCount)
 
-        this.onRefresh()
-    }
+		this.list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+			override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+				super.onScrolled(recyclerView, dx, dy)
 
-    override fun onStart() {
-        super.onStart()
+				swipe_refresh.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
+			}
+		})
+		this.list.layoutManager = layoutManager
 
-        this.realm = Realm.getDefaultInstance()
-        this.episodes = this.realm.getEpisodes(this.indexerId, this.seasonNumber, this.reversedOrder, this)
-        this.adapter = EpisodesAdapter(this.episodes, this.seasonNumber, this.indexerId, this.reversedOrder)
-        this.recyclerView?.adapter = this.adapter
-    }
+		this.swipe_refresh.setColorSchemeResources(R.color.accent)
+		this.swipe_refresh.setOnRefreshListener(this)
+	}
 
-    override fun onStop() {
-        if (this.episodes.isValid) {
-            this.episodes.removeAllChangeListeners()
-        }
+	override fun success(episodes: Episodes?, response: Response?) {
+		this.swipe_refresh.isRefreshing = false
 
-        this.realm.close()
+		val episodesList = episodes?.data?.map {
+			it.value.number = it.key
+			it.value
+		} ?: emptyList()
 
-        super.onStop()
-    }
-
-    override fun success(episodes: Episodes?, response: Response?) {
-        this.swipeRefreshLayout?.isRefreshing = false
-
-        val episodesList = episodes?.data?.map {
-            it.value.number = it.key
-            it.value
-        } ?: emptyList()
-
-        Realm.getDefaultInstance().let {
-            it.saveEpisodes(episodesList, this.indexerId, this.seasonNumber)
-            it.close()
-        }
-    }
+		Realm.getDefaultInstance().let {
+			it.saveEpisodes(episodesList, this.indexerId, this.seasonNumber)
+			it.close()
+		}
+	}
 }

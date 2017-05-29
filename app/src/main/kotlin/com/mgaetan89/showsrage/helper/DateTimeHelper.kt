@@ -7,40 +7,32 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 object DateTimeHelper {
-    fun getRelativeDate(dateTime: String?, format: String, minResolution: Long): CharSequence? {
-        if (dateTime.isNullOrEmpty()) {
-            return "N/A"
-        }
+	fun getRelativeDate(dateTime: String?, format: String, minResolution: Long): CharSequence? {
+		if (dateTime.isNullOrEmpty()) {
+			return "N/A"
+		}
 
-        try {
-            val formatter = SimpleDateFormat(format, Locale.getDefault())
-            val date = formatter.parse(dateTime)
+		try {
+			val date = SimpleDateFormat(format, Locale.getDefault()).parse(dateTime)
 
-            return DateUtils.getRelativeTimeSpanString(date.time, System.currentTimeMillis(), minResolution)
-        } catch (exception: ParseException) {
-            return dateTime!!
-        }
-    }
+			return DateUtils.getRelativeTimeSpanString(date.time, System.currentTimeMillis(), minResolution)
+		} catch (exception: ParseException) {
+			return dateTime!!
+		}
+	}
 
-    fun getLocalizedTime(context: Context, dateTime: String, format: String): String? {
-        val timestamp = this.getTimestamp(dateTime, format)
+	fun getLocalizedTime(context: Context, dateTime: String, format: String): String? {
+		val timestamp = this.getTimestamp(dateTime, format).takeIf { it > 0L } ?: return null
 
-        if (timestamp == 0L) {
-            return null
-        }
+		return DateUtils.formatDateTime(context, timestamp, DateUtils.FORMAT_SHOW_TIME)
+	}
 
-        return DateUtils.formatDateTime(context, timestamp, DateUtils.FORMAT_SHOW_TIME)
-    }
-
-    private fun getTimestamp(dateTime: String, format: String): Long {
-        try {
-            // SickRage returns the air time in the american time format
-            val formatter = SimpleDateFormat(format, Locale.US)
-            val date = formatter.parse(dateTime)
-
-            return date.time
-        } catch (exception: ParseException) {
-            return 0L
-        }
-    }
+	private fun getTimestamp(dateTime: String, format: String): Long {
+		return try {
+			// SickRage returns the air time in the american time format
+			SimpleDateFormat(format, Locale.US).parse(dateTime).time
+		} catch (exception: ParseException) {
+			0L
+		}
+	}
 }

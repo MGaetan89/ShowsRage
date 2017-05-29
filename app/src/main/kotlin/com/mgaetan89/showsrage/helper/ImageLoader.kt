@@ -18,64 +18,64 @@ import com.bumptech.glide.request.target.Target
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 
 object ImageLoader {
-    interface OnImageResult {
-        fun onImageError(imageView: ImageView, exception: Exception?, errorDrawable: Drawable?)
+	interface OnImageResult {
+		fun onImageError(imageView: ImageView, exception: Exception?, errorDrawable: Drawable?)
 
-        fun onImageReady(imageView: ImageView, resource: Bitmap?)
-    }
+		fun onImageReady(imageView: ImageView, resource: Bitmap?)
+	}
 
-    fun getBitmap(context: Context, url: String?, circleTransform: Boolean): FutureTarget<Bitmap>? {
-        return this.getGlideInstance(context, url, circleTransform)?.into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-    }
+	fun getBitmap(context: Context, url: String?, circleTransform: Boolean): FutureTarget<Bitmap>? {
+		return this.getGlideInstance(context, url, circleTransform)?.into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+	}
 
-    fun load(imageView: ImageView?, url: String?, circleTransform: Boolean) {
-        this.load(imageView, url, circleTransform, null, null)
-    }
+	fun load(imageView: ImageView?, url: String?, circleTransform: Boolean) {
+		this.load(imageView, url, circleTransform, null, null)
+	}
 
-    fun load(imageView: ImageView?, url: String?, circleTransform: Boolean, paletteListener: Palette.PaletteAsyncListener?, onImageResult: OnImageResult?) {
-        val context = imageView?.context ?: return
+	fun load(imageView: ImageView?, url: String?, circleTransform: Boolean, paletteListener: Palette.PaletteAsyncListener?, onImageResult: OnImageResult?) {
+		val context = imageView?.context ?: return
 
-        this.getGlideInstance(context, url, circleTransform)?.into(BitmapTarget(imageView, paletteListener, onImageResult))
-    }
+		this.getGlideInstance(context, url, circleTransform)?.into(BitmapTarget(imageView, paletteListener, onImageResult))
+	}
 
-    @WorkerThread
-    fun load(context: Context, remoteViews: RemoteViews, @IdRes viewId: Int, url: String?, circleTransform: Boolean) {
-        this.getBitmap(context, url, circleTransform)?.let {
-            remoteViews.setImageViewBitmap(viewId, it.get())
+	@WorkerThread
+	fun load(context: Context, remoteViews: RemoteViews, @IdRes viewId: Int, url: String?, circleTransform: Boolean) {
+		this.getBitmap(context, url, circleTransform)?.let {
+			remoteViews.setImageViewBitmap(viewId, it.get())
 
-            Glide.clear(it)
-        }
-    }
+			Glide.clear(it)
+		}
+	}
 
-    private fun getGlideInstance(context: Context, url: String?, circleTransform: Boolean): BitmapRequestBuilder<String, Bitmap>? {
-        val glide = Glide.with(context.applicationContext)
-                .load(url)
-                .asBitmap()
-                .approximate()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+	private fun getGlideInstance(context: Context, url: String?, circleTransform: Boolean): BitmapRequestBuilder<String, Bitmap>? {
+		val glide = Glide.with(context.applicationContext)
+				.load(url)
+				.asBitmap()
+				.approximate()
+				.diskCacheStrategy(DiskCacheStrategy.ALL)
 
-        if (circleTransform) {
-            glide.transform(CropCircleTransformation(context))
-        }
+		if (circleTransform) {
+			glide.transform(CropCircleTransformation(context))
+		}
 
-        return glide
-    }
+		return glide
+	}
 
-    private class BitmapTarget(view: ImageView, val paletteListener: Palette.PaletteAsyncListener?, val onImageResult: OnImageResult?) : BitmapImageViewTarget(view) {
-        override fun onLoadFailed(e: Exception?, errorDrawable: Drawable?) {
-            super.onLoadFailed(e, errorDrawable)
+	private class BitmapTarget(view: ImageView, val paletteListener: Palette.PaletteAsyncListener?, val onImageResult: OnImageResult?) : BitmapImageViewTarget(view) {
+		override fun onLoadFailed(e: Exception?, errorDrawable: Drawable?) {
+			super.onLoadFailed(e, errorDrawable)
 
-            this.onImageResult?.onImageError(this.view, e, errorDrawable)
-        }
+			this.onImageResult?.onImageError(this.view, e, errorDrawable)
+		}
 
-        override fun onResourceReady(resource: Bitmap?, glideAnimation: GlideAnimation<in Bitmap>?) {
-            super.onResourceReady(resource, glideAnimation)
+		override fun onResourceReady(resource: Bitmap?, glideAnimation: GlideAnimation<in Bitmap>?) {
+			super.onResourceReady(resource, glideAnimation)
 
-            this.onImageResult?.onImageReady(this.view, resource)
+			this.onImageResult?.onImageReady(this.view, resource)
 
-            if (this.paletteListener != null) {
-                Palette.Builder(resource).generate(this.paletteListener)
-            }
-        }
-    }
+			if (this.paletteListener != null) {
+				Palette.Builder(resource).generate(this.paletteListener)
+			}
+		}
+	}
 }

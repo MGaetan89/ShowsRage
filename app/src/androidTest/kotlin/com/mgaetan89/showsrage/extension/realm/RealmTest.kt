@@ -12,38 +12,38 @@ import org.junit.BeforeClass
 import org.junit.Rule
 
 abstract class RealmTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule<MainActivity>(MainActivity::class.java)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule<MainActivity>(MainActivity::class.java)
 
-    val realm: Realm by lazy { Realm.getInstance(this.realmConfiguration) }
-    private val realmConfiguration by lazy { Utils.createRealmConfiguration("test.realm") }
+	val realm: Realm by lazy { Realm.getInstance(this.realmConfiguration) }
+	private val realmConfiguration by lazy { Utils.createRealmConfiguration("test.realm") }
 
-    @Before
-    fun configureRealm() {
-        this.realm.isAutoRefresh = false
-    }
+	@Before
+	fun configureRealm() {
+		this.realm.isAutoRefresh = false
+	}
 
-    @After
-    fun after() {
-        this.realm.close()
+	@After
+	fun after() {
+		this.realm.close()
 
-        Realm.deleteRealm(this.realmConfiguration)
-    }
+		Realm.deleteRealm(this.realmConfiguration)
+	}
 
-    companion object {
-        @BeforeClass
-        @JvmStatic
-        fun beforeClass() {
-            if (Looper.myLooper() == null) {
-                Looper.prepare()
-            }
-        }
+	companion object {
+		@BeforeClass
+		@JvmStatic
+		fun beforeClass() {
+			if (Looper.myLooper() == null) {
+				Looper.prepare()
+			}
+		}
 
-        @AfterClass
-        @JvmStatic
-        fun afterClass() {
-            Looper.myLooper().quit()
-        }
-    }
+		@AfterClass
+		@JvmStatic
+		fun afterClass() {
+			Looper.myLooper().quit()
+		}
+	}
 }

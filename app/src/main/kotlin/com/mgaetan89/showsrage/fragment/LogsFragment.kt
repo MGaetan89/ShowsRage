@@ -13,7 +13,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.firebase.jobdispatcher.FirebaseJobDispatcher
 import com.firebase.jobdispatcher.GooglePlayDriver
 import com.firebase.jobdispatcher.Trigger
@@ -36,277 +35,254 @@ import com.mgaetan89.showsrage.service.LogsAutoUpdateService
 import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.fragment_logs.empty
+import kotlinx.android.synthetic.main.fragment_logs.list
+import kotlinx.android.synthetic.main.fragment_logs.swipe_refresh
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 
 class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResults<LogEntry>>, SwipeRefreshLayout.OnRefreshListener {
-    private var adapter: LogsAdapter? = null
-    private var emptyView: TextView? = null
-    private var groups: Array<String>? = null
-    private var jobDispatcher: FirebaseJobDispatcher? = null
-    private var logLevel: LogLevel? = null
-    private lateinit var logs: RealmResults<LogEntry>
-    private lateinit var realm: Realm
-    private var recyclerView: RecyclerView? = null
-    private var swipeRefreshLayout: SwipeRefreshLayout? = null
-
-    init {
-        this.setHasOptionsMenu(true)
-    }
-
-    override fun failure(error: RetrofitError?) {
-        this.swipeRefreshLayout?.isRefreshing = false
-
-        error?.printStackTrace()
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        val activity = this.activity
-
-        if (activity is MainActivity) {
-            activity.displayHomeAsUp(false)
-            activity.setTitle(R.string.logs)
-        }
-
-        this.onRefresh()
-    }
+	private var groups: Array<String>? = null
+	private var jobDispatcher: FirebaseJobDispatcher? = null
+	private var logLevel: LogLevel? = null
+	private lateinit var logs: RealmResults<LogEntry>
+	private lateinit var realm: Realm
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+	init {
+		this.setHasOptionsMenu(true)
+	}
 
-        if (requestCode == REQUEST_CODE_FILTER) {
-            if (resultCode == Activity.RESULT_OK) {
-                this.groups = data?.getStringArrayExtra(Constants.Bundle.LOGS_GROUPS)
-
-                this.adapter = null
-
-                this.getLogs(this.getLogLevel())
-            }
-        }
-    }
-
-    override fun onChange(logs: RealmResults<LogEntry>) {
-        if (this.adapter == null) {
-            this.setAdapter()
-        }
+	override fun failure(error: RetrofitError?) {
+		this.swipe_refresh.isRefreshing = false
 
-        if (this.logs.isEmpty()) {
-            this.emptyView?.visibility = View.VISIBLE
-            this.recyclerView?.visibility = View.GONE
-        } else {
-            this.emptyView?.visibility = View.GONE
-            this.recyclerView?.visibility = View.VISIBLE
-        }
+		error?.printStackTrace()
+	}
 
-        this.adapter?.notifyDataSetChanged()
-    }
+	override fun onActivityCreated(savedInstanceState: Bundle?) {
+		super.onActivityCreated(savedInstanceState)
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.logs, menu)
+		val activity = this.activity
 
-        if (!this.realm.isClosed) {
-            menu?.findItem(R.id.menu_filter)?.isVisible = this.realm.getLogsGroup().isNotEmpty()
-        }
+		if (activity is MainActivity) {
+			activity.displayHomeAsUp(false)
+			activity.setTitle(R.string.logs)
+		}
 
-        val menuId = getMenuIdForLogLevel(this.getLogLevel())
+		this.onRefresh()
+	}
 
-        if (menuId > 0) {
-            menu?.findItem(menuId)?.isChecked = true
-        }
-    }
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_logs, container, false)
+		if (requestCode == REQUEST_CODE_FILTER) {
+			if (resultCode == Activity.RESULT_OK) {
+				this.groups = data?.getStringArrayExtra(Constants.Bundle.LOGS_GROUPS)
 
-        if (view != null) {
-            this.emptyView = view.findViewById(android.R.id.empty) as TextView?
-            this.recyclerView = view.findViewById(android.R.id.list) as RecyclerView?
-            this.swipeRefreshLayout = view.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
+				this.list.adapter = null
 
-            if (this.recyclerView != null) {
-                this.recyclerView!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                    override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                        super.onScrolled(recyclerView, dx, dy)
+				this.getLogs(this.getLogLevel())
+			}
+		}
+	}
 
-                        swipeRefreshLayout?.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
-                    }
-                })
-                this.recyclerView!!.layoutManager = LinearLayoutManager(this.activity)
-            }
+	override fun onChange(logs: RealmResults<LogEntry>) {
+		if (this.list.adapter == null) {
+			this.list.adapter = LogsAdapter(this.logs)
+		}
 
-            this.swipeRefreshLayout?.setColorSchemeResources(R.color.accent)
-            this.swipeRefreshLayout?.setOnRefreshListener(this)
-        }
+		if (this.logs.isEmpty()) {
+			this.empty.visibility = View.VISIBLE
+			this.list.visibility = View.GONE
+		} else {
+			this.empty.visibility = View.GONE
+			this.list.visibility = View.VISIBLE
+		}
 
-        return view
-    }
+		this.list.adapter?.notifyDataSetChanged()
+	}
 
-    override fun onDestroyView() {
-        this.emptyView = null
-        this.recyclerView = null
-        this.swipeRefreshLayout = null
+	override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+		inflater?.inflate(R.menu.logs, menu)
 
-        super.onDestroyView()
-    }
+		if (!this.realm.isClosed) {
+			menu?.findItem(R.id.menu_filter)?.isVisible = this.realm.getLogsGroup().isNotEmpty()
+		}
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.groupId == R.id.menu_logs_level) {
-            return this.handleLogsLevelSelection(item)
-        }
+		val menuId = getMenuIdForLogLevel(this.getLogLevel())
 
-        if (item?.itemId == R.id.menu_filter) {
-            this.handleLogsGroupFilter()
+		if (menuId > 0) {
+			menu?.findItem(menuId)?.isChecked = true
+		}
+	}
 
-            return true
-        }
+	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		return inflater?.inflate(R.layout.fragment_logs, container, false)
+	}
 
-        return super.onOptionsItemSelected(item)
-    }
+	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+		if (item?.groupId == R.id.menu_logs_level) {
+			return this.handleLogsLevelSelection(item)
+		}
 
-    override fun onRefresh() {
-        this.swipeRefreshLayout?.isRefreshing = true
+		if (item?.itemId == R.id.menu_filter) {
+			this.handleLogsGroupFilter()
 
-        SickRageApi.instance.services?.getLogs(this.getLogLevel(), this)
-    }
+			return true
+		}
 
-    override fun onStart() {
-        super.onStart()
+		return super.onOptionsItemSelected(item)
+	}
 
-        this.realm = Realm.getDefaultInstance()
-        this.logs = this.realm.getLogs(this.getLogLevel(), this.groups, this)
-        this.setAdapter()
-        this.scheduleAutoUpdate()
-    }
+	override fun onRefresh() {
+		this.swipe_refresh.isRefreshing = true
 
-    override fun onStop() {
-        this.jobDispatcher?.cancel(AUTO_UPDATE_JOB_TAG)
+		SickRageApi.instance.services?.getLogs(this.getLogLevel(), this)
+	}
 
-        if (this.logs.isValid) {
-            this.logs.removeAllChangeListeners()
-        }
+	override fun onStart() {
+		super.onStart()
 
-        this.realm.close()
+		this.realm = Realm.getDefaultInstance()
+		this.logs = this.realm.getLogs(this.getLogLevel(), this.groups, this)
+		this.list.adapter = LogsAdapter(this.logs)
+		this.scheduleAutoUpdate()
+	}
 
-        super.onStop()
-    }
+	override fun onStop() {
+		this.jobDispatcher?.cancel(AUTO_UPDATE_JOB_TAG)
 
-    override fun success(logs: Logs?, response: Response?) {
-        this.swipeRefreshLayout?.isRefreshing = false
+		if (this.logs.isValid) {
+			this.logs.removeAllChangeListeners()
+		}
 
-        val logEntries = logs?.data?.map(::LogEntry) ?: emptyList()
+		this.realm.close()
 
-        Realm.getDefaultInstance().let {
-            it.saveLogs(this.getLogLevel(), logEntries)
-            it.close()
-        }
+		super.onStop()
+	}
 
-        this.activity?.supportInvalidateOptionsMenu()
-    }
+	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 
-    private fun getLogLevel(): LogLevel {
-        this.logLevel?.let {
-            return it
-        }
-
-        this.context?.let {
-            return it.getPreferences().getLogLevel()
-        }
-
-        return Constants.Defaults.LOG_LEVEL
-    }
-
-    private fun getLogs(logLevel: LogLevel) {
-        if (this.logs.isValid) {
-            this.logs.removeAllChangeListeners()
-        }
-
-        this.logs = this.realm.getLogs(logLevel, this.groups, this)
-    }
-
-    private fun handleLogsGroupFilter() {
-        val arguments = Bundle()
-        arguments.putStringArray(Constants.Bundle.LOGS_GROUPS, this.groups)
-
-        val fragment = LogsFilterFragment()
-        fragment.arguments = arguments
-        fragment.setTargetFragment(this, REQUEST_CODE_FILTER)
-        fragment.show(this.childFragmentManager, "logs_filter")
-    }
-
-    private fun handleLogsLevelSelection(item: MenuItem?): Boolean {
-        this.logLevel = getLogLevelForMenuId(item?.itemId)
-
-        return this.logLevel?.let {
-            // Check the selected menu item
-            item?.isChecked = true
-
-            // Save the selected logs level
-            this.context.getPreferences().saveLogLevel(it)
-
-            // Update the list of logs
-            this.adapter = null
-
-            this.getLogs(it)
-
-            // Refresh the list of logs
-            this.onRefresh()
-
-            true
-        } ?: false
-    }
-
-    private fun scheduleAutoUpdate() {
-        val autoUpdateInterval = this.context?.getPreferences().getLogsAutoUpdateInterval()
-
-        if (autoUpdateInterval > 0) {
-            this.jobDispatcher = FirebaseJobDispatcher(GooglePlayDriver(this.context))
-
-            this.jobDispatcher?.let {
-                val tolerance = autoUpdateInterval * TOLERANCE_RATIO
-                val job = it.newJobBuilder()
-                        .setRecurring(true)
-                        .setService(LogsAutoUpdateService::class.java)
-                        .setTag(AUTO_UPDATE_JOB_TAG)
-                        .setTrigger(Trigger.executionWindow(autoUpdateInterval, autoUpdateInterval + tolerance.toInt()))
-                        .build()
-
-                it.schedule(job)
-            }
-        }
-    }
-
-    private fun setAdapter() {
-        this.adapter = LogsAdapter(this.logs)
-
-        this.recyclerView?.adapter = this.adapter
-    }
-
-    companion object {
-        private const val AUTO_UPDATE_JOB_TAG = "logs-auto-update-tag"
-        private const val REQUEST_CODE_FILTER = 1
-        private const val TOLERANCE_RATIO = 0.1
-
-        internal fun getLogLevelForMenuId(menuId: Int?): LogLevel? {
-            return when (menuId) {
-                R.id.menu_debug -> LogLevel.DEBUG
-                R.id.menu_error -> LogLevel.ERROR
-                R.id.menu_info -> LogLevel.INFO
-                R.id.menu_warning -> LogLevel.WARNING
-                else -> null
-            }
-        }
-
-        internal fun getMenuIdForLogLevel(logLevel: LogLevel?): Int {
-            return when (logLevel) {
-                LogLevel.DEBUG -> R.id.menu_debug
-                LogLevel.ERROR -> R.id.menu_error
-                LogLevel.INFO -> R.id.menu_info
-                LogLevel.WARNING -> R.id.menu_warning
-                else -> 0
-            }
-        }
-    }
+		this.list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+			override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+				super.onScrolled(recyclerView, dx, dy)
+
+				swipe_refresh.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
+			}
+		})
+		this.list.layoutManager = LinearLayoutManager(this.activity)
+
+		this.swipe_refresh.setColorSchemeResources(R.color.accent)
+		this.swipe_refresh.setOnRefreshListener(this)
+	}
+
+	override fun success(logs: Logs?, response: Response?) {
+		this.swipe_refresh.isRefreshing = false
+
+		val logEntries = logs?.data?.map(::LogEntry) ?: emptyList()
+
+		Realm.getDefaultInstance().let {
+			it.saveLogs(this.getLogLevel(), logEntries)
+			it.close()
+		}
+
+		this.activity?.supportInvalidateOptionsMenu()
+	}
+
+	private fun getLogLevel(): LogLevel {
+		this.logLevel?.let {
+			return it
+		}
+
+		this.context?.let {
+			return it.getPreferences().getLogLevel()
+		}
+
+		return Constants.Defaults.LOG_LEVEL
+	}
+
+	private fun getLogs(logLevel: LogLevel) {
+		if (this.logs.isValid) {
+			this.logs.removeAllChangeListeners()
+		}
+
+		this.logs = this.realm.getLogs(logLevel, this.groups, this)
+	}
+
+	private fun handleLogsGroupFilter() {
+		val fragment = LogsFilterFragment.newInstance(this.groups)
+		fragment.setTargetFragment(this, REQUEST_CODE_FILTER)
+		fragment.show(this.childFragmentManager, "logs_filter")
+	}
+
+	private fun handleLogsLevelSelection(item: MenuItem?): Boolean {
+		this.logLevel = getLogLevelForMenuId(item?.itemId)
+
+		return this.logLevel?.let {
+			// Check the selected menu item
+			item?.isChecked = true
+
+			// Save the selected logs level
+			this.context.getPreferences().saveLogLevel(it)
+
+			// Update the list of logs
+			this.list.adapter = null
+
+			this.getLogs(it)
+
+			// Refresh the list of logs
+			this.onRefresh()
+
+			true
+		} ?: false
+	}
+
+	private fun scheduleAutoUpdate() {
+		val autoUpdateInterval = this.context?.getPreferences().getLogsAutoUpdateInterval()
+
+		if (autoUpdateInterval > 0) {
+			this.jobDispatcher = FirebaseJobDispatcher(GooglePlayDriver(this.context))
+
+			this.jobDispatcher?.let {
+				val tolerance = autoUpdateInterval * TOLERANCE_RATIO
+				val job = it.newJobBuilder()
+						.setRecurring(true)
+						.setService(LogsAutoUpdateService::class.java)
+						.setTag(AUTO_UPDATE_JOB_TAG)
+						.setTrigger(Trigger.executionWindow(autoUpdateInterval, autoUpdateInterval + tolerance.toInt()))
+						.build()
+
+				it.schedule(job)
+			}
+		}
+	}
+
+	companion object {
+		private const val AUTO_UPDATE_JOB_TAG = "logs-auto-update-tag"
+		private const val REQUEST_CODE_FILTER = 1
+		private const val TOLERANCE_RATIO = 0.1
+
+		internal fun getLogLevelForMenuId(menuId: Int?): LogLevel? {
+			return when (menuId) {
+				R.id.menu_debug -> LogLevel.DEBUG
+				R.id.menu_error -> LogLevel.ERROR
+				R.id.menu_info -> LogLevel.INFO
+				R.id.menu_warning -> LogLevel.WARNING
+				else -> null
+			}
+		}
+
+		internal fun getMenuIdForLogLevel(logLevel: LogLevel?): Int {
+			return when (logLevel) {
+				LogLevel.DEBUG -> R.id.menu_debug
+				LogLevel.ERROR -> R.id.menu_error
+				LogLevel.INFO -> R.id.menu_info
+				LogLevel.WARNING -> R.id.menu_warning
+				else -> 0
+			}
+		}
+
+		fun newInstance() = LogsFragment()
+	}
 }

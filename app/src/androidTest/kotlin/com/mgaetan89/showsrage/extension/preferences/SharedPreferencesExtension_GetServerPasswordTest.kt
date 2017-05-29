@@ -17,55 +17,55 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_GetServerPasswordTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun getServerPassword() {
-        this.preference.edit().putString(Fields.SERVER_PASSWORD.field, "serverPassword").apply()
+	@Test
+	fun getServerPassword() {
+		this.preference.edit().putString(Fields.SERVER_PASSWORD.field, "serverPassword").apply()
 
-        val serverPassword = this.preference.getServerPassword()
+		val serverPassword = this.preference.getServerPassword()
 
-        assertThat(serverPassword).isEqualTo("serverPassword")
-    }
+		assertThat(serverPassword).isEqualTo("serverPassword")
+	}
 
-    @Test
-    fun getServerPassword_Empty() {
-        this.preference.edit().putString(Fields.SERVER_PASSWORD.field, "").apply()
+	@Test
+	fun getServerPassword_Empty() {
+		this.preference.edit().putString(Fields.SERVER_PASSWORD.field, "").apply()
 
-        val serverPassword = this.preference.getServerPassword()
+		val serverPassword = this.preference.getServerPassword()
 
-        assertThat(serverPassword).isEmpty()
-    }
+		assertThat(serverPassword).isEmpty()
+	}
 
-    @Test
-    fun getServerPassword_Missing() {
-        assertThat(this.preference.contains(Fields.SERVER_PASSWORD.field)).isFalse()
+	@Test
+	fun getServerPassword_Missing() {
+		assertThat(this.preference.contains(Fields.SERVER_PASSWORD.field)).isFalse()
 
-        val serverPassword = this.preference.getServerPassword()
+		val serverPassword = this.preference.getServerPassword()
 
-        assertThat(serverPassword).isNull()
-    }
+		assertThat(serverPassword).isNull()
+	}
 
-    @Test
-    fun getServerPassword_Null() {
-        this.preference.edit().putString(Fields.SERVER_PASSWORD.field, null).apply()
+	@Test
+	fun getServerPassword_Null() {
+		this.preference.edit().putString(Fields.SERVER_PASSWORD.field, null).apply()
 
-        val serverPassword = this.preference.getServerPassword()
+		val serverPassword = this.preference.getServerPassword()
 
-        assertThat(serverPassword).isNull()
-    }
+		assertThat(serverPassword).isNull()
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

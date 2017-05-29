@@ -15,70 +15,74 @@ import retrofit.client.Response
 import java.lang.ref.WeakReference
 
 class SettingsServerApiKeyFragment : SettingsServerFragment() {
-    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-        if ("get_api_key_action" == preference?.key) {
-            this.getApiKey()
+	override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+		if ("get_api_key_action" == preference?.key) {
+			this.getApiKey()
 
-            return true
-        }
+			return true
+		}
 
-        return super.onPreferenceTreeClick(preference)
-    }
+		return super.onPreferenceTreeClick(preference)
+	}
 
-    override fun getTitleResourceId() = R.string.api_key
+	override fun getTitleResourceId() = R.string.api_key
 
-    override fun getXmlResourceFile() = R.xml.settings_server_api_key
+	override fun getXmlResourceFile() = R.xml.settings_server_api_key
 
-    private fun getApiKey() {
-        val preferences = this.activity.getPreferences()
+	private fun getApiKey() {
+		val preferences = this.activity.getPreferences()
 
-        SickRageApi.instance.init(preferences)
+		SickRageApi.instance.init(preferences)
 
-        val username = preferences.getServerUsername()
-        val password = preferences.getServerPassword()
+		val username = preferences.getServerUsername()
+		val password = preferences.getServerPassword()
 
-        SickRageApi.instance.services?.getApiKey(username, password, ApiKeyCallback(this))
-    }
+		SickRageApi.instance.services?.getApiKey(username, password, ApiKeyCallback(this))
+	}
 
-    private class ApiKeyCallback(fragment: SettingsFragment) : Callback<ApiKey> {
-        private val fragmentReference = WeakReference(fragment)
+	companion object {
+		fun newInstance() = SettingsServerApiKeyFragment()
+	}
 
-        override fun failure(error: RetrofitError?) {
-            this.showApiKeyResult(null)
-        }
+	private class ApiKeyCallback(fragment: SettingsFragment) : Callback<ApiKey> {
+		private val fragmentReference = WeakReference(fragment)
 
-        override fun success(apiKey: ApiKey?, response: Response?) {
-            if (apiKey?.success ?: false) {
-                this.showApiKeyResult(apiKey?.apiKey)
-            } else {
-                this.showApiKeyResult(null)
-            }
-        }
+		override fun failure(error: RetrofitError?) {
+			this.showApiKeyResult(null)
+		}
 
-        private fun setPreferenceValue(fragment: SettingsFragment, key: String, value: String) {
-            val sharedPreferences = fragment.preferenceManager.sharedPreferences
-            sharedPreferences.edit().putString(key, value).apply()
-        }
+		override fun success(apiKey: ApiKey?, response: Response?) {
+			if (apiKey?.success ?: false) {
+				this.showApiKeyResult(apiKey?.apiKey)
+			} else {
+				this.showApiKeyResult(null)
+			}
+		}
 
-        private fun showApiKeyResult(apiKey: String?) {
-            val fragment = this.fragmentReference.get() ?: return
-            val activity = fragment.activity ?: return
-            val messageId: Int
+		private fun setPreferenceValue(fragment: SettingsFragment, key: String, value: String) {
+			val sharedPreferences = fragment.preferenceManager.sharedPreferences
+			sharedPreferences.edit().putString(key, value).apply()
+		}
 
-            if (apiKey.isNullOrEmpty()) {
-                messageId = R.string.get_api_key_error
-            } else {
-                this.setPreferenceValue(fragment, Fields.API_KEY.field, apiKey!!)
-                fragment.findPreference(Fields.API_KEY.field).summary = apiKey
+		private fun showApiKeyResult(apiKey: String?) {
+			val fragment = this.fragmentReference.get() ?: return
+			val activity = fragment.activity ?: return
+			val messageId: Int
 
-                messageId = R.string.get_api_key_success
-            }
+			if (apiKey.isNullOrEmpty()) {
+				messageId = R.string.get_api_key_error
+			} else {
+				this.setPreferenceValue(fragment, Fields.API_KEY.field, apiKey!!)
+				fragment.findPreference(Fields.API_KEY.field).summary = apiKey
 
-            AlertDialog.Builder(activity)
-                    .setCancelable(true)
-                    .setMessage(messageId)
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show()
-        }
-    }
+				messageId = R.string.get_api_key_success
+			}
+
+			AlertDialog.Builder(activity)
+					.setCancelable(true)
+					.setMessage(messageId)
+					.setPositiveButton(android.R.string.ok, null)
+					.show()
+		}
+	}
 }

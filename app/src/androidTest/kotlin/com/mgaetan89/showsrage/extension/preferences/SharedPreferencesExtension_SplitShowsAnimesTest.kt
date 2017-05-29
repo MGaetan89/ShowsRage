@@ -17,46 +17,46 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_SplitShowsAnimesTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun splitShowsAnimes_False() {
-        this.preference.edit().putBoolean(Fields.SPLIT_SHOWS_ANIMES.field, false).apply()
+	@Test
+	fun splitShowsAnimes_False() {
+		this.preference.edit().putBoolean(Fields.SPLIT_SHOWS_ANIMES.field, false).apply()
 
-        val splitShowsAnimes = this.preference.splitShowsAnimes()
+		val splitShowsAnimes = this.preference.splitShowsAnimes()
 
-        assertThat(splitShowsAnimes).isFalse()
-    }
+		assertThat(splitShowsAnimes).isFalse()
+	}
 
-    @Test
-    fun splitShowsAnimes_Missing() {
-        assertThat(this.preference.contains(Fields.SPLIT_SHOWS_ANIMES.field)).isFalse()
+	@Test
+	fun splitShowsAnimes_Missing() {
+		assertThat(this.preference.contains(Fields.SPLIT_SHOWS_ANIMES.field)).isFalse()
 
-        val splitShowsAnimes = this.preference.splitShowsAnimes()
+		val splitShowsAnimes = this.preference.splitShowsAnimes()
 
-        assertThat(splitShowsAnimes).isFalse()
-    }
+		assertThat(splitShowsAnimes).isFalse()
+	}
 
-    @Test
-    fun splitShowsAnimes_True() {
-        this.preference.edit().putBoolean(Fields.SPLIT_SHOWS_ANIMES.field, true).apply()
+	@Test
+	fun splitShowsAnimes_True() {
+		this.preference.edit().putBoolean(Fields.SPLIT_SHOWS_ANIMES.field, true).apply()
 
-        val splitShowsAnimes = this.preference.splitShowsAnimes()
+		val splitShowsAnimes = this.preference.splitShowsAnimes()
 
-        assertThat(splitShowsAnimes).isTrue()
-    }
+		assertThat(splitShowsAnimes).isTrue()
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

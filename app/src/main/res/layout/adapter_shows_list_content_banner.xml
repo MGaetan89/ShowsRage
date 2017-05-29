@@ -1,53 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools">
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:foreground="?selectableItemBackground">
 
-	<data>
-
-		<import type="android.view.View" />
-
-		<variable
-			name="show"
-			type="com.mgaetan89.showsrage.presenter.ShowPresenter" />
-
-		<variable
-			name="stats"
-			type="com.mgaetan89.showsrage.model.RealmShowStat" />
-	</data>
-
-	<FrameLayout
+	<ImageView
+		android:id="@+id/show_logo"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:foreground="?selectableItemBackground">
+		android:adjustViewBounds="true"
+		tools:ignore="ContentDescription"
+		tools:src="@mipmap/ic_launcher" />
 
-		<ImageView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:adjustViewBounds="true"
-			android:contentDescription="@{show.showName}"
-			app:circle="@{false}"
-			app:imageUrl="@{show.bannerUrl}"
-			tools:src="@mipmap/ic_launcher" />
+	<ImageView
+		android:id="@+id/show_paused"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_margin="@dimen/padding_half"
+		android:contentDescription="@string/paused"
+		app:srcCompat="@drawable/ic_pause_white_24dp" />
 
-		<ImageView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_margin="@dimen/padding_half"
-			android:contentDescription="@string/paused"
-			android:visibility="@{show.paused ? View.VISIBLE : View.GONE}"
-			app:srcCompat="@drawable/ic_pause_white_24dp" />
-
-		<ProgressBar
-			style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-			android:layout_width="match_parent"
-			android:layout_height="4dp"
-			android:layout_gravity="bottom"
-			android:layout_marginBottom="-2dp"
-			android:max="@{stats.episodesCount}"
-			android:progress="@{stats.downloaded}"
-			android:secondaryProgress="@{stats.downloaded + stats.snatched}"
-			tools:progress="33"
-			tools:secondaryProgress="66" />
-	</FrameLayout>
-</layout>
+	<ProgressBar
+		android:id="@+id/show_stats"
+		style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="4dp"
+		android:layout_gravity="bottom"
+		android:layout_marginBottom="-2dp"
+		tools:progress="33"
+		tools:secondaryProgress="66" />
+</FrameLayout>

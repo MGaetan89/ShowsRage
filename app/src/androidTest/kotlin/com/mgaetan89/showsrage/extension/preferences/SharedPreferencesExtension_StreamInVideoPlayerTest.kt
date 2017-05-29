@@ -17,46 +17,46 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_StreamInVideoPlayerTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun streamInVideoPlayer_False() {
-        this.preference.edit().putBoolean(Fields.STREAM_IN_VIDEO_PLAYER.field, false).apply()
+	@Test
+	fun streamInVideoPlayer_False() {
+		this.preference.edit().putBoolean(Fields.STREAM_IN_VIDEO_PLAYER.field, false).apply()
 
-        val streamInVideoPlayer = this.preference.streamInVideoPlayer()
+		val streamInVideoPlayer = this.preference.streamInVideoPlayer()
 
-        assertThat(streamInVideoPlayer).isFalse()
-    }
+		assertThat(streamInVideoPlayer).isFalse()
+	}
 
-    @Test
-    fun streamInVideoPlayer_Missing() {
-        this.preference.edit().putBoolean(Fields.STREAM_IN_VIDEO_PLAYER.field, false).apply()
+	@Test
+	fun streamInVideoPlayer_Missing() {
+		this.preference.edit().putBoolean(Fields.STREAM_IN_VIDEO_PLAYER.field, false).apply()
 
-        val streamInVideoPlayer = this.preference.streamInVideoPlayer()
+		val streamInVideoPlayer = this.preference.streamInVideoPlayer()
 
-        assertThat(streamInVideoPlayer).isFalse()
-    }
+		assertThat(streamInVideoPlayer).isFalse()
+	}
 
-    @Test
-    fun streamInVideoPlayer_True() {
-        this.preference.edit().putBoolean(Fields.STREAM_IN_VIDEO_PLAYER.field, true).apply()
+	@Test
+	fun streamInVideoPlayer_True() {
+		this.preference.edit().putBoolean(Fields.STREAM_IN_VIDEO_PLAYER.field, true).apply()
 
-        val streamInVideoPlayer = this.preference.streamInVideoPlayer()
+		val streamInVideoPlayer = this.preference.streamInVideoPlayer()
 
-        assertThat(streamInVideoPlayer).isTrue()
-    }
+		assertThat(streamInVideoPlayer).isTrue()
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

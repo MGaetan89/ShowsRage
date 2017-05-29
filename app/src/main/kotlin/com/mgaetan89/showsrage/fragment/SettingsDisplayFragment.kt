@@ -14,43 +14,47 @@ import com.mgaetan89.showsrage.widget.HistoryWidgetProvider
 import com.mgaetan89.showsrage.widget.ScheduleWidgetProvider
 
 class SettingsDisplayFragment : SettingsFragment() {
-    override fun getTitleResourceId() = R.string.display
+	override fun getTitleResourceId() = R.string.display
 
-    override fun getXmlResourceFile() = R.xml.settings_display
+	override fun getXmlResourceFile() = R.xml.settings_display
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        super.onSharedPreferenceChanged(sharedPreferences, key)
+	override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+		super.onSharedPreferenceChanged(sharedPreferences, key)
 
-        when (key) {
-            Fields.DISPLAY_LANGUAGE.field -> this.changeLanguage(sharedPreferences)
-            Fields.THEME.field -> this.changeTheme(sharedPreferences)
-        }
-    }
+		when (key) {
+			Fields.DISPLAY_LANGUAGE.field -> this.changeLanguage(sharedPreferences)
+			Fields.THEME.field -> this.changeTheme(sharedPreferences)
+		}
+	}
 
-    private fun changeLanguage(sharedPreferences: SharedPreferences?) {
-        val newLocale = sharedPreferences.getLocale()
+	private fun changeLanguage(sharedPreferences: SharedPreferences?) {
+		val newLocale = sharedPreferences.getLocale()
 
-        this.resources.changeLocale(newLocale)
+		this.resources.changeLocale(newLocale)
 
-        this.activity.recreate()
+		this.activity.recreate()
 
-        this.updateWidgets()
-    }
+		this.updateWidgets()
+	}
 
-    private fun changeTheme(sharedPreferences: SharedPreferences?) {
-        if (sharedPreferences.useDarkTheme()) {
-            (this.activity as AppCompatActivity).delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            (this.activity as AppCompatActivity).delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
+	private fun changeTheme(sharedPreferences: SharedPreferences?) {
+		if (sharedPreferences.useDarkTheme()) {
+			(this.activity as AppCompatActivity).delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+		} else {
+			(this.activity as AppCompatActivity).delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+		}
 
-        this.updateWidgets()
-    }
+		this.updateWidgets()
+	}
 
-    private fun updateWidgets() {
-        AppWidgetManager.getInstance(this.context).let {
-            it.updateAllWidgets(this.context, HistoryWidgetProvider::class.java)
-            it.updateAllWidgets(this.context, ScheduleWidgetProvider::class.java)
-        }
-    }
+	private fun updateWidgets() {
+		AppWidgetManager.getInstance(this.context).let {
+			it.updateAllWidgets(this.context, HistoryWidgetProvider::class.java)
+			it.updateAllWidgets(this.context, ScheduleWidgetProvider::class.java)
+		}
+	}
+
+	companion object {
+		fun newInstance() = SettingsDisplayFragment()
+	}
 }

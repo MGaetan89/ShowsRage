@@ -11,30 +11,30 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_GetEpisodeTest : RealmTest() {
-    @Before
-    fun before() {
-        this.realm.isAutoRefresh = true
-    }
+	@Before
+	fun before() {
+		this.realm.isAutoRefresh = true
+	}
 
-    @Test
-    @UiThreadTest
-    fun getEpisode() {
-        this.realm.getEpisode("72173_4_1", RealmChangeListener {
-            it.removeAllChangeListeners()
+	@Test
+	@UiThreadTest
+	fun getEpisode() {
+		this.realm.getEpisode("72173_4_1", RealmChangeListener {
+			it.removeAllChangeListeners()
 
-            assertThat(it.id).isEqualTo("72173_4_1")
-            assertThat(it.name).isEqualTo("Flight of the Phoenix")
-        })
-    }
+			assertThat(it.id).isEqualTo("72173_4_1")
+			assertThat(it.name).isEqualTo("Flight of the Phoenix")
+		})
+	}
 
-    @Test
-    @UiThreadTest
-    fun getEpisode_notFound() {
-        this.realm.getEpisode("0_0_0", RealmChangeListener {
-            it.removeAllChangeListeners()
+	@Test
+	@UiThreadTest
+	fun getEpisode_notFound() {
+		this.realm.getEpisode("0_0_0", RealmChangeListener {
+			it.removeAllChangeListeners()
 
-            assertThat(it.id).isEqualTo("0_0_0")
-            assertThat(it.name).isEqualTo("")
-        })
-    }
+			assertThat(it.id).isEqualTo("0_0_0")
+			assertThat(it.name).isEqualTo("")
+		})
+	}
 }

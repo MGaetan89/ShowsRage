@@ -8,33 +8,33 @@ import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.Realm
 
 class ShowPresenter(val show: Show?) {
-    fun getBannerUrl() = if (this.isShowValid()) SickRageApi.instance.getBannerUrl(this.show!!.tvDbId, Indexer.TVDB) else ""
+	fun getBannerUrl() = if (this.isShowValid()) SickRageApi.instance.getBannerUrl(this.show!!.tvDbId, Indexer.TVDB) else ""
 
-    fun getNetwork() = if (this.isShowValid()) this.show!!.network else ""
+	fun getNetwork() = if (this.isShowValid()) this.show!!.network else ""
 
-    fun getPosterUrl() = if (this.isShowValid()) SickRageApi.instance.getPosterUrl(this.show!!.tvDbId, Indexer.TVDB) else ""
+	fun getPosterUrl() = if (this.isShowValid()) SickRageApi.instance.getPosterUrl(this.show!!.tvDbId, Indexer.TVDB) else ""
 
-    fun getQuality() = if (this.isShowValid()) this.show!!.quality else ""
+	fun getQuality() = if (this.isShowValid()) this.show!!.quality else ""
 
-    fun getShowName() = if (this.isShowValid()) this.show!!.showName else ""
+	fun getShowName() = if (this.isShowValid()) this.show!!.showName else ""
 
-    fun getShowStat(): RealmShowStat? {
-        if (!this.isShowValid()) {
-            return null
-        }
+	fun getShowStat(): RealmShowStat? {
+		if (!this.isShowValid()) {
+			return null
+		}
 
-        if (this.show!!.stat == null) {
-            val realm = Realm.getDefaultInstance()
+		if (this.show!!.stat == null) {
+			val realm = Realm.getDefaultInstance()
 
-            this.show.stat = realm.getShowStat(this.show.indexerId)
+			this.show.stat = realm.getShowStat(this.show.indexerId)
 
-            realm.close()
-        }
+			realm.close()
+		}
 
-        return this.show.stat
-    }
+		return this.show.stat
+	}
 
-    fun isPaused() = if (this.isShowValid()) this.show!!.paused == 1 else false
+	fun isPaused() = if (this.isShowValid()) this.show!!.paused == 1 else false
 
-    internal fun isShowValid() = this.show != null && this.show.isValid
+	internal fun isShowValid() = this.show != null && this.show.isValid
 }

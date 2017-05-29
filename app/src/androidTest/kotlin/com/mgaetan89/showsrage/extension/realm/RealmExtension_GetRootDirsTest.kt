@@ -8,11 +8,11 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_GetRootDirsTest : RealmTest() {
-    @Test
-    fun getRootDirs() {
-        val rootDirs = this.realm.getRootDirs()
+	@Test
+	fun getRootDirs() {
+		val rootDirs = this.realm.getRootDirs()
 
-        assertThat(rootDirs).hasSize(1)
-        assertThat(rootDirs.first().location).isEqualTo("/volume1/Séries")
-    }
+		assertThat(rootDirs).hasSize(1)
+		assertThat(rootDirs.first().location).isEqualTo("/volume1/Séries")
+	}
 }

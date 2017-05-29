@@ -11,107 +11,110 @@ import com.mgaetan89.showsrage.extension.saveSchedules
 import com.mgaetan89.showsrage.model.Schedules
 import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.Realm
+import kotlinx.android.synthetic.main.fragment_tabbed.swipe_refresh
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 
 class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
-    private val sectionIds = mutableListOf<String>()
-    private val sectionLabels = mutableListOf<String>()
+	private val sectionIds = mutableListOf<String>()
+	private val sectionLabels = mutableListOf<String>()
 
-    override fun failure(error: RetrofitError?) {
-        this.swipeRefreshLayout?.isRefreshing = false
+	override fun failure(error: RetrofitError?) {
+		this.swipe_refresh.isRefreshing = false
 
-        error?.printStackTrace()
-    }
+		error?.printStackTrace()
+	}
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+	override fun onActivityCreated(savedInstanceState: Bundle?) {
+		super.onActivityCreated(savedInstanceState)
 
-        val activity = this.activity
+		val activity = this.activity
 
-        if (activity is MainActivity) {
-            activity.displayHomeAsUp(false)
-            activity.setTitle(R.string.schedule)
-        }
+		if (activity is MainActivity) {
+			activity.displayHomeAsUp(false)
+			activity.setTitle(R.string.schedule)
+		}
 
-        val realm = Realm.getDefaultInstance()
+		val realm = Realm.getDefaultInstance()
 
-        this.setSections(realm.getScheduleSections())
-        this.onRefresh()
+		this.setSections(realm.getScheduleSections())
+		this.onRefresh()
 
-        realm.close()
-    }
+		realm.close()
+	}
 
-    override fun onDestroy() {
-        this.sectionIds.clear()
-        this.sectionLabels.clear()
+	override fun onDestroy() {
+		this.sectionIds.clear()
+		this.sectionLabels.clear()
 
-        super.onDestroy()
-    }
+		super.onDestroy()
+	}
 
-    override fun onRefresh() {
-        this.swipeRefreshLayout?.isRefreshing = true
+	override fun onRefresh() {
+		this.swipe_refresh.isRefreshing = true
 
-        SickRageApi.instance.services?.getSchedule(this)
-    }
+		SickRageApi.instance.services?.getSchedule(this)
+	}
 
-    override fun success(schedules: Schedules?, response: Response?) {
-        this.swipeRefreshLayout?.isRefreshing = false
+	override fun success(schedules: Schedules?, response: Response?) {
+		this.swipe_refresh.isRefreshing = false
 
-        val data = schedules?.data ?: return
+		val data = schedules?.data ?: return
 
-        this.sectionIds.clear()
-        this.sectionLabels.clear()
+		this.sectionIds.clear()
+		this.sectionLabels.clear()
 
-        this.setSections(data.keys.filter {
-            data[it]?.isNotEmpty() ?: false
-        })
+		this.setSections(data.keys.filter {
+			data[it]?.isNotEmpty() ?: false
+		})
 
-        val realm = Realm.getDefaultInstance()
-        realm.clearSchedule()
+		val realm = Realm.getDefaultInstance()
+		realm.clearSchedule()
 
-        data.forEach {
-            if (it.value.isNotEmpty()) {
-                realm.saveSchedules(it.key, it.value)
-            }
-        }
+		data.forEach {
+			if (it.value.isNotEmpty()) {
+				realm.saveSchedules(it.key, it.value)
+			}
+		}
 
-        realm.close()
-    }
+		realm.close()
+	}
 
-    override fun getAdapter(): PagerAdapter {
-        return SchedulePagerAdapter(this.childFragmentManager, this.sectionIds, this.sectionLabels)
-    }
+	override fun getAdapter(): PagerAdapter {
+		return SchedulePagerAdapter(this.childFragmentManager, this.sectionIds, this.sectionLabels)
+	}
 
-    override fun useSwipeToRefresh() = true
+	override fun useSwipeToRefresh() = true
 
-    private fun setSections(sections: List<String>) {
-        val statuses = listOf("missed", "today", "soon", "later")
+	private fun setSections(sections: List<String>) {
+		val statuses = listOf("missed", "today", "soon", "later")
 
-        statuses.forEach {
-            if (sections.contains(it)) {
-                this.sectionIds.add(it)
-                this.sectionLabels.add(if (this.isAdded) {
-                    this.getString(getSectionName(it))
-                } else {
-                    it
-                })
-            }
-        }
+		statuses.forEach {
+			if (sections.contains(it)) {
+				this.sectionIds.add(it)
+				this.sectionLabels.add(if (this.isAdded) {
+					this.getString(getSectionName(it))
+				} else {
+					it
+				})
+			}
+		}
 
-        this.updateState(this.sectionIds.isEmpty())
-    }
+		this.updateState(this.sectionIds.isEmpty())
+	}
 
-    companion object {
-        fun getSectionName(sectionId: String?): Int {
-            return when (sectionId?.toLowerCase()) {
-                "later" -> R.string.later
-                "missed" -> R.string.missed
-                "soon" -> R.string.soon
-                "today" -> R.string.today
-                else -> 0
-            }
-        }
-    }
+	companion object {
+		fun getSectionName(sectionId: String?): Int {
+			return when (sectionId?.toLowerCase()) {
+				"later" -> R.string.later
+				"missed" -> R.string.missed
+				"soon" -> R.string.soon
+				"today" -> R.string.today
+				else -> 0
+			}
+		}
+
+		fun newInstance() = ScheduleFragment()
+	}
 }

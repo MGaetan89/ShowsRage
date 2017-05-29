@@ -17,46 +17,46 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_StreamInChromecastTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun streamInChromecast_False() {
-        this.preference.edit().putBoolean(Fields.STREAM_IN_CHROMECAST.field, false).apply()
+	@Test
+	fun streamInChromecast_False() {
+		this.preference.edit().putBoolean(Fields.STREAM_IN_CHROMECAST.field, false).apply()
 
-        val streamInChromecast = this.preference.streamInChromecast()
+		val streamInChromecast = this.preference.streamInChromecast()
 
-        assertThat(streamInChromecast).isFalse()
-    }
+		assertThat(streamInChromecast).isFalse()
+	}
 
-    @Test
-    fun streamInChromecast_Missing() {
-        this.preference.edit().putBoolean(Fields.STREAM_IN_CHROMECAST.field, false).apply()
+	@Test
+	fun streamInChromecast_Missing() {
+		this.preference.edit().putBoolean(Fields.STREAM_IN_CHROMECAST.field, false).apply()
 
-        val streamInChromecast = this.preference.streamInChromecast()
+		val streamInChromecast = this.preference.streamInChromecast()
 
-        assertThat(streamInChromecast).isFalse()
-    }
+		assertThat(streamInChromecast).isFalse()
+	}
 
-    @Test
-    fun streamInChromecast_True() {
-        this.preference.edit().putBoolean(Fields.STREAM_IN_CHROMECAST.field, true).apply()
+	@Test
+	fun streamInChromecast_True() {
+		this.preference.edit().putBoolean(Fields.STREAM_IN_CHROMECAST.field, true).apply()
 
-        val streamInChromecast = this.preference.streamInChromecast()
+		val streamInChromecast = this.preference.streamInChromecast()
 
-        assertThat(streamInChromecast).isTrue()
-    }
+		assertThat(streamInChromecast).isTrue()
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

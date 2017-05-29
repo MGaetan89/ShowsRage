@@ -9,12 +9,9 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.futuremind.recyclerviewfastscroll.FastScroller
 import com.futuremind.recyclerviewfastscroll.viewprovider.DefaultScrollerViewProvider
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
@@ -36,6 +33,9 @@ import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmObject
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.fragment_shows_section.empty
+import kotlinx.android.synthetic.main.fragment_shows_section.fastscroll
+import kotlinx.android.synthetic.main.fragment_shows_section.list
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
@@ -43,285 +43,267 @@ import java.lang.ref.WeakReference
 import java.util.Comparator
 
 class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>> {
-    private var adapter: ShowsAdapter? = null
-    private var emptyView: TextView? = null
-    private val filteredShows = mutableListOf<Show>()
-    private lateinit var realm: Realm
-    private val receiver = FilterReceiver(this)
-    private var recyclerView: RecyclerView? = null
-    private lateinit var shows: RealmResults<Show>
-    private var swipeRefreshLayout: SwipeRefreshLayout? = null
+	private val filteredShows = mutableListOf<Show>()
+	private lateinit var realm: Realm
+	private val receiver = FilterReceiver(this)
+	private lateinit var shows: RealmResults<Show>
+	private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
-    override fun onChange(shows: RealmResults<Show>) {
-        if (!this.shows.isEmpty()) {
-            val command = getCommand(this.shows)
-            val parameters = getCommandParameters(this.shows)
+	override fun onChange(shows: RealmResults<Show>) {
+		if (!this.shows.isEmpty()) {
+			val command = getCommand(this.shows)
+			val parameters = getCommandParameters(this.shows)
 
-            SickRageApi.instance.services?.getShowStats(command, parameters, ShowStatsCallback(this))
-        }
+			SickRageApi.instance.services?.getShowStats(command, parameters, ShowStatsCallback(this))
+		}
 
-        val intent = Intent(Constants.Intents.ACTION_FILTER_SHOWS)
+		val intent = Intent(Constants.Intents.ACTION_FILTER_SHOWS)
 
-        LocalBroadcastManager.getInstance(this.context).sendBroadcast(intent)
-    }
+		LocalBroadcastManager.getInstance(this.context).sendBroadcast(intent)
+	}
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
 
-        this.swipeRefreshLayout = this.activity.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
-    }
+		this.swipeRefreshLayout = this.activity.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
+	}
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_shows_section, container, false)
+	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		return inflater?.inflate(R.layout.fragment_shows_section, container, false)
+	}
 
-        if (view != null) {
-            val fastScroller = view.findViewById(R.id.fastscroll) as FastScroller?
+	override fun onDestroyView() {
+		this.swipeRefreshLayout = null
 
-            this.emptyView = view.findViewById(android.R.id.empty) as TextView?
-            this.recyclerView = view.findViewById(android.R.id.list) as RecyclerView?
+		super.onDestroyView()
+	}
 
-            if (this.recyclerView != null) {
-                val preferences = context.getPreferences()
-                val ignoreArticles = preferences.ignoreArticles()
-                val showsListLayout = preferences.getShowsListLayout()
-                val columnCount = this.resources.getInteger(R.integer.shows_column_count)
+	override fun onPause() {
+		LocalBroadcastManager.getInstance(this.context).unregisterReceiver(this.receiver)
 
-                this.adapter = ShowsAdapter(this.filteredShows, showsListLayout, ignoreArticles)
+		super.onPause()
+	}
 
-                this.recyclerView!!.adapter = this.adapter
-                this.recyclerView!!.layoutManager = GridLayoutManager(this.context, columnCount)
+	override fun onResume() {
+		super.onResume()
 
-                fastScroller?.let {
-                    it.setViewProvider(object : DefaultScrollerViewProvider() {
-                        override fun onHandleGrabbed() {
-                            super.onHandleGrabbed()
+		val intentFilter = IntentFilter(Constants.Intents.ACTION_FILTER_SHOWS)
 
-                            swipeRefreshLayout?.isEnabled = false
-                        }
+		LocalBroadcastManager.getInstance(this.context).registerReceiver(this.receiver, intentFilter)
+	}
 
-                        override fun onHandleReleased() {
-                            super.onHandleReleased()
+	override fun onStart() {
+		super.onStart()
 
-                            swipeRefreshLayout?.isEnabled = true
-                        }
-                    })
+		val anime = if (this.arguments.containsKey(Constants.Bundle.ANIME)) {
+			this.arguments.getBoolean(Constants.Bundle.ANIME)
+		} else {
+			null
+		}
 
-                    it.setRecyclerView(this.recyclerView)
-                }
-            }
-        }
+		this.realm = Realm.getDefaultInstance()
+		this.shows = this.realm.getShows(anime, this)
+	}
 
-        return view
-    }
+	override fun onStop() {
+		if (this.shows.isValid) {
+			this.shows.removeAllChangeListeners()
+		}
 
-    override fun onDestroyView() {
-        this.emptyView = null
-        this.recyclerView = null
-        this.swipeRefreshLayout = null
+		this.realm.close()
 
-        super.onDestroyView()
-    }
+		super.onStop()
+	}
 
-    override fun onPause() {
-        LocalBroadcastManager.getInstance(this.context).unregisterReceiver(this.receiver)
+	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 
-        super.onPause()
-    }
+		val preferences = this.context.getPreferences()
+		val ignoreArticles = preferences.ignoreArticles()
+		val showsListLayout = preferences.getShowsListLayout()
+		val columnCount = this.resources.getInteger(R.integer.shows_column_count)
 
-    override fun onResume() {
-        super.onResume()
+		this.list.adapter = ShowsAdapter(this.filteredShows, showsListLayout, ignoreArticles)
+		this.list.layoutManager = GridLayoutManager(this.context, columnCount)
 
-        val intentFilter = IntentFilter(Constants.Intents.ACTION_FILTER_SHOWS)
+		this.fastscroll.setViewProvider(object : DefaultScrollerViewProvider() {
+			override fun onHandleGrabbed() {
+				super.onHandleGrabbed()
 
-        LocalBroadcastManager.getInstance(this.context).registerReceiver(this.receiver, intentFilter)
-    }
+				swipeRefreshLayout?.isEnabled = false
+			}
 
-    override fun onStart() {
-        super.onStart()
+			override fun onHandleReleased() {
+				super.onHandleReleased()
 
-        val anime = if (this.arguments.containsKey(Constants.Bundle.ANIME)) {
-            this.arguments.getBoolean(Constants.Bundle.ANIME)
-        } else {
-            null
-        }
+				swipeRefreshLayout?.isEnabled = true
+			}
+		})
 
-        this.realm = Realm.getDefaultInstance()
-        this.shows = this.realm.getShows(anime, this)
-    }
+		this.fastscroll.setRecyclerView(this.list)
+	}
 
-    override fun onStop() {
-        if (this.shows.isValid) {
-            this.shows.removeAllChangeListeners()
-        }
+	private fun updateLayout() {
+		if (this.filteredShows.isEmpty()) {
+			this.empty.visibility = View.VISIBLE
+			this.list.visibility = View.GONE
+		} else {
+			this.empty.visibility = View.GONE
+			this.list.visibility = View.VISIBLE
+		}
+	}
 
-        this.realm.close()
+	internal class FilterReceiver(fragment: ShowsSectionFragment) : BroadcastReceiver() {
+		private val fragmentReference = WeakReference(fragment)
 
-        super.onStop()
-    }
+		override fun onReceive(context: Context?, intent: Intent?) {
+			val fragment = this.fragmentReference.get() ?: return
+			val preferences = context?.getPreferences() ?: return
+			val filterState = preferences.getShowsFilterState()
+			val filterStatus = preferences.getShowsFilterStatus()
+			val ignoreArticles = preferences.ignoreArticles()
+			val searchQuery = intent?.getStringExtra(Constants.Bundle.SEARCH_QUERY)
+			val shows = fragment.shows
+			val filteredShows = if (!shows.isValid || !shows.isLoaded) {
+				emptyList()
+			} else {
+				shows.filter {
+					match(it, filterState, filterStatus, searchQuery)
+				}.sortedWith(Comparator<Show> { first, second ->
+					val firstProperty = Utils.getSortableShowName(first, ignoreArticles)
+					val secondProperty = Utils.getSortableShowName(second, ignoreArticles)
 
-    private fun updateLayout() {
-        if (this.filteredShows.isEmpty()) {
-            this.emptyView?.visibility = View.VISIBLE
-            this.recyclerView?.visibility = View.GONE
-        } else {
-            this.emptyView?.visibility = View.GONE
-            this.recyclerView?.visibility = View.VISIBLE
-        }
-    }
+					firstProperty.compareTo(secondProperty)
+				})
+			}
+			val currentFilteredShows = fragment.filteredShows.filter {
+				RealmObject.isValid(it)
+			}
 
-    internal class FilterReceiver(fragment: ShowsSectionFragment) : BroadcastReceiver() {
-        private val fragmentReference = WeakReference(fragment)
+			if (filteredShows != currentFilteredShows) {
+				fragment.filteredShows.clear()
+				fragment.filteredShows.addAll(filteredShows)
+				fragment.list.adapter?.notifyDataSetChanged()
+			}
 
-        override fun onReceive(context: Context?, intent: Intent?) {
-            val fragment = this.fragmentReference.get() ?: return
-            val preferences = context?.getPreferences() ?: return
-            val filterState = preferences.getShowsFilterState()
-            val filterStatus = preferences.getShowsFilterStatus()
-            val ignoreArticles = preferences.ignoreArticles()
-            val searchQuery = intent?.getStringExtra(Constants.Bundle.SEARCH_QUERY)
-            val shows = fragment.shows
-            val filteredShows = if (!shows.isValid || !shows.isLoaded) {
-                emptyList()
-            } else {
-                shows.filter {
-                    match(it, filterState, filterStatus, searchQuery)
-                }.sortedWith(Comparator<Show> { first, second ->
-                    val firstProperty = Utils.getSortableShowName(first, ignoreArticles)
-                    val secondProperty = Utils.getSortableShowName(second, ignoreArticles)
+			fragment.updateLayout()
+		}
 
-                    firstProperty.compareTo(secondProperty)
-                })
-            }
-            val currentFilteredShows = fragment.filteredShows.filter {
-                RealmObject.isValid(it)
-            }
+		companion object {
+			internal fun match(show: Show?, filterState: ShowsFilters.State?, filterStatus: Int, searchQuery: String?): Boolean {
+				return show != null &&
+						matchFilterState(show, filterState) &&
+						matchFilterStatus(show, filterStatus) &&
+						matchSearchQuery(show, searchQuery)
+			}
 
-            if (filteredShows != currentFilteredShows) {
-                fragment.filteredShows.clear()
-                fragment.filteredShows.addAll(filteredShows)
-                fragment.adapter?.notifyDataSetChanged()
-            }
+			internal fun matchFilterState(show: Show, filterState: ShowsFilters.State?): Boolean {
+				return when (filterState) {
+					ShowsFilters.State.ACTIVE -> show.paused == 0
+					ShowsFilters.State.ALL -> true
+					ShowsFilters.State.PAUSED -> show.paused == 1
+					else -> false
+				}
+			}
 
-            fragment.updateLayout()
-        }
+			internal fun matchFilterStatus(show: Show, filterStatus: Int): Boolean {
+				if (ShowsFilters.Status.isAll(filterStatus)) {
+					return true
+				}
 
-        companion object {
-            internal fun match(show: Show?, filterState: ShowsFilters.State?, filterStatus: Int, searchQuery: String?): Boolean {
-                return show != null &&
-                        matchFilterState(show, filterState) &&
-                        matchFilterStatus(show, filterStatus) &&
-                        matchSearchQuery(show, searchQuery)
-            }
+				val showStatus = show.status?.toLowerCase()
 
-            internal fun matchFilterState(show: Show, filterState: ShowsFilters.State?): Boolean {
-                return when (filterState) {
-                    ShowsFilters.State.ACTIVE -> show.paused == 0
-                    ShowsFilters.State.ALL -> true
-                    ShowsFilters.State.PAUSED -> show.paused == 1
-                    else -> false
-                }
-            }
+				return when (showStatus) {
+					"continuing" -> ShowsFilters.Status.isContinuing(filterStatus)
+					"ended" -> ShowsFilters.Status.isEnded(filterStatus)
+					"unknown" -> ShowsFilters.Status.isUnknown(filterStatus)
+					else -> false
+				}
+			}
 
-            internal fun matchFilterStatus(show: Show, filterStatus: Int): Boolean {
-                if (ShowsFilters.Status.isAll(filterStatus)) {
-                    return true
-                }
+			internal fun matchSearchQuery(show: Show, searchQuery: String?): Boolean {
+				val query = searchQuery?.trim()
 
-                val showStatus = show.status?.toLowerCase()
+				if (query.isNullOrEmpty()) {
+					return true
+				}
 
-                return when (showStatus) {
-                    "continuing" -> ShowsFilters.Status.isContinuing(filterStatus)
-                    "ended" -> ShowsFilters.Status.isEnded(filterStatus)
-                    "unknown" -> ShowsFilters.Status.isUnknown(filterStatus)
-                    else -> false
-                }
-            }
+				val showName = show.showName?.toLowerCase() ?: ""
 
-            internal fun matchSearchQuery(show: Show, searchQuery: String?): Boolean {
-                val query = searchQuery?.trim()
+				return showName.contains(query!!.toLowerCase())
+			}
+		}
+	}
 
-                if (query.isNullOrEmpty()) {
-                    return true
-                }
+	private class ShowStatsCallback(fragment: ShowsSectionFragment) : Callback<ShowStatsWrapper> {
+		private val fragmentReference = WeakReference(fragment)
 
-                val showName = show.showName?.toLowerCase() ?: ""
+		override fun failure(error: RetrofitError?) {
+			error?.printStackTrace()
+		}
 
-                return showName.contains(query!!.toLowerCase())
-            }
-        }
-    }
+		override fun success(showStatsWrapper: ShowStatsWrapper?, response: Response?) {
+			val data = showStatsWrapper?.data ?: return
+			val fragment = this.fragmentReference.get() ?: return
+			val filteredShows = fragment.filteredShows
+			val shows = fragment.shows
+			val showStats = data.showStats
 
-    private class ShowStatsCallback(fragment: ShowsSectionFragment) : Callback<ShowStatsWrapper> {
-        private val fragmentReference = WeakReference(fragment)
+			showStats?.forEach {
+				val showStatsData = it.value.data
+				var realmStat: RealmShowStat? = null
+				val indexerId = it.key
 
-        override fun failure(error: RetrofitError?) {
-            error?.printStackTrace()
-        }
+				if (showStatsData != null) {
+					val realm = Realm.getDefaultInstance()
+					realmStat = realm.saveShowStat(showStatsData, indexerId)
+					realm.close()
+				}
 
-        override fun success(showStatsWrapper: ShowStatsWrapper?, response: Response?) {
-            val data = showStatsWrapper?.data ?: return
-            val fragment = this.fragmentReference.get() ?: return
-            val filteredShows = fragment.filteredShows
-            val shows = fragment.shows
-            val showStats = data.showStats
+				filteredShows.filter { it.isValid && it.indexerId == indexerId }.forEachIndexed { i, show ->
+					show.stat = realmStat ?: show.stat
 
-            showStats?.forEach {
-                val showStatsData = it.value.data
-                var realmStat: RealmShowStat? = null
-                val indexerId = it.key
+					fragment.list.adapter?.notifyItemChanged(i, Constants.Payloads.SHOWS_STATS)
+				}
 
-                if (showStatsData != null) {
-                    val realm = Realm.getDefaultInstance()
-                    realmStat = realm.saveShowStat(showStatsData, indexerId)
-                    realm.close()
-                }
+				if (shows.isValid) {
+					shows.filter { it.isValid && it.indexerId == indexerId }.forEach {
+						it.stat = realmStat ?: it.stat
+					}
+				}
+			}
+		}
+	}
 
-                filteredShows.filter { it.isValid && it.indexerId == indexerId }.forEachIndexed { i, show ->
-                    show.stat = realmStat ?: show.stat
+	companion object {
+		internal fun getCommand(shows: Iterable<Show>?): String {
+			val command = StringBuilder()
 
-                    fragment.adapter?.notifyItemChanged(i, Constants.Payloads.SHOWS_STATS)
-                }
+			shows?.filter { isShowValid(it) }?.forEach {
+				if (command.isNotEmpty()) {
+					command.append("|")
+				}
 
-                if (shows.isValid) {
-                    shows.filter { it.isValid && it.indexerId == indexerId }.forEach {
-                        it.stat = realmStat ?: it.stat
-                    }
-                }
-            }
-        }
-    }
+				command.append("show.stats_").append(it.indexerId)
+			}
 
-    companion object {
-        internal fun getCommand(shows: Iterable<Show>?): String {
-            val command = StringBuilder()
+			return command.toString()
+		}
 
-            shows?.filter { isShowValid(it) }?.forEach {
-                if (command.isNotEmpty()) {
-                    command.append("|")
-                }
+		internal fun getCommandParameters(shows: Iterable<Show>?): Map<String, Int> {
+			val parameters = shows?.associate {
+				if (isShowValid(it)) {
+					val indexerId = it.indexerId
 
-                command.append("show.stats_").append(it.indexerId)
-            }
+					"show.stats_$indexerId.indexerid" to indexerId
+				} else {
+					"" to 0
+				}
+			} ?: emptyMap()
 
-            return command.toString()
-        }
+			return parameters.filterKeys(String::isNotEmpty)
+		}
 
-        internal fun getCommandParameters(shows: Iterable<Show>?): Map<String, Int> {
-            val parameters = shows?.associate {
-                if (isShowValid(it)) {
-                    val indexerId = it.indexerId
-
-                    "show.stats_$indexerId.indexerid" to indexerId
-                } else {
-                    "" to 0
-                }
-            } ?: emptyMap()
-
-            return parameters.filterKeys(String::isNotEmpty)
-        }
-
-        internal fun isShowValid(show: Show?): Boolean {
-            return show != null && show.indexerId > 0
-        }
-    }
+		internal fun isShowValid(show: Show?) = show != null && show.indexerId > 0
+	}
 }

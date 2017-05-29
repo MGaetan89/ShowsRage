@@ -1,58 +1,67 @@
 package com.mgaetan89.showsrage.adapter
 
-import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.mgaetan89.showsrage.R
-import com.mgaetan89.showsrage.databinding.AdapterHistoriesListBinding
 import com.mgaetan89.showsrage.helper.DateTimeHelper
+import com.mgaetan89.showsrage.helper.ImageLoader
 import com.mgaetan89.showsrage.helper.toLocale
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.presenter.HistoryPresenter
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.adapter_histories_list_content.view.episode_date
+import kotlinx.android.synthetic.main.adapter_histories_list_content.view.episode_logo
+import kotlinx.android.synthetic.main.adapter_histories_list_content.view.episode_name
+import kotlinx.android.synthetic.main.adapter_histories_list_content.view.episode_provider_quality
 
 class HistoriesAdapter(histories: RealmResults<History>) : RealmRecyclerViewAdapter<History, HistoriesAdapter.ViewHolder>(histories, true) {
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        val history = this.getItem(position) ?: return
+	override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+		val history = this.getItem(position).takeIf { it != null && it.isValid } ?: return
 
-        holder?.bind(HistoryPresenter(history))
+		holder?.bind(history)
+	}
 
-        if (holder?.date != null) {
-            val status = history.getStatusTranslationResource()
-            val statusString = if (status != 0) {
-                holder.date.resources.getString(status)
-            } else {
-                history.status
-            }
+	override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
+		val view = LayoutInflater.from(parent?.context).inflate(R.layout.adapter_histories_list, parent, false)
 
-            holder.date.text = holder.date.resources.getString(R.string.spaced_texts, statusString, DateTimeHelper.getRelativeDate(history.date, "yyyy-MM-dd hh:mm", 0)?.toString()?.toLowerCase())
+		return ViewHolder(view)
+	}
 
-            if ("subtitled".equals(history.status, true)) {
-                val language = history.resource?.toLocale()?.displayLanguage
+	class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+		private val date = view.episode_date
+		private val logo = view.episode_logo
+		private val name = view.episode_name
+		private val providerQuality = view.episode_provider_quality
 
-                if (!language.isNullOrEmpty()) {
-                    holder.date.append(" [$language]")
-                }
-            }
-        }
-    }
+		init {
+			this.name.isSelected = true
+		}
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.adapter_histories_list, parent, false)
+		fun bind(history: History) {
+			val context = this.itemView.context
+			val presenter = HistoryPresenter(history)
 
-        return ViewHolder(view)
-    }
+			val status = history.getStatusTranslationResource()
+			val statusString = if (status != 0) context.getString(status) else history.status
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val binding: AdapterHistoriesListBinding = DataBindingUtil.bind(view)
-        val date: TextView? = this.binding.includeContent?.episodeDate
+			this.date.text = context.getString(R.string.spaced_texts, statusString, DateTimeHelper.getRelativeDate(history.date, "yyyy-MM-dd hh:mm", 0)?.toString()?.toLowerCase())
 
-        fun bind(history: HistoryPresenter?) {
-            this.binding.setHistory(history)
-        }
-    }
+			if ("subtitled".equals(history.status, true)) {
+				val language = history.resource?.toLocale()?.displayLanguage
+
+				if (!language.isNullOrEmpty()) {
+					this.date.append(" [$language]")
+				}
+			}
+
+			this.logo.contentDescription = presenter.getShowName()
+			ImageLoader.load(this.logo, presenter.getPosterUrl(), true)
+
+			this.name.text = context.getString(R.string.show_name_episode, presenter.getShowName(), presenter.getSeason(), presenter.getEpisode())
+			this.providerQuality.text = presenter.getProviderQuality() ?: context.getString(R.string.provider_quality, presenter.getProvider(), presenter.getQuality())
+		}
+	}
 }

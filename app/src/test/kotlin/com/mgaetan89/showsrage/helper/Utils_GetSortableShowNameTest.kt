@@ -9,53 +9,53 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class Utils_GetSortableShowNameTest(val show: Show, val ignoreArticles: Boolean, val showName: String) {
-    @Test
-    fun matchFilterState() {
-        assertThat(Utils.getSortableShowName(this.show, this.ignoreArticles)).isEqualTo(this.showName)
-    }
+	@Test
+	fun matchFilterState() {
+		assertThat(Utils.getSortableShowName(this.show, this.ignoreArticles)).isEqualTo(this.showName)
+	}
 
-    companion object {
-        @JvmStatic
-        @Parameterized.Parameters
-        fun data(): Collection<Array<Any?>> {
-            val gson = SickRageApi.gson
+	companion object {
+		@JvmStatic
+		@Parameterized.Parameters
+		fun data(): Collection<Array<Any?>> {
+			val gson = SickRageApi.gson
 
-            return listOf(
-                    arrayOf(gson.fromJson("{}", Show::class.java), false, ""),
-                    arrayOf(gson.fromJson("{show_name: null}", Show::class.java), false, ""),
-                    arrayOf(gson.fromJson("{show_name: \"\"}", Show::class.java), false, ""),
-                    arrayOf(gson.fromJson("{show_name: \"a random show\"}", Show::class.java), false, "a random show"),
-                    arrayOf(gson.fromJson("{show_name: \"A Random Show\"}", Show::class.java), false, "a random show"),
-                    arrayOf(gson.fromJson("{show_name: \"an epic random show\"}", Show::class.java), false, "an epic random show"),
-                    arrayOf(gson.fromJson("{show_name: \"An Epic Random Show\"}", Show::class.java), false, "an epic random show"),
-                    arrayOf(gson.fromJson("{show_name: \"arrow\"}", Show::class.java), false, "arrow"),
-                    arrayOf(gson.fromJson("{show_name: \"Arrow\"}", Show::class.java), false, "arrow"),
-                    arrayOf(gson.fromJson("{show_name: \"breaking bad\"}", Show::class.java), false, "breaking bad"),
-                    arrayOf(gson.fromJson("{show_name: \"Breaking Bad\"}", Show::class.java), false, "breaking bad"),
-                    arrayOf(gson.fromJson("{show_name: \"fear the walking dead\"}", Show::class.java), false, "fear the walking dead"),
-                    arrayOf(gson.fromJson("{show_name: \"Fear the Walking Dead\"}", Show::class.java), false, "fear the walking dead"),
-                    arrayOf(gson.fromJson("{show_name: \"the a list\"}", Show::class.java), false, "the a list"),
-                    arrayOf(gson.fromJson("{show_name: \"The A List\"}", Show::class.java), false, "the a list"),
-                    arrayOf(gson.fromJson("{show_name: \"the flash\"}", Show::class.java), false, "the flash"),
-                    arrayOf(gson.fromJson("{show_name: \"The Flash\"}", Show::class.java), false, "the flash"),
-                    arrayOf(gson.fromJson("{}", Show::class.java), true, ""),
-                    arrayOf(gson.fromJson("{show_name: null}", Show::class.java), true, ""),
-                    arrayOf(gson.fromJson("{show_name: \"\"}", Show::class.java), true, ""),
-                    arrayOf(gson.fromJson("{show_name: \"a random show\"}", Show::class.java), true, "random show"),
-                    arrayOf(gson.fromJson("{show_name: \"A Random Show\"}", Show::class.java), true, "random show"),
-                    arrayOf(gson.fromJson("{show_name: \"an epic random show\"}", Show::class.java), true, "epic random show"),
-                    arrayOf(gson.fromJson("{show_name: \"An Epic Random Show\"}", Show::class.java), true, "epic random show"),
-                    arrayOf(gson.fromJson("{show_name: \"arrow\"}", Show::class.java), true, "arrow"),
-                    arrayOf(gson.fromJson("{show_name: \"Arrow\"}", Show::class.java), true, "arrow"),
-                    arrayOf(gson.fromJson("{show_name: \"breaking bad\"}", Show::class.java), true, "breaking bad"),
-                    arrayOf(gson.fromJson("{show_name: \"Breaking Bad\"}", Show::class.java), true, "breaking bad"),
-                    arrayOf(gson.fromJson("{show_name: \"fear the walking dead\"}", Show::class.java), true, "fear the walking dead"),
-                    arrayOf(gson.fromJson("{show_name: \"Fear the Walking Dead\"}", Show::class.java), true, "fear the walking dead"),
-                    arrayOf(gson.fromJson("{show_name: \"the a list\"}", Show::class.java), true, "a list"),
-                    arrayOf(gson.fromJson("{show_name: \"The A List\"}", Show::class.java), true, "a list"),
-                    arrayOf(gson.fromJson("{show_name: \"the flash\"}", Show::class.java), true, "flash"),
-                    arrayOf(gson.fromJson("{show_name: \"The Flash\"}", Show::class.java), true, "flash")
-            )
-        }
-    }
+			return listOf(
+					arrayOf(gson.fromJson("{}", Show::class.java), false, ""),
+					arrayOf(gson.fromJson("{show_name: null}", Show::class.java), false, ""),
+					arrayOf(gson.fromJson("{show_name: \"\"}", Show::class.java), false, ""),
+					arrayOf(gson.fromJson("{show_name: \"a random show\"}", Show::class.java), false, "a random show"),
+					arrayOf(gson.fromJson("{show_name: \"A Random Show\"}", Show::class.java), false, "a random show"),
+					arrayOf(gson.fromJson("{show_name: \"an epic random show\"}", Show::class.java), false, "an epic random show"),
+					arrayOf(gson.fromJson("{show_name: \"An Epic Random Show\"}", Show::class.java), false, "an epic random show"),
+					arrayOf(gson.fromJson("{show_name: \"arrow\"}", Show::class.java), false, "arrow"),
+					arrayOf(gson.fromJson("{show_name: \"Arrow\"}", Show::class.java), false, "arrow"),
+					arrayOf(gson.fromJson("{show_name: \"breaking bad\"}", Show::class.java), false, "breaking bad"),
+					arrayOf(gson.fromJson("{show_name: \"Breaking Bad\"}", Show::class.java), false, "breaking bad"),
+					arrayOf(gson.fromJson("{show_name: \"fear the walking dead\"}", Show::class.java), false, "fear the walking dead"),
+					arrayOf(gson.fromJson("{show_name: \"Fear the Walking Dead\"}", Show::class.java), false, "fear the walking dead"),
+					arrayOf(gson.fromJson("{show_name: \"the a list\"}", Show::class.java), false, "the a list"),
+					arrayOf(gson.fromJson("{show_name: \"The A List\"}", Show::class.java), false, "the a list"),
+					arrayOf(gson.fromJson("{show_name: \"the flash\"}", Show::class.java), false, "the flash"),
+					arrayOf(gson.fromJson("{show_name: \"The Flash\"}", Show::class.java), false, "the flash"),
+					arrayOf(gson.fromJson("{}", Show::class.java), true, ""),
+					arrayOf(gson.fromJson("{show_name: null}", Show::class.java), true, ""),
+					arrayOf(gson.fromJson("{show_name: \"\"}", Show::class.java), true, ""),
+					arrayOf(gson.fromJson("{show_name: \"a random show\"}", Show::class.java), true, "random show"),
+					arrayOf(gson.fromJson("{show_name: \"A Random Show\"}", Show::class.java), true, "random show"),
+					arrayOf(gson.fromJson("{show_name: \"an epic random show\"}", Show::class.java), true, "epic random show"),
+					arrayOf(gson.fromJson("{show_name: \"An Epic Random Show\"}", Show::class.java), true, "epic random show"),
+					arrayOf(gson.fromJson("{show_name: \"arrow\"}", Show::class.java), true, "arrow"),
+					arrayOf(gson.fromJson("{show_name: \"Arrow\"}", Show::class.java), true, "arrow"),
+					arrayOf(gson.fromJson("{show_name: \"breaking bad\"}", Show::class.java), true, "breaking bad"),
+					arrayOf(gson.fromJson("{show_name: \"Breaking Bad\"}", Show::class.java), true, "breaking bad"),
+					arrayOf(gson.fromJson("{show_name: \"fear the walking dead\"}", Show::class.java), true, "fear the walking dead"),
+					arrayOf(gson.fromJson("{show_name: \"Fear the Walking Dead\"}", Show::class.java), true, "fear the walking dead"),
+					arrayOf(gson.fromJson("{show_name: \"the a list\"}", Show::class.java), true, "a list"),
+					arrayOf(gson.fromJson("{show_name: \"The A List\"}", Show::class.java), true, "a list"),
+					arrayOf(gson.fromJson("{show_name: \"the flash\"}", Show::class.java), true, "flash"),
+					arrayOf(gson.fromJson("{show_name: \"The Flash\"}", Show::class.java), true, "flash")
+			)
+		}
+	}
 }

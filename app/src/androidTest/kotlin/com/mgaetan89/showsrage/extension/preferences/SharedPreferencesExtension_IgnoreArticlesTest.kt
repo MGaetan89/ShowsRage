@@ -17,46 +17,46 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_IgnoreArticlesTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun ignoreArticles_False() {
-        this.preference.edit().putBoolean(Fields.IGNORE_ARTICLES.field, false).apply()
+	@Test
+	fun ignoreArticles_False() {
+		this.preference.edit().putBoolean(Fields.IGNORE_ARTICLES.field, false).apply()
 
-        val ignoreArticles = this.preference.ignoreArticles()
+		val ignoreArticles = this.preference.ignoreArticles()
 
-        assertThat(ignoreArticles).isFalse()
-    }
+		assertThat(ignoreArticles).isFalse()
+	}
 
-    @Test
-    fun getEpisodeSort_Missing() {
-        assertThat(this.preference.contains(Fields.IGNORE_ARTICLES.field)).isFalse()
+	@Test
+	fun getEpisodeSort_Missing() {
+		assertThat(this.preference.contains(Fields.IGNORE_ARTICLES.field)).isFalse()
 
-        val ignoreArticles = this.preference.ignoreArticles()
+		val ignoreArticles = this.preference.ignoreArticles()
 
-        assertThat(ignoreArticles).isFalse()
-    }
+		assertThat(ignoreArticles).isFalse()
+	}
 
-    @Test
-    fun ignoreArticles_True() {
-        this.preference.edit().putBoolean(Fields.IGNORE_ARTICLES.field, true).apply()
+	@Test
+	fun ignoreArticles_True() {
+		this.preference.edit().putBoolean(Fields.IGNORE_ARTICLES.field, true).apply()
 
-        val ignoreArticles = this.preference.ignoreArticles()
+		val ignoreArticles = this.preference.ignoreArticles()
 
-        assertThat(ignoreArticles).isTrue()
-    }
+		assertThat(ignoreArticles).isTrue()
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

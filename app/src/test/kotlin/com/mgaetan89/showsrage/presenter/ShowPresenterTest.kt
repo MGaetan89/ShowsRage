@@ -13,62 +13,62 @@ import org.mockito.Mockito.spy
 
 @RunWith(Parameterized::class)
 class ShowPresenterTest(
-        val show: Show?, val bannerUrl: String, val network: String, val paused: Boolean, val posterUrl: String,
-        val quality: String, val showName: String
+		val show: Show?, val bannerUrl: String, val network: String, val paused: Boolean, val posterUrl: String,
+		val quality: String, val showName: String
 ) {
-    private lateinit var presenter: ShowPresenter
+	private lateinit var presenter: ShowPresenter
 
-    @Before
-    fun before() {
-        this.presenter = spy(ShowPresenter(this.show))
-        doReturn(this.show != null).`when`(this.presenter).isShowValid()
-    }
+	@Before
+	fun before() {
+		this.presenter = spy(ShowPresenter(this.show))
+		doReturn(this.show != null).`when`(this.presenter).isShowValid()
+	}
 
-    @Test
-    fun getBannerUrl() {
-        assertThat(this.presenter.getBannerUrl()).isEqualTo(this.bannerUrl)
-    }
+	@Test
+	fun getBannerUrl() {
+		assertThat(this.presenter.getBannerUrl()).isEqualTo(this.bannerUrl)
+	}
 
-    @Test
-    fun getNetwork() {
-        assertThat(this.presenter.getNetwork()).isEqualTo(this.network)
-    }
+	@Test
+	fun getNetwork() {
+		assertThat(this.presenter.getNetwork()).isEqualTo(this.network)
+	}
 
-    @Test
-    fun getPosterUrl() {
-        assertThat(this.presenter.getPosterUrl()).isEqualTo(this.posterUrl)
-    }
+	@Test
+	fun getPosterUrl() {
+		assertThat(this.presenter.getPosterUrl()).isEqualTo(this.posterUrl)
+	}
 
-    @Test
-    fun getQuality() {
-        assertThat(this.presenter.getQuality()).isEqualTo(this.quality)
-    }
+	@Test
+	fun getQuality() {
+		assertThat(this.presenter.getQuality()).isEqualTo(this.quality)
+	}
 
-    @Test
-    fun getShowName() {
-        assertThat(this.presenter.getShowName()).isEqualTo(this.showName)
-    }
+	@Test
+	fun getShowName() {
+		assertThat(this.presenter.getShowName()).isEqualTo(this.showName)
+	}
 
-    @Test
-    fun isPaused() {
-        assertThat(this.presenter.isPaused()).isEqualTo(this.paused)
-    }
+	@Test
+	fun isPaused() {
+		assertThat(this.presenter.isPaused()).isEqualTo(this.paused)
+	}
 
-    companion object {
-        @JvmStatic
-        @Parameterized.Parameters
-        fun data(): Collection<Array<out Any?>> {
-            val gson = SickRageApi.gson
+	companion object {
+		@JvmStatic
+		@Parameterized.Parameters
+		fun data(): Collection<Array<out Any?>> {
+			val gson = SickRageApi.gson
 
-            return listOf(
-                    arrayOf(null, "", "", false, "", "", ""),
-                    arrayOf(getShow(gson, "ABC", 0, "HD", "Show 1", 123), "?cmd=show.getbanner&tvdbid=123", "ABC", false, "?cmd=show.getposter&tvdbid=123", "HD", "Show 1"),
-                    arrayOf(getShow(gson, "CBS", 1, "HD1080p", "Show 2", 456), "?cmd=show.getbanner&tvdbid=456", "CBS", true, "?cmd=show.getposter&tvdbid=456", "HD1080p", "Show 2")
-            )
-        }
+			return listOf(
+					arrayOf(null, "", "", false, "", "", ""),
+					arrayOf(getShow(gson, "ABC", 0, "HD", "Show 1", 123), "?cmd=show.getbanner&tvdbid=123", "ABC", false, "?cmd=show.getposter&tvdbid=123", "HD", "Show 1"),
+					arrayOf(getShow(gson, "CBS", 1, "HD1080p", "Show 2", 456), "?cmd=show.getbanner&tvdbid=456", "CBS", true, "?cmd=show.getposter&tvdbid=456", "HD1080p", "Show 2")
+			)
+		}
 
-        private fun getShow(gson: Gson, network: String, paused: Int, quality: String, showName: String, tvDbId: Int): Show {
-            return gson.fromJson("{network: \"$network\", paused: $paused, quality: \"$quality\", show_name: \"$showName\", tvdbid: $tvDbId}", Show::class.java)
-        }
-    }
+		private fun getShow(gson: Gson, network: String, paused: Int, quality: String, showName: String, tvDbId: Int): Show {
+			return gson.fromJson("{network: \"$network\", paused: $paused, quality: \"$quality\", show_name: \"$showName\", tvdbid: $tvDbId}", Show::class.java)
+		}
+	}
 }

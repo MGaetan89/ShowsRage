@@ -13,54 +13,54 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class ScheduleWidgetProviderTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, true)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, true)
 
-    private lateinit var provider: ScheduleWidgetProvider
+	private lateinit var provider: ScheduleWidgetProvider
 
-    @Before
-    fun before() {
-        this.provider = ScheduleWidgetProvider()
-    }
+	@Before
+	fun before() {
+		this.provider = ScheduleWidgetProvider()
+	}
 
-    @Test
-    fun getListAdapterIntent() {
-        val intent = this.provider.getListAdapterIntent(this.activityRule.activity, 42)
+	@Test
+	fun getListAdapterIntent() {
+		val intent = this.provider.getListAdapterIntent(this.activityRule.activity, 42)
 
-        assertThat(intent).isNotNull()
-        assertThat(intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)).isEqualTo(42)
-        assertThat(intent.component.className).isEqualTo(ScheduleWidgetService::class.java.name)
-    }
+		assertThat(intent).isNotNull()
+		assertThat(intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)).isEqualTo(42)
+		assertThat(intent.component.className).isEqualTo(ScheduleWidgetService::class.java.name)
+	}
 
-    @Test
-    fun getListAdapterIntentNoContext() {
-        val intent = this.provider.getListAdapterIntent(null, 42)
+	@Test
+	fun getListAdapterIntentNoContext() {
+		val intent = this.provider.getListAdapterIntent(null, 42)
 
-        assertThat(intent).isNotNull()
-        assertThat(intent.extras).isNull()
-        assertThat(intent.component).isNull()
-    }
+		assertThat(intent).isNotNull()
+		assertThat(intent.extras).isNull()
+		assertThat(intent.component).isNull()
+	}
 
-    @Test
-    fun getWidgetEmptyText() {
-        assertThat(this.provider.getWidgetEmptyText(this.activityRule.activity))
-                .isEqualTo(this.activityRule.activity.getString(R.string.no_coming_episodes))
-    }
+	@Test
+	fun getWidgetEmptyText() {
+		assertThat(this.provider.getWidgetEmptyText(this.activityRule.activity))
+				.isEqualTo(this.activityRule.activity.getString(R.string.no_coming_episodes))
+	}
 
-    @Test
-    fun getWidgetEmptyTextNoContext() {
-        assertThat(this.provider.getWidgetEmptyText(null)).isNull()
-    }
+	@Test
+	fun getWidgetEmptyTextNoContext() {
+		assertThat(this.provider.getWidgetEmptyText(null)).isNull()
+	}
 
-    @Test
-    fun getWidgetTitle() {
-        assertThat(this.provider.getWidgetTitle(this.activityRule.activity))
-                .isEqualTo(this.activityRule.activity.getString(R.string.schedule))
-    }
+	@Test
+	fun getWidgetTitle() {
+		assertThat(this.provider.getWidgetTitle(this.activityRule.activity))
+				.isEqualTo(this.activityRule.activity.getString(R.string.schedule))
+	}
 
-    @Test
-    fun getWidgetTitleNoContext() {
-        assertThat(this.provider.getWidgetTitle(null)).isNull()
-    }
+	@Test
+	fun getWidgetTitleNoContext() {
+		assertThat(this.provider.getWidgetTitle(null)).isNull()
+	}
 }

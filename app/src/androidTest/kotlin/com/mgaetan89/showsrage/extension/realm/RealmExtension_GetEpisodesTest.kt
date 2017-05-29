@@ -11,76 +11,76 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_GetEpisodesTest : RealmTest() {
-    @Before
-    fun before() {
-        this.realm.isAutoRefresh = true
-    }
+	@Before
+	fun before() {
+		this.realm.isAutoRefresh = true
+	}
 
-    @Test
-    @UiThreadTest
-    fun getEpisodes_existingShow_existingSeason_ascending() {
-        this.realm.getEpisodes(72173, 4, false, RealmChangeListener {
-            it.removeAllChangeListeners()
+	@Test
+	@UiThreadTest
+	fun getEpisodes_existingShow_existingSeason_ascending() {
+		this.realm.getEpisodes(72173, 4, false, RealmChangeListener {
+			it.removeAllChangeListeners()
 
-            assertThat(it).hasSize(15)
+			assertThat(it).hasSize(15)
 
-            for (i in 1 until it.size) {
-                assertThat(it[i].number > it [i - 1].number).isTrue()
-            }
-        })
-    }
+			for (i in 1 until it.size) {
+				assertThat(it[i].number > it [i - 1].number).isTrue()
+			}
+		})
+	}
 
-    @Test
-    @UiThreadTest
-    fun getEpisodes_existingShow_existingSeason_descending() {
-        this.realm.getEpisodes(72173, 4, true, RealmChangeListener {
-            it.removeAllChangeListeners()
+	@Test
+	@UiThreadTest
+	fun getEpisodes_existingShow_existingSeason_descending() {
+		this.realm.getEpisodes(72173, 4, true, RealmChangeListener {
+			it.removeAllChangeListeners()
 
-            assertThat(it).hasSize(15)
+			assertThat(it).hasSize(15)
 
-            for (i in 1 until it.size) {
-                assertThat(it[i].number < it [i - 1].number).isTrue()
-            }
-        })
-    }
+			for (i in 1 until it.size) {
+				assertThat(it[i].number < it [i - 1].number).isTrue()
+			}
+		})
+	}
 
-    @Test
-    @UiThreadTest
-    fun getEpisodes_existingShow_missingSeason_ascending() {
-        this.realm.getEpisodes(72173, 3, false, RealmChangeListener {
-            it.removeAllChangeListeners()
+	@Test
+	@UiThreadTest
+	fun getEpisodes_existingShow_missingSeason_ascending() {
+		this.realm.getEpisodes(72173, 3, false, RealmChangeListener {
+			it.removeAllChangeListeners()
 
-            assertThat(it).isEmpty()
-        })
-    }
+			assertThat(it).isEmpty()
+		})
+	}
 
-    @Test
-    @UiThreadTest
-    fun getEpisodes_existingShow_missingSeason_descending() {
-        this.realm.getEpisodes(72173, 3, true, RealmChangeListener {
-            it.removeAllChangeListeners()
+	@Test
+	@UiThreadTest
+	fun getEpisodes_existingShow_missingSeason_descending() {
+		this.realm.getEpisodes(72173, 3, true, RealmChangeListener {
+			it.removeAllChangeListeners()
 
-            assertThat(it).isEmpty()
-        })
-    }
+			assertThat(it).isEmpty()
+		})
+	}
 
-    @Test
-    @UiThreadTest
-    fun getEpisodes_missingShow_missingSeason_ascending() {
-        this.realm.getEpisodes(42, 3, false, RealmChangeListener {
-            it.removeAllChangeListeners()
+	@Test
+	@UiThreadTest
+	fun getEpisodes_missingShow_missingSeason_ascending() {
+		this.realm.getEpisodes(42, 3, false, RealmChangeListener {
+			it.removeAllChangeListeners()
 
-            assertThat(it).isEmpty()
-        })
-    }
+			assertThat(it).isEmpty()
+		})
+	}
 
-    @Test
-    @UiThreadTest
-    fun getEpisodes_missingShow_missingSeason_descending() {
-        this.realm.getEpisodes(42, 3, true, RealmChangeListener {
-            it.removeAllChangeListeners()
+	@Test
+	@UiThreadTest
+	fun getEpisodes_missingShow_missingSeason_descending() {
+		this.realm.getEpisodes(42, 3, true, RealmChangeListener {
+			it.removeAllChangeListeners()
 
-            assertThat(it).isEmpty()
-        })
-    }
+			assertThat(it).isEmpty()
+		})
+	}
 }

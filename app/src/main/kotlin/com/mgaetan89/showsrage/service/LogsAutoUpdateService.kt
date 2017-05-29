@@ -14,44 +14,42 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 
 class LogsAutoUpdateService : JobService() {
-    private enum class JobStatus {
-        FAILURE,
-        RUNNING,
-        SUCCESS,
-        WAITING
-    }
+	private enum class JobStatus {
+		FAILURE,
+		RUNNING,
+		SUCCESS,
+		WAITING
+	}
 
-    private var status = JobStatus.WAITING
+	private var status = JobStatus.WAITING
 
-    override fun onStartJob(job: JobParameters?): Boolean {
-        if (this.status == JobStatus.WAITING) {
-            this.status = JobStatus.RUNNING
+	override fun onStartJob(job: JobParameters?): Boolean {
+		if (this.status == JobStatus.WAITING) {
+			this.status = JobStatus.RUNNING
 
-            val logLevel = this.getPreferences().getLogLevel()
+			val logLevel = this.getPreferences().getLogLevel()
 
-            SickRageApi.instance.init(this.getPreferences())
-            SickRageApi.instance.services?.getLogs(logLevel, object : Callback<Logs> {
-                override fun failure(error: RetrofitError?) {
-                    status = JobStatus.FAILURE
-                }
+			SickRageApi.instance.init(this.getPreferences())
+			SickRageApi.instance.services?.getLogs(logLevel, object : Callback<Logs> {
+				override fun failure(error: RetrofitError?) {
+					status = JobStatus.FAILURE
+				}
 
-                override fun success(logs: Logs?, response: Response?) {
-                    status = JobStatus.SUCCESS
+				override fun success(logs: Logs?, response: Response?) {
+					status = JobStatus.SUCCESS
 
-                    val logEntries = logs?.data?.map(::LogEntry) ?: emptyList()
+					val logEntries = logs?.data?.map(::LogEntry) ?: emptyList()
 
-                    Realm.getDefaultInstance().let {
-                        it.saveLogs(logLevel, logEntries)
-                        it.close()
-                    }
-                }
-            })
-        }
+					Realm.getDefaultInstance().let {
+						it.saveLogs(logLevel, logEntries)
+						it.close()
+					}
+				}
+			})
+		}
 
-        return this.status == JobStatus.SUCCESS
-    }
+		return this.status == JobStatus.SUCCESS
+	}
 
-    override fun onStopJob(job: JobParameters?): Boolean {
-        return this.status == JobStatus.FAILURE
-    }
+	override fun onStopJob(job: JobParameters?) = this.status == JobStatus.FAILURE
 }

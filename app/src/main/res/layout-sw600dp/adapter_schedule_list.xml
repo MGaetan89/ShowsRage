@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:bind="http://schemas.android.com/apk/res-auto">
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+	style="@style/SR.CardView"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_margin="@dimen/padding_half">
 
-	<data>
-
-		<variable
-			name="schedule"
-			type="com.mgaetan89.showsrage.presenter.SchedulePresenter" />
-	</data>
-
-	<android.support.v7.widget.CardView
-		style="@style/SR.CardView"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_margin="@dimen/padding_half">
-
-		<include
-			android:id="@+id/include_content"
-			layout="@layout/adapter_schedule_list_content"
-			bind:schedule="@{schedule}" />
-	</android.support.v7.widget.CardView>
-</layout>
+	<include layout="@layout/adapter_schedule_list_content" />
+</android.support.v7.widget.CardView>

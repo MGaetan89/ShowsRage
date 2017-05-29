@@ -10,20 +10,20 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class HistoryWidgetFactoryTest : ListWidgetFactoryTest<HistoryWidgetFactory>() {
-    @Before
-    fun before() {
-        this.factory = HistoryWidgetFactory(this.activityRule.activity)
-    }
+	@Before
+	fun before() {
+		this.factory = HistoryWidgetFactory(this.activityRule.activity)
+	}
 
-    @Test
-    fun getEpisodeTitle() {
-        val history = History().apply {
-            this.episode = 2
-            this.season = 4
-            this.showName = "Show Name"
-        }
-        val presenter = HistoryPresenter(history)
+	@Test
+	fun getEpisodeTitle() {
+		val history = History().apply {
+			this.episode = 2
+			this.season = 4
+			this.showName = "Show Name"
+		}
+		val presenter = HistoryPresenter(history)
 
-        assertThat(this.factory.getEpisodeTitle(presenter)).isEqualTo("Show Name - S04E02")
-    }
+		assertThat(this.factory.getEpisodeTitle(presenter)).isEqualTo("Show Name - S04E02")
+	}
 }

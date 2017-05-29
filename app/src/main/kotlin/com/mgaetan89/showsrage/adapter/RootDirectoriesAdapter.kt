@@ -9,34 +9,34 @@ import io.realm.RealmBaseAdapter
 import io.realm.RealmResults
 
 class RootDirectoriesAdapter(rootDirectories: RealmResults<RootDir>) : RealmBaseAdapter<RootDir>(rootDirectories) {
-    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View? {
-        val view = convertView ?: LayoutInflater.from(parent?.context).inflate(android.R.layout.simple_list_item_1, parent, false)
+	override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View? {
+		val view = convertView ?: LayoutInflater.from(parent?.context).inflate(android.R.layout.simple_list_item_1, parent, false)
 
-        this.setView(view, this.getItem(position))
+		this.setView(view, this.getItem(position))
 
-        return view
-    }
+		return view
+	}
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
-        val view = convertView ?: LayoutInflater.from(parent?.context).inflate(android.R.layout.simple_list_item_1, parent, false)
+	override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
+		val view = convertView ?: LayoutInflater.from(parent?.context).inflate(android.R.layout.simple_list_item_1, parent, false)
 
-        this.setView(view, this.getItem(position))
+		this.setView(view, this.getItem(position))
 
-        return view
-    }
+		return view
+	}
 
-    private fun setView(view: View?, rootDirectory: RootDir?) {
-        if (view is TextView) {
-            view.text = getRootDirectoryLabel(rootDirectory)
-        }
-    }
+	private fun setView(view: View?, rootDirectory: RootDir?) {
+		if (view is TextView) {
+			view.text = getRootDirectoryLabel(rootDirectory)
+		}
+	}
 
-    companion object {
-        internal fun getRootDirectoryLabel(rootDir: RootDir?): String {
-            val location = rootDir?.location ?: ""
-            val prefix = if (rootDir?.defaultDir == 1) "* " else ""
+	companion object {
+		internal fun getRootDirectoryLabel(rootDir: RootDir?): String {
+			val location = rootDir?.location ?: ""
+			val prefix = if (rootDir?.defaultDir == 1) "* " else ""
 
-            return prefix + location
-        }
-    }
+			return prefix + location
+		}
+	}
 }

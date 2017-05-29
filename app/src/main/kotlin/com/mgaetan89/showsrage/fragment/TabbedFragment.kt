@@ -5,82 +5,67 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.view.PagerAdapter
-import android.support.v4.view.ViewPager
 import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mgaetan89.showsrage.R
+import kotlinx.android.synthetic.main.fragment_tabbed.swipe_refresh
+import kotlinx.android.synthetic.main.fragment_tabbed.view_pager
 
 abstract class TabbedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
-    protected var swipeRefreshLayout: SwipeRefreshLayout? = null
-    private var adapter: PagerAdapter? = null
-    private var tabLayout: TabLayout? = null
-    private var viewPager: ViewPager? = null
+	private var tabLayout: TabLayout? = null
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+	override fun onActivityCreated(savedInstanceState: Bundle?) {
+		super.onActivityCreated(savedInstanceState)
 
-        this.tabLayout = this.activity.findViewById(R.id.tabs) as TabLayout?
+		this.tabLayout = this.activity.findViewById(R.id.tabs) as TabLayout?
 
-        if (this.tabLayout != null && this.viewPager != null) {
-            this.tabLayout!!.tabMode = this.getTabMode()
-            this.tabLayout!!.setupWithViewPager(this.viewPager)
-        }
-    }
+		if (this.tabLayout != null) {
+			this.tabLayout!!.tabMode = this.getTabMode()
+			this.tabLayout!!.setupWithViewPager(this.view_pager)
+		}
+	}
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_tabbed, container, false)
-    }
+	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		return inflater?.inflate(R.layout.fragment_tabbed, container, false)
+	}
 
-    override fun onDestroyView() {
-        this.swipeRefreshLayout = null
-        this.tabLayout = null
-        this.viewPager = null
+	override fun onDestroyView() {
+		this.tabLayout = null
 
-        super.onDestroyView()
-    }
+		super.onDestroyView()
+	}
 
-    override fun onRefresh() = Unit
+	override fun onRefresh() = Unit
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 
-        if (view != null) {
-            this.swipeRefreshLayout = view.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
-            this.swipeRefreshLayout?.let {
-                it.isEnabled = this.useSwipeToRefresh()
-                it.setColorSchemeResources(R.color.accent)
-                it.setOnRefreshListener(this)
-            }
+		this.swipe_refresh.isEnabled = this.useSwipeToRefresh()
+		this.swipe_refresh.setColorSchemeResources(R.color.accent)
+		this.swipe_refresh.setOnRefreshListener(this)
 
-            this.viewPager = view.findViewById(R.id.view_pager) as ViewPager?
+		this.view_pager.adapter = this.getAdapter()
+	}
 
-            if (this.viewPager != null) {
-                this.adapter = this.getAdapter()
+	protected abstract fun getAdapter(): PagerAdapter
 
-                this.viewPager!!.adapter = this.adapter
-            }
-        }
-    }
+	protected open fun getTabMode() = TabLayout.MODE_SCROLLABLE
 
-    protected abstract fun getAdapter(): PagerAdapter
+	protected fun selectTab(position: Int) {
+		this.tabLayout?.getTabAt(position)?.select()
+	}
 
-    protected open fun getTabMode() = TabLayout.MODE_SCROLLABLE
+	protected fun updateState(empty: Boolean) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && this.activity?.isDestroyed ?: true) {
+			return
+		}
 
-    protected fun selectTab(position: Int) {
-        this.tabLayout?.getTabAt(position)?.select()
-    }
+		this.view_pager.adapter?.notifyDataSetChanged()
 
-    protected fun updateState(empty: Boolean) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && this.activity?.isDestroyed ?: true) {
-            return
-        }
+		this.tabLayout?.visibility = if (empty) View.GONE else View.VISIBLE
+	}
 
-        this.adapter?.notifyDataSetChanged()
-
-        this.tabLayout?.visibility = if (empty) View.GONE else View.VISIBLE
-    }
-
-    protected abstract fun useSwipeToRefresh(): Boolean
+	protected abstract fun useSwipeToRefresh(): Boolean
 }

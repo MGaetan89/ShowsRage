@@ -15,43 +15,43 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
 class ShowPagerAdapter_EmptyTest {
-    private lateinit var adapter: ShowPagerAdapter
+	private lateinit var adapter: ShowPagerAdapter
 
-    @Before
-    fun before() {
-        val activity = mock(FragmentActivity::class.java)
-        `when`(activity.resources).thenReturn(mock(Resources::class.java))
+	@Before
+	fun before() {
+		val activity = mock(FragmentActivity::class.java)
+		`when`(activity.resources).thenReturn(mock(Resources::class.java))
 
-        val fragment = mock(Fragment::class.java)
+		val fragment = mock(Fragment::class.java)
 
-        try {
-            val fragmentHostField = Fragment::class.java.getDeclaredField("mHost")
-            fragmentHostField.isAccessible = true
-            fragmentHostField.set(fragment, EmptyFragmentHostCallback(activity))
-        } catch (ignored: IllegalAccessException) {
-        } catch (ignored: NoSuchFieldException) {
-        }
+		try {
+			val fragmentHostField = Fragment::class.java.getDeclaredField("mHost")
+			fragmentHostField.isAccessible = true
+			fragmentHostField.set(fragment, EmptyFragmentHostCallback(activity))
+		} catch (ignored: IllegalAccessException) {
+		} catch (ignored: NoSuchFieldException) {
+		}
 
-        `when`(fragment.getString(R.string.show)).thenReturn("Show")
+		`when`(fragment.getString(R.string.show)).thenReturn("Show")
 
-        this.adapter = ShowPagerAdapter(mock(FragmentManager::class.java), fragment, emptyList<Int>())
-    }
+		this.adapter = ShowPagerAdapter(mock(FragmentManager::class.java), fragment, emptyList<Int>())
+	}
 
-    @Test
-    fun getCount() {
-        assertThat(this.adapter.count).isEqualTo(1)
-    }
+	@Test
+	fun getCount() {
+		assertThat(this.adapter.count).isEqualTo(1)
+	}
 
-    @Test
-    fun getItem() {
-        val fragment = this.adapter.getItem(0)
-        assertTrue(fragment != null)
-        assertThat(fragment).isInstanceOf(ShowOverviewFragment::class.java)
-        assertThat(fragment!!.arguments).isNull()
-    }
+	@Test
+	fun getItem() {
+		val fragment = this.adapter.getItem(0)
+		assertTrue(fragment != null)
+		assertThat(fragment).isInstanceOf(ShowOverviewFragment::class.java)
+		assertThat(fragment!!.arguments).isNull()
+	}
 
-    @Test
-    fun getPageTitle() {
-        assertThat(this.adapter.getPageTitle(0)).isEqualTo("Show")
-    }
+	@Test
+	fun getPageTitle() {
+		assertThat(this.adapter.getPageTitle(0)).isEqualTo("Show")
+	}
 }

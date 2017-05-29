@@ -5,9 +5,9 @@ import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
 open class RootDir : RealmObject() {
-    @SerializedName("default")
-    open var defaultDir: Int = 0
-    @PrimaryKey
-    open var location: String = ""
-    open var valid: Int = 0
+	@SerializedName("default")
+	open var defaultDir: Int = 0
+	@PrimaryKey
+	open var location: String = ""
+	open var valid: Int = 0
 }

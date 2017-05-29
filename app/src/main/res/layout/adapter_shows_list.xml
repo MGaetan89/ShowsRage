@@ -1,27 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:bind="http://schemas.android.com/apk/res-auto">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
 
-	<data>
-
-		<variable
-			name="show"
-			type="com.mgaetan89.showsrage.presenter.ShowPresenter" />
-
-		<variable
-			name="stats"
-			type="com.mgaetan89.showsrage.model.RealmShowStat" />
-	</data>
-
-	<FrameLayout
+	<ViewStub
+		android:id="@+id/stub"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
-
-		<ViewStub
-			android:id="@+id/stub"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			bind:show="@{show}"
-			bind:stats="@{stats}" />
-	</FrameLayout>
-</layout>
+		android:layout_height="wrap_content" />
+</FrameLayout>

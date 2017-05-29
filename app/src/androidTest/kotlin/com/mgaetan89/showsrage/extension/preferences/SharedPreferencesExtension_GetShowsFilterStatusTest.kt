@@ -19,114 +19,114 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SharedPreferencesExtension_GetShowsFilterStatusTest {
-    @JvmField
-    @Rule
-    val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
+	@JvmField
+	@Rule
+	val activityRule = ActivityTestRule(TestActivity::class.java, false, false)
 
-    private lateinit var preference: SharedPreferences
+	private lateinit var preference: SharedPreferences
 
-    @Before
-    fun before() {
-        this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
-    }
+	@Before
+	fun before() {
+		this.preference = InstrumentationRegistry.getTargetContext().getPreferences()
+	}
 
-    @Test
-    fun getShowsFilterStatus() {
-        this.preference.edit().putInt(Fields.SHOW_FILTER_STATUS.field, 42).apply()
+	@Test
+	fun getShowsFilterStatus() {
+		this.preference.edit().putInt(Fields.SHOW_FILTER_STATUS.field, 42).apply()
 
-        val showsFilterStatus = this.preference.getShowsFilterStatus()
+		val showsFilterStatus = this.preference.getShowsFilterStatus()
 
-        assertThat(showsFilterStatus).isEqualTo(42)
-    }
+		assertThat(showsFilterStatus).isEqualTo(42)
+	}
 
-    @Test
-    fun getShowsFilterStatus_Continuing() {
-        val status = ShowsFilters.Status.CONTINUING.status
+	@Test
+	fun getShowsFilterStatus_Continuing() {
+		val status = ShowsFilters.Status.CONTINUING.status
 
-        this.preference.saveShowsFilter(ShowsFilters.State.ALL, status)
+		this.preference.saveShowsFilter(ShowsFilters.State.ALL, status)
 
-        val showsFilterStatus = this.preference.getShowsFilterStatus()
+		val showsFilterStatus = this.preference.getShowsFilterStatus()
 
-        assertThat(showsFilterStatus).isEqualTo(status)
-    }
+		assertThat(showsFilterStatus).isEqualTo(status)
+	}
 
-    @Test
-    fun getShowsFilterStatus_Continuing_Ended() {
-        val status = ShowsFilters.Status.CONTINUING.status or ShowsFilters.Status.ENDED.status
+	@Test
+	fun getShowsFilterStatus_Continuing_Ended() {
+		val status = ShowsFilters.Status.CONTINUING.status or ShowsFilters.Status.ENDED.status
 
-        this.preference.saveShowsFilter(ShowsFilters.State.ALL, status)
+		this.preference.saveShowsFilter(ShowsFilters.State.ALL, status)
 
-        val showsFilterStatus = this.preference.getShowsFilterStatus()
+		val showsFilterStatus = this.preference.getShowsFilterStatus()
 
-        assertThat(showsFilterStatus).isEqualTo(status)
-    }
+		assertThat(showsFilterStatus).isEqualTo(status)
+	}
 
-    @Test
-    fun getShowsFilterStatus_Continuing_Ended_Unknown() {
-        val status = ShowsFilters.Status.CONTINUING.status or ShowsFilters.Status.ENDED.status or ShowsFilters.Status.UNKNOWN.status
+	@Test
+	fun getShowsFilterStatus_Continuing_Ended_Unknown() {
+		val status = ShowsFilters.Status.CONTINUING.status or ShowsFilters.Status.ENDED.status or ShowsFilters.Status.UNKNOWN.status
 
-        this.preference.saveShowsFilter(ShowsFilters.State.ALL, status)
+		this.preference.saveShowsFilter(ShowsFilters.State.ALL, status)
 
-        val showsFilterStatus = this.preference.getShowsFilterStatus()
+		val showsFilterStatus = this.preference.getShowsFilterStatus()
 
-        assertThat(showsFilterStatus).isEqualTo(status)
-    }
+		assertThat(showsFilterStatus).isEqualTo(status)
+	}
 
-    @Test
-    fun getShowsFilterStatus_Continuing_Unknown() {
-        val status = ShowsFilters.Status.CONTINUING.status or ShowsFilters.Status.UNKNOWN.status
+	@Test
+	fun getShowsFilterStatus_Continuing_Unknown() {
+		val status = ShowsFilters.Status.CONTINUING.status or ShowsFilters.Status.UNKNOWN.status
 
-        this.preference.saveShowsFilter(ShowsFilters.State.ALL, status)
+		this.preference.saveShowsFilter(ShowsFilters.State.ALL, status)
 
-        val showsFilterStatus = this.preference.getShowsFilterStatus()
+		val showsFilterStatus = this.preference.getShowsFilterStatus()
 
-        assertThat(showsFilterStatus).isEqualTo(status)
-    }
+		assertThat(showsFilterStatus).isEqualTo(status)
+	}
 
-    @Test
-    fun getShowsFilterStatus_Ended() {
-        val status = ShowsFilters.Status.ENDED.status
+	@Test
+	fun getShowsFilterStatus_Ended() {
+		val status = ShowsFilters.Status.ENDED.status
 
-        this.preference.saveShowsFilter(ShowsFilters.State.ALL, status)
+		this.preference.saveShowsFilter(ShowsFilters.State.ALL, status)
 
-        val showsFilterStatus = this.preference.getShowsFilterStatus()
+		val showsFilterStatus = this.preference.getShowsFilterStatus()
 
-        assertThat(showsFilterStatus).isEqualTo(status)
-    }
+		assertThat(showsFilterStatus).isEqualTo(status)
+	}
 
-    @Test
-    fun getShowsFilterStatus_Ended_Unknown() {
-        val status = ShowsFilters.Status.ENDED.status or ShowsFilters.Status.UNKNOWN.status
+	@Test
+	fun getShowsFilterStatus_Ended_Unknown() {
+		val status = ShowsFilters.Status.ENDED.status or ShowsFilters.Status.UNKNOWN.status
 
-        this.preference.saveShowsFilter(ShowsFilters.State.ALL, status)
+		this.preference.saveShowsFilter(ShowsFilters.State.ALL, status)
 
-        val showsFilterStatus = this.preference.getShowsFilterStatus()
+		val showsFilterStatus = this.preference.getShowsFilterStatus()
 
-        assertThat(showsFilterStatus).isEqualTo(status)
-    }
+		assertThat(showsFilterStatus).isEqualTo(status)
+	}
 
-    @Test
-    fun getShowsFilterStatus_Missing() {
-        assertThat(this.preference.contains(Fields.SHOW_FILTER_STATUS.field)).isFalse()
+	@Test
+	fun getShowsFilterStatus_Missing() {
+		assertThat(this.preference.contains(Fields.SHOW_FILTER_STATUS.field)).isFalse()
 
-        val showsFilterStatus = this.preference.getShowsFilterStatus()
+		val showsFilterStatus = this.preference.getShowsFilterStatus()
 
-        assertThat(showsFilterStatus).isEqualTo(ShowsFilters.Status.ALL.status)
-    }
+		assertThat(showsFilterStatus).isEqualTo(ShowsFilters.Status.ALL.status)
+	}
 
-    @Test
-    fun getShowsFilterStatus_Unknown() {
-        val status = ShowsFilters.Status.UNKNOWN.status
+	@Test
+	fun getShowsFilterStatus_Unknown() {
+		val status = ShowsFilters.Status.UNKNOWN.status
 
-        this.preference.saveShowsFilter(ShowsFilters.State.ALL, status)
+		this.preference.saveShowsFilter(ShowsFilters.State.ALL, status)
 
-        val showsFilterStatus = this.preference.getShowsFilterStatus()
+		val showsFilterStatus = this.preference.getShowsFilterStatus()
 
-        assertThat(showsFilterStatus).isEqualTo(status)
-    }
+		assertThat(showsFilterStatus).isEqualTo(status)
+	}
 
-    @After
-    fun after() {
-        this.preference.edit().clear().apply()
-    }
+	@After
+	fun after() {
+		this.preference.edit().clear().apply()
+	}
 }

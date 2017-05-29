@@ -10,17 +10,17 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class RealmExtension_ClearHistoryTest : RealmTest() {
-    @Before
-    fun before() {
-        assertThat(this.getHistory()).hasSize(100)
-    }
+	@Before
+	fun before() {
+		assertThat(this.getHistory()).hasSize(100)
+	}
 
-    @Test
-    fun clearHistory() {
-        this.realm.clearHistory()
+	@Test
+	fun clearHistory() {
+		this.realm.clearHistory()
 
-        assertThat(this.getHistory()).isEmpty()
-    }
+		assertThat(this.getHistory()).isEmpty()
+	}
 
-    private fun getHistory() = this.realm.where(History::class.java).findAll()
+	private fun getHistory() = this.realm.where(History::class.java).findAll()
 }

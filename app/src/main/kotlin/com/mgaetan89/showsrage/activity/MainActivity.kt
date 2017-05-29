@@ -12,25 +12,20 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.support.annotation.IdRes
-import android.support.design.widget.AppBarLayout
 import android.support.design.widget.NavigationView
-import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.graphics.ColorUtils
 import android.support.v4.graphics.drawable.DrawableCompat
-import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.mgaetan89.showsrage.Constants
@@ -74,465 +69,448 @@ import com.mgaetan89.showsrage.model.ThemeColors
 import com.mgaetan89.showsrage.model.UpdateResponse
 import com.mgaetan89.showsrage.model.UpdateResponseWrapper
 import com.mgaetan89.showsrage.network.SickRageApi
-import com.mgaetan89.showsrage.view.ColoredToolbar
 import com.mgaetan89.showsrage.widget.HistoryWidgetProvider
 import com.mgaetan89.showsrage.widget.ScheduleWidgetProvider
 import io.kolumbus.Kolumbus
 import io.realm.Realm
+import kotlinx.android.synthetic.main.activity_main.app_bar
+import kotlinx.android.synthetic.main.activity_main.drawer_content
+import kotlinx.android.synthetic.main.activity_main.drawer_layout
+import kotlinx.android.synthetic.main.activity_main.tabs
+import kotlinx.android.synthetic.main.activity_main.toolbar
+import kotlinx.android.synthetic.main.drawer_header.view.app_logo
+import kotlinx.android.synthetic.main.drawer_header.view.app_name
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
 import java.lang.ref.WeakReference
 
 class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationView.OnNavigationItemSelectedListener {
-    var firebaseAnalytics: FirebaseAnalytics? = null
-        private set
-    private var appBarLayout: AppBarLayout? = null
-    private var drawerHeader: LinearLayout? = null
-    private var drawerLayout: DrawerLayout? = null
-    private var drawerToggle: ActionBarDrawerToggle? = null
-    private var navigationView: NavigationView? = null
-    private val receiver: ShowsRageReceiver by lazy { ShowsRageReceiver(this) }
-    private var tabLayout: TabLayout? = null
-    private var themeColors: ThemeColors? = null
-    private var toolbar: ColoredToolbar? = null
-
-    fun displayHomeAsUp(displayHomeAsUp: Boolean) {
-        val actionBar = this.supportActionBar
-
-        if (displayHomeAsUp) {
-            this.drawerToggle?.isDrawerIndicatorEnabled = false
-            actionBar?.setDisplayHomeAsUpEnabled(true)
-        } else {
-            actionBar?.setDisplayHomeAsUpEnabled(false)
-            this.drawerToggle?.isDrawerIndicatorEnabled = true
-        }
-    }
-
-    override fun failure(error: RetrofitError?) {
-        error?.printStackTrace()
-    }
-
-    fun getThemColors() = this.themeColors
-
-    override fun onBackPressed() {
-        if (this.navigationView != null && this.drawerLayout?.isDrawerOpen(this.navigationView) ?: false) {
-            this.drawerLayout?.closeDrawers()
-        } else {
-            super.onBackPressed()
-        }
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration?) {
-        super.onConfigurationChanged(newConfig)
-
-        this.drawerToggle?.onConfigurationChanged(newConfig)
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        var backStackName: String? = null
-        var eventHandled = true
-        var fragment: Fragment? = null
-        val id = item.itemId
-
-        when (id) {
-            R.id.menu_check_update -> {
-                eventHandled = false
-
-                this.checkForUpdate(true)
-            }
-
-            R.id.menu_history -> fragment = HistoryFragment()
-
-            R.id.menu_kolumbus -> {
-                eventHandled = false
-
-                Kolumbus.explore(Episode::class.java)
-                        .explore(History::class.java)
-                        .explore(LogEntry::class.java)
-                        .explore(OmDbEpisode::class.java)
-                        .explore(Quality::class.java)
-                        .explore(RealmShowStat::class.java)
-                        .explore(RealmString::class.java)
-                        .explore(RootDir::class.java)
-                        .explore(Schedule::class.java)
-                        .explore(Serie::class.java)
-                        .explore(Show::class.java)
-                        .explore(ShowsStat::class.java)
-                        .withArchitect(ShowsArchitect())
-                        .navigate(this)
-            }
-
-            R.id.menu_logs -> fragment = LogsFragment()
-
-            R.id.menu_post_processing -> {
-                eventHandled = false
-
-                PostProcessingFragment().show(this.supportFragmentManager, "post_processing")
-            }
-
-            R.id.menu_remote_control -> {
-                eventHandled = false
-
-                RemoteControlFragment().show(this.supportFragmentManager, "remote_control")
-            }
-
-            R.id.menu_restart -> {
-                eventHandled = false
-
-                AlertDialog.Builder(this)
-                        .setMessage(R.string.restart_confirm)
-                        .setPositiveButton(R.string.restart, { _, _ ->
-                            SickRageApi.instance.services?.restart(this)
-                        })
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .show()
-            }
+	var firebaseAnalytics: FirebaseAnalytics? = null
+		private set
+	private var drawerHeader: LinearLayout? = null
+	private var drawerToggle: ActionBarDrawerToggle? = null
+	private val receiver: ShowsRageReceiver by lazy { ShowsRageReceiver(this) }
+	private var themeColors: ThemeColors? = null
+
+	fun displayHomeAsUp(displayHomeAsUp: Boolean) {
+		val actionBar = this.supportActionBar
+
+		if (displayHomeAsUp) {
+			this.drawerToggle?.isDrawerIndicatorEnabled = false
+			actionBar?.setDisplayHomeAsUpEnabled(true)
+		} else {
+			actionBar?.setDisplayHomeAsUpEnabled(false)
+			this.drawerToggle?.isDrawerIndicatorEnabled = true
+		}
+	}
+
+	override fun failure(error: RetrofitError?) {
+		error?.printStackTrace()
+	}
+
+	fun getThemColors() = this.themeColors
+
+	override fun onBackPressed() {
+		if (this.drawer_layout.isDrawerOpen(this.drawer_content)) {
+			this.drawer_layout.closeDrawers()
+		} else {
+			super.onBackPressed()
+		}
+	}
+
+	override fun onConfigurationChanged(newConfig: Configuration?) {
+		super.onConfigurationChanged(newConfig)
+
+		this.drawerToggle?.onConfigurationChanged(newConfig)
+	}
+
+	override fun onNavigationItemSelected(item: MenuItem): Boolean {
+		var backStackName: String? = null
+		var eventHandled = true
+		var fragment: Fragment? = null
+		val id = item.itemId
+
+		when (id) {
+			R.id.menu_check_update -> {
+				eventHandled = false
+
+				this.checkForUpdate(true)
+			}
+
+			R.id.menu_history -> fragment = HistoryFragment.newInstance()
+
+			R.id.menu_kolumbus -> {
+				eventHandled = false
+
+				Kolumbus.explore(Episode::class.java)
+						.explore(History::class.java)
+						.explore(LogEntry::class.java)
+						.explore(OmDbEpisode::class.java)
+						.explore(Quality::class.java)
+						.explore(RealmShowStat::class.java)
+						.explore(RealmString::class.java)
+						.explore(RootDir::class.java)
+						.explore(Schedule::class.java)
+						.explore(Serie::class.java)
+						.explore(Show::class.java)
+						.explore(ShowsStat::class.java)
+						.withArchitect(ShowsArchitect())
+						.navigate(this)
+			}
 
-            R.id.menu_schedule -> fragment = ScheduleFragment()
+			R.id.menu_logs -> fragment = LogsFragment.newInstance()
 
-            R.id.menu_settings -> {
-                backStackName = "settings"
-                fragment = SettingsFragment()
-            }
+			R.id.menu_post_processing -> {
+				eventHandled = false
 
-            R.id.menu_shows -> fragment = ShowsFragment()
+				PostProcessingFragment.newInstance()
+						.show(this.supportFragmentManager, "post_processing")
+			}
 
-            R.id.menu_statistics -> {
-                eventHandled = false
+			R.id.menu_remote_control -> {
+				eventHandled = false
 
-                StatisticsFragment().show(this.supportFragmentManager, "statistics")
-            }
-        }
+				RemoteControlFragment.newInstance()
+						.show(this.supportFragmentManager, "remote_control")
+			}
 
-        if (this.navigationView != null) {
-            this.drawerLayout?.closeDrawer(this.navigationView)
-        }
+			R.id.menu_restart -> {
+				eventHandled = false
 
-        if (eventHandled) {
-            item.isChecked = true
+				AlertDialog.Builder(this)
+						.setMessage(R.string.restart_confirm)
+						.setPositiveButton(R.string.restart) { _, _ ->
+							SickRageApi.instance.services?.restart(this)
+						}
+						.setNegativeButton(android.R.string.cancel, null)
+						.show()
+			}
 
-            this.tabLayout?.removeAllTabs()
-            this.tabLayout?.visibility = View.GONE
-        }
+			R.id.menu_schedule -> fragment = ScheduleFragment.newInstance()
 
-        if (fragment != null) {
-            this.resetThemeColors()
+			R.id.menu_settings -> {
+				backStackName = "settings"
+				fragment = SettingsFragment.newInstance()
+			}
 
-            this.toolbar?.menu?.clear()
+			R.id.menu_shows -> fragment = ShowsFragment.newInstance()
 
-            val fragmentTransaction = this.supportFragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.content, fragment)
+			R.id.menu_statistics -> {
+				eventHandled = false
 
-            if (!backStackName.isNullOrEmpty()) {
-                fragmentTransaction.addToBackStack(backStackName)
-            }
+				StatisticsFragment.newInstance()
+						.show(this.supportFragmentManager, "statistics")
+			}
+		}
 
-            fragmentTransaction.commitAllowingStateLoss()
-        }
+		this.drawer_layout.closeDrawer(this.drawer_content)
 
-        return eventHandled
-    }
+		if (eventHandled) {
+			item.isChecked = true
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (this.drawerToggle?.onOptionsItemSelected(item) ?: false) {
-            return true
-        }
+			this.tabs.removeAllTabs()
+			this.tabs.visibility = View.GONE
+		}
 
-        if (item?.itemId == android.R.id.home) {
-            this.onBackPressed()
+		if (fragment != null) {
+			this.resetThemeColors()
 
-            return true
-        }
+			this.toolbar.menu?.clear()
 
-        return super.onOptionsItemSelected(item)
-    }
+			val fragmentTransaction = this.supportFragmentManager.beginTransaction()
+			fragmentTransaction.replace(R.id.content, fragment)
 
-    fun resetThemeColors() {
-        val colorAccent = ContextCompat.getColor(this, R.color.accent)
-        val colorPrimary = ContextCompat.getColor(this, R.color.primary)
+			if (!backStackName.isNullOrEmpty()) {
+				fragmentTransaction.addToBackStack(backStackName)
+			}
 
-        this.setThemeColors(ThemeColors(colorPrimary, colorAccent))
-    }
+			fragmentTransaction.commitAllowingStateLoss()
+		}
 
-    fun setThemeColors(colors: ThemeColors) {
-        this.themeColors = colors
+		return eventHandled
+	}
 
-        val (colorPrimary, colorAccent) = this.themeColors!!
-        val textColor = Utils.getContrastColor(colorPrimary)
+	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+		if (this.drawerToggle?.onOptionsItemSelected(item) ?: false) {
+			return true
+		}
 
-        this.appBarLayout?.setBackgroundColor(colorPrimary)
+		if (item?.itemId == android.R.id.home) {
+			this.onBackPressed()
 
-        if (this.drawerHeader != null) {
-            this.drawerHeader!!.setBackgroundColor(colorPrimary)
+			return true
+		}
 
-            val logo = this.drawerHeader!!.findViewById(R.id.app_logo) as ImageView?
-            val name = this.drawerHeader!!.findViewById(R.id.app_name) as TextView?
+		return super.onOptionsItemSelected(item)
+	}
 
-            if (logo != null) {
-                val drawable = DrawableCompat.wrap(logo.drawable)
-                DrawableCompat.setTint(drawable, textColor)
-            }
+	fun resetThemeColors() {
+		val colorAccent = ContextCompat.getColor(this, R.color.accent)
+		val colorPrimary = ContextCompat.getColor(this, R.color.primary)
 
-            name?.setTextColor(textColor)
-        }
+		this.setThemeColors(ThemeColors(colorPrimary, colorAccent))
+	}
 
-        if (this.navigationView != null) {
-            val colorsIcon = intArrayOf(colorPrimary, this.navigationView!!.itemIconTintList?.defaultColor ?: Color.WHITE)
-            val colorsText = intArrayOf(colorPrimary, this.navigationView!!.itemTextColor?.defaultColor ?: Color.WHITE)
-            val states = arrayOf(
-                    intArrayOf(android.R.attr.state_checked),
-                    intArrayOf()
-            )
+	fun setThemeColors(colors: ThemeColors) {
+		this.themeColors = colors
 
-            this.navigationView!!.itemIconTintList = ColorStateList(states, colorsIcon)
-            this.navigationView!!.itemTextColor = ColorStateList(states, colorsText)
-        }
+		val (colorPrimary, colorAccent) = colors
+		val textColor = Utils.getContrastColor(colorPrimary)
 
-        if (this.tabLayout != null) {
-            val selectedTextColor = ColorUtils.setAlphaComponent(textColor, (0.7f * 255f).toInt())
+		this.app_bar.setBackgroundColor(colorPrimary)
 
-            this.tabLayout!!.setSelectedTabIndicatorColor(colorAccent)
-            this.tabLayout!!.setTabTextColors(selectedTextColor, textColor)
-        }
+		this.drawerHeader?.let {
+			it.setBackgroundColor(colorPrimary)
 
-        this.toolbar?.setItemColor(textColor)
+			val drawable = DrawableCompat.wrap(it.app_logo.drawable)
+			DrawableCompat.setTint(drawable, textColor)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val colorPrimaryDark = floatArrayOf(0f, 0f, 0f)
-            ColorUtils.colorToHSL(colorPrimary, colorPrimaryDark)
-            colorPrimaryDark[2] *= Constants.COLOR_DARK_FACTOR
+			it.app_name.setTextColor(textColor)
+		}
 
-            this.window.statusBarColor = ColorUtils.HSLToColor(colorPrimaryDark)
-        }
+		val colorsIcon = intArrayOf(colorPrimary, this.drawer_content.itemIconTintList?.defaultColor ?: Color.WHITE)
+		val colorsText = intArrayOf(colorPrimary, this.drawer_content.itemTextColor?.defaultColor ?: Color.WHITE)
+		val states = arrayOf(
+				intArrayOf(android.R.attr.state_checked),
+				intArrayOf()
+		)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (textColor == Color.BLACK) {
-                this.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            }
-        }
-    }
+		this.drawer_content.itemIconTintList = ColorStateList(states, colorsIcon)
+		this.drawer_content.itemTextColor = ColorStateList(states, colorsText)
 
-    override fun success(genericResponse: GenericResponse?, response: Response?) {
-        if (genericResponse?.message?.isNotBlank() ?: false) {
-            Toast.makeText(this, genericResponse!!.message, Toast.LENGTH_SHORT).show()
-        }
-    }
+		val selectedTextColor = ColorUtils.setAlphaComponent(textColor, (0.7f * 255f).toInt())
 
-    fun updateRemoteControlVisibility() {
-        val application = this.application
-        val navigationView = this.navigationView
+		this.tabs.setSelectedTabIndicatorColor(colorAccent)
+		this.tabs.setTabTextColors(selectedTextColor, textColor)
 
-        if (application is ShowsRageApplication && navigationView != null) {
-            navigationView.menu.findItem(R.id.menu_remote_control)?.isVisible = application.hasPlayingVideo()
-        }
-    }
+		this.toolbar.setItemColor(textColor)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			val colorPrimaryDark = floatArrayOf(0f, 0f, 0f)
+			ColorUtils.colorToHSL(colorPrimary, colorPrimaryDark)
+			colorPrimaryDark[2] *= COLOR_DARK_FACTOR
 
-        this.setContentView(R.layout.activity_main)
+			this.window.statusBarColor = ColorUtils.HSLToColor(colorPrimaryDark)
+		}
 
-        this.firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			if (textColor == Color.BLACK) {
+				this.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+			}
+		}
+	}
 
-        val preferences = this.getPreferences()
+	override fun success(genericResponse: GenericResponse?, response: Response?) {
+		val message = genericResponse?.message ?: return
+		if (message.isNotBlank()) {
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+		}
+	}
 
-        if (savedInstanceState == null) {
-            // Set the correct language
-            this.resources.changeLocale(preferences.getLocale())
+	fun updateRemoteControlVisibility() {
+		val application = this.application
 
-            // Set the correct theme
-            if (preferences.useDarkTheme()) {
-                this.delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                this.delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
+		if (application is ShowsRageApplication) {
+			this.drawer_content.menu?.findItem(R.id.menu_remote_control)?.isVisible = application.hasPlayingVideo()
+		}
+	}
 
-        SickRageApi.instance.init(preferences)
-        SickRageApi.instance.services?.getRootDirs(RootDirsCallback())
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
 
-        // Refresh existing widgets
-        AppWidgetManager.getInstance(this).let {
-            it.updateAllWidgets(this, HistoryWidgetProvider::class.java)
-            it.updateAllWidgets(this, ScheduleWidgetProvider::class.java)
-        }
+		this.setContentView(R.layout.activity_main)
 
-        this.appBarLayout = this.findViewById(R.id.app_bar) as AppBarLayout?
-        this.drawerLayout = this.findViewById(R.id.drawer_layout) as DrawerLayout?
-        this.navigationView = this.findViewById(R.id.drawer_content) as NavigationView?
-        this.tabLayout = this.findViewById(R.id.tabs) as TabLayout?
-        this.toolbar = this.findViewById(R.id.toolbar) as ColoredToolbar?
-
-        if (this.drawerLayout != null) {
-            this.drawerToggle = ActionBarDrawerToggle(this, this.drawerLayout, this.toolbar, R.string.open_menu, R.string.close_menu)
-
-            this.drawerLayout!!.addDrawerListener(this.drawerToggle!!)
-            this.drawerLayout!!.post {
-                drawerToggle?.syncState()
-            }
-        }
-
-        if (this.navigationView != null) {
-            this.drawerHeader = this.navigationView!!.inflateHeaderView(R.layout.drawer_header) as LinearLayout?
-
-            this.navigationView!!.setNavigationItemSelectedListener(this)
-        }
-
-        this.setSupportActionBar(this.toolbar)
+		this.firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-        if (savedInstanceState == null) {
-            this.navigationView?.menu?.performIdentifierAction(getInitialMenuId(this.intent?.action), 0)
-        }
-    }
+		val preferences = this.getPreferences()
 
-    override fun onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(this.receiver)
+		if (savedInstanceState == null) {
+			// Set the correct language
+			this.resources.changeLocale(preferences.getLocale())
 
-        super.onPause()
-    }
+			// Set the correct theme
+			if (preferences.useDarkTheme()) {
+				this.delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+			} else {
+				this.delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+			}
+		}
 
-    override fun onResume() {
-        super.onResume()
+		SickRageApi.instance.init(preferences)
+		SickRageApi.instance.services?.getRootDirs(RootDirsCallback())
 
-        val intentFilter = IntentFilter()
-        intentFilter.addAction(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED)
-        intentFilter.addAction(Constants.Intents.ACTION_EPISODE_SELECTED)
-        intentFilter.addAction(Constants.Intents.ACTION_SEARCH_RESULT_SELECTED)
-        intentFilter.addAction(Constants.Intents.ACTION_SHOW_SELECTED)
+		// Refresh existing widgets
+		AppWidgetManager.getInstance(this).let {
+			it.updateAllWidgets(this, HistoryWidgetProvider::class.java)
+			it.updateAllWidgets(this, ScheduleWidgetProvider::class.java)
+		}
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(this.receiver, intentFilter)
+		this.drawerToggle = ActionBarDrawerToggle(this, this.drawer_layout, this.toolbar, R.string.open_menu, R.string.close_menu)
 
-        this.updateRemoteControlVisibility()
-        this.checkForUpdate(false)
-        this.handleIntentAction()
-    }
+		this.drawer_layout.addDrawerListener(this.drawerToggle!!)
+		this.drawer_layout.post {
+			drawerToggle?.syncState()
+		}
 
-    private fun checkForUpdate(manualCheck: Boolean) {
-        val preferences = this.getPreferences()
-        val lastVersionCheckTime = preferences.getLastVersionCheckTime()
-        val checkInterval = preferences.getVersionCheckInterval()
-
-        if (shouldCheckForUpdate(checkInterval, manualCheck, lastVersionCheckTime)) {
-            SickRageApi.instance.services?.checkForUpdate(CheckForUpdateCallback(this, manualCheck))
-        }
-    }
-
-    private fun handleIntentAction() {
-        when (this.intent.action) {
-            Constants.Intents.ACTION_DISPLAY_SHOW -> {
-                with(Intent(Constants.Intents.ACTION_SHOW_SELECTED)) {
-                    putExtra(Constants.Bundle.INDEXER_ID, intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0))
-
-                    receiver.onReceive(this@MainActivity, this)
-                }
-            }
-        }
-    }
-
-    companion object {
-        @IdRes
-        internal fun getInitialMenuId(action: String?): Int {
-            return when (action) {
-                Constants.Intents.ACTION_DISPLAY_HISTORY -> R.id.menu_history
-                Constants.Intents.ACTION_DISPLAY_SCHEDULE -> R.id.menu_schedule
-                else -> R.id.menu_shows
-            }
-        }
-
-        internal fun shouldCheckForUpdate(checkInterval: Long, manualCheck: Boolean, lastCheckTime: Long): Boolean {
-            // Always check for new version if the user triggered the version check himself
-            if (manualCheck) {
-                return true
-            }
-
-            // The automatic version check is disabled
-            if (checkInterval == 0L) {
-                return false
-            }
-
-            // Check if we need to look for new update, depending on the user preferences
-            return System.currentTimeMillis() - lastCheckTime >= checkInterval
-        }
-    }
-
-    private class CheckForUpdateCallback(activity: AppCompatActivity, val manualCheck: Boolean) : Callback<UpdateResponseWrapper> {
-        private val activityReference = WeakReference(activity)
-
-        override fun failure(error: RetrofitError?) {
-            // SickRage may not support this request
-            // SickRage version 4.0.30 is required
-            if (this.manualCheck) {
-                val activity = this.activityReference.get()
-
-                if (activity != null) {
-                    Toast.makeText(activity, R.string.sickrage_4030_required, Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            error?.printStackTrace()
-        }
-
-        override fun success(updateResponseWrapper: UpdateResponseWrapper?, response: Response?) {
-            this.handleCheckForUpdateResponse(updateResponseWrapper?.data, this.manualCheck)
-        }
-
-        private fun handleCheckForUpdateResponse(update: UpdateResponse?, manualCheck: Boolean) {
-            val activity = this.activityReference.get() ?: return
-
-            if (update == null) {
-                return
-            }
-
-            activity.getPreferences().saveLastVersionCheckTime(System.currentTimeMillis())
-
-            if (!update.needsUpdate) {
-                if (manualCheck) {
-                    Toast.makeText(activity, R.string.no_update, Toast.LENGTH_SHORT).show()
-                }
-
-                return
-            }
-
-            if (manualCheck) {
-                Toast.makeText(activity, R.string.new_update, Toast.LENGTH_SHORT).show()
-            }
-
-            val intent = Intent(activity, UpdateActivity::class.java)
-            intent.putExtra(Constants.Bundle.UPDATE_MODEL, update)
-
-            val pendingIntent = PendingIntent.getActivity(activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-            val notification = NotificationCompat.Builder(activity)
-                    .setAutoCancel(true)
-                    .setColor(ContextCompat.getColor(activity, R.color.primary))
-                    .setContentIntent(pendingIntent)
-                    .setContentTitle(activity.getString(R.string.app_name))
-                    .setContentText(activity.getString(R.string.update_available))
-                    .setLocalOnly(true)
-                    .setSmallIcon(R.drawable.ic_notification)
-                    .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
-                    .setStyle(NotificationCompat.BigTextStyle().bigText(
-                            activity.getString(R.string.update_available_detailed, update.currentVersion?.version, update.latestVersion?.version, update.commitsOffset)
-                    ))
-                    .build()
-
-            with(activity.getSystemService(NOTIFICATION_SERVICE) as NotificationManager) {
-                notify(0, notification)
-            }
-        }
-    }
-
-    private class RootDirsCallback : Callback<RootDirs> {
-        override fun failure(error: RetrofitError?) {
-            error?.printStackTrace()
-        }
-
-        override fun success(rootDirs: RootDirs?, response: Response?) {
-            Realm.getDefaultInstance().let {
-                it.saveRootDirs(rootDirs?.data ?: emptyList())
-                it.close()
-            }
-        }
-    }
+		this.drawerHeader = this.drawer_content.inflateHeaderView(R.layout.drawer_header) as LinearLayout
+
+		this.drawer_content.setNavigationItemSelectedListener(this)
+
+		this.setSupportActionBar(this.toolbar)
+
+		if (savedInstanceState == null) {
+			this.drawer_content.menu?.performIdentifierAction(getInitialMenuId(this.intent?.action), 0)
+		}
+	}
+
+	override fun onPause() {
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(this.receiver)
+
+		super.onPause()
+	}
+
+	override fun onResume() {
+		super.onResume()
+
+		val intentFilter = IntentFilter()
+		intentFilter.addAction(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED)
+		intentFilter.addAction(Constants.Intents.ACTION_EPISODE_SELECTED)
+		intentFilter.addAction(Constants.Intents.ACTION_SEARCH_RESULT_SELECTED)
+		intentFilter.addAction(Constants.Intents.ACTION_SHOW_SELECTED)
+
+		LocalBroadcastManager.getInstance(this).registerReceiver(this.receiver, intentFilter)
+
+		this.updateRemoteControlVisibility()
+		this.checkForUpdate(false)
+		this.handleIntentAction()
+	}
+
+	private fun checkForUpdate(manualCheck: Boolean) {
+		val preferences = this.getPreferences()
+		val lastVersionCheckTime = preferences.getLastVersionCheckTime()
+		val checkInterval = preferences.getVersionCheckInterval()
+
+		if (shouldCheckForUpdate(checkInterval, manualCheck, lastVersionCheckTime)) {
+			SickRageApi.instance.services?.checkForUpdate(CheckForUpdateCallback(this, manualCheck))
+		}
+	}
+
+	private fun handleIntentAction() {
+		when (this.intent.action) {
+			Constants.Intents.ACTION_DISPLAY_SHOW -> {
+				with(Intent(Constants.Intents.ACTION_SHOW_SELECTED)) {
+					putExtra(Constants.Bundle.INDEXER_ID, intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0))
+
+					receiver.onReceive(this@MainActivity, this)
+				}
+			}
+		}
+	}
+
+	companion object {
+		private const val COLOR_DARK_FACTOR = 0.8f
+
+		@IdRes
+		internal fun getInitialMenuId(action: String?): Int {
+			return when (action) {
+				Constants.Intents.ACTION_DISPLAY_HISTORY -> R.id.menu_history
+				Constants.Intents.ACTION_DISPLAY_SCHEDULE -> R.id.menu_schedule
+				else -> R.id.menu_shows
+			}
+		}
+
+		internal fun shouldCheckForUpdate(checkInterval: Long, manualCheck: Boolean, lastCheckTime: Long): Boolean {
+			// Always check for new version if the user triggered the version check himself
+			if (manualCheck) {
+				return true
+			}
+
+			// The automatic version check is disabled
+			if (checkInterval == 0L) {
+				return false
+			}
+
+			// Check if we need to look for new update, depending on the user preferences
+			return System.currentTimeMillis() - lastCheckTime >= checkInterval
+		}
+	}
+
+	private class CheckForUpdateCallback(activity: AppCompatActivity, val manualCheck: Boolean) : Callback<UpdateResponseWrapper> {
+		private val activityReference = WeakReference(activity)
+
+		override fun failure(error: RetrofitError?) {
+			// SickRage may not support this request
+			// SickRage version 4.0.30 is required
+			if (this.manualCheck) {
+				this.activityReference.get()?.let {
+					Toast.makeText(it, R.string.sickrage_4030_required, Toast.LENGTH_SHORT).show()
+				}
+			}
+
+			error?.printStackTrace()
+		}
+
+		override fun success(updateResponseWrapper: UpdateResponseWrapper?, response: Response?) {
+			this.handleCheckForUpdateResponse(updateResponseWrapper?.data, this.manualCheck)
+		}
+
+		private fun handleCheckForUpdateResponse(update: UpdateResponse?, manualCheck: Boolean) {
+			val activity = this.activityReference.get() ?: return
+
+			if (update == null) {
+				return
+			}
+
+			activity.getPreferences().saveLastVersionCheckTime(System.currentTimeMillis())
+
+			if (!update.needsUpdate) {
+				if (manualCheck) {
+					Toast.makeText(activity, R.string.no_update, Toast.LENGTH_SHORT).show()
+				}
+
+				return
+			}
+
+			if (manualCheck) {
+				Toast.makeText(activity, R.string.new_update, Toast.LENGTH_SHORT).show()
+			}
+
+			val intent = Intent(activity, UpdateActivity::class.java)
+			intent.putExtra(Constants.Bundle.UPDATE_MODEL, update)
+
+			val pendingIntent = PendingIntent.getActivity(activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+			val notification = NotificationCompat.Builder(activity)
+					.setAutoCancel(true)
+					.setColor(ContextCompat.getColor(activity, R.color.primary))
+					.setContentIntent(pendingIntent)
+					.setContentTitle(activity.getString(R.string.app_name))
+					.setContentText(activity.getString(R.string.update_available))
+					.setLocalOnly(true)
+					.setSmallIcon(R.drawable.ic_notification)
+					.setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+					.setStyle(NotificationCompat.BigTextStyle().bigText(
+							activity.getString(R.string.update_available_detailed, update.currentVersion?.version, update.latestVersion?.version, update.commitsOffset)
+					))
+					.build()
+
+			with(activity.getSystemService(NOTIFICATION_SERVICE) as NotificationManager) {
+				notify(0, notification)
+			}
+		}
+	}
+
+	private class RootDirsCallback : Callback<RootDirs> {
+		override fun failure(error: RetrofitError?) {
+			error?.printStackTrace()
+		}
+
+		override fun success(rootDirs: RootDirs?, response: Response?) {
+			Realm.getDefaultInstance().let {
+				it.saveRootDirs(rootDirs?.data ?: emptyList())
+				it.close()
+			}
+		}
+	}
 }

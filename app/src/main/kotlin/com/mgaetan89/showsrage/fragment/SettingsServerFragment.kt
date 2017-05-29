@@ -15,110 +15,114 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 
 open class SettingsServerFragment : SettingsFragment(), Callback<GenericResponse> {
-    private var alertDialog: AlertDialog? = null
+	private var alertDialog: AlertDialog? = null
 
-    private var canceled = false
+	private var canceled = false
 
-    init {
-        this.setHasOptionsMenu(true)
-    }
+	init {
+		this.setHasOptionsMenu(true)
+	}
 
-    override fun failure(error: RetrofitError?) {
-        this.showTestResult(false)
-    }
+	override fun failure(error: RetrofitError?) {
+		this.showTestResult(false)
+	}
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.settings_server, menu)
-    }
+	override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+		inflater?.inflate(R.menu.settings_server, menu)
+	}
 
-    override fun onDestroy() {
-        this.canceled = true
+	override fun onDestroy() {
+		this.canceled = true
 
-        this.dismissDialog()
+		this.dismissDialog()
 
-        super.onDestroy()
-    }
+		super.onDestroy()
+	}
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.menu_help -> {
-                this.displayConfigurationHelp()
+	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+		when (item?.itemId) {
+			R.id.menu_help -> {
+				this.displayConfigurationHelp()
 
-                return true
-            }
+				return true
+			}
 
-            R.id.menu_test -> {
-                this.testConnection()
+			R.id.menu_test -> {
+				this.testConnection()
 
-                return true
-            }
-        }
+				return true
+			}
+		}
 
-        return super.onOptionsItemSelected(item)
-    }
+		return super.onOptionsItemSelected(item)
+	}
 
-    override fun success(genericResponse: GenericResponse?, response: Response?) {
-        this.showTestResult(true)
-    }
+	override fun success(genericResponse: GenericResponse?, response: Response?) {
+		this.showTestResult(true)
+	}
 
-    override fun getTitleResourceId() = R.string.server
+	override fun getTitleResourceId() = R.string.server
 
-    override fun getXmlResourceFile() = R.xml.settings_server
+	override fun getXmlResourceFile() = R.xml.settings_server
 
-    private fun dismissDialog() {
-        this.alertDialog?.let {
-            if (it.isShowing) {
-                it.dismiss()
-            }
-        }
+	private fun dismissDialog() {
+		this.alertDialog?.let {
+			if (it.isShowing) {
+				it.dismiss()
+			}
+		}
 
-        this.alertDialog = null
-    }
+		this.alertDialog = null
+	}
 
-    private fun displayConfigurationHelp() {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse("https://MGaetan89.github.io/ShowsRage/help.html#how-to-configure-showsrage")
+	private fun displayConfigurationHelp() {
+		val intent = Intent(Intent.ACTION_VIEW)
+		intent.data = Uri.parse("https://MGaetan89.github.io/ShowsRage/help.html#how-to-configure-showsrage")
 
-        this.startActivity(intent)
-    }
+		this.startActivity(intent)
+	}
 
-    private fun showTestResult(successful: Boolean) {
-        if (this.canceled) {
-            return
-        }
+	private fun showTestResult(successful: Boolean) {
+		if (this.canceled) {
+			return
+		}
 
-        this.dismissDialog()
+		this.dismissDialog()
 
-        val context = this.activity ?: return
-        val url = SickRageApi.instance.getApiUrl()
+		val context = this.activity ?: return
+		val url = SickRageApi.instance.getApiUrl()
 
-        this.alertDialog = AlertDialog.Builder(context)
-                .setCancelable(true)
-                .setMessage(if (successful) this.getString(R.string.connection_successful) else this.getString(R.string.connection_failed, url))
-                .setPositiveButton(android.R.string.ok, null)
-                .show()
-    }
+		this.alertDialog = AlertDialog.Builder(context)
+				.setCancelable(true)
+				.setMessage(if (successful) this.getString(R.string.connection_successful) else this.getString(R.string.connection_failed, url))
+				.setPositiveButton(android.R.string.ok, null)
+				.show()
+	}
 
-    private fun testConnection() {
-        val activity = this.activity ?: return
+	private fun testConnection() {
+		val activity = this.activity ?: return
 
-        this.canceled = false
+		this.canceled = false
 
-        this.dismissDialog()
+		this.dismissDialog()
 
-        SickRageApi.instance.init(activity.getPreferences())
+		SickRageApi.instance.init(activity.getPreferences())
 
-        this.alertDialog = AlertDialog.Builder(activity)
-                .setCancelable(true)
-                .setTitle(R.string.testing_server_settings)
-                .setMessage(this.getString(R.string.connecting_to, SickRageApi.instance.getApiUrl()))
-                .setNegativeButton(R.string.cancel, { dialog, _ ->
-                    SettingsServerFragment@ this.canceled = true
+		this.alertDialog = AlertDialog.Builder(activity)
+				.setCancelable(true)
+				.setTitle(R.string.testing_server_settings)
+				.setMessage(this.getString(R.string.connecting_to, SickRageApi.instance.getApiUrl()))
+				.setNegativeButton(R.string.cancel, { dialog, _ ->
+					SettingsServerFragment@ this.canceled = true
 
-                    dialog.dismiss()
-                })
-                .show()
+					dialog.dismiss()
+				})
+				.show()
 
-        SickRageApi.instance.services?.ping(this)
-    }
+		SickRageApi.instance.services?.ping(this)
+	}
+
+	companion object {
+		fun newInstance() = SettingsServerFragment()
+	}
 }
