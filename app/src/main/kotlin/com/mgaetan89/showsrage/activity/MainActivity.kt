@@ -38,7 +38,6 @@ import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.extension.getVersionCheckInterval
 import com.mgaetan89.showsrage.extension.saveLastVersionCheckTime
 import com.mgaetan89.showsrage.extension.saveRootDirs
-import com.mgaetan89.showsrage.extension.streamInChromecast
 import com.mgaetan89.showsrage.extension.updateAllWidgets
 import com.mgaetan89.showsrage.extension.useDarkTheme
 import com.mgaetan89.showsrage.fragment.HistoryFragment
@@ -306,9 +305,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
 		val preferences = this.getPreferences()
 
-		if (preferences.streamInChromecast()) {
-			CastContext.getSharedInstance(this)
-		}
+		CastContext.getSharedInstance(this)
 
 		if (savedInstanceState == null) {
 			// Set the correct language

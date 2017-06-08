@@ -7,9 +7,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.graphics.drawable.DrawableCompat
-import android.support.v4.view.MenuItemCompat
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.app.MediaRouteActionProvider
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.Menu
@@ -23,6 +21,7 @@ import com.google.android.gms.cast.MediaMetadata
 import com.google.android.gms.cast.framework.CastButtonFactory
 import com.google.android.gms.cast.framework.CastContext
 import com.google.android.gms.cast.framework.CastSession
+import com.google.android.gms.cast.framework.SessionManager
 import com.google.android.gms.cast.framework.SessionManagerListener
 import com.google.android.gms.common.images.WebImage
 import com.mgaetan89.showsrage.Constants
@@ -43,7 +42,6 @@ import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.SingleEpisode
 import com.mgaetan89.showsrage.network.SickRageApi
-import com.mgaetan89.showsrage.view.ColoredMediaRouteActionProvider
 import io.realm.Realm
 import io.realm.RealmChangeListener
 import kotlinx.android.synthetic.main.fragment_episode_detail.episode_airs
@@ -69,6 +67,7 @@ import java.util.Locale
 
 class EpisodeDetailFragment : Fragment(), Callback<SingleEpisode>, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, RealmChangeListener<Episode> {
 	private var castMenu: MenuItem? = null
+	private var castSessionManager: SessionManager? = null
 	private lateinit var episode: Episode
 	private var episodeNumber = 0
 	private var playVideoMenu: MenuItem? = null
@@ -106,26 +105,17 @@ class EpisodeDetailFragment : Fragment(), Callback<SingleEpisode>, View.OnClickL
 		SickRageApi.instance.services?.searchEpisode(this.show!!.indexerId, this.seasonNumber, this.episodeNumber, GenericCallback(this.activity))
 	}
 
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+
+		this.castSessionManager = CastContext.getSharedInstance(this.context).sessionManager
+	}
+
 	override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
 		inflater?.inflate(R.menu.episode, menu)
 
 		this.castMenu = CastButtonFactory.setUpMediaRouteButton(this.activity.applicationContext, menu, R.id.menu_cast)
 		this.playVideoMenu = menu?.findItem(R.id.menu_play_video)
-
-		val activity = this.activity
-		val mediaRouteActionProvider = MenuItemCompat.getActionProvider(this.castMenu) as MediaRouteActionProvider?
-
-		if (activity is MainActivity && mediaRouteActionProvider is ColoredMediaRouteActionProvider) {
-			val colors = activity.getThemColors()
-
-			if (colors != null) {
-				val colorPrimary = colors.primary
-
-				if (colorPrimary != 0) {
-					mediaRouteActionProvider.buttonColor = Utils.getContrastColor(colorPrimary)
-				}
-			}
-		}
 
 		this.displayStreamingMenus(this.episode)
 	}
@@ -162,7 +152,7 @@ class EpisodeDetailFragment : Fragment(), Callback<SingleEpisode>, View.OnClickL
 	}
 
 	override fun onPause() {
-		CastContext.getSharedInstance(this.context).sessionManager.removeSessionManagerListener(this.sessionCallback, CastSession::class.java)
+		this.castSessionManager?.removeSessionManagerListener(this.sessionCallback, CastSession::class.java)
 
 		super.onPause()
 	}
@@ -178,7 +168,7 @@ class EpisodeDetailFragment : Fragment(), Callback<SingleEpisode>, View.OnClickL
 	override fun onResume() {
 		super.onResume()
 
-		CastContext.getSharedInstance(this.context).sessionManager.addSessionManagerListener(this.sessionCallback, CastSession::class.java)
+		this.castSessionManager?.addSessionManagerListener(this.sessionCallback, CastSession::class.java)
 
 		this.onRefresh()
 	}
@@ -368,7 +358,7 @@ class EpisodeDetailFragment : Fragment(), Callback<SingleEpisode>, View.OnClickL
 	}
 
 	private fun isEpisodeDownloaded(episode: Episode): Boolean {
-		return episode.isLoaded && "Downloaded".equals(episode.status, true)
+		return episode.isValid && "Downloaded".equals(episode.status, true)
 	}
 
 	private fun isPlayMenuVisible(episode: Episode): Boolean {
@@ -402,6 +392,7 @@ class EpisodeDetailFragment : Fragment(), Callback<SingleEpisode>, View.OnClickL
 	}
 
 	companion object {
+		private const val EVENT_CAST_EPISODE_VIDEO = "cast_episode_video"
 		private const val EVENT_PLAY_EPISODE_VIDEO = "play_episode_video"
 
 		internal fun getDisplayableSubtitlesLanguages(subtitles: String): String {
@@ -426,11 +417,8 @@ class EpisodeDetailFragment : Fragment(), Callback<SingleEpisode>, View.OnClickL
 		}
 	}
 
-	// TODO Event cast video
 	private inner class SessionCallback : SessionManagerListener<CastSession> {
-		override fun onSessionEnded(session: CastSession, error: Int) {
-			this.onApplicationDisconnected()
-		}
+		override fun onSessionEnded(session: CastSession, error: Int) = Unit
 
 		override fun onSessionEnding(session: CastSession) = Unit
 
@@ -438,9 +426,7 @@ class EpisodeDetailFragment : Fragment(), Callback<SingleEpisode>, View.OnClickL
 			this.onApplicationConnected(session)
 		}
 
-		override fun onSessionResumeFailed(session: CastSession, error: Int) {
-			this.onApplicationDisconnected()
-		}
+		override fun onSessionResumeFailed(session: CastSession, error: Int) = Unit
 
 		override fun onSessionResuming(session: CastSession, sessionId: String?) = Unit
 
@@ -448,9 +434,7 @@ class EpisodeDetailFragment : Fragment(), Callback<SingleEpisode>, View.OnClickL
 			this.onApplicationConnected(session)
 		}
 
-		override fun onSessionStartFailed(session: CastSession, error: Int) {
-			this.onApplicationDisconnected()
-		}
+		override fun onSessionStartFailed(session: CastSession, error: Int) = Unit
 
 		override fun onSessionStarting(session: CastSession) = Unit
 
@@ -458,7 +442,6 @@ class EpisodeDetailFragment : Fragment(), Callback<SingleEpisode>, View.OnClickL
 
 		private fun buildMediaInfo(): MediaInfo {
 			val movieMetadata = MediaMetadata(MediaMetadata.MEDIA_TYPE_TV_SHOW)
-			//movieMetadata.putString(MediaMetadata.KEY_BROADCAST_DATE, episode.date) // Date
 			movieMetadata.putInt(MediaMetadata.KEY_EPISODE_NUMBER, episode.number)
 			movieMetadata.putInt(MediaMetadata.KEY_SEASON_NUMBER, episode.season)
 			movieMetadata.putString(MediaMetadata.KEY_TITLE, episode.name)
@@ -475,11 +458,13 @@ class EpisodeDetailFragment : Fragment(), Callback<SingleEpisode>, View.OnClickL
 		}
 
 		private fun onApplicationConnected(session: CastSession) {
-			session.remoteMediaClient.load(this.buildMediaInfo())
-		}
+			val activity = this@EpisodeDetailFragment.activity
 
-		private fun onApplicationDisconnected() {
-			// TODO
+			if (activity is MainActivity) {
+				activity.firebaseAnalytics?.logEvent(EVENT_CAST_EPISODE_VIDEO, null)
+			}
+
+			session.remoteMediaClient.load(this.buildMediaInfo())
 		}
 	}
 }

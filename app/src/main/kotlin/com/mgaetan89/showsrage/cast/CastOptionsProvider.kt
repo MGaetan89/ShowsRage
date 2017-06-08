@@ -6,13 +6,13 @@ import com.google.android.gms.cast.framework.CastOptions
 import com.google.android.gms.cast.framework.OptionsProvider
 
 class CastOptionsProvider : OptionsProvider {
-    override fun getCastOptions(context: Context?): CastOptions {
-        val castOptions = CastOptions.Builder()
-                .setReceiverApplicationId(CastMediaControlIntent.DEFAULT_MEDIA_RECEIVER_APPLICATION_ID)
-                .build()
+	override fun getCastOptions(context: Context?): CastOptions {
+		val castOptions = CastOptions.Builder()
+				.setReceiverApplicationId(CastMediaControlIntent.DEFAULT_MEDIA_RECEIVER_APPLICATION_ID)
+				.build()
 
-        return castOptions
-    }
+		return castOptions
+	}
 
-    override fun getAdditionalSessionProviders(context: Context?) = null
+	override fun getAdditionalSessionProviders(context: Context?) = null
 }

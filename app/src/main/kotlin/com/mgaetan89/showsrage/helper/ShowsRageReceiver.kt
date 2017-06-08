@@ -49,7 +49,7 @@ class ShowsRageReceiver(activity: MainActivity) : BroadcastReceiver() {
 		val episodeId = intent.getStringExtra(Constants.Bundle.EPISODE_ID)
 		val episodeNumber = intent.getIntExtra(Constants.Bundle.EPISODE_NUMBER, 0)
 		val episodesCount = intent.getIntExtra(Constants.Bundle.EPISODES_COUNT, 0)
-		val seasonNumber = intent.getIntExtra(Constants.Bundle.EPISODES_COUNT, 0)
+		val seasonNumber = intent.getIntExtra(Constants.Bundle.SEASON_NUMBER, 0)
 		val indexerId = intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0)
 
 		val fragment = EpisodeFragment.newInstance(episodeId, episodeNumber, episodesCount, seasonNumber, indexerId)
