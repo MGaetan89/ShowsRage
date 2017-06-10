@@ -26,59 +26,37 @@ import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.ShowsRageApplication
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.extension.getEpisode
-import com.mgaetan89.showsrage.extension.getEpisodes
 import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.extension.getRootDirs
 import com.mgaetan89.showsrage.extension.getShow
 import com.mgaetan89.showsrage.extension.saveEpisode
 import com.mgaetan89.showsrage.extension.streamInChromecast
 import com.mgaetan89.showsrage.extension.streamInVideoPlayer
+import com.mgaetan89.showsrage.extension.toLocale
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.GenericCallback
-import com.mgaetan89.showsrage.helper.ImageLoader
 import com.mgaetan89.showsrage.helper.Utils
-import com.mgaetan89.showsrage.helper.hasText
-import com.mgaetan89.showsrage.helper.setText
-import com.mgaetan89.showsrage.helper.toLocale
 import com.mgaetan89.showsrage.model.Episode
-import com.mgaetan89.showsrage.model.OmDbEpisode
 import com.mgaetan89.showsrage.model.PlayingVideoData
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.SingleEpisode
-import com.mgaetan89.showsrage.network.OmDbApi
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.view.ColoredMediaRouteActionProvider
 import io.realm.Realm
 import io.realm.RealmChangeListener
-import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_episode_detail.episode_airs
-import kotlinx.android.synthetic.main.fragment_episode_detail.episode_awards
-import kotlinx.android.synthetic.main.fragment_episode_detail.episode_awards_layout
-import kotlinx.android.synthetic.main.fragment_episode_detail.episode_casting_actors
-import kotlinx.android.synthetic.main.fragment_episode_detail.episode_casting_directors
-import kotlinx.android.synthetic.main.fragment_episode_detail.episode_casting_layout
-import kotlinx.android.synthetic.main.fragment_episode_detail.episode_casting_writers
 import kotlinx.android.synthetic.main.fragment_episode_detail.episode_file_size
-import kotlinx.android.synthetic.main.fragment_episode_detail.episode_genre
-import kotlinx.android.synthetic.main.fragment_episode_detail.episode_language_country
 import kotlinx.android.synthetic.main.fragment_episode_detail.episode_location
 import kotlinx.android.synthetic.main.fragment_episode_detail.episode_more_information_layout
 import kotlinx.android.synthetic.main.fragment_episode_detail.episode_name
 import kotlinx.android.synthetic.main.fragment_episode_detail.episode_plot
 import kotlinx.android.synthetic.main.fragment_episode_detail.episode_plot_layout
-import kotlinx.android.synthetic.main.fragment_episode_detail.episode_poster
 import kotlinx.android.synthetic.main.fragment_episode_detail.episode_quality
-import kotlinx.android.synthetic.main.fragment_episode_detail.episode_rated
-import kotlinx.android.synthetic.main.fragment_episode_detail.episode_rating
-import kotlinx.android.synthetic.main.fragment_episode_detail.episode_rating_stars
-import kotlinx.android.synthetic.main.fragment_episode_detail.episode_runtime
 import kotlinx.android.synthetic.main.fragment_episode_detail.episode_status
 import kotlinx.android.synthetic.main.fragment_episode_detail.episode_subtitles
-import kotlinx.android.synthetic.main.fragment_episode_detail.episode_year
 import kotlinx.android.synthetic.main.fragment_episode_detail.search_episode
 import kotlinx.android.synthetic.main.fragment_episode_detail.swipe_refresh
 import retrofit.Callback
-import retrofit.RestAdapter
 import retrofit.RetrofitError
 import retrofit.client.Response
 import java.lang.ref.WeakReference
@@ -92,75 +70,6 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 	private var castMenu: MenuItem? = null
 	private lateinit var episode: Episode
 	private var episodeNumber = 0
-	private var omdbEpisodes: RealmResults<OmDbEpisode>? = null
-	private val omdbEpisodesListener = RealmChangeListener<RealmResults<OmDbEpisode>> { episodes ->
-		val episode = episodes.firstOrNull() ?: return@RealmChangeListener
-
-		setText(this, this.episode_awards, episode.awards, 0, this.episode_awards_layout)
-
-		val actors = episode.actors
-		val director = episode.director
-		val writer = episode.writer
-
-		if (actors.hasText() || director.hasText() || writer.hasText()) {
-			setText(this, this.episode_casting_actors, actors, R.string.actors, null)
-			setText(this, this.episode_casting_directors, director, R.string.directors, null)
-			setText(this, this.episode_casting_writers, writer, R.string.writers, null)
-
-			this.episode_casting_layout.visibility = View.VISIBLE
-		} else {
-			this.episode_casting_layout.visibility = View.GONE
-		}
-
-		setText(this, this.episode_genre, episode.genre, R.string.genre, null)
-
-		val country = episode.country
-		val language = episode.language
-
-		if (language.hasText()) {
-			if (country.hasText()) {
-				this.episode_language_country.text = this.getString(R.string.language_county, language, country)
-			} else {
-				this.episode_language_country.text = this.getString(R.string.language_value, language)
-			}
-
-			this.episode_language_country.visibility = View.VISIBLE
-		} else {
-			this.episode_language_country.visibility = View.GONE
-		}
-
-		if (episode.poster.isNullOrEmpty()) {
-			this.episode_poster.visibility = View.GONE
-		} else {
-			ImageLoader.load(this.episode_poster, episode.poster, false)
-
-			this.episode_poster.contentDescription = episode.title
-			this.episode_poster.visibility = View.VISIBLE
-		}
-
-		setText(this, this.episode_rated, episode.rated, R.string.rated, null)
-
-		val imdbRating = episode.imdbRating
-		val imdbVotes = episode.imdbVotes
-
-		if (imdbRating.hasText() && imdbVotes.hasText()) {
-			this.episode_rating.text = this.getString(R.string.rating, imdbRating, imdbVotes)
-			this.episode_rating.visibility = View.VISIBLE
-		} else {
-			this.episode_rating.visibility = View.GONE
-		}
-
-		try {
-			this.episode_rating_stars.rating = episode.imdbRating?.toFloat() ?: 0f
-			this.episode_rating_stars.visibility = View.VISIBLE
-		} catch (exception: Exception) {
-			this.episode_rating_stars.visibility = View.GONE
-		}
-
-		setText(this, this.episode_runtime, episode.runtime, R.string.runtime, null)
-		setText(this, this.episode_year, episode.year, R.string.year, null)
-	}
-
 	private var playVideoMenu: MenuItem? = null
 	private lateinit var realm: Realm
 	private var seasonNumber = 0
@@ -288,44 +197,16 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 		this.seasonNumber = arguments.getInt(Constants.Bundle.SEASON_NUMBER)
 		this.show = this.realm.getShow(indexerId)
 
-		val restAdapter = RestAdapter.Builder()
-				.setEndpoint(Constants.OMDB_URL)
-				.setLogLevel(Constants.NETWORK_LOG_LEVEL)
-				.build()
-		val omDbApi = restAdapter.create(OmDbApi::class.java)
-
 		this.activity?.title = if (this.seasonNumber <= 0) {
 			this.getString(R.string.specials)
 		} else {
 			this.getString(R.string.season_number, this.seasonNumber)
-		}
-
-		if (this.show != null) {
-			val imdbId = this.show!!.imdbId
-
-			// We might not have the IMDB id yet
-			if (imdbId.isNullOrEmpty()) {
-				// So we try to get the data by using the show name
-				val showName = this.show!!.showName
-
-				if (!showName.isNullOrEmpty()) {
-					omDbApi.getEpisodeByTitle(showName!!, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback())
-				}
-			} else {
-				this.omdbEpisodes = this.realm.getEpisodes(OmDbEpisode.buildId(imdbId!!, this.seasonNumber.toString(), this.episodeNumber.toString()), this.omdbEpisodesListener)
-
-				omDbApi.getEpisodeByImDbId(imdbId, this.seasonNumber, this.episodeNumber, OmdbEpisodeCallback())
-			}
 		}
 	}
 
 	override fun onStop() {
 		if (this.episode.isValid) {
 			this.episode.removeAllChangeListeners()
-		}
-
-		if (this.omdbEpisodes?.isValid ?: false) {
-			this.omdbEpisodes?.removeAllChangeListeners()
 		}
 
 		this.realm.close()
@@ -570,21 +451,6 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 
 		companion object {
 			private const val EVENT_CAST_EPISODE_VIDEO = "cast_episode_video"
-		}
-	}
-
-	private class OmdbEpisodeCallback : Callback<OmDbEpisode> {
-		override fun failure(error: RetrofitError?) {
-			error?.printStackTrace()
-		}
-
-		override fun success(episode: OmDbEpisode?, response: Response?) {
-			if (episode != null) {
-				Realm.getDefaultInstance().let {
-					it.saveEpisode(episode)
-					it.close()
-				}
-			}
 		}
 	}
 }

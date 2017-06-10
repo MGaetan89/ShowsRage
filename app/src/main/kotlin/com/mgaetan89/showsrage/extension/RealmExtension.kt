@@ -4,13 +4,11 @@ import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.model.LogEntry
 import com.mgaetan89.showsrage.model.LogLevel
-import com.mgaetan89.showsrage.model.OmDbEpisode
 import com.mgaetan89.showsrage.model.Quality
 import com.mgaetan89.showsrage.model.RealmShowStat
 import com.mgaetan89.showsrage.model.RealmString
 import com.mgaetan89.showsrage.model.RootDir
 import com.mgaetan89.showsrage.model.Schedule
-import com.mgaetan89.showsrage.model.Serie
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.ShowStat
 import com.mgaetan89.showsrage.model.ShowsStat
@@ -73,15 +71,6 @@ fun Realm.getEpisode(episodeId: String, listener: RealmChangeListener<Episode>):
 	episode.addChangeListener(listener)
 
 	return episode
-}
-
-fun Realm.getEpisodes(episodeId: String, listener: RealmChangeListener<RealmResults<OmDbEpisode>>): RealmResults<OmDbEpisode> {
-	val episodes = this.where(OmDbEpisode::class.java)
-			.equalTo("id", episodeId)
-			.findAllAsync()
-	episodes.addChangeListener(listener)
-
-	return episodes
 }
 
 fun Realm.getEpisodes(indexerId: Int, season: Int, reversedOrder: Boolean, listener: RealmChangeListener<RealmResults<Episode>>): RealmResults<Episode> {
@@ -149,15 +138,6 @@ fun Realm.getScheduleSections(): List<String> {
 			.filterNotNull()
 }
 
-fun Realm.getSeries(imdbId: String, listener: RealmChangeListener<RealmResults<Serie>>): RealmResults<Serie> {
-	val series = this.where(Serie::class.java)
-			.equalTo("imdbId", imdbId)
-			.findAllAsync()
-	series.addChangeListener(listener)
-
-	return series
-}
-
 fun Realm.getShow(indexerId: Int): Show? {
 	return this.where(Show::class.java)
 			.equalTo("indexerId", indexerId)
@@ -221,14 +201,6 @@ fun Realm.saveEpisode(episode: Episode, indexerId: Int, season: Int, episodeNumb
 	}
 }
 
-fun Realm.saveEpisode(episode: OmDbEpisode) {
-	this.executeTransaction {
-		prepareEpisodeForSaving(episode)
-
-		it.copyToRealmOrUpdate(episode)
-	}
-}
-
 fun Realm.saveEpisodes(episodes: List<Episode>, indexerId: Int, season: Int) {
 	this.executeTransaction {
 		episodes.forEach { episode ->
@@ -279,12 +251,6 @@ fun Realm.saveSchedules(section: String, schedules: List<Schedule>) {
 		}
 
 		it.copyToRealmOrUpdate(schedules)
-	}
-}
-
-fun Realm.saveSerie(serie: Serie) {
-	this.executeTransaction {
-		it.copyToRealmOrUpdate(serie)
 	}
 }
 
@@ -375,10 +341,6 @@ private fun getRealmShowStat(stat: ShowStat, indexerId: Int): RealmShowStat {
 		this.indexerId = indexerId
 		this.snatched = stat.getTotalPending()
 	}
-}
-
-private fun prepareEpisodeForSaving(episode: OmDbEpisode) {
-	episode.id = OmDbEpisode.buildId(episode.seriesId ?: "", episode.season ?: "", episode.episode ?: "")
 }
 
 private fun prepareHistoryForSaving(history: History) {

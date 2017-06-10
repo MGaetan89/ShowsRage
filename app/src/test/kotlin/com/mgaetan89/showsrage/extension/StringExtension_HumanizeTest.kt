@@ -1,4 +1,4 @@
-package com.mgaetan89.showsrage.helper
+package com.mgaetan89.showsrage.extension
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class TextHelper_StringHumanizeTest(val string: String, val output: String) {
+class StringExtension_HumanizeTest(val string: String, val output: String) {
 	@Test
 	fun stringHumanize() {
 		assertThat(this.string.humanize()).isEqualTo(this.output)

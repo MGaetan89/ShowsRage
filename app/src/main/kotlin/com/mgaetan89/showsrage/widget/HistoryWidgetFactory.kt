@@ -5,9 +5,9 @@ import android.view.View
 import android.widget.RemoteViews
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.extension.saveHistory
+import com.mgaetan89.showsrage.extension.toLocale
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.ImageLoader
-import com.mgaetan89.showsrage.helper.toLocale
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.presenter.HistoryPresenter

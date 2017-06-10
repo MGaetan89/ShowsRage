@@ -1,4 +1,4 @@
-package com.mgaetan89.showsrage.helper
+package com.mgaetan89.showsrage.extension
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -7,7 +7,7 @@ import org.junit.runners.Parameterized
 import java.util.Locale
 
 @RunWith(Parameterized::class)
-class TextHelper_StringToLocaleTest(val string: String, val locale: Locale?) {
+class StringExtension_ToLocaleTest(val string: String, val locale: Locale?) {
 	@Test
 	fun stringToLocale() {
 		val locale = this.string.toLocale()

@@ -55,14 +55,12 @@ import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.GenericResponse
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.model.LogEntry
-import com.mgaetan89.showsrage.model.OmDbEpisode
 import com.mgaetan89.showsrage.model.Quality
 import com.mgaetan89.showsrage.model.RealmShowStat
 import com.mgaetan89.showsrage.model.RealmString
 import com.mgaetan89.showsrage.model.RootDir
 import com.mgaetan89.showsrage.model.RootDirs
 import com.mgaetan89.showsrage.model.Schedule
-import com.mgaetan89.showsrage.model.Serie
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.ShowsStat
 import com.mgaetan89.showsrage.model.ThemeColors
@@ -146,13 +144,11 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 				Kolumbus.explore(Episode::class.java)
 						.explore(History::class.java)
 						.explore(LogEntry::class.java)
-						.explore(OmDbEpisode::class.java)
 						.explore(Quality::class.java)
 						.explore(RealmShowStat::class.java)
 						.explore(RealmString::class.java)
 						.explore(RootDir::class.java)
 						.explore(Schedule::class.java)
-						.explore(Serie::class.java)
 						.explore(Show::class.java)
 						.explore(ShowsStat::class.java)
 						.withArchitect(ShowsArchitect())

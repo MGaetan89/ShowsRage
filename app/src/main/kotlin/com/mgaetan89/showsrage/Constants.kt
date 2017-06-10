@@ -1,12 +1,9 @@
 package com.mgaetan89.showsrage
 
 import com.mgaetan89.showsrage.model.LogLevel
-import retrofit.RestAdapter
 import java.util.Locale
 
 object Constants {
-	val NETWORK_LOG_LEVEL = if (BuildConfig.DEBUG) RestAdapter.LogLevel.FULL else RestAdapter.LogLevel.NONE
-	val OMDB_URL = "http://www.omdbapi.com/"
 	val SUPPORTED_LOCALES = listOf(Locale.ENGLISH, Locale.FRENCH)
 
 	object Bundle {

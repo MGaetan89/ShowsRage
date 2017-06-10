@@ -42,6 +42,12 @@ class Migration : RealmMigration {
 
 			localOldVersion++
 		}
+
+		if (localOldVersion == 5L) {
+			this.updateToV6(schema)
+
+			localOldVersion++
+		}
 	}
 
 	override fun equals(other: Any?) = other is Migration
@@ -71,5 +77,10 @@ class Migration : RealmMigration {
 	private fun updateToV4(schema: RealmSchema) {
 		schema.get(LogEntry::class.java.simpleName)
 				.removePrimaryKey()
+	}
+
+	private fun updateToV6(schema: RealmSchema) {
+		schema.remove("OmDbEpisode")
+		schema.remove("Serie")
 	}
 }
