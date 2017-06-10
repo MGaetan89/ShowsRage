@@ -119,11 +119,11 @@ task jacocoTestReport(type: JacocoReport /*, dependsOn: ['test'] */) {
 }
 
 def assertJAndroidVersion = '1.1.1'
-def googleServicesVersion = '10.2.6'
+def googleServicesVersion = '11.0.0'
 def jUnitVersion = '4.12'
 def kolumbusVersion = 'v0.9'
 def okHttpVersion = '2.5.0'
-def supportLibraryVersion = '25.3.1'
+def supportLibraryVersion = '25.4.0'
 def supportTestVersion = '0.5'
 
 dependencies {
@@ -147,7 +147,7 @@ dependencies {
 	compile "com.squareup.okhttp:okhttp:${okHttpVersion}"
 	compile "com.squareup.okhttp:okhttp-urlconnection:${okHttpVersion}"
 	compile 'com.squareup.retrofit:retrofit:1.9.0'
-	compile 'com.takisoft.fix:preference-v7:25.3.1.1'
+	compile "com.takisoft.fix:preference-v7:${supportLibraryVersion}.3"
 	compile 'io.realm:android-adapters:2.1.0'
 	compile 'jp.wasabeef:glide-transformations:2.0.2'
 	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.1.2-3'
