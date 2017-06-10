@@ -418,12 +418,16 @@ class EpisodeDetailFragment : Fragment(), Callback<SingleEpisode>, View.OnClickL
 	}
 
 	private inner class SessionCallback : SessionManagerListener<CastSession> {
-		override fun onSessionEnded(session: CastSession, error: Int) = Unit
+		override fun onSessionEnded(session: CastSession, error: Int) {
+			activity?.supportInvalidateOptionsMenu()
+		}
 
 		override fun onSessionEnding(session: CastSession) = Unit
 
 		override fun onSessionResumed(session: CastSession, wasSuspended: Boolean) {
 			this.onApplicationConnected(session)
+
+			activity?.supportInvalidateOptionsMenu()
 		}
 
 		override fun onSessionResumeFailed(session: CastSession, error: Int) = Unit
@@ -432,6 +436,8 @@ class EpisodeDetailFragment : Fragment(), Callback<SingleEpisode>, View.OnClickL
 
 		override fun onSessionStarted(session: CastSession, sessionId: String?) {
 			this.onApplicationConnected(session)
+
+			activity?.supportInvalidateOptionsMenu()
 		}
 
 		override fun onSessionStartFailed(session: CastSession, error: Int) = Unit
