@@ -10,7 +10,7 @@ import com.google.gson.TypeAdapter
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
-import com.mgaetan89.showsrage.Constants
+import com.mgaetan89.showsrage.BuildConfig
 import com.mgaetan89.showsrage.extension.getApiKey
 import com.mgaetan89.showsrage.extension.getPortNumber
 import com.mgaetan89.showsrage.extension.getServerAddress
@@ -102,6 +102,7 @@ class SickRageApi private constructor() : RequestInterceptor {
 		val address = preferences.getServerAddress()
 		val portNumber = preferences.getPortNumber()
 		val selfSignedCertificate = preferences.useSelfSignedCertificate()
+		val logLevel = if (BuildConfig.DEBUG) RestAdapter.LogLevel.FULL else RestAdapter.LogLevel.NONE
 
 		this.apiKey = preferences.getApiKey()
 		this.apiUrl = buildApiUrl(useHttps, address, portNumber)
@@ -118,7 +119,7 @@ class SickRageApi private constructor() : RequestInterceptor {
 		builder.setConverter(gsonConverter)
 		builder.setEndpoint(this.apiUrl)
 		builder.setRequestInterceptor(this)
-		builder.setLogLevel(Constants.NETWORK_LOG_LEVEL)
+		builder.setLogLevel(logLevel)
 
 		this.services = builder.build().create(SickRageServices::class.java)
 	}

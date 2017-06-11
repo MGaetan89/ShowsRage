@@ -98,122 +98,6 @@
 			</android.support.v7.widget.CardView>
 
 			<android.support.v7.widget.CardView
-				android:id="@+id/show_plot_layout"
-				style="@style/SR.CardView"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="@dimen/padding"
-				android:visibility="gone"
-				tools:visibility="visible">
-
-				<LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_margin="@dimen/padding"
-					android:orientation="vertical">
-
-					<TextView
-						style="@style/TextAppearance.AppCompat.Subhead"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginBottom="@dimen/padding_half"
-						android:text="@string/plot" />
-
-					<TextView
-						android:id="@+id/show_plot"
-						style="@style/TextAppearance.AppCompat.Body1"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:textIsSelectable="true"
-						tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet nisi et arcu gravida dictum. Vestibulum vitae odio quis augue porta tincidunt eu pulvinar odio." />
-				</LinearLayout>
-			</android.support.v7.widget.CardView>
-
-			<android.support.v7.widget.CardView
-				android:id="@+id/show_casting_layout"
-				style="@style/SR.CardView"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="@dimen/padding"
-				android:visibility="gone"
-				tools:visibility="visible">
-
-				<LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_margin="@dimen/padding"
-					android:orientation="vertical">
-
-					<TextView
-						style="@style/TextAppearance.AppCompat.Subhead"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginBottom="@dimen/padding_half"
-						android:text="@string/casting" />
-
-					<TextView
-						android:id="@+id/show_casting_directors"
-						style="@style/TextAppearance.AppCompat.Body1"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginBottom="@dimen/padding_half"
-						android:visibility="gone"
-						tools:text="@string/directors"
-						tools:visibility="visible" />
-
-					<TextView
-						android:id="@+id/show_casting_writers"
-						style="@style/TextAppearance.AppCompat.Body1"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginBottom="@dimen/padding_half"
-						android:visibility="gone"
-						tools:text="@string/writers"
-						tools:visibility="visible" />
-
-					<TextView
-						android:id="@+id/show_casting_actors"
-						style="@style/TextAppearance.AppCompat.Body1"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:visibility="gone"
-						tools:text="@string/actors"
-						tools:visibility="visible" />
-				</LinearLayout>
-			</android.support.v7.widget.CardView>
-
-			<android.support.v7.widget.CardView
-				android:id="@+id/show_awards_layout"
-				style="@style/SR.CardView"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="@dimen/padding"
-				android:visibility="gone"
-				tools:visibility="visible">
-
-				<LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_margin="@dimen/padding"
-					android:orientation="vertical">
-
-					<TextView
-						style="@style/TextAppearance.AppCompat.Subhead"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginBottom="@dimen/padding_half"
-						android:text="@string/awards" />
-
-					<TextView
-						android:id="@+id/show_awards"
-						style="@style/TextAppearance.AppCompat.Body1"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet nisi et arcu gravida dictum. Vestibulum vitae odio quis augue porta tincidunt eu pulvinar odio." />
-				</LinearLayout>
-			</android.support.v7.widget.CardView>
-
-			<android.support.v7.widget.CardView
 				style="@style/SR.CardView"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -239,7 +123,7 @@
 						android:layout_height="wrap_content"
 						android:layout_marginBottom="@dimen/padding_half"
 						android:visibility="gone"
-						tools:text="@string/language_county"
+						tools:text="@string/language_value"
 						tools:visibility="visible" />
 
 					<TextView
@@ -251,66 +135,6 @@
 						android:visibility="gone"
 						tools:text="@string/subtitles_value"
 						tools:visibility="visible" />
-
-					<TextView
-						android:id="@+id/show_year"
-						style="@style/TextAppearance.AppCompat.Body1"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginBottom="@dimen/padding_half"
-						android:visibility="gone"
-						tools:text="@string/year"
-						tools:visibility="visible" />
-
-					<TextView
-						android:id="@+id/show_rated"
-						style="@style/TextAppearance.AppCompat.Body1"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginBottom="@dimen/padding_half"
-						android:visibility="gone"
-						tools:text="@string/rated"
-						tools:visibility="visible" />
-
-					<TextView
-						android:id="@+id/show_runtime"
-						style="@style/TextAppearance.AppCompat.Body1"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginBottom="@dimen/padding_half"
-						android:visibility="gone"
-						tools:text="@string/runtime"
-						tools:visibility="visible" />
-
-					<RelativeLayout
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content">
-
-						<TextView
-							android:id="@+id/show_rating"
-							style="@style/TextAppearance.AppCompat.Body1"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
-							android:visibility="gone"
-							tools:text="@string/rating"
-							tools:visibility="visible" />
-
-						<RatingBar
-							android:id="@+id/show_rating_stars"
-							style="?android:attr/ratingBarStyleSmall"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_below="@+id/show_rating"
-							android:layout_centerHorizontal="true"
-							android:layout_marginBottom="@dimen/padding_half"
-							android:isIndicator="true"
-							android:numStars="10"
-							android:stepSize="0.1"
-							android:visibility="gone"
-							tools:rating="5"
-							tools:visibility="visible" />
-					</RelativeLayout>
 
 					<TextView
 						android:id="@+id/show_location"

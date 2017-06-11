@@ -5,7 +5,6 @@
 	<string name="active">Active</string>
 	<string name="active_count">Active: <xliff:g example="1" id="active">%1$s</xliff:g></string>
 	<string name="active_paused">Active/Paused</string>
-	<string name="actors">Actors: <xliff:g example="Kat Dennings, Beth Behrs, Garrett Morris, Jonathan Kite" id="actors">%1$s</xliff:g></string>
 	<string name="add">Add</string>
 	<string name="add_show">Add show</string>
 	<string name="airs">Airs: <xliff:g example="Monday 8:00 PM" id="airs">%1$s</xliff:g></string>
@@ -16,11 +15,9 @@
 	<string name="api_key">API Key</string>
 	<string name="archived">Archived</string>
 	<string name="ascending">Ascending</string>
-	<string name="awards">Awards</string>
 	<string name="banner">Banner</string>
 	<string name="behavior">Behavior</string>
 	<string name="cancel">Cancel</string>
-	<string name="casting">Casting</string>
 	<string name="change">Change</string>
 	<string name="change_quality">Change quality</string>
 	<string name="change_quality_info">Set both to \"Ignore\" to use SickRage\'s default quality setting.</string>
@@ -46,7 +43,6 @@
 	<string name="delete_show_title">Delete \"<xliff:g example="2 Broke Girls" id="show_name">%1$s</xliff:g>\"</string>
 	<string name="descending">Descending</string>
 	<string name="developer">Developer</string>
-	<string name="directors">Directors: <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>
 	<string name="display">Display</string>
 	<string name="downloaded">Downloaded</string>
 	<string name="downloaded_count">Downloaded: <xliff:g example="1" id="downloaded">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
@@ -81,7 +77,6 @@
 	<string name="info">Info</string>
 	<string name="keep">Keep</string>
 	<string name="language">Language</string>
-	<string name="language_county">Language: <xliff:g example="English" id="language">%1$s</xliff:g> (<xliff:g example="USA" id="country">%2$s</xliff:g>)</string>
 	<string name="language_value">Language: <xliff:g example="English" id="language">%1$s</xliff:g></string>
 	<string name="later">Later</string>
 	<string name="licenses">Licenses</string>
@@ -129,8 +124,6 @@
 	<string name="provider_quality">From <xliff:g example="KAT" id="provider">%1$s</xliff:g> [<xliff:g example="1080p WEB-DL" id="quality">%2$s</xliff:g>]</string>
 	<string name="quality">Quality: <xliff:g example="HD1080p" id="quality">%1$s</xliff:g></string>
 	<string name="quality_custom">Quality:\n- Allowed: <xliff:g example="HD1080p" id="allowed">%1$s</xliff:g>\n- Preferred: <xliff:g example="HD1080p" id="preferred">%2$s</xliff:g></string>
-	<string name="rated">Rated: <xliff:g example="TV-14" id="rated">%1$s</xliff:g></string>
-	<string name="rating">IMDb Rating: <xliff:g example="5.0" id="rating">%1$s</xliff:g>/10 (<xliff:g example="10000" id="votes">%2$s</xliff:g> votes)</string>
 	<string name="refresh">Refresh</string>
 	<string name="remote_control">Remote Control</string>
 	<string name="replace">Replace</string>
@@ -141,7 +134,6 @@
 	<string name="restart_confirm">Are you sure you want to restart SickRage?</string>
 	<string name="resume_show">Resume show</string>
 	<string name="root_directory">Root directory</string>
-	<string name="runtime">Runtime: <xliff:g example="22 min" id="runtime">%1$s</xliff:g></string>
 	<string name="schedule">Schedule</string>
 	<string name="search">Search</string>
 	<string name="search_episode">Search episode</string>
@@ -202,7 +194,5 @@
 	<string name="web_search">Web Search</string>
 	<string name="website">Website</string>
 	<string name="welcome_message">You are just a few clicks away from your shows.\n\nTo use this application, you need to have access to a working SickRage installation.\nOther forks may also work, but are not officially supported.</string>
-	<string name="writers">Writers: <xliff:g example="Whitney Cummings, Michael Patrick King" id="writers">%1$s</xliff:g></string>
-	<string name="year">Year: <xliff:g example="2005-" id="year">%1$s</xliff:g></string>
 	<string name="yes">Yes</string>
 </resources>

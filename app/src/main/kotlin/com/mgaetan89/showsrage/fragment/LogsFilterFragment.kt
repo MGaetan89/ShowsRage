@@ -10,7 +10,7 @@ import android.support.v7.app.AlertDialog
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.extension.getLogsGroup
-import com.mgaetan89.showsrage.helper.humanize
+import com.mgaetan89.showsrage.extension.humanize
 import io.realm.Realm
 
 class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, DialogInterface.OnMultiChoiceClickListener {

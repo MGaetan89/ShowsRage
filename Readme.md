@@ -17,7 +17,6 @@ The following features are currently available:
 - Based on [Material Design](http://www.google.com/design/)
 - Shows information:
     - List your shows
-    - Get detailed show information with *[OMDb](http://www.omdbapi.com/)* integration
     - List a show seasons and episodes
     - Easy access to *[IMDb](http://www.imdb.com/)* and *[The TVDB](http://thetvdb.com/)*
 - Shows management:

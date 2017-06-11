@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mgaetan89.showsrage.R
+import com.mgaetan89.showsrage.extension.toLocale
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.ImageLoader
-import com.mgaetan89.showsrage.helper.toLocale
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.presenter.HistoryPresenter
 import io.realm.RealmRecyclerViewAdapter

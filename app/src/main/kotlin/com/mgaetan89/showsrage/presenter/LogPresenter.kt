@@ -1,8 +1,8 @@
 package com.mgaetan89.showsrage.presenter
 
 import android.support.annotation.ColorRes
+import com.mgaetan89.showsrage.extension.humanize
 import com.mgaetan89.showsrage.helper.DateTimeHelper
-import com.mgaetan89.showsrage.helper.humanize
 import com.mgaetan89.showsrage.model.LogEntry
 
 class LogPresenter(val logEntry: LogEntry?) {

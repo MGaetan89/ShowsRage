@@ -5,7 +5,6 @@
 	<string name="active">En cours</string>
 	<string name="active_count">En cours : <xliff:g example="1" id="active">%1$s</xliff:g></string>
 	<string name="active_paused">En cours/Suspendue</string>
-	<string name="actors">Acteurs : <xliff:g example="Kat Dennings, Beth Behrs, Garrett Morris, Jonathan Kite" id="actors">%1$s</xliff:g></string>
 	<string name="add">Ajouter</string>
 	<string name="add_show">Ajouter une série</string>
 	<string name="airs">Diffusion : <xliff:g example="Lundi 20:00" id="airs">%1$s</xliff:g></string>
@@ -16,11 +15,9 @@
 	<string name="api_key">Clé de l\'API</string>
 	<string name="archived">Archivé</string>
 	<string name="ascending">Croissant</string>
-	<string name="awards">Récompenses</string>
 	<string name="banner">Bannière</string>
 	<string name="behavior">Comportement</string>
 	<string name="cancel">Annuler</string>
-	<string name="casting">Casting</string>
 	<string name="change">Changer</string>
 	<string name="change_quality">Changer la qualité</string>
 	<string name="change_quality_info">Utilisez \"Ignorer\" pour les deux options ci-dessous afin d\'utiliser le paramètre de qualité par défaut de SickRage.</string>
@@ -46,7 +43,6 @@
 	<string name="delete_show_title">Supprimer \"<xliff:g example="2 Broke Girls" id="show_name">%1$s</xliff:g>\"</string>
 	<string name="descending">Décroissant</string>
 	<string name="developer">Développeur</string>
-	<string name="directors">Réalisateurs : <xliff:g example="N/A" id="directors">%1$s</xliff:g></string>
 	<string name="display">Affichage</string>
 	<string name="downloaded">Téléchargé</string>
 	<string name="downloaded_count">Téléchargés : <xliff:g example="1" id="downloaded">%1$s</xliff:g> (<xliff:g example="50" id="percent">%2$s</xliff:g>%%)</string>
@@ -81,7 +77,6 @@
 	<string name="info">Info</string>
 	<string name="keep">Conserver</string>
 	<string name="language">Langue</string>
-	<string name="language_county">Langue : <xliff:g example="Anglais" id="language">%1$s</xliff:g> (<xliff:g example="Etats-Unis" id="country">%2$s</xliff:g>)</string>
 	<string name="language_value">Langue : <xliff:g example="Anglais" id="language">%1$s</xliff:g></string>
 	<string name="later">A venir</string>
 	<string name="light_theme">Thème clair</string>
@@ -129,8 +124,6 @@
 	<string name="provider_quality">Depuis <xliff:g example="KAT" id="provider">%1$s</xliff:g> [<xliff:g example="1080p WEB-DL" id="quality">%2$s</xliff:g>]</string>
 	<string name="quality">Qualité : <xliff:g example="HD1080p" id="quality">%1$s</xliff:g></string>
 	<string name="quality_custom">Qualité :\n- Autorisées : <xliff:g example="HD1080p" id="allowed">%1$s</xliff:g>\n- Préférées : <xliff:g example="HD1080p" id="preferred">%2$s</xliff:g></string>
-	<string name="rated">Classification : <xliff:g example="TV-14" id="rated">%1$s</xliff:g></string>
-	<string name="rating">Evaluation IMDb : <xliff:g example="5.0" id="rating">%1$s</xliff:g>/10 (<xliff:g example="10000" id="votes">%2$s</xliff:g> votes)</string>
 	<string name="refresh">Actualiser</string>
 	<string name="remote_control">Télécommande</string>
 	<string name="replace">Replacer</string>
@@ -141,7 +134,6 @@
 	<string name="restart_confirm">Etes-vous sûr de vouloir redémarrer SickRage ?</string>
 	<string name="resume_show">Reprendre la série</string>
 	<string name="root_directory">Dossier parent</string>
-	<string name="runtime">Durée : <xliff:g example="22 min" id="runtime">%1$s</xliff:g></string>
 	<string name="schedule">Calendrier</string>
 	<string name="search">Chercher</string>
 	<string name="search_episode">Chercher l\'épisode</string>
@@ -202,7 +194,5 @@
 	<string name="web_search">Chercher sur Internet</string>
 	<string name="website">Site Web</string>
 	<string name="welcome_message">Vous êtes juste à quelques clics de vos séries.\n\nPour utiliser cette application, vous devez avoir accès à une installation fonctionnelle de SickRage.\nD\'autres solutions peuvent également fonctionner, mais elles ne sont officiellement supportées.</string>
-	<string name="writers">Scénaristes : <xliff:g example="Whitney Cummings, Michael Patrick King" id="writers">%1$s</xliff:g></string>
-	<string name="year">Diffusion : <xliff:g example="2005-" id="year">%1$s</xliff:g></string>
 	<string name="yes">Oui</string>
 </resources>

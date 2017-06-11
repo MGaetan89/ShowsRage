@@ -32,36 +32,23 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.extension.deleteShow
-import com.mgaetan89.showsrage.extension.getSeries
 import com.mgaetan89.showsrage.extension.getShow
-import com.mgaetan89.showsrage.extension.saveSerie
 import com.mgaetan89.showsrage.extension.saveShow
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.helper.ImageLoader
 import com.mgaetan89.showsrage.helper.Utils
-import com.mgaetan89.showsrage.helper.hasText
-import com.mgaetan89.showsrage.helper.setText
 import com.mgaetan89.showsrage.model.GenericResponse
 import com.mgaetan89.showsrage.model.Indexer
 import com.mgaetan89.showsrage.model.RealmString
-import com.mgaetan89.showsrage.model.Serie
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.SingleShow
-import com.mgaetan89.showsrage.network.OmDbApi
 import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.RealmList
-import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_show_overview.show_airs
-import kotlinx.android.synthetic.main.fragment_show_overview.show_awards
-import kotlinx.android.synthetic.main.fragment_show_overview.show_awards_layout
 import kotlinx.android.synthetic.main.fragment_show_overview.show_banner
-import kotlinx.android.synthetic.main.fragment_show_overview.show_casting_actors
-import kotlinx.android.synthetic.main.fragment_show_overview.show_casting_directors
-import kotlinx.android.synthetic.main.fragment_show_overview.show_casting_layout
-import kotlinx.android.synthetic.main.fragment_show_overview.show_casting_writers
 import kotlinx.android.synthetic.main.fragment_show_overview.show_fan_art
 import kotlinx.android.synthetic.main.fragment_show_overview.show_genre
 import kotlinx.android.synthetic.main.fragment_show_overview.show_imdb
@@ -70,89 +57,23 @@ import kotlinx.android.synthetic.main.fragment_show_overview.show_location
 import kotlinx.android.synthetic.main.fragment_show_overview.show_name
 import kotlinx.android.synthetic.main.fragment_show_overview.show_network
 import kotlinx.android.synthetic.main.fragment_show_overview.show_next_episode_date
-import kotlinx.android.synthetic.main.fragment_show_overview.show_plot
-import kotlinx.android.synthetic.main.fragment_show_overview.show_plot_layout
 import kotlinx.android.synthetic.main.fragment_show_overview.show_poster
 import kotlinx.android.synthetic.main.fragment_show_overview.show_quality
-import kotlinx.android.synthetic.main.fragment_show_overview.show_rated
-import kotlinx.android.synthetic.main.fragment_show_overview.show_rating
-import kotlinx.android.synthetic.main.fragment_show_overview.show_rating_stars
-import kotlinx.android.synthetic.main.fragment_show_overview.show_runtime
 import kotlinx.android.synthetic.main.fragment_show_overview.show_status
 import kotlinx.android.synthetic.main.fragment_show_overview.show_subtitles
 import kotlinx.android.synthetic.main.fragment_show_overview.show_the_tvdb
 import kotlinx.android.synthetic.main.fragment_show_overview.show_web_search
-import kotlinx.android.synthetic.main.fragment_show_overview.show_year
 import kotlinx.android.synthetic.main.fragment_show_overview.swipe_refresh
 import retrofit.Callback
-import retrofit.RestAdapter
 import retrofit.RetrofitError
 import retrofit.client.Response
 import java.lang.ref.WeakReference
 
 class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListener, ImageLoader.OnImageResult, SwipeRefreshLayout.OnRefreshListener, Palette.PaletteAsyncListener, RealmChangeListener<Show> {
 	private val indexerId by lazy { this.arguments.getInt(Constants.Bundle.INDEXER_ID) }
-	private var omDbApi: OmDbApi? = null
 	private var pauseMenu: MenuItem? = null
 	private lateinit var realm: Realm
 	private var resumeMenu: MenuItem? = null
-	private var series: RealmResults<Serie>? = null
-	private val seriesListener = RealmChangeListener<RealmResults<Serie>> { series ->
-		val serie = series.firstOrNull() ?: return@RealmChangeListener
-
-		setText(this, this.show_awards, serie.awards, 0, this.show_awards_layout)
-
-		val actors = serie.actors
-		val director = serie.director
-		val writer = serie.writer
-
-		if (actors.hasText() || director.hasText() || writer.hasText()) {
-			setText(this, this.show_casting_actors, actors, R.string.actors, null)
-			setText(this, this.show_casting_directors, director, R.string.directors, null)
-			setText(this, this.show_casting_writers, writer, R.string.writers, null)
-
-			this.show_casting_layout.visibility = View.VISIBLE
-		} else {
-			this.show_casting_layout.visibility = View.GONE
-		}
-
-		val country = serie.country
-		val language = serie.language
-
-		if (language.hasText()) {
-			this.show_language_country.text = if (country.hasText()) {
-				this.getString(R.string.language_county, language, country)
-			} else {
-				this.getString(R.string.language_value, language)
-			}
-			this.show_language_country.visibility = View.VISIBLE
-		} else {
-			this.show_language_country.visibility = View.GONE
-		}
-
-		setText(this, this.show_plot, serie.plot, 0, this.show_plot_layout)
-		setText(this, this.show_rated, serie.rated, R.string.rated, null)
-
-		val imdbRating = serie.imdbRating
-		val imdbVotes = serie.imdbVotes
-
-		if (imdbRating.hasText() && imdbVotes.hasText()) {
-			this.show_rating.text = this.getString(R.string.rating, imdbRating, imdbVotes)
-			this.show_rating.visibility = View.VISIBLE
-		} else {
-			this.show_rating.visibility = View.GONE
-		}
-
-		try {
-			this.show_rating_stars.rating = serie.imdbRating?.toFloat() ?: 0f
-			this.show_rating_stars.visibility = View.VISIBLE
-		} catch (exception: Exception) {
-			this.show_rating_stars.visibility = View.GONE
-		}
-
-		setText(this, this.show_runtime, serie.runtime, R.string.runtime, null)
-		setText(this, this.show_year, serie.year, R.string.year, null)
-	}
 	private var serviceConnection: ServiceConnection? = null
 	private lateinit var show: Show
 	private var tabSession: CustomTabsSession? = null
@@ -169,17 +90,6 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
 	fun getSetShowQualityCallback() = GenericCallback(this.activity)
 
-	override fun onActivityCreated(savedInstanceState: Bundle?) {
-		super.onActivityCreated(savedInstanceState)
-
-		val restAdapter = RestAdapter.Builder()
-				.setEndpoint(Constants.OMDB_URL)
-				.setLogLevel(Constants.NETWORK_LOG_LEVEL)
-				.build()
-
-		this.omDbApi = restAdapter.create(OmDbApi::class.java)
-	}
-
 	override fun onChange(show: Show) {
 		if (!show.isLoaded || !show.isValid) {
 			return
@@ -195,18 +105,9 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
 		this.activity?.title = show.showName
 
-		val imdbId = show.imdbId
 		val nextEpisodeAirDate = show.nextEpisodeAirDate
 
 		this.showHidePauseResumeMenus(show.paused == 0)
-
-		if (imdbId != null) {
-			if (this.series == null) {
-				this.series = this.realm.getSeries(imdbId, this.seriesListener)
-			}
-
-			this.omDbApi?.getShow(imdbId, OmdbShowCallback())
-		}
 
 		val airs = show.airs
 
@@ -230,7 +131,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 			this.show_genre.visibility = View.GONE
 		}
 
-		this.show_imdb.visibility = if (imdbId.isNullOrEmpty()) View.GONE else View.VISIBLE
+		this.show_imdb.visibility = if (show.imdbId.isNullOrEmpty()) View.GONE else View.VISIBLE
 
 		this.show_language_country.text = this.getString(R.string.language_value, show.language)
 		this.show_language_country.visibility = View.VISIBLE
@@ -459,10 +360,6 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 	}
 
 	override fun onStop() {
-		if (this.series?.isValid ?: false) {
-			this.series?.removeAllChangeListeners()
-		}
-
 		if (this.show.isValid) {
 			this.show.removeAllChangeListeners()
 		}
@@ -598,21 +495,6 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 			val intent = Intent(activity, MainActivity::class.java)
 
 			activity.startActivity(intent)
-		}
-	}
-
-	private class OmdbShowCallback : Callback<Serie> {
-		override fun failure(error: RetrofitError?) {
-			error?.printStackTrace()
-		}
-
-		override fun success(serie: Serie?, response: Response?) {
-			if (serie != null) {
-				Realm.getDefaultInstance().let {
-					it.saveSerie(serie)
-					it.close()
-				}
-			}
 		}
 	}
 
