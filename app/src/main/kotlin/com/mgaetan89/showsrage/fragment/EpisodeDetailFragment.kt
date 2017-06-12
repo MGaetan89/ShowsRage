@@ -23,7 +23,6 @@ import com.google.android.gms.cast.framework.CastContext
 import com.google.android.gms.cast.framework.CastSession
 import com.google.android.gms.cast.framework.SessionManager
 import com.google.android.gms.cast.framework.SessionManagerListener
-import com.google.android.gms.common.images.WebImage
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
@@ -402,21 +401,6 @@ class EpisodeDetailFragment : Fragment(), Callback<SingleEpisode>, View.OnClickL
 		}
 	}
 
-	private class OmdbEpisodeCallback : Callback<OmDbEpisode> {
-		override fun failure(error: RetrofitError?) {
-			error?.printStackTrace()
-		}
-
-		override fun success(episode: OmDbEpisode?, response: Response?) {
-			if (episode != null) {
-				Realm.getDefaultInstance().let {
-					it.saveEpisode(episode)
-					it.close()
-				}
-			}
-		}
-	}
-
 	private inner class SessionCallback : SessionManagerListener<CastSession> {
 		override fun onSessionEnded(session: CastSession, error: Int) {
 			activity?.supportInvalidateOptionsMenu()
@@ -451,10 +435,6 @@ class EpisodeDetailFragment : Fragment(), Callback<SingleEpisode>, View.OnClickL
 			movieMetadata.putInt(MediaMetadata.KEY_EPISODE_NUMBER, episode.number)
 			movieMetadata.putInt(MediaMetadata.KEY_SEASON_NUMBER, episode.season)
 			movieMetadata.putString(MediaMetadata.KEY_TITLE, episode.name)
-
-			omdbEpisodes?.firstOrNull()?.let {
-				movieMetadata.addImage(WebImage(Uri.parse(it.poster)))
-			}
 
 			return MediaInfo.Builder(getEpisodeVideoUrl().toString())
 					.setContentType("videos/*")
