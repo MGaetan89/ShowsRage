@@ -1,5 +1,6 @@
 package com.mgaetan89.showsrage.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.net.Uri
@@ -83,6 +84,12 @@ class EpisodeDetailFragment : Fragment(), Callback<SingleEpisode>, View.OnClickL
 		this.swipe_refresh.isRefreshing = false
 
 		error?.printStackTrace()
+	}
+
+	override fun onAttach(context: Context?) {
+		super.onAttach(context)
+
+		context?.let { CastContext.getSharedInstance(it) }
 	}
 
 	override fun onChange(episode: Episode) {

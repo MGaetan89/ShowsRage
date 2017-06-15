@@ -27,7 +27,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
-import com.google.android.gms.cast.framework.CastContext
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
@@ -304,8 +303,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 		this.firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
 		val preferences = this.getPreferences()
-
-		CastContext.getSharedInstance(this)
 
 		if (savedInstanceState == null) {
 			// Set the correct language

@@ -119,7 +119,7 @@ task jacocoTestReport(type: JacocoReport /*, dependsOn: ['test'] */) {
 }
 
 def assertJAndroidVersion = '1.1.1'
-def googleServicesVersion = '10.2.6'
+def googleServicesVersion = '11.0.1'
 def jUnitVersion = '4.12'
 def kolumbusVersion = 'v0.9'
 def okHttpVersion = '2.5.0'
@@ -150,7 +150,7 @@ dependencies {
 	compile "com.takisoft.fix:preference-v7:${supportLibraryVersion}.3"
 	compile 'io.realm:android-adapters:2.1.0'
 	compile 'jp.wasabeef:glide-transformations:2.0.2'
-	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.1.2-3'
+	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.1.2-5'
 
 	debugCompile("com.github.MGaetan89.Kolumbus:kolumbus:${kolumbusVersion}") {
 		exclude group: 'org.jetbrains.kotlin'
