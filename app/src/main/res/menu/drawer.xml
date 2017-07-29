@@ -34,13 +34,6 @@
 		android:id="@+id/menu_actions"
 		android:checkableBehavior="single">
 		<item
-			android:id="@+id/menu_remote_control"
-			android:icon="@drawable/ic_settings_remote_white_24dp"
-			android:title="@string/remote_control"
-			android:visible="false"
-			tools:visible="true" />
-
-		<item
 			android:id="@+id/menu_settings"
 			android:icon="@drawable/ic_settings_white_24dp"
 			android:title="@string/settings" />
