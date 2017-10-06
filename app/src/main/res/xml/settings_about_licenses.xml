@@ -5,7 +5,7 @@
 
 		<PreferenceScreen
 			android:key="firebase_jobdispatcher"
-			android:summary="Version 0.6.0"
+			android:summary="Version 0.8.2"
 			android:title="Firebase JobDispatcher">
 
 			<intent
@@ -55,7 +55,7 @@
 
 		<PreferenceScreen
 			android:key="realm_java"
-			android:summary="Version 3.3.0"
+			android:summary="Version 3.7.2"
 			android:title="Realm Java">
 
 			<intent
