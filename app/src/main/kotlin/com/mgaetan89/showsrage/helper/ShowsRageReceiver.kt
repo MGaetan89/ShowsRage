@@ -16,7 +16,7 @@ import com.mgaetan89.showsrage.network.SickRageApi
 import java.lang.ref.WeakReference
 
 class ShowsRageReceiver(activity: MainActivity) : BroadcastReceiver() {
-	val activityReference = WeakReference(activity)
+	private val activityReference = WeakReference(activity)
 
 	override fun onReceive(context: Context?, intent: Intent?) {
 		when (intent?.action) {

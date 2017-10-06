@@ -11,9 +11,7 @@ class HistoryPresenter(val history: History?) {
 
 	fun getProvider() = if (this.isHistoryValid()) this.history!!.provider else ""
 
-	fun getProviderQuality(): String? {
-		return if (this.isHistoryValid() && "-1" == this.history!!.provider) this.history.quality else null
-	}
+	fun getProviderQuality() = if (this.isHistoryValid() && "-1" == this.history!!.provider) this.history.quality else null
 
 	fun getQuality() = if (this.isHistoryValid()) this.history!!.quality else ""
 

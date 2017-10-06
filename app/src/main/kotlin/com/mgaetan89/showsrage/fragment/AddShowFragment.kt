@@ -61,9 +61,8 @@ class AddShowFragment : Fragment(), Callback<SearchResults>, SearchView.OnQueryT
 		}
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return inflater?.inflate(R.layout.fragment_add_show, container, false)
-	}
+	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater?.inflate(R.layout.fragment_add_show, container, false)
 
 	override fun onDestroy() {
 		this.searchResults.clear()
@@ -88,8 +87,8 @@ class AddShowFragment : Fragment(), Callback<SearchResults>, SearchView.OnQueryT
 
 		val columnCount = this.resources.getInteger(R.integer.shows_column_count)
 
-		this.list.adapter = SearchResultsAdapter(this.searchResults)
-		this.list.layoutManager = GridLayoutManager(this.activity, columnCount)
+		this.list?.adapter = SearchResultsAdapter(this.searchResults)
+		this.list?.layoutManager = GridLayoutManager(this.activity, columnCount)
 	}
 
 	override fun success(searchResults: SearchResults?, response: Response?) {
@@ -97,20 +96,19 @@ class AddShowFragment : Fragment(), Callback<SearchResults>, SearchView.OnQueryT
 		this.searchResults.addAll(getSearchResults(searchResults))
 
 		if (this.searchResults.isEmpty()) {
-			this.empty.visibility = View.VISIBLE
-			this.list.visibility = View.GONE
+			this.empty?.visibility = View.VISIBLE
+			this.list?.visibility = View.GONE
 		} else {
-			this.empty.visibility = View.GONE
-			this.list.visibility = View.VISIBLE
+			this.empty?.visibility = View.GONE
+			this.list?.visibility = View.VISIBLE
 		}
 
-		this.list.adapter?.notifyDataSetChanged()
+		this.list?.adapter?.notifyDataSetChanged()
 	}
 
 	companion object {
-		fun getQueryFromIntent(intent: Intent?): String? {
-			return if (Intent.ACTION_SEARCH != intent?.action) "" else intent.getStringExtra(SearchManager.QUERY)
-		}
+		fun getQueryFromIntent(intent: Intent?): String?
+				= if (Intent.ACTION_SEARCH != intent?.action) "" else intent.getStringExtra(SearchManager.QUERY)
 
 		fun getSearchResults(searchResults: SearchResults?) = searchResults?.data?.results ?: emptyList()
 

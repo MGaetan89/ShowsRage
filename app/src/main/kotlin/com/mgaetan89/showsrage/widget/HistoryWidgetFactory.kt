@@ -36,9 +36,7 @@ class HistoryWidgetFactory(context: Context) : ListWidgetFactory<History>(contex
 	}
 
 	override fun getItems(): List<History> {
-		SickRageApi.instance.services?.getHistory()?.data?.let {
-			val histories = it.filterNotNull()
-
+		SickRageApi.instance.services?.getHistory()?.data?.let { histories ->
 			Realm.getDefaultInstance().let {
 				it.saveHistory(histories)
 				it.close()
@@ -71,7 +69,6 @@ class HistoryWidgetFactory(context: Context) : ListWidgetFactory<History>(contex
 		return text
 	}
 
-	internal fun getEpisodeTitle(presenter: HistoryPresenter): String {
-		return this.context.getString(R.string.show_name_episode, presenter.getShowName(), presenter.getSeason(), presenter.getEpisode())
-	}
+	internal fun getEpisodeTitle(presenter: HistoryPresenter)
+			= this.context.getString(R.string.show_name_episode, presenter.getShowName(), presenter.getSeason(), presenter.getEpisode())
 }

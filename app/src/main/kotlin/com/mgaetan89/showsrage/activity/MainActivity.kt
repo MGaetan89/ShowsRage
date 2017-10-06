@@ -110,8 +110,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 	fun getThemColors() = this.themeColors
 
 	override fun onBackPressed() {
-		if (this.drawer_layout.isDrawerOpen(this.drawer_content)) {
-			this.drawer_layout.closeDrawers()
+		if (this.drawer_layout?.isDrawerOpen(this.drawer_content) == true) {
+			this.drawer_layout?.closeDrawers()
 		} else {
 			super.onBackPressed()
 		}
@@ -200,19 +200,19 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 			}
 		}
 
-		this.drawer_layout.closeDrawer(this.drawer_content)
+		this.drawer_layout?.closeDrawer(this.drawer_content)
 
 		if (eventHandled) {
 			item.isChecked = true
 
-			this.tabs.removeAllTabs()
-			this.tabs.visibility = View.GONE
+			this.tabs?.removeAllTabs()
+			this.tabs?.visibility = View.GONE
 		}
 
 		if (fragment != null) {
 			this.resetThemeColors()
 
-			this.toolbar.menu?.clear()
+			this.toolbar?.menu?.clear()
 
 			val fragmentTransaction = this.supportFragmentManager.beginTransaction()
 			fragmentTransaction.replace(R.id.content, fragment)
@@ -228,7 +228,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 	}
 
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-		if (this.drawerToggle?.onOptionsItemSelected(item) ?: false) {
+		if (this.drawerToggle?.onOptionsItemSelected(item) == true) {
 			return true
 		}
 
@@ -254,7 +254,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 		val (colorPrimary, colorAccent) = colors
 		val textColor = Utils.getContrastColor(colorPrimary)
 
-		this.app_bar.setBackgroundColor(colorPrimary)
+		this.app_bar?.setBackgroundColor(colorPrimary)
 
 		this.drawerHeader?.let {
 			it.setBackgroundColor(colorPrimary)
@@ -262,25 +262,25 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 			val drawable = DrawableCompat.wrap(it.app_logo.drawable)
 			DrawableCompat.setTint(drawable, textColor)
 
-			it.app_name.setTextColor(textColor)
+			it.app_name?.setTextColor(textColor)
 		}
 
-		val colorsIcon = intArrayOf(colorPrimary, this.drawer_content.itemIconTintList?.defaultColor ?: Color.WHITE)
-		val colorsText = intArrayOf(colorPrimary, this.drawer_content.itemTextColor?.defaultColor ?: Color.WHITE)
+		val colorsIcon = intArrayOf(colorPrimary, this.drawer_content?.itemIconTintList?.defaultColor ?: Color.WHITE)
+		val colorsText = intArrayOf(colorPrimary, this.drawer_content?.itemTextColor?.defaultColor ?: Color.WHITE)
 		val states = arrayOf(
 				intArrayOf(android.R.attr.state_checked),
 				intArrayOf()
 		)
 
-		this.drawer_content.itemIconTintList = ColorStateList(states, colorsIcon)
-		this.drawer_content.itemTextColor = ColorStateList(states, colorsText)
+		this.drawer_content?.itemIconTintList = ColorStateList(states, colorsIcon)
+		this.drawer_content?.itemTextColor = ColorStateList(states, colorsText)
 
 		val selectedTextColor = ColorUtils.setAlphaComponent(textColor, (0.7f * 255f).toInt())
 
-		this.tabs.setSelectedTabIndicatorColor(colorAccent)
-		this.tabs.setTabTextColors(selectedTextColor, textColor)
+		this.tabs?.setSelectedTabIndicatorColor(colorAccent)
+		this.tabs?.setTabTextColors(selectedTextColor, textColor)
 
-		this.toolbar.setItemColor(textColor)
+		this.toolbar?.setItemColor(textColor)
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			val colorPrimaryDark = floatArrayOf(0f, 0f, 0f)
@@ -308,7 +308,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 		val application = this.application
 
 		if (application is ShowsRageApplication) {
-			this.drawer_content.menu?.findItem(R.id.menu_remote_control)?.isVisible = application.hasPlayingVideo()
+			this.drawer_content?.menu?.findItem(R.id.menu_remote_control)?.isVisible = application.hasPlayingVideo()
 		}
 	}
 
@@ -344,19 +344,19 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
 		this.drawerToggle = ActionBarDrawerToggle(this, this.drawer_layout, this.toolbar, R.string.open_menu, R.string.close_menu)
 
-		this.drawer_layout.addDrawerListener(this.drawerToggle!!)
-		this.drawer_layout.post {
+		this.drawer_layout?.addDrawerListener(this.drawerToggle!!)
+		this.drawer_layout?.post {
 			drawerToggle?.syncState()
 		}
 
-		this.drawerHeader = this.drawer_content.inflateHeaderView(R.layout.drawer_header) as LinearLayout
+		this.drawerHeader = this.drawer_content?.inflateHeaderView(R.layout.drawer_header) as LinearLayout
 
-		this.drawer_content.setNavigationItemSelectedListener(this)
+		this.drawer_content?.setNavigationItemSelectedListener(this)
 
 		this.setSupportActionBar(this.toolbar)
 
 		if (savedInstanceState == null) {
-			this.drawer_content.menu?.performIdentifierAction(getInitialMenuId(this.intent?.action), 0)
+			this.drawer_content?.menu?.performIdentifierAction(getInitialMenuId(this.intent?.action), 0)
 		}
 	}
 
@@ -408,12 +408,10 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 		private const val COLOR_DARK_FACTOR = 0.8f
 
 		@IdRes
-		internal fun getInitialMenuId(action: String?): Int {
-			return when (action) {
-				Constants.Intents.ACTION_DISPLAY_HISTORY -> R.id.menu_history
-				Constants.Intents.ACTION_DISPLAY_SCHEDULE -> R.id.menu_schedule
-				else -> R.id.menu_shows
-			}
+		internal fun getInitialMenuId(action: String?) = when (action) {
+			Constants.Intents.ACTION_DISPLAY_HISTORY -> R.id.menu_history
+			Constants.Intents.ACTION_DISPLAY_SCHEDULE -> R.id.menu_schedule
+			else -> R.id.menu_shows
 		}
 
 		internal fun shouldCheckForUpdate(checkInterval: Long, manualCheck: Boolean, lastCheckTime: Long): Boolean {

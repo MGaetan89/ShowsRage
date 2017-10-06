@@ -68,13 +68,11 @@ class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, Di
 	}
 
 	companion object {
-		internal fun getCheckedStates(size: Int, selectedIndices: Set<Int>): BooleanArray {
-			return arrayOfNulls<Boolean>(size).mapIndexed { i, _ -> selectedIndices.contains(i) }.toBooleanArray()
-		}
+		internal fun getCheckedStates(size: Int, selectedIndices: Set<Int>)
+				= arrayOfNulls<Boolean>(size).mapIndexed { i, _ -> selectedIndices.contains(i) }.toBooleanArray()
 
-		internal fun getSelectedItems(items: Array<String>, selectedIndices: Set<Int>): Array<String> {
-			return items.filterIndexed { i, _ -> selectedIndices.contains(i) }.toTypedArray()
-		}
+		internal fun getSelectedItems(items: Array<String>, selectedIndices: Set<Int>)
+				= items.filterIndexed { i, _ -> selectedIndices.contains(i) }.toTypedArray()
 
 		fun newInstance(groups: Array<String>?) = LogsFilterFragment().apply {
 			this.arguments = Bundle().apply {

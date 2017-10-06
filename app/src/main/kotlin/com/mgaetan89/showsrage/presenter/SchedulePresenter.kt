@@ -12,7 +12,7 @@ class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
 		val schedule = this._getSchedule() ?: return null
 		val airDate = schedule.airDate
 
-		if (airDate.isNullOrEmpty()) {
+		if (airDate.isEmpty()) {
 			return null
 		}
 
@@ -34,7 +34,7 @@ class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
 		return airTime
 	}
 
-	fun getAirTime(): CharSequence? {
+	private fun getAirTime(): CharSequence? {
 		val schedule = this._getSchedule() ?: return null
 
 		if (this.context == null) {
@@ -44,7 +44,7 @@ class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
 		val airDate = schedule.airDate
 		val airTime = this.getAirTimeOnly()
 
-		if (airDate.isNullOrEmpty() || airTime.isNullOrEmpty()) {
+		if (airDate.isEmpty() || airTime.isNullOrEmpty()) {
 			return null
 		}
 
@@ -71,12 +71,12 @@ class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
 		val schedule = this._getSchedule() ?: return null
 		val airTime = schedule.airs
 
-		if (airTime.isNullOrEmpty()) {
+		if (airTime.isEmpty()) {
 			return null
 		}
 
 		return airTime.replaceFirst("(?i)^(monday|tuesday|wednesday|thursday|friday|saturday|sunday) ".toRegex(), "")
 	}
 
-	internal fun _getSchedule() = if (this.schedule?.isValid ?: false) this.schedule else null
+	internal fun _getSchedule() = if (this.schedule?.isValid == true) this.schedule else null
 }

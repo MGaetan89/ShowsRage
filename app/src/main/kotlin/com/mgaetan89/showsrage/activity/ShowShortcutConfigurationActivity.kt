@@ -93,7 +93,7 @@ class ShowShortcutConfigurationActivity : AppCompatActivity() {
 		val ignoreArticles = this.getPreferences().ignoreArticles()
 		val showsListLayout = this.getPreferences().getShowsListLayout()
 		val shows = (this.realm.getShows(null) ?: emptyList<Show>())
-				.sortedWith(Comparator<Show> { first, second ->
+				.sortedWith(Comparator { first, second ->
 					val firstProperty = Utils.getSortableShowName(first, ignoreArticles)
 					val secondProperty = Utils.getSortableShowName(second, ignoreArticles)
 

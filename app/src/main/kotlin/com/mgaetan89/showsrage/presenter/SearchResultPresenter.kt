@@ -5,7 +5,7 @@ import android.text.format.DateUtils
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.model.SearchResultItem
 
-class SearchResultPresenter(val searchResult: SearchResultItem?) {
+class SearchResultPresenter(private val searchResult: SearchResultItem?) {
 	fun getFirstAired(): CharSequence? {
 		if (this.searchResult == null) {
 			return ""

@@ -27,9 +27,8 @@ abstract class TabbedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 		}
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return inflater?.inflate(R.layout.fragment_tabbed, container, false)
-	}
+	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater?.inflate(R.layout.fragment_tabbed, container, false)
 
 	override fun onDestroyView() {
 		this.tabLayout = null
@@ -42,11 +41,11 @@ abstract class TabbedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		this.swipe_refresh.isEnabled = this.useSwipeToRefresh()
-		this.swipe_refresh.setColorSchemeResources(R.color.accent)
-		this.swipe_refresh.setOnRefreshListener(this)
+		this.swipe_refresh?.isEnabled = this.useSwipeToRefresh()
+		this.swipe_refresh?.setColorSchemeResources(R.color.accent)
+		this.swipe_refresh?.setOnRefreshListener(this)
 
-		this.view_pager.adapter = this.getAdapter()
+		this.view_pager?.adapter = this.getAdapter()
 	}
 
 	protected abstract fun getAdapter(): PagerAdapter
@@ -58,11 +57,11 @@ abstract class TabbedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 	}
 
 	protected fun updateState(empty: Boolean) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && this.activity?.isDestroyed ?: true) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && this.activity?.isDestroyed != false) {
 			return
 		}
 
-		this.view_pager.adapter?.notifyDataSetChanged()
+		this.view_pager?.adapter?.notifyDataSetChanged()
 
 		this.tabLayout?.visibility = if (empty) View.GONE else View.VISIBLE
 	}

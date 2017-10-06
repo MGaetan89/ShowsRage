@@ -23,26 +23,25 @@ class ScheduleSectionFragment : Fragment(), RealmChangeListener<RealmResults<Sch
 
 	override fun onChange(schedules: RealmResults<Schedule>) {
 		if (this.schedules.isEmpty()) {
-			this.empty.visibility = View.VISIBLE
-			this.list.visibility = View.GONE
+			this.empty?.visibility = View.VISIBLE
+			this.list?.visibility = View.GONE
 		} else {
-			this.empty.visibility = View.GONE
-			this.list.visibility = View.VISIBLE
+			this.empty?.visibility = View.GONE
+			this.list?.visibility = View.VISIBLE
 		}
 
-		this.list.adapter?.notifyDataSetChanged()
+		this.list?.adapter?.notifyDataSetChanged()
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return inflater?.inflate(R.layout.fragment_schedule_section, container, false)
-	}
+	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater?.inflate(R.layout.fragment_schedule_section, container, false)
 
 	override fun onStart() {
 		super.onStart()
 
 		this.realm = Realm.getDefaultInstance()
 		this.schedules = this.realm.getSchedule(this.arguments.getString(Constants.Bundle.SCHEDULE_SECTION, ""), this)
-		this.list.adapter = ScheduleAdapter(this.schedules)
+		this.list?.adapter = ScheduleAdapter(this.schedules)
 	}
 
 	override fun onStop() {
@@ -60,7 +59,7 @@ class ScheduleSectionFragment : Fragment(), RealmChangeListener<RealmResults<Sch
 
 		val columnCount = this.resources.getInteger(R.integer.shows_column_count)
 
-		this.list.layoutManager = GridLayoutManager(this.activity, columnCount)
+		this.list?.layoutManager = GridLayoutManager(this.activity, columnCount)
 	}
 
 	companion object {

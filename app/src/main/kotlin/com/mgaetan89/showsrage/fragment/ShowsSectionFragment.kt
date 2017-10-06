@@ -68,9 +68,8 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 		this.swipeRefreshLayout = this.activity.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return inflater?.inflate(R.layout.fragment_shows_section, container, false)
-	}
+	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater?.inflate(R.layout.fragment_shows_section, container, false)
 
 	override fun onDestroyView() {
 		this.swipeRefreshLayout = null
@@ -123,10 +122,10 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 		val showsListLayout = preferences.getShowsListLayout()
 		val columnCount = this.resources.getInteger(R.integer.shows_column_count)
 
-		this.list.adapter = ShowsAdapter(this.filteredShows, showsListLayout, ignoreArticles)
-		this.list.layoutManager = GridLayoutManager(this.context, columnCount)
+		this.list?.adapter = ShowsAdapter(this.filteredShows, showsListLayout, ignoreArticles)
+		this.list?.layoutManager = GridLayoutManager(this.context, columnCount)
 
-		this.fastscroll.setViewProvider(object : DefaultScrollerViewProvider() {
+		this.fastscroll?.setViewProvider(object : DefaultScrollerViewProvider() {
 			override fun onHandleGrabbed() {
 				super.onHandleGrabbed()
 
@@ -140,16 +139,16 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 			}
 		})
 
-		this.fastscroll.setRecyclerView(this.list)
+		this.fastscroll?.setRecyclerView(this.list)
 	}
 
 	private fun updateLayout() {
 		if (this.filteredShows.isEmpty()) {
-			this.empty.visibility = View.VISIBLE
-			this.list.visibility = View.GONE
+			this.empty?.visibility = View.VISIBLE
+			this.list?.visibility = View.GONE
 		} else {
-			this.empty.visibility = View.GONE
-			this.list.visibility = View.VISIBLE
+			this.empty?.visibility = View.GONE
+			this.list?.visibility = View.VISIBLE
 		}
 	}
 
@@ -183,7 +182,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 			if (filteredShows != currentFilteredShows) {
 				fragment.filteredShows.clear()
 				fragment.filteredShows.addAll(filteredShows)
-				fragment.list.adapter?.notifyDataSetChanged()
+				fragment.list?.adapter?.notifyDataSetChanged()
 			}
 
 			fragment.updateLayout()
@@ -197,13 +196,11 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 						matchSearchQuery(show, searchQuery)
 			}
 
-			internal fun matchFilterState(show: Show, filterState: ShowsFilters.State?): Boolean {
-				return when (filterState) {
-					ShowsFilters.State.ACTIVE -> show.paused == 0
-					ShowsFilters.State.ALL -> true
-					ShowsFilters.State.PAUSED -> show.paused == 1
-					else -> false
-				}
+			internal fun matchFilterState(show: Show, filterState: ShowsFilters.State?) = when (filterState) {
+				ShowsFilters.State.ACTIVE -> show.paused == 0
+				ShowsFilters.State.ALL -> true
+				ShowsFilters.State.PAUSED -> show.paused == 1
+				else -> false
 			}
 
 			internal fun matchFilterStatus(show: Show, filterStatus: Int): Boolean {
@@ -263,7 +260,7 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 				filteredShows.filter { it.isValid && it.indexerId == indexerId }.forEachIndexed { i, show ->
 					show.stat = realmStat ?: show.stat
 
-					fragment.list.adapter?.notifyItemChanged(i, Constants.Payloads.SHOWS_STATS)
+					fragment.list?.adapter?.notifyItemChanged(i, Constants.Payloads.SHOWS_STATS)
 				}
 
 				if (shows.isValid) {

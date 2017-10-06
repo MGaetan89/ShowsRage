@@ -112,8 +112,7 @@ fun Realm.getLogs(logLevel: LogLevel, groups: Array<String>?, listener: RealmCha
 fun Realm.getLogsGroup(): List<String> {
 	return this.where(LogEntry::class.java)
 			.distinct("group")
-			.map(LogEntry::group)
-			.filterNotNull()
+			.mapNotNull(LogEntry::group)
 			.sorted()
 }
 
@@ -134,8 +133,7 @@ fun Realm.getSchedule(section: String, listener: RealmChangeListener<RealmResult
 fun Realm.getScheduleSections(): List<String> {
 	return this.where(Schedule::class.java)
 			.distinct("section")
-			.map(Schedule::section)
-			.filterNotNull()
+			.mapNotNull(Schedule::section)
 }
 
 fun Realm.getShow(indexerId: Int): Show? {
@@ -157,7 +155,7 @@ fun Realm.getShows(anime: Boolean?): RealmResults<Show>? {
 	val query = this.where(Show::class.java)
 
 	if (anime != null) {
-		query.equalTo("anime", if (anime) 1 else 0)
+		query.equalTo("anime", anime.toInt())
 	}
 
 	return query.findAll()
@@ -167,7 +165,7 @@ fun Realm.getShows(anime: Boolean?, listener: RealmChangeListener<RealmResults<S
 	val query = this.where(Show::class.java)
 
 	if (anime != null) {
-		query.equalTo("anime", if (anime) 1 else 0)
+		query.equalTo("anime", anime.toInt())
 	}
 
 	val shows = query.findAllAsync()
@@ -316,21 +314,21 @@ private fun Realm.prepareShowForSaving(show: Show) {
 
 	show.airs = if (show.airs.isNullOrEmpty()) savedShow?.airs else show.airs
 	show.genre = RealmList<RealmString>().apply {
-		this.addAll((if (show.genre?.isEmpty() ?: true) savedShow?.genre else show.genre) ?: emptyList())
+		this.addAll((if (show.genre?.isEmpty() != false) savedShow?.genre else show.genre) ?: emptyList())
 	}
 	show.imdbId = if (show.imdbId.isNullOrEmpty()) savedShow?.imdbId else show.imdbId
 	show.location = if (show.location.isNullOrEmpty()) savedShow?.location else show.location
 	show.qualityDetails = Quality().apply {
 		this.archive = RealmList<RealmString>().apply {
-			this.addAll((if (show.qualityDetails?.archive?.isEmpty() ?: true) savedShow?.qualityDetails?.archive else show.qualityDetails?.archive) ?: emptyList())
+			this.addAll((if (show.qualityDetails?.archive?.isEmpty() != false) savedShow?.qualityDetails?.archive else show.qualityDetails?.archive) ?: emptyList())
 		}
 		this.indexerId = show.indexerId
 		this.initial = RealmList<RealmString>().apply {
-			this.addAll((if (show.qualityDetails?.initial?.isEmpty() ?: true) savedShow?.qualityDetails?.initial else show.qualityDetails?.initial) ?: emptyList())
+			this.addAll((if (show.qualityDetails?.initial?.isEmpty() != false) savedShow?.qualityDetails?.initial else show.qualityDetails?.initial) ?: emptyList())
 		}
 	}
 	show.seasonList = RealmList<RealmString>().apply {
-		this.addAll((if (show.seasonList?.isEmpty() ?: true) savedShow?.seasonList else show.seasonList) ?: emptyList())
+		this.addAll((if (show.seasonList?.isEmpty() != false) savedShow?.seasonList else show.seasonList) ?: emptyList())
 	}
 }
 

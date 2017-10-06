@@ -21,7 +21,7 @@ import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.presenter.ShowPresenter
 import kotlinx.android.synthetic.main.adapter_shows_list.view.stub
 
-class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, val ignoreArticles: Boolean) : RecyclerView.Adapter<ShowsAdapter.ViewHolder>(), SectionTitleProvider {
+class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, private val ignoreArticles: Boolean) : RecyclerView.Adapter<ShowsAdapter.ViewHolder>(), SectionTitleProvider {
 	override fun getItemCount() = this.shows.size
 
 	override fun getSectionTitle(position: Int): String {
@@ -35,7 +35,7 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, val ignor
 	}
 
 	override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-		val show = this.shows[position]
+		val show = this.shows[position].takeIf { it.isValid } ?: return
 
 		holder?.bind(show)
 	}
@@ -66,9 +66,10 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, val ignor
 		private val stats: ProgressBar
 
 		init {
-			val stub = view.stub
-			stub.layoutResource = itemLayoutResource
-			stub.inflate()
+			view.stub?.let {
+				it.layoutResource = itemLayoutResource
+				it.inflate()
+			}
 
 			this.logo = view.findViewById(R.id.show_logo) as ImageView
 			this.name = view.findViewById(R.id.show_name) as TextView?
@@ -102,7 +103,7 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, val ignor
 			this.nextEpisodeAirDate?.let {
 				val nextEpisodeAirDate = show.nextEpisodeAirDate
 
-				if (nextEpisodeAirDate.isNullOrEmpty()) {
+				if (nextEpisodeAirDate.isEmpty()) {
 					val status = show.getStatusTranslationResource()
 
 					it.text = if (status != 0) context.getString(status) else show.status

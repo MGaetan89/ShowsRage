@@ -4,7 +4,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import com.mgaetan89.showsrage.fragment.ScheduleSectionFragment
 
-class SchedulePagerAdapter(fragmentManager: FragmentManager?, val ids: List<String>, val labels: List<String>) : FragmentStatePagerAdapter(fragmentManager) {
+class SchedulePagerAdapter(fragmentManager: FragmentManager?, private val ids: List<String>, private val labels: List<String>) : FragmentStatePagerAdapter(fragmentManager) {
 	override fun getCount() = this.ids.size
 
 	override fun getItem(position: Int) = ScheduleSectionFragment.newInstance(this.ids[position])

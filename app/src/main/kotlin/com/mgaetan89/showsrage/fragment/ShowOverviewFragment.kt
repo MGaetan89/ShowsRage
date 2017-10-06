@@ -34,6 +34,7 @@ import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.extension.deleteShow
 import com.mgaetan89.showsrage.extension.getShow
 import com.mgaetan89.showsrage.extension.saveShow
+import com.mgaetan89.showsrage.extension.toInt
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.helper.ImageLoader
@@ -83,7 +84,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 	}
 
 	override fun failure(error: RetrofitError?) {
-		this.swipe_refresh.isRefreshing = false
+		this.swipe_refresh?.isRefreshing = false
 
 		error?.printStackTrace()
 	}
@@ -111,51 +112,51 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
 		val airs = show.airs
 
-		this.show_airs.text = this.getString(R.string.airs, if (airs.isNullOrEmpty()) "N/A" else airs)
-		this.show_airs.visibility = View.VISIBLE
+		this.show_airs?.text = this.getString(R.string.airs, if (airs.isNullOrEmpty()) "N/A" else airs)
+		this.show_airs?.visibility = View.VISIBLE
 
 		ImageLoader.load(this.show_banner, SickRageApi.instance.getBannerUrl(show.tvDbId, Indexer.TVDB), false, null, this)
-		this.show_banner.contentDescription = show.showName
+		this.show_banner?.contentDescription = show.showName
 
 		ImageLoader.load(this.show_fan_art, SickRageApi.instance.getFanArtUrl(show.tvDbId, Indexer.TVDB), false, null, this)
-		this.show_fan_art.contentDescription = show.showName
+		this.show_fan_art?.contentDescription = show.showName
 
 		val genresList = show.genre
 
-		if (genresList?.isNotEmpty() ?: false) {
-			val genres = genresList!!.joinToString { it.value }
+		if (genresList?.isNotEmpty() == true) {
+			val genres = genresList.joinToString { it.value }
 
-			this.show_genre.text = this.getString(R.string.genre, genres)
-			this.show_genre.visibility = View.VISIBLE
+			this.show_genre?.text = this.getString(R.string.genre, genres)
+			this.show_genre?.visibility = View.VISIBLE
 		} else {
-			this.show_genre.visibility = View.GONE
+			this.show_genre?.visibility = View.GONE
 		}
 
-		this.show_imdb.visibility = if (show.imdbId.isNullOrEmpty()) View.GONE else View.VISIBLE
+		this.show_imdb?.visibility = if (show.imdbId.isNullOrEmpty()) View.GONE else View.VISIBLE
 
-		this.show_language_country.text = this.getString(R.string.language_value, show.language)
-		this.show_language_country.visibility = View.VISIBLE
+		this.show_language_country?.text = this.getString(R.string.language_value, show.language)
+		this.show_language_country?.visibility = View.VISIBLE
 
 		val location = show.location
 
-		this.show_location.text = this.getString(R.string.location, if (location.isNullOrEmpty()) "N/A" else location)
-		this.show_location.visibility = View.VISIBLE
+		this.show_location?.text = this.getString(R.string.location, if (location.isNullOrEmpty()) "N/A" else location)
+		this.show_location?.visibility = View.VISIBLE
 
-		this.show_name.text = show.showName
-		this.show_name.visibility = View.VISIBLE
+		this.show_name?.text = show.showName
+		this.show_name?.visibility = View.VISIBLE
 
-		if (nextEpisodeAirDate.isNullOrEmpty()) {
-			this.show_next_episode_date.visibility = View.GONE
+		if (nextEpisodeAirDate.isEmpty()) {
+			this.show_next_episode_date?.visibility = View.GONE
 		} else {
-			this.show_next_episode_date.text = this.getString(R.string.next_episode, DateTimeHelper.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS))
-			this.show_next_episode_date.visibility = View.VISIBLE
+			this.show_next_episode_date?.text = this.getString(R.string.next_episode, DateTimeHelper.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS))
+			this.show_next_episode_date?.visibility = View.VISIBLE
 		}
 
-		this.show_network.text = this.getString(R.string.network, show.network)
-		this.show_network.visibility = View.VISIBLE
+		this.show_network?.text = this.getString(R.string.network, show.network)
+		this.show_network?.visibility = View.VISIBLE
 
 		ImageLoader.load(this.show_poster, SickRageApi.instance.getPosterUrl(show.tvDbId, Indexer.TVDB), false, this, null)
-		this.show_poster.contentDescription = show.showName
+		this.show_poster?.contentDescription = show.showName
 
 		val quality = show.quality
 
@@ -164,24 +165,24 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 			val allowed = listToString(this.getTranslatedQualities(qualityDetails?.initial, true))
 			val preferred = listToString(this.getTranslatedQualities(qualityDetails?.archive, false))
 
-			this.show_quality.text = this.getString(R.string.quality_custom, allowed, preferred)
+			this.show_quality?.text = this.getString(R.string.quality_custom, allowed, preferred)
 		} else {
-			this.show_quality.text = this.getString(R.string.quality, quality)
+			this.show_quality?.text = this.getString(R.string.quality, quality)
 		}
 
-		this.show_quality.visibility = View.VISIBLE
+		this.show_quality?.visibility = View.VISIBLE
 
-		if (nextEpisodeAirDate.isNullOrEmpty()) {
+		if (nextEpisodeAirDate.isEmpty()) {
 			val status = show.getStatusTranslationResource()
 
-			this.show_status.text = if (status != 0) this.getString(status) else show.status
-			this.show_status.visibility = View.VISIBLE
+			this.show_status?.text = if (status != 0) this.getString(status) else show.status
+			this.show_status?.visibility = View.VISIBLE
 		} else {
-			this.show_status.visibility = View.GONE
+			this.show_status?.visibility = View.GONE
 		}
 
-		this.show_subtitles.text = this.getString(R.string.subtitles_value, this.getString(if (show.subtitles == 0) R.string.no else R.string.yes))
-		this.show_subtitles.visibility = View.VISIBLE
+		this.show_subtitles?.text = this.getString(R.string.subtitles_value, this.getString(if (show.subtitles == 0) R.string.no else R.string.yes))
+		this.show_subtitles?.visibility = View.VISIBLE
 	}
 
 	override fun onClick(view: View?) {
@@ -232,9 +233,8 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		this.resumeMenu?.isVisible = false
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return inflater?.inflate(R.layout.fragment_show_overview, container, false)
-	}
+	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater?.inflate(R.layout.fragment_show_overview, container, false)
 
 	override fun onDestroy() {
 		val activity = this.activity
@@ -271,13 +271,13 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		val textColor = Utils.getContrastColor(colorPrimary)
 
 		ViewCompat.setBackgroundTintList(this.show_imdb, colorStateList)
-		this.show_imdb.setTextColor(textColor)
+		this.show_imdb?.setTextColor(textColor)
 
 		ViewCompat.setBackgroundTintList(this.show_the_tvdb, colorStateList)
-		this.show_the_tvdb.setTextColor(textColor)
+		this.show_the_tvdb?.setTextColor(textColor)
 
 		ViewCompat.setBackgroundTintList(this.show_web_search, colorStateList)
-		this.show_web_search.setTextColor(textColor)
+		this.show_web_search?.setTextColor(textColor)
 	}
 
 	override fun onImageError(imageView: ImageView, exception: Exception?, errorDrawable: Drawable?) {
@@ -296,50 +296,48 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		}
 	}
 
-	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-		return when (item?.itemId) {
-			R.id.menu_change_quality -> {
-				this.changeQuality()
+	override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+		R.id.menu_change_quality -> {
+			this.changeQuality()
 
-				true
-			}
-
-			R.id.menu_delete_show -> {
-				this.deleteShow()
-
-				true
-			}
-
-			R.id.menu_pause_show -> {
-				this.pauseOrResumeShow(true)
-
-				true
-			}
-
-			R.id.menu_rescan_show -> {
-				this.rescanShow()
-
-				true
-			}
-
-			R.id.menu_resume_show -> {
-				this.pauseOrResumeShow(false)
-
-				true
-			}
-
-			R.id.menu_update_show -> {
-				this.updateShow()
-
-				true
-			}
-
-			else -> super.onOptionsItemSelected(item)
+			true
 		}
+
+		R.id.menu_delete_show -> {
+			this.deleteShow()
+
+			true
+		}
+
+		R.id.menu_pause_show -> {
+			this.pauseOrResumeShow(true)
+
+			true
+		}
+
+		R.id.menu_rescan_show -> {
+			this.rescanShow()
+
+			true
+		}
+
+		R.id.menu_resume_show -> {
+			this.pauseOrResumeShow(false)
+
+			true
+		}
+
+		R.id.menu_update_show -> {
+			this.updateShow()
+
+			true
+		}
+
+		else -> super.onOptionsItemSelected(item)
 	}
 
 	override fun onRefresh() {
-		this.swipe_refresh.isRefreshing = true
+		this.swipe_refresh?.isRefreshing = true
 
 		val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
 
@@ -372,18 +370,18 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		this.show_imdb.setOnClickListener(this)
-		this.show_the_tvdb.setOnClickListener(this)
-		this.show_web_search.setOnClickListener(this)
+		this.show_imdb?.setOnClickListener(this)
+		this.show_the_tvdb?.setOnClickListener(this)
+		this.show_web_search?.setOnClickListener(this)
 
-		this.swipe_refresh.setColorSchemeResources(R.color.accent)
-		this.swipe_refresh.setOnRefreshListener(this)
+		this.swipe_refresh?.setColorSchemeResources(R.color.accent)
+		this.swipe_refresh?.setOnRefreshListener(this)
 
 		this.checkSupportWebSearch()
 	}
 
 	override fun success(singleShow: SingleShow?, response: Response?) {
-		this.swipe_refresh.isRefreshing = false
+		this.swipe_refresh?.isRefreshing = false
 
 		val show = singleShow?.data ?: return
 
@@ -403,7 +401,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		val manager = this.context.packageManager
 		val activities = manager.queryIntentActivities(webSearchIntent, 0)
 
-		this.show_web_search.visibility = if (activities.size > 0) View.VISIBLE else View.GONE
+		this.show_web_search?.visibility = if (activities.size > 0) View.VISIBLE else View.GONE
 	}
 
 	private fun deleteShow() {
@@ -460,7 +458,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 	private fun pauseOrResumeShow(pause: Boolean) {
 		this.showHidePauseResumeMenus(!pause)
 
-		SickRageApi.instance.services?.pauseShow(this.indexerId, if (pause) 1 else 0, object : GenericCallback(this.activity) {
+		SickRageApi.instance.services?.pauseShow(this.indexerId, pause.toInt(), object : GenericCallback(this.activity) {
 			override fun failure(error: RetrofitError?) {
 				super.failure(error)
 

@@ -89,9 +89,8 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 		}
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return inflater?.inflate(R.layout.fragment_shows, container, false)
-	}
+	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater?.inflate(R.layout.fragment_shows, container, false)
 
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 		if (item?.itemId == R.id.menu_filter) {
@@ -123,7 +122,7 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 	}
 
 	override fun onRefresh() {
-		this.swipe_refresh.isRefreshing = true
+		this.swipe_refresh?.isRefreshing = true
 
 		SickRageApi.instance.services?.getShows(this)
 	}
@@ -137,11 +136,11 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		this.add_show.setOnClickListener(this)
+		this.add_show?.setOnClickListener(this)
 	}
 
 	override fun success(shows: Shows?, response: Response?) {
-		this.swipe_refresh.isRefreshing = false
+		this.swipe_refresh?.isRefreshing = false
 
 		val showsList = shows?.data?.values ?: return
 

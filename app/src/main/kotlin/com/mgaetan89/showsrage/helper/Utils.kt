@@ -12,11 +12,11 @@ import io.realm.Realm
 import io.realm.RealmConfiguration
 
 object Utils {
-	private const val DATABASE_VERSION = 6L
+	private const val DATABASE_VERSION = 7L
 
 	fun createRealmConfiguration(assetFile: String?): RealmConfiguration {
 		return RealmConfiguration.Builder().let {
-			if (!assetFile.isNullOrBlank()) {
+			assetFile?.let { assetFile ->
 				it.assetFile(assetFile)
 				it.name("asset_$assetFile")
 			}

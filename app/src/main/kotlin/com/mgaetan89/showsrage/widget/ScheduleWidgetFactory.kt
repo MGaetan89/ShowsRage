@@ -58,7 +58,6 @@ class ScheduleWidgetFactory(context: Context) : ListWidgetFactory<Schedule>(cont
 		return emptyList()
 	}
 
-	internal fun getEpisodeTitle(presenter: SchedulePresenter): String {
-		return this.context.getString(R.string.show_name_episode, presenter.getShowName(), presenter.getSeason(), presenter.getEpisode())
-	}
+	internal fun getEpisodeTitle(presenter: SchedulePresenter)
+			= this.context.getString(R.string.show_name_episode, presenter.getShowName(), presenter.getSeason(), presenter.getEpisode())
 }

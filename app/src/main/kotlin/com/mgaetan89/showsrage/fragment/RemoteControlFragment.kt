@@ -326,8 +326,8 @@ class RemoteControlFragment : DialogFragment(), View.OnClickListener, SeekBar.On
 
 	companion object {
 		const val ONE_SECOND_IN_MS = 1000L
-		const val ONE_MINUTE_IN_SECONDS = 60L
-		const val ONE_HOUR_IN_SECONDS = 60L * ONE_MINUTE_IN_SECONDS
+		private const val ONE_MINUTE_IN_SECONDS = 60L
+		private const val ONE_HOUR_IN_SECONDS = 60L * ONE_MINUTE_IN_SECONDS
 		const val SEEK_OFFSET_IN_MS = 60L * ONE_SECOND_IN_MS
 
 		internal fun formatTime(time: Long): String {

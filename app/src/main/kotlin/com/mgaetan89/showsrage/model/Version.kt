@@ -3,7 +3,7 @@ package com.mgaetan89.showsrage.model
 import android.os.Parcel
 import android.os.Parcelable
 
-class Version(val branch: String = "", val commit: String = "", val version: String = "") : Parcelable {
+class Version(private val branch: String = "", private val commit: String = "", val version: String = "") : Parcelable {
 	constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString(), parcel.readString())
 
 	override fun describeContents() = 0
@@ -17,13 +17,9 @@ class Version(val branch: String = "", val commit: String = "", val version: Str
 	companion object {
 		@JvmField
 		val CREATOR = object : Parcelable.Creator<Version> {
-			override fun createFromParcel(`in`: Parcel): Version {
-				return Version(`in`)
-			}
+			override fun createFromParcel(`in`: Parcel) = Version(`in`)
 
-			override fun newArray(size: Int): Array<Version?> {
-				return arrayOfNulls(size)
-			}
+			override fun newArray(size: Int) = arrayOfNulls<Version?>(size)
 		}
 	}
 }

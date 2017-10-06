@@ -9,17 +9,17 @@ import retrofit.client.Response
 import java.lang.ref.WeakReference
 
 open class GenericCallback(activity: FragmentActivity) : Callback<GenericResponse> {
-	val activityReference = WeakReference(activity)
+	private val activityReference = WeakReference(activity)
 
 	override fun failure(error: RetrofitError?) {
 		error?.printStackTrace()
 	}
 
 	override fun success(genericResponse: GenericResponse?, response: Response?) {
-		if (genericResponse?.message?.isNotBlank() ?: false) {
+		if (genericResponse?.message?.isNotBlank() == true) {
 			val activity = this.getActivity() ?: return
 
-			Toast.makeText(activity, genericResponse!!.message, Toast.LENGTH_SHORT).show()
+			Toast.makeText(activity, genericResponse.message, Toast.LENGTH_SHORT).show()
 		}
 	}
 

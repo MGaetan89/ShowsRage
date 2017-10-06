@@ -54,7 +54,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 	}
 
 	override fun failure(error: RetrofitError?) {
-		this.swipe_refresh.isRefreshing = false
+		this.swipe_refresh?.isRefreshing = false
 
 		error?.printStackTrace()
 	}
@@ -79,7 +79,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 			if (resultCode == Activity.RESULT_OK) {
 				this.groups = data?.getStringArrayExtra(Constants.Bundle.LOGS_GROUPS)
 
-				this.list.adapter = null
+				this.list?.adapter = null
 
 				this.getLogs(this.getLogLevel())
 			}
@@ -87,19 +87,19 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 	}
 
 	override fun onChange(logs: RealmResults<LogEntry>) {
-		if (this.list.adapter == null) {
-			this.list.adapter = LogsAdapter(this.logs)
+		if (this.list?.adapter == null) {
+			this.list?.adapter = LogsAdapter(this.logs)
 		}
 
 		if (this.logs.isEmpty()) {
-			this.empty.visibility = View.VISIBLE
-			this.list.visibility = View.GONE
+			this.empty?.visibility = View.VISIBLE
+			this.list?.visibility = View.GONE
 		} else {
-			this.empty.visibility = View.GONE
-			this.list.visibility = View.VISIBLE
+			this.empty?.visibility = View.GONE
+			this.list?.visibility = View.VISIBLE
 		}
 
-		this.list.adapter?.notifyDataSetChanged()
+		this.list?.adapter?.notifyDataSetChanged()
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -116,9 +116,8 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 		}
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return inflater?.inflate(R.layout.fragment_logs, container, false)
-	}
+	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater?.inflate(R.layout.fragment_logs, container, false)
 
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 		if (item?.groupId == R.id.menu_logs_level) {
@@ -135,7 +134,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 	}
 
 	override fun onRefresh() {
-		this.swipe_refresh.isRefreshing = true
+		this.swipe_refresh?.isRefreshing = true
 
 		SickRageApi.instance.services?.getLogs(this.getLogLevel(), this)
 	}
@@ -145,7 +144,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 
 		this.realm = Realm.getDefaultInstance()
 		this.logs = this.realm.getLogs(this.getLogLevel(), this.groups, this)
-		this.list.adapter = LogsAdapter(this.logs)
+		this.list?.adapter = LogsAdapter(this.logs)
 		this.scheduleAutoUpdate()
 	}
 
@@ -164,21 +163,21 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		this.list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+		this.list?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 			override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
 				super.onScrolled(recyclerView, dx, dy)
 
-				swipe_refresh.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
+				swipe_refresh?.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
 			}
 		})
-		this.list.layoutManager = LinearLayoutManager(this.activity)
+		this.list?.layoutManager = LinearLayoutManager(this.activity)
 
-		this.swipe_refresh.setColorSchemeResources(R.color.accent)
-		this.swipe_refresh.setOnRefreshListener(this)
+		this.swipe_refresh?.setColorSchemeResources(R.color.accent)
+		this.swipe_refresh?.setOnRefreshListener(this)
 	}
 
 	override fun success(logs: Logs?, response: Response?) {
-		this.swipe_refresh.isRefreshing = false
+		this.swipe_refresh?.isRefreshing = false
 
 		val logEntries = logs?.data?.map(::LogEntry) ?: emptyList()
 
@@ -227,7 +226,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 			this.context.getPreferences().saveLogLevel(it)
 
 			// Update the list of logs
-			this.list.adapter = null
+			this.list?.adapter = null
 
 			this.getLogs(it)
 
@@ -263,24 +262,20 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 		private const val REQUEST_CODE_FILTER = 1
 		private const val TOLERANCE_RATIO = 0.1
 
-		internal fun getLogLevelForMenuId(menuId: Int?): LogLevel? {
-			return when (menuId) {
-				R.id.menu_debug -> LogLevel.DEBUG
-				R.id.menu_error -> LogLevel.ERROR
-				R.id.menu_info -> LogLevel.INFO
-				R.id.menu_warning -> LogLevel.WARNING
-				else -> null
-			}
+		internal fun getLogLevelForMenuId(menuId: Int?) = when (menuId) {
+			R.id.menu_debug -> LogLevel.DEBUG
+			R.id.menu_error -> LogLevel.ERROR
+			R.id.menu_info -> LogLevel.INFO
+			R.id.menu_warning -> LogLevel.WARNING
+			else -> null
 		}
 
-		internal fun getMenuIdForLogLevel(logLevel: LogLevel?): Int {
-			return when (logLevel) {
-				LogLevel.DEBUG -> R.id.menu_debug
-				LogLevel.ERROR -> R.id.menu_error
-				LogLevel.INFO -> R.id.menu_info
-				LogLevel.WARNING -> R.id.menu_warning
-				else -> 0
-			}
+		internal fun getMenuIdForLogLevel(logLevel: LogLevel?) = when (logLevel) {
+			LogLevel.DEBUG -> R.id.menu_debug
+			LogLevel.ERROR -> R.id.menu_error
+			LogLevel.INFO -> R.id.menu_info
+			LogLevel.WARNING -> R.id.menu_warning
+			else -> 0
 		}
 
 		fun newInstance() = LogsFragment()

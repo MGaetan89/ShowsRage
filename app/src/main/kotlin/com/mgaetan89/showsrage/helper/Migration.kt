@@ -48,39 +48,82 @@ class Migration : RealmMigration {
 
 			localOldVersion++
 		}
+
+		if (localOldVersion == 6L) {
+			this.updateToV7(schema)
+
+			localOldVersion++
+		}
 	}
 
 	override fun equals(other: Any?) = other is Migration
 
 	private fun updateToV1(schema: RealmSchema) {
 		schema.get(LogEntry::class.java.simpleName)
-				.addIndex("group")
+				?.addIndex("group")
 	}
 
 	private fun updateToV2(schema: RealmSchema) {
 		schema.get(History::class.java.simpleName)
-				.removePrimaryKey()
-				.addField("id", String::class.java)
-				.transform {
+				?.removePrimaryKey()
+				?.addField("id", String::class.java)
+				?.transform {
 					it.set("id", "${it.getString("date")}_${it.getString("status")}_${it.getInt("indexerId")}_${it.getInt("season")}_${it.getInt("episode")}")
 				}
-				.addPrimaryKey("id")
+				?.addPrimaryKey("id")
 	}
 
 	private fun updateToV3(schema: RealmSchema) {
 		schema.get(History::class.java.simpleName)
-				.transform {
+				?.transform {
 					it.set("id", "${it.getString("date")}_${it.getString("status")}_${it.getInt("indexerId")}_${it.getInt("season")}_${it.getInt("episode")}")
 				}
 	}
 
 	private fun updateToV4(schema: RealmSchema) {
 		schema.get(LogEntry::class.java.simpleName)
-				.removePrimaryKey()
+				?.removePrimaryKey()
 	}
 
 	private fun updateToV6(schema: RealmSchema) {
 		schema.remove("OmDbEpisode")
 		schema.remove("Serie")
+	}
+
+	private fun updateToV7(schema: RealmSchema) {
+		schema.get("Episode")
+				?.setRequired("airDate", true)
+				?.setRequired("id", true)
+				?.setRequired("name", true)
+				?.setRequired("quality", true)
+				?.setRequired("subtitles", true)
+
+		schema.get("History")?.setRequired("id", true)
+
+		schema.get("LogEntry")
+				?.setRequired("dateTime", true)
+				?.setRequired("message", true)
+
+		schema.get("RealmString")?.setRequired("value", true)
+
+		schema.get("RootDir")?.setRequired("location", true)
+
+		schema.get("Schedule")
+				?.setRequired("airDate", true)
+				?.setRequired("airs", true)
+				?.setRequired("episodeName", true)
+				?.setRequired("episodePlot", true)
+				?.setRequired("id", true)
+				?.setRequired("network", true)
+				?.setRequired("quality", true)
+				?.setRequired("section", true)
+				?.setRequired("showName", true)
+				?.setRequired("showStatus", true)
+
+		schema.get("Show")
+				?.setRequired("network", true)
+				?.setRequired("nextEpisodeAirDate", true)
+				?.setRequired("quality", true)
+				?.setRequired("tvRageName", true)
 	}
 }

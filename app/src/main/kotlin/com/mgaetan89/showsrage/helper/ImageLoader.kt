@@ -11,7 +11,6 @@ import android.widget.RemoteViews
 import com.bumptech.glide.BitmapRequestBuilder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.bumptech.glide.request.target.Target
@@ -24,9 +23,8 @@ object ImageLoader {
 		fun onImageReady(imageView: ImageView, resource: Bitmap?)
 	}
 
-	fun getBitmap(context: Context, url: String?, circleTransform: Boolean): FutureTarget<Bitmap>? {
-		return this.getGlideInstance(context, url, circleTransform)?.into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-	}
+	fun getBitmap(context: Context, url: String?, circleTransform: Boolean)
+			= this.getGlideInstance(context, url, circleTransform)?.into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
 
 	fun load(imageView: ImageView?, url: String?, circleTransform: Boolean) {
 		this.load(imageView, url, circleTransform, null, null)

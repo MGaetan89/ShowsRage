@@ -36,7 +36,7 @@ class ShowsFiltersFragment : DialogFragment(), CompoundButton.OnCheckedChangeLis
 			if (!isChecked) {
 				this.setCheckBoxStateQuietly(this.statusAll, isChecked)
 			} else {
-				if (this.statusContinuing?.isChecked ?: false && this.statusEnded?.isChecked ?: false && this.statusUnknown?.isChecked ?: false) {
+				if (this.statusContinuing?.isChecked == true && this.statusEnded?.isChecked == true && this.statusUnknown?.isChecked == true) {
 					this.setCheckBoxStateQuietly(this.statusAll, isChecked)
 				}
 			}

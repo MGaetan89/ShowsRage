@@ -63,14 +63,12 @@ open class Episode : RealmObject() {
 	companion object {
 		fun buildId(indexer: Int, season: Int, episode: Int) = "${indexer}_${season}_$episode"
 
-		fun getStatusForMenuId(@IdRes menuId: Int?): String? {
-			return when (menuId) {
-				R.id.menu_episode_set_status_failed -> "failed"
-				R.id.menu_episode_set_status_ignored -> "ignored"
-				R.id.menu_episode_set_status_skipped -> "skipped"
-				R.id.menu_episode_set_status_wanted -> "wanted"
-				else -> null
-			}
+		fun getStatusForMenuId(@IdRes menuId: Int?) = when (menuId) {
+			R.id.menu_episode_set_status_failed -> "failed"
+			R.id.menu_episode_set_status_ignored -> "ignored"
+			R.id.menu_episode_set_status_skipped -> "skipped"
+			R.id.menu_episode_set_status_wanted -> "wanted"
+			else -> null
 		}
 	}
 }

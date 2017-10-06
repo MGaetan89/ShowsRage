@@ -101,7 +101,7 @@ class ScheduleAdapter(schedules: RealmResults<Schedule>) : RealmRecyclerViewAdap
 			val schedule = getItem(this.adapterPosition).takeIf { it != null && it.isValid } ?: return
 			val plot = schedule.episodePlot
 
-			if (!plot.isNullOrEmpty()) {
+			if (!plot.isEmpty()) {
 				var message = context.getString(R.string.season_episode_name, schedule.season, schedule.episode, schedule.episodeName)
 				message += "\n\n"
 				message += plot

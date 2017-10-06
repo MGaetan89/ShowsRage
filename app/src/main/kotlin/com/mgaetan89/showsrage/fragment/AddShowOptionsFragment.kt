@@ -17,6 +17,7 @@ import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.RootDirectoriesAdapter
 import com.mgaetan89.showsrage.extension.getRootDirs
+import com.mgaetan89.showsrage.extension.toInt
 import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.model.GenericResponse
 import com.mgaetan89.showsrage.model.RootDir
@@ -41,13 +42,13 @@ class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener
 		}
 
 		val allowedQuality = this.getAllowedQuality(this.allowedQuality)
-		val anime = if (this.anime?.isChecked ?: false) 1 else 0
+		val anime = this.anime?.isChecked.toInt()
 		val callback = AddShowCallback(this.activity)
 		val language = this.getLanguage(this.language)
 		val location = getLocation(this.rootDirectory)
 		val preferredQuality = this.getPreferredQuality(this.preferredQuality)
 		val status = this.getStatus(this.status)
-		val subtitles = if (this.subtitles?.isChecked ?: false) 1 else 0
+		val subtitles = this.subtitles?.isChecked.toInt()
 
 		SickRageApi.instance.services?.addNewShow(indexerId, preferredQuality, allowedQuality, status, language, anime, subtitles, location, callback)
 	}

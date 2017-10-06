@@ -12,12 +12,12 @@ object DateTimeHelper {
 			return "N/A"
 		}
 
-		try {
+		return try {
 			val date = SimpleDateFormat(format, Locale.getDefault()).parse(dateTime)
 
-			return DateUtils.getRelativeTimeSpanString(date.time, System.currentTimeMillis(), minResolution)
+			DateUtils.getRelativeTimeSpanString(date.time, System.currentTimeMillis(), minResolution)
 		} catch (exception: ParseException) {
-			return dateTime!!
+			dateTime.orEmpty()
 		}
 	}
 

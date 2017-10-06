@@ -96,11 +96,11 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
 
 		if (view != null) {
 			this.episodesDownloaded = view.findViewById(R.id.episodes_downloaded) as TextView?
-			this.episodesDownloadedBar = view.findViewById(R.id.episodes_downloaded_bar) as View?
+			this.episodesDownloadedBar = view.findViewById(R.id.episodes_downloaded_bar)
 			this.episodesMissing = view.findViewById(R.id.episodes_missing) as TextView?
-			this.episodesMissingBar = view.findViewById(R.id.episodes_missing_bar) as View?
+			this.episodesMissingBar = view.findViewById(R.id.episodes_missing_bar)
 			this.episodesSnatched = view.findViewById(R.id.episodes_snatched) as TextView?
-			this.episodesSnatchedBar = view.findViewById(R.id.episodes_snatched_bar) as View?
+			this.episodesSnatchedBar = view.findViewById(R.id.episodes_snatched_bar)
 			this.episodesTotal = view.findViewById(R.id.episodes_total) as TextView?
 			this.progressLayout = view.findViewById(R.id.progress_layout) as LinearLayout?
 			this.showsActive = view.findViewById(R.id.shows_active) as TextView?

@@ -37,21 +37,21 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
 	private var seasonNumber: Int = 0
 
 	override fun failure(error: RetrofitError?) {
-		this.swipe_refresh.isRefreshing = false
+		this.swipe_refresh?.isRefreshing = false
 
 		error?.printStackTrace()
 	}
 
 	override fun onChange(episodes: RealmResults<Episode>) {
 		if (this.episodes.isEmpty()) {
-			this.empty.visibility = View.VISIBLE
-			this.list.visibility = View.GONE
+			this.empty?.visibility = View.VISIBLE
+			this.list?.visibility = View.GONE
 		} else {
-			this.empty.visibility = View.GONE
-			this.list.visibility = View.VISIBLE
+			this.empty?.visibility = View.GONE
+			this.list?.visibility = View.VISIBLE
 		}
 
-		this.list.adapter?.notifyDataSetChanged()
+		this.list?.adapter?.notifyDataSetChanged()
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,12 +62,11 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
 		this.seasonNumber = this.arguments.getInt(Constants.Bundle.SEASON_NUMBER)
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return inflater?.inflate(R.layout.fragment_season, container, false)
-	}
+	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater?.inflate(R.layout.fragment_season, container, false)
 
 	override fun onRefresh() {
-		this.swipe_refresh.isRefreshing = true
+		this.swipe_refresh?.isRefreshing = true
 
 		SickRageApi.instance.services?.getEpisodes(this.indexerId, this.seasonNumber, this)
 	}
@@ -83,7 +82,7 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
 
 		this.realm = Realm.getDefaultInstance()
 		this.episodes = this.realm.getEpisodes(this.indexerId, this.seasonNumber, this.reversedOrder, this)
-		this.list.adapter = EpisodesAdapter(this.episodes, this.seasonNumber, this.indexerId, this.reversedOrder)
+		this.list?.adapter = EpisodesAdapter(this.episodes, this.seasonNumber, this.indexerId, this.reversedOrder)
 	}
 
 	override fun onStop() {
@@ -102,21 +101,21 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
 		val columnCount = this.resources.getInteger(R.integer.shows_column_count)
 		val layoutManager = GridLayoutManager(this.activity, columnCount)
 
-		this.list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+		this.list?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 			override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
 				super.onScrolled(recyclerView, dx, dy)
 
-				swipe_refresh.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
+				swipe_refresh?.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
 			}
 		})
-		this.list.layoutManager = layoutManager
+		this.list?.layoutManager = layoutManager
 
-		this.swipe_refresh.setColorSchemeResources(R.color.accent)
-		this.swipe_refresh.setOnRefreshListener(this)
+		this.swipe_refresh?.setColorSchemeResources(R.color.accent)
+		this.swipe_refresh?.setOnRefreshListener(this)
 	}
 
 	override fun success(episodes: Episodes?, response: Response?) {
-		this.swipe_refresh.isRefreshing = false
+		this.swipe_refresh?.isRefreshing = false
 
 		val episodesList = episodes?.data?.map {
 			it.value.number = it.key

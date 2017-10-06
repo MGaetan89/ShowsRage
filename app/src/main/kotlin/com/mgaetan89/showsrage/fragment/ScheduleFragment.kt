@@ -1,7 +1,6 @@
 package com.mgaetan89.showsrage.fragment
 
 import android.os.Bundle
-import android.support.v4.view.PagerAdapter
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.SchedulePagerAdapter
@@ -21,7 +20,7 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
 	private val sectionLabels = mutableListOf<String>()
 
 	override fun failure(error: RetrofitError?) {
-		this.swipe_refresh.isRefreshing = false
+		this.swipe_refresh?.isRefreshing = false
 
 		error?.printStackTrace()
 	}
@@ -52,13 +51,13 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
 	}
 
 	override fun onRefresh() {
-		this.swipe_refresh.isRefreshing = true
+		this.swipe_refresh?.isRefreshing = true
 
 		SickRageApi.instance.services?.getSchedule(this)
 	}
 
 	override fun success(schedules: Schedules?, response: Response?) {
-		this.swipe_refresh.isRefreshing = false
+		this.swipe_refresh?.isRefreshing = false
 
 		val data = schedules?.data ?: return
 
@@ -81,9 +80,7 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
 		realm.close()
 	}
 
-	override fun getAdapter(): PagerAdapter {
-		return SchedulePagerAdapter(this.childFragmentManager, this.sectionIds, this.sectionLabels)
-	}
+	override fun getAdapter() = SchedulePagerAdapter(this.childFragmentManager, this.sectionIds, this.sectionLabels)
 
 	override fun useSwipeToRefresh() = true
 
@@ -105,14 +102,12 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
 	}
 
 	companion object {
-		fun getSectionName(sectionId: String?): Int {
-			return when (sectionId?.toLowerCase()) {
-				"later" -> R.string.later
-				"missed" -> R.string.missed
-				"soon" -> R.string.soon
-				"today" -> R.string.today
-				else -> 0
-			}
+		fun getSectionName(sectionId: String?) = when (sectionId?.toLowerCase()) {
+			"later" -> R.string.later
+			"missed" -> R.string.missed
+			"soon" -> R.string.soon
+			"today" -> R.string.today
+			else -> 0
 		}
 
 		fun newInstance() = ScheduleFragment()

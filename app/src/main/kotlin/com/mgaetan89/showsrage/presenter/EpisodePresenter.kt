@@ -9,7 +9,7 @@ class EpisodePresenter(val episode: Episode?) {
 	fun getAirDate(): CharSequence? {
 		val airDate = this._getEpisode()?.airDate ?: return null
 
-		if (airDate.isNullOrEmpty()) {
+		if (airDate.isEmpty()) {
 			return null
 		}
 
@@ -25,5 +25,5 @@ class EpisodePresenter(val episode: Episode?) {
 	@ColorRes
 	fun getStatusColor() = this._getEpisode()?.getStatusBackgroundColor() ?: android.R.color.transparent
 
-	private fun _getEpisode() = if (this.episode?.isValid ?: false) this.episode else null
+	private fun _getEpisode() = if (this.episode?.isValid == true) this.episode else null
 }

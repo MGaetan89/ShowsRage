@@ -11,9 +11,7 @@ import java.util.Locale
 
 fun SharedPreferences.getApiKey() = this.getString(Fields.API_KEY.field, "") ?: ""
 
-fun SharedPreferences.getEpisodeSort(): Sort {
-	return if (this.getBoolean(Fields.EPISODE_SORT.field, false)) Sort.ASCENDING else Sort.DESCENDING
-}
+fun SharedPreferences.getEpisodeSort() = if (this.getBoolean(Fields.EPISODE_SORT.field, false)) Sort.ASCENDING else Sort.DESCENDING
 
 fun SharedPreferences?.getLanguage() = this?.getString(Fields.DISPLAY_LANGUAGE.field, "") ?: ""
 
@@ -36,7 +34,7 @@ fun SharedPreferences.getLogLevel(): LogLevel {
 
 	return try {
 		LogLevel.valueOf(logsLevelString)
-	} catch(exception: IllegalArgumentException) {
+	} catch (exception: IllegalArgumentException) {
 		default
 	}
 }
@@ -49,9 +47,7 @@ fun SharedPreferences?.getLogsAutoUpdateInterval(): Int {
 
 fun SharedPreferences.getPortNumber() = this.getString(Fields.PORT_NUMBER.field, "") ?: ""
 
-fun SharedPreferences.getSeasonSort(): Sort {
-	return if (this.getBoolean(Fields.SEASON_SORT.field, false)) Sort.ASCENDING else Sort.DESCENDING
-}
+fun SharedPreferences.getSeasonSort() = if (this.getBoolean(Fields.SEASON_SORT.field, false)) Sort.ASCENDING else Sort.DESCENDING
 
 fun SharedPreferences.getServerAddress() = this.getString(Fields.SERVER_ADDRESS.field, "") ?: ""
 
@@ -67,7 +63,7 @@ fun SharedPreferences.getShowsFilterState(): ShowsFilters.State {
 
 	return try {
 		ShowsFilters.State.valueOf(stateString)
-	} catch(exception: IllegalArgumentException) {
+	} catch (exception: IllegalArgumentException) {
 		default
 	}
 }

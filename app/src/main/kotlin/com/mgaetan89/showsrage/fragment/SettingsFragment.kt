@@ -45,8 +45,8 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
 	}
 
 	override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-		if (preference?.key?.startsWith("screen_") ?: false) {
-			val fragment = getSettingFragmentForScreen(preference?.key)
+		if (preference?.key?.startsWith("screen_") == true) {
+			val fragment = getSettingFragmentForScreen(preference.key)
 
 			if (fragment != null) {
 				this.fragmentManager.beginTransaction()
@@ -88,9 +88,8 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
 		this.updatePreference(this.findPreference(key))
 	}
 
-	protected fun getPreferenceValue(key: String, defaultValue: String?): String? {
-		return this.preferenceManager.sharedPreferences?.getString(key, defaultValue)
-	}
+	private fun getPreferenceValue(key: String, defaultValue: String?)
+			= this.preferenceManager.sharedPreferences?.getString(key, defaultValue)
 
 	@StringRes
 	internal open fun getTitleResourceId() = R.string.settings
@@ -171,18 +170,16 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
 	}
 
 	companion object {
-		internal fun getSettingFragmentForScreen(screen: String?): SettingsFragment? {
-			return when (screen) {
-				"screen_about" -> SettingsAboutFragment.newInstance()
-				"screen_about_licenses" -> SettingsAboutLicensesFragment.newInstance()
-				"screen_about_shows_rage" -> SettingsAboutShowsRageFragment.newInstance()
-				"screen_behavior" -> SettingsBehaviorFragment.newInstance()
-				"screen_display" -> SettingsDisplayFragment.newInstance()
-				"screen_experimental_features" -> SettingsExperimentalFeaturesFragment.newInstance()
-				"screen_server" -> SettingsServerFragment.newInstance()
-				"screen_server_api_key" -> SettingsServerApiKeyFragment.newInstance()
-				else -> null
-			}
+		internal fun getSettingFragmentForScreen(screen: String?) = when (screen) {
+			"screen_about" -> SettingsAboutFragment.newInstance()
+			"screen_about_licenses" -> SettingsAboutLicensesFragment.newInstance()
+			"screen_about_shows_rage" -> SettingsAboutShowsRageFragment.newInstance()
+			"screen_behavior" -> SettingsBehaviorFragment.newInstance()
+			"screen_display" -> SettingsDisplayFragment.newInstance()
+			"screen_experimental_features" -> SettingsExperimentalFeaturesFragment.newInstance()
+			"screen_server" -> SettingsServerFragment.newInstance()
+			"screen_server_api_key" -> SettingsServerApiKeyFragment.newInstance()
+			else -> null
 		}
 
 		fun newInstance() = SettingsFragment()

@@ -29,13 +29,9 @@ class UpdateResponse(
 	companion object {
 		@JvmField
 		val CREATOR = object : Parcelable.Creator<UpdateResponse> {
-			override fun createFromParcel(`in`: Parcel): UpdateResponse {
-				return UpdateResponse(`in`)
-			}
+			override fun createFromParcel(`in`: Parcel) = UpdateResponse(`in`)
 
-			override fun newArray(size: Int): Array<UpdateResponse?> {
-				return arrayOfNulls(size)
-			}
+			override fun newArray(size: Int) = arrayOfNulls<UpdateResponse?>(size)
 		}
 	}
 }

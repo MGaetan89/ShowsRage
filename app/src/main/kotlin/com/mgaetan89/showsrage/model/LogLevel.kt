@@ -8,7 +8,5 @@ enum class LogLevel(val logLevels: Array<String>) {
 	INFO(arrayOf("ERROR", "INFO", "WARNING")),
 	WARNING(arrayOf("ERROR", "WARNING"));
 
-	override fun toString(): String {
-		return super.toString().toLowerCase(Locale.getDefault())
-	}
+	override fun toString() = super.toString().toLowerCase(Locale.getDefault())
 }

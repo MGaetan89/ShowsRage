@@ -52,8 +52,8 @@ class SettingsServerApiKeyFragment : SettingsServerFragment() {
 		}
 
 		override fun success(apiKey: ApiKey?, response: Response?) {
-			if (apiKey?.success ?: false) {
-				this.showApiKeyResult(apiKey?.apiKey)
+			if (apiKey?.success == true) {
+				this.showApiKeyResult(apiKey.apiKey)
 			} else {
 				this.showApiKeyResult(null)
 			}

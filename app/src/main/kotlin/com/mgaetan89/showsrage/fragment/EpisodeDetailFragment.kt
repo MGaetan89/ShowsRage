@@ -84,7 +84,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 	}
 
 	override fun failure(error: RetrofitError?) {
-		this.swipe_refresh.isRefreshing = false
+		this.swipe_refresh?.isRefreshing = false
 
 		error?.printStackTrace()
 	}
@@ -108,9 +108,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 		SickRageApi.instance.services?.searchEpisode(this.show!!.indexerId, this.seasonNumber, this.episodeNumber, GenericCallback(this.activity))
 	}
 
-	override fun onCreateCallback(): MediaRouter.Callback? {
-		return MediaRouterCallback(this)
-	}
+	override fun onCreateCallback(): MediaRouter.Callback? = MediaRouterCallback(this)
 
 	override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
 		inflater?.inflate(R.menu.episode, menu)
@@ -138,9 +136,8 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 		this.displayStreamingMenus(this.episode)
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return inflater?.inflate(R.layout.fragment_episode_detail, container, false)
-	}
+	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater?.inflate(R.layout.fragment_episode_detail, container, false)
 
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 		return when (item?.itemId) {
@@ -170,7 +167,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 	}
 
 	override fun onRefresh() {
-		this.swipe_refresh.isRefreshing = true
+		this.swipe_refresh?.isRefreshing = true
 
 		if (this.show != null) {
 			SickRageApi.instance.services?.getEpisode(this.show!!.indexerId, this.seasonNumber, this.episodeNumber, this)
@@ -217,10 +214,10 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		this.episode_name.isSelected = true
+		this.episode_name?.isSelected = true
 
-		this.swipe_refresh.setColorSchemeResources(R.color.accent)
-		this.swipe_refresh.setOnRefreshListener(this)
+		this.swipe_refresh?.setColorSchemeResources(R.color.accent)
+		this.swipe_refresh?.setOnRefreshListener(this)
 
 		val activity = this.activity
 
@@ -231,21 +228,21 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 				val colorPrimary = colors.primary
 
 				if (colorPrimary != 0) {
-					this.search_episode.backgroundTintList = ColorStateList.valueOf(colorPrimary)
+					this.search_episode?.backgroundTintList = ColorStateList.valueOf(colorPrimary)
 					DrawableCompat.setTint(DrawableCompat.wrap(this.search_episode.drawable), Utils.getContrastColor(colorPrimary))
 				}
 			}
 		}
 
-		this.search_episode.setOnClickListener(this)
+		this.search_episode?.setOnClickListener(this)
 	}
 
 	override fun success(singleEpisode: SingleEpisode?, response: Response?) {
-		this.swipe_refresh.isRefreshing = false
+		this.swipe_refresh?.isRefreshing = false
 
 		val episode = singleEpisode?.data
 
-		if (episode != null && this.show?.isValid ?: false) {
+		if (episode != null && this.show?.isValid == true) {
 			Realm.getDefaultInstance().let {
 				it.saveEpisode(episode, this.show!!.indexerId, this.seasonNumber, this.episodeNumber)
 				it.close()
@@ -272,36 +269,36 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 			return
 		}
 
-		this.episode_airs.text = this.getString(R.string.airs, DateTimeHelper.getRelativeDate(episode.airDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS))
-		this.episode_airs.visibility = View.VISIBLE
+		this.episode_airs?.text = this.getString(R.string.airs, DateTimeHelper.getRelativeDate(episode.airDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS))
+		this.episode_airs?.visibility = View.VISIBLE
 
 		if (episode.fileSize == 0L) {
-			this.episode_more_information_layout.visibility = View.GONE
+			this.episode_more_information_layout?.visibility = View.GONE
 		} else {
-			this.episode_file_size.text = this.getString(R.string.file_size, episode.fileSizeHuman)
-			this.episode_location.text = this.getString(R.string.location, episode.location)
-			this.episode_more_information_layout.visibility = View.VISIBLE
+			this.episode_file_size?.text = this.getString(R.string.file_size, episode.fileSizeHuman)
+			this.episode_location?.text = this.getString(R.string.location, episode.location)
+			this.episode_more_information_layout?.visibility = View.VISIBLE
 		}
 
-		this.episode_name.text = episode.name
-		this.episode_name.visibility = View.VISIBLE
+		this.episode_name?.text = episode.name
+		this.episode_name?.visibility = View.VISIBLE
 
 		val description = episode.description
 
 		if (description.isNullOrEmpty()) {
-			this.episode_plot_layout.visibility = View.GONE
+			this.episode_plot_layout?.visibility = View.GONE
 		} else {
-			this.episode_plot.text = description
-			this.episode_plot_layout.visibility = View.VISIBLE
+			this.episode_plot?.text = description
+			this.episode_plot_layout?.visibility = View.VISIBLE
 		}
 
 		val quality = episode.quality
 
 		if ("N/A".equals(quality, ignoreCase = true)) {
-			this.episode_quality.visibility = View.GONE
+			this.episode_quality?.visibility = View.GONE
 		} else {
-			this.episode_quality.text = this.getString(R.string.quality, quality)
-			this.episode_quality.visibility = View.VISIBLE
+			this.episode_quality?.text = this.getString(R.string.quality, quality)
+			this.episode_quality?.visibility = View.VISIBLE
 		}
 
 		val status = episode.getStatusTranslationResource()
@@ -311,14 +308,14 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 			episode.status
 		}
 
-		this.episode_status.text = this.getString(R.string.status_value, statusString)
-		this.episode_status.visibility = View.VISIBLE
+		this.episode_status?.text = this.getString(R.string.status_value, statusString)
+		this.episode_status?.visibility = View.VISIBLE
 
-		if (episode.subtitles.isNullOrEmpty()) {
-			this.episode_subtitles.visibility = View.GONE
+		if (episode.subtitles.isEmpty()) {
+			this.episode_subtitles?.visibility = View.GONE
 		} else {
-			this.episode_subtitles.text = this.getString(R.string.subtitles_value, getDisplayableSubtitlesLanguages(episode.subtitles))
-			this.episode_subtitles.visibility = View.VISIBLE
+			this.episode_subtitles?.text = this.getString(R.string.subtitles_value, getDisplayableSubtitlesLanguages(episode.subtitles))
+			this.episode_subtitles?.visibility = View.VISIBLE
 		}
 	}
 
@@ -332,7 +329,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 		var location = this.episode.location
 
 		if (!location.isNullOrEmpty()) {
-			this.realm.getRootDirs().filterNotNull().forEach {
+			this.realm.getRootDirs().forEach {
 				val currentLocation = it.location
 
 				if (location!!.startsWith(currentLocation)) {
@@ -352,7 +349,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 			return Uri.parse(uri.toString())
 		} catch (exception: MalformedURLException) {
 			exception.printStackTrace()
-		} catch(exception: URISyntaxException) {
+		} catch (exception: URISyntaxException) {
 			exception.printStackTrace()
 		}
 
@@ -367,9 +364,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 		return episodeDownloaded && streamInChromecast
 	}
 
-	private fun isEpisodeDownloaded(episode: Episode): Boolean {
-		return episode.isLoaded && "Downloaded".equals(episode.status, true)
-	}
+	private fun isEpisodeDownloaded(episode: Episode) = episode.isLoaded && "Downloaded".equals(episode.status, true)
 
 	private fun isPlayMenuVisible(episode: Episode): Boolean {
 		val activity = this.activity ?: return false
@@ -405,7 +400,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 		private const val EVENT_PLAY_EPISODE_VIDEO = "play_episode_video"
 
 		internal fun getDisplayableSubtitlesLanguages(subtitles: String): String {
-			val subtitlesNames = subtitles.split(",").filter { !it.isNullOrEmpty() }.map(String::toLocale).filterNotNull()
+			val subtitlesNames = subtitles.split(",").filter { !it.isEmpty() }.mapNotNull(String::toLocale)
 
 			return subtitlesNames.map(Locale::getDisplayLanguage).filter { !it.isNullOrEmpty() }.joinToString()
 		}

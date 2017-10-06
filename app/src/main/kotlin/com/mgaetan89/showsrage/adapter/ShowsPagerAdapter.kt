@@ -10,7 +10,7 @@ import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.fragment.ShowsSectionFragment
 
-class ShowsPagerAdapter(fragmentManager: FragmentManager, val fragment: Fragment, val splitShowsAnimes: Boolean) : FragmentStatePagerAdapter(fragmentManager) {
+class ShowsPagerAdapter(fragmentManager: FragmentManager, val fragment: Fragment, private val splitShowsAnimes: Boolean) : FragmentStatePagerAdapter(fragmentManager) {
 	override fun getCount() = if (this.splitShowsAnimes) 2 else 1
 
 	override fun getItem(position: Int): Fragment? {
@@ -43,7 +43,7 @@ class ShowsPagerAdapter(fragmentManager: FragmentManager, val fragment: Fragment
 	override fun restoreState(state: Parcelable?, loader: ClassLoader?) {
 		try {
 			super.restoreState(state, loader)
-		} catch(exception: IllegalStateException) {
+		} catch (exception: IllegalStateException) {
 			Log.d("ShowsPagerAdapter", exception.message, exception)
 		}
 	}

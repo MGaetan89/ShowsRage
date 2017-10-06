@@ -1,7 +1,6 @@
 package com.mgaetan89.showsrage.fragment
 
 import android.os.Bundle
-import android.support.v4.view.PagerAdapter
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
@@ -57,9 +56,7 @@ class ShowFragment : TabbedFragment(), Callback<Seasons> {
 		this.displaySeasons(seasons?.data)
 	}
 
-	override fun getAdapter(): PagerAdapter {
-		return ShowPagerAdapter(this.childFragmentManager, this, this.seasons)
-	}
+	override fun getAdapter() = ShowPagerAdapter(this.childFragmentManager, this, this.seasons)
 
 	override fun useSwipeToRefresh() = false
 
