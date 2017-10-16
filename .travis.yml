@@ -10,15 +10,6 @@ jdk: oraclejdk8
 
 android:
   components:
-    - android-15
-    - android-16
-    - android-17
-    - android-18
-    - android-19
-    - android-21
-    - android-22
-    - android-23
-    - android-24
     - android-25
     - build-tools-25.0.3
     - extra-android-m2repository
