@@ -10,20 +10,23 @@ jdk: oraclejdk8
 
 android:
   components:
+    - android-15
     - android-19
     - android-25
     - build-tools-25.0.3
     - extra-android-m2repository
     - extra-google-m2repository
     - platform-tools
+    - sys-img-armeabi-v7a-google_apis-15
     - sys-img-armeabi-v7a-google_apis-19
-    - sys-img-x86_64-google_apis-25
+    - sys-img-x86-google_apis-25
     - tools
 
 env:
   matrix:
+    - ANDROID_TARGET=android-15   ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-19   ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-25   ANDROID_ABI=x86_64
+    - ANDROID_TARGET=android-25   ANDROID_ABI=x86
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -32,7 +35,7 @@ before_cache:
 before_script:
   - android list targets
   - echo no | android create avd -f -n "test" -t $ANDROID_TARGET -b $ANDROID_ABI -g "google_apis"
-  - emulator -memory 1536 -avd "test" -no-audio -no-skin -no-window -wipe-data &
+  - emulator -memory 1536 -avd "test" -no-audio -no-window -wipe-data &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
