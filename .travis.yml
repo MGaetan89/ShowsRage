@@ -10,16 +10,15 @@ jdk: oraclejdk8
 
 android:
   components:
-    - android-19
-    - android-21
-    - android-22
-    - android-23
-    - android-24
     - android-25
     - build-tools-25.0.3
     - extra-android-m2repository
     - extra-google-m2repository
     - platform-tools
+    - sys-img-armeabi-v7a-google_apis-15
+    - sys-img-armeabi-v7a-google_apis-16
+    - sys-img-armeabi-v7a-google_apis-17
+    - sys-img-armeabi-v7a-google_apis-18
     - sys-img-armeabi-v7a-google_apis-19
     - sys-img-x86_64-google_apis-21
     - sys-img-x86_64-google_apis-22
@@ -30,12 +29,16 @@ android:
 
 env:
   matrix:
-    - ANDROID_TARGET=android-19   ANDROID_ABI=armeabi-v7a-google_apis
-    - ANDROID_TARGET=android-21   ANDROID_ABI=x86_64-google_apis
-    - ANDROID_TARGET=android-22   ANDROID_ABI=x86_64-google_apis
-    - ANDROID_TARGET=android-23   ANDROID_ABI=x86_64-google_apis
-    - ANDROID_TARGET=android-24   ANDROID_ABI=x86_64-google_apis
-    - ANDROID_TARGET=android-25
+    - ANDROID_TARGET=android-15   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-16   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-17   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-18   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-19   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-21   ANDROID_ABI=x86_64
+    - ANDROID_TARGET=android-22   ANDROID_ABI=x86_64
+    - ANDROID_TARGET=android-23   ANDROID_ABI=x86_64
+    - ANDROID_TARGET=android-24   ANDROID_ABI=x86_64
+    - ANDROID_TARGET=android-25   ANDROID_ABI=x86_64
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
