@@ -1,54 +1,47 @@
 language: android
 
-sudo: required
-
 branches:
   except:
     - gh-pages
 
-jdk: oraclejdk8
-
 android:
   components:
-    - android-15
-    - android-19
-    - android-25
+    - android-$ANDROID_TARGET
     - build-tools-25.0.3
-    - extra-android-m2repository
-    - extra-google-m2repository
     - platform-tools
-    - sys-img-armeabi-v7a-google_apis-15
-    - sys-img-armeabi-v7a-google_apis-19
-    - sys-img-x86-google_apis-25
+    - sys-img-$ANDROID_ABI-google_apis-$ANDROID_TARGET
     - tools
 
 env:
   matrix:
-    - ANDROID_TARGET=android-15   ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-19   ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-25   ANDROID_ABI=x86
-
-before_cache:
-  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+    - ANDROID_TARGET=15   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=16   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=17   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=18   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=19   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=21   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=22   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=23   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=24   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=25   ANDROID_ABI=armeabi-v7a
 
 before_script:
   - android list targets
-  - echo no | android create avd -f -n "test" -t $ANDROID_TARGET -b $ANDROID_ABI -g "google_apis"
-  - emulator -memory 1536 -avd "test" -no-audio -no-window -wipe-data &
+  - echo no | android create avd -f -n "test_$ANDROID_TARGET" -t "android-$ANDROID_TARGET" -b $ANDROID_ABI -g "google_apis"
+  - android list avd
+  - emulator -memory 1536 -avd "test_$ANDROID_TARGET" -no-audio -no-boot-anim -no-window -wipe-data -engine classic &
   - android-wait-for-emulator
+  - adb devices
   - adb shell input keyevent 82 &
 
 script:
-  - ./gradlew clean
-  - ./gradlew testDebug
-  - if [[ "$ANDROID_ABI" ]]; then ./gradlew connectedCheck; fi
+  - ./gradlew jacocoTestReportDebug assembleAndroidTest connectedDebugAndroidTest createDebugCoverageReport
 
 after_success:
-  - ./gradlew jacocoTestReport coveralls
+  - ./gradlew coveralls
 
 after_failure:
-  - if [[ "$ANDROID_ABI" ]]; then adb logcat -d; fi
+  - adb logcat -d
 
 cache:
   directories:
