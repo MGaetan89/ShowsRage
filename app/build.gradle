@@ -77,6 +77,41 @@ android {
 	}
 }
 
+// From https://github.com/nenick/android-gradle-template/blob/master/app/build.jacoco-test-report.gradle
+task jacocoTestReport(type: JacocoReport /*, dependsOn: ['test'] */) {
+	group = 'Reporting'
+	description = 'Generates Jacoco coverage reports: XML and HTML'
+	//outputs.upToDateWhen { false }
+
+	// use hidden configuration, for details look into JacocoPlugin.groovy
+	jacocoClasspath = configurations['androidJacocoAnt']
+
+	// exclude auto-generated classes and tests
+	def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+	def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+	def mainSrc = "${projectDir}/src/main/kotlin"
+
+	sourceDirectories = files([mainSrc])
+	classDirectories = files([debugTree])
+	executionData = fileTree(dir: projectDir, includes: ['**/*.exec', '**/*.ec'])
+
+	reports {
+		csv {
+			enabled = false
+		}
+
+		html {
+			enabled = true
+			destination = "${buildDir}/reports/jacoco"
+		}
+
+		xml {
+			enabled = true
+			destination = "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+		}
+	}
+}
+
 junitJacoco {
 	jacocoVersion = '0.7.9'
 	includeNoLocationClasses = true

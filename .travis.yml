@@ -35,10 +35,10 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-  - ./gradlew jacocoTestReportDebug assembleAndroidTest connectedDebugAndroidTest createDebugCoverageReport
+  - ./gradlew testDebugUnitTest connectedDebugAndroidTest
 
 after_success:
-  - ./gradlew coveralls
+  - ./gradlew createDebugCoverageReport jacocoTestReportDebug coveralls
 
 after_failure:
   - adb logcat -d
