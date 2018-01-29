@@ -142,7 +142,7 @@ class RealmExtension_SaveSchedulesTest : RealmTest() {
 		val schedule = this.getSchedule(id)
 
 		assertThat(schedule).isNotNull()
-		assertThat(schedule.airDate).isEqualTo(airDate)
+		assertThat(schedule!!.airDate).isEqualTo(airDate)
 		assertThat(schedule.episode).isEqualTo(episodeNumber)
 		assertThat(schedule.episodeName).isEqualTo(episodeName)
 		assertThat(schedule.id).isEqualTo(id)
