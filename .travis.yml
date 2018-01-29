@@ -38,7 +38,7 @@ script:
   - ./gradlew testDebugUnitTest connectedDebugAndroidTest
 
 after_success:
-  - ./gradlew createDebugCoverageReport jacocoTestReportDebug coveralls
+  - ./gradlew jacocoTestReportDebug coveralls
 
 after_failure:
   - adb logcat -d
