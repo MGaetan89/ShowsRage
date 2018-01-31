@@ -26,6 +26,8 @@ env:
     - ANDROID_TARGET=25   ANDROID_ABI=armeabi-v7a
 
 before_script:
+  # https://stackoverflow.com/a/28882971/1914223
+  - echo "sdk.dir=/usr/local/android-sdk" > local.properties
   - android list targets
   - echo no | android create avd -f -n "test_$ANDROID_TARGET" -t "android-$ANDROID_TARGET" -b $ANDROID_ABI -g "google_apis"
   - android list avd
