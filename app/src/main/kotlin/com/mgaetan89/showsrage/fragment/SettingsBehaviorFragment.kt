@@ -21,7 +21,9 @@ class SettingsBehaviorFragment : SettingsFragment() {
 	}
 
 	private fun confirmClearLocalData() {
-		AlertDialog.Builder(this.activity)
+		val context = this.context ?: return
+
+		AlertDialog.Builder(context)
 				.setMessage(R.string.clear_local_data_confirm)
 				.setPositiveButton(R.string.clear, { _, _ ->
 					Realm.getDefaultInstance().let {

@@ -18,14 +18,14 @@ import kotlinx.android.synthetic.main.adapter_histories_list_content.view.episod
 import kotlinx.android.synthetic.main.adapter_histories_list_content.view.episode_provider_quality
 
 class HistoriesAdapter(histories: RealmResults<History>) : RealmRecyclerViewAdapter<History, HistoriesAdapter.ViewHolder>(histories, true) {
-	override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 		val history = this.getItem(position).takeIf { it != null && it.isValid } ?: return
 
-		holder?.bind(history)
+		holder.bind(history)
 	}
 
-	override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
-		val view = LayoutInflater.from(parent?.context).inflate(R.layout.adapter_histories_list, parent, false)
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+		val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_histories_list, parent, false)
 
 		return ViewHolder(view)
 	}

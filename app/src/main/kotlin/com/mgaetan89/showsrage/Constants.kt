@@ -7,17 +7,17 @@ object Constants {
 	val SUPPORTED_LOCALES = listOf(Locale.ENGLISH, Locale.FRENCH)
 
 	object Bundle {
-		val ANIME = "anime"
-		val EPISODE_ID = "episode_id"
-		val EPISODE_NUMBER = "episode_number"
-		val EPISODES_COUNT = "episodes_count"
-		val INDEXER_ID = "indexer_id"
-		val LOGS_GROUPS = "logs_groups"
-		val MENU_ID = "menu_id"
-		val SCHEDULE_SECTION = "schedule_section"
-		val SEARCH_QUERY = "search_query"
-		val SEASON_NUMBER = "season_number"
-		val UPDATE_MODEL = "update_model"
+		const val ANIME = "anime"
+		const val EPISODE_ID = "episode_id"
+		const val EPISODE_NUMBER = "episode_number"
+		const val EPISODES_COUNT = "episodes_count"
+		const val INDEXER_ID = "indexer_id"
+		const val LOGS_GROUPS = "logs_groups"
+		const val MENU_ID = "menu_id"
+		const val SCHEDULE_SECTION = "schedule_section"
+		const val SEARCH_QUERY = "search_query"
+		const val SEASON_NUMBER = "season_number"
+		const val UPDATE_MODEL = "update_model"
 	}
 
 	object Defaults {
@@ -25,15 +25,15 @@ object Constants {
 	}
 
 	object Intents {
-		val ACTION_DISPLAY_HISTORY = BuildConfig.APPLICATION_ID + ".action.display_history"
-		val ACTION_DISPLAY_SCHEDULE = BuildConfig.APPLICATION_ID + ".action.display_schedule"
-		val ACTION_DISPLAY_SHOW = BuildConfig.APPLICATION_ID + ".action.display_show"
-		val ACTION_EPISODE_ACTION_SELECTED = BuildConfig.APPLICATION_ID + ".action.episode_action_selected"
-		val ACTION_EPISODE_SELECTED = BuildConfig.APPLICATION_ID + ".action.episode_selected"
-		val ACTION_FILTER_SHOWS = BuildConfig.APPLICATION_ID + ".action.filter_shows"
-		val ACTION_REFRESH_WIDGET = BuildConfig.APPLICATION_ID + ".action.refresh_widget"
-		val ACTION_SEARCH_RESULT_SELECTED = BuildConfig.APPLICATION_ID + ".action.search_result_selected"
-		val ACTION_SHOW_SELECTED = BuildConfig.APPLICATION_ID + ".action.show_selected"
+		const val ACTION_DISPLAY_HISTORY = BuildConfig.APPLICATION_ID + ".action.display_history"
+		const val ACTION_DISPLAY_SCHEDULE = BuildConfig.APPLICATION_ID + ".action.display_schedule"
+		const val ACTION_DISPLAY_SHOW = BuildConfig.APPLICATION_ID + ".action.display_show"
+		const val ACTION_EPISODE_ACTION_SELECTED = BuildConfig.APPLICATION_ID + ".action.episode_action_selected"
+		const val ACTION_EPISODE_SELECTED = BuildConfig.APPLICATION_ID + ".action.episode_selected"
+		const val ACTION_FILTER_SHOWS = BuildConfig.APPLICATION_ID + ".action.filter_shows"
+		const val ACTION_REFRESH_WIDGET = BuildConfig.APPLICATION_ID + ".action.refresh_widget"
+		const val ACTION_SEARCH_RESULT_SELECTED = BuildConfig.APPLICATION_ID + ".action.search_result_selected"
+		const val ACTION_SHOW_SELECTED = BuildConfig.APPLICATION_ID + ".action.show_selected"
 	}
 
 	enum class Payloads {

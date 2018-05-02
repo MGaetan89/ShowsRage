@@ -26,7 +26,7 @@ class ShowsPagerAdapter(fragmentManager: FragmentManager, val fragment: Fragment
 		return fragment
 	}
 
-	override fun getItemPosition(`object`: Any?) = POSITION_NONE
+	override fun getItemPosition(`object`: Any) = POSITION_NONE
 
 	override fun getPageTitle(position: Int): CharSequence? {
 		if (!this.fragment.isAdded) {

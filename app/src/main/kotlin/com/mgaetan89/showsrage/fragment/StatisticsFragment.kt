@@ -92,7 +92,8 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
 	}
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-		val view = LayoutInflater.from(this.context).inflate(R.layout.fragment_statistics, null)
+		val context = this.context ?: return super.onCreateDialog(savedInstanceState)
+		val view = LayoutInflater.from(context).inflate(R.layout.fragment_statistics, null)
 
 		if (view != null) {
 			this.episodesDownloaded = view.findViewById(R.id.episodes_downloaded) as TextView?
@@ -108,7 +109,7 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
 			this.statisticsLayout = view.findViewById(R.id.statistics_layout) as LinearLayout?
 		}
 
-		val builder = AlertDialog.Builder(this.context)
+		val builder = AlertDialog.Builder(context)
 		builder.setTitle(R.string.statistics)
 		builder.setView(view)
 		builder.setPositiveButton(R.string.close, null)

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
@@ -71,7 +72,7 @@ import retrofit.client.Response
 import java.lang.ref.WeakReference
 
 class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListener, ImageLoader.OnImageResult, SwipeRefreshLayout.OnRefreshListener, Palette.PaletteAsyncListener, RealmChangeListener<Show> {
-	private val indexerId by lazy { this.arguments.getInt(Constants.Bundle.INDEXER_ID) }
+	private val indexerId by lazy { this.arguments!!.getInt(Constants.Bundle.INDEXER_ID) }
 	private var pauseMenu: MenuItem? = null
 	private lateinit var realm: Realm
 	private var resumeMenu: MenuItem? = null
@@ -191,7 +192,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		}
 
 		val activity = this.activity
-		var color = ContextCompat.getColor(activity, R.color.primary)
+		var color = if (activity != null) ContextCompat.getColor(activity, R.color.primary) else Color.BLUE
 		val url = when (view.id) {
 			R.id.show_imdb -> "http://www.imdb.com/title/${this.show.imdbId}"
 			R.id.show_the_tvdb -> "http://thetvdb.com/?tab=series&id=${this.show.tvDbId}"
@@ -233,8 +234,8 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		this.resumeMenu?.isVisible = false
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
-			= inflater?.inflate(R.layout.fragment_show_overview, container, false)
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater.inflate(R.layout.fragment_show_overview, container, false)
 
 	override fun onDestroy() {
 		val activity = this.activity
@@ -244,19 +245,16 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		}
 
 		if (this.serviceConnection != null) {
-			this.context.unbindService(this.serviceConnection)
+			this.context?.unbindService(this.serviceConnection)
 		}
 
 		super.onDestroy()
 	}
 
-	override fun onGenerated(palette: Palette?) {
-		if (palette == null || this.context == null) {
-			return
-		}
-
+	override fun onGenerated(palette: Palette) {
+		val context = this.context ?: return
 		val activity = this.activity
-		val colors = Utils.getThemeColors(this.context, palette)
+		val colors = Utils.getThemeColors(context, palette)
 		val colorPrimary = colors.primary
 
 		if (activity is MainActivity) {
@@ -339,7 +337,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 	override fun onRefresh() {
 		this.swipe_refresh?.isRefreshing = true
 
-		val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
+		val indexerId = this.arguments?.getInt(Constants.Bundle.INDEXER_ID) ?: return
 
 		SickRageApi.instance.services?.getShow(indexerId, this)
 	}
@@ -367,9 +365,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		super.onStop()
 	}
 
-	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		this.show_imdb?.setOnClickListener(this)
 		this.show_the_tvdb?.setOnClickListener(this)
 		this.show_web_search?.setOnClickListener(this)
@@ -398,21 +394,22 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
 	private fun checkSupportWebSearch() {
 		val webSearchIntent = Intent(Intent.ACTION_WEB_SEARCH)
-		val manager = this.context.packageManager
-		val activities = manager.queryIntentActivities(webSearchIntent, 0)
+		val manager = this.context?.packageManager
+		val activities = manager?.queryIntentActivities(webSearchIntent, 0).orEmpty()
 
-		this.show_web_search?.visibility = if (activities.size > 0) View.VISIBLE else View.GONE
+		this.show_web_search?.visibility = if (activities.isNotEmpty()) View.VISIBLE else View.GONE
 	}
 
 	private fun deleteShow() {
-		if (!this.show.isLoaded) {
+		val activity = this.activity
+		if (activity == null || !this.show.isLoaded) {
 			return
 		}
 
 		val indexerId = this.indexerId
-		val callback = DeleteShowCallback(this.activity, indexerId)
+		val callback = DeleteShowCallback(activity, indexerId)
 
-		AlertDialog.Builder(this.context)
+		AlertDialog.Builder(activity)
 				.setTitle(this.getString(R.string.delete_show_title, this.show.showName))
 				.setMessage(R.string.delete_show_message)
 				.setPositiveButton(R.string.keep) { _, _ ->

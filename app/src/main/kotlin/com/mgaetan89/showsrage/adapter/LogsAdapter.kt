@@ -16,14 +16,14 @@ import kotlinx.android.synthetic.main.adapter_logs_list.view.log_group
 import kotlinx.android.synthetic.main.adapter_logs_list.view.log_message
 
 class LogsAdapter(logs: RealmResults<LogEntry>) : RealmRecyclerViewAdapter<LogEntry, LogsAdapter.ViewHolder>(logs, true) {
-	override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 		val logEntry = this.getItem(position).takeIf { it != null && it.isValid } ?: return
 
-		holder?.bind(logEntry)
+		holder.bind(logEntry)
 	}
 
-	override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
-		val view = LayoutInflater.from(parent?.context).inflate(R.layout.adapter_logs_list, parent, false)
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+		val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_logs_list, parent, false)
 
 		return ViewHolder(view)
 	}

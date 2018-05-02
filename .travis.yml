@@ -4,46 +4,40 @@ branches:
   except:
     - gh-pages
 
-android:
-  components:
-    - android-$ANDROID_TARGET
-    - build-tools-25.0.3
-    - platform-tools
-    - sys-img-$ANDROID_ABI-google_apis-$ANDROID_TARGET
-    - tools
-
 env:
   matrix:
-    - ANDROID_TARGET=15   ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=16   ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=17   ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=18   ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=19   ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=21   ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=22   ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=23   ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=24   ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=25   ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=21 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
+
+android:
+  components:
+    - tools
+    - platform-tools
+    - build-tools-27.0.3
+    - android-$ANDROID_TARGET
+    - sys-img-$ANDROID_ABI-$ANDROID_TAG-$ANDROID_TARGET
+
+before_install:
+  - yes | sdkmanager "platforms;android-27"
 
 before_script:
-  # https://stackoverflow.com/a/28882971/1914223
-  - echo "sdk.dir=/usr/local/android-sdk" > local.properties
-  - android list targets
-  - echo no | android create avd -f -n "test_$ANDROID_TARGET" -t "android-$ANDROID_TARGET" -b $ANDROID_ABI -g "google_apis"
-  - android list avd
-  - emulator -memory 1536 -avd "test_$ANDROID_TARGET" -no-audio -no-boot-anim -no-window -wipe-data -engine classic &
+  - echo no | android create avd -f -n "test_$ANDROID_TARGET" -t "android-$ANDROID_TARGET" -b $ANDROID_ABI -g $ANDROID_TAG
+  - emulator -memory 2048 -avd "test_$ANDROID_TARGET" -no-audio -no-window -gpu off -engine classic &
   - android-wait-for-emulator
-  - adb devices
   - adb shell input keyevent 82 &
+  - adb devices
 
 script:
-  - ./gradlew testDebugUnitTest connectedDebugAndroidTest
+  - ./gradlew jacocoTestReport assembleAndroidTest connectedDebugAndroidTest createDebugCoverageReport
 
 after_success:
-  - ./gradlew jacocoTestReportDebug coveralls
+  - bash <(curl -s https://codecov.io/bash)
 
 after_failure:
   - adb logcat -d
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
 cache:
   directories:

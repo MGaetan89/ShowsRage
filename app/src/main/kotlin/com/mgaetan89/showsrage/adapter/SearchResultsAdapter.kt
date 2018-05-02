@@ -17,14 +17,14 @@ import kotlinx.android.synthetic.main.adapter_search_results_list_content.view.s
 class SearchResultsAdapter(val searchResults: List<SearchResultItem>) : RecyclerView.Adapter<SearchResultsAdapter.ViewHolder>() {
 	override fun getItemCount() = this.searchResults.size
 
-	override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 		val searchResult = this.searchResults[position]
 
-		holder?.bind(searchResult)
+		holder.bind(searchResult)
 	}
 
-	override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
-		val view = LayoutInflater.from(parent?.context).inflate(R.layout.adapter_search_results_list, parent, false)
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+		val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_search_results_list, parent, false)
 
 		return ViewHolder(view)
 	}

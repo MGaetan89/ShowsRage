@@ -32,7 +32,7 @@ class SettingsDisplayFragment : SettingsFragment() {
 
 		this.resources.changeLocale(newLocale)
 
-		this.activity.recreate()
+		this.activity?.recreate()
 
 		this.updateWidgets()
 	}
@@ -48,9 +48,11 @@ class SettingsDisplayFragment : SettingsFragment() {
 	}
 
 	private fun updateWidgets() {
+		val context = this.context ?: return
+
 		AppWidgetManager.getInstance(this.context).let {
-			it.updateAllWidgets(this.context, HistoryWidgetProvider::class.java)
-			it.updateAllWidgets(this.context, ScheduleWidgetProvider::class.java)
+			it.updateAllWidgets(context, HistoryWidgetProvider::class.java)
+			it.updateAllWidgets(context, ScheduleWidgetProvider::class.java)
 		}
 	}
 

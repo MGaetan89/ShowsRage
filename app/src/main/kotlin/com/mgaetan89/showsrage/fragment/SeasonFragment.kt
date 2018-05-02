@@ -57,13 +57,13 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		this.indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
-		this.reversedOrder = Sort.DESCENDING == this.context.getPreferences().getEpisodeSort()
-		this.seasonNumber = this.arguments.getInt(Constants.Bundle.SEASON_NUMBER)
+		this.indexerId = this.arguments?.getInt(Constants.Bundle.INDEXER_ID) ?: 0
+		this.reversedOrder = Sort.DESCENDING == this.context?.getPreferences()?.getEpisodeSort()
+		this.seasonNumber = this.arguments?.getInt(Constants.Bundle.SEASON_NUMBER) ?: 0
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
-			= inflater?.inflate(R.layout.fragment_season, container, false)
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater.inflate(R.layout.fragment_season, container, false)
 
 	override fun onRefresh() {
 		this.swipe_refresh?.isRefreshing = true
@@ -95,9 +95,7 @@ class SeasonFragment : Fragment(), Callback<Episodes>, SwipeRefreshLayout.OnRefr
 		super.onStop()
 	}
 
-	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		val columnCount = this.resources.getInteger(R.integer.shows_column_count)
 		val layoutManager = GridLayoutManager(this.activity, columnCount)
 

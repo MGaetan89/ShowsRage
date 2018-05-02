@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
@@ -46,14 +45,14 @@ class AddShowFragment : Fragment(), Callback<SearchResults>, SearchView.OnQueryT
 		}
 	}
 
-	override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-		inflater?.inflate(R.menu.add_show, menu)
+	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+		inflater.inflate(R.menu.add_show, menu)
 
-		val activity = this.activity
+		val activity = this.activity ?: return
 		val searchManager = activity.getSystemService(Context.SEARCH_SERVICE) as SearchManager
-		val searchMenu = menu?.findItem(R.id.menu_search)
+		val searchMenu = menu.findItem(R.id.menu_search)
 
-		(MenuItemCompat.getActionView(searchMenu) as SearchView).also {
+		(searchMenu.actionView as SearchView).also {
 			it.setIconifiedByDefault(false)
 			it.setOnQueryTextListener(this)
 			it.setSearchableInfo(searchManager.getSearchableInfo(activity.componentName))
@@ -61,8 +60,8 @@ class AddShowFragment : Fragment(), Callback<SearchResults>, SearchView.OnQueryT
 		}
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
-			= inflater?.inflate(R.layout.fragment_add_show, container, false)
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater.inflate(R.layout.fragment_add_show, container, false)
 
 	override fun onDestroy() {
 		this.searchResults.clear()
@@ -82,9 +81,7 @@ class AddShowFragment : Fragment(), Callback<SearchResults>, SearchView.OnQueryT
 		return false
 	}
 
-	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		val columnCount = this.resources.getInteger(R.integer.shows_column_count)
 
 		this.list?.adapter = SearchResultsAdapter(this.searchResults)

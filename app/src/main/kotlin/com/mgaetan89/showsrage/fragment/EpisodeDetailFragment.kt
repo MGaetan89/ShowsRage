@@ -136,8 +136,8 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 		this.displayStreamingMenus(this.episode)
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
-			= inflater?.inflate(R.layout.fragment_episode_detail, container, false)
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater.inflate(R.layout.fragment_episode_detail, container, false)
 
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 		return when (item?.itemId) {
@@ -186,12 +186,12 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 		this.realm = Realm.getDefaultInstance()
 
 		val arguments = this.arguments
-		val episodeId = arguments.getString(Constants.Bundle.EPISODE_ID)
-		val indexerId = arguments.getInt(Constants.Bundle.INDEXER_ID)
+		val episodeId = arguments?.getString(Constants.Bundle.EPISODE_ID)
+		val indexerId = arguments?.getInt(Constants.Bundle.INDEXER_ID) ?: 0
 
 		this.episode = this.realm.getEpisode(episodeId ?: "", this)
-		this.episodeNumber = arguments.getInt(Constants.Bundle.EPISODE_NUMBER)
-		this.seasonNumber = arguments.getInt(Constants.Bundle.SEASON_NUMBER)
+		this.episodeNumber = arguments?.getInt(Constants.Bundle.EPISODE_NUMBER) ?: 0
+		this.seasonNumber = arguments?.getInt(Constants.Bundle.SEASON_NUMBER) ?: 0
 		this.show = this.realm.getShow(indexerId)
 
 		this.activity?.title = if (this.seasonNumber <= 0) {
@@ -211,9 +211,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 		super.onStop()
 	}
 
-	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		this.episode_name?.isSelected = true
 
 		this.swipe_refresh?.setColorSchemeResources(R.color.accent)
@@ -375,6 +373,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 	}
 
 	private fun setEpisodeStatus(seasonNumber: Int, episodeNumber: Int, indexerId: Int, menuId: Int) {
+		val context = this.context ?: return
 		with(Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED)) {
 			putExtra(Constants.Bundle.EPISODE_NUMBER, episodeNumber)
 			putExtra(Constants.Bundle.INDEXER_ID, indexerId)
@@ -386,6 +385,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 	}
 
 	private fun searchSubtitles(seasonNumber: Int, episodeNumber: Int, indexerId: Int) {
+		val context = this.context ?: return
 		with(Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED)) {
 			putExtra(Constants.Bundle.EPISODE_NUMBER, episodeNumber)
 			putExtra(Constants.Bundle.INDEXER_ID, indexerId)
@@ -425,7 +425,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 			}
 
 			val activity = fragment.activity
-			val application = activity.application
+			val application = activity?.application
 
 			if (application is ShowsRageApplication) {
 				val playingVideo = PlayingVideoData()

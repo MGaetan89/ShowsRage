@@ -116,8 +116,8 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 		}
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
-			= inflater?.inflate(R.layout.fragment_logs, container, false)
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater.inflate(R.layout.fragment_logs, container, false)
 
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 		if (item?.groupId == R.id.menu_logs_level) {
@@ -160,9 +160,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 		super.onStop()
 	}
 
-	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		this.list?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 			override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
 				super.onScrolled(recyclerView, dx, dy)
@@ -186,7 +184,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 			it.close()
 		}
 
-		this.activity?.supportInvalidateOptionsMenu()
+		this.activity?.invalidateOptionsMenu()
 	}
 
 	private fun getLogLevel(): LogLevel {
@@ -223,7 +221,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 			item?.isChecked = true
 
 			// Save the selected logs level
-			this.context.getPreferences().saveLogLevel(it)
+			this.context?.getPreferences()?.saveLogLevel(it)
 
 			// Update the list of logs
 			this.list?.adapter = null

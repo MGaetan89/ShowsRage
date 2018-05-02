@@ -24,14 +24,14 @@ import kotlinx.android.synthetic.main.adapter_episodes_list_content.view.episode
 import kotlinx.android.synthetic.main.adapter_episodes_list_content.view.episode_status
 
 class EpisodesAdapter(episodes: RealmResults<Episode>, val seasonNumber: Int, val indexerId: Int, val reversed: Boolean) : RealmRecyclerViewAdapter<Episode, EpisodesAdapter.ViewHolder>(episodes, true) {
-	override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 		val episode = this.getItem(position).takeIf { it != null && it.isValid } ?: return
 
-		holder?.bind(episode)
+		holder.bind(episode)
 	}
 
-	override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
-		val view = LayoutInflater.from(parent?.context).inflate(R.layout.adapter_episodes_list, parent, false)
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+		val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_episodes_list, parent, false)
 
 		return ViewHolder(view)
 	}

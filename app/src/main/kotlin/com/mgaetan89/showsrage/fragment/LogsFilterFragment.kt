@@ -35,7 +35,7 @@ class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, Di
 		val data = Intent()
 		data.putExtra(Constants.Bundle.LOGS_GROUPS, selectedItems)
 
-		this.targetFragment.onActivityResult(this.targetRequestCode, Activity.RESULT_OK, data)
+		this.targetFragment?.onActivityResult(this.targetRequestCode, Activity.RESULT_OK, data)
 
 		dialog?.dismiss()
 	}
@@ -51,14 +51,15 @@ class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, Di
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		val groups = this.arguments.getStringArray(Constants.Bundle.LOGS_GROUPS)
+		val groups = this.arguments?.getStringArray(Constants.Bundle.LOGS_GROUPS)
 
 		setSelectedIndices(this.selectedIndices, this.items, groups)
 	}
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+		val context = this.context ?: return super.onCreateDialog(savedInstanceState)
 		val checked = getCheckedStates(this.items.size, this.selectedIndices)
-		val builder = AlertDialog.Builder(this.context)
+		val builder = AlertDialog.Builder(context)
 		builder.setTitle(R.string.filter)
 		builder.setMultiChoiceItems(this.itemsFormatted, checked, this)
 		builder.setNegativeButton(R.string.cancel, null)

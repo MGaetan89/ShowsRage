@@ -19,7 +19,7 @@ abstract class TabbedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
 		super.onActivityCreated(savedInstanceState)
 
-		this.tabLayout = this.activity.findViewById(R.id.tabs) as TabLayout?
+		this.tabLayout = this.activity?.findViewById(R.id.tabs) as TabLayout?
 
 		if (this.tabLayout != null) {
 			this.tabLayout!!.tabMode = this.getTabMode()
@@ -27,8 +27,8 @@ abstract class TabbedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 		}
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
-			= inflater?.inflate(R.layout.fragment_tabbed, container, false)
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater.inflate(R.layout.fragment_tabbed, container, false)
 
 	override fun onDestroyView() {
 		this.tabLayout = null
@@ -38,12 +38,12 @@ abstract class TabbedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 
 	override fun onRefresh() = Unit
 
-	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-
-		this.swipe_refresh?.isEnabled = this.useSwipeToRefresh()
-		this.swipe_refresh?.setColorSchemeResources(R.color.accent)
-		this.swipe_refresh?.setOnRefreshListener(this)
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		this.swipe_refresh?.let {
+			it.isEnabled = this.useSwipeToRefresh()
+			it.setColorSchemeResources(R.color.accent)
+			it.setOnRefreshListener(this)
+		}
 
 		this.view_pager?.adapter = this.getAdapter()
 	}

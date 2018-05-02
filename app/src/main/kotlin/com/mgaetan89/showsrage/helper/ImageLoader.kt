@@ -71,7 +71,7 @@ object ImageLoader {
 
 			this.onImageResult?.onImageReady(this.view, resource)
 
-			if (this.paletteListener != null) {
+			if (resource != null && this.paletteListener != null) {
 				Palette.Builder(resource).generate(this.paletteListener)
 			}
 		}

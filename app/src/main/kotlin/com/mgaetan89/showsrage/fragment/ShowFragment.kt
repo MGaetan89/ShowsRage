@@ -33,10 +33,10 @@ class ShowFragment : TabbedFragment(), Callback<Seasons> {
 			activity.setTitle(R.string.show)
 		}
 
-		val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
+		val indexerId = this.arguments!!.getInt(Constants.Bundle.INDEXER_ID)
 		val realm = Realm.getDefaultInstance()
 		val show = realm.getShow(indexerId)
-		val sort = activity.getPreferences().getSeasonSort()
+		val sort = activity?.getPreferences()?.getSeasonSort() ?: Sort.ASCENDING
 		val seasons = show?.getSeasonsListInt() ?: emptyList()
 
 		realm.close()

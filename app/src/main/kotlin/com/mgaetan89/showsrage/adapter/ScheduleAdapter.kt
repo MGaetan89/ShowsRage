@@ -25,14 +25,14 @@ import kotlinx.android.synthetic.main.adapter_schedule_list_content.view.episode
 import kotlinx.android.synthetic.main.adapter_schedule_list_content.view.episode_network_quality
 
 class ScheduleAdapter(schedules: RealmResults<Schedule>) : RealmRecyclerViewAdapter<Schedule, ScheduleAdapter.ViewHolder>(schedules, true) {
-	override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 		val schedule = this.getItem(position).takeIf { it != null && it.isValid } ?: return
 
-		holder?.bind(schedule)
+		holder.bind(schedule)
 	}
 
-	override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
-		val view = LayoutInflater.from(parent?.context).inflate(R.layout.adapter_schedule_list, parent, false)
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+		val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_schedule_list, parent, false)
 
 		return ViewHolder(view)
 	}

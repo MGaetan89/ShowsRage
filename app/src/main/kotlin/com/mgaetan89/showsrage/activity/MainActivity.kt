@@ -473,9 +473,10 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 			val intent = Intent(activity, UpdateActivity::class.java)
 			intent.putExtra(Constants.Bundle.UPDATE_MODEL, update)
 
+			val channel = activity.getString(R.string.app_name)
 			val pendingIntent = PendingIntent.getActivity(activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-			val notification = NotificationCompat.Builder(activity)
+			val notification = NotificationCompat.Builder(activity, channel)
 					.setAutoCancel(true)
 					.setColor(ContextCompat.getColor(activity, R.color.primary))
 					.setContentIntent(pendingIntent)

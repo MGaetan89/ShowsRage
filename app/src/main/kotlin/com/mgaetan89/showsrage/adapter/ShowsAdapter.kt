@@ -34,25 +34,24 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, private v
 		return showName.firstOrNull()?.toUpperCase()?.toString() ?: ""
 	}
 
-	override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 		val show = this.shows[position].takeIf { it.isValid } ?: return
 
-		holder?.bind(show)
+		holder.bind(show)
 	}
 
-	override fun onBindViewHolder(holder: ViewHolder?, position: Int, payloads: MutableList<Any>?) {
-		val localPayloads = payloads.orEmpty()
-		if (localPayloads.contains(Constants.Payloads.SHOWS_STATS)) {
+	override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+		if (payloads.contains(Constants.Payloads.SHOWS_STATS)) {
 			val show = this.shows[position]
 
-			holder?.bind(ShowPresenter(show).getShowStat())
+			holder.bind(ShowPresenter(show).getShowStat())
 		} else {
 			this.onBindViewHolder(holder, position)
 		}
 	}
 
-	override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder? {
-		val view = LayoutInflater.from(parent?.context).inflate(R.layout.adapter_shows_list, parent, false)
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+		val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_shows_list, parent, false)
 
 		return ViewHolder(view)
 	}

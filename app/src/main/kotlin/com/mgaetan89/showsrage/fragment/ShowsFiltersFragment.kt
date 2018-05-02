@@ -44,24 +44,26 @@ class ShowsFiltersFragment : DialogFragment(), CompoundButton.OnCheckedChangeLis
 	}
 
 	override fun onClick(dialog: DialogInterface?, which: Int) {
+		val context = this.context ?: return
 		val showState = ShowsFilters.State.getStateForViewId(this.activePaused?.checkedRadioButtonId)
 		val showStatus = ShowsFilters.Status.getStatusForStates(this.statusAll?.isChecked, this.statusContinuing?.isChecked, this.statusEnded?.isChecked, this.statusUnknown?.isChecked)
 
-		this.context.getPreferences().saveShowsFilter(showState, showStatus)
+		context.getPreferences().saveShowsFilter(showState, showStatus)
 
 		val intent = Intent(Constants.Intents.ACTION_FILTER_SHOWS)
 		intent.putExtra(Constants.Bundle.SEARCH_QUERY, this.arguments?.getString(Constants.Bundle.SEARCH_QUERY))
 
-		LocalBroadcastManager.getInstance(this.context).sendBroadcast(intent)
+		LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
 
 		this.dismiss()
 	}
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-		val preferences = this.context.getPreferences()
+		val context = this.context ?: return super.onCreateDialog(savedInstanceState)
+		val preferences = context.getPreferences()
 		val state = preferences.getShowsFilterState()
 		val status = preferences.getShowsFilterStatus()
-		val view = LayoutInflater.from(this.context).inflate(R.layout.fragment_shows_filter, null)
+		val view = LayoutInflater.from(context).inflate(R.layout.fragment_shows_filter, null)
 
 		if (view != null) {
 			this.activePaused = view.findViewById(R.id.filter_active_paused) as RadioGroup?
@@ -83,7 +85,7 @@ class ShowsFiltersFragment : DialogFragment(), CompoundButton.OnCheckedChangeLis
 			this.statusUnknown?.setOnCheckedChangeListener(this)
 		}
 
-		return AlertDialog.Builder(this.context)
+		return AlertDialog.Builder(context)
 				.setTitle(R.string.filter)
 				.setView(view)
 				.setPositiveButton(R.string.filter, this)

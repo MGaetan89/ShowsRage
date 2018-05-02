@@ -12,7 +12,7 @@ import com.mgaetan89.showsrage.network.SickRageApi
 
 class ChangeQualityFragment : DialogFragment(), DialogInterface.OnClickListener {
 	override fun onClick(dialog: DialogInterface?, which: Int) {
-		val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
+		val indexerId = this.arguments?.getInt(Constants.Bundle.INDEXER_ID) ?: return
 		val parentFragment = this.parentFragment
 
 		if (this.dialog == null || indexerId <= 0 || parentFragment !is ShowOverviewFragment) {
@@ -31,7 +31,8 @@ class ChangeQualityFragment : DialogFragment(), DialogInterface.OnClickListener 
 	}
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-		val builder = AlertDialog.Builder(this.context)
+		val context = this.context ?: return super.onCreateDialog(savedInstanceState)
+		val builder = AlertDialog.Builder(context)
 		builder.setTitle(R.string.change_quality)
 		builder.setView(R.layout.fragment_change_quality)
 		builder.setNegativeButton(R.string.cancel, null)

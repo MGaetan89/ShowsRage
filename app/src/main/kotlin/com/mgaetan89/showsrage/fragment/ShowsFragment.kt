@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.content.LocalBroadcastManager
-import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.Menu
@@ -60,9 +59,10 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 
 	override fun onClick(view: View?) {
 		if (view?.id == R.id.add_show) {
-			this.activity.findViewById(R.id.tabs)?.visibility = View.GONE
+			val activity = this.activity ?: return
 
-			this.activity.supportFragmentManager.beginTransaction()
+			activity.findViewById<TabLayout>(R.id.tabs)?.visibility = View.GONE
+			activity.supportFragmentManager.beginTransaction()
 					.addToBackStack("add_show")
 					.replace(R.id.content, AddShowFragment.newInstance())
 					.commitAllowingStateLoss()
@@ -72,25 +72,25 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		this.splitShowsAnimes = this.context.getPreferences().splitShowsAnimes()
+		this.splitShowsAnimes = this.context?.getPreferences()?.splitShowsAnimes() == true
 	}
 
-	override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-		inflater?.inflate(R.menu.shows, menu)
+	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+		inflater.inflate(R.menu.shows, menu)
 
 		val activity = this.activity
-		val searchMenu = menu?.findItem(R.id.menu_search)
+		val searchMenu = menu.findItem(R.id.menu_search)
 
 		if (activity != null && searchMenu != null) {
 			val searchManager = activity.getSystemService(Context.SEARCH_SERVICE) as SearchManager
-			val searchView = MenuItemCompat.getActionView(searchMenu) as SearchView
+			val searchView = searchMenu.actionView as SearchView
 			searchView.setOnQueryTextListener(this)
 			searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.componentName))
 		}
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
-			= inflater?.inflate(R.layout.fragment_shows, container, false)
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater.inflate(R.layout.fragment_shows, container, false)
 
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 		if (item?.itemId == R.id.menu_filter) {
@@ -133,9 +133,7 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 		this.updateState(!this.splitShowsAnimes)
 	}
 
-	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		this.add_show?.setOnClickListener(this)
 	}
 
@@ -157,10 +155,11 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 	override fun useSwipeToRefresh() = true
 
 	internal fun sendFilterMessage() {
+		val context = this.context ?: return
 		val intent = Intent(Constants.Intents.ACTION_FILTER_SHOWS)
 		intent.putExtra(Constants.Bundle.SEARCH_QUERY, this.searchQuery)
 
-		LocalBroadcastManager.getInstance(this.context).sendBroadcast(intent)
+		LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
 	}
 
 	private fun logSearchEvent() {

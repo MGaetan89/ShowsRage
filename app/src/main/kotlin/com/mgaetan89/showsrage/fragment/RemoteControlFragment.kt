@@ -54,8 +54,9 @@ class RemoteControlFragment : DialogFragment(), View.OnClickListener, SeekBar.On
 	}
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+		val context = this.context ?: return super.onCreateDialog(savedInstanceState)
 		val playingVideo = this.getPlayingVideo()
-		val view = LayoutInflater.from(this.context).inflate(R.layout.fragment_remote_control, null)
+		val view = LayoutInflater.from(context).inflate(R.layout.fragment_remote_control, null)
 
 		if (view != null) {
 			this.episodeCurrentTime = view.findViewById(R.id.episode_current_time) as TextView?
@@ -97,7 +98,7 @@ class RemoteControlFragment : DialogFragment(), View.OnClickListener, SeekBar.On
 			stop?.setOnClickListener(this)
 		}
 
-		val builder = AlertDialog.Builder(this.context)
+		val builder = AlertDialog.Builder(context)
 
 		if (playingVideo != null) {
 			val route = playingVideo.route
@@ -221,9 +222,10 @@ class RemoteControlFragment : DialogFragment(), View.OnClickListener, SeekBar.On
 	}
 
 	private fun setVolumeUpIconColor(iconColor: Int) {
-		if (this.volumeMute != null) {
-			val drawable = DrawableCompat.wrap(this.volumeMute!!.drawable)
-			DrawableCompat.setTint(drawable, ContextCompat.getColor(this.context, iconColor))
+		val context = this.context ?: return
+		this.volumeMute?.let {
+			val drawable = DrawableCompat.wrap(it.drawable)
+			DrawableCompat.setTint(drawable, ContextCompat.getColor(context, iconColor))
 		}
 	}
 

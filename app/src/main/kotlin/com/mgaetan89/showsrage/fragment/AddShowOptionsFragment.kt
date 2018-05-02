@@ -35,7 +35,8 @@ class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener
 	private var subtitles: SwitchCompat? = null
 
 	override fun onClick(dialog: DialogInterface?, which: Int) {
-		val indexerId = this.arguments.getInt(Constants.Bundle.INDEXER_ID)
+		val activity = this.activity ?: return
+		val indexerId = this.arguments?.getInt(Constants.Bundle.INDEXER_ID) ?: return
 
 		if (indexerId <= 0) {
 			return
@@ -43,7 +44,7 @@ class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener
 
 		val allowedQuality = this.getAllowedQuality(this.allowedQuality)
 		val anime = this.anime?.isChecked.toInt()
-		val callback = AddShowCallback(this.activity)
+		val callback = AddShowCallback(activity)
 		val language = this.getLanguage(this.language)
 		val location = getLocation(this.rootDirectory)
 		val preferredQuality = this.getPreferredQuality(this.preferredQuality)
@@ -54,6 +55,7 @@ class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener
 	}
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+		val context = this.context ?: return super.onCreateDialog(savedInstanceState)
 		val view = LayoutInflater.from(this.context).inflate(R.layout.fragment_add_show_options, null)
 
 		if (view != null) {
@@ -86,7 +88,7 @@ class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener
 			}
 		}
 
-		val builder = AlertDialog.Builder(this.context)
+		val builder = AlertDialog.Builder(context)
 		builder.setTitle(R.string.add_show)
 		builder.setView(view)
 		builder.setPositiveButton(R.string.add, this)

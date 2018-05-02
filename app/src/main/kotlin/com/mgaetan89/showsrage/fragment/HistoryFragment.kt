@@ -78,8 +78,8 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
 		SickRageApi.instance.services?.clearHistory(ClearHistoryCallback(this.activity))
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
-			= inflater?.inflate(R.layout.fragment_history, container, false)
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater.inflate(R.layout.fragment_history, container, false)
 
 	override fun onRefresh() {
 		this.swipe_refresh?.isRefreshing = true
@@ -111,9 +111,7 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
 		super.onStop()
 	}
 
-	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		this.clear_history?.setOnClickListener(this)
 
 		val columnCount = this.resources.getInteger(R.integer.shows_column_count)
@@ -141,7 +139,8 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
 	}
 
 	private fun clearHistory() {
-		AlertDialog.Builder(this.context)
+		val context = this.context ?: return
+		AlertDialog.Builder(context)
 				.setMessage(R.string.clear_history_confirm)
 				.setPositiveButton(R.string.clear, this)
 				.setNegativeButton(android.R.string.cancel, null)
@@ -152,7 +151,7 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
 		fun newInstance() = HistoryFragment()
 	}
 
-	private class ClearHistoryCallback(activity: FragmentActivity) : GenericCallback(activity) {
+	private class ClearHistoryCallback(activity: FragmentActivity?) : GenericCallback(activity) {
 		override fun success(genericResponse: GenericResponse?, response: Response?) {
 			super.success(genericResponse, response)
 

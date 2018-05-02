@@ -57,19 +57,21 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 			SickRageApi.instance.services?.getShowStats(command, parameters, ShowStatsCallback(this))
 		}
 
-		val intent = Intent(Constants.Intents.ACTION_FILTER_SHOWS)
+		this.context?.let {
+			val intent = Intent(Constants.Intents.ACTION_FILTER_SHOWS)
 
-		LocalBroadcastManager.getInstance(this.context).sendBroadcast(intent)
+			LocalBroadcastManager.getInstance(it).sendBroadcast(intent)
+		}
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		this.swipeRefreshLayout = this.activity.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
+		this.swipeRefreshLayout = this.activity?.findViewById(R.id.swipe_refresh) as SwipeRefreshLayout?
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
-			= inflater?.inflate(R.layout.fragment_shows_section, container, false)
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater.inflate(R.layout.fragment_shows_section, container, false)
 
 	override fun onDestroyView() {
 		this.swipeRefreshLayout = null
@@ -78,7 +80,9 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 	}
 
 	override fun onPause() {
-		LocalBroadcastManager.getInstance(this.context).unregisterReceiver(this.receiver)
+		this.context?.let {
+			LocalBroadcastManager.getInstance(it).unregisterReceiver(this.receiver)
+		}
 
 		super.onPause()
 	}
@@ -86,16 +90,19 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 	override fun onResume() {
 		super.onResume()
 
-		val intentFilter = IntentFilter(Constants.Intents.ACTION_FILTER_SHOWS)
+		this.context?.let {
+			val intentFilter = IntentFilter(Constants.Intents.ACTION_FILTER_SHOWS)
 
-		LocalBroadcastManager.getInstance(this.context).registerReceiver(this.receiver, intentFilter)
+			LocalBroadcastManager.getInstance(it).registerReceiver(this.receiver, intentFilter)
+		}
 	}
 
 	override fun onStart() {
 		super.onStart()
 
-		val anime = if (this.arguments.containsKey(Constants.Bundle.ANIME)) {
-			this.arguments.getBoolean(Constants.Bundle.ANIME)
+		val arguments = this.arguments
+		val anime = if (arguments?.containsKey(Constants.Bundle.ANIME) == true) {
+			arguments.getBoolean(Constants.Bundle.ANIME)
 		} else {
 			null
 		}
@@ -114,10 +121,8 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 		super.onStop()
 	}
 
-	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-
-		val preferences = this.context.getPreferences()
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		val preferences = view.context.getPreferences()
 		val ignoreArticles = preferences.ignoreArticles()
 		val showsListLayout = preferences.getShowsListLayout()
 		val columnCount = this.resources.getInteger(R.integer.shows_column_count)

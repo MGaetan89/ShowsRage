@@ -49,10 +49,10 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
 			val fragment = getSettingFragmentForScreen(preference.key)
 
 			if (fragment != null) {
-				this.fragmentManager.beginTransaction()
-						.replace(R.id.content, fragment)
-						.addToBackStack("settings")
-						.commit()
+				this.fragmentManager?.beginTransaction()
+						?.replace(R.id.content, fragment)
+						?.addToBackStack("settings")
+						?.commit()
 
 				return true
 			}
@@ -64,15 +64,16 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
 	override fun onResume() {
 		super.onResume()
 
-		this.activity.setTitle(this.getTitleResourceId())
+		this.activity?.setTitle(this.getTitleResourceId())
 
 		if ("SettingsFragment" == this.javaClass.simpleName) {
-			val serverAddress = this.context.getPreferences().getServerAddress()
+			val context = this.context
+			val serverAddress = context?.getPreferences()?.getServerAddress()
 
 			this.setScreensIcon()
 
-			if (serverAddress.isEmpty()) {
-				AlertDialog.Builder(this.activity)
+			if (context != null && serverAddress.isNullOrEmpty()) {
+				AlertDialog.Builder(context)
 						.setIcon(R.drawable.ic_notification)
 						.setTitle(R.string.app_name)
 						.setMessage(R.string.welcome_message)
@@ -109,14 +110,14 @@ open class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
 		)
 
 		screens.forEach {
-			val icon = VectorDrawableCompat.create(this.resources, it.value, this.activity.theme)
+			val icon = VectorDrawableCompat.create(this.resources, it.value, this.activity?.theme)
 
 			this.findPreference(it.key)?.icon = icon
 		}
 	}
 
 	private fun setupDisplayLanguage(preference: Preference) {
-		val preferences = this.context.getPreferences()
+		val preferences = this.context?.getPreferences() ?: return
 		val preferredLocale = preferences.getLocale()
 
 		if (preference is ListPreference) {

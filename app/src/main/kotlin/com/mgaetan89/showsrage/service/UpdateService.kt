@@ -72,7 +72,8 @@ class UpdateService : Service(), Callback<GenericResponse>, Runnable {
 	}
 
 	private fun sendNotification(@StringRes text: Int, pendingIntent: PendingIntent?) {
-		val notification = NotificationCompat.Builder(this)
+		val channel = this.getString(R.string.app_name)
+		val notification = NotificationCompat.Builder(this, channel)
 				.setAutoCancel(true)
 				.setColor(ContextCompat.getColor(this, R.color.primary))
 				.setContentIntent(pendingIntent)

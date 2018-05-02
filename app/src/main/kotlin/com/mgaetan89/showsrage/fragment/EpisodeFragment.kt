@@ -31,7 +31,7 @@ class EpisodeFragment : TabbedFragment() {
 				this.episodes.add(i)
 			}
 
-			val ascendingOrder = Sort.ASCENDING == activity.getPreferences().getEpisodeSort()
+			val ascendingOrder = Sort.ASCENDING == activity?.getPreferences()?.getEpisodeSort()
 
 			if (ascendingOrder) {
 				this.episodes.reverse()

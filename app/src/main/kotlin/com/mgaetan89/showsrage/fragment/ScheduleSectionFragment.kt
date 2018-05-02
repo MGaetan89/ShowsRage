@@ -33,14 +33,14 @@ class ScheduleSectionFragment : Fragment(), RealmChangeListener<RealmResults<Sch
 		this.list?.adapter?.notifyDataSetChanged()
 	}
 
-	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
-			= inflater?.inflate(R.layout.fragment_schedule_section, container, false)
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+			= inflater.inflate(R.layout.fragment_schedule_section, container, false)
 
 	override fun onStart() {
 		super.onStart()
 
 		this.realm = Realm.getDefaultInstance()
-		this.schedules = this.realm.getSchedule(this.arguments.getString(Constants.Bundle.SCHEDULE_SECTION, ""), this)
+		this.schedules = this.realm.getSchedule(this.arguments?.getString(Constants.Bundle.SCHEDULE_SECTION, "") ?: "", this)
 		this.list?.adapter = ScheduleAdapter(this.schedules)
 	}
 
@@ -54,9 +54,7 @@ class ScheduleSectionFragment : Fragment(), RealmChangeListener<RealmResults<Sch
 		super.onStop()
 	}
 
-	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		val columnCount = this.resources.getInteger(R.integer.shows_column_count)
 
 		this.list?.layoutManager = GridLayoutManager(this.activity, columnCount)

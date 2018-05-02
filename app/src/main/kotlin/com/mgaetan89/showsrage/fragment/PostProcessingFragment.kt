@@ -27,7 +27,8 @@ class PostProcessingFragment : DialogFragment(), DialogInterface.OnClickListener
 	}
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-		val view = LayoutInflater.from(this.context).inflate(R.layout.fragment_post_processing, null)
+		val context = this.context ?: return super.onCreateDialog(savedInstanceState)
+		val view = LayoutInflater.from(context).inflate(R.layout.fragment_post_processing, null)
 
 		if (view != null) {
 			this.forceProcessing = view.findViewById(R.id.force_processing) as SwitchCompat?
@@ -35,7 +36,7 @@ class PostProcessingFragment : DialogFragment(), DialogInterface.OnClickListener
 			this.replaceFiles = view.findViewById(R.id.replace_files) as SwitchCompat?
 		}
 
-		val builder = AlertDialog.Builder(this.context)
+		val builder = AlertDialog.Builder(context)
 		builder.setTitle(R.string.post_processing)
 		builder.setView(view)
 		builder.setNegativeButton(android.R.string.cancel, null)
