@@ -64,10 +64,10 @@ class EpisodePagerAdapterTest {
 			val fragment = this.adapter.getItem(i)
 			assertThat(fragment).isInstanceOf(EpisodeDetailFragment::class.java)
 			assertThat(fragment!!.arguments).isNotNull()
-			assertThat(fragment.arguments.containsKey(Constants.Bundle.EPISODE_ID))
-			assertThat(fragment.arguments.containsKey(Constants.Bundle.EPISODE_NUMBER))
-			assertThat(fragment.arguments.containsKey(Constants.Bundle.SEASON_NUMBER))
-			assertThat(fragment.arguments.containsKey(Constants.Bundle.INDEXER_ID))
+			assertThat(fragment.arguments!!.containsKey(Constants.Bundle.EPISODE_ID))
+			assertThat(fragment.arguments!!.containsKey(Constants.Bundle.EPISODE_NUMBER))
+			assertThat(fragment.arguments!!.containsKey(Constants.Bundle.SEASON_NUMBER))
+			assertThat(fragment.arguments!!.containsKey(Constants.Bundle.INDEXER_ID))
 		}
 	}
 

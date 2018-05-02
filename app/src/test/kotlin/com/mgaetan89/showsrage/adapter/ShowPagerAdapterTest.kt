@@ -57,7 +57,7 @@ class ShowPagerAdapterTest {
 			assertTrue(fragment != null)
 			assertThat(fragment).isInstanceOf(SeasonFragment::class.java)
 			assertThat(fragment!!.arguments).isNotNull()
-			assertThat(fragment.arguments.containsKey(Constants.Bundle.SEASON_NUMBER))
+			assertThat(fragment.arguments!!.containsKey(Constants.Bundle.SEASON_NUMBER))
 		}
 	}
 

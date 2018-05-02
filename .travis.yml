@@ -41,7 +41,6 @@ before_cache:
 
 cache:
   directories:
-    - $HOME/.android/build-cache/
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-    - $HOME/.m2/
+    - $HOME/.android/build-cache

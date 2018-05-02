@@ -28,7 +28,7 @@ class SchedulePagerAdapterTest {
 			val fragment = this.adapter.getItem(i)
 			assertThat(fragment).isInstanceOf(ScheduleSectionFragment::class.java)
 			assertThat(fragment.arguments).isNotNull()
-			assertThat(fragment.arguments.containsKey(Constants.Bundle.SCHEDULE_SECTION))
+			assertThat(fragment.arguments!!.containsKey(Constants.Bundle.SCHEDULE_SECTION))
 		}
 	}
 
