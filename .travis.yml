@@ -27,7 +27,7 @@ before_script:
   - adb devices
 
 script:
-  - ./gradlew :app:acocoTestDebugUnitTestReport :app:assembleDebugAndroidTest :app:connectedDebugAndroidTest :app:createDebugCoverageReport
+  - ./gradlew :app:jacocoTestDebugUnitTestReport :app:assembleDebugAndroidTest :app:connectedDebugAndroidTest :app:createDebugCoverageReport
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
