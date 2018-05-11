@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.extension.realm
 
-import android.support.test.annotation.UiThreadTest
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.extension.getLogs
 import com.mgaetan89.showsrage.model.LogLevel
@@ -18,9 +17,8 @@ class RealmExtension_GetLogsTest : RealmTest() {
 	}
 
 	@Test
-	@UiThreadTest
 	fun getLogs_existingLogLevel_emptyGroups() {
-		this.realm.getLogs(EXISTING_LOG_LEVEL, emptyArray<String>(), RealmChangeListener {
+		this.realm.getLogs(EXISTING_LOG_LEVEL, emptyArray(), RealmChangeListener {
 			it.removeAllChangeListeners()
 
 			assertThat(it).isNotNull()
@@ -31,13 +29,12 @@ class RealmExtension_GetLogsTest : RealmTest() {
 			}
 
 			for (i in 1 until it.size) {
-				assertThat(it[i].dateTime < it [i - 1].dateTime).isTrue()
+				assertThat(it[i].dateTime < it[i - 1].dateTime).isTrue()
 			}
 		})
 	}
 
 	@Test
-	@UiThreadTest
 	fun getLogs_existingLogLevel_noGroups() {
 		this.realm.getLogs(EXISTING_LOG_LEVEL, null, RealmChangeListener {
 			it.removeAllChangeListeners()
@@ -50,13 +47,12 @@ class RealmExtension_GetLogsTest : RealmTest() {
 			}
 
 			for (i in 1 until it.size) {
-				assertThat(it[i].dateTime < it [i - 1].dateTime).isTrue()
+				assertThat(it[i].dateTime < it[i - 1].dateTime).isTrue()
 			}
 		})
 	}
 
 	@Test
-	@UiThreadTest
 	fun getLogs_existingLogLevel_withGroups() {
 		this.realm.getLogs(EXISTING_LOG_LEVEL, arrayOf("WRONG GROUP", "POSTPROCESSER"), RealmChangeListener {
 			it.removeAllChangeListeners()
@@ -69,15 +65,14 @@ class RealmExtension_GetLogsTest : RealmTest() {
 			}
 
 			for (i in 1 until it.size) {
-				assertThat(it[i].dateTime < it [i - 1].dateTime).isTrue()
+				assertThat(it[i].dateTime < it[i - 1].dateTime).isTrue()
 			}
 		})
 	}
 
 	@Test
-	@UiThreadTest
 	fun getLogs_missingLogLevel_emptyGroups() {
-		this.realm.getLogs(MISSING_LOG_LEVEL, emptyArray<String>(), RealmChangeListener {
+		this.realm.getLogs(MISSING_LOG_LEVEL, emptyArray(), RealmChangeListener {
 			it.removeAllChangeListeners()
 
 			assertThat(it).isNotNull()
@@ -86,7 +81,6 @@ class RealmExtension_GetLogsTest : RealmTest() {
 	}
 
 	@Test
-	@UiThreadTest
 	fun getLogs_missingLogLevel_noGroups() {
 		this.realm.getLogs(MISSING_LOG_LEVEL, null, RealmChangeListener {
 			it.removeAllChangeListeners()
@@ -97,7 +91,6 @@ class RealmExtension_GetLogsTest : RealmTest() {
 	}
 
 	@Test
-	@UiThreadTest
 	fun getLogs_missingLogLevel_withGroups() {
 		this.realm.getLogs(MISSING_LOG_LEVEL, arrayOf("WRONG GROUP", "POSTPROCESSER"), RealmChangeListener {
 			it.removeAllChangeListeners()

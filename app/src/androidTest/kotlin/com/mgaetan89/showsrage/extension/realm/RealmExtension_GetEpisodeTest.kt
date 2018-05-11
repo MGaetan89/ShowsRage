@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.extension.realm
 
-import android.support.test.annotation.UiThreadTest
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.extension.getEpisode
 import io.realm.RealmChangeListener
@@ -17,7 +16,6 @@ class RealmExtension_GetEpisodeTest : RealmTest() {
 	}
 
 	@Test
-	@UiThreadTest
 	fun getEpisode() {
 		this.realm.getEpisode("72173_4_1", RealmChangeListener {
 			it.removeAllChangeListeners()
@@ -28,7 +26,6 @@ class RealmExtension_GetEpisodeTest : RealmTest() {
 	}
 
 	@Test
-	@UiThreadTest
 	fun getEpisode_notFound() {
 		this.realm.getEpisode("0_0_0", RealmChangeListener {
 			it.removeAllChangeListeners()

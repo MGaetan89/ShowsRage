@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.extension.realm
 
-import android.support.test.annotation.UiThreadTest
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.buildComparator
 import com.mgaetan89.showsrage.extension.getHistory
@@ -19,7 +18,6 @@ class RealmExtension_GetHistoryTest : RealmTest() {
 	}
 
 	@Test
-	@UiThreadTest
 	fun getHistory() {
 		this.realm.getHistory(RealmChangeListener {
 			it.removeAllChangeListeners()

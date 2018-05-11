@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.extension.realm
 
-import android.support.test.annotation.UiThreadTest
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.extension.getShowsStats
 import io.realm.RealmChangeListener
@@ -17,7 +16,6 @@ class RealmExtension_GetShowsStatsTest : RealmTest() {
 	}
 
 	@Test
-	@UiThreadTest
 	fun getShowsStats() {
 		this.realm.getShowsStats(RealmChangeListener {
 			it.removeAllChangeListeners()

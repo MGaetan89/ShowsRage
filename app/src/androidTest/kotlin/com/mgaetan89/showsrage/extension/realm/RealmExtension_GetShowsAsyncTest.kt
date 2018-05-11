@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.extension.realm
 
-import android.support.test.annotation.UiThreadTest
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.extension.getShows
 import io.realm.RealmChangeListener
@@ -17,7 +16,6 @@ class RealmExtension_GetShowsAsyncTest : RealmTest() {
 	}
 
 	@Test
-	@UiThreadTest
 	fun getShows_all() {
 		this.realm.getShows(null, RealmChangeListener {
 			it.removeAllChangeListeners()
@@ -28,7 +26,6 @@ class RealmExtension_GetShowsAsyncTest : RealmTest() {
 	}
 
 	@Test
-	@UiThreadTest
 	fun getShows_animes() {
 		this.realm.getShows(true, RealmChangeListener {
 			it.removeAllChangeListeners()
@@ -39,7 +36,6 @@ class RealmExtension_GetShowsAsyncTest : RealmTest() {
 	}
 
 	@Test
-	@UiThreadTest
 	fun getShows_show() {
 		this.realm.getShows(false, RealmChangeListener {
 			it.removeAllChangeListeners()

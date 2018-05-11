@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.extension.realm
 
-import android.support.test.annotation.UiThreadTest
 import android.support.test.runner.AndroidJUnit4
 import com.mgaetan89.showsrage.extension.getSchedule
 import io.realm.RealmChangeListener
@@ -17,7 +16,6 @@ class RealmExtension_GetScheduleTest : RealmTest() {
 	}
 
 	@Test
-	@UiThreadTest
 	fun getSchedule() {
 		this.realm.getSchedule("soon", RealmChangeListener {
 			it.removeAllChangeListeners()
@@ -25,13 +23,12 @@ class RealmExtension_GetScheduleTest : RealmTest() {
 			assertThat(it).hasSize(8)
 
 			for (i in 1 until it.size) {
-				assertThat(it[i].airDate > it [i - 1].airDate).isTrue()
+				assertThat(it[i].airDate > it[i - 1].airDate).isTrue()
 			}
 		})
 	}
 
 	@Test
-	@UiThreadTest
 	fun getSchedule_notFound() {
 		this.realm.getSchedule("Monday", RealmChangeListener {
 			it.removeAllChangeListeners()
