@@ -1,14 +1,12 @@
 ---
 name: Version 1.6
-current_tag: release/1.6
+release_date: 17/05/2018
+current_tag: v1.6
 previous_tag: v1.5
-milestone: 1.6
 features:
 - Filter logs
 - Add an option to update logs automatically (off by default)
 - Widget to display the <em>History</em>
 - Widget to display the <em>Schedule</em>
 - Widget to quickly access a show
-changes:
-- New interface for Google Cast™
 ---
