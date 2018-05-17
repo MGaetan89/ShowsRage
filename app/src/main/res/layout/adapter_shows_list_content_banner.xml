@@ -4,6 +4,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
+	android:minHeight="@dimen/list_item_height"
 	android:foreground="?selectableItemBackground">
 
 	<ImageView
@@ -11,6 +12,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:adjustViewBounds="true"
+		android:minHeight="@dimen/list_item_height"
 		tools:ignore="ContentDescription"
 		tools:src="@mipmap/ic_launcher" />
 
