@@ -1,0 +1,6 @@
+files:
+  - source: /app/src/main/res/values/strings.xml
+    translation: /app/src/main/res/values-%two_letters_code%/strings.xml
+    languages_mapping:
+      two_letters_code:
+        pt-BR: pt_BR
