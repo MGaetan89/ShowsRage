@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.view.PagerAdapter
+import android.support.v4.view.ViewPager
 import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,9 @@ import kotlinx.android.synthetic.main.fragment_tabbed.swipe_refresh
 import kotlinx.android.synthetic.main.fragment_tabbed.view_pager
 
 abstract class TabbedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
+	protected var viewPager: ViewPager? = null
+		get() = this.view_pager
+
 	private var tabLayout: TabLayout? = null
 
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -23,7 +27,7 @@ abstract class TabbedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 
 		if (this.tabLayout != null) {
 			this.tabLayout!!.tabMode = this.getTabMode()
-			this.tabLayout!!.setupWithViewPager(this.view_pager)
+			this.tabLayout!!.setupWithViewPager(this.viewPager)
 		}
 	}
 
@@ -45,7 +49,7 @@ abstract class TabbedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 			it.setOnRefreshListener(this)
 		}
 
-		this.view_pager?.adapter = this.getAdapter()
+		this.viewPager?.adapter = this.getAdapter()
 	}
 
 	protected abstract fun getAdapter(): PagerAdapter
@@ -61,7 +65,7 @@ abstract class TabbedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 			return
 		}
 
-		this.view_pager?.adapter?.notifyDataSetChanged()
+		this.viewPager?.adapter?.notifyDataSetChanged()
 
 		this.tabLayout?.visibility = if (empty) View.GONE else View.VISIBLE
 	}

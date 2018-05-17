@@ -245,6 +245,9 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 				it.saveEpisode(episode, this.show!!.indexerId, this.seasonNumber, this.episodeNumber)
 				it.close()
 			}
+
+			this.episode.removeAllChangeListeners()
+			this.episode = this.realm.getEpisode(episode.id, this)
 		}
 	}
 

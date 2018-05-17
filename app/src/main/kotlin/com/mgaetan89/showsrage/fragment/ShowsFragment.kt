@@ -146,6 +146,8 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 			it.saveShows(showsList.toList())
 			it.close()
 		}
+
+		this.viewPager?.adapter = this.getAdapter()
 	}
 
 	override fun getAdapter() = ShowsPagerAdapter(this.childFragmentManager, this, this.splitShowsAnimes)

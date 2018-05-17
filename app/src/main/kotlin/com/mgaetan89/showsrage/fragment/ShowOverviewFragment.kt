@@ -268,14 +268,20 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		val colorStateList = ColorStateList.valueOf(colorPrimary)
 		val textColor = Utils.getContrastColor(colorPrimary)
 
-		ViewCompat.setBackgroundTintList(this.show_imdb, colorStateList)
-		this.show_imdb?.setTextColor(textColor)
+		this.show_imdb?.let {
+			ViewCompat.setBackgroundTintList(it, colorStateList)
+			it.setTextColor(textColor)
+		}
 
-		ViewCompat.setBackgroundTintList(this.show_the_tvdb, colorStateList)
-		this.show_the_tvdb?.setTextColor(textColor)
+		this.show_the_tvdb?.let {
+			ViewCompat.setBackgroundTintList(it, colorStateList)
+			it.setTextColor(textColor)
+		}
 
-		ViewCompat.setBackgroundTintList(this.show_web_search, colorStateList)
-		this.show_web_search?.setTextColor(textColor)
+		this.show_web_search?.let {
+			ViewCompat.setBackgroundTintList(it, colorStateList)
+			it.setTextColor(textColor)
+		}
 	}
 
 	override fun onImageError(imageView: ImageView, exception: Exception?, errorDrawable: Drawable?) {
