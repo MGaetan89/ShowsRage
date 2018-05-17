@@ -2,7 +2,6 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 	<string name="app_name" translatable="false">ShowsRage</string>
 	<string name="imdb" translatable="false">IMDb</string>
-	<string name="kolumbus" translatable="false">Kolumbus</string>
 	<string name="separated_texts" translatable="false"><xliff:g example="Text 1" id="text1">%1$s</xliff:g> / <xliff:g example="Text 2" id="text2">%2$s</xliff:g></string>
 	<string name="spaced_texts" translatable="false"><xliff:g example="Text 1" id="text1">%1$s</xliff:g> <xliff:g example="Text 2" id="text2">%2$s</xliff:g></string>
 	<string name="the_tvdb" translatable="false">The TVDB</string>

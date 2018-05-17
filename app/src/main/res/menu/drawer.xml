@@ -59,12 +59,5 @@
 			android:id="@+id/menu_restart"
 			android:icon="@drawable/ic_replay_white_24dp"
 			android:title="@string/restart" />
-
-		<item
-			android:id="@+id/menu_kolumbus"
-			android:icon="@drawable/ic_explore_24dp"
-			android:title="@string/kolumbus"
-			android:visible="@bool/debug"
-			tools:visible="true" />
 	</group>
 </menu>

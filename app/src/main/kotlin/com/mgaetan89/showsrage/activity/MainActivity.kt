@@ -48,28 +48,17 @@ import com.mgaetan89.showsrage.fragment.ScheduleFragment
 import com.mgaetan89.showsrage.fragment.SettingsFragment
 import com.mgaetan89.showsrage.fragment.ShowsFragment
 import com.mgaetan89.showsrage.fragment.StatisticsFragment
-import com.mgaetan89.showsrage.helper.ShowsArchitect
 import com.mgaetan89.showsrage.helper.ShowsRageReceiver
 import com.mgaetan89.showsrage.helper.Utils
-import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.GenericResponse
-import com.mgaetan89.showsrage.model.History
-import com.mgaetan89.showsrage.model.LogEntry
-import com.mgaetan89.showsrage.model.Quality
-import com.mgaetan89.showsrage.model.RealmShowStat
-import com.mgaetan89.showsrage.model.RealmString
-import com.mgaetan89.showsrage.model.RootDir
 import com.mgaetan89.showsrage.model.RootDirs
-import com.mgaetan89.showsrage.model.Schedule
 import com.mgaetan89.showsrage.model.Show
-import com.mgaetan89.showsrage.model.ShowsStat
 import com.mgaetan89.showsrage.model.ThemeColors
 import com.mgaetan89.showsrage.model.UpdateResponse
 import com.mgaetan89.showsrage.model.UpdateResponseWrapper
 import com.mgaetan89.showsrage.network.SickRageApi
 import com.mgaetan89.showsrage.widget.HistoryWidgetProvider
 import com.mgaetan89.showsrage.widget.ScheduleWidgetProvider
-import io.kolumbus.Kolumbus
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.app_bar
 import kotlinx.android.synthetic.main.activity_main.drawer_content
@@ -137,23 +126,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 			}
 
 			R.id.menu_history -> fragment = HistoryFragment.newInstance()
-
-			R.id.menu_kolumbus -> {
-				eventHandled = false
-
-				Kolumbus.explore(Episode::class.java)
-						.explore(History::class.java)
-						.explore(LogEntry::class.java)
-						.explore(Quality::class.java)
-						.explore(RealmShowStat::class.java)
-						.explore(RealmString::class.java)
-						.explore(RootDir::class.java)
-						.explore(Schedule::class.java)
-						.explore(Show::class.java)
-						.explore(ShowsStat::class.java)
-						.withArchitect(ShowsArchitect())
-						.navigate(this)
-			}
 
 			R.id.menu_logs -> fragment = LogsFragment.newInstance()
 

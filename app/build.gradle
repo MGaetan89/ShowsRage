@@ -79,7 +79,6 @@ android {
 def assertJAndroidVersion = '1.2.0'
 def googleServicesVersion = '11.4.2'
 def jUnitVersion = '4.12'
-def kolumbusVersion = 'v0.9'
 def okHttpVersion = '2.5.0'
 def supportLibraryVersion = '27.1.1'
 def supportTestVersion = '1.0.1'
@@ -109,13 +108,6 @@ dependencies {
 	implementation 'io.realm:android-adapters:2.1.0'
 	implementation 'jp.wasabeef:glide-transformations:2.0.2'
 	implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.2.41'
-
-	debugImplementation("com.github.MGaetan89.Kolumbus:kolumbus:${kolumbusVersion}") {
-		exclude group: 'org.jetbrains.kotlin'
-	}
-	releaseImplementation("com.github.MGaetan89.Kolumbus:kolumbus-no-op:${kolumbusVersion}") {
-		exclude group: 'org.jetbrains.kotlin'
-	}
 
 	testImplementation("com.squareup.assertj:assertj-android:${assertJAndroidVersion}") {
 		exclude group: 'com.android.support', module: 'support-annotations'

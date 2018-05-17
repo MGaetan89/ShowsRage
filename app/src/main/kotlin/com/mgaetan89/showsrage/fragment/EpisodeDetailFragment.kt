@@ -362,7 +362,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 		return episodeDownloaded && streamInChromecast
 	}
 
-	private fun isEpisodeDownloaded(episode: Episode) = episode.isLoaded && "Downloaded".equals(episode.status, true)
+	private fun isEpisodeDownloaded(episode: Episode) = episode.isValid && "Downloaded".equals(episode.status, true)
 
 	private fun isPlayMenuVisible(episode: Episode): Boolean {
 		val activity = this.activity ?: return false
