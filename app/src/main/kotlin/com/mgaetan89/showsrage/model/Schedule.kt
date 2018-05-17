@@ -13,7 +13,7 @@ open class Schedule : RealmObject() {
 	@SerializedName("ep_name")
 	open var episodeName: String = ""
 	@SerializedName("ep_plot")
-	open var episodePlot: String = ""
+	open var episodePlot: String? = ""
 	@PrimaryKey
 	open var id: String = ""
 	@SerializedName("indexerid")
