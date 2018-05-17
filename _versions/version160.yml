@@ -9,4 +9,6 @@ features:
 - Widget to display the <em>History</em>
 - Widget to display the <em>Schedule</em>
 - Widget to quickly access a show
+changes:
+- Remove OmDb integration
 ---
