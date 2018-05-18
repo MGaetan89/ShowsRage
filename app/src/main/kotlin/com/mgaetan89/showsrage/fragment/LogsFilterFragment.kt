@@ -35,7 +35,7 @@ class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, Di
 		val data = Intent()
 		data.putExtra(Constants.Bundle.LOGS_GROUPS, selectedItems)
 
-		this.targetFragment?.onActivityResult(this.targetRequestCode, Activity.RESULT_OK, data)
+		this.parentFragment?.onActivityResult(LogsFragment.REQUEST_CODE_FILTER, Activity.RESULT_OK, data)
 
 		dialog?.dismiss()
 	}
