@@ -208,9 +208,8 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 	}
 
 	private fun handleLogsGroupFilter() {
-		val fragment = LogsFilterFragment.newInstance(this.groups)
-		fragment.setTargetFragment(this, REQUEST_CODE_FILTER)
-		fragment.show(this.childFragmentManager, "logs_filter")
+		LogsFilterFragment.newInstance(this.groups)
+			.show(this.childFragmentManager, "logs_filter")
 	}
 
 	private fun handleLogsLevelSelection(item: MenuItem?): Boolean {
@@ -256,8 +255,9 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 	}
 
 	companion object {
+		const val REQUEST_CODE_FILTER = 1
+
 		private const val AUTO_UPDATE_JOB_TAG = "logs-auto-update-tag"
-		private const val REQUEST_CODE_FILTER = 1
 		private const val TOLERANCE_RATIO = 0.1
 
 		internal fun getLogLevelForMenuId(menuId: Int?) = when (menuId) {

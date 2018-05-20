@@ -1,7 +1,12 @@
 package com.mgaetan89.showsrage.helper
 
+import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.model.LogEntry
+import com.mgaetan89.showsrage.model.RealmString
+import com.mgaetan89.showsrage.model.RootDir
+import com.mgaetan89.showsrage.model.Schedule
+import com.mgaetan89.showsrage.model.Show
 import io.realm.DynamicRealm
 import io.realm.RealmMigration
 import io.realm.RealmSchema
@@ -54,6 +59,12 @@ class Migration : RealmMigration {
 
 			localOldVersion++
 		}
+
+		if (localOldVersion == 7L) {
+			this.updateToV8(schema)
+
+			localOldVersion++
+		}
 	}
 
 	override fun equals(other: Any?) = other is Migration
@@ -91,24 +102,27 @@ class Migration : RealmMigration {
 	}
 
 	private fun updateToV7(schema: RealmSchema) {
-		schema.get("Episode")
+		schema.get(Episode::class.java.simpleName)
 				?.setRequired("airDate", true)
 				?.setRequired("id", true)
 				?.setRequired("name", true)
 				?.setRequired("quality", true)
 				?.setRequired("subtitles", true)
 
-		schema.get("History")?.setRequired("id", true)
+		schema.get(History::class.java.simpleName)
+				?.setRequired("id", true)
 
-		schema.get("LogEntry")
+		schema.get(LogEntry::class.java.simpleName)
 				?.setRequired("dateTime", true)
 				?.setRequired("message", true)
 
-		schema.get("RealmString")?.setRequired("value", true)
+		schema.get(RealmString::class.java.simpleName)
+				?.setRequired("value", true)
 
-		schema.get("RootDir")?.setRequired("location", true)
+		schema.get(RootDir::class.java.simpleName)
+				?.setRequired("location", true)
 
-		schema.get("Schedule")
+		schema.get(Schedule::class.java.simpleName)
 				?.setRequired("airDate", true)
 				?.setRequired("airs", true)
 				?.setRequired("episodeName", true)
@@ -120,10 +134,15 @@ class Migration : RealmMigration {
 				?.setRequired("showName", true)
 				?.setRequired("showStatus", true)
 
-		schema.get("Show")
+		schema.get(Show::class.java.simpleName)
 				?.setRequired("network", true)
 				?.setRequired("nextEpisodeAirDate", true)
 				?.setRequired("quality", true)
 				?.setRequired("tvRageName", true)
+	}
+
+	private fun updateToV8(schema: RealmSchema) {
+		schema.get(Schedule::class.java.simpleName)
+				?.setRequired("episodePlot", false)
 	}
 }
