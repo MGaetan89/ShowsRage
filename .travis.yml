@@ -1,4 +1,7 @@
 language: android
+jdk: oraclejdk8
+sudo: required
+dist: trusty
 
 branches:
   except:
@@ -6,28 +9,32 @@ branches:
 
 env:
   global:
-    - ADB_INSTALL_TIMEOUT=10
+    - BUILD_TOOLS_VERSION=27.0.3
+    - SDK_VERSION=27
 
   matrix:
-    - ANDROID_TARGET=21 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
+    - EMULATOR_TAG=android EMULATOR_API=21 ABI=armeabi-v7a
 
 android:
   components:
     - tools
     - platform-tools
-    - build-tools-27.0.3
-    - android-$ANDROID_TARGET
-    - sys-img-$ANDROID_ABI-$ANDROID_TAG-$ANDROID_TARGET
+    - tools
+    - build-tools-$BUILD_TOOLS_VERSION
+    - android-$SDK_VERSION
 
-before_install:
-  - yes | sdkmanager "platforms;android-27"
+  licenses:
+    - 'android-sdk-license-.+'
 
 before_script:
-  - echo no | android create avd -f -n "test_$ANDROID_TARGET" -t "android-$ANDROID_TARGET" -b $ANDROID_ABI -g $ANDROID_TAG
-  - emulator -memory 2048 -avd "test_$ANDROID_TARGET" -no-audio -no-window -gpu off -engine classic &
+  - echo y | android update sdk --no-ui --all --filter "android-$EMULATOR_API"
+  - android-update-sdk --components="sys-img-$ABI-$EMULATOR_TAG-$EMULATOR_API" --accept-licenses='android-sdk-license-[0-9a-f]{8}'
+  - android list targets
+  - echo no | android create avd --force -n test -t $EMULATOR_TAG-$EMULATOR_API --abi $ABI
+  - emulator -avd test -no-audio -netfast -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
-  - adb devices
+  - adb shell svc power stayon true
 
 script:
   - ./gradlew :app:jacocoTestDebugUnitTestReport :app:assembleDebugAndroidTest :app:connectedDebugAndroidTest :app:createDebugCoverageReport
