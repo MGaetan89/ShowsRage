@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -124,6 +125,7 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
 			}
 		})
 		this.list?.layoutManager = GridLayoutManager(this.activity, columnCount)
+		this.list?.addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
 
 		this.swipe_refresh?.setColorSchemeResources(R.color.accent)
 		this.swipe_refresh?.setOnRefreshListener(this)

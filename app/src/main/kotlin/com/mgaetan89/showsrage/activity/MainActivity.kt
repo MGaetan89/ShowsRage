@@ -52,7 +52,6 @@ import com.mgaetan89.showsrage.helper.ShowsRageReceiver
 import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.GenericResponse
 import com.mgaetan89.showsrage.model.RootDirs
-import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.ThemeColors
 import com.mgaetan89.showsrage.model.UpdateResponse
 import com.mgaetan89.showsrage.model.UpdateResponseWrapper
