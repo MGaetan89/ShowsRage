@@ -13,6 +13,8 @@ env:
     - SDK_VERSION=27
 
   matrix:
+    - EMULATOR_TAG=android EMULATOR_API=16 ABI=armeabi-v7a
+    - EMULATOR_TAG=android EMULATOR_API=19 ABI=armeabi-v7a
     - EMULATOR_TAG=android EMULATOR_API=21 ABI=armeabi-v7a
 
 android:
