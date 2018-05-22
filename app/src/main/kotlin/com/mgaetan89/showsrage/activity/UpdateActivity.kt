@@ -49,12 +49,12 @@ class UpdateActivity : AppCompatActivity(), Callback<GenericResponse>, DialogInt
 
 		SickRageApi.instance.init(this.getPreferences())
 
-		val update = this.intent.extras.getParcelable<UpdateResponse>(Constants.Bundle.UPDATE_MODEL)
+		val update = this.intent?.extras?.getParcelable<UpdateResponse>(Constants.Bundle.UPDATE_MODEL)
 		val builder = AlertDialog.Builder(this)
 				.setTitle(R.string.update_sickrage)
 
-		if (update != null) {
-			builder.setMessage(this.getString(R.string.update_available_detailed, update.currentVersion?.version, update.latestVersion?.version, update.commitsOffset))
+		update?.let {
+			builder.setMessage(this.getString(R.string.update_available_detailed, it.currentVersion?.version, it.latestVersion?.version, it.commitsOffset))
 		}
 
 		builder.setPositiveButton(R.string.update, this)
