@@ -8,23 +8,23 @@ import android.support.annotation.WorkerThread
 import android.support.v7.graphics.Palette
 import android.widget.ImageView
 import android.widget.RemoteViews
-import com.bumptech.glide.BitmapRequestBuilder
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.animation.GlideAnimation
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.bumptech.glide.request.target.Target
-import jp.wasabeef.glide.transformations.CropCircleTransformation
+import com.bumptech.glide.request.transition.Transition
 
 object ImageLoader {
 	interface OnImageResult {
-		fun onImageError(imageView: ImageView, exception: Exception?, errorDrawable: Drawable?)
+		fun onImageError(imageView: ImageView, errorDrawable: Drawable?)
 
-		fun onImageReady(imageView: ImageView, resource: Bitmap?)
+		fun onImageReady(imageView: ImageView, resource: Bitmap)
 	}
 
 	fun getBitmap(context: Context, url: String?, circleTransform: Boolean)
-			= this.getGlideInstance(context, url, circleTransform)?.into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+			= this.getGlideInstance(context, url, circleTransform).submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
 
 	fun load(imageView: ImageView?, url: String?, circleTransform: Boolean) {
 		this.load(imageView, url, circleTransform, null, null)
@@ -33,46 +33,47 @@ object ImageLoader {
 	fun load(imageView: ImageView?, url: String?, circleTransform: Boolean, paletteListener: Palette.PaletteAsyncListener?, onImageResult: OnImageResult?) {
 		val context = imageView?.context ?: return
 
-		this.getGlideInstance(context, url, circleTransform)?.into(BitmapTarget(imageView, paletteListener, onImageResult))
+		this.getGlideInstance(context, url, circleTransform).into(BitmapTarget(imageView, paletteListener, onImageResult))
 	}
 
 	@WorkerThread
 	fun load(context: Context, remoteViews: RemoteViews, @IdRes viewId: Int, url: String?, circleTransform: Boolean) {
-		this.getBitmap(context, url, circleTransform)?.let {
+		this.getBitmap(context, url, circleTransform).let {
 			remoteViews.setImageViewBitmap(viewId, it.get())
 
-			Glide.clear(it)
+			Glide.with(context.applicationContext).clear(it)
 		}
 	}
 
-	private fun getGlideInstance(context: Context, url: String?, circleTransform: Boolean): BitmapRequestBuilder<String, Bitmap>? {
-		val glide = Glide.with(context.applicationContext)
-				.load(url)
-				.asBitmap()
-				.approximate()
-				.diskCacheStrategy(DiskCacheStrategy.ALL)
+	private fun getGlideInstance(context: Context, url: String?, circleTransform: Boolean): RequestBuilder<Bitmap> {
+		val requestOptions = RequestOptions()
+			.diskCacheStrategy(DiskCacheStrategy.ALL)
+			.apply {
+				if (circleTransform) {
+					this.circleCrop()
+				}
+			}
 
-		if (circleTransform) {
-			glide.transform(CropCircleTransformation(context))
-		}
-
-		return glide
+		return Glide.with(context.applicationContext)
+			.asBitmap()
+			.load(url)
+			.apply(requestOptions)
 	}
 
 	private class BitmapTarget(view: ImageView, val paletteListener: Palette.PaletteAsyncListener?, val onImageResult: OnImageResult?) : BitmapImageViewTarget(view) {
-		override fun onLoadFailed(e: Exception?, errorDrawable: Drawable?) {
-			super.onLoadFailed(e, errorDrawable)
+		override fun onLoadFailed(errorDrawable: Drawable?) {
+			super.onLoadFailed(errorDrawable)
 
-			this.onImageResult?.onImageError(this.view, e, errorDrawable)
+			this.onImageResult?.onImageError(this.view, errorDrawable)
 		}
 
-		override fun onResourceReady(resource: Bitmap?, glideAnimation: GlideAnimation<in Bitmap>?) {
-			super.onResourceReady(resource, glideAnimation)
+		override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+            this.view.setImageBitmap(resource)
 
 			this.onImageResult?.onImageReady(this.view, resource)
 
-			if (resource != null && this.paletteListener != null) {
-				Palette.Builder(resource).generate(this.paletteListener)
+			this.paletteListener?.let {
+				Palette.Builder(resource).generate(it)
 			}
 		}
 	}

@@ -283,7 +283,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		}
 	}
 
-	override fun onImageError(imageView: ImageView, exception: Exception?, errorDrawable: Drawable?) {
+	override fun onImageError(imageView: ImageView, errorDrawable: Drawable?) {
 		val parent = imageView.parent
 
 		if (parent is View) {
@@ -291,7 +291,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		}
 	}
 
-	override fun onImageReady(imageView: ImageView, resource: Bitmap?) {
+	override fun onImageReady(imageView: ImageView, resource: Bitmap) {
 		val parent = imageView.parent
 
 		if (parent is View) {

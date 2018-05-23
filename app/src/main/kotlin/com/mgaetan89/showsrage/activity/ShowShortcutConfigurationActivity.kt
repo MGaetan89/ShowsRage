@@ -153,7 +153,7 @@ class ShowShortcutConfigurationActivity : AppCompatActivity() {
 				default
 			}
 
-			Glide.clear(futureBitmap)
+			Glide.with(this.activity.applicationContext).clear(futureBitmap)
 
 			val size = this.activity.resources.getDimensionPixelSize(R.dimen.shortcut_icon_size)
 
