@@ -36,7 +36,7 @@ class RealmExtension_SaveHistoryTest : RealmTest() {
 		for (i in 1..3) {
 			val history = histories[i - 1]
 
-			assertThat(history.episode).isEqualTo(i)
+			assertThat(history!!.episode).isEqualTo(i)
 			assertThat(history.date).isEqualTo("date_$i")
 			assertThat(history.id).isEqualTo("date_${i}_status_${i}_${INDEXER_ID}_${i * 10}_$i")
 			assertThat(history.indexerId).isEqualTo(INDEXER_ID)

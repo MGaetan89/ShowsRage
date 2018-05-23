@@ -21,11 +21,11 @@ class RealmExtension_GetShowsStatsTest : RealmTest() {
 			it.removeAllChangeListeners()
 
 			assertThat(it).hasSize(1)
-			assertThat(it.first().episodesDownloaded).isEqualTo(4977)
-			assertThat(it.first().episodesSnatched).isEqualTo(786)
-			assertThat(it.first().episodesTotal).isEqualTo(7978)
-			assertThat(it.first().showsActive).isEqualTo(42)
-			assertThat(it.first().showsTotal).isEqualTo(83)
+			assertThat(it[0]!!.episodesDownloaded).isEqualTo(4977)
+			assertThat(it[0]!!.episodesSnatched).isEqualTo(786)
+			assertThat(it[0]!!.episodesTotal).isEqualTo(7978)
+			assertThat(it[0]!!.showsActive).isEqualTo(42)
+			assertThat(it[0]!!.showsTotal).isEqualTo(83)
 		})
 	}
 }

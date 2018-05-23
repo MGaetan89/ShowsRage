@@ -29,7 +29,7 @@ class RealmExtension_GetLogsTest : RealmTest() {
 			}
 
 			for (i in 1 until it.size) {
-				assertThat(it[i].dateTime < it[i - 1].dateTime).isTrue()
+				assertThat(it[i]!!.dateTime < it[i - 1]!!.dateTime).isTrue()
 			}
 		})
 	}
@@ -47,7 +47,7 @@ class RealmExtension_GetLogsTest : RealmTest() {
 			}
 
 			for (i in 1 until it.size) {
-				assertThat(it[i].dateTime < it[i - 1].dateTime).isTrue()
+				assertThat(it[i]!!.dateTime < it[i - 1]!!.dateTime).isTrue()
 			}
 		})
 	}
@@ -65,7 +65,7 @@ class RealmExtension_GetLogsTest : RealmTest() {
 			}
 
 			for (i in 1 until it.size) {
-				assertThat(it[i].dateTime < it[i - 1].dateTime).isTrue()
+				assertThat(it[i]!!.dateTime < it[i - 1]!!.dateTime).isTrue()
 			}
 		})
 	}

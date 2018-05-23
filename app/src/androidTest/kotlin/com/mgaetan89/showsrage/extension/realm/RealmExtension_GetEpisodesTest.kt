@@ -23,7 +23,7 @@ class RealmExtension_GetEpisodesTest : RealmTest() {
 			assertThat(it).hasSize(15)
 
 			for (i in 1 until it.size) {
-				assertThat(it[i].number > it[i - 1].number).isTrue()
+				assertThat(it[i]!!.number > it[i - 1]!!.number).isTrue()
 			}
 		})
 	}
@@ -36,7 +36,7 @@ class RealmExtension_GetEpisodesTest : RealmTest() {
 			assertThat(it).hasSize(15)
 
 			for (i in 1 until it.size) {
-				assertThat(it[i].number < it[i - 1].number).isTrue()
+				assertThat(it[i]!!.number < it[i - 1]!!.number).isTrue()
 			}
 		})
 	}

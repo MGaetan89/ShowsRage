@@ -13,6 +13,6 @@ class RealmExtension_GetRootDirsTest : RealmTest() {
 		val rootDirs = this.realm.getRootDirs()
 
 		assertThat(rootDirs).hasSize(1)
-		assertThat(rootDirs.first().location).isEqualTo("/volume1/Séries")
+		assertThat(rootDirs[0]!!.location).isEqualTo("/volume1/Séries")
 	}
 }

@@ -23,7 +23,7 @@ class RealmExtension_GetScheduleTest : RealmTest() {
 			assertThat(it).hasSize(8)
 
 			for (i in 1 until it.size) {
-				assertThat(it[i].airDate > it[i - 1].airDate).isTrue()
+				assertThat(it[i]!!.airDate > it[i - 1]!!.airDate).isTrue()
 			}
 		})
 	}
