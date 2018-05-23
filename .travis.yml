@@ -41,8 +41,7 @@ before_script:
 script:
   - ./gradlew :app:assembleDebug
   - ./gradlew :app:testDebugUnitTest
-  - travis_wait 60 ./gradlew :app:connectedCheck
-  - ./gradlew :app:jacocoTestDebugUnitTestReport :app:createDebugCoverageReport
+  - travis_wait 60 ./gradlew :app:jacocoTestDebugUnitTestReport :app:createDebugCoverageReport
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
@@ -56,6 +55,7 @@ before_cache:
 
 cache:
   directories:
+    - $ANDROID_HOME
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
