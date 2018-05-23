@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.adapter_schedule_list_content.view.episode
 
 class ScheduleAdapter(schedules: RealmResults<Schedule>) : RealmRecyclerViewAdapter<Schedule, ScheduleAdapter.ViewHolder>(schedules, true) {
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-		val schedule = this.getItem(position).takeIf { it != null && it.isValid } ?: return
+		val schedule = this.getItem(position)?.takeIf { it.isValid } ?: return
 
 		holder.bind(schedule)
 	}
@@ -74,7 +74,7 @@ class ScheduleAdapter(schedules: RealmResults<Schedule>) : RealmRecyclerViewAdap
 		override fun onMenuItemClick(item: MenuItem) = this.notifyEpisodeActionSelected(item)
 
 		private fun notifyEpisodeActionSelected(item: MenuItem): Boolean {
-			val schedule = getItem(this.adapterPosition).takeIf { it != null && it.isValid } ?: return false
+			val schedule = getItem(this.adapterPosition)?.takeIf { it.isValid } ?: return false
 
 			Intent(Constants.Intents.ACTION_EPISODE_ACTION_SELECTED).also {
 				it.putExtra(Constants.Bundle.EPISODE_NUMBER, schedule.episode)
@@ -98,7 +98,7 @@ class ScheduleAdapter(schedules: RealmResults<Schedule>) : RealmRecyclerViewAdap
 
 		private fun showPlot() {
 			val context = this.itemView.context
-			val schedule = getItem(this.adapterPosition).takeIf { it != null && it.isValid } ?: return
+			val schedule = getItem(this.adapterPosition)?.takeIf { it.isValid } ?: return
 			val plot = schedule.episodePlot.orEmpty()
 
 			if (!plot.isEmpty()) {

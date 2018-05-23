@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.adapter_logs_list.view.log_message
 
 class LogsAdapter(logs: RealmResults<LogEntry>) : RealmRecyclerViewAdapter<LogEntry, LogsAdapter.ViewHolder>(logs, true) {
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-		val logEntry = this.getItem(position).takeIf { it != null && it.isValid } ?: return
+		val logEntry = this.getItem(position)?.takeIf { it.isValid } ?: return
 
 		holder.bind(logEntry)
 	}

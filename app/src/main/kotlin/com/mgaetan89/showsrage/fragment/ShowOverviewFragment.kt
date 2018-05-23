@@ -42,7 +42,6 @@ import com.mgaetan89.showsrage.helper.ImageLoader
 import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.GenericResponse
 import com.mgaetan89.showsrage.model.Indexer
-import com.mgaetan89.showsrage.model.RealmString
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.SingleShow
 import com.mgaetan89.showsrage.network.SickRageApi
@@ -125,7 +124,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		val genresList = show.genre
 
 		if (genresList?.isNotEmpty() == true) {
-			val genres = genresList.joinToString { it.value }
+			val genres = genresList.joinToString()
 
 			this.show_genre?.text = this.getString(R.string.genre, genres)
 			this.show_genre?.visibility = View.VISIBLE
@@ -428,7 +427,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 				.show()
 	}
 
-	private fun getTranslatedQualities(qualities: RealmList<RealmString>?, allowed: Boolean): List<String> {
+	private fun getTranslatedQualities(qualities: RealmList<String>?, allowed: Boolean): List<String> {
 		val translatedQualities = mutableListOf<String>()
 
 		if (qualities == null || qualities.isEmpty()) {
@@ -447,7 +446,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		}
 
 		qualities.forEach {
-			val position = keys.indexOf(it.value)
+			val position = keys.indexOf(it)
 
 			if (position != -1) {
 				// Skip the "Ignore" first item

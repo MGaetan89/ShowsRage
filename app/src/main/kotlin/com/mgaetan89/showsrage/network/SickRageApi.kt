@@ -1,15 +1,10 @@
 package com.mgaetan89.showsrage.network
 
 import android.content.SharedPreferences
-import android.util.Log
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.TypeAdapter
-import com.google.gson.reflect.TypeToken
-import com.google.gson.stream.JsonReader
-import com.google.gson.stream.JsonWriter
 import com.mgaetan89.showsrage.BuildConfig
 import com.mgaetan89.showsrage.extension.getApiKey
 import com.mgaetan89.showsrage.extension.getPortNumber
@@ -21,13 +16,11 @@ import com.mgaetan89.showsrage.extension.useBasicAuth
 import com.mgaetan89.showsrage.extension.useHttps
 import com.mgaetan89.showsrage.extension.useSelfSignedCertificate
 import com.mgaetan89.showsrage.model.Indexer
-import com.mgaetan89.showsrage.model.RealmString
 import com.squareup.okhttp.Authenticator
 import com.squareup.okhttp.Credentials
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
 import com.squareup.okhttp.Response
-import io.realm.RealmList
 import io.realm.RealmObject
 import retrofit.RequestInterceptor
 import retrofit.RestAdapter
@@ -183,39 +176,7 @@ class SickRageApi private constructor() : RequestInterceptor {
 
 	companion object {
 		val gson: Gson by lazy {
-			val realmStringListType = object : TypeToken<RealmList<RealmString>>() {}.type
-
 			GsonBuilder()
-					.registerTypeAdapter(realmStringListType, object : TypeAdapter<RealmList<RealmString>>() {
-						override fun read(input: JsonReader?): RealmList<RealmString>? {
-							val list = RealmList<RealmString>()
-
-							if (input != null) {
-								input.beginArray()
-								while (input.hasNext()) {
-									// Skip null values
-									try {
-										input.nextNull()
-									} catch(exception: IllegalStateException) {
-										Log.d("SickRageApi", "RealmList<RealmString> contains null values")
-									}
-
-									if (input.hasNext()) {
-										val string = RealmString()
-										string.value = input.nextString()
-
-										list.add(string)
-									}
-								}
-								input.endArray()
-							}
-
-							return list
-						}
-
-						override fun write(out: JsonWriter?, value: RealmList<RealmString>?) = Unit
-
-					})
 					.setExclusionStrategies(object : ExclusionStrategy {
 						override fun shouldSkipField(f: FieldAttributes) = f.declaringClass == RealmObject::class.java
 

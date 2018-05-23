@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.adapter_histories_list_content.view.episod
 
 class HistoriesAdapter(histories: RealmResults<History>) : RealmRecyclerViewAdapter<History, HistoriesAdapter.ViewHolder>(histories, true) {
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-		val history = this.getItem(position).takeIf { it != null && it.isValid } ?: return
+		val history = this.getItem(position)?.takeIf { it.isValid } ?: return
 
 		holder.bind(history)
 	}

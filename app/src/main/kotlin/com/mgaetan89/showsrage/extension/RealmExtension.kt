@@ -6,7 +6,6 @@ import com.mgaetan89.showsrage.model.LogEntry
 import com.mgaetan89.showsrage.model.LogLevel
 import com.mgaetan89.showsrage.model.Quality
 import com.mgaetan89.showsrage.model.RealmShowStat
-import com.mgaetan89.showsrage.model.RealmString
 import com.mgaetan89.showsrage.model.RootDir
 import com.mgaetan89.showsrage.model.Schedule
 import com.mgaetan89.showsrage.model.Show
@@ -77,7 +76,8 @@ fun Realm.getEpisodes(indexerId: Int, season: Int, reversedOrder: Boolean, liste
 	val episodes = this.where(Episode::class.java)
 			.equalTo("indexerId", indexerId)
 			.equalTo("season", season)
-			.findAllSortedAsync("number", if (reversedOrder) Sort.DESCENDING else Sort.ASCENDING)
+			.sort("number", if (reversedOrder) Sort.DESCENDING else Sort.ASCENDING)
+			.findAllAsync()
 	episodes.addChangeListener(listener)
 
 	return episodes
@@ -85,7 +85,8 @@ fun Realm.getEpisodes(indexerId: Int, season: Int, reversedOrder: Boolean, liste
 
 fun Realm.getHistory(listener: RealmChangeListener<RealmResults<History>>): RealmResults<History> {
 	val history = this.where(History::class.java)
-			.findAllSortedAsync("date", Sort.DESCENDING)
+			.sort("date", Sort.DESCENDING)
+			.findAllAsync()
 	history.addChangeListener(listener)
 
 	return history
@@ -103,7 +104,7 @@ fun Realm.getLogs(logLevel: LogLevel, groups: Array<String>?, listener: RealmCha
 		query.`in`("errorType", logLevels)
 	}
 
-	val logs = query.findAllSortedAsync("dateTime", Sort.DESCENDING)
+	val logs = query.sort("dateTime", Sort.DESCENDING).findAllAsync()
 	logs.addChangeListener(listener)
 
 	return logs
@@ -112,6 +113,7 @@ fun Realm.getLogs(logLevel: LogLevel, groups: Array<String>?, listener: RealmCha
 fun Realm.getLogsGroup(): List<String> {
 	return this.where(LogEntry::class.java)
 			.distinct("group")
+			.findAll()
 			.mapNotNull(LogEntry::group)
 			.sorted()
 }
@@ -124,7 +126,8 @@ fun Realm.getRootDirs(): RealmResults<RootDir> {
 fun Realm.getSchedule(section: String, listener: RealmChangeListener<RealmResults<Schedule>>): RealmResults<Schedule> {
 	val schedule = this.where(Schedule::class.java)
 			.equalTo("section", section)
-			.findAllSortedAsync("airDate")
+			.sort("airDate")
+			.findAllAsync()
 	schedule.addChangeListener(listener)
 
 	return schedule
@@ -133,6 +136,7 @@ fun Realm.getSchedule(section: String, listener: RealmChangeListener<RealmResult
 fun Realm.getScheduleSections(): List<String> {
 	return this.where(Schedule::class.java)
 			.distinct("section")
+			.findAll()
 			.mapNotNull(Schedule::section)
 }
 
@@ -313,21 +317,21 @@ private fun Realm.prepareShowForSaving(show: Show) {
 	val savedShow = this.getShow(show.indexerId)
 
 	show.airs = if (show.airs.isNullOrEmpty()) savedShow?.airs else show.airs
-	show.genre = RealmList<RealmString>().apply {
+	show.genre = RealmList<String>().apply {
 		this.addAll((if (show.genre?.isEmpty() != false) savedShow?.genre else show.genre) ?: emptyList())
 	}
 	show.imdbId = if (show.imdbId.isNullOrEmpty()) savedShow?.imdbId else show.imdbId
 	show.location = if (show.location.isNullOrEmpty()) savedShow?.location else show.location
 	show.qualityDetails = Quality().apply {
-		this.archive = RealmList<RealmString>().apply {
+		this.archive = RealmList<String>().apply {
 			this.addAll((if (show.qualityDetails?.archive?.isEmpty() != false) savedShow?.qualityDetails?.archive else show.qualityDetails?.archive) ?: emptyList())
 		}
 		this.indexerId = show.indexerId
-		this.initial = RealmList<RealmString>().apply {
+		this.initial = RealmList<String>().apply {
 			this.addAll((if (show.qualityDetails?.initial?.isEmpty() != false) savedShow?.qualityDetails?.initial else show.qualityDetails?.initial) ?: emptyList())
 		}
 	}
-	show.seasonList = RealmList<RealmString>().apply {
+	show.seasonList = RealmList<String>().apply {
 		this.addAll((if (show.seasonList?.isEmpty() != false) savedShow?.seasonList else show.seasonList) ?: emptyList())
 	}
 }

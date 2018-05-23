@@ -22,7 +22,7 @@ class Show_GetSeasonsListIntTest(val show: Show, val seasonsListInt: List<Int>) 
 
 			return listOf(
 					arrayOf(gson.fromJson("{}", Show::class.java), emptyList<String>()),
-					arrayOf(buildJsonForSeasonList(emptyArray<String>()), emptyList<String>()),
+					arrayOf(buildJsonForSeasonList(emptyArray()), emptyList<String>()),
 					arrayOf(buildJsonForSeasonList(arrayOf("10")), listOf(10)),
 					arrayOf(buildJsonForSeasonList(arrayOf("10", "hello")), listOf(10)),
 					arrayOf(buildJsonForSeasonList(arrayOf("10", "hello", "")), listOf(10)),
@@ -31,10 +31,10 @@ class Show_GetSeasonsListIntTest(val show: Show, val seasonsListInt: List<Int>) 
 			)
 		}
 
-		private fun buildJsonForSeasonList(seasonList: Array<String>?): Show {
+		private fun buildJsonForSeasonList(seasonList: Array<String>): Show {
 			return Show().apply {
-				this.seasonList = RealmList<RealmString>().apply {
-					this.addAll(seasonList?.map(::RealmString) ?: emptyList())
+				this.seasonList = RealmList<String>().apply {
+					this.addAll(seasonList)
 				}
 			}
 		}

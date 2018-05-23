@@ -5,7 +5,6 @@ import com.mgaetan89.showsrage.extension.getShow
 import com.mgaetan89.showsrage.extension.getShows
 import com.mgaetan89.showsrage.extension.saveShow
 import com.mgaetan89.showsrage.model.Quality
-import com.mgaetan89.showsrage.model.RealmString
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.validateRealmList
 import io.realm.RealmList
@@ -25,12 +24,12 @@ class RealmExtension_SaveShowTest : RealmTest() {
 	fun saveShow() {
 		val show = Show().apply {
 			this.airs = "Monday 9:00 PM"
-			this.genre = RealmList(RealmString("Action"), RealmString("Drama"))
+			this.genre = RealmList("Action", "Drama")
 			this.imdbId = "tt123456"
 			this.indexerId = 42
 			this.location = "/home/videos/Show Name"
 			this.qualityDetails = null
-			this.seasonList = RealmList(RealmString("2"), RealmString("1"))
+			this.seasonList = RealmList("2", "1")
 		}
 
 		this.realm.saveShow(show)
@@ -42,16 +41,16 @@ class RealmExtension_SaveShowTest : RealmTest() {
 	fun saveShow_update() {
 		val show = Show().apply {
 			this.airs = "Thursday 10:00 PM"
-			this.genre = RealmList(RealmString("Action"), RealmString("Comedy"))
+			this.genre = RealmList("Action", "Comedy")
 			this.imdbId = "tt1234567"
 			this.indexerId = 42
 			this.location = "/home/videos/Show Name"
 			this.qualityDetails = Quality().apply {
-				this.archive = RealmList(RealmString("fullhdwebdl"), RealmString("fullhdbluray"))
+				this.archive = RealmList("fullhdwebdl", "fullhdbluray")
 				this.indexerId = 42
-				this.initial = RealmList(RealmString("fullhdtv"))
+				this.initial = RealmList("fullhdtv")
 			}
-			this.seasonList = RealmList(RealmString("3"), RealmString("2"), RealmString("1"))
+			this.seasonList = RealmList("3", "2", "1")
 		}
 
 		this.realm.saveShow(show)
@@ -63,7 +62,7 @@ class RealmExtension_SaveShowTest : RealmTest() {
 
 	private fun getShows() = this.realm.getShows(null)
 
-	private fun validateShow(airs: String?, genre: RealmList<RealmString>?, imdbId: String?, indexerId: Int, location: String?, qualityDetails: Quality?, seasonList: RealmList<RealmString>?) {
+	private fun validateShow(airs: String?, genre: RealmList<String>?, imdbId: String?, indexerId: Int, location: String?, qualityDetails: Quality?, seasonList: RealmList<String>?) {
 		assertThat(this.getShows()).hasSize(84)
 
 		val show = this.getShow(indexerId)

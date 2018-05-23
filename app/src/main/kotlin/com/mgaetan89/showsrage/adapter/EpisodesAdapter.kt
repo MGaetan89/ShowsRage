@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.adapter_episodes_list_content.view.episode
 
 class EpisodesAdapter(episodes: RealmResults<Episode>, val seasonNumber: Int, val indexerId: Int, val reversed: Boolean) : RealmRecyclerViewAdapter<Episode, EpisodesAdapter.ViewHolder>(episodes, true) {
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-		val episode = this.getItem(position).takeIf { it != null && it.isValid } ?: return
+		val episode = this.getItem(position)?.takeIf { it.isValid } ?: return
 
 		holder.bind(episode)
 	}
@@ -92,7 +92,7 @@ class EpisodesAdapter(episodes: RealmResults<Episode>, val seasonNumber: Int, va
 
 		private fun notifyEpisodeSelected() {
 			if (this.adapterPosition in (0 until itemCount)) {
-				val episode = getItem(this.adapterPosition).takeIf { it != null && it.isValid } ?: return
+				val episode = getItem(this.adapterPosition)?.takeIf { it.isValid } ?: return
 
 				Intent(Constants.Intents.ACTION_EPISODE_SELECTED).also {
 					it.putExtra(Constants.Bundle.EPISODE_ID, episode.id)

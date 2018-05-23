@@ -3,11 +3,13 @@ package com.mgaetan89.showsrage.helper
 import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.model.LogEntry
-import com.mgaetan89.showsrage.model.RealmString
+import com.mgaetan89.showsrage.model.Quality
 import com.mgaetan89.showsrage.model.RootDir
 import com.mgaetan89.showsrage.model.Schedule
 import com.mgaetan89.showsrage.model.Show
 import io.realm.DynamicRealm
+import io.realm.DynamicRealmObject
+import io.realm.RealmList
 import io.realm.RealmMigration
 import io.realm.RealmSchema
 
@@ -65,6 +67,12 @@ class Migration : RealmMigration {
 
 			localOldVersion++
 		}
+
+		if (localOldVersion == 8L) {
+			this.updateToV9(schema)
+
+			localOldVersion++
+		}
 	}
 
 	override fun equals(other: Any?) = other is Migration
@@ -116,7 +124,7 @@ class Migration : RealmMigration {
 				?.setRequired("dateTime", true)
 				?.setRequired("message", true)
 
-		schema.get(RealmString::class.java.simpleName)
+		schema.get("RealmString")
 				?.setRequired("value", true)
 
 		schema.get(RootDir::class.java.simpleName)
@@ -144,5 +152,45 @@ class Migration : RealmMigration {
 	private fun updateToV8(schema: RealmSchema) {
 		schema.get(Schedule::class.java.simpleName)
 				?.setRequired("episodePlot", false)
+	}
+
+	private fun updateToV9(schema: RealmSchema) {
+		schema.get(Quality::class.java.simpleName)
+			?.addRealmListField("archive_tmp", String::class.java)
+			?.addRealmListField("initial_tmp", String::class.java)
+			?.transform {
+				val archive = it.getList("archive")
+				val initial = it.getList("initial")
+
+				it.set("archive_tmp", this.mapRealmListRealmStringToRealmListString(archive))
+				it.set("initial_tmp", this.mapRealmListRealmStringToRealmListString(initial))
+			}
+			?.removeField("archive")
+			?.removeField("initial")
+			?.renameField("archive_tmp", "archive")
+			?.renameField("initial_tmp", "initial")
+
+		schema.get(Show::class.java.simpleName)
+			?.addRealmListField("genre_tmp", String::class.java)
+			?.addRealmListField("seasonList_tmp", String::class.java)
+			?.transform {
+				val genre = it.getList("genre")
+				val seasonList = it.getList("seasonList")
+
+				it.set("genre_tmp", this.mapRealmListRealmStringToRealmListString(genre))
+				it.set("seasonList_tmp", this.mapRealmListRealmStringToRealmListString(seasonList))
+			}
+			?.removeField("genre")
+			?.removeField("seasonList")
+			?.renameField("genre_tmp", "genre")
+			?.renameField("seasonList_tmp", "seasonList")
+
+		schema.remove("RealmString")
+	}
+
+	private fun mapRealmListRealmStringToRealmListString(list: RealmList<DynamicRealmObject>): RealmList<String> {
+		return RealmList<String>().apply {
+			this.addAll(list.map {it.getString("value") })
+		}
 	}
 }

@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage
 
-import com.mgaetan89.showsrage.model.RealmString
 import io.realm.RealmList
 import org.assertj.core.api.Assertions.assertThat
 import java.util.Comparator
@@ -11,19 +10,16 @@ fun <T> buildComparator(valueExtractor: (T) -> String?, descending: Boolean = fa
 		val secondValue = valueExtractor(second)
 		val descendingOffset = if (descending) -1 else 1
 
-		if (firstValue == secondValue) {
-			0
-		} else if (firstValue == null) {
-			descendingOffset * -1
-		} else if (secondValue == null) {
-			descendingOffset * 1
-		} else {
-			descendingOffset * firstValue.compareTo(secondValue)
+		when {
+			firstValue == secondValue -> 0
+			firstValue == null -> descendingOffset * -1
+			secondValue == null -> descendingOffset * 1
+			else -> descendingOffset * firstValue.compareTo(secondValue)
 		}
 	}
 }
 
-fun validateRealmList(actual: RealmList<RealmString>?, expected: RealmList<RealmString>?) {
+fun validateRealmList(actual: RealmList<String>?, expected: RealmList<String>?) {
 	if (expected == null) {
 		assertThat(actual).isNull()
 	} else {
@@ -31,7 +27,7 @@ fun validateRealmList(actual: RealmList<RealmString>?, expected: RealmList<Realm
 		assertThat(actual).hasSize(expected.size)
 
 		actual!!.forEachIndexed { i, item ->
-			assertThat(item.value).isEqualTo(expected[i].value)
+			assertThat(item).isEqualTo(expected[i])
 		}
 	}
 }

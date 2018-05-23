@@ -19,7 +19,7 @@ open class Show : RealmObject() {
 	open var dvdOrder: Int = 0
 	@SerializedName("flatten_folders")
 	open var flattenFolders: Int = 0
-	open var genre: RealmList<RealmString>? = null
+	open var genre: RealmList<String>? = null
 	@SerializedName("imdbid")
 	open var imdbId: String? = ""
 	@PrimaryKey
@@ -36,7 +36,7 @@ open class Show : RealmObject() {
 	open var qualityDetails: Quality? = null
 	open var scene: Int = 0
 	@SerializedName("season_list")
-	open var seasonList: RealmList<RealmString>? = null
+	open var seasonList: RealmList<String>? = null
 	@SerializedName("show_name")
 	open var showName: String? = ""
 	open var sports: Int = 0
@@ -54,7 +54,7 @@ open class Show : RealmObject() {
 	fun getSeasonsListInt(): List<Int> {
 		return this.seasonList?.map {
 			try {
-				it.value.toInt()
+				it.toInt()
 			} catch(exception: NumberFormatException) {
 				-1
 			}
