@@ -84,7 +84,7 @@ realm {
 def assertJAndroidVersion = '1.2.0'
 def glideVersion = '4.7.1'
 def jUnitVersion = '4.12'
-def okHttpVersion = '2.5.0'
+def okHttpVersion = '2.7.5'
 def supportLibraryVersion = '27.1.1'
 def supportTestVersion = '1.0.1'
 
