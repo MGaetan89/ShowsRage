@@ -9,7 +9,7 @@ import com.mgaetan89.showsrage.model.ShowsFilters
 import com.mgaetan89.showsrage.model.Sort
 import java.util.Locale
 
-fun SharedPreferences.getApiKey() = this.getString(Fields.API_KEY.field, "") ?: ""
+fun SharedPreferences.getApiKey(): String = this.getString(Fields.API_KEY.field, "")
 
 fun SharedPreferences.getEpisodeSort() = if (this.getBoolean(Fields.EPISODE_SORT.field, false)) Sort.ASCENDING else Sort.DESCENDING
 
@@ -45,15 +45,15 @@ fun SharedPreferences?.getLogsAutoUpdateInterval(): Int {
 	return logsAutoUpdateInterval.toIntOrNull() ?: 0
 }
 
-fun SharedPreferences.getPortNumber() = this.getString(Fields.PORT_NUMBER.field, "") ?: ""
+fun SharedPreferences.getPortNumber(): String = this.getString(Fields.PORT_NUMBER.field, "")
 
 fun SharedPreferences.getSeasonSort() = if (this.getBoolean(Fields.SEASON_SORT.field, false)) Sort.ASCENDING else Sort.DESCENDING
 
-fun SharedPreferences.getServerAddress() = this.getString(Fields.SERVER_ADDRESS.field, "") ?: ""
+fun SharedPreferences.getServerAddress(): String = this.getString(Fields.SERVER_ADDRESS.field, "")
 
 fun SharedPreferences.getServerPassword(): String? = this.getString(Fields.SERVER_PASSWORD.field, null)
 
-fun SharedPreferences.getServerPath() = this.getString(Fields.SERVER_PATH.field, "")?.trim('/') ?: ""
+fun SharedPreferences.getServerPath() = this.getString(Fields.SERVER_PATH.field, "").trim('/')
 
 fun SharedPreferences.getServerUsername(): String? = this.getString(Fields.SERVER_USERNAME.field, null)
 

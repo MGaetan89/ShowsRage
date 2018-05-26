@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.vanniktech.android.junit.jacoco'
 apply plugin: 'io.fabric'
-apply plugin: 'jacoco-android'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
@@ -75,6 +75,11 @@ android {
 			returnDefaultValues = true
 		}
 	}
+}
+
+junitJacoco {
+	jacocoVersion = '0.8.1'
+	includeNoLocationClasses = true
 }
 
 realm {

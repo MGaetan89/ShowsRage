@@ -64,6 +64,15 @@ class SharedPreferencesExtension_GetLogsAutoUpdateIntervalTest {
 		assertThat(autoUpdateInterval).isEqualTo(0)
 	}
 
+	@Test
+	fun getLogsAutoUpdateInterval_NullPreferences() {
+		this.preference.edit().putString(Fields.LOGS_AUTO_UPDATE_INTERVAL.field, "30").apply()
+
+		val autoUpdateInterval = null.getLogsAutoUpdateInterval()
+
+		assertThat(autoUpdateInterval).isEqualTo(0)
+	}
+
 	@After
 	fun after() {
 		this.preference.edit().clear().apply()

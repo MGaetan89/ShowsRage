@@ -64,6 +64,15 @@ class SharedPreferencesExtension_GetLanguageTest {
 		assertThat(language).isEmpty()
 	}
 
+	@Test
+	fun getLanguage_NullPreferences() {
+		this.preference.edit().putString(Fields.DISPLAY_LANGUAGE.field, "fr").apply()
+
+		val language = null.getLanguage()
+
+		assertThat(language).isEmpty()
+	}
+
 	@After
 	fun after() {
 		this.preference.edit().clear().apply()

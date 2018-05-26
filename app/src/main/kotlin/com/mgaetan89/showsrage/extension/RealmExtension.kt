@@ -93,15 +93,11 @@ fun Realm.getHistory(listener: RealmChangeListener<RealmResults<History>>): Real
 }
 
 fun Realm.getLogs(logLevel: LogLevel, groups: Array<String>?, listener: RealmChangeListener<RealmResults<LogEntry>>): RealmResults<LogEntry> {
-	val logLevels = logLevel.logLevels
 	val query = this.where(LogEntry::class.java)
+		.`in`("errorType", logLevel.logLevels)
 
 	if (groups != null && groups.isNotEmpty()) {
 		query.`in`("group", groups)
-	}
-
-	if (logLevels.isNotEmpty()) {
-		query.`in`("errorType", logLevels)
 	}
 
 	val logs = query.sort("dateTime", Sort.DESCENDING).findAllAsync()
