@@ -49,7 +49,7 @@ class ShowsRageReceiver(activity: MainActivity) : BroadcastReceiver() {
 		val episodeId = intent.getStringExtra(Constants.Bundle.EPISODE_ID)
 		val episodeNumber = intent.getIntExtra(Constants.Bundle.EPISODE_NUMBER, 0)
 		val episodesCount = intent.getIntExtra(Constants.Bundle.EPISODES_COUNT, 0)
-		val seasonNumber = intent.getIntExtra(Constants.Bundle.EPISODES_COUNT, 0)
+		val seasonNumber = intent.getIntExtra(Constants.Bundle.SEASON_NUMBER, 0)
 		val indexerId = intent.getIntExtra(Constants.Bundle.INDEXER_ID, 0)
 
 		val fragment = EpisodeFragment.newInstance(episodeId, episodeNumber, episodesCount, seasonNumber, indexerId)
@@ -100,12 +100,12 @@ class ShowsRageReceiver(activity: MainActivity) : BroadcastReceiver() {
 
 		AlertDialog.Builder(activity)
 				.setMessage(R.string.replace_existing_episode)
-				.setPositiveButton(R.string.replace, { _, _ ->
+				.setPositiveButton(R.string.replace) { _, _ ->
 					SickRageApi.instance.services?.setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 1, status, activity)
-				})
-				.setNegativeButton(R.string.keep, { _, _ ->
+				}
+				.setNegativeButton(R.string.keep) { _, _ ->
 					SickRageApi.instance.services?.setEpisodeStatus(indexerId, seasonNumber, episodeNumber, 0, status, activity)
-				})
+				}
 				.setNeutralButton(R.string.cancel, null)
 				.show()
 	}
