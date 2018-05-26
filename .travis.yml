@@ -38,7 +38,7 @@ before_script:
   - adb shell svc power stayon true
 
 script:
-  - travis_wait 60 ./gradlew :app:assembleAndroidTest :app:connectedDebugAndroidTest :app:jacocoTestDebugUnitTestReport :app:createDebugCoverageReport
+  - travis_wait 60 ./gradlew :app:assembleAndroidTest :app:connectedDebugAndroidTest :app:jacocoTestReportDebug :app:createDebugCoverageReport
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

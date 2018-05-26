@@ -49,8 +49,6 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name=".TestActivity" />
-
 		<activity
 			android:name=".activity.UpdateActivity"
 			android:excludeFromRecents="true"
