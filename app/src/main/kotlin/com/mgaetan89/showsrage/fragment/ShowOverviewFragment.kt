@@ -162,8 +162,8 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
 		if ("custom".equals(quality, true)) {
 			val qualityDetails = show.qualityDetails
-			val allowed = listToString(this.getTranslatedQualities(qualityDetails?.initial, true))
-			val preferred = listToString(this.getTranslatedQualities(qualityDetails?.archive, false))
+			val allowed = this.getTranslatedQualities(qualityDetails?.initial, true).joinToString()
+			val preferred = this.getTranslatedQualities(qualityDetails?.archive, false).joinToString()
 
 			this.show_quality?.text = this.getString(R.string.quality_custom, allowed, preferred)
 		} else {
@@ -515,26 +515,6 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
 		override fun onServiceDisconnected(name: ComponentName?) {
 			this.fragmentReference.clear()
-		}
-	}
-
-	companion object {
-		private fun listToString(list: List<String>?): String {
-			if (list == null || list.isEmpty()) {
-				return ""
-			}
-
-			val builder = StringBuilder()
-
-			list.forEachIndexed { i, string ->
-				builder.append(string)
-
-				if (i < list.size - 1) {
-					builder.append(", ")
-				}
-			}
-
-			return builder.toString()
 		}
 	}
 }

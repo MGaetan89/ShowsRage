@@ -77,6 +77,10 @@ android {
 	}
 }
 
+androidExtensions {
+	experimental = true
+}
+
 junitJacoco {
 	jacocoVersion = '0.8.1'
 	includeNoLocationClasses = true
