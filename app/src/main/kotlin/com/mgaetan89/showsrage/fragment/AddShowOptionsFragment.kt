@@ -28,9 +28,11 @@ import retrofit.client.Response
 class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener {
 	private var allowedQuality: Spinner? = null
 	private var anime: SwitchCompat? = null
+	private var futureStatus: Spinner? = null
 	private var language: Spinner? = null
 	private var preferredQuality: Spinner? = null
 	private var rootDirectory: Spinner? = null
+	private var seasonFolders: SwitchCompat? = null
 	private var status: Spinner? = null
 	private var subtitles: SwitchCompat? = null
 
@@ -45,13 +47,15 @@ class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener
 		val allowedQuality = this.getAllowedQuality(this.allowedQuality)
 		val anime = this.anime?.isChecked.toInt()
 		val callback = AddShowCallback(activity)
+		val futureStatus = this.getStatus(this.futureStatus)
 		val language = this.getLanguage(this.language)
 		val location = getLocation(this.rootDirectory)
 		val preferredQuality = this.getPreferredQuality(this.preferredQuality)
+		val seasonFolders = this.seasonFolders?.isChecked.toInt()
 		val status = this.getStatus(this.status)
 		val subtitles = this.subtitles?.isChecked.toInt()
 
-		SickRageApi.instance.services?.addNewShow(indexerId, preferredQuality, allowedQuality, status, language, anime, subtitles, location, callback)
+		SickRageApi.instance.services?.addNewShow(indexerId, preferredQuality, allowedQuality, status, futureStatus, language, anime, seasonFolders, subtitles, location, callback)
 	}
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -61,8 +65,10 @@ class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener
 		if (view != null) {
 			this.allowedQuality = view.findViewById(R.id.allowed_quality) as Spinner?
 			this.anime = view.findViewById(R.id.anime) as SwitchCompat?
+			this.futureStatus = view.findViewById(R.id.future_status) as Spinner?
 			this.language = view.findViewById(R.id.language) as Spinner?
 			this.preferredQuality = view.findViewById(R.id.preferred_quality) as Spinner?
+			this.seasonFolders = view.findViewById(R.id.season_folders) as SwitchCompat?
 			this.status = view.findViewById(R.id.status) as Spinner?
 			this.subtitles = view.findViewById(R.id.subtitles) as SwitchCompat?
 
@@ -100,9 +106,11 @@ class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener
 	override fun onDestroyView() {
 		this.allowedQuality = null
 		this.anime = null
+		this.futureStatus = null
 		this.language = null
 		this.preferredQuality = null
 		this.rootDirectory = null
+		this.seasonFolders = null
 		this.status = null
 		this.subtitles = null
 

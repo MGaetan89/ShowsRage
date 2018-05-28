@@ -60,6 +60,7 @@
 	<string name="file_size">Taille du fichier : <xliff:g example="856.93 MB" id="file_size">%1$s</xliff:g></string>
 	<string name="filter">Filtrer</string>
 	<string name="force_processing">Forcer le traitement</string>
+	<string name="future_status">Statut des futures épisodes</string>
 	<string name="genre">Genre : <xliff:g example="Comédie" id="genre">%1$s</xliff:g></string>
 	<string name="get_api_key">Récupérer la clé de l\'API</string>
 	<string name="get_api_key_error">Impossible de récupérer la clé de l\'API</string>
@@ -140,6 +141,7 @@
 	<string name="search_show">Chercher une série</string>
 	<string name="search_subtitles">Chercher les sous-titres</string>
 	<string name="season_episode_name">S<xliff:g example="01" id="season">%1$02d</xliff:g>E<xliff:g example="01" id="episode">%2$02d</xliff:g> - <xliff:g example="Pilot" id="name">%3$s</xliff:g></string>
+	<string name="season_folders">Saisons par dossier</string>
 	<string name="season_number">Saison %1$d</string>
 	<string name="seasons_sort">Tri des saisons</string>
 	<string name="seconds_30">Toutes les 30 secondes</string>
