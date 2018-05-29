@@ -3,11 +3,11 @@ package com.mgaetan89.showsrage.adapter
 import android.content.Intent
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
+import com.mgaetan89.showsrage.extension.inflate
 import com.mgaetan89.showsrage.model.SearchResultItem
 import com.mgaetan89.showsrage.presenter.SearchResultPresenter
 import kotlinx.android.synthetic.main.adapter_search_results_list_content.view.show_first_aired
@@ -24,7 +24,7 @@ class SearchResultsAdapter(val searchResults: List<SearchResultItem>) : Recycler
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-		val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_search_results_list, parent, false)
+		val view = parent.inflate(R.layout.adapter_search_results_list)
 
 		return ViewHolder(view)
 	}

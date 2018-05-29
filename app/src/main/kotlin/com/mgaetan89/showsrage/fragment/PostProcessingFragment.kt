@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.SwitchCompat
-import android.view.LayoutInflater
 import android.widget.Spinner
 import com.mgaetan89.showsrage.R
+import com.mgaetan89.showsrage.extension.inflate
 import com.mgaetan89.showsrage.extension.toInt
 import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.network.SickRageApi
@@ -28,13 +28,11 @@ class PostProcessingFragment : DialogFragment(), DialogInterface.OnClickListener
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 		val context = this.context ?: return super.onCreateDialog(savedInstanceState)
-		val view = LayoutInflater.from(context).inflate(R.layout.fragment_post_processing, null)
+		val view = context.inflate(R.layout.fragment_post_processing)
 
-		if (view != null) {
-			this.forceProcessing = view.findViewById(R.id.force_processing) as SwitchCompat?
-			this.processingMethod = view.findViewById(R.id.processing_method) as Spinner?
-			this.replaceFiles = view.findViewById(R.id.replace_files) as SwitchCompat?
-		}
+		this.forceProcessing = view.findViewById(R.id.force_processing) as SwitchCompat?
+		this.processingMethod = view.findViewById(R.id.processing_method) as Spinner?
+		this.replaceFiles = view.findViewById(R.id.replace_files) as SwitchCompat?
 
 		val builder = AlertDialog.Builder(context)
 		builder.setTitle(R.string.post_processing)

@@ -190,15 +190,7 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 	}
 
 	private fun getLogLevel(): LogLevel {
-		this.logLevel?.let {
-			return it
-		}
-
-		this.context?.let {
-			return it.getPreferences().getLogLevel()
-		}
-
-		return Constants.Defaults.LOG_LEVEL
+		return this.logLevel ?: this.context?.getPreferences()?.getLogLevel() ?: Constants.Defaults.LOG_LEVEL
 	}
 
 	private fun getLogs(logLevel: LogLevel) {

@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AlertDialog
-import android.view.LayoutInflater
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.RadioButton
@@ -17,6 +16,7 @@ import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.extension.getPreferences
 import com.mgaetan89.showsrage.extension.getShowsFilterState
 import com.mgaetan89.showsrage.extension.getShowsFilterStatus
+import com.mgaetan89.showsrage.extension.inflate
 import com.mgaetan89.showsrage.extension.saveShowsFilter
 import com.mgaetan89.showsrage.model.ShowsFilters
 
@@ -63,27 +63,25 @@ class ShowsFiltersFragment : DialogFragment(), CompoundButton.OnCheckedChangeLis
 		val preferences = context.getPreferences()
 		val state = preferences.getShowsFilterState()
 		val status = preferences.getShowsFilterStatus()
-		val view = LayoutInflater.from(context).inflate(R.layout.fragment_shows_filter, null)
+		val view = context.inflate(R.layout.fragment_shows_filter)
 
-		if (view != null) {
-			this.activePaused = view.findViewById(R.id.filter_active_paused) as RadioGroup?
-			this.statusAll = view.findViewById(R.id.filter_status_all) as CheckBox?
-			this.statusContinuing = view.findViewById(R.id.filter_status_continuing) as CheckBox?
-			this.statusEnded = view.findViewById(R.id.filter_status_ended) as CheckBox?
-			this.statusUnknown = view.findViewById(R.id.filter_status_unknown) as CheckBox?
+		this.activePaused = view.findViewById(R.id.filter_active_paused) as RadioGroup?
+		this.statusAll = view.findViewById(R.id.filter_status_all) as CheckBox?
+		this.statusContinuing = view.findViewById(R.id.filter_status_continuing) as CheckBox?
+		this.statusEnded = view.findViewById(R.id.filter_status_ended) as CheckBox?
+		this.statusUnknown = view.findViewById(R.id.filter_status_unknown) as CheckBox?
 
-			(view.findViewById(ShowsFilters.State.getViewIdForState(state)) as RadioButton?)?.isChecked = true
+		(view.findViewById(ShowsFilters.State.getViewIdForState(state)) as RadioButton?)?.isChecked = true
 
-			this.statusAll?.isChecked = ShowsFilters.Status.isAll(status)
-			this.statusContinuing?.isChecked = ShowsFilters.Status.isContinuing(status)
-			this.statusEnded?.isChecked = ShowsFilters.Status.isEnded(status)
-			this.statusUnknown?.isChecked = ShowsFilters.Status.isUnknown(status)
+		this.statusAll?.isChecked = ShowsFilters.Status.isAll(status)
+		this.statusContinuing?.isChecked = ShowsFilters.Status.isContinuing(status)
+		this.statusEnded?.isChecked = ShowsFilters.Status.isEnded(status)
+		this.statusUnknown?.isChecked = ShowsFilters.Status.isUnknown(status)
 
-			this.statusAll?.setOnCheckedChangeListener(this)
-			this.statusContinuing?.setOnCheckedChangeListener(this)
-			this.statusEnded?.setOnCheckedChangeListener(this)
-			this.statusUnknown?.setOnCheckedChangeListener(this)
-		}
+		this.statusAll?.setOnCheckedChangeListener(this)
+		this.statusContinuing?.setOnCheckedChangeListener(this)
+		this.statusEnded?.setOnCheckedChangeListener(this)
+		this.statusUnknown?.setOnCheckedChangeListener(this)
 
 		return AlertDialog.Builder(context)
 				.setTitle(R.string.filter)

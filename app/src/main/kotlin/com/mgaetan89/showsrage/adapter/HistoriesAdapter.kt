@@ -1,10 +1,10 @@
 package com.mgaetan89.showsrage.adapter
 
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mgaetan89.showsrage.R
+import com.mgaetan89.showsrage.extension.inflate
 import com.mgaetan89.showsrage.extension.toLocale
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.ImageLoader
@@ -25,7 +25,7 @@ class HistoriesAdapter(histories: RealmResults<History>) : RealmRecyclerViewAdap
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-		val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_histories_list, parent, false)
+		val view = parent.inflate(R.layout.adapter_histories_list)
 
 		return ViewHolder(view)
 	}

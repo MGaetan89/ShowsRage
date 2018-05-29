@@ -8,7 +8,6 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.SwitchCompat
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Spinner
@@ -17,6 +16,7 @@ import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.adapter.RootDirectoriesAdapter
 import com.mgaetan89.showsrage.extension.getRootDirs
+import com.mgaetan89.showsrage.extension.inflate
 import com.mgaetan89.showsrage.extension.toInt
 import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.model.GenericResponse
@@ -60,38 +60,36 @@ class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 		val context = this.context ?: return super.onCreateDialog(savedInstanceState)
-		val view = LayoutInflater.from(this.context).inflate(R.layout.fragment_add_show_options, null)
+		val view = context.inflate(R.layout.fragment_add_show_options)
 
-		if (view != null) {
-			this.allowedQuality = view.findViewById(R.id.allowed_quality) as Spinner?
-			this.anime = view.findViewById(R.id.anime) as SwitchCompat?
-			this.futureStatus = view.findViewById(R.id.future_status) as Spinner?
-			this.language = view.findViewById(R.id.language) as Spinner?
-			this.preferredQuality = view.findViewById(R.id.preferred_quality) as Spinner?
-			this.seasonFolders = view.findViewById(R.id.season_folders) as SwitchCompat?
-			this.status = view.findViewById(R.id.status) as Spinner?
-			this.subtitles = view.findViewById(R.id.subtitles) as SwitchCompat?
+		this.allowedQuality = view.findViewById(R.id.allowed_quality) as Spinner?
+		this.anime = view.findViewById(R.id.anime) as SwitchCompat?
+		this.futureStatus = view.findViewById(R.id.future_status) as Spinner?
+		this.language = view.findViewById(R.id.language) as Spinner?
+		this.preferredQuality = view.findViewById(R.id.preferred_quality) as Spinner?
+		this.seasonFolders = view.findViewById(R.id.season_folders) as SwitchCompat?
+		this.status = view.findViewById(R.id.status) as Spinner?
+		this.subtitles = view.findViewById(R.id.subtitles) as SwitchCompat?
 
-			val rootDirectoryLayout = view.findViewById(R.id.root_directory_layout) as LinearLayout?
+		val rootDirectoryLayout = view.findViewById(R.id.root_directory_layout) as LinearLayout?
 
-			if (rootDirectoryLayout != null) {
-				val realm = Realm.getDefaultInstance()
-				val rootDirectories = realm.getRootDirs()
+		if (rootDirectoryLayout != null) {
+			val realm = Realm.getDefaultInstance()
+			val rootDirectories = realm.getRootDirs()
 
-				if (rootDirectories.size < 2) {
-					rootDirectoryLayout.visibility = View.GONE
-				} else {
-					this.rootDirectory = view.findViewById(R.id.root_directory) as Spinner?
+			if (rootDirectories.size < 2) {
+				rootDirectoryLayout.visibility = View.GONE
+			} else {
+				this.rootDirectory = view.findViewById(R.id.root_directory) as Spinner?
 
-					if (this.rootDirectory != null) {
-						this.rootDirectory!!.adapter = RootDirectoriesAdapter(rootDirectories)
-					}
-
-					rootDirectoryLayout.visibility = View.VISIBLE
+				if (this.rootDirectory != null) {
+					this.rootDirectory!!.adapter = RootDirectoriesAdapter(rootDirectories)
 				}
 
-				realm.close()
+				rootDirectoryLayout.visibility = View.VISIBLE
 			}
+
+			realm.close()
 		}
 
 		val builder = AlertDialog.Builder(context)

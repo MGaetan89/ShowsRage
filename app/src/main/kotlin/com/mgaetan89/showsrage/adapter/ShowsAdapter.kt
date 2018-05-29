@@ -4,7 +4,6 @@ import android.content.Intent
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.RecyclerView
 import android.text.format.DateUtils
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -13,6 +12,7 @@ import android.widget.TextView
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
+import com.mgaetan89.showsrage.extension.inflate
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.ImageLoader
 import com.mgaetan89.showsrage.helper.Utils
@@ -51,7 +51,7 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, private v
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-		val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_shows_list, parent, false)
+		val view = parent.inflate(R.layout.adapter_shows_list)
 
 		return ViewHolder(view)
 	}

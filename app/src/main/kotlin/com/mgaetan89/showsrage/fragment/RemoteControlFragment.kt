@@ -11,13 +11,13 @@ import android.support.v7.media.MediaControlIntent
 import android.support.v7.media.MediaItemStatus
 import android.support.v7.media.MediaSessionStatus
 import android.support.v7.media.RemotePlaybackClient
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.ShowsRageApplication
+import com.mgaetan89.showsrage.extension.inflate
 import com.mgaetan89.showsrage.model.PlayingVideoData
 import java.lang.ref.WeakReference
 
@@ -56,47 +56,45 @@ class RemoteControlFragment : DialogFragment(), View.OnClickListener, SeekBar.On
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 		val context = this.context ?: return super.onCreateDialog(savedInstanceState)
 		val playingVideo = this.getPlayingVideo()
-		val view = LayoutInflater.from(context).inflate(R.layout.fragment_remote_control, null)
+		val view = context.inflate(R.layout.fragment_remote_control)
 
-		if (view != null) {
-			this.episodeCurrentTime = view.findViewById(R.id.episode_current_time) as TextView?
-			this.episodeDuration = view.findViewById(R.id.episode_duration) as TextView?
-			this.episodeSeekBar = view.findViewById(R.id.episode_seek_bar) as SeekBar?
-			this.play = view.findViewById(R.id.remote_play_pause) as ImageView?
-			this.volumeMute = view.findViewById(R.id.remote_volume_mute) as ImageView?
+		this.episodeCurrentTime = view.findViewById(R.id.episode_current_time) as TextView?
+		this.episodeDuration = view.findViewById(R.id.episode_duration) as TextView?
+		this.episodeSeekBar = view.findViewById(R.id.episode_seek_bar) as SeekBar?
+		this.play = view.findViewById(R.id.remote_play_pause) as ImageView?
+		this.volumeMute = view.findViewById(R.id.remote_volume_mute) as ImageView?
 
-			this.episodeSeekBar?.setOnSeekBarChangeListener(this)
-			this.play?.setOnClickListener(this)
-			this.volumeMute?.setOnClickListener(this)
+		this.episodeSeekBar?.setOnSeekBarChangeListener(this)
+		this.play?.setOnClickListener(this)
+		this.volumeMute?.setOnClickListener(this)
 
-			val episodeName = view.findViewById(R.id.episode_name) as TextView?
-			val fastForward = view.findViewById(R.id.remote_fast_forward) as ImageView?
-			val fastRewind = view.findViewById(R.id.remote_fast_rewind) as ImageView?
-			val volumeDown = view.findViewById(R.id.remote_volume_down) as ImageView?
-			val volumeUp = view.findViewById(R.id.remote_volume_up) as ImageView?
-			val stop = view.findViewById(R.id.remote_stop) as ImageView?
+		val episodeName = view.findViewById(R.id.episode_name) as TextView?
+		val fastForward = view.findViewById(R.id.remote_fast_forward) as ImageView?
+		val fastRewind = view.findViewById(R.id.remote_fast_rewind) as ImageView?
+		val volumeDown = view.findViewById(R.id.remote_volume_down) as ImageView?
+		val volumeUp = view.findViewById(R.id.remote_volume_up) as ImageView?
+		val stop = view.findViewById(R.id.remote_stop) as ImageView?
 
-			if (episodeName != null) {
-				if (playingVideo != null) {
-					val episode = playingVideo.episode
+		if (episodeName != null) {
+			if (playingVideo != null) {
+				val episode = playingVideo.episode
 
-					if (episode != null) {
-						episodeName.text = episode.name
-						episodeName.visibility = View.VISIBLE
-					} else {
-						episodeName.visibility = View.GONE
-					}
+				if (episode != null) {
+					episodeName.text = episode.name
+					episodeName.visibility = View.VISIBLE
 				} else {
 					episodeName.visibility = View.GONE
 				}
+			} else {
+				episodeName.visibility = View.GONE
 			}
-
-			fastForward?.setOnClickListener(this)
-			fastRewind?.setOnClickListener(this)
-			volumeDown?.setOnClickListener(this)
-			volumeUp?.setOnClickListener(this)
-			stop?.setOnClickListener(this)
 		}
+
+		fastForward?.setOnClickListener(this)
+		fastRewind?.setOnClickListener(this)
+		volumeDown?.setOnClickListener(this)
+		volumeUp?.setOnClickListener(this)
+		stop?.setOnClickListener(this)
 
 		val builder = AlertDialog.Builder(context)
 

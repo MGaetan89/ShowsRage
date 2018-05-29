@@ -4,12 +4,12 @@ import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.extension.getShowsStats
+import com.mgaetan89.showsrage.extension.inflate
 import com.mgaetan89.showsrage.extension.saveShowsStat
 import com.mgaetan89.showsrage.model.ShowsStat
 import com.mgaetan89.showsrage.model.ShowsStats
@@ -93,21 +93,19 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 		val context = this.context ?: return super.onCreateDialog(savedInstanceState)
-		val view = LayoutInflater.from(context).inflate(R.layout.fragment_statistics, null)
+		val view = context.inflate(R.layout.fragment_statistics)
 
-		if (view != null) {
-			this.episodesDownloaded = view.findViewById(R.id.episodes_downloaded) as TextView?
-			this.episodesDownloadedBar = view.findViewById(R.id.episodes_downloaded_bar)
-			this.episodesMissing = view.findViewById(R.id.episodes_missing) as TextView?
-			this.episodesMissingBar = view.findViewById(R.id.episodes_missing_bar)
-			this.episodesSnatched = view.findViewById(R.id.episodes_snatched) as TextView?
-			this.episodesSnatchedBar = view.findViewById(R.id.episodes_snatched_bar)
-			this.episodesTotal = view.findViewById(R.id.episodes_total) as TextView?
-			this.progressLayout = view.findViewById(R.id.progress_layout) as LinearLayout?
-			this.showsActive = view.findViewById(R.id.shows_active) as TextView?
-			this.showsTotal = view.findViewById(R.id.shows_total) as TextView?
-			this.statisticsLayout = view.findViewById(R.id.statistics_layout) as LinearLayout?
-		}
+		this.episodesDownloaded = view.findViewById(R.id.episodes_downloaded) as TextView?
+		this.episodesDownloadedBar = view.findViewById(R.id.episodes_downloaded_bar)
+		this.episodesMissing = view.findViewById(R.id.episodes_missing) as TextView?
+		this.episodesMissingBar = view.findViewById(R.id.episodes_missing_bar)
+		this.episodesSnatched = view.findViewById(R.id.episodes_snatched) as TextView?
+		this.episodesSnatchedBar = view.findViewById(R.id.episodes_snatched_bar)
+		this.episodesTotal = view.findViewById(R.id.episodes_total) as TextView?
+		this.progressLayout = view.findViewById(R.id.progress_layout) as LinearLayout?
+		this.showsActive = view.findViewById(R.id.shows_active) as TextView?
+		this.showsTotal = view.findViewById(R.id.shows_total) as TextView?
+		this.statisticsLayout = view.findViewById(R.id.statistics_layout) as LinearLayout?
 
 		val builder = AlertDialog.Builder(context)
 		builder.setTitle(R.string.statistics)
