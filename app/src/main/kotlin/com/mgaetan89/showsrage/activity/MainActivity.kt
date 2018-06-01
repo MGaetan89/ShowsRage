@@ -30,7 +30,6 @@ import android.widget.Toast
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
-import com.mgaetan89.showsrage.ShowsRageApplication
 import com.mgaetan89.showsrage.extension.changeLocale
 import com.mgaetan89.showsrage.extension.getLastVersionCheckTime
 import com.mgaetan89.showsrage.extension.getLocale
@@ -43,7 +42,6 @@ import com.mgaetan89.showsrage.extension.useDarkTheme
 import com.mgaetan89.showsrage.fragment.HistoryFragment
 import com.mgaetan89.showsrage.fragment.LogsFragment
 import com.mgaetan89.showsrage.fragment.PostProcessingFragment
-import com.mgaetan89.showsrage.fragment.RemoteControlFragment
 import com.mgaetan89.showsrage.fragment.ScheduleFragment
 import com.mgaetan89.showsrage.fragment.SettingsFragment
 import com.mgaetan89.showsrage.fragment.ShowsFragment
@@ -133,13 +131,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
 				PostProcessingFragment.newInstance()
 						.show(this.supportFragmentManager, "post_processing")
-			}
-
-			R.id.menu_remote_control -> {
-				eventHandled = false
-
-				RemoteControlFragment.newInstance()
-						.show(this.supportFragmentManager, "remote_control")
 			}
 
 			R.id.menu_restart -> {
@@ -275,14 +266,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 		}
 	}
 
-	fun updateRemoteControlVisibility() {
-		val application = this.application
-
-		if (application is ShowsRageApplication) {
-			this.drawer_content?.menu?.findItem(R.id.menu_remote_control)?.isVisible = application.hasPlayingVideo()
-		}
-	}
-
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
@@ -348,7 +331,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
 		LocalBroadcastManager.getInstance(this).registerReceiver(this.receiver, intentFilter)
 
-		this.updateRemoteControlVisibility()
 		this.checkForUpdate(false)
 		this.handleIntentAction()
 	}

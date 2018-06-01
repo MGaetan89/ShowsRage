@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 	<group
 		android:id="@+id/menu_sections"
 		android:checkableBehavior="single">
@@ -33,13 +32,6 @@
 	<group
 		android:id="@+id/menu_actions"
 		android:checkableBehavior="single">
-		<item
-			android:id="@+id/menu_remote_control"
-			android:icon="@drawable/ic_settings_remote_white_24dp"
-			android:title="@string/remote_control"
-			android:visible="false"
-			tools:visible="true" />
-
 		<item
 			android:id="@+id/menu_settings"
 			android:icon="@drawable/ic_settings_white_24dp"

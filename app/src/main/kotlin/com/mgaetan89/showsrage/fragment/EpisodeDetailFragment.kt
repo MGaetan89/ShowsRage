@@ -23,7 +23,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
-import com.mgaetan89.showsrage.ShowsRageApplication
 import com.mgaetan89.showsrage.activity.MainActivity
 import com.mgaetan89.showsrage.extension.getEpisode
 import com.mgaetan89.showsrage.extension.getPreferences
@@ -37,7 +36,6 @@ import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.Episode
-import com.mgaetan89.showsrage.model.PlayingVideoData
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.SingleEpisode
 import com.mgaetan89.showsrage.network.SickRageApi
@@ -413,38 +411,16 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 		private val fragmentReference = WeakReference(fragment)
 
 		override fun onRouteSelected(router: MediaRouter?, route: MediaRouter.RouteInfo?) {
-			this.updateRemotePlayer(route)
+			this.notifyCastEpisode()
 		}
 
 		override fun onRouteUnselected(router: MediaRouter?, route: MediaRouter.RouteInfo?) {
-			this.updateRemotePlayer(route)
+			this.notifyCastEpisode()
 		}
 
-		private fun updateRemotePlayer(route: MediaRouter.RouteInfo?) {
-			val fragment = this.fragmentReference.get() ?: return
-
-			if (route == null || !fragment.userVisibleHint) {
-				return
-			}
-
-			val activity = fragment.activity
-			val application = activity?.application
-
-			if (application is ShowsRageApplication) {
-				val playingVideo = PlayingVideoData()
-				playingVideo.episode = fragment.episode
-				playingVideo.route = route
-				playingVideo.show = fragment.show
-				playingVideo.videoUri = fragment.getEpisodeVideoUrl()
-
-				application.playingVideo = playingVideo
-			}
-
-			if (activity is MainActivity) {
-				activity.updateRemoteControlVisibility()
-
-				activity.firebaseAnalytics?.logEvent(EVENT_CAST_EPISODE_VIDEO, null)
-			}
+		private fun notifyCastEpisode() {
+			val activity = this.fragmentReference.get()?.activity as? MainActivity ?: return
+			activity.firebaseAnalytics?.logEvent(EVENT_CAST_EPISODE_VIDEO, null)
 		}
 
 		companion object {

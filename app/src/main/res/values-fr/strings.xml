@@ -125,7 +125,6 @@
 	<string name="quality">Qualité : <xliff:g example="HD1080p" id="quality">%1$s</xliff:g></string>
 	<string name="quality_custom">Qualité :\n- Autorisées : <xliff:g example="HD1080p" id="allowed">%1$s</xliff:g>\n- Préférées : <xliff:g example="HD1080p" id="preferred">%2$s</xliff:g></string>
 	<string name="refresh">Actualiser</string>
-	<string name="remote_control">Télécommande</string>
 	<string name="replace">Replacer</string>
 	<string name="replace_existing_episode">Replacer l\'épisode actuel s\'il avait déjà été téléchargé ?</string>
 	<string name="replace_existing_files">Remplacer les fichiers existants</string>
