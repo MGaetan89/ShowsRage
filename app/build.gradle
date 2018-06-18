@@ -113,7 +113,7 @@ dependencies {
 	implementation 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
 	implementation "com.github.bumptech.glide:glide:$glideVersion"
 	implementation "com.github.bumptech.glide:okhttp-integration:$glideVersion"
-	implementation 'com.google.android.gms:play-services-cast:15.0.1'
+	implementation 'com.google.android.gms:play-services-cast-framework:15.0.1'
 	implementation 'com.google.firebase:firebase-analytics:16.0.0'
 	implementation 'com.google.firebase:firebase-core:16.0.0'
 	implementation "com.squareup.okhttp:okhttp:$okHttpVersion"
