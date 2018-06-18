@@ -4,15 +4,10 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.graphics.drawable.DrawableCompat
-import android.support.v4.view.MenuItemCompat
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.app.MediaRouteActionProvider
-import android.support.v7.app.MediaRouteDiscoveryFragment
-import android.support.v7.media.MediaControlIntent
-import android.support.v7.media.MediaRouteSelector
-import android.support.v7.media.MediaRouter
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.Menu
@@ -21,6 +16,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.google.android.gms.cast.framework.CastButtonFactory
+import com.google.android.gms.cast.framework.CastContext
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.activity.MainActivity
@@ -39,7 +36,6 @@ import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.SingleEpisode
 import com.mgaetan89.showsrage.network.SickRageApi
-import com.mgaetan89.showsrage.view.ColoredMediaRouteActionProvider
 import io.realm.Realm
 import io.realm.RealmChangeListener
 import kotlinx.android.synthetic.main.fragment_episode_detail.episode_airs
@@ -57,14 +53,14 @@ import kotlinx.android.synthetic.main.fragment_episode_detail.swipe_refresh
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
-import java.lang.ref.WeakReference
 import java.net.MalformedURLException
 import java.net.URI
 import java.net.URISyntaxException
 import java.net.URL
 import java.util.Locale
 
-class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpisode>, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, RealmChangeListener<Episode> {
+class EpisodeDetailFragment : Fragment(), Callback<SingleEpisode>, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, RealmChangeListener<Episode> {
+    private lateinit var castContext: CastContext
 	private var castMenu: MenuItem? = null
 	private lateinit var episode: Episode
 	private var episodeNumber = 0
@@ -75,10 +71,6 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 
 	init {
 		this.setHasOptionsMenu(true)
-
-		this.routeSelector = MediaRouteSelector.Builder()
-				.addControlCategory(MediaControlIntent.CATEGORY_REMOTE_PLAYBACK)
-				.build()
 	}
 
 	override fun failure(error: RetrofitError?) {
@@ -106,30 +98,19 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 		SickRageApi.instance.services?.searchEpisode(this.show!!.indexerId, this.seasonNumber, this.episodeNumber, GenericCallback(this.activity))
 	}
 
-	override fun onCreateCallback(): MediaRouter.Callback? = MediaRouterCallback(this)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        this.context?.let {
+            this.castContext = CastContext.getSharedInstance(it)
+        }
+    }
 
 	override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
 		inflater?.inflate(R.menu.episode, menu)
 
-		this.castMenu = menu?.findItem(R.id.menu_cast)
+        this.castMenu = CastButtonFactory.setUpMediaRouteButton(this.activity?.applicationContext, menu, R.id.menu_cast)
 		this.playVideoMenu = menu?.findItem(R.id.menu_play_video)
-
-		val activity = this.activity
-		val mediaRouteActionProvider = MenuItemCompat.getActionProvider(this.castMenu) as MediaRouteActionProvider?
-
-		mediaRouteActionProvider?.routeSelector = this.routeSelector
-
-		if (activity is MainActivity && mediaRouteActionProvider is ColoredMediaRouteActionProvider) {
-			val colors = activity.getThemColors()
-
-			if (colors != null) {
-				val colorPrimary = colors.primary
-
-				if (colorPrimary != 0) {
-					mediaRouteActionProvider.buttonColor = Utils.getContrastColor(colorPrimary)
-				}
-			}
-		}
 
 		this.displayStreamingMenus(this.episode)
 	}
@@ -319,7 +300,6 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 	}
 
 	private fun displayStreamingMenus(episode: Episode) {
-		this.castMenu?.isVisible = this.isCastMenuVisible(episode)
 		this.playVideoMenu?.isVisible = this.isPlayMenuVisible(episode)
 	}
 
@@ -404,27 +384,6 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 			val subtitlesNames = subtitles.split(",").filter { !it.isEmpty() }.mapNotNull(String::toLocale)
 
 			return subtitlesNames.map(Locale::getDisplayLanguage).filter { !it.isNullOrEmpty() }.joinToString()
-		}
-	}
-
-	private class MediaRouterCallback(fragment: EpisodeDetailFragment) : MediaRouter.Callback() {
-		private val fragmentReference = WeakReference(fragment)
-
-		override fun onRouteSelected(router: MediaRouter?, route: MediaRouter.RouteInfo?) {
-			this.notifyCastEpisode()
-		}
-
-		override fun onRouteUnselected(router: MediaRouter?, route: MediaRouter.RouteInfo?) {
-			this.notifyCastEpisode()
-		}
-
-		private fun notifyCastEpisode() {
-			val activity = this.fragmentReference.get()?.activity as? MainActivity ?: return
-			activity.firebaseAnalytics?.logEvent(EVENT_CAST_EPISODE_VIDEO, null)
-		}
-
-		companion object {
-			private const val EVENT_CAST_EPISODE_VIDEO = "cast_episode_video"
 		}
 	}
 }
