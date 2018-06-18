@@ -21,7 +21,7 @@ data class SearchResultItem(
 	fun getIndexerNameResource() = when (this.indexer) {
 		1 -> R.string.the_tvdb
 		2 -> R.string.tvrage
-		else -> 0
+		else -> R.string.unknown
 	}
 
 	fun getIndexerType() = when (this.indexer) {

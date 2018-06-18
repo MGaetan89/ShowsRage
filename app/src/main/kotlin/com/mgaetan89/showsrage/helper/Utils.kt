@@ -12,7 +12,7 @@ import io.realm.Realm
 import io.realm.RealmConfiguration
 
 object Utils {
-	private const val DATABASE_VERSION = 9L
+	private const val DATABASE_VERSION = 10L
 
 	fun createRealmConfiguration(assetFile: String?): RealmConfiguration {
 		return RealmConfiguration.Builder().let {

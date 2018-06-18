@@ -27,7 +27,7 @@ open class Schedule : RealmObject() {
 	@SerializedName("show_name")
 	open var showName: String = ""
 	@SerializedName("show_status")
-	open var showStatus: String = ""
+	open var showStatus: String? = null
 	@SerializedName("tvdbid")
 	open var tvDbId: Int = 0
 	open var weekday: Int = 0
