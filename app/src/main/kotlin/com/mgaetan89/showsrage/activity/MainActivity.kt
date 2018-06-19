@@ -80,13 +80,11 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 	private var themeColors: ThemeColors? = null
 
 	fun displayHomeAsUp(displayHomeAsUp: Boolean) {
-		val actionBar = this.supportActionBar
-
 		if (displayHomeAsUp) {
 			this.drawerToggle?.isDrawerIndicatorEnabled = false
-			actionBar?.setDisplayHomeAsUpEnabled(true)
+			this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		} else {
-			actionBar?.setDisplayHomeAsUpEnabled(false)
+			this.supportActionBar?.setDisplayHomeAsUpEnabled(false)
 			this.drawerToggle?.isDrawerIndicatorEnabled = true
 		}
 	}

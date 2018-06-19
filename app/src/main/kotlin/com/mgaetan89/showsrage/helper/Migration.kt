@@ -73,6 +73,12 @@ class Migration : RealmMigration {
 
 			localOldVersion++
 		}
+
+		if (localOldVersion == 9L) {
+			this.updateToV10(schema)
+
+			localOldVersion++
+		}
 	}
 
 	override fun equals(other: Any?) = other is Migration
@@ -186,6 +192,11 @@ class Migration : RealmMigration {
 			?.renameField("seasonList_tmp", "seasonList")
 
 		schema.remove("RealmString")
+	}
+
+	private fun updateToV10(schema: RealmSchema) {
+		schema.get(Schedule::class.java.simpleName)
+			?.setRequired("showStatus", false)
 	}
 
 	private fun mapRealmListRealmStringToRealmListString(list: RealmList<DynamicRealmObject>): RealmList<String> {

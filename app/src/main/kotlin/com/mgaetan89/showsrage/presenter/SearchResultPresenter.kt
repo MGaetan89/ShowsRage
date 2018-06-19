@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.presenter
 
 import android.support.annotation.StringRes
 import android.text.format.DateUtils
+import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.helper.DateTimeHelper
 import com.mgaetan89.showsrage.model.SearchResultItem
 
@@ -15,7 +16,7 @@ class SearchResultPresenter(private val searchResult: SearchResultItem?) {
 	}
 
 	@StringRes
-	fun getIndexerNameRes() = this.searchResult?.getIndexerNameResource() ?: 0
+	fun getIndexerNameRes() = this.searchResult?.getIndexerNameResource() ?: R.string.unknown
 
 	fun getName() = this.searchResult?.name ?: ""
 }

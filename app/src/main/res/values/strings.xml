@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:locale="en">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 	<string name="about">About</string>
 	<string name="actions">Actions</string>
 	<string name="active">Active</string>
@@ -60,6 +60,7 @@
 	<string name="file_size">File size: <xliff:g example="856.93 MB" id="file_size">%1$s</xliff:g></string>
 	<string name="filter">Filter</string>
 	<string name="force_processing">Force processing</string>
+	<string name="future_status">Future status</string>
 	<string name="genre">Genre: <xliff:g example="Comedy" id="genre">%1$s</xliff:g></string>
 	<string name="get_api_key">Get API Key</string>
 	<string name="get_api_key_error">Unable to get the API Key</string>
@@ -140,6 +141,7 @@
 	<string name="search_show">Search show</string>
 	<string name="search_subtitles">Search subtitles</string>
 	<string name="season_episode_name">S<xliff:g example="01" id="season">%1$02d</xliff:g>E<xliff:g example="01" id="episode">%2$02d</xliff:g> - <xliff:g example="Pilot" id="name">%3$s</xliff:g></string>
+	<string name="season_folders">Season folders</string>
 	<string name="season_number">Season %1$d</string>
 	<string name="seasons_sort">Seasons sort</string>
 	<string name="seconds_30">Every 30 seconds</string>

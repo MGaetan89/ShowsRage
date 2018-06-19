@@ -7,12 +7,12 @@ import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
+import com.mgaetan89.showsrage.extension.inflate
 import com.mgaetan89.showsrage.model.Episode
 import com.mgaetan89.showsrage.presenter.EpisodePresenter
 import io.realm.RealmRecyclerViewAdapter
@@ -31,7 +31,7 @@ class EpisodesAdapter(episodes: RealmResults<Episode>, val seasonNumber: Int, va
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-		val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_episodes_list, parent, false)
+		val view = parent.inflate(R.layout.adapter_episodes_list)
 
 		return ViewHolder(view)
 	}

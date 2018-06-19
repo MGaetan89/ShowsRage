@@ -21,12 +21,12 @@ class SearchResultItem_GetIndexerNameResourceTest(val searchResult: SearchResult
 			val gson = SickRageApi.gson
 
 			return listOf(
-					arrayOf(gson.fromJson("{}", SearchResultItem::class.java), 0),
-					arrayOf(gson.fromJson("{indexer: -1}", SearchResultItem::class.java), 0),
-					arrayOf(gson.fromJson("{indexer: 0}", SearchResultItem::class.java), 0),
+					arrayOf(gson.fromJson("{}", SearchResultItem::class.java), R.string.unknown),
+					arrayOf(gson.fromJson("{indexer: -1}", SearchResultItem::class.java), R.string.unknown),
+					arrayOf(gson.fromJson("{indexer: 0}", SearchResultItem::class.java), R.string.unknown),
 					arrayOf(gson.fromJson("{indexer: 1}", SearchResultItem::class.java), R.string.the_tvdb),
 					arrayOf(gson.fromJson("{indexer: 2}", SearchResultItem::class.java), R.string.tvrage),
-					arrayOf(gson.fromJson("{indexer: 3}", SearchResultItem::class.java), 0)
+					arrayOf(gson.fromJson("{indexer: 3}", SearchResultItem::class.java), R.string.unknown)
 			)
 		}
 	}
