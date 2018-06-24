@@ -2,7 +2,7 @@
 <resources>
 	<color name="accent">#FFAB40</color>
 	<color name="primary">#09769F</color>
-	<color name="primary_dark">#13537F</color>
+	<color name="primary_dark">#004A70</color>
 	<color name="text_color">@color/cardview_dark_background</color>
 
 	<color name="blue">#2196F3</color>
