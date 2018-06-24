@@ -1,0 +1,9 @@
+---
+name: Version 1.6.1
+release_date: 20/05/2018
+current_tag: v1.6.1
+previous_tag: v1.6
+fixes:
+- Fix crash in Schedule
+- Fix crash in Logs
+---

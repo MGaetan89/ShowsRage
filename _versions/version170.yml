@@ -1,0 +1,13 @@
+---
+name: Version 1.7
+release_date: 24/05/2018
+current_tag: v1.7
+previous_tag: v1.6.1
+features:
+- New options when adding a show&#58; *Future status* and *Season folders*
+changes:
+- Update ShowsRage's icon to support Android adaptive icon (Android 8.0+)
+fixes:
+- Adding a new show is fixed
+- The content of an episode's detail is available again
+---
