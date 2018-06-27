@@ -62,43 +62,37 @@ class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener
 		val context = this.context ?: return super.onCreateDialog(savedInstanceState)
 		val view = context.inflate(R.layout.fragment_add_show_options)
 
-		this.allowedQuality = view.findViewById(R.id.allowed_quality) as Spinner?
-		this.anime = view.findViewById(R.id.anime) as SwitchCompat?
-		this.futureStatus = view.findViewById(R.id.future_status) as Spinner?
-		this.language = view.findViewById(R.id.language) as Spinner?
-		this.preferredQuality = view.findViewById(R.id.preferred_quality) as Spinner?
-		this.seasonFolders = view.findViewById(R.id.season_folders) as SwitchCompat?
-		this.status = view.findViewById(R.id.status) as Spinner?
-		this.subtitles = view.findViewById(R.id.subtitles) as SwitchCompat?
+		this.allowedQuality = view.findViewById(R.id.allowed_quality)
+		this.anime = view.findViewById(R.id.anime)
+		this.futureStatus = view.findViewById(R.id.future_status)
+		this.language = view.findViewById(R.id.language)
+		this.preferredQuality = view.findViewById(R.id.preferred_quality)
+		this.seasonFolders = view.findViewById(R.id.season_folders)
+		this.status = view.findViewById(R.id.status)
+		this.subtitles = view.findViewById(R.id.subtitles)
 
-		val rootDirectoryLayout = view.findViewById(R.id.root_directory_layout) as LinearLayout?
-
-		if (rootDirectoryLayout != null) {
-			val realm = Realm.getDefaultInstance()
-			val rootDirectories = realm.getRootDirs()
+		view.findViewById<LinearLayout>(R.id.root_directory_layout).let { rootDirectoryLayout ->
+			val rootDirectories = Realm.getDefaultInstance().use {
+				it.copyFromRealm(it.getRootDirs())
+			}
 
 			if (rootDirectories.size < 2) {
 				rootDirectoryLayout.visibility = View.GONE
 			} else {
-				this.rootDirectory = view.findViewById(R.id.root_directory) as Spinner?
-
-				if (this.rootDirectory != null) {
-					this.rootDirectory!!.adapter = RootDirectoriesAdapter(rootDirectories)
+				this.rootDirectory = view.findViewById<Spinner>(R.id.root_directory).also {
+					it.adapter = RootDirectoriesAdapter(it.context, rootDirectories)
 				}
 
 				rootDirectoryLayout.visibility = View.VISIBLE
 			}
-
-			realm.close()
 		}
 
-		val builder = AlertDialog.Builder(context)
-		builder.setTitle(R.string.add_show)
-		builder.setView(view)
-		builder.setPositiveButton(R.string.add, this)
-		builder.setNegativeButton(R.string.cancel, null)
-
-		return builder.show()
+		return AlertDialog.Builder(context)
+			.setTitle(R.string.add_show)
+			.setView(view)
+			.setPositiveButton(R.string.add, this)
+			.setNegativeButton(R.string.cancel, null)
+			.show()
 	}
 
 	override fun onDestroyView() {
@@ -175,11 +169,7 @@ class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener
 		fun getLocation(rootDirectorySpinner: Spinner?): String? {
 			val selectedItem = rootDirectorySpinner?.selectedItem
 
-			if (selectedItem is RootDir) {
-				return selectedItem.location
-			}
-
-			return null
+			return (selectedItem as? RootDir)?.location
 		}
 
 		fun newInstance(indexerId: Int) = AddShowOptionsFragment().apply {
