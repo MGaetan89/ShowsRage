@@ -266,7 +266,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 	}
 
 	private fun displayEpisode(episode: Episode) {
-		if (!episode.isValid) {
+		if (!this.isAdded || !episode.isValid) {
 			return
 		}
 

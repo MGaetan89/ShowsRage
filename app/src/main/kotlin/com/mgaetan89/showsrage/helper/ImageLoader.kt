@@ -51,6 +51,8 @@ object ImageLoader {
 			.apply {
 				if (circleTransform) {
 					this.circleCrop()
+				} else {
+					this.fitCenter()
 				}
 			}
 

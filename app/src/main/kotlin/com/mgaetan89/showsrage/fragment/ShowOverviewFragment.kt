@@ -186,7 +186,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 	}
 
 	override fun onClick(view: View?) {
-		if (view == null || !this.show.isLoaded) {
+		if (view == null || !this.show.isValid) {
 			return
 		}
 
