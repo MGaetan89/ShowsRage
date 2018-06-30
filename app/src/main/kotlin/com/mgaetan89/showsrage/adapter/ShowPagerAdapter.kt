@@ -13,7 +13,7 @@ class ShowPagerAdapter(fragmentManager: FragmentManager, val fragment: Fragment,
 	// We have at least a tab for the show overview
 	override fun getCount() = this.seasons.size + 1
 
-	override fun getItem(position: Int): Fragment? {
+	override fun getItem(position: Int): Fragment {
 		if (position == 0) {
 			val fragment = ShowOverviewFragment()
 			fragment.arguments = this.fragment.arguments

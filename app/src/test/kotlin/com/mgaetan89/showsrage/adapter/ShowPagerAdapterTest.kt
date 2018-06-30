@@ -10,7 +10,6 @@ import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.fragment.SeasonFragment
 import com.mgaetan89.showsrage.fragment.ShowOverviewFragment
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.`when`
@@ -54,9 +53,8 @@ class ShowPagerAdapterTest {
 	fun getItem_Season() {
 		for (i in 1 until this.seasons.size) {
 			val fragment = this.adapter.getItem(i)
-			assertTrue(fragment != null)
 			assertThat(fragment).isInstanceOf(SeasonFragment::class.java)
-			assertThat(fragment!!.arguments).isNotNull()
+			assertThat(fragment.arguments).isNotNull()
 			assertThat(fragment.arguments!!.containsKey(Constants.Bundle.SEASON_NUMBER))
 		}
 	}
@@ -64,9 +62,8 @@ class ShowPagerAdapterTest {
 	@Test
 	fun getItem_ShowOverview() {
 		val fragment = this.adapter.getItem(0)
-		assertTrue(fragment != null)
 		assertThat(fragment).isInstanceOf(ShowOverviewFragment::class.java)
-		assertThat(fragment!!.arguments).isNull()
+		assertThat(fragment.arguments).isNull()
 	}
 
 	@Test

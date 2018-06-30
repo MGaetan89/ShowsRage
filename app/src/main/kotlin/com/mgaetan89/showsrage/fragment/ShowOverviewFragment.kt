@@ -36,7 +36,7 @@ import com.mgaetan89.showsrage.extension.deleteShow
 import com.mgaetan89.showsrage.extension.getShow
 import com.mgaetan89.showsrage.extension.saveShow
 import com.mgaetan89.showsrage.extension.toInt
-import com.mgaetan89.showsrage.helper.DateTimeHelper
+import com.mgaetan89.showsrage.extension.toRelativeDate
 import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.helper.ImageLoader
 import com.mgaetan89.showsrage.helper.Utils
@@ -148,7 +148,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		if (nextEpisodeAirDate.isEmpty()) {
 			this.show_next_episode_date?.visibility = View.GONE
 		} else {
-			this.show_next_episode_date?.text = this.getString(R.string.next_episode, DateTimeHelper.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS))
+			this.show_next_episode_date?.text = this.getString(R.string.next_episode, nextEpisodeAirDate.toRelativeDate("yyyy-MM-dd", DateUtils.DAY_IN_MILLIS))
 			this.show_next_episode_date?.visibility = View.VISIBLE
 		}
 
@@ -192,6 +192,8 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
 		val activity = this.activity
 		var color = if (activity != null) ContextCompat.getColor(activity, R.color.primary) else Color.BLUE
+		color = (activity as? MainActivity)?.themeColors?.primary ?: color
+
 		val url = when (view.id) {
 			R.id.show_imdb -> "http://www.imdb.com/title/${this.show.imdbId}"
 			R.id.show_the_tvdb -> "http://thetvdb.com/?tab=series&id=${this.show.tvDbId}"
@@ -204,14 +206,6 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 				return
 			}
 			else -> return
-		}
-
-		if (activity is MainActivity) {
-			val colors = activity.getThemColors()
-
-			if (colors != null) {
-				color = colors.primary
-			}
 		}
 
 		val tabIntent = CustomTabsIntent.Builder(this.tabSession)
@@ -257,7 +251,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		val colorPrimary = colors.primary
 
 		if (activity is MainActivity) {
-			activity.setThemeColors(colors)
+			activity.themeColors = colors
 		}
 
 		if (colorPrimary == 0) {

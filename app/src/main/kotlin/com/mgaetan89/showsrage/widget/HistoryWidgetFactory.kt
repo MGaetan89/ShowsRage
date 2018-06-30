@@ -6,7 +6,7 @@ import android.widget.RemoteViews
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.extension.saveHistory
 import com.mgaetan89.showsrage.extension.toLocale
-import com.mgaetan89.showsrage.helper.DateTimeHelper
+import com.mgaetan89.showsrage.extension.toRelativeDate
 import com.mgaetan89.showsrage.helper.ImageLoader
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.network.SickRageApi
@@ -56,7 +56,7 @@ class HistoryWidgetFactory(context: Context) : ListWidgetFactory<History>(contex
 			history.status
 		}
 
-		var text = this.context.getString(R.string.spaced_texts, statusString, DateTimeHelper.getRelativeDate(history.date, "yyyy-MM-dd hh:mm", 0)?.toString()?.toLowerCase())
+		var text = this.context.getString(R.string.spaced_texts, statusString, history.date.toRelativeDate("yyyy-MM-dd hh:mm", 0).toString().toLowerCase())
 
 		if ("subtitled".equals(history.status, true)) {
 			val language = history.resource?.toLocale()?.displayLanguage

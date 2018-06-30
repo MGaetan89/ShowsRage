@@ -96,7 +96,7 @@ fun Realm.getLogs(logLevel: LogLevel, groups: Array<String>?, listener: RealmCha
 	val query = this.where(LogEntry::class.java)
 		.`in`("errorType", logLevel.logLevels)
 
-	if (groups != null && groups.isNotEmpty()) {
+	if (groups?.isNotEmpty() == true) {
 		query.`in`("group", groups)
 	}
 

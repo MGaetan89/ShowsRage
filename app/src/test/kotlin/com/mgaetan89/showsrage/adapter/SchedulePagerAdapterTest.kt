@@ -1,10 +1,12 @@
 package com.mgaetan89.showsrage.adapter
 
+import android.support.v4.app.FragmentManager
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.fragment.ScheduleSectionFragment
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mockito.mock
 
 class SchedulePagerAdapterTest {
 	private lateinit var adapter: SchedulePagerAdapter
@@ -14,7 +16,7 @@ class SchedulePagerAdapterTest {
 
 	@Before
 	fun before() {
-		this.adapter = SchedulePagerAdapter(null, this.ids, this.labels)
+		this.adapter = SchedulePagerAdapter(mock(FragmentManager::class.java), this.ids, this.labels)
 	}
 
 	@Test

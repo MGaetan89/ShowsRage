@@ -2,7 +2,7 @@ package com.mgaetan89.showsrage.presenter
 
 import android.support.annotation.ColorRes
 import com.mgaetan89.showsrage.extension.humanize
-import com.mgaetan89.showsrage.helper.DateTimeHelper
+import com.mgaetan89.showsrage.extension.toRelativeDate
 import com.mgaetan89.showsrage.model.LogEntry
 
 class LogPresenter(private val logEntry: LogEntry?) {
@@ -11,7 +11,7 @@ class LogPresenter(private val logEntry: LogEntry?) {
 			return ""
 		}
 
-		return DateTimeHelper.getRelativeDate(this.logEntry!!.dateTime, "yyyy-MM-dd hh:mm:ss", 0)
+		return this.logEntry?.dateTime.toRelativeDate("yyyy-MM-dd hh:mm:ss", 0)
 	}
 
 	@ColorRes

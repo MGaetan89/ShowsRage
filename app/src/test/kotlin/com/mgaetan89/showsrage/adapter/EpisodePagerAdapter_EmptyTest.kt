@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage.adapter
 
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -11,7 +12,7 @@ class EpisodePagerAdapter_EmptyTest {
 
 	@Before
 	fun before() {
-		this.adapter = EpisodePagerAdapter(null, mock(Fragment::class.java), emptyList<Int>())
+		this.adapter = EpisodePagerAdapter(mock(FragmentManager::class.java), mock(Fragment::class.java), emptyList())
 	}
 
 	@Test

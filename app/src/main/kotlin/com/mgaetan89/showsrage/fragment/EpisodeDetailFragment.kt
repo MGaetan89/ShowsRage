@@ -33,7 +33,7 @@ import com.mgaetan89.showsrage.extension.saveEpisode
 import com.mgaetan89.showsrage.extension.streamInChromecast
 import com.mgaetan89.showsrage.extension.streamInVideoPlayer
 import com.mgaetan89.showsrage.extension.toLocale
-import com.mgaetan89.showsrage.helper.DateTimeHelper
+import com.mgaetan89.showsrage.extension.toRelativeDate
 import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.Episode
@@ -122,14 +122,10 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 		mediaRouteActionProvider?.routeSelector = this.routeSelector
 
 		if (activity is MainActivity && mediaRouteActionProvider is ColoredMediaRouteActionProvider) {
-			val colors = activity.getThemColors()
+			val colorPrimary = activity.themeColors?.primary ?: 0
 
-			if (colors != null) {
-				val colorPrimary = colors.primary
-
-				if (colorPrimary != 0) {
-					mediaRouteActionProvider.buttonColor = Utils.getContrastColor(colorPrimary)
-				}
+			if (colorPrimary != 0) {
+				mediaRouteActionProvider.buttonColor = Utils.getContrastColor(colorPrimary)
 			}
 		}
 
@@ -220,15 +216,11 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 		val activity = this.activity
 
 		if (activity is MainActivity) {
-			val colors = activity.getThemColors()
+			val colorPrimary = activity.themeColors?.primary ?: 0
 
-			if (colors != null) {
-				val colorPrimary = colors.primary
-
-				if (colorPrimary != 0) {
-					this.search_episode?.backgroundTintList = ColorStateList.valueOf(colorPrimary)
-					DrawableCompat.setTint(DrawableCompat.wrap(this.search_episode.drawable), Utils.getContrastColor(colorPrimary))
-				}
+			if (colorPrimary != 0) {
+				this.search_episode?.backgroundTintList = ColorStateList.valueOf(colorPrimary)
+				DrawableCompat.setTint(DrawableCompat.wrap(this.search_episode.drawable), Utils.getContrastColor(colorPrimary))
 			}
 		}
 
@@ -270,7 +262,7 @@ class EpisodeDetailFragment : MediaRouteDiscoveryFragment(), Callback<SingleEpis
 			return
 		}
 
-		this.episode_airs?.text = this.getString(R.string.airs, DateTimeHelper.getRelativeDate(episode.airDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS))
+		this.episode_airs?.text = this.getString(R.string.airs, episode.airDate.toRelativeDate("yyyy-MM-dd", DateUtils.DAY_IN_MILLIS))
 		this.episode_airs?.visibility = View.VISIBLE
 
 		if (episode.fileSize == 0L) {

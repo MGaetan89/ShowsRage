@@ -5,6 +5,7 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
+import android.support.v4.app.FragmentManager
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.EmptyFragmentHostCallback
 import com.mgaetan89.showsrage.R
@@ -50,7 +51,7 @@ class EpisodePagerAdapterTest {
 		`when`(fragment.getString(R.string.episode_name_short, 9)).thenReturn("E9")
 		`when`(fragment.getString(R.string.episode_name_short, 10)).thenReturn("E10")
 
-		this.adapter = EpisodePagerAdapter(null, fragment, this.episodes)
+		this.adapter = EpisodePagerAdapter(mock(FragmentManager::class.java), fragment, this.episodes)
 	}
 
 	@Test
@@ -63,7 +64,7 @@ class EpisodePagerAdapterTest {
 		for (i in this.episodes.indices) {
 			val fragment = this.adapter.getItem(i)
 			assertThat(fragment).isInstanceOf(EpisodeDetailFragment::class.java)
-			assertThat(fragment!!.arguments).isNotNull()
+			assertThat(fragment.arguments).isNotNull()
 			assertThat(fragment.arguments!!.containsKey(Constants.Bundle.EPISODE_ID))
 			assertThat(fragment.arguments!!.containsKey(Constants.Bundle.EPISODE_NUMBER))
 			assertThat(fragment.arguments!!.containsKey(Constants.Bundle.SEASON_NUMBER))

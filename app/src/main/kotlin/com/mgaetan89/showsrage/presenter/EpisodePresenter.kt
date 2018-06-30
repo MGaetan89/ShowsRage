@@ -2,7 +2,7 @@ package com.mgaetan89.showsrage.presenter
 
 import android.support.annotation.ColorRes
 import android.text.format.DateUtils
-import com.mgaetan89.showsrage.helper.DateTimeHelper
+import com.mgaetan89.showsrage.extension.toRelativeDate
 import com.mgaetan89.showsrage.model.Episode
 
 class EpisodePresenter(val episode: Episode?) {
@@ -13,7 +13,7 @@ class EpisodePresenter(val episode: Episode?) {
 			return null
 		}
 
-		return DateTimeHelper.getRelativeDate(airDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)
+		return airDate.toRelativeDate("yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)
 	}
 
 	fun getQuality(): String {

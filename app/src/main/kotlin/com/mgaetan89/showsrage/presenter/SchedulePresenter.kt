@@ -2,7 +2,8 @@ package com.mgaetan89.showsrage.presenter
 
 import android.content.Context
 import android.text.format.DateUtils
-import com.mgaetan89.showsrage.helper.DateTimeHelper
+import com.mgaetan89.showsrage.extension.getLocalizedTime
+import com.mgaetan89.showsrage.extension.toRelativeDate
 import com.mgaetan89.showsrage.model.Indexer
 import com.mgaetan89.showsrage.model.Schedule
 import com.mgaetan89.showsrage.network.SickRageApi
@@ -16,7 +17,7 @@ class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
 			return null
 		}
 
-		return DateTimeHelper.getRelativeDate(airDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)
+		return airDate.toRelativeDate("yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)
 	}
 
 	fun getAirDateTime(): CharSequence? {
@@ -48,7 +49,7 @@ class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
 			return null
 		}
 
-		return DateTimeHelper.getLocalizedTime(this.context, "$airDate $airTime", "yyyy-MM-dd K:mm a")
+		return this.context.getLocalizedTime("$airDate $airTime", "yyyy-MM-dd K:mm a")
 	}
 
 	fun getEpisode() = this._getSchedule()?.episode ?: 0

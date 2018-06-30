@@ -8,7 +8,6 @@ import com.mgaetan89.showsrage.EmptyFragmentHostCallback
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.fragment.ShowOverviewFragment
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.`when`
@@ -34,7 +33,7 @@ class ShowPagerAdapter_EmptyTest {
 
 		`when`(fragment.getString(R.string.show)).thenReturn("Show")
 
-		this.adapter = ShowPagerAdapter(mock(FragmentManager::class.java), fragment, emptyList<Int>())
+		this.adapter = ShowPagerAdapter(mock(FragmentManager::class.java), fragment, emptyList())
 	}
 
 	@Test
@@ -45,9 +44,8 @@ class ShowPagerAdapter_EmptyTest {
 	@Test
 	fun getItem() {
 		val fragment = this.adapter.getItem(0)
-		assertTrue(fragment != null)
 		assertThat(fragment).isInstanceOf(ShowOverviewFragment::class.java)
-		assertThat(fragment!!.arguments).isNull()
+		assertThat(fragment.arguments).isNull()
 	}
 
 	@Test

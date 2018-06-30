@@ -74,10 +74,57 @@ import java.lang.ref.WeakReference
 class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationView.OnNavigationItemSelectedListener {
 	var firebaseAnalytics: FirebaseAnalytics? = null
 		private set
+
+	var themeColors: ThemeColors? = null
+		set(value) {
+			field = value ?: return
+
+			val (colorPrimary, colorAccent) = value
+			val textColor = Utils.getContrastColor(colorPrimary)
+
+			this.app_bar?.setBackgroundColor(colorPrimary)
+
+			this.drawerHeader?.let {
+				it.setBackgroundColor(colorPrimary)
+
+				val drawable = DrawableCompat.wrap(it.app_logo.drawable)
+				DrawableCompat.setTint(drawable, textColor)
+
+				it.app_name?.setTextColor(textColor)
+			}
+
+			val colorsIcon = intArrayOf(colorPrimary, this.drawer_content?.itemIconTintList?.defaultColor ?: Color.WHITE)
+			val colorsText = intArrayOf(colorPrimary, this.drawer_content?.itemTextColor?.defaultColor ?: Color.WHITE)
+			val states = arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf())
+
+			this.drawer_content?.itemIconTintList = ColorStateList(states, colorsIcon)
+			this.drawer_content?.itemTextColor = ColorStateList(states, colorsText)
+
+			val selectedTextColor = ColorUtils.setAlphaComponent(textColor, (0.7f * 255f).toInt())
+
+			this.tabs?.setSelectedTabIndicatorColor(colorAccent)
+			this.tabs?.setTabTextColors(selectedTextColor, textColor)
+
+			this.toolbar?.setItemColor(textColor)
+
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+				val colorPrimaryDark = floatArrayOf(0f, 0f, 0f)
+				ColorUtils.colorToHSL(colorPrimary, colorPrimaryDark)
+				colorPrimaryDark[2] *= COLOR_DARK_FACTOR
+
+				this.window.statusBarColor = ColorUtils.HSLToColor(colorPrimaryDark)
+
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+					if (textColor == Color.BLACK) {
+						this.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+					}
+				}
+			}
+		}
+
 	private var drawerHeader: LinearLayout? = null
 	private var drawerToggle: ActionBarDrawerToggle? = null
 	private val receiver: ShowsRageReceiver by lazy { ShowsRageReceiver(this) }
-	private var themeColors: ThemeColors? = null
 
 	fun displayHomeAsUp(displayHomeAsUp: Boolean) {
 		if (displayHomeAsUp) {
@@ -92,8 +139,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 	override fun failure(error: RetrofitError?) {
 		error?.printStackTrace()
 	}
-
-	fun getThemColors() = this.themeColors
 
 	override fun onBackPressed() {
 		if (this.drawer_layout?.isDrawerOpen(this.drawer_content) == true) {
@@ -214,56 +259,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 		val colorAccent = ContextCompat.getColor(this, R.color.accent)
 		val colorPrimary = ContextCompat.getColor(this, R.color.primary)
 
-		this.setThemeColors(ThemeColors(colorPrimary, colorAccent))
-	}
-
-	fun setThemeColors(colors: ThemeColors) {
-		this.themeColors = colors
-
-		val (colorPrimary, colorAccent) = colors
-		val textColor = Utils.getContrastColor(colorPrimary)
-
-		this.app_bar?.setBackgroundColor(colorPrimary)
-
-		this.drawerHeader?.let {
-			it.setBackgroundColor(colorPrimary)
-
-			val drawable = DrawableCompat.wrap(it.app_logo.drawable)
-			DrawableCompat.setTint(drawable, textColor)
-
-			it.app_name?.setTextColor(textColor)
-		}
-
-		val colorsIcon = intArrayOf(colorPrimary, this.drawer_content?.itemIconTintList?.defaultColor ?: Color.WHITE)
-		val colorsText = intArrayOf(colorPrimary, this.drawer_content?.itemTextColor?.defaultColor ?: Color.WHITE)
-		val states = arrayOf(
-				intArrayOf(android.R.attr.state_checked),
-				intArrayOf()
-		)
-
-		this.drawer_content?.itemIconTintList = ColorStateList(states, colorsIcon)
-		this.drawer_content?.itemTextColor = ColorStateList(states, colorsText)
-
-		val selectedTextColor = ColorUtils.setAlphaComponent(textColor, (0.7f * 255f).toInt())
-
-		this.tabs?.setSelectedTabIndicatorColor(colorAccent)
-		this.tabs?.setTabTextColors(selectedTextColor, textColor)
-
-		this.toolbar?.setItemColor(textColor)
-
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			val colorPrimaryDark = floatArrayOf(0f, 0f, 0f)
-			ColorUtils.colorToHSL(colorPrimary, colorPrimaryDark)
-			colorPrimaryDark[2] *= COLOR_DARK_FACTOR
-
-			this.window.statusBarColor = ColorUtils.HSLToColor(colorPrimaryDark)
-		}
-
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-			if (textColor == Color.BLACK) {
-				this.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-			}
-		}
+		this.themeColors = ThemeColors(colorPrimary, colorAccent)
 	}
 
 	override fun success(genericResponse: GenericResponse?, response: Response?) {
@@ -275,7 +271,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
 	fun updateRemoteControlVisibility() {
 		val application = this.application
-
 		if (application is ShowsRageApplication) {
 			this.drawer_content?.menu?.findItem(R.id.menu_remote_control)?.isVisible = application.hasPlayingVideo()
 		}
@@ -420,7 +415,6 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
 		private fun handleCheckForUpdateResponse(update: UpdateResponse?, manualCheck: Boolean) {
 			val activity = this.activityReference.get() ?: return
-
 			if (update == null) {
 				return
 			}
@@ -471,9 +465,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 		}
 
 		override fun success(rootDirs: RootDirs?, response: Response?) {
-			Realm.getDefaultInstance().let {
-				it.saveRootDirs(rootDirs?.data ?: emptyList())
-				it.close()
+			Realm.getDefaultInstance().use {
+				it.saveRootDirs(rootDirs?.data.orEmpty())
 			}
 		}
 	}

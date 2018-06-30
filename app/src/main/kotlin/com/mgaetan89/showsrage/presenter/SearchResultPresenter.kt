@@ -3,7 +3,7 @@ package com.mgaetan89.showsrage.presenter
 import android.support.annotation.StringRes
 import android.text.format.DateUtils
 import com.mgaetan89.showsrage.R
-import com.mgaetan89.showsrage.helper.DateTimeHelper
+import com.mgaetan89.showsrage.extension.toRelativeDate
 import com.mgaetan89.showsrage.model.SearchResultItem
 
 class SearchResultPresenter(private val searchResult: SearchResultItem?) {
@@ -12,7 +12,7 @@ class SearchResultPresenter(private val searchResult: SearchResultItem?) {
 			return ""
 		}
 
-		return DateTimeHelper.getRelativeDate(this.searchResult.firstAired, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)
+		return this.searchResult.firstAired.toRelativeDate("yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)
 	}
 
 	@StringRes

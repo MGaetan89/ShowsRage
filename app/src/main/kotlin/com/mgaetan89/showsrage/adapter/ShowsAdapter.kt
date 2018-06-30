@@ -13,7 +13,7 @@ import com.futuremind.recyclerviewfastscroll.SectionTitleProvider
 import com.mgaetan89.showsrage.Constants
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.extension.inflate
-import com.mgaetan89.showsrage.helper.DateTimeHelper
+import com.mgaetan89.showsrage.extension.toRelativeDate
 import com.mgaetan89.showsrage.helper.ImageLoader
 import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.RealmShowStat
@@ -31,7 +31,7 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, private v
 
 		val showName = Utils.getSortableShowName(this.shows[position], this.ignoreArticles)
 
-		return showName.firstOrNull()?.toUpperCase()?.toString() ?: ""
+		return showName.firstOrNull()?.toUpperCase()?.toString().orEmpty()
 	}
 
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -107,7 +107,7 @@ class ShowsAdapter(val shows: List<Show>, val itemLayoutResource: Int, private v
 
 					it.text = if (status != 0) context.getString(status) else show.status
 				} else {
-					it.text = DateTimeHelper.getRelativeDate(nextEpisodeAirDate, "yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)
+					it.text = nextEpisodeAirDate.toRelativeDate("yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)
 				}
 			}
 

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.extension.inflate
 import com.mgaetan89.showsrage.extension.toLocale
-import com.mgaetan89.showsrage.helper.DateTimeHelper
+import com.mgaetan89.showsrage.extension.toRelativeDate
 import com.mgaetan89.showsrage.helper.ImageLoader
 import com.mgaetan89.showsrage.model.History
 import com.mgaetan89.showsrage.presenter.HistoryPresenter
@@ -47,7 +47,7 @@ class HistoriesAdapter(histories: RealmResults<History>) : RealmRecyclerViewAdap
 			val status = history.getStatusTranslationResource()
 			val statusString = if (status != 0) context.getString(status) else history.status
 
-			this.date.text = context.getString(R.string.spaced_texts, statusString, DateTimeHelper.getRelativeDate(history.date, "yyyy-MM-dd hh:mm", 0)?.toString()?.toLowerCase())
+			this.date.text = context.getString(R.string.spaced_texts, statusString, history.date.toRelativeDate("yyyy-MM-dd hh:mm", 0).toString().toLowerCase())
 
 			if ("subtitled".equals(history.status, true)) {
 				val language = history.resource?.toLocale()?.displayLanguage

@@ -9,10 +9,10 @@ import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.fragment.EpisodeDetailFragment
 import com.mgaetan89.showsrage.model.Episode
 
-class EpisodePagerAdapter(fragmentManager: FragmentManager?, val fragment: Fragment, val episodes: List<Int>) : FragmentStatePagerAdapter(fragmentManager) {
+class EpisodePagerAdapter(fragmentManager: FragmentManager, val fragment: Fragment, val episodes: List<Int>) : FragmentStatePagerAdapter(fragmentManager) {
 	override fun getCount() = this.episodes.size
 
-	override fun getItem(position: Int): Fragment? {
+	override fun getItem(position: Int): Fragment {
 		val episodeNumber = this.episodes[position]
 		val indexerId = this.fragment.arguments?.getInt(Constants.Bundle.INDEXER_ID) ?: 0
 		val seasonNumber = this.fragment.arguments?.getInt(Constants.Bundle.SEASON_NUMBER) ?: 0

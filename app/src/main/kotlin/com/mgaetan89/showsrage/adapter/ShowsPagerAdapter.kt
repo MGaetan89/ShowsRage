@@ -13,7 +13,7 @@ import com.mgaetan89.showsrage.fragment.ShowsSectionFragment
 class ShowsPagerAdapter(fragmentManager: FragmentManager, val fragment: Fragment, private val splitShowsAnimes: Boolean) : FragmentStatePagerAdapter(fragmentManager) {
 	override fun getCount() = if (this.splitShowsAnimes) 2 else 1
 
-	override fun getItem(position: Int): Fragment? {
+	override fun getItem(position: Int): Fragment {
 		val arguments = Bundle()
 
 		if (this.splitShowsAnimes) {
