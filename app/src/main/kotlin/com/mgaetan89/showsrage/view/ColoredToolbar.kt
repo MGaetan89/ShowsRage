@@ -17,23 +17,17 @@ import android.widget.TextView
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.helper.Utils
 
-class ColoredToolbar : Toolbar {
+class ColoredToolbar @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : Toolbar(context, attrs, defStyleAttr) {
 	private var colorFilter: PorterDuffColorFilter? = null
 
 	@ColorInt
 	private var itemColor: Int = 0
 
-	constructor(context: Context) : super(context) {
-		this.init(context)
-	}
-
-	constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-		this.init(context)
-	}
-
-	constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-		this.init(context)
-	}
+    init {
+        this.setItemColor(Utils.getContrastColor(ContextCompat.getColor(context, R.color.primary)))
+    }
 
 	override fun invalidate() {
 		super.invalidate()
@@ -52,10 +46,6 @@ class ColoredToolbar : Toolbar {
 		super.onLayout(changed, l, t, r, b)
 
 		this.setGroupColor(this)
-	}
-
-	private fun init(context: Context) {
-		this.setItemColor(Utils.getContrastColor(ContextCompat.getColor(context, R.color.primary)))
 	}
 
 	private fun setChildColor(child: View) {
@@ -93,11 +83,9 @@ class ColoredToolbar : Toolbar {
 		}
 	}
 
-	private fun setGroupColor(group: ViewGroup?) {
-		if (group != null) {
-			for (i in 0 until group.childCount) {
-				this.setChildColor(group.getChildAt(i))
-			}
+	private fun setGroupColor(group: ViewGroup) {
+        for (i in 0 until group.childCount) {
+            this.setChildColor(group.getChildAt(i))
 		}
 	}
 }

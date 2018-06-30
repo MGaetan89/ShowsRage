@@ -7,11 +7,11 @@ import org.junit.Test
 class SettingsAboutShowsRageFragmentTest {
 	@Test
 	fun getTitleResourceId() {
-		assertThat(SettingsAboutShowsRageFragment().getTitleResourceId()).isEqualTo(R.string.app_name)
+		assertThat(SettingsAboutShowsRageFragment.newInstance().getTitleResourceId()).isEqualTo(R.string.app_name)
 	}
 
 	@Test
 	fun getXmlResourceFile() {
-		assertThat(SettingsAboutShowsRageFragment().getXmlResourceFile()).isEqualTo(R.xml.settings_about_showsrage)
+		assertThat(SettingsAboutShowsRageFragment.newInstance().getXmlResourceFile()).isEqualTo(R.xml.settings_about_showsrage)
 	}
 }

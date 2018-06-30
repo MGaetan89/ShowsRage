@@ -7,11 +7,11 @@ import org.junit.Test
 class SettingsServerApiKeyFragmentTest {
 	@Test
 	fun getTitleResourceId() {
-		assertThat(SettingsServerApiKeyFragment().getTitleResourceId()).isEqualTo(R.string.api_key)
+		assertThat(SettingsServerApiKeyFragment.newInstance().getTitleResourceId()).isEqualTo(R.string.api_key)
 	}
 
 	@Test
 	fun getXmlResourceFile() {
-		assertThat(SettingsServerApiKeyFragment().getXmlResourceFile()).isEqualTo(R.xml.settings_server_api_key)
+		assertThat(SettingsServerApiKeyFragment.newInstance().getXmlResourceFile()).isEqualTo(R.xml.settings_server_api_key)
 	}
 }

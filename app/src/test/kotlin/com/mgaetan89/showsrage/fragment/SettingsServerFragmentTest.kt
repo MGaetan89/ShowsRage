@@ -7,11 +7,11 @@ import org.junit.Test
 class SettingsServerFragmentTest {
 	@Test
 	fun getTitleResourceId() {
-		assertThat(SettingsServerFragment().getTitleResourceId()).isEqualTo(R.string.server)
+		assertThat(SettingsServerFragment.newInstance().getTitleResourceId()).isEqualTo(R.string.server)
 	}
 
 	@Test
 	fun getXmlResourceFile() {
-		assertThat(SettingsServerFragment().getXmlResourceFile()).isEqualTo(R.xml.settings_server)
+		assertThat(SettingsServerFragment.newInstance().getXmlResourceFile()).isEqualTo(R.xml.settings_server)
 	}
 }

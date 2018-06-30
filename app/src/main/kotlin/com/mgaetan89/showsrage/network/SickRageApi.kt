@@ -69,17 +69,17 @@ class SickRageApi private constructor() : RequestInterceptor {
 	}
 
 	fun getOkHttpClient(useSelfSignedCertificate: Boolean): OkHttpClient {
-		if (this.okHttpClient == null) {
-			this.okHttpClient = OkHttpClient().apply {
-				this.setConnectTimeout(30, TimeUnit.SECONDS)
-				this.setReadTimeout(30, TimeUnit.SECONDS)
-			}
+		val okHttpClient = this.okHttpClient ?: OkHttpClient().apply {
+			this.setConnectTimeout(30, TimeUnit.SECONDS)
+			this.setReadTimeout(30, TimeUnit.SECONDS)
 		}
 
 		this.setAuthenticator()
 		this.trustAllCertificates(useSelfSignedCertificate)
 
-		return this.okHttpClient!!
+		this.okHttpClient = okHttpClient
+
+		return okHttpClient
 	}
 
 	fun getPosterUrl(indexerId: Int, indexer: Indexer?): String {

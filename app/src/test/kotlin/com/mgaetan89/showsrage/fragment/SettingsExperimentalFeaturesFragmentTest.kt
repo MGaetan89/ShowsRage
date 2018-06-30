@@ -7,11 +7,11 @@ import org.junit.Test
 class SettingsExperimentalFeaturesFragmentTest {
 	@Test
 	fun getTitleResourceId() {
-		assertThat(SettingsExperimentalFeaturesFragment().getTitleResourceId()).isEqualTo(R.string.experimental_features)
+		assertThat(SettingsExperimentalFeaturesFragment.newInstance().getTitleResourceId()).isEqualTo(R.string.experimental_features)
 	}
 
 	@Test
 	fun getXmlResourceFile() {
-		assertThat(SettingsExperimentalFeaturesFragment().getXmlResourceFile()).isEqualTo(R.xml.settings_experimental_features)
+		assertThat(SettingsExperimentalFeaturesFragment.newInstance().getXmlResourceFile()).isEqualTo(R.xml.settings_experimental_features)
 	}
 }

@@ -7,11 +7,11 @@ import org.junit.Test
 class SettingsFragmentTest {
 	@Test
 	fun getTitleResourceId() {
-		assertThat(SettingsFragment().getTitleResourceId()).isEqualTo(R.string.settings)
+		assertThat(SettingsFragment.newInstance().getTitleResourceId()).isEqualTo(R.string.settings)
 	}
 
 	@Test
 	fun getXmlResourceFile() {
-		assertThat(SettingsFragment().getXmlResourceFile()).isEqualTo(R.xml.settings)
+		assertThat(SettingsFragment.newInstance().getXmlResourceFile()).isEqualTo(R.xml.settings)
 	}
 }

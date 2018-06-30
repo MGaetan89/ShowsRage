@@ -8,19 +8,15 @@ import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.MediaRouteButton
 import android.util.AttributeSet
 
-class ColoredMediaRouteButton : MediaRouteButton {
+class ColoredMediaRouteButton @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : MediaRouteButton(context, attrs, defStyleAttr) {
     @ColorInt
     var color = Color.WHITE
 
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, @ColorInt color: Int) : super(context) {
+    constructor(context: Context, @ColorInt color: Int) : this(context) {
         this.color = color
     }
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun setRemoteIndicatorDrawable(d: Drawable?) {
         if (d == null) {
