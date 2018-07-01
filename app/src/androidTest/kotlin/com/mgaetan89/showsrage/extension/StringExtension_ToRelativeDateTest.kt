@@ -1,17 +1,25 @@
 package com.mgaetan89.showsrage.extension
 
+import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.text.format.DateUtils
+import com.mgaetan89.showsrage.TestActivity
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Locale
 
 @RunWith(AndroidJUnit4::class)
 class StringExtension_ToRelativeDateTest {
+    @JvmField
+    @Rule
+    val activityRule = ActivityTestRule(TestActivity::class.java)
+
     @Test
     fun toRelativeDate_en() {
-        Locale.setDefault(Locale.ENGLISH)
+        val context = this.activityRule.activity
+        context.resources.changeLocale(Locale.ENGLISH)
 
         assertThat(null.toRelativeDate("", 0L)).isEqualTo("N/A")
         assertThat(null.toRelativeDate("yyyy-MM-dd", 0L)).isEqualTo("N/A")
@@ -41,7 +49,8 @@ class StringExtension_ToRelativeDateTest {
 
     @Test
     fun toRelativeDate_fr() {
-        Locale.setDefault(Locale.FRENCH)
+        val context = this.activityRule.activity
+        context.resources.changeLocale(Locale.FRENCH)
 
         assertThat(null.toRelativeDate("", 0L)).isEqualTo("N/A")
         assertThat(null.toRelativeDate("yyyy-MM-dd", 0L)).isEqualTo("N/A")
