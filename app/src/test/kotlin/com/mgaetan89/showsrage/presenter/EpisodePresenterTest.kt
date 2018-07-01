@@ -10,17 +10,12 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class EpisodePresenterTest(val episode: Episode?, val airDate: String?, val quality: String, val statusColor: Int) {
+class EpisodePresenterTest(val episode: Episode?, val quality: String, val statusColor: Int) {
 	private lateinit var presenter: EpisodePresenter
 
 	@Before
 	fun before() {
 		this.presenter = EpisodePresenter(this.episode)
-	}
-
-	@Test
-	fun getAirDate() {
-		assertThat(this.presenter.getAirDate()).isEqualTo(this.airDate)
 	}
 
 	@Test
@@ -40,16 +35,16 @@ class EpisodePresenterTest(val episode: Episode?, val airDate: String?, val qual
 			val gson = SickRageApi.gson
 
 			return listOf(
-					arrayOf(null, null, "", android.R.color.transparent),
-					arrayOf(gson.fromJson("{airdate: null, quality: \"N/A\", status: \"archived\"}", Episode::class.java), null, "", R.color.green),
-					arrayOf(gson.fromJson("{airdate: \"\", quality: \"HD1080p\", status: \"downloaded\"}", Episode::class.java), null, "HD1080p", R.color.green),
-					arrayOf(gson.fromJson("{airdate: \"2015-01-01\", quality: \"HD\", status: \"ignored\"}", Episode::class.java), null, "HD", R.color.blue),
-					arrayOf(gson.fromJson("{airdate: \"2015-01-01\", quality: \"Any\", status: \"skipped\"}", Episode::class.java), null, "Any", R.color.blue),
-					arrayOf(gson.fromJson("{airdate: \"2015-01-01\", quality: \"Custom\", status: \"snatched\"}", Episode::class.java), null, "Custom", R.color.purple),
-					arrayOf(gson.fromJson("{airdate: \"2015-01-01\", quality: \"Any\", status: \"snatched (proper)\"}", Episode::class.java), null, "Any", R.color.purple),
-					arrayOf(gson.fromJson("{airdate: \"2015-01-01\", quality: \"SD\", status: \"unaired\"}", Episode::class.java), null, "SD", R.color.yellow),
-					arrayOf(gson.fromJson("{airdate: \"2015-01-01\", quality: \"SD\", status: \"wanted\"}", Episode::class.java), null, "SD", R.color.red),
-					arrayOf(gson.fromJson("{airdate: \"2015-01-01\", quality: \"SD\", status: \"status\"}", Episode::class.java), null, "SD", android.R.color.transparent)
+					arrayOf(null, "", android.R.color.transparent),
+					arrayOf(gson.fromJson("{airdate: null, quality: \"N/A\", status: \"archived\"}", Episode::class.java), "", R.color.green),
+					arrayOf(gson.fromJson("{airdate: \"\", quality: \"HD1080p\", status: \"downloaded\"}", Episode::class.java), "HD1080p", R.color.green),
+					arrayOf(gson.fromJson("{airdate: \"2015-01-01\", quality: \"HD\", status: \"ignored\"}", Episode::class.java), "HD", R.color.blue),
+					arrayOf(gson.fromJson("{airdate: \"2015-01-01\", quality: \"Any\", status: \"skipped\"}", Episode::class.java), "Any", R.color.blue),
+					arrayOf(gson.fromJson("{airdate: \"2015-01-01\", quality: \"Custom\", status: \"snatched\"}", Episode::class.java), "Custom", R.color.purple),
+					arrayOf(gson.fromJson("{airdate: \"2015-01-01\", quality: \"Any\", status: \"snatched (proper)\"}", Episode::class.java), "Any", R.color.purple),
+					arrayOf(gson.fromJson("{airdate: \"2015-01-01\", quality: \"SD\", status: \"unaired\"}", Episode::class.java), "SD", R.color.yellow),
+					arrayOf(gson.fromJson("{airdate: \"2015-01-01\", quality: \"SD\", status: \"wanted\"}", Episode::class.java), "SD", R.color.red),
+					arrayOf(gson.fromJson("{airdate: \"2015-01-01\", quality: \"SD\", status: \"status\"}", Episode::class.java), "SD", android.R.color.transparent)
 			)
 		}
 	}

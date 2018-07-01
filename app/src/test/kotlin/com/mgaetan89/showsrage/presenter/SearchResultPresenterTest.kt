@@ -10,17 +10,12 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class SearchResultPresenterTest(val searchResult: SearchResultItem?, val firstAired: CharSequence?, val indexerNameRes: Int, val name: String) {
+class SearchResultPresenterTest(val searchResult: SearchResultItem?, val indexerNameRes: Int, val name: String) {
 	private lateinit var presenter: SearchResultPresenter
 
 	@Before
 	fun before() {
 		this.presenter = SearchResultPresenter(this.searchResult)
-	}
-
-	@Test
-	fun getFirstAired() {
-		assertThat(this.presenter.getFirstAired()).isEqualTo(this.firstAired)
 	}
 
 	@Test
@@ -40,10 +35,10 @@ class SearchResultPresenterTest(val searchResult: SearchResultItem?, val firstAi
 			val gson = SickRageApi.gson
 
 			return listOf(
-					arrayOf(null, "", R.string.unknown, ""),
-					arrayOf(gson.fromJson("{first_aired: 2015-01-01, indexer: 0, name: \"Show 0\"}", SearchResultItem::class.java), null, R.string.unknown, "Show 0"),
-					arrayOf(gson.fromJson("{first_aired: 2015-01-01, indexer: 1, name: \"Show 1\"}", SearchResultItem::class.java), null, R.string.the_tvdb, "Show 1"),
-					arrayOf(gson.fromJson("{first_aired: 2015-01-01, indexer: 2, name: \"Show 2\"}", SearchResultItem::class.java), null, R.string.tvrage, "Show 2")
+					arrayOf(null, R.string.unknown, ""),
+					arrayOf(gson.fromJson("{first_aired: 2015-01-01, indexer: 0, name: \"Show 0\"}", SearchResultItem::class.java), R.string.unknown, "Show 0"),
+					arrayOf(gson.fromJson("{first_aired: 2015-01-01, indexer: 1, name: \"Show 1\"}", SearchResultItem::class.java), R.string.the_tvdb, "Show 1"),
+					arrayOf(gson.fromJson("{first_aired: 2015-01-01, indexer: 2, name: \"Show 2\"}", SearchResultItem::class.java), R.string.tvrage, "Show 2")
 			)
 		}
 	}
