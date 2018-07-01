@@ -90,6 +90,12 @@ realm {
     kotlinExtensionsEnabled = false
 }
 
+tasks.withType(Test) {
+    testLogging {
+        exceptionFormat 'full'
+    }
+}
+
 def assertJAndroidVersion = '1.2.0'
 def glideVersion = '4.7.1'
 def jUnitVersion = '4.12'
