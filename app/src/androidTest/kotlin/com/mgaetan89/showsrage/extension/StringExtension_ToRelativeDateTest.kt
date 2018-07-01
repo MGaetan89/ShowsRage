@@ -70,13 +70,13 @@ class StringExtension_ToRelativeDateTest {
         assertThat("15.06.2018".toRelativeDate("", DateUtils.DAY_IN_MILLIS)).isEqualTo("15.06.2018")
         assertThat("15.06.2018".toRelativeDate("yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)).isEqualTo("15.06.2018")
         assertThat("2018-06-15".toRelativeDate("", 0L)).isEqualTo("2018-06-15")
-        assertThat("2018-06-15".toRelativeDate("yyyy-MM-dd", 0L)).isEqualTo("15 juin 2018")
         assertThat("2018-06-15".toRelativeDate("", DateUtils.DAY_IN_MILLIS)).isEqualTo("2018-06-15")
-        assertThat("2018-06-15".toRelativeDate("yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)).isEqualTo("15 juin 2018")
         assertThat("2018-06-15 02:34:56".toRelativeDate("", 0L)).isEqualTo("2018-06-15 02:34:56")
         assertThat("2018-06-15 02:34:56".toRelativeDate("", DateUtils.DAY_IN_MILLIS)).isEqualTo("2018-06-15 02:34:56")
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            assertThat("2018-06-15".toRelativeDate("yyyy-MM-dd", 0L)).isEqualTo("15 juin 2018")
+            assertThat("2018-06-15".toRelativeDate("yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)).isEqualTo("15 juin 2018")
             assertThat("2018-06-15 02:34:56".toRelativeDate("yyyy-MM-dd", 0L)).isEqualTo("15 juin 2018")
             assertThat("2018-06-15 02:34:56".toRelativeDate("yyyy-MM-dd", DateUtils.DAY_IN_MILLIS)).isEqualTo("15 juin 2018")
         }
