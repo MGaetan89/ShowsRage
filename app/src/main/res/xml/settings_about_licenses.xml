@@ -35,7 +35,7 @@
 
 		<PreferenceScreen
 			android:key="okhttp"
-			android:summary="Version 2.5.0"
+			android:summary="Version 2.7.5"
 			android:title="OkHttp">
 
 			<intent
@@ -45,7 +45,7 @@
 
 		<PreferenceScreen
 			android:key="realm_java"
-			android:summary="Version 5.1.0"
+			android:summary="Version 5.3.1"
 			android:title="Realm Java">
 
 			<intent

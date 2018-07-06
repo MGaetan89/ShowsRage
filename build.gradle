@@ -16,7 +16,7 @@ buildscript {
         classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.11.0'
         classpath 'io.fabric.tools:gradle:1.25.1'
         classpath 'io.realm:realm-gradle-plugin:5.3.1'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.50'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.51'
     }
 }
 
