@@ -20,7 +20,7 @@ android {
         applicationId 'com.mgaetan89.showsrage'
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 37
+        versionCode 38
         versionName '1.7'
         resConfigs 'en', 'fr'
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
