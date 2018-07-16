@@ -6,11 +6,10 @@ plugins {
     id("com.android.application")
     id("com.vanniktech.android.junit.jacoco")
     id("io.fabric")
-    id("realm-android")
-
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
+    id("realm-android")
 }
 
 val properties = Properties()
