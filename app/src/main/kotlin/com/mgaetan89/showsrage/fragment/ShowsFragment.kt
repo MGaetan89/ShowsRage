@@ -142,9 +142,8 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 
 		val showsList = shows?.data?.values ?: return
 
-		Realm.getDefaultInstance().let {
+		Realm.getDefaultInstance().use {
 			it.saveShows(showsList.toList())
-			it.close()
 		}
 
 		this.viewPager?.adapter = this.getAdapter()

@@ -40,9 +40,8 @@ class LogsAutoUpdateService : JobService() {
 
 					val logEntries = logs?.data?.map(::LogEntry) ?: emptyList()
 
-					Realm.getDefaultInstance().let {
+					Realm.getDefaultInstance().use {
 						it.saveLogs(logLevel, logEntries)
-						it.close()
 					}
 				}
 			})

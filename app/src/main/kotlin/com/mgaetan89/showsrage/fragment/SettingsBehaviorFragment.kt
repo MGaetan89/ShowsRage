@@ -25,12 +25,11 @@ class SettingsBehaviorFragment : SettingsFragment() {
 
 		AlertDialog.Builder(context)
 				.setMessage(R.string.clear_local_data_confirm)
-				.setPositiveButton(R.string.clear, { _, _ ->
-					Realm.getDefaultInstance().let {
+				.setPositiveButton(R.string.clear) { _, _ ->
+					Realm.getDefaultInstance().use {
 						it.executeTransaction(Realm::deleteAll)
-						it.close()
 					}
-				})
+				}
 				.setNegativeButton(android.R.string.cancel, null)
 				.show()
 	}

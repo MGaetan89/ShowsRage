@@ -35,12 +35,10 @@ class ScheduleFragment : TabbedFragment(), Callback<Schedules> {
 			activity.setTitle(R.string.schedule)
 		}
 
-		val realm = Realm.getDefaultInstance()
+		val sections = Realm.getDefaultInstance().use(Realm::getScheduleSections)
 
-		this.setSections(realm.getScheduleSections())
+		this.setSections(sections)
 		this.onRefresh()
-
-		realm.close()
 	}
 
 	override fun onDestroy() {

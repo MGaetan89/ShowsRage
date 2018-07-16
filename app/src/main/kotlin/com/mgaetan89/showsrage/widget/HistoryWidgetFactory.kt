@@ -37,9 +37,8 @@ class HistoryWidgetFactory(context: Context) : ListWidgetFactory<History>(contex
 
 	override fun getItems(): List<History> {
 		SickRageApi.instance.services?.getHistory()?.data?.let { histories ->
-			Realm.getDefaultInstance().let {
+			Realm.getDefaultInstance().use {
 				it.saveHistory(histories)
-				it.close()
 			}
 
 			return histories

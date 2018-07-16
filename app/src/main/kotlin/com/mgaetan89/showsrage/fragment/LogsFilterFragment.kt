@@ -14,13 +14,7 @@ import com.mgaetan89.showsrage.extension.humanize
 import io.realm.Realm
 
 class LogsFilterFragment : DialogFragment(), DialogInterface.OnClickListener, DialogInterface.OnMultiChoiceClickListener {
-	private val items: Array<String> by lazy {
-		val realm = Realm.getDefaultInstance()
-		val logsGroup = realm.getLogsGroup()
-		realm.close()
-
-		logsGroup.toTypedArray()
-	}
+	private val items by lazy { Realm.getDefaultInstance().use(Realm::getLogsGroup).toTypedArray() }
 	private val itemsFormatted = Array(this.items.size) { "" }
 	private val selectedIndices = mutableSetOf<Int>()
 

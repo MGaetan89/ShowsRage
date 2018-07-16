@@ -181,9 +181,8 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 
 		val logEntries = logs?.data?.map(::LogEntry) ?: emptyList()
 
-		Realm.getDefaultInstance().let {
+		Realm.getDefaultInstance().use {
 			it.saveLogs(this.getLogLevel(), logEntries)
-			it.close()
 		}
 
 		this.activity?.invalidateOptionsMenu()

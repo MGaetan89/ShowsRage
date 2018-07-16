@@ -380,9 +380,8 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 
 		val show = singleShow?.data ?: return
 
-		Realm.getDefaultInstance().let {
+		Realm.getDefaultInstance().use {
 			it.saveShow(show)
-			it.close()
 		}
 	}
 
@@ -480,9 +479,8 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		override fun success(genericResponse: GenericResponse?, response: Response?) {
 			super.success(genericResponse, response)
 
-			Realm.getDefaultInstance().let {
+			Realm.getDefaultInstance().use {
 				it.deleteShow(this.indexerId)
-				it.close()
 			}
 
 			val activity = this.getActivity() ?: return

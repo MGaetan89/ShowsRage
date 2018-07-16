@@ -24,7 +24,6 @@ import com.mgaetan89.showsrage.extension.getShowsListLayout
 import com.mgaetan89.showsrage.extension.ignoreArticles
 import com.mgaetan89.showsrage.extension.saveShowStat
 import com.mgaetan89.showsrage.helper.Utils
-import com.mgaetan89.showsrage.model.RealmShowStat
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.ShowStatsWrapper
 import com.mgaetan89.showsrage.model.ShowsFilters
@@ -252,14 +251,14 @@ class ShowsSectionFragment : Fragment(), RealmChangeListener<RealmResults<Show>>
 			val showStats = data.showStats
 
 			showStats?.forEach {
-				val showStatsData = it.value.data
-				var realmStat: RealmShowStat? = null
 				val indexerId = it.key
-
-				if (showStatsData != null) {
-					val realm = Realm.getDefaultInstance()
-					realmStat = realm.saveShowStat(showStatsData, indexerId)
-					realm.close()
+				val showStatsData = it.value.data
+				val realmStat = if (showStatsData != null) {
+					Realm.getDefaultInstance().use {
+						it.saveShowStat(showStatsData, indexerId)
+					}
+				} else {
+					null
 				}
 
 				filteredShows.filter { it.isValid && it.indexerId == indexerId }.forEachIndexed { i, show ->

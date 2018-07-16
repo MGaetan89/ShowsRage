@@ -24,11 +24,9 @@ class ShowPresenter(val show: Show?) {
 		}
 
 		if (this.show!!.stat == null) {
-			val realm = Realm.getDefaultInstance()
-
-			this.show.stat = realm.getShowStat(this.show.indexerId)
-
-			realm.close()
+			this.show.stat = Realm.getDefaultInstance().use {
+				it.getShowStat(this.show.indexerId)
+			}
 		}
 
 		return this.show.stat
