@@ -5,7 +5,7 @@ object Versions {
     const val crashlytics = "2.9.4"
     const val fabricPlugin = "1.25.1"
     const val fastscroll = "0.2.5"
-    const val firebaseAnalytics = "16.0.1"
+    const val firebase = "16.0.1"
     const val firebaseJobDispatcher = "0.8.5"
     const val glide = "4.7.1"
     const val googleServicesPlugin = "4.0.1"

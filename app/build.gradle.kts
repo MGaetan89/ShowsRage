@@ -26,11 +26,11 @@ android {
         versionCode = 38
         versionName = "1.7"
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
 
         minSdkVersion(Versions.minSdk)
         targetSdkVersion(Versions.targetSdk)
         resConfigs("en", "fr")
-        vectorDrawables.useSupportLibrary = true
     }
 
     signingConfigs {
