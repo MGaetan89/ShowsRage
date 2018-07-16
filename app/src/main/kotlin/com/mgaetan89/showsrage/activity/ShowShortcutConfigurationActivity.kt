@@ -140,17 +140,16 @@ class ShowShortcutConfigurationActivity : AppCompatActivity() {
 		override fun doInBackground(vararg indexerIds: Int?): Bitmap {
 			this.indexerId = indexerIds.first() ?: 0
 
-			val realm = Realm.getDefaultInstance()
-			val show = realm.getShow(this.indexerId)
+			val show = Realm.getDefaultInstance().use {
+                it.getShow(this.indexerId)
+            }
 			val url = ShowPresenter(show).getPosterUrl()
-			val default = BitmapFactory.decodeResource(this.activity.resources, R.mipmap.ic_launcher)
-			realm.close()
 
-			val futureBitmap = ImageLoader.getBitmap(this.activity, url, true) ?: return default
+			val futureBitmap = ImageLoader.getBitmap(this.activity, url, true)
 			val bitmap = try {
 				futureBitmap.get()
-			} catch(exception: Exception) {
-				default
+			} catch (exception: Exception) {
+                BitmapFactory.decodeResource(this.activity.resources, R.mipmap.ic_launcher)
 			}
 
 			Glide.with(this.activity.applicationContext).clear(futureBitmap)
