@@ -12,11 +12,6 @@ plugins {
     id("realm-android")
 }
 
-val properties = Properties()
-if (rootProject.file("local.properties").exists()) {
-    properties.load(rootProject.file("local.properties").inputStream())
-}
-
 android {
     compileSdkVersion(Versions.compileSdk)
 
@@ -34,10 +29,10 @@ android {
 
     signingConfigs {
         create("release") {
-            keyAlias = properties.getProperty("signing.keyAlias", "")
-            keyPassword = properties.getProperty("signing.keyPassword", "")
-            storeFile = file(properties.getProperty("signing.storeFile", "-"))
-            storePassword = properties.getProperty("signing.storePassword", "")
+            keyAlias = SigningConfigs.Release.keyAlias
+            keyPassword = SigningConfigs.Release.keyPassword
+            storeFile = SigningConfigs.Release.storeFile
+            storePassword = SigningConfigs.Release.storePassword
         }
     }
 
@@ -49,10 +44,7 @@ android {
 
         getByName("release") {
             isMinifyEnabled = false
-
-            if (file(signingConfigs.getByName(name).storeFile).exists()) {
-                signingConfig = signingConfigs.getByName(name)
-            }
+            signingConfig = signingConfigs.getByName(name)
         }
     }
 

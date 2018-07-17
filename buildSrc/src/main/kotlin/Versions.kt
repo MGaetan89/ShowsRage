@@ -14,7 +14,7 @@ object Versions {
     const val jUnit = "4.12"
     const val kotlinPlugin = "1.2.51"
     const val minSdk = 19
-    const val mockito = "2.19.2"
+    const val mockito = "2.19.1"
     const val okHttp = "2.7.5"
     const val playServicesCast = "15.0.1"
     const val preferences = "27.1.1.2"
