@@ -1,21 +1,21 @@
+import com.android.build.gradle.internal.dsl.SigningConfig
+import org.gradle.api.Action
 import java.io.File
 import java.util.Properties
 
 object SigningConfigs {
-    object Release {
-        val keyAlias: String
-        val keyPassword: String
-        val storeFile: File
-        val storePassword: String
-
-        init {
+    object Release : Action<SigningConfig> {
+        override fun execute(signingConfig: SigningConfig) {
+            val localPropertiesFile = File("local.properties")
             val properties = Properties()
-            properties.load(File("local.properties").inputStream())
+            if (localPropertiesFile.exists()) {
+                properties.load(localPropertiesFile.inputStream())
+            }
 
-            this.keyAlias = properties.getProperty("signing.keyAlias", "")
-            this.keyPassword = properties.getProperty("signing.keyPassword", "")
-            this.storeFile = File(properties.getProperty("signing.storeFile", "-"))
-            this.storePassword = properties.getProperty("signing.storePassword", "")
+            signingConfig.keyAlias = properties.getProperty("signing.keyAlias", "")
+            signingConfig.keyPassword = properties.getProperty("signing.keyPassword", "")
+            signingConfig.storeFile = File(properties.getProperty("signing.storeFile", "-"))
+            signingConfig.storePassword = properties.getProperty("signing.storePassword", "")
         }
     }
 }

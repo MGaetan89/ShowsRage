@@ -28,12 +28,7 @@ android {
     }
 
     signingConfigs {
-        create("release") {
-            keyAlias = SigningConfigs.Release.keyAlias
-            keyPassword = SigningConfigs.Release.keyPassword
-            storeFile = SigningConfigs.Release.storeFile
-            storePassword = SigningConfigs.Release.storePassword
-        }
+        create("release", SigningConfigs.Release)
     }
 
     buildTypes {
