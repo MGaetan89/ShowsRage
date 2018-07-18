@@ -3,15 +3,15 @@
 	android:layout_width="match_parent"
 	android:layout_height="48dp"
 	android:gravity="center"
-	android:paddingEnd="@dimen/padding"
+	android:paddingStart="@dimen/padding"
 	android:paddingLeft="@dimen/padding"
-	android:paddingRight="@dimen/padding"
-	android:paddingStart="@dimen/padding">
+	android:paddingEnd="@dimen/padding"
+	android:paddingRight="@dimen/padding">
 
 	<TextView
-		style="@style/TextAppearance.AppCompat.Body2"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="@string/loading"
+		android:textAppearance="@style/TextAppearance.AppCompat.Body2"
 		android:textColor="@color/cardview_light_background" />
 </LinearLayout>

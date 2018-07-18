@@ -45,51 +45,51 @@
 
 						<TextView
 							android:id="@+id/show_name"
-							style="@style/TextAppearance.AppCompat.Subhead"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
 							android:ellipsize="end"
 							android:singleLine="true"
+							android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
 							android:visibility="gone"
 							tools:text="2 Broke Girls"
 							tools:visibility="visible" />
 
 						<TextView
 							android:id="@+id/show_airs"
-							style="@style/TextAppearance.AppCompat.Body1"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
+							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 							android:visibility="gone"
 							tools:text="@string/airs"
 							tools:visibility="visible" />
 
 						<TextView
 							android:id="@+id/show_network"
-							style="@style/TextAppearance.AppCompat.Body1"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
+							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 							android:visibility="gone"
 							tools:text="@string/network"
 							tools:visibility="visible" />
 
 						<TextView
 							android:id="@+id/show_next_episode_date"
-							style="@style/TextAppearance.AppCompat.Body1"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_marginBottom="@dimen/padding_half"
+							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 							android:visibility="gone"
 							tools:text="@string/next_episode"
 							tools:visibility="visible" />
 
 						<TextView
 							android:id="@+id/show_status"
-							style="@style/TextAppearance.AppCompat.Body1"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
+							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 							android:visibility="gone"
 							tools:text="@string/status_value"
 							tools:visibility="visible" />
@@ -110,57 +110,57 @@
 					android:orientation="vertical">
 
 					<TextView
-						style="@style/TextAppearance.AppCompat.Subhead"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginBottom="@dimen/padding_half"
-						android:text="@string/more_information" />
+						android:text="@string/more_information"
+						android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
 					<TextView
 						android:id="@+id/show_language_country"
-						style="@style/TextAppearance.AppCompat.Body1"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginBottom="@dimen/padding_half"
+						android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 						android:visibility="gone"
 						tools:text="@string/language_value"
 						tools:visibility="visible" />
 
 					<TextView
 						android:id="@+id/show_subtitles"
-						style="@style/TextAppearance.AppCompat.Body1"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginBottom="@dimen/padding_half"
+						android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 						android:visibility="gone"
 						tools:text="@string/subtitles_value"
 						tools:visibility="visible" />
 
 					<TextView
 						android:id="@+id/show_location"
-						style="@style/TextAppearance.AppCompat.Body1"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginBottom="@dimen/padding_half"
+						android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 						android:visibility="gone"
 						tools:text="@string/location"
 						tools:visibility="visible" />
 
 					<TextView
 						android:id="@+id/show_quality"
-						style="@style/TextAppearance.AppCompat.Body1"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginBottom="@dimen/padding_half"
+						android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 						android:visibility="gone"
 						tools:text="@string/quality"
 						tools:visibility="visible" />
 
 					<TextView
 						android:id="@+id/show_genre"
-						style="@style/TextAppearance.AppCompat.Body1"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
+						android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 						android:visibility="gone"
 						tools:text="@string/genre"
 						tools:visibility="visible" />
@@ -180,11 +180,11 @@
 					android:orientation="vertical">
 
 					<TextView
-						style="@style/TextAppearance.AppCompat.Subhead"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginBottom="@dimen/padding_half"
-						android:text="@string/external_links" />
+						android:text="@string/external_links"
+						android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
 					<Button
 						android:id="@+id/show_imdb"

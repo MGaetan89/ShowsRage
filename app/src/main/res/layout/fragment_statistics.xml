@@ -39,11 +39,11 @@
 			tools:visibility="visible">
 
 			<TextView
-				style="@style/TextAppearance.AppCompat.Title"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="@dimen/padding"
-				android:text="@string/episodes" />
+				android:text="@string/episodes"
+				android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
 			<LinearLayout
 				android:layout_width="match_parent"
@@ -89,9 +89,9 @@
 
 				<TextView
 					android:id="@+id/episodes_downloaded"
-					style="@style/TextAppearance.AppCompat.Body1"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 					tools:text="@string/downloaded_count" />
 			</LinearLayout>
 
@@ -111,9 +111,9 @@
 
 				<TextView
 					android:id="@+id/episodes_snatched"
-					style="@style/TextAppearance.AppCompat.Body1"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 					tools:text="@string/snatched_count" />
 			</LinearLayout>
 
@@ -133,9 +133,9 @@
 
 				<TextView
 					android:id="@+id/episodes_missing"
-					style="@style/TextAppearance.AppCompat.Body1"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 					tools:text="@string/missing" />
 			</LinearLayout>
 
@@ -154,18 +154,18 @@
 
 				<TextView
 					android:id="@+id/episodes_total"
-					style="@style/TextAppearance.AppCompat.Body1"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 					tools:text="@string/total" />
 			</LinearLayout>
 
 			<TextView
-				style="@style/TextAppearance.AppCompat.Title"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="@dimen/padding"
-				android:text="@string/shows" />
+				android:text="@string/shows"
+				android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
 			<LinearLayout
 				android:layout_width="wrap_content"
@@ -182,9 +182,9 @@
 
 				<TextView
 					android:id="@+id/shows_active"
-					style="@style/TextAppearance.AppCompat.Body1"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 					tools:text="@string/active_count" />
 			</LinearLayout>
 
@@ -202,9 +202,9 @@
 
 				<TextView
 					android:id="@+id/shows_total"
-					style="@style/TextAppearance.AppCompat.Body1"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 					tools:text="@string/total" />
 			</LinearLayout>
 		</LinearLayout>

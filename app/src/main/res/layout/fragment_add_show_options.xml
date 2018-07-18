@@ -16,10 +16,10 @@
 		tools:visibility="visible">
 
 		<TextView
-			style="@style/TextAppearance.AppCompat.Body1"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/root_directory" />
+			android:text="@string/root_directory"
+			android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 		<Spinner
 			android:id="@+id/root_directory"
@@ -37,11 +37,11 @@
 		android:orientation="horizontal">
 
 		<TextView
-			style="@style/TextAppearance.AppCompat.Body1"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="@string/allowed_quality" />
+			android:text="@string/allowed_quality"
+			android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 		<Spinner
 			android:id="@+id/allowed_quality"
@@ -60,11 +60,11 @@
 		android:orientation="horizontal">
 
 		<TextView
-			style="@style/TextAppearance.AppCompat.Body1"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="@string/preferred_quality" />
+			android:text="@string/preferred_quality"
+			android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 		<Spinner
 			android:id="@+id/preferred_quality"
@@ -83,11 +83,11 @@
 		android:orientation="horizontal">
 
 		<TextView
-			style="@style/TextAppearance.AppCompat.Body1"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="@string/status" />
+			android:text="@string/status"
+			android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 		<Spinner
 			android:id="@+id/status"
@@ -106,11 +106,11 @@
 		android:orientation="horizontal">
 
 		<TextView
-			style="@style/TextAppearance.AppCompat.Body1"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="@string/future_status" />
+			android:text="@string/future_status"
+			android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 		<Spinner
 			android:id="@+id/future_status"
@@ -129,11 +129,11 @@
 		android:orientation="horizontal">
 
 		<TextView
-			style="@style/TextAppearance.AppCompat.Body1"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:text="@string/language" />
+			android:text="@string/language"
+			android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 		<Spinner
 			android:id="@+id/language"

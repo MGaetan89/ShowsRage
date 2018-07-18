@@ -12,10 +12,10 @@
 		android:layout_width="40dp"
 		android:layout_height="wrap_content"
 		android:layout_centerVertical="true"
-		android:layout_marginEnd="@dimen/padding"
-		android:layout_marginLeft="@dimen/padding_half"
-		android:layout_marginRight="@dimen/padding"
 		android:layout_marginStart="@dimen/padding_half"
+		android:layout_marginLeft="@dimen/padding_half"
+		android:layout_marginEnd="@dimen/padding"
+		android:layout_marginRight="@dimen/padding"
 		tools:ignore="ContentDescription"
 		tools:src="@mipmap/ic_launcher" />
 
@@ -23,36 +23,36 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_centerVertical="true"
-		android:layout_toEndOf="@+id/episode_logo"
-		android:layout_toLeftOf="@+id/episode_actions"
-		android:layout_toRightOf="@+id/episode_logo"
 		android:layout_toStartOf="@+id/episode_actions"
+		android:layout_toLeftOf="@+id/episode_actions"
+		android:layout_toEndOf="@+id/episode_logo"
+		android:layout_toRightOf="@+id/episode_logo"
 		android:orientation="vertical">
 
 		<TextView
 			android:id="@+id/episode_name"
-			style="@style/TextAppearance.AppCompat.Subhead"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:ellipsize="marquee"
 			android:marqueeRepeatLimit="marquee_forever"
 			android:scrollHorizontally="true"
 			android:singleLine="true"
+			android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
 			tools:text="@string/show_name_episode" />
 
 		<TextView
 			android:id="@+id/episode_air_date_time"
-			style="@style/TextAppearance.AppCompat.Caption"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:textAppearance="@style/TextAppearance.AppCompat.Caption"
 			tools:text="2011-09-19" />
 
 		<TextView
 			android:id="@+id/episode_network_quality"
-			style="@style/TextAppearance.AppCompat.Caption"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="end|right"
+			android:textAppearance="@style/TextAppearance.AppCompat.Caption"
 			tools:text="CBS / HD1080p" />
 	</LinearLayout>
 

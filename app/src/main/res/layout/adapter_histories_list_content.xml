@@ -6,10 +6,10 @@
 	android:background="?selectableItemBackground"
 	android:clickable="true"
 	android:focusable="true"
-	android:paddingEnd="@dimen/padding"
+	android:paddingStart="@dimen/padding"
 	android:paddingLeft="@dimen/padding"
-	android:paddingRight="@dimen/padding"
-	android:paddingStart="@dimen/padding">
+	android:paddingEnd="@dimen/padding"
+	android:paddingRight="@dimen/padding">
 
 	<ImageView
 		android:id="@+id/episode_logo"
@@ -31,28 +31,28 @@
 
 		<TextView
 			android:id="@+id/episode_name"
-			style="@style/TextAppearance.AppCompat.Subhead"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:ellipsize="marquee"
 			android:marqueeRepeatLimit="marquee_forever"
 			android:scrollHorizontally="true"
 			android:singleLine="true"
+			android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
 			tools:text="@string/show_name_episode" />
 
 		<TextView
 			android:id="@+id/episode_date"
-			style="@style/TextAppearance.AppCompat.Caption"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:textAppearance="@style/TextAppearance.AppCompat.Caption"
 			tools:text="2011-09-19" />
 
 		<TextView
 			android:id="@+id/episode_provider_quality"
-			style="@style/TextAppearance.AppCompat.Caption"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="end|right"
+			android:textAppearance="@style/TextAppearance.AppCompat.Caption"
 			tools:text="@string/provider_quality" />
 	</LinearLayout>
 </RelativeLayout>

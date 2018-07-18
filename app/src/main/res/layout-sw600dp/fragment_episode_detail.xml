@@ -43,39 +43,39 @@
 
 							<TextView
 								android:id="@+id/episode_name"
-								style="@style/TextAppearance.AppCompat.Subhead"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:layout_marginBottom="@dimen/padding_half"
+								android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
 								android:visibility="gone"
 								tools:text="Pilot"
 								tools:visibility="visible" />
 
 							<TextView
 								android:id="@+id/episode_airs"
-								style="@style/TextAppearance.AppCompat.Body1"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:layout_marginBottom="@dimen/padding_half"
+								android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 								android:visibility="gone"
 								tools:text="@string/airs"
 								tools:visibility="visible" />
 
 							<TextView
 								android:id="@+id/episode_status"
-								style="@style/TextAppearance.AppCompat.Body1"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:layout_marginBottom="@dimen/padding_half"
+								android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 								android:visibility="gone"
 								tools:text="@string/status_value"
 								tools:visibility="visible" />
 
 							<TextView
 								android:id="@+id/episode_quality"
-								style="@style/TextAppearance.AppCompat.Body1"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
+								android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 								android:visibility="gone"
 								tools:text="@string/quality"
 								tools:visibility="visible" />
@@ -98,17 +98,17 @@
 							android:orientation="vertical">
 
 							<TextView
-								style="@style/TextAppearance.AppCompat.Subhead"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:layout_marginBottom="@dimen/padding_half"
-								android:text="@string/plot" />
+								android:text="@string/plot"
+								android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
 							<TextView
 								android:id="@+id/episode_plot"
-								style="@style/TextAppearance.AppCompat.Body1"
 								android:layout_width="match_parent"
 								android:layout_height="wrap_content"
+								android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 								android:textIsSelectable="true"
 								tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet nisi et arcu gravida dictum. Vestibulum vitae odio quis augue porta tincidunt eu pulvinar odio." />
 						</LinearLayout>
@@ -137,35 +137,35 @@
 							android:orientation="vertical">
 
 							<TextView
-								style="@style/TextAppearance.AppCompat.Subhead"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:layout_marginBottom="@dimen/padding_half"
-								android:text="@string/more_information" />
+								android:text="@string/more_information"
+								android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
 							<TextView
 								android:id="@+id/episode_subtitles"
-								style="@style/TextAppearance.AppCompat.Body1"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:layout_marginBottom="@dimen/padding_half"
+								android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 								android:visibility="gone"
 								tools:text="@string/subtitles_value"
 								tools:visibility="visible" />
 
 							<TextView
 								android:id="@+id/episode_file_size"
-								style="@style/TextAppearance.AppCompat.Body1"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:layout_marginBottom="@dimen/padding_half"
+								android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 								tools:text="@string/file_size" />
 
 							<TextView
 								android:id="@+id/episode_location"
-								style="@style/TextAppearance.AppCompat.Body1"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
+								android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 								tools:text="@string/location" />
 						</LinearLayout>
 					</android.support.v7.widget.CardView>

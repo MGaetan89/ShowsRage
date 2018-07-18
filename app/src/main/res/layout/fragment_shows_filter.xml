@@ -8,13 +8,13 @@
 	tools:context="com.mgaetan89.showsrage.fragment.ShowsFiltersFragment">
 
 	<TextView
-		style="@style/TextAppearance.AppCompat.Subhead"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="@dimen/padding_half"
-		android:layout_marginLeft="@dimen/padding_half"
 		android:layout_marginStart="@dimen/padding_half"
-		android:text="@string/active_paused" />
+		android:layout_marginLeft="@dimen/padding_half"
+		android:layout_marginBottom="@dimen/padding_half"
+		android:text="@string/active_paused"
+		android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
 	<RadioGroup
 		android:id="@+id/filter_active_paused"
@@ -41,14 +41,14 @@
 	</RadioGroup>
 
 	<TextView
-		style="@style/TextAppearance.AppCompat.Subhead"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="@dimen/padding_half"
-		android:layout_marginLeft="@dimen/padding_half"
 		android:layout_marginStart="@dimen/padding_half"
+		android:layout_marginLeft="@dimen/padding_half"
 		android:layout_marginTop="@dimen/padding"
-		android:text="@string/status" />
+		android:layout_marginBottom="@dimen/padding_half"
+		android:text="@string/status"
+		android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
 	<CheckBox
 		android:id="@+id/filter_status_continuing"

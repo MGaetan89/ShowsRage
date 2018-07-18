@@ -8,17 +8,17 @@
 	tools:context="com.mgaetan89.showsrage.fragment.ChangeQualityFragment">
 
 	<TextView
-		style="@style/TextAppearance.AppCompat.Caption"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="@dimen/padding"
-		android:text="@string/change_quality_info" />
+		android:text="@string/change_quality_info"
+		android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
 	<TextView
-		style="@style/TextAppearance.AppCompat.Body1"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="@string/allowed_quality" />
+		android:text="@string/allowed_quality"
+		android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 	<Spinner
 		android:id="@+id/allowed_quality"
@@ -28,10 +28,10 @@
 		android:entries="@array/allowed_qualities_values" />
 
 	<TextView
-		style="@style/TextAppearance.AppCompat.Body1"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="@string/preferred_quality" />
+		android:text="@string/preferred_quality"
+		android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 	<Spinner
 		android:id="@+id/preferred_quality"
