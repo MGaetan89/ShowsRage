@@ -1,6 +1,5 @@
 package com.mgaetan89.showsrage.extension
 
-import android.os.Build
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.widget.LinearLayout
@@ -31,12 +30,9 @@ class ContextExtensionTest {
         assertThat(context.getLocalizedTime("30.06.2018", "")).isNull()
         assertThat(context.getLocalizedTime("30.06.2018", "yyyy-MM-dd")).isNull()
         assertThat(context.getLocalizedTime("2018-06-30", "")).isNull()
+        assertThat(context.getLocalizedTime("2018-06-30", "yyyy-MM-dd")).isEqualTo("12:00 AM")
         assertThat(context.getLocalizedTime("2018-06-30 02:34:56", "")).isNull()
-
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-            assertThat(context.getLocalizedTime("2018-06-30", "yyyy-MM-dd")).isEqualTo("12:00 AM")
-            assertThat(context.getLocalizedTime("2018-06-30 02:34:56", "yyyy-MM-dd")).isEqualTo("12:00 AM")
-        }
+        assertThat(context.getLocalizedTime("2018-06-30 02:34:56", "yyyy-MM-dd")).isEqualTo("12:00 AM")
     }
 
     @Test
