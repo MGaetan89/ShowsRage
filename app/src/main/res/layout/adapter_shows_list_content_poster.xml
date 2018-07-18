@@ -9,9 +9,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/list_item_height"
 		android:paddingStart="@dimen/padding"
-		android:paddingLeft="@dimen/padding"
-		android:paddingEnd="@dimen/padding"
-		android:paddingRight="@dimen/padding">
+		android:paddingEnd="@dimen/padding">
 
 		<ImageView
 			android:id="@+id/show_logo"
@@ -19,7 +17,6 @@
 			android:layout_height="wrap_content"
 			android:layout_centerVertical="true"
 			android:layout_marginEnd="@dimen/padding"
-			android:layout_marginRight="@dimen/padding"
 			tools:ignore="ContentDescription"
 			tools:src="@mipmap/ic_launcher" />
 
@@ -28,7 +25,6 @@
 			android:layout_height="wrap_content"
 			android:layout_centerVertical="true"
 			android:layout_toEndOf="@+id/show_logo"
-			android:layout_toRightOf="@+id/show_logo"
 			android:orientation="vertical">
 
 			<TextView
@@ -56,7 +52,6 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/show_next_episode_date"
 				android:layout_alignParentStart="true"
-				android:layout_alignParentLeft="true"
 				android:text="@string/paused"
 				android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
@@ -66,7 +61,6 @@
 				android:layout_height="wrap_content"
 				android:layout_below="@+id/show_next_episode_date"
 				android:layout_alignParentEnd="true"
-				android:layout_alignParentRight="true"
 				android:textAppearance="@style/TextAppearance.AppCompat.Caption"
 				tools:text="CBS / HD1080p" />
 		</RelativeLayout>

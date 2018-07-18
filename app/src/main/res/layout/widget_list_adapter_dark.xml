@@ -4,9 +4,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="48dp"
 	android:paddingStart="@dimen/padding_half"
-	android:paddingLeft="@dimen/padding_half"
-	android:paddingEnd="@dimen/padding_half"
-	android:paddingRight="@dimen/padding_half">
+	android:paddingEnd="@dimen/padding_half">
 
 	<ImageView
 		android:id="@+id/episode_logo"
@@ -14,7 +12,6 @@
 		android:layout_height="wrap_content"
 		android:layout_centerVertical="true"
 		android:layout_marginEnd="@dimen/padding_half"
-		android:layout_marginRight="@dimen/padding_half"
 		android:scaleX="0.8"
 		android:scaleY="0.8"
 		tools:ignore="ContentDescription"
@@ -25,7 +22,6 @@
 		android:layout_height="wrap_content"
 		android:layout_centerVertical="true"
 		android:layout_toEndOf="@+id/episode_logo"
-		android:layout_toRightOf="@+id/episode_logo"
 		android:orientation="vertical">
 
 		<TextView

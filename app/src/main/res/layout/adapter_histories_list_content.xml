@@ -7,9 +7,7 @@
 	android:clickable="true"
 	android:focusable="true"
 	android:paddingStart="@dimen/padding"
-	android:paddingLeft="@dimen/padding"
-	android:paddingEnd="@dimen/padding"
-	android:paddingRight="@dimen/padding">
+	android:paddingEnd="@dimen/padding">
 
 	<ImageView
 		android:id="@+id/episode_logo"
@@ -17,7 +15,6 @@
 		android:layout_height="wrap_content"
 		android:layout_centerVertical="true"
 		android:layout_marginEnd="@dimen/padding"
-		android:layout_marginRight="@dimen/padding"
 		tools:ignore="ContentDescription"
 		tools:src="@mipmap/ic_launcher" />
 
@@ -26,7 +23,6 @@
 		android:layout_height="wrap_content"
 		android:layout_centerVertical="true"
 		android:layout_toEndOf="@+id/episode_logo"
-		android:layout_toRightOf="@+id/episode_logo"
 		android:orientation="vertical">
 
 		<TextView
@@ -51,7 +47,7 @@
 			android:id="@+id/episode_provider_quality"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_gravity="end|right"
+			android:layout_gravity="end"
 			android:textAppearance="@style/TextAppearance.AppCompat.Caption"
 			tools:text="@string/provider_quality" />
 	</LinearLayout>
