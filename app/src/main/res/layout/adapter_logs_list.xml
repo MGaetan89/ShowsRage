@@ -1,60 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:background="?selectableItemBackground"
 	android:clickable="true"
-	android:focusable="true"
-	android:gravity="center_vertical"
-	android:minHeight="@dimen/list_item_height"
-	android:paddingStart="@dimen/padding"
-	android:paddingTop="@dimen/padding_half"
-	android:paddingEnd="@dimen/padding"
-	android:paddingBottom="@dimen/padding_half">
+	android:focusable="true">
 
 	<TextView
 		android:id="@+id/log_error_type"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_alignParentStart="true"
-		android:layout_marginEnd="@dimen/padding"
+		android:layout_marginStart="@dimen/padding"
+		android:layout_marginTop="@dimen/padding_half"
 		android:ellipsize="end"
 		android:maxLines="1"
 		android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
 		tools:text="ERROR"
 		tools:textColor="@color/red" />
 
 	<TextView
 		android:id="@+id/log_group"
-		android:layout_width="match_parent"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_alignBaseline="@+id/log_error_type"
+		android:layout_marginStart="@dimen/padding"
 		android:layout_marginEnd="@dimen/padding"
-		android:layout_toStartOf="@+id/log_date_time"
-		android:layout_toEndOf="@+id/log_error_type"
 		android:ellipsize="marquee"
 		android:marqueeRepeatLimit="marquee_forever"
 		android:scrollHorizontally="true"
 		android:singleLine="true"
 		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+		app:layout_constraintBaseline_toBaselineOf="@+id/log_error_type"
+		app:layout_constraintEnd_toStartOf="@+id/log_date_time"
+		app:layout_constraintStart_toEndOf="@+id/log_error_type"
 		tools:text="Postprocesser" />
 
 	<TextView
 		android:id="@+id/log_date_time"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_alignBaseline="@+id/log_error_type"
-		android:layout_alignBottom="@+id/log_error_type"
-		android:layout_alignParentEnd="true"
+		android:layout_marginEnd="@dimen/padding"
 		android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+		app:layout_constraintBaseline_toBaselineOf="@+id/log_error_type"
+		app:layout_constraintEnd_toEndOf="parent"
 		tools:text="2015-04-30 19:34:05" />
 
 	<TextView
 		android:id="@+id/log_message"
-		android:layout_width="match_parent"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_below="@+id/log_error_type"
+		android:layout_marginBottom="@dimen/padding_half"
 		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="@+id/log_date_time"
+		app:layout_constraintStart_toStartOf="@+id/log_error_type"
+		app:layout_constraintTop_toBottomOf="@+id/log_error_type"
 		tools:text="Hello, World!" />
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

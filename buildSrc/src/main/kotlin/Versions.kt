@@ -2,6 +2,7 @@ object Versions {
     const val androidPlugin = "3.1.1"
     const val assertJAndroid = "1.2.0"
     const val compileSdk = 27
+    const val constraintLayout = "2.0.0-alpha1"
     const val crashlytics = "2.9.4"
     const val fabricPlugin = "1.25.4"
     const val fastscroll = "0.2.5"

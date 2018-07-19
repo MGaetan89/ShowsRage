@@ -3,6 +3,7 @@ object Dependencies {
     const val appCompat = "com.android.support:appcompat-v7:${Versions.supportLibrary}"
     const val assertJAndroid = "com.squareup.assertj:assertj-android:${Versions.assertJAndroid}"
     const val cardView = "com.android.support:cardview-v7:${Versions.supportLibrary}"
+    const val constraintLayout = "com.android.support.constraint:constraint-layout:${Versions.constraintLayout}"
     const val crashlytics = "com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}"
     const val customTabs = "com.android.support:customtabs:${Versions.supportLibrary}"
     const val design = "com.android.support:design:${Versions.supportLibrary}"

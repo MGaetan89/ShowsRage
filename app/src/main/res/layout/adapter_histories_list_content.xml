@@ -1,54 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="@dimen/list_item_height"
+	android:layout_height="wrap_content"
 	android:background="?selectableItemBackground"
 	android:clickable="true"
-	android:focusable="true"
-	android:paddingStart="@dimen/padding"
-	android:paddingEnd="@dimen/padding">
+	android:focusable="true">
 
 	<ImageView
 		android:id="@+id/episode_logo"
 		android:layout_width="40dp"
 		android:layout_height="wrap_content"
-		android:layout_centerVertical="true"
-		android:layout_marginEnd="@dimen/padding"
+		android:layout_marginStart="@dimen/padding"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
 		tools:ignore="ContentDescription"
 		tools:src="@mipmap/ic_launcher" />
 
-	<LinearLayout
-		android:layout_width="match_parent"
+	<TextView
+		android:id="@+id/episode_name"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_centerVertical="true"
-		android:layout_toEndOf="@+id/episode_logo"
-		android:orientation="vertical">
+		android:layout_marginStart="@dimen/padding"
+		android:layout_marginTop="@dimen/padding_half"
+		android:layout_marginEnd="@dimen/padding"
+		android:ellipsize="marquee"
+		android:marqueeRepeatLimit="marquee_forever"
+		android:scrollHorizontally="true"
+		android:singleLine="true"
+		android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@+id/episode_logo"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="@string/show_name_episode" />
 
-		<TextView
-			android:id="@+id/episode_name"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:ellipsize="marquee"
-			android:marqueeRepeatLimit="marquee_forever"
-			android:scrollHorizontally="true"
-			android:singleLine="true"
-			android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-			tools:text="@string/show_name_episode" />
+	<TextView
+		android:id="@+id/episode_date"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+		app:layout_constraintEnd_toEndOf="@+id/episode_name"
+		app:layout_constraintStart_toStartOf="@+id/episode_name"
+		app:layout_constraintTop_toBottomOf="@+id/episode_name"
+		tools:text="2011-09-19" />
 
-		<TextView
-			android:id="@+id/episode_date"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-			tools:text="2011-09-19" />
-
-		<TextView
-			android:id="@+id/episode_provider_quality"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="end"
-			android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-			tools:text="@string/provider_quality" />
-	</LinearLayout>
-</RelativeLayout>
+	<TextView
+		android:id="@+id/episode_provider_quality"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/padding_half"
+		android:gravity="end"
+		android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="@+id/episode_name"
+		app:layout_constraintStart_toStartOf="@+id/episode_name"
+		app:layout_constraintTop_toBottomOf="@+id/episode_date"
+		tools:text="@string/provider_quality" />
+</android.support.constraint.ConstraintLayout>

@@ -87,6 +87,7 @@ tasks.withType<Test> {
 dependencies {
     implementation(Dependencies.appCompat)
     implementation(Dependencies.cardView)
+    implementation(Dependencies.constraintLayout)
     implementation(Dependencies.crashlytics)
     implementation(Dependencies.customTabs)
     implementation(Dependencies.design)
