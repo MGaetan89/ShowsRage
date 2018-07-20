@@ -30,6 +30,7 @@ object Dependencies {
     const val realmPlugin = "io.realm:realm-gradle-plugin:${Versions.realmPlugin}"
     const val recyclerView = "com.android.support:recyclerview-v7:${Versions.supportLibrary}"
     const val retrofit = "com.squareup.retrofit:retrofit:${Versions.retrofit}"
+    const val sonarQubePlugin = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${Versions.sonarQubePlugin}"
     const val supportAnnotations = "com.android.support:support-annotations:${Versions.supportLibrary}"
     const val supportTestLibraryRules = "com.android.support.test:rules:${Versions.supportTestLibrary}"
     const val supportTestLibraryRunner = "com.android.support.test:runner:${Versions.supportTestLibrary}"

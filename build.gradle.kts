@@ -14,6 +14,7 @@ buildscript {
         classpath(Dependencies.jacocoPlugin)
         classpath(Dependencies.kotlinPlugin)
         classpath(Dependencies.realmPlugin)
+        classpath(Dependencies.sonarQubePlugin)
     }
 }
 

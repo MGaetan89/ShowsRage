@@ -22,6 +22,7 @@ object Versions {
     const val realmAdapters = "3.0.0"
     const val realmPlugin = "5.3.1"
     const val retrofit = "1.9.0"
+    const val sonarQubePlugin = "2.6.2"
     const val supportLibrary = "27.1.1"
     const val supportTestLibrary = "1.0.1"
     const val targetSdk = this.compileSdk

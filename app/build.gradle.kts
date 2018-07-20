@@ -6,6 +6,7 @@ plugins {
     id("com.android.application")
     id("com.vanniktech.android.junit.jacoco")
     id("io.fabric")
+    id("org.sonarqube")
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
@@ -120,6 +121,14 @@ dependencies {
     androidTestImplementation(Dependencies.supportTestLibraryRunner)
     androidTestImplementation(Dependencies.assertJAndroid)
     androidTestImplementation(Dependencies.jUnit)
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", android.defaultConfig.applicationId)
+        property("sonar.projectName", "ShowsRage")
+        property("sonar.projectVersion", android.defaultConfig.versionName)
+    }
 }
 
 apply(mapOf("plugin" to "com.google.gms.google-services"))

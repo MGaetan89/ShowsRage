@@ -1,8 +1,8 @@
 package com.mgaetan89.showsrage.extension
 
+import android.support.constraint.ConstraintLayout
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import android.widget.LinearLayout
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.TestActivity
 import org.assertj.android.api.Assertions.assertThat
@@ -56,9 +56,9 @@ class ContextExtensionTest {
     fun inflate() {
         val view = this.activityRule.activity.inflate(R.layout.drawer_header)
 
-        assertThat(view).isInstanceOf(LinearLayout::class.java)
+        assertThat(view).isInstanceOf(ConstraintLayout::class.java)
 
-        with(view as LinearLayout) {
+        with(view as ConstraintLayout) {
             assertThat(this).hasChildCount(2)
             assertThat(this.getChildAt(0)).hasId(R.id.app_logo)
             assertThat(this.getChildAt(1)).hasId(R.id.app_name)

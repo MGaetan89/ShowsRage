@@ -1,10 +1,10 @@
 package com.mgaetan89.showsrage.extension
 
+import android.support.constraint.ConstraintLayout
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import com.mgaetan89.showsrage.R
 import com.mgaetan89.showsrage.TestActivity
 import org.assertj.android.api.Assertions.assertThat
@@ -35,9 +35,9 @@ class ViewGroupExtensionTest {
 
         val child = view.getChildAt(0)
 
-        assertThat(child).isInstanceOf(LinearLayout::class.java)
+        assertThat(child).isInstanceOf(ConstraintLayout::class.java)
 
-        with(child as LinearLayout) {
+        with(child as ConstraintLayout) {
             assertThat(this).hasChildCount(2)
             assertThat(this.getChildAt(0)).hasId(R.id.app_logo)
             assertThat(this.getChildAt(1)).hasId(R.id.app_name)
@@ -48,9 +48,9 @@ class ViewGroupExtensionTest {
     fun inflateNotAttached() {
         val view = this.view.inflate(R.layout.drawer_header)
 
-        assertThat(view).isInstanceOf(LinearLayout::class.java)
+        assertThat(view).isInstanceOf(ConstraintLayout::class.java)
 
-        with(view as LinearLayout) {
+        with(view as ConstraintLayout) {
             assertThat(this).hasChildCount(2)
             assertThat(this.getChildAt(0)).hasId(R.id.app_logo)
             assertThat(this.getChildAt(1)).hasId(R.id.app_name)

@@ -7,6 +7,10 @@ branches:
   except:
     - gh-pages
 
+addons:
+  sonarcloud:
+    organization: "mgaetan89-github"
+
 env:
   global:
     - BUILD_TOOLS_VERSION=27.0.3
@@ -38,6 +42,7 @@ before_script:
 
 script:
   - travis_wait 60 ./gradlew :app:assembleDebugAndroidTest :app:connectedDebugAndroidTest :app:jacocoTestReportDebug :app:createDebugCoverageReport
+  - ./gradlew sonarqube
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
