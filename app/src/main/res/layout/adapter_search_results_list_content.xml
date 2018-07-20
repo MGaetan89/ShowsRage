@@ -1,38 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="@dimen/list_item_height"
-	android:layout_centerVertical="true"
+	android:layout_height="wrap_content"
 	android:background="?selectableItemBackground"
-	android:gravity="center_vertical"
-	android:orientation="vertical"
-	android:paddingStart="@dimen/padding"
-	android:paddingEnd="@dimen/padding">
+	android:paddingBottom="@dimen/padding_half">
 
 	<TextView
 		android:id="@+id/show_name"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/padding"
+		android:layout_marginTop="@dimen/padding_half"
+		android:layout_marginEnd="@dimen/padding"
 		android:ellipsize="marquee"
 		android:marqueeRepeatLimit="marquee_forever"
 		android:scrollHorizontally="true"
 		android:singleLine="true"
 		android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
 		tools:text="2 Broke Girls" />
 
 	<TextView
 		android:id="@+id/show_first_aired"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+		app:layout_constraintEnd_toEndOf="@+id/show_name"
+		app:layout_constraintStart_toStartOf="@+id/show_name"
+		app:layout_constraintTop_toBottomOf="@+id/show_name"
 		tools:text="2015-04-27" />
 
 	<TextView
 		android:id="@+id/show_indexer"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_gravity="end"
+		android:gravity="end"
 		android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+		app:layout_constraintEnd_toEndOf="@+id/show_name"
+		app:layout_constraintStart_toStartOf="@+id/show_name"
+		app:layout_constraintTop_toBottomOf="@+id/show_first_aired"
 		tools:text="@string/the_tvdb" />
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

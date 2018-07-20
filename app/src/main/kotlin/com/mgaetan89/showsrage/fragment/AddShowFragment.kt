@@ -73,6 +73,13 @@ class AddShowFragment : Fragment(), Callback<SearchResults>, SearchView.OnQueryT
 
 	override fun onQueryTextSubmit(query: String?): Boolean {
 		if (isQueryValid(query)) {
+			if (this.list?.adapter?.itemCount == 0) {
+				this.empty?.let {
+					it.setText(R.string.loading)
+					it.visibility = View.VISIBLE
+				}
+			}
+
 			SickRageApi.instance.services?.search(query!!, this)
 
 			return true
@@ -93,7 +100,11 @@ class AddShowFragment : Fragment(), Callback<SearchResults>, SearchView.OnQueryT
 		this.searchResults.addAll(getSearchResults(searchResults))
 
 		if (this.searchResults.isEmpty()) {
-			this.empty?.visibility = View.VISIBLE
+			this.empty?.let {
+				it.setText(R.string.no_results)
+				it.visibility = View.VISIBLE
+			}
+
 			this.list?.visibility = View.GONE
 		} else {
 			this.empty?.visibility = View.GONE

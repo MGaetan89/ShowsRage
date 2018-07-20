@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:minHeight="@dimen/list_item_height"
 	android:foreground="?selectableItemBackground">
 
 	<ImageView
 		android:id="@+id/show_logo"
-		android:layout_width="match_parent"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:adjustViewBounds="true"
-		android:minHeight="@dimen/list_item_height"
+		android:minHeight="72dp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
 		tools:ignore="ContentDescription"
 		tools:src="@mipmap/ic_launcher" />
 
@@ -20,17 +22,22 @@
 		android:id="@+id/show_paused"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_margin="@dimen/padding_half"
+		android:layout_marginStart="@dimen/padding_half"
+		android:layout_marginTop="@dimen/padding_half"
 		android:contentDescription="@string/paused"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
 		app:srcCompat="@drawable/ic_pause_white_24dp" />
 
 	<ProgressBar
 		android:id="@+id/show_stats"
 		style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-		android:layout_width="match_parent"
+		android:layout_width="0dp"
 		android:layout_height="4dp"
-		android:layout_gravity="bottom"
 		android:layout_marginBottom="-2dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
 		tools:progress="33"
 		tools:secondaryProgress="66" />
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

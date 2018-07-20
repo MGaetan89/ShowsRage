@@ -1,78 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="@dimen/list_item_height"
+	android:layout_height="wrap_content"
 	android:foreground="?selectableItemBackground">
 
-	<RelativeLayout
-		android:layout_width="match_parent"
-		android:layout_height="@dimen/list_item_height"
-		android:paddingStart="@dimen/padding"
-		android:paddingEnd="@dimen/padding">
+	<ImageView
+		android:id="@+id/show_logo"
+		android:layout_width="40dp"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/padding"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:ignore="ContentDescription"
+		tools:src="@mipmap/ic_launcher" />
 
-		<ImageView
-			android:id="@+id/show_logo"
-			android:layout_width="40dp"
-			android:layout_height="wrap_content"
-			android:layout_centerVertical="true"
-			android:layout_marginEnd="@dimen/padding"
-			tools:ignore="ContentDescription"
-			tools:src="@mipmap/ic_launcher" />
+	<TextView
+		android:id="@+id/show_name"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/padding"
+		android:layout_marginTop="@dimen/padding_half"
+		android:layout_marginEnd="@dimen/padding"
+		android:ellipsize="marquee"
+		android:marqueeRepeatLimit="marquee_forever"
+		android:scrollHorizontally="true"
+		android:singleLine="true"
+		android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@+id/show_logo"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="2 Broke Girls" />
 
-		<RelativeLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_centerVertical="true"
-			android:layout_toEndOf="@+id/show_logo"
-			android:orientation="vertical">
+	<TextView
+		android:id="@+id/show_next_episode_date"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+		app:layout_constraintEnd_toEndOf="@+id/show_name"
+		app:layout_constraintStart_toStartOf="@+id/show_name"
+		app:layout_constraintTop_toBottomOf="@+id/show_name"
+		tools:text="2015-04-27" />
 
-			<TextView
-				android:id="@+id/show_name"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:ellipsize="marquee"
-				android:marqueeRepeatLimit="marquee_forever"
-				android:scrollHorizontally="true"
-				android:singleLine="true"
-				android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-				tools:text="2 Broke Girls" />
+	<TextView
+		android:id="@+id/show_paused"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="@dimen/padding"
+		android:text="@string/paused"
+		android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+		app:layout_constraintEnd_toStartOf="@+id/show_network_quality"
+		app:layout_constraintStart_toStartOf="@+id/show_name"
+		app:layout_constraintTop_toBottomOf="@+id/show_next_episode_date" />
 
-			<TextView
-				android:id="@+id/show_next_episode_date"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/show_name"
-				android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-				tools:text="2015-04-27" />
-
-			<TextView
-				android:id="@+id/show_paused"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/show_next_episode_date"
-				android:layout_alignParentStart="true"
-				android:text="@string/paused"
-				android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-			<TextView
-				android:id="@+id/show_network_quality"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@+id/show_next_episode_date"
-				android:layout_alignParentEnd="true"
-				android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-				tools:text="CBS / HD1080p" />
-		</RelativeLayout>
-	</RelativeLayout>
+	<TextView
+		android:id="@+id/show_network_quality"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/padding"
+		android:gravity="end"
+		android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="@+id/show_name"
+		app:layout_constraintStart_toEndOf="@+id/show_paused"
+		app:layout_constraintTop_toBottomOf="@+id/show_next_episode_date"
+		tools:text="CBS / HD1080p" />
 
 	<ProgressBar
 		android:id="@+id/show_stats"
 		style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-		android:layout_width="match_parent"
+		android:layout_width="0dp"
 		android:layout_height="4dp"
-		android:layout_gravity="bottom"
 		android:layout_marginBottom="-2dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
 		tools:progress="33"
 		tools:secondaryProgress="66" />
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

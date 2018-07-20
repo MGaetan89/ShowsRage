@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.support.annotation.IdRes
+import android.support.constraint.ConstraintLayout
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.NotificationCompat
@@ -25,7 +26,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
 import android.view.MenuItem
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.Toast
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.mgaetan89.showsrage.Constants
@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 			}
 		}
 
-	private var drawerHeader: LinearLayout? = null
+	private var drawerHeader: ConstraintLayout? = null
 	private var drawerToggle: ActionBarDrawerToggle? = null
 	private val receiver: ShowsRageReceiver by lazy { ShowsRageReceiver(this) }
 
@@ -313,7 +313,7 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 			drawerToggle?.syncState()
 		}
 
-		this.drawerHeader = this.drawer_content?.inflateHeaderView(R.layout.drawer_header) as LinearLayout
+		this.drawerHeader = this.drawer_content?.inflateHeaderView(R.layout.drawer_header) as ConstraintLayout
 
 		this.drawer_content?.setNavigationItemSelectedListener(this)
 

@@ -20,7 +20,8 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:clipToPadding="false"
-				android:paddingBottom="@dimen/fab_spacing" />
+				android:paddingBottom="@dimen/fab_spacing"
+				tools:listitem="@layout/adapter_histories_list" />
 
 			<TextView
 				android:id="@android:id/empty"

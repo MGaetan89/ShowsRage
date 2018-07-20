@@ -14,7 +14,8 @@
 			android:id="@android:id/list"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:layout_margin="@dimen/grid_margin" />
+			android:layout_margin="@dimen/grid_margin"
+			tools:listitem="@layout/adapter_episodes_list" />
 
 		<TextView
 			android:id="@android:id/empty"
