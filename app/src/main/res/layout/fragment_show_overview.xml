@@ -198,7 +198,7 @@
 						android:id="@+id/show_the_tvdb"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:text="@string/the_tvdb" />
+						android:text="@string/tvdb" />
 
 					<Button
 						android:id="@+id/show_web_search"

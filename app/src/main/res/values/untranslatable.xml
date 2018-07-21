@@ -4,7 +4,9 @@
 	<string name="imdb" translatable="false">IMDb</string>
 	<string name="separated_texts" translatable="false"><xliff:g example="Text 1" id="text1">%1$s</xliff:g> / <xliff:g example="Text 2" id="text2">%2$s</xliff:g></string>
 	<string name="spaced_texts" translatable="false"><xliff:g example="Text 1" id="text1">%1$s</xliff:g> <xliff:g example="Text 2" id="text2">%2$s</xliff:g></string>
-	<string name="the_tvdb" translatable="false">The TVDB</string>
+	<string name="tmdb" translatable="false">TMDB</string>
+	<string name="tvdb" translatable="false">TVDBv2</string>
+	<string name="tvmaze" translatable="false">TVmaze</string>
 	<string name="tvrage" translatable="false">TVRage</string>
 
 	<string-array name="allowed_qualities_keys" translatable="false">

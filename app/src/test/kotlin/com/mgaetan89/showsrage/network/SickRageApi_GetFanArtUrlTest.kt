@@ -43,9 +43,12 @@ class SickRageApi_GetFanArtUrlTest(
 		@Parameterized.Parameters(name = "[{6}] {index} - {0}://{1}:{2}/{3}/{4}/")
 		fun data(): Collection<Array<Any?>> {
 			return listOf(
-					// TVDB
 					arrayOf(false, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getfanart"),
 					arrayOf(false, "127.0.0.1", "", "", "", 123, null, "http://127.0.0.1/?cmd=show.getfanart"),
+					arrayOf(true, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getfanart"),
+					arrayOf(true, "127.0.0.1", "", "", "", 123, null, "https://127.0.0.1/?cmd=show.getfanart"),
+
+					// TVDB
 					arrayOf<Any?>(false, "127.0.0.1", "8083", "", "", 0, Indexer.TVDB, "http://127.0.0.1:8083/?cmd=show.getfanart&tvdbid=0"),
 					arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/?cmd=show.getfanart&tvdbid=123"),
 					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/?cmd=show.getfanart&tvdbid=123"),
@@ -53,8 +56,6 @@ class SickRageApi_GetFanArtUrlTest(
 					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api/", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/?cmd=show.getfanart&tvdbid=123"),
 					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api1/api2/", "", 123, Indexer.TVDB, "http://127.0.0.1:8083/api1/api2/?cmd=show.getfanart&tvdbid=123"),
 					arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVDB, "http://127.0.0.1:8083/api/apiKey/?cmd=show.getfanart&tvdbid=123"),
-					arrayOf(true, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getfanart"),
-					arrayOf(true, "127.0.0.1", "", "", "", 123, null, "https://127.0.0.1/?cmd=show.getfanart"),
 					arrayOf<Any?>(true, "127.0.0.1", "8083", "", "", 0, Indexer.TVDB, "https://127.0.0.1:8083/?cmd=show.getfanart&tvdbid=0"),
 					arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "", 123, Indexer.TVDB, "https://127.0.0.1:8083/api/?cmd=show.getfanart&tvdbid=123"),
 					arrayOf<Any?>(true, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVDB, "https://127.0.0.1:8083/api/?cmd=show.getfanart&tvdbid=123"),
@@ -64,8 +65,6 @@ class SickRageApi_GetFanArtUrlTest(
 					arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVDB, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getfanart&tvdbid=123"),
 
 					// TVRage
-					arrayOf(false, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getfanart"),
-					arrayOf(false, "127.0.0.1", "", "", "", 123, null, "http://127.0.0.1/?cmd=show.getfanart"),
 					arrayOf<Any?>(false, "127.0.0.1", "8083", "", "", 0, Indexer.TVRAGE, "http://127.0.0.1:8083/?cmd=show.getfanart&tvrageid=0"),
 					arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/?cmd=show.getfanart&tvrageid=123"),
 					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/?cmd=show.getfanart&tvrageid=123"),
@@ -73,15 +72,45 @@ class SickRageApi_GetFanArtUrlTest(
 					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api/", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/?cmd=show.getfanart&tvrageid=123"),
 					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api1/api2/", "", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api1/api2/?cmd=show.getfanart&tvrageid=123"),
 					arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVRAGE, "http://127.0.0.1:8083/api/apiKey/?cmd=show.getfanart&tvrageid=123"),
-					arrayOf(true, "", "", "", "", 0, null, "http://127.0.0.1/?cmd=show.getfanart"),
-					arrayOf(true, "127.0.0.1", "", "", "", 123, null, "https://127.0.0.1/?cmd=show.getfanart"),
 					arrayOf<Any?>(true, "127.0.0.1", "8083", "", "", 0, Indexer.TVRAGE, "https://127.0.0.1:8083/?cmd=show.getfanart&tvrageid=0"),
 					arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/?cmd=show.getfanart&tvrageid=123"),
 					arrayOf<Any?>(true, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/?cmd=show.getfanart&tvrageid=123"),
 					arrayOf<Any?>(true, "127.0.0.1", "8083", "api/", "", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/?cmd=show.getfanart&tvrageid=123"),
 					arrayOf<Any?>(true, "127.0.0.1", "8083", "/api/", "", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/?cmd=show.getfanart&tvrageid=123"),
 					arrayOf<Any?>(true, "127.0.0.1", "8083", "/api1/api2/", "", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api1/api2/?cmd=show.getfanart&tvrageid=123"),
-					arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getfanart&tvrageid=123")
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVRAGE, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getfanart&tvrageid=123"),
+
+					// TVMaze
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "", "", 0, Indexer.TVMAZE, "http://127.0.0.1:8083/?cmd=show.getfanart&tvmazeid=0"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "", 123, Indexer.TVMAZE, "http://127.0.0.1:8083/api/?cmd=show.getfanart&tvmazeid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVMAZE, "http://127.0.0.1:8083/api/?cmd=show.getfanart&tvmazeid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "api/", "", 123, Indexer.TVMAZE, "http://127.0.0.1:8083/api/?cmd=show.getfanart&tvmazeid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api/", "", 123, Indexer.TVMAZE, "http://127.0.0.1:8083/api/?cmd=show.getfanart&tvmazeid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api1/api2/", "", 123, Indexer.TVMAZE, "http://127.0.0.1:8083/api1/api2/?cmd=show.getfanart&tvmazeid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVMAZE, "http://127.0.0.1:8083/api/apiKey/?cmd=show.getfanart&tvmazeid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "", "", 0, Indexer.TVMAZE, "https://127.0.0.1:8083/?cmd=show.getfanart&tvmazeid=0"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "", 123, Indexer.TVMAZE, "https://127.0.0.1:8083/api/?cmd=show.getfanart&tvmazeid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "/api", "", 123, Indexer.TVMAZE, "https://127.0.0.1:8083/api/?cmd=show.getfanart&tvmazeid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "api/", "", 123, Indexer.TVMAZE, "https://127.0.0.1:8083/api/?cmd=show.getfanart&tvmazeid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "/api/", "", 123, Indexer.TVMAZE, "https://127.0.0.1:8083/api/?cmd=show.getfanart&tvmazeid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "/api1/api2/", "", 123, Indexer.TVMAZE, "https://127.0.0.1:8083/api1/api2/?cmd=show.getfanart&tvmazeid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TVMAZE, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getfanart&tvmazeid=123"),
+
+					// TMDB
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "", "", 0, Indexer.TMDB, "http://127.0.0.1:8083/?cmd=show.getfanart&tmdbid=0"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "", 123, Indexer.TMDB, "http://127.0.0.1:8083/api/?cmd=show.getfanart&tmdbid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api", "", 123, Indexer.TMDB, "http://127.0.0.1:8083/api/?cmd=show.getfanart&tmdbid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "api/", "", 123, Indexer.TMDB, "http://127.0.0.1:8083/api/?cmd=show.getfanart&tmdbid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api/", "", 123, Indexer.TMDB, "http://127.0.0.1:8083/api/?cmd=show.getfanart&tmdbid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "/api1/api2/", "", 123, Indexer.TMDB, "http://127.0.0.1:8083/api1/api2/?cmd=show.getfanart&tmdbid=123"),
+					arrayOf<Any?>(false, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TMDB, "http://127.0.0.1:8083/api/apiKey/?cmd=show.getfanart&tmdbid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "", "", 0, Indexer.TMDB, "https://127.0.0.1:8083/?cmd=show.getfanart&tmdbid=0"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "", 123, Indexer.TMDB, "https://127.0.0.1:8083/api/?cmd=show.getfanart&tmdbid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "/api", "", 123, Indexer.TMDB, "https://127.0.0.1:8083/api/?cmd=show.getfanart&tmdbid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "api/", "", 123, Indexer.TMDB, "https://127.0.0.1:8083/api/?cmd=show.getfanart&tmdbid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "/api/", "", 123, Indexer.TMDB, "https://127.0.0.1:8083/api/?cmd=show.getfanart&tmdbid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "/api1/api2/", "", 123, Indexer.TMDB, "https://127.0.0.1:8083/api1/api2/?cmd=show.getfanart&tmdbid=123"),
+					arrayOf<Any?>(true, "127.0.0.1", "8083", "api", "apiKey", 123, Indexer.TMDB, "https://127.0.0.1:8083/api/apiKey/?cmd=show.getfanart&tmdbid=123")
 			)
 		}
 	}

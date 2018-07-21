@@ -24,9 +24,11 @@ class SearchResultItem_GetIndexerNameResourceTest(val searchResult: SearchResult
 					arrayOf(gson.fromJson("{}", SearchResultItem::class.java), R.string.unknown),
 					arrayOf(gson.fromJson("{indexer: -1}", SearchResultItem::class.java), R.string.unknown),
 					arrayOf(gson.fromJson("{indexer: 0}", SearchResultItem::class.java), R.string.unknown),
-					arrayOf(gson.fromJson("{indexer: 1}", SearchResultItem::class.java), R.string.the_tvdb),
+					arrayOf(gson.fromJson("{indexer: 1}", SearchResultItem::class.java), R.string.tvdb),
 					arrayOf(gson.fromJson("{indexer: 2}", SearchResultItem::class.java), R.string.tvrage),
-					arrayOf(gson.fromJson("{indexer: 3}", SearchResultItem::class.java), R.string.unknown)
+					arrayOf(gson.fromJson("{indexer: 3}", SearchResultItem::class.java), R.string.tvmaze),
+					arrayOf(gson.fromJson("{indexer: 4}", SearchResultItem::class.java), R.string.tmdb),
+					arrayOf(gson.fromJson("{indexer: 5}", SearchResultItem::class.java), R.string.unknown)
 			)
 		}
 	}

@@ -43,5 +43,5 @@
 		app:layout_constraintEnd_toEndOf="@+id/show_name"
 		app:layout_constraintStart_toStartOf="@+id/show_name"
 		app:layout_constraintTop_toBottomOf="@+id/show_first_aired"
-		tools:text="@string/the_tvdb" />
+		tools:text="@string/tvdb" />
 </android.support.constraint.ConstraintLayout>

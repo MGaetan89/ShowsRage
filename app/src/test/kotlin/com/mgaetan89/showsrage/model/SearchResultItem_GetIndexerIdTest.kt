@@ -21,11 +21,13 @@ class SearchResultItem_GetIndexerIdTest(val searchResultItem: SearchResultItem, 
 
 			return listOf(
 					arrayOf(gson.fromJson("{}", SearchResultItem::class.java), 0),
-					arrayOf(gson.fromJson("{indexer: -1, tvdbid: 123, tvrageid: 456}", SearchResultItem::class.java), 0),
-					arrayOf(gson.fromJson("{indexer: 0, tvdbid: 123, tvrageid: 456}", SearchResultItem::class.java), 0),
-					arrayOf(gson.fromJson("{indexer: 1, tvdbid: 123, tvrageid: 456}", SearchResultItem::class.java), 123),
-					arrayOf(gson.fromJson("{indexer: 2, tvdbid: 123, tvrageid: 456}", SearchResultItem::class.java), 456),
-					arrayOf(gson.fromJson("{indexer: 3, tvdbid: 123, tvrageid: 456}", SearchResultItem::class.java), 0)
+					arrayOf(gson.fromJson("{indexer: -1, tvdbid: 123, tvrageid: 456, tvmazeid: 789, tmdbid: 987}", SearchResultItem::class.java), 0),
+					arrayOf(gson.fromJson("{indexer: 0, tvdbid: 123, tvrageid: 456, tvmazeid: 789, tmdbid: 987}", SearchResultItem::class.java), 0),
+					arrayOf(gson.fromJson("{indexer: 1, tvdbid: 123, tvrageid: 456, tvmazeid: 789, tmdbid: 987}", SearchResultItem::class.java), 123),
+					arrayOf(gson.fromJson("{indexer: 2, tvdbid: 123, tvrageid: 456, tvmazeid: 789, tmdbid: 987}", SearchResultItem::class.java), 456),
+					arrayOf(gson.fromJson("{indexer: 3, tvdbid: 123, tvrageid: 456, tvmazeid: 789, tmdbid: 987}", SearchResultItem::class.java), 789),
+					arrayOf(gson.fromJson("{indexer: 4, tvdbid: 123, tvrageid: 456, tvmazeid: 789, tmdbid: 987}", SearchResultItem::class.java), 987),
+					arrayOf(gson.fromJson("{indexer: 5, tvdbid: 123, tvrageid: 456, tvmazeid: 789, tmdbid: 987}", SearchResultItem::class.java), 0)
 			)
 		}
 	}

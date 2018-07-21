@@ -37,7 +37,7 @@ class SearchResultPresenterTest(val searchResult: SearchResultItem?, val indexer
 			return listOf(
 					arrayOf(null, R.string.unknown, ""),
 					arrayOf(gson.fromJson("{first_aired: 2015-01-01, indexer: 0, name: \"Show 0\"}", SearchResultItem::class.java), R.string.unknown, "Show 0"),
-					arrayOf(gson.fromJson("{first_aired: 2015-01-01, indexer: 1, name: \"Show 1\"}", SearchResultItem::class.java), R.string.the_tvdb, "Show 1"),
+					arrayOf(gson.fromJson("{first_aired: 2015-01-01, indexer: 1, name: \"Show 1\"}", SearchResultItem::class.java), R.string.tvdb, "Show 1"),
 					arrayOf(gson.fromJson("{first_aired: 2015-01-01, indexer: 2, name: \"Show 2\"}", SearchResultItem::class.java), R.string.tvrage, "Show 2")
 			)
 		}
