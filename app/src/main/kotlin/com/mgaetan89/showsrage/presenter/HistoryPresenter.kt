@@ -1,13 +1,14 @@
 package com.mgaetan89.showsrage.presenter
 
 import com.mgaetan89.showsrage.model.History
+import com.mgaetan89.showsrage.model.ImageType
 import com.mgaetan89.showsrage.model.Indexer
 import com.mgaetan89.showsrage.network.SickRageApi
 
 class HistoryPresenter(val history: History?) {
 	fun getEpisode() = if (this.isHistoryValid()) this.history!!.episode else 0
 
-	fun getPosterUrl() = if (this.isHistoryValid()) SickRageApi.instance.getPosterUrl(this.history!!.tvDbId, Indexer.TVDB) else ""
+	fun getPosterUrl() = if (this.isHistoryValid()) SickRageApi.instance.getImageUrl(ImageType.POSTER, this.history!!.tvDbId, Indexer.TVDB) else ""
 
 	fun getProvider() = if (this.isHistoryValid()) this.history!!.provider else ""
 

@@ -76,14 +76,12 @@ class LogsFragment : Fragment(), Callback<Logs>, RealmChangeListener<RealmResult
 	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 		super.onActivityResult(requestCode, resultCode, data)
 
-		if (requestCode == REQUEST_CODE_FILTER) {
-			if (resultCode == Activity.RESULT_OK) {
-				this.groups = data?.getStringArrayExtra(Constants.Bundle.LOGS_GROUPS)
+		if (requestCode == REQUEST_CODE_FILTER && resultCode == Activity.RESULT_OK) {
+			this.groups = data?.getStringArrayExtra(Constants.Bundle.LOGS_GROUPS)
 
-				this.list?.adapter = null
+			this.list?.adapter = null
 
-				this.getLogs(this.getLogLevel())
-			}
+			this.getLogs(this.getLogLevel())
 		}
 	}
 

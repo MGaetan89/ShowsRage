@@ -114,10 +114,8 @@ class MainActivity : AppCompatActivity(), Callback<GenericResponse>, NavigationV
 
 				this.window.statusBarColor = ColorUtils.HSLToColor(colorPrimaryDark)
 
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-					if (textColor == Color.BLACK) {
-						this.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-					}
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && textColor == Color.BLACK) {
+					this.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 				}
 			}
 		}

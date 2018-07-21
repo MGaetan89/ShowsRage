@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage.presenter
 
 import com.mgaetan89.showsrage.extension.getShowStat
+import com.mgaetan89.showsrage.model.ImageType
 import com.mgaetan89.showsrage.model.Indexer
 import com.mgaetan89.showsrage.model.RealmShowStat
 import com.mgaetan89.showsrage.model.Show
@@ -8,11 +9,11 @@ import com.mgaetan89.showsrage.network.SickRageApi
 import io.realm.Realm
 
 class ShowPresenter(val show: Show?) {
-	fun getBannerUrl() = if (this.isShowValid()) SickRageApi.instance.getBannerUrl(this.show!!.tvDbId, Indexer.TVDB) else ""
+	fun getBannerUrl() = if (this.isShowValid()) SickRageApi.instance.getImageUrl(ImageType.BANNER, this.show!!.tvDbId, Indexer.TVDB) else ""
 
 	fun getNetwork() = if (this.isShowValid()) this.show!!.network else ""
 
-	fun getPosterUrl() = if (this.isShowValid()) SickRageApi.instance.getPosterUrl(this.show!!.tvDbId, Indexer.TVDB) else ""
+	fun getPosterUrl() = if (this.isShowValid()) SickRageApi.instance.getImageUrl(ImageType.POSTER, this.show!!.tvDbId, Indexer.TVDB) else ""
 
 	fun getQuality() = if (this.isShowValid()) this.show!!.quality else ""
 

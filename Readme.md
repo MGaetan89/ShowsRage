@@ -1,6 +1,13 @@
 # ![ShowsRage](app/src/main/res/mipmap-mdpi/ic_launcher.png) ShowsRage
 
-[![Build Status](https://travis-ci.org/MGaetan89/ShowsRage.svg?branch=master)](https://travis-ci.org/MGaetan89/ShowsRage) [![codecov](https://codecov.io/gh/MGaetan89/ShowsRage/branch/master/graph/badge.svg)](https://codecov.io/gh/MGaetan89/ShowsRage) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/showsrage/localized.svg)](https://crowdin.com/project/showsrage) [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/MGaetan89/ShowsRage/master/LICENSE) [![Minimum API](https://img.shields.io/badge/API-15%2B-green.svg)](https://android-arsenal.com/api?level=15) [![Support on Paypal](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.me/MGaetan89)
+[![Build Status](https://travis-ci.org/MGaetan89/ShowsRage.svg?branch=master)](https://travis-ci.org/MGaetan89/ShowsRage)
+[![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=com.mgaetan89.showsrage&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.mgaetan89.showsrage)
+[![codecov](https://codecov.io/gh/MGaetan89/ShowsRage/branch/master/graph/badge.svg)](https://codecov.io/gh/MGaetan89/ShowsRage)
+[![Crowdin](https://d322cqt584bo4o.cloudfront.net/showsrage/localized.svg)](https://crowdin.com/project/showsrage)
+
+[![Minimum API](https://img.shields.io/badge/API-19%2B-brightgreen.svg)](https://android-arsenal.com/api?level=19)
+[![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/MGaetan89/ShowsRage/master/LICENSE)
+[![Support on Paypal](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.me/MGaetan89)
 
 **ShowsRage** is an Android application that allows you to manage your *[SickRage](https://www.sickrage.tv/)* installation.
 
@@ -12,7 +19,7 @@ Support for *[SickBeard](http://www.sickbeard.com/)* (or any other variant) is n
 
 The following features are currently available:
 
-- Support Android 4.0.3 and up
+- Support Android 4.4 and up
 - Support phone and tablet devices
 - Based on [Material Design](http://www.google.com/design/)
 - Shows information:

@@ -41,6 +41,7 @@ import com.mgaetan89.showsrage.helper.GenericCallback
 import com.mgaetan89.showsrage.helper.ImageLoader
 import com.mgaetan89.showsrage.helper.Utils
 import com.mgaetan89.showsrage.model.GenericResponse
+import com.mgaetan89.showsrage.model.ImageType
 import com.mgaetan89.showsrage.model.Indexer
 import com.mgaetan89.showsrage.model.Show
 import com.mgaetan89.showsrage.model.SingleShow
@@ -115,10 +116,10 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		this.show_airs?.text = this.getString(R.string.airs, if (airs.isNullOrEmpty()) "N/A" else airs)
 		this.show_airs?.visibility = View.VISIBLE
 
-		ImageLoader.load(this.show_banner, SickRageApi.instance.getBannerUrl(show.tvDbId, Indexer.TVDB), false, null, this)
+		ImageLoader.load(this.show_banner, SickRageApi.instance.getImageUrl(ImageType.BANNER, show.tvDbId, Indexer.TVDB), false, null, this)
 		this.show_banner?.contentDescription = show.showName
 
-		ImageLoader.load(this.show_fan_art, SickRageApi.instance.getFanArtUrl(show.tvDbId, Indexer.TVDB), false, null, this)
+		ImageLoader.load(this.show_fan_art, SickRageApi.instance.getImageUrl(ImageType.FAN_ART, show.tvDbId, Indexer.TVDB), false, null, this)
 		this.show_fan_art?.contentDescription = show.showName
 
 		val genresList = show.genre
@@ -155,7 +156,7 @@ class ShowOverviewFragment : Fragment(), Callback<SingleShow>, View.OnClickListe
 		this.show_network?.text = this.getString(R.string.network, show.network)
 		this.show_network?.visibility = View.VISIBLE
 
-		ImageLoader.load(this.show_poster, SickRageApi.instance.getPosterUrl(show.tvDbId, Indexer.TVDB), false, this, null)
+		ImageLoader.load(this.show_poster, SickRageApi.instance.getImageUrl(ImageType.POSTER, show.tvDbId, Indexer.TVDB), false, this, null)
 		this.show_poster?.contentDescription = show.showName
 
 		val quality = show.quality

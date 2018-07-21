@@ -4,12 +4,13 @@ import android.content.Context
 import android.text.format.DateUtils
 import com.mgaetan89.showsrage.extension.getLocalizedTime
 import com.mgaetan89.showsrage.extension.toRelativeDate
+import com.mgaetan89.showsrage.model.ImageType
 import com.mgaetan89.showsrage.model.Indexer
 import com.mgaetan89.showsrage.model.Schedule
 import com.mgaetan89.showsrage.network.SickRageApi
 
 class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
-	fun getAirDate(): CharSequence? {
+	private fun getAirDate(): CharSequence? {
 		val schedule = this._getSchedule() ?: return null
 		val airDate = schedule.airDate
 
@@ -59,7 +60,7 @@ class SchedulePresenter(val schedule: Schedule?, val context: Context?) {
 	fun getPosterUrl(): String {
 		val schedule = this._getSchedule() ?: return ""
 
-		return SickRageApi.instance.getPosterUrl(schedule.tvDbId, Indexer.TVDB)
+		return SickRageApi.instance.getImageUrl(ImageType.POSTER, schedule.tvDbId, Indexer.TVDB)
 	}
 
 	fun getQuality() = this._getSchedule()?.quality ?: ""

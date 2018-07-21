@@ -156,9 +156,11 @@ class RemoteControlFragment : DialogFragment(), View.OnClickListener, SeekBar.On
 	}
 
 	override fun onStartTrackingTouch(seekBar: SeekBar?) {
+		// Unused
 	}
 
 	override fun onStopTrackingTouch(seekBar: SeekBar?) {
+		// Unused
 	}
 
 	override fun run() {

@@ -15,6 +15,7 @@ import com.mgaetan89.showsrage.extension.getServerUsername
 import com.mgaetan89.showsrage.extension.useBasicAuth
 import com.mgaetan89.showsrage.extension.useHttps
 import com.mgaetan89.showsrage.extension.useSelfSignedCertificate
+import com.mgaetan89.showsrage.model.ImageType
 import com.mgaetan89.showsrage.model.Indexer
 import com.squareup.okhttp.Authenticator
 import com.squareup.okhttp.Credentials
@@ -52,20 +53,10 @@ class SickRageApi private constructor() : RequestInterceptor {
 
 	fun getApiUrl() = buildFullApiUrl(this.apiUrl, this.path, this.apiKey)
 
-	fun getBannerUrl(indexerId: Int, indexer: Indexer?): String {
-		if (indexer == null) {
-			return "%s?cmd=show.getbanner".format(this.getApiUrl())
-		}
+	fun getImageUrl(imageType: ImageType, indexerId: Int, indexer: Indexer?): String {
+		val baseUrl = "%s?cmd=%s".format(this.getApiUrl(), imageType.command)
 
-		return "%s?cmd=show.getbanner&%s=%d".format(this.getApiUrl(), indexer.paramName, indexerId)
-	}
-
-	fun getFanArtUrl(indexerId: Int, indexer: Indexer?): String {
-		if (indexer == null) {
-			return "%s?cmd=show.getfanart".format(this.getApiUrl())
-		}
-
-		return "%s?cmd=show.getfanart&%s=%d".format(this.getApiUrl(), indexer.paramName, indexerId)
+		return baseUrl + if (indexer == null) "" else "&%s=%d".format(indexer.paramName, indexerId)
 	}
 
 	fun getOkHttpClient(useSelfSignedCertificate: Boolean): OkHttpClient {
@@ -80,14 +71,6 @@ class SickRageApi private constructor() : RequestInterceptor {
 		this.okHttpClient = okHttpClient
 
 		return okHttpClient
-	}
-
-	fun getPosterUrl(indexerId: Int, indexer: Indexer?): String {
-		if (indexer == null) {
-			return "%s?cmd=show.getposter".format(this.getApiUrl())
-		}
-
-		return "%s?cmd=show.getposter&%s=%d".format(this.getApiUrl(), indexer.paramName, indexerId)
 	}
 
 	fun init(preferences: SharedPreferences) {

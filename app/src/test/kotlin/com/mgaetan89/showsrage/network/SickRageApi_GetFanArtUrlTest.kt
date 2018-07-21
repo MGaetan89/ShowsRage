@@ -6,6 +6,7 @@ import com.mgaetan89.showsrage.extension.getPortNumber
 import com.mgaetan89.showsrage.extension.getServerAddress
 import com.mgaetan89.showsrage.extension.getServerPath
 import com.mgaetan89.showsrage.extension.useHttps
+import com.mgaetan89.showsrage.model.ImageType
 import com.mgaetan89.showsrage.model.Indexer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -34,7 +35,7 @@ class SickRageApi_GetFanArtUrlTest(
 
 	@Test
 	fun getFanArtUrl() {
-		assertThat(SickRageApi.instance.getFanArtUrl(this.indexerId, this.indexer)).isEqualTo(this.url)
+		assertThat(SickRageApi.instance.getImageUrl(ImageType.FAN_ART, this.indexerId, this.indexer)).isEqualTo(this.url)
 	}
 
 	companion object {
