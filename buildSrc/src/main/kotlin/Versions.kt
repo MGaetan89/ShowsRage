@@ -20,7 +20,7 @@ object Versions {
     const val playServicesCast = "15.0.1"
     const val preferences = "27.1.1.2"
     const val realmAdapters = "3.0.0"
-    const val realmPlugin = "5.3.1"
+    const val realmPlugin = "5.4.0"
     const val retrofit = "1.9.0"
     const val sonarQubePlugin = "2.6.2"
     const val supportLibrary = "27.1.1"
