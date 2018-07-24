@@ -24,6 +24,8 @@
 			android:layout_height="wrap_content"
 			android:layout_gravity="center"
 			android:text="@string/no_logs"
-			android:visibility="gone" />
+			android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+			android:visibility="gone"
+			tools:visibility="visible" />
 	</FrameLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

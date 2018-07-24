@@ -1,44 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:orientation="vertical"
-	android:padding="@dimen/padding"
+	android:paddingBottom="@dimen/padding"
 	tools:context="com.mgaetan89.showsrage.fragment.PostProcessingFragment">
 
-	<LinearLayout
-		android:layout_width="match_parent"
+	<TextView
+		android:id="@+id/processing_method_label"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="@dimen/padding"
-		android:orientation="horizontal">
+		android:layout_marginStart="@dimen/padding"
+		android:layout_marginTop="@dimen/padding"
+		android:layout_marginEnd="@dimen/padding"
+		android:text="@string/processing_method"
+		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
 
-		<TextView
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="@string/processing_method"
-			android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-		<Spinner
-			android:id="@+id/processing_method"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:entries="@array/processing_methods_keys"
-			tools:listitem="@android:layout/simple_list_item_1" />
-	</LinearLayout>
+	<Spinner
+		android:id="@+id/processing_method"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:entries="@array/processing_methods_keys"
+		app:layout_constraintStart_toStartOf="@+id/processing_method_label"
+		app:layout_constraintTop_toBottomOf="@+id/processing_method_label"
+		tools:listitem="@android:layout/simple_list_item_1" />
 
 	<android.support.v7.widget.SwitchCompat
 		android:id="@+id/force_processing"
-		android:layout_width="match_parent"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="@dimen/padding"
-		android:text="@string/force_processing" />
+		android:layout_marginTop="@dimen/padding"
+		android:text="@string/force_processing"
+		app:layout_constraintEnd_toEndOf="@+id/processing_method_label"
+		app:layout_constraintStart_toStartOf="@+id/processing_method_label"
+		app:layout_constraintTop_toBottomOf="@+id/processing_method" />
 
 	<android.support.v7.widget.SwitchCompat
 		android:id="@+id/replace_files"
-		android:layout_width="match_parent"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="@string/replace_existing_files" />
-</LinearLayout>
+		android:layout_marginTop="@dimen/padding"
+		android:text="@string/replace_existing_files"
+		app:layout_constraintEnd_toEndOf="@+id/processing_method_label"
+		app:layout_constraintStart_toStartOf="@+id/processing_method_label"
+		app:layout_constraintTop_toBottomOf="@+id/force_processing" />
+</android.support.constraint.ConstraintLayout>

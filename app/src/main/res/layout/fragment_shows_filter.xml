@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:orientation="vertical"
-	android:padding="@dimen/padding"
+	android:paddingBottom="@dimen/padding"
 	tools:context="com.mgaetan89.showsrage.fragment.ShowsFiltersFragment">
 
 	<TextView
-		android:layout_width="wrap_content"
+		android:id="@+id/active_paused_label"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/padding_half"
-		android:layout_marginBottom="@dimen/padding_half"
+		android:layout_marginStart="@dimen/padding"
+		android:layout_marginTop="@dimen/padding"
+		android:layout_marginEnd="@dimen/padding"
 		android:text="@string/active_paused"
-		android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+		android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
 
 	<RadioGroup
 		android:id="@+id/filter_active_paused"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintEnd_toEndOf="@+id/active_paused_label"
+		app:layout_constraintStart_toStartOf="@+id/active_paused_label"
+		app:layout_constraintTop_toBottomOf="@+id/active_paused_label">
 
 		<RadioButton
 			android:id="@+id/filter_active"
@@ -40,35 +48,49 @@
 	</RadioGroup>
 
 	<TextView
-		android:layout_width="wrap_content"
+		android:id="@+id/status_label"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/padding_half"
 		android:layout_marginTop="@dimen/padding"
-		android:layout_marginBottom="@dimen/padding_half"
 		android:text="@string/status"
-		android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+		android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+		app:layout_constraintEnd_toEndOf="@+id/active_paused_label"
+		app:layout_constraintStart_toStartOf="@+id/active_paused_label"
+		app:layout_constraintTop_toBottomOf="@+id/filter_active_paused" />
 
 	<CheckBox
 		android:id="@+id/filter_status_continuing"
-		android:layout_width="match_parent"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="@string/continuing" />
+		android:text="@string/continuing"
+		app:layout_constraintEnd_toEndOf="@+id/active_paused_label"
+		app:layout_constraintStart_toStartOf="@+id/active_paused_label"
+		app:layout_constraintTop_toBottomOf="@+id/status_label" />
 
 	<CheckBox
 		android:id="@+id/filter_status_ended"
-		android:layout_width="match_parent"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="@string/ended" />
+		android:text="@string/ended"
+		app:layout_constraintEnd_toEndOf="@+id/active_paused_label"
+		app:layout_constraintStart_toStartOf="@+id/active_paused_label"
+		app:layout_constraintTop_toBottomOf="@+id/filter_status_continuing" />
 
 	<CheckBox
 		android:id="@+id/filter_status_unknown"
-		android:layout_width="match_parent"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="@string/unknown" />
+		android:text="@string/unknown"
+		app:layout_constraintEnd_toEndOf="@+id/active_paused_label"
+		app:layout_constraintStart_toStartOf="@+id/active_paused_label"
+		app:layout_constraintTop_toBottomOf="@+id/filter_status_ended" />
 
 	<CheckBox
 		android:id="@+id/filter_status_all"
-		android:layout_width="match_parent"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="@string/all" />
-</LinearLayout>
+		android:text="@string/all"
+		app:layout_constraintEnd_toEndOf="@+id/active_paused_label"
+		app:layout_constraintStart_toStartOf="@+id/active_paused_label"
+		app:layout_constraintTop_toBottomOf="@+id/filter_status_unknown" />
+</android.support.constraint.ConstraintLayout>

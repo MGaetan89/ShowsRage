@@ -1,41 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical"
-	android:padding="@dimen/padding"
+	android:layout_height="wrap_content"
+	android:paddingBottom="@dimen/padding"
 	tools:context="com.mgaetan89.showsrage.fragment.ChangeQualityFragment">
 
 	<TextView
-		android:layout_width="wrap_content"
+		android:id="@+id/info"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="@dimen/padding"
+		android:layout_marginStart="@dimen/padding"
+		android:layout_marginTop="@dimen/padding"
+		android:layout_marginEnd="@dimen/padding"
 		android:text="@string/change_quality_info"
-		android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
 
 	<TextView
-		android:layout_width="wrap_content"
+		android:id="@+id/allowed_quality_label"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/padding"
 		android:text="@string/allowed_quality"
-		android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+		app:layout_constraintEnd_toEndOf="@+id/info"
+		app:layout_constraintStart_toStartOf="@+id/info"
+		app:layout_constraintTop_toBottomOf="@+id/info" />
 
 	<Spinner
 		android:id="@+id/allowed_quality"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="@dimen/padding"
-		android:entries="@array/allowed_qualities_values" />
+		android:entries="@array/allowed_qualities_values"
+		app:layout_constraintStart_toStartOf="@+id/info"
+		app:layout_constraintTop_toBottomOf="@+id/allowed_quality_label" />
 
 	<TextView
-		android:layout_width="wrap_content"
+		android:id="@+id/preferred_quality_label"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/padding"
 		android:text="@string/preferred_quality"
-		android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+		app:layout_constraintEnd_toEndOf="@+id/info"
+		app:layout_constraintStart_toStartOf="@+id/info"
+		app:layout_constraintTop_toBottomOf="@+id/allowed_quality" />
 
 	<Spinner
 		android:id="@+id/preferred_quality"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:entries="@array/preferred_qualities_values" />
-</LinearLayout>
+		android:entries="@array/preferred_qualities_values"
+		app:layout_constraintStart_toStartOf="@+id/info"
+		app:layout_constraintTop_toBottomOf="@+id/preferred_quality_label" />
+</android.support.constraint.ConstraintLayout>

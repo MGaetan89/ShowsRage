@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.support.constraint.Group
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AlertDialog
@@ -71,7 +72,7 @@ class AddShowOptionsFragment : DialogFragment(), DialogInterface.OnClickListener
 		this.status = view.findViewById(R.id.status)
 		this.subtitles = view.findViewById(R.id.subtitles)
 
-		view.findViewById<LinearLayout>(R.id.root_directory_layout).let { rootDirectoryLayout ->
+		view.findViewById<Group>(R.id.root_directory_layout).let { rootDirectoryLayout ->
 			val rootDirectories = Realm.getDefaultInstance().use {
 				it.copyFromRealm(it.getRootDirs())
 			}

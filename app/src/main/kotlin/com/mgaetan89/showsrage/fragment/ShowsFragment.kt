@@ -134,6 +134,8 @@ class ShowsFragment : TabbedFragment(), Callback<Shows>, View.OnClickListener, S
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+
 		this.add_show?.setOnClickListener(this)
 	}
 

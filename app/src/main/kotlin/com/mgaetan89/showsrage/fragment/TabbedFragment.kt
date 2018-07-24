@@ -1,6 +1,7 @@
 package com.mgaetan89.showsrage.fragment
 
 import android.os.Bundle
+import android.support.annotation.CallSuper
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.view.PagerAdapter
@@ -41,6 +42,7 @@ abstract class TabbedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener
 
 	override fun onRefresh() = Unit
 
+	@CallSuper
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		this.swipe_refresh?.let {
 			it.isEnabled = this.useSwipeToRefresh()

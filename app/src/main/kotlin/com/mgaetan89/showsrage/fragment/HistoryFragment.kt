@@ -119,9 +119,13 @@ class HistoryFragment : Fragment(), Callback<Histories>, DialogInterface.OnClick
 
 		this.list?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 			override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-				super.onScrolled(recyclerView, dx, dy)
-
 				swipe_refresh?.isEnabled = !(recyclerView?.canScrollVertically(-1) ?: false)
+
+				if (dy <= 0) {
+					clear_history.show()
+				} else {
+					clear_history.hide()
+				}
 			}
 		})
 		this.list?.layoutManager = GridLayoutManager(this.activity, columnCount)

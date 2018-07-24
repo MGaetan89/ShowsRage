@@ -1,167 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:orientation="vertical"
-	android:padding="@dimen/padding"
+	android:paddingBottom="@dimen/padding"
 	tools:context="com.mgaetan89.showsrage.fragment.AddShowOptionsFragment">
 
-	<LinearLayout
+	<android.support.constraint.Group
 		android:id="@+id/root_directory_layout"
-		android:layout_width="match_parent"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:orientation="vertical"
 		android:visibility="gone"
-		tools:visibility="visible">
+		app:constraint_referenced_ids="root_directory,root_directory_label"
+		tools:visibility="visible" />
 
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/root_directory"
-			android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-		<Spinner
-			android:id="@+id/root_directory"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:entries="@array/allowed_qualities_values"
-			tools:listitem="@android:layout/simple_list_item_1" />
-	</LinearLayout>
-
-	<LinearLayout
-		android:layout_width="match_parent"
+	<TextView
+		android:id="@+id/root_directory_label"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="@dimen/padding"
-		android:gravity="center_vertical"
-		android:orientation="horizontal">
+		android:layout_marginStart="@dimen/padding"
+		android:layout_marginTop="@dimen/padding"
+		android:layout_marginEnd="@dimen/padding"
+		android:text="@string/root_directory"
+		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
 
-		<TextView
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="@string/allowed_quality"
-			android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-		<Spinner
-			android:id="@+id/allowed_quality"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:entries="@array/allowed_qualities_values"
-			tools:listitem="@android:layout/simple_list_item_1" />
-	</LinearLayout>
-
-	<LinearLayout
-		android:layout_width="match_parent"
+	<Spinner
+		android:id="@+id/root_directory"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="@dimen/padding"
-		android:gravity="center_vertical"
-		android:orientation="horizontal">
+		android:entries="@array/allowed_qualities_values"
+		app:layout_constraintStart_toStartOf="@+id/root_directory_label"
+		app:layout_constraintTop_toBottomOf="@+id/root_directory_label"
+		tools:listitem="@android:layout/simple_list_item_1" />
 
-		<TextView
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="@string/preferred_quality"
-			android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-		<Spinner
-			android:id="@+id/preferred_quality"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:entries="@array/preferred_qualities_values"
-			tools:listitem="@android:layout/simple_list_item_1" />
-	</LinearLayout>
-
-	<LinearLayout
-		android:layout_width="match_parent"
+	<TextView
+		android:id="@+id/allowed_quality_label"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="@dimen/padding"
-		android:gravity="center_vertical"
-		android:orientation="horizontal">
+		android:layout_marginStart="@dimen/padding"
+		android:text="@string/allowed_quality"
+		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+		app:layout_constraintBaseline_toBaselineOf="@+id/allowed_quality"
+		app:layout_constraintEnd_toStartOf="@+id/allowed_quality"
+		app:layout_constraintStart_toStartOf="parent" />
 
-		<TextView
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="@string/status"
-			android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-		<Spinner
-			android:id="@+id/status"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:entries="@array/status_values"
-			tools:listitem="@android:layout/simple_list_item_1" />
-	</LinearLayout>
-
-	<LinearLayout
-		android:layout_width="match_parent"
+	<Spinner
+		android:id="@+id/allowed_quality"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="@dimen/padding"
-		android:gravity="center_vertical"
-		android:orientation="horizontal">
+		android:layout_marginTop="@dimen/padding"
+		android:layout_marginEnd="@dimen/padding"
+		android:entries="@array/allowed_qualities_values"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@+id/allowed_quality_label"
+		app:layout_constraintTop_toBottomOf="@+id/root_directory"
+		tools:listitem="@android:layout/simple_list_item_1" />
 
-		<TextView
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="@string/future_status"
-			android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-		<Spinner
-			android:id="@+id/future_status"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:entries="@array/status_values"
-			tools:listitem="@android:layout/simple_list_item_1" />
-	</LinearLayout>
-
-	<LinearLayout
-		android:layout_width="match_parent"
+	<TextView
+		android:id="@+id/preferred_quality_label"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="@dimen/padding"
-		android:gravity="center_vertical"
-		android:orientation="horizontal">
+		android:text="@string/preferred_quality"
+		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+		app:layout_constraintBaseline_toBaselineOf="@+id/preferred_quality"
+		app:layout_constraintEnd_toStartOf="@+id/preferred_quality"
+		app:layout_constraintStart_toStartOf="@+id/allowed_quality_label" />
 
-		<TextView
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="@string/language"
-			android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+	<Spinner
+		android:id="@+id/preferred_quality"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/padding"
+		android:entries="@array/preferred_qualities_values"
+		app:layout_constraintEnd_toEndOf="@+id/allowed_quality"
+		app:layout_constraintStart_toEndOf="@+id/preferred_quality_label"
+		app:layout_constraintTop_toBottomOf="@+id/allowed_quality"
+		tools:listitem="@android:layout/simple_list_item_1" />
 
-		<Spinner
-			android:id="@+id/language"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:entries="@array/languages_values"
-			tools:listitem="@android:layout/simple_list_item_1" />
-	</LinearLayout>
+	<TextView
+		android:id="@+id/status_label"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:text="@string/status"
+		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+		app:layout_constraintBaseline_toBaselineOf="@+id/status"
+		app:layout_constraintEnd_toStartOf="@+id/status"
+		app:layout_constraintStart_toStartOf="@+id/allowed_quality_label" />
+
+	<Spinner
+		android:id="@+id/status"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/padding"
+		android:entries="@array/status_values"
+		app:layout_constraintEnd_toEndOf="@+id/allowed_quality"
+		app:layout_constraintStart_toEndOf="@+id/status_label"
+		app:layout_constraintTop_toBottomOf="@+id/preferred_quality"
+		tools:listitem="@android:layout/simple_list_item_1" />
+
+	<TextView
+		android:id="@+id/future_status_label"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:text="@string/future_status"
+		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+		app:layout_constraintBaseline_toBaselineOf="@+id/future_status"
+		app:layout_constraintEnd_toStartOf="@+id/future_status"
+		app:layout_constraintStart_toStartOf="@+id/allowed_quality_label" />
+
+	<Spinner
+		android:id="@+id/future_status"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/padding"
+		android:entries="@array/status_values"
+		app:layout_constraintEnd_toEndOf="@+id/allowed_quality"
+		app:layout_constraintStart_toEndOf="@+id/future_status_label"
+		app:layout_constraintTop_toBottomOf="@+id/status"
+		tools:listitem="@android:layout/simple_list_item_1" />
+
+	<TextView
+		android:id="@+id/language_label"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:text="@string/language"
+		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+		app:layout_constraintBaseline_toBaselineOf="@+id/language"
+		app:layout_constraintEnd_toStartOf="@+id/language"
+		app:layout_constraintStart_toStartOf="@+id/allowed_quality_label" />
+
+	<Spinner
+		android:id="@+id/language"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/padding"
+		android:entries="@array/languages_values"
+		app:layout_constraintEnd_toEndOf="@+id/allowed_quality"
+		app:layout_constraintStart_toEndOf="@+id/language_label"
+		app:layout_constraintTop_toBottomOf="@+id/future_status"
+		tools:listitem="@android:layout/simple_list_item_1" />
 
 	<android.support.v7.widget.SwitchCompat
 		android:id="@+id/anime"
-		android:layout_width="match_parent"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="@dimen/padding"
-		android:text="@string/anime" />
+		android:layout_marginTop="@dimen/padding"
+		android:text="@string/anime"
+		app:layout_constraintEnd_toEndOf="@+id/allowed_quality"
+		app:layout_constraintStart_toStartOf="@+id/allowed_quality_label"
+		app:layout_constraintTop_toBottomOf="@+id/language" />
 
 	<android.support.v7.widget.SwitchCompat
 		android:id="@+id/season_folders"
-		android:layout_width="match_parent"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="@dimen/padding"
+		android:layout_marginTop="@dimen/padding"
 		android:checked="true"
-		android:text="@string/season_folders" />
+		android:text="@string/season_folders"
+		app:layout_constraintEnd_toEndOf="@+id/allowed_quality"
+		app:layout_constraintStart_toStartOf="@+id/allowed_quality_label"
+		app:layout_constraintTop_toBottomOf="@+id/anime" />
 
 	<android.support.v7.widget.SwitchCompat
 		android:id="@+id/subtitles"
-		android:layout_width="match_parent"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:text="@string/subtitles" />
-</LinearLayout>
+		android:layout_marginTop="@dimen/padding"
+		android:text="@string/subtitles"
+		app:layout_constraintEnd_toEndOf="@+id/allowed_quality"
+		app:layout_constraintStart_toStartOf="@+id/allowed_quality_label"
+		app:layout_constraintTop_toBottomOf="@+id/season_folders" />
+</android.support.constraint.ConstraintLayout>
