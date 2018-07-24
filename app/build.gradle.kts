@@ -1,6 +1,5 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
-import java.util.Properties
 
 plugins {
     id("com.android.application")
