@@ -2,6 +2,7 @@ package com.mgaetan89.showsrage.fragment
 
 import android.app.Dialog
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.view.View
@@ -30,12 +31,12 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
 	private var episodesSnatched: TextView? = null
 	private var episodesSnatchedBar: View? = null
 	private var episodesTotal: TextView? = null
-	private var progressLayout: LinearLayout? = null
+	private var progressLayout: ConstraintLayout? = null
 	private lateinit var realm: Realm
 	private var showsActive: TextView? = null
 	private lateinit var showsStats: RealmResults<ShowsStat>
 	private var showsTotal: TextView? = null
-	private var statisticsLayout: LinearLayout? = null
+	private var statisticsLayout: ConstraintLayout? = null
 
 	override fun failure(error: RetrofitError?) {
 		error?.printStackTrace()
@@ -60,29 +61,9 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
 		this.showsTotal?.text = this.getString(R.string.total, numberFormat.format(showsStat.showsTotal))
 		this.statisticsLayout?.visibility = View.VISIBLE
 
-		if (this.episodesDownloadedBar != null) {
-			val layoutParams = this.episodesDownloadedBar!!.layoutParams
-
-			if (layoutParams is LinearLayout.LayoutParams) {
-				layoutParams.weight = weightDownloaded
-			}
-		}
-
-		if (this.episodesMissingBar != null) {
-			val layoutParams = this.episodesMissingBar!!.layoutParams
-
-			if (layoutParams is LinearLayout.LayoutParams) {
-				layoutParams.weight = weightMissing
-			}
-		}
-
-		if (this.episodesSnatchedBar != null) {
-			val layoutParams = this.episodesSnatchedBar!!.layoutParams
-
-			if (layoutParams is LinearLayout.LayoutParams) {
-				layoutParams.weight = weightSnatched
-			}
-		}
+		(this.episodesDownloadedBar?.layoutParams as? LinearLayout.LayoutParams)?.weight = weightDownloaded
+		(this.episodesMissingBar?.layoutParams as? LinearLayout.LayoutParams)?.weight = weightMissing
+		(this.episodesSnatchedBar?.layoutParams as? LinearLayout.LayoutParams)?.weight = weightSnatched
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,17 +76,17 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
 		val context = this.context ?: return super.onCreateDialog(savedInstanceState)
 		val view = context.inflate(R.layout.fragment_statistics)
 
-		this.episodesDownloaded = view.findViewById(R.id.episodes_downloaded) as TextView?
+		this.episodesDownloaded = view.findViewById(R.id.episodes_downloaded)
 		this.episodesDownloadedBar = view.findViewById(R.id.episodes_downloaded_bar)
-		this.episodesMissing = view.findViewById(R.id.episodes_missing) as TextView?
+		this.episodesMissing = view.findViewById(R.id.episodes_missing)
 		this.episodesMissingBar = view.findViewById(R.id.episodes_missing_bar)
-		this.episodesSnatched = view.findViewById(R.id.episodes_snatched) as TextView?
+		this.episodesSnatched = view.findViewById(R.id.episodes_snatched)
 		this.episodesSnatchedBar = view.findViewById(R.id.episodes_snatched_bar)
-		this.episodesTotal = view.findViewById(R.id.episodes_total) as TextView?
-		this.progressLayout = view.findViewById(R.id.progress_layout) as LinearLayout?
-		this.showsActive = view.findViewById(R.id.shows_active) as TextView?
-		this.showsTotal = view.findViewById(R.id.shows_total) as TextView?
-		this.statisticsLayout = view.findViewById(R.id.statistics_layout) as LinearLayout?
+		this.episodesTotal = view.findViewById(R.id.episodes_total)
+		this.progressLayout = view.findViewById(R.id.progress_layout)
+		this.showsActive = view.findViewById(R.id.shows_active)
+		this.showsTotal = view.findViewById(R.id.shows_total)
+		this.statisticsLayout = view.findViewById(R.id.statistics_layout)
 
 		val builder = AlertDialog.Builder(context)
 		builder.setTitle(R.string.statistics)
@@ -157,20 +138,11 @@ class StatisticsFragment : DialogFragment(), Callback<ShowsStats>, RealmChangeLi
 	}
 
 	companion object {
-		val numberFormat: NumberFormat = NumberFormat.getInstance()
-
-		init {
-			this.numberFormat.maximumFractionDigits = 1
+		val numberFormat: NumberFormat = NumberFormat.getInstance().apply {
+			this.maximumFractionDigits = 1
 		}
 
-		fun getFormattedRatio(a: Int, b: Int): String {
-			if (b == 0) {
-				return "0"
-			}
-
-
-			return this.numberFormat.format(100f * a / b)
-		}
+		fun getFormattedRatio(a: Int, b: Int): String = if (a == 0 || b == 0) "0" else this.numberFormat.format(100f * a / b)
 
 		fun newInstance() = StatisticsFragment()
 	}
