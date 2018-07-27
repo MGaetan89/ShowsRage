@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/swipe_refresh"
 	android:layout_width="match_parent"
@@ -10,19 +11,20 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 
-		<LinearLayout
+		<android.support.constraint.ConstraintLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:baselineAligned="false"
-			android:orientation="horizontal"
 			android:padding="@dimen/padding_half">
 
 			<LinearLayout
+				android:id="@+id/column_left"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_weight="1"
 				android:orientation="vertical"
-				android:padding="@dimen/padding_half">
+				android:padding="@dimen/padding_half"
+				app:layout_constraintEnd_toStartOf="@+id/column_right"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent">
 
 				<android.support.v7.widget.CardView
 					style="@style/SR.CardView"
@@ -30,79 +32,91 @@
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding">
 
-					<LinearLayout
+					<android.support.constraint.ConstraintLayout
 						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:orientation="horizontal">
+						android:layout_height="wrap_content">
 
 						<ImageView
 							android:id="@+id/show_poster"
 							android:layout_width="0dp"
 							android:layout_height="wrap_content"
-							android:layout_weight="1"
 							android:adjustViewBounds="true"
+							app:layout_constraintStart_toStartOf="parent"
+							app:layout_constraintTop_toTopOf="parent"
+							app:layout_constraintWidth_default="percent"
+							app:layout_constraintWidth_percent="0.33"
 							tools:ignore="ContentDescription"
 							tools:src="@mipmap/ic_launcher" />
 
-						<LinearLayout
+						<TextView
+							android:id="@+id/show_name"
 							android:layout_width="0dp"
 							android:layout_height="wrap_content"
-							android:layout_margin="@dimen/padding"
-							android:layout_weight="2"
-							android:orientation="vertical">
+							android:layout_marginStart="@dimen/padding"
+							android:layout_marginTop="@dimen/padding"
+							android:layout_marginEnd="@dimen/padding"
+							android:ellipsize="end"
+							android:singleLine="true"
+							android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+							android:visibility="gone"
+							app:layout_constraintEnd_toEndOf="parent"
+							app:layout_constraintStart_toEndOf="@+id/show_poster"
+							app:layout_constraintTop_toTopOf="parent"
+							tools:text="2 Broke Girls"
+							tools:visibility="visible" />
 
-							<TextView
-								android:id="@+id/show_name"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:layout_marginBottom="@dimen/padding_half"
-								android:ellipsize="end"
-								android:singleLine="true"
-								android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-								android:visibility="gone"
-								tools:text="2 Broke Girls"
-								tools:visibility="visible" />
+						<TextView
+							android:id="@+id/show_airs"
+							android:layout_width="0dp"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/padding"
+							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+							android:visibility="gone"
+							app:layout_constraintEnd_toEndOf="@+id/show_name"
+							app:layout_constraintStart_toStartOf="@+id/show_name"
+							app:layout_constraintTop_toBottomOf="@+id/show_name"
+							tools:text="@string/airs"
+							tools:visibility="visible" />
 
-							<TextView
-								android:id="@+id/show_airs"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:layout_marginBottom="@dimen/padding_half"
-								android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-								android:visibility="gone"
-								tools:text="@string/airs"
-								tools:visibility="visible" />
+						<TextView
+							android:id="@+id/show_network"
+							android:layout_width="0dp"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/padding_half"
+							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+							android:visibility="gone"
+							app:layout_constraintEnd_toEndOf="@+id/show_name"
+							app:layout_constraintStart_toStartOf="@+id/show_name"
+							app:layout_constraintTop_toBottomOf="@+id/show_airs"
+							tools:text="@string/network"
+							tools:visibility="visible" />
 
-							<TextView
-								android:id="@+id/show_network"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:layout_marginBottom="@dimen/padding_half"
-								android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-								android:visibility="gone"
-								tools:text="@string/network"
-								tools:visibility="visible" />
+						<TextView
+							android:id="@+id/show_next_episode_date"
+							android:layout_width="0dp"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/padding_half"
+							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+							android:visibility="gone"
+							app:layout_constraintEnd_toEndOf="@+id/show_name"
+							app:layout_constraintStart_toStartOf="@+id/show_name"
+							app:layout_constraintTop_toBottomOf="@+id/show_network"
+							tools:text="@string/next_episode"
+							tools:visibility="visible" />
 
-							<TextView
-								android:id="@+id/show_next_episode_date"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:layout_marginBottom="@dimen/padding_half"
-								android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-								android:visibility="gone"
-								tools:text="@string/next_episode"
-								tools:visibility="visible" />
-
-							<TextView
-								android:id="@+id/show_status"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-								android:visibility="gone"
-								tools:text="@string/status_value"
-								tools:visibility="visible" />
-						</LinearLayout>
-					</LinearLayout>
+						<TextView
+							android:id="@+id/show_status"
+							android:layout_width="0dp"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/padding_half"
+							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+							android:visibility="gone"
+							app:layout_constraintEnd_toEndOf="@+id/show_name"
+							app:layout_constraintStart_toStartOf="@+id/show_name"
+							app:layout_constraintTop_toBottomOf="@+id/show_next_episode_date"
+							tools:text="@string/status_value"
+							tools:visibility="visible" />
+					</android.support.constraint.ConstraintLayout>
 				</android.support.v7.widget.CardView>
 
 				<android.support.v7.widget.CardView
@@ -136,11 +150,14 @@
 			</LinearLayout>
 
 			<LinearLayout
+				android:id="@+id/column_right"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_weight="1"
 				android:orientation="vertical"
-				android:padding="@dimen/padding_half">
+				android:padding="@dimen/padding_half"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toEndOf="@+id/column_left"
+				app:layout_constraintTop_toTopOf="parent">
 
 				<android.support.v7.widget.CardView
 					style="@style/SR.CardView"
@@ -148,68 +165,89 @@
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding">
 
-					<LinearLayout
+					<android.support.constraint.ConstraintLayout
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/padding"
-						android:orientation="vertical">
+						android:paddingBottom="@dimen/padding">
 
 						<TextView
-							android:layout_width="wrap_content"
+							android:id="@+id/more_information"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
+							android:layout_marginStart="@dimen/padding"
+							android:layout_marginTop="@dimen/padding"
+							android:layout_marginEnd="@dimen/padding"
 							android:text="@string/more_information"
-							android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+							android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+							app:layout_constraintEnd_toEndOf="parent"
+							app:layout_constraintStart_toStartOf="parent"
+							app:layout_constraintTop_toTopOf="parent" />
 
 						<TextView
 							android:id="@+id/show_language_country"
-							android:layout_width="wrap_content"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
+							android:layout_marginTop="@dimen/padding"
 							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 							android:visibility="gone"
+							app:layout_constraintEnd_toEndOf="@+id/more_information"
+							app:layout_constraintStart_toStartOf="@+id/more_information"
+							app:layout_constraintTop_toBottomOf="@+id/more_information"
 							tools:text="@string/language_value"
 							tools:visibility="visible" />
 
 						<TextView
 							android:id="@+id/show_subtitles"
-							android:layout_width="wrap_content"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
+							android:layout_marginTop="@dimen/padding_half"
 							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 							android:visibility="gone"
+							app:layout_constraintEnd_toEndOf="@+id/more_information"
+							app:layout_constraintStart_toStartOf="@+id/more_information"
+							app:layout_constraintTop_toBottomOf="@+id/show_language_country"
 							tools:text="@string/subtitles_value"
 							tools:visibility="visible" />
 
 						<TextView
 							android:id="@+id/show_location"
-							android:layout_width="wrap_content"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
+							android:layout_marginTop="@dimen/padding_half"
 							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 							android:visibility="gone"
+							app:layout_constraintEnd_toEndOf="@+id/more_information"
+							app:layout_constraintStart_toStartOf="@+id/more_information"
+							app:layout_constraintTop_toBottomOf="@+id/show_subtitles"
 							tools:text="@string/location"
 							tools:visibility="visible" />
 
 						<TextView
 							android:id="@+id/show_quality"
-							android:layout_width="wrap_content"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
+							android:layout_marginTop="@dimen/padding_half"
 							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 							android:visibility="gone"
+							app:layout_constraintEnd_toEndOf="@+id/more_information"
+							app:layout_constraintStart_toStartOf="@+id/more_information"
+							app:layout_constraintTop_toBottomOf="@+id/show_location"
 							tools:text="@string/quality"
 							tools:visibility="visible" />
 
 						<TextView
 							android:id="@+id/show_genre"
-							android:layout_width="wrap_content"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/padding_half"
 							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 							android:visibility="gone"
+							app:layout_constraintEnd_toEndOf="@+id/more_information"
+							app:layout_constraintStart_toStartOf="@+id/more_information"
+							app:layout_constraintTop_toBottomOf="@+id/show_quality"
 							tools:text="@string/genre"
 							tools:visibility="visible" />
-					</LinearLayout>
+					</android.support.constraint.ConstraintLayout>
 				</android.support.v7.widget.CardView>
 
 				<android.support.v7.widget.CardView
@@ -217,43 +255,60 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content">
 
-					<LinearLayout
+					<android.support.constraint.ConstraintLayout
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/padding"
-						android:orientation="vertical">
+						android:paddingBottom="@dimen/padding">
 
 						<TextView
-							android:layout_width="wrap_content"
+							android:id="@+id/external_links"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
+							android:layout_marginStart="@dimen/padding"
+							android:layout_marginTop="@dimen/padding"
+							android:layout_marginEnd="@dimen/padding"
 							android:text="@string/external_links"
-							android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+							android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+							app:layout_constraintEnd_toEndOf="parent"
+							app:layout_constraintStart_toStartOf="parent"
+							app:layout_constraintTop_toTopOf="parent" />
 
 						<Button
 							android:id="@+id/show_imdb"
-							android:layout_width="match_parent"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/padding"
 							android:text="@string/imdb"
 							android:visibility="gone"
+							app:layout_constraintEnd_toEndOf="@+id/external_links"
+							app:layout_constraintStart_toStartOf="@+id/external_links"
+							app:layout_constraintTop_toBottomOf="@+id/external_links"
 							tools:visibility="visible" />
 
 						<Button
 							android:id="@+id/show_the_tvdb"
-							android:layout_width="match_parent"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
-							android:text="@string/tvdb" />
+							android:layout_marginTop="@dimen/padding_half"
+							android:text="@string/tvdb"
+							app:layout_constraintEnd_toEndOf="@+id/external_links"
+							app:layout_constraintStart_toStartOf="@+id/external_links"
+							app:layout_constraintTop_toBottomOf="@+id/show_imdb" />
 
 						<Button
 							android:id="@+id/show_web_search"
-							android:layout_width="match_parent"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/padding_half"
 							android:text="@string/web_search"
 							android:visibility="gone"
+							app:layout_constraintEnd_toEndOf="@+id/external_links"
+							app:layout_constraintStart_toStartOf="@+id/external_links"
+							app:layout_constraintTop_toBottomOf="@+id/show_the_tvdb"
 							tools:visibility="visible" />
-					</LinearLayout>
+					</android.support.constraint.ConstraintLayout>
 				</android.support.v7.widget.CardView>
 			</LinearLayout>
-		</LinearLayout>
+		</android.support.constraint.ConstraintLayout>
 	</ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>
