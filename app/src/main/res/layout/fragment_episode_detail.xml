@@ -21,9 +21,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"
-				android:paddingStart="@dimen/padding"
-				android:paddingTop="@dimen/padding"
-				android:paddingEnd="@dimen/padding">
+				android:padding="@dimen/padding">
 
 				<android.support.v7.widget.CardView
 					style="@style/SR.CardView"
@@ -31,55 +29,69 @@
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="@dimen/padding">
 
-					<LinearLayout
+					<android.support.constraint.ConstraintLayout
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/padding"
-						android:orientation="vertical">
+						android:paddingBottom="@dimen/padding">
 
 						<TextView
 							android:id="@+id/episode_name"
-							android:layout_width="wrap_content"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
+							android:layout_marginStart="@dimen/padding"
+							android:layout_marginTop="@dimen/padding"
+							android:layout_marginEnd="@dimen/padding"
 							android:ellipsize="marquee"
 							android:marqueeRepeatLimit="marquee_forever"
 							android:scrollHorizontally="true"
 							android:singleLine="true"
 							android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
 							android:visibility="gone"
+							app:layout_constraintEnd_toEndOf="parent"
+							app:layout_constraintStart_toStartOf="parent"
+							app:layout_constraintTop_toTopOf="parent"
 							tools:text="Pilot"
 							tools:visibility="visible" />
 
 						<TextView
 							android:id="@+id/episode_airs"
-							android:layout_width="wrap_content"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
+							android:layout_marginTop="@dimen/padding"
 							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 							android:visibility="gone"
+							app:layout_constraintEnd_toEndOf="@+id/episode_name"
+							app:layout_constraintStart_toStartOf="@+id/episode_name"
+							app:layout_constraintTop_toBottomOf="@+id/episode_name"
 							tools:text="@string/airs"
 							tools:visibility="visible" />
 
 						<TextView
 							android:id="@+id/episode_status"
-							android:layout_width="wrap_content"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
+							android:layout_marginTop="@dimen/padding_half"
 							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 							android:visibility="gone"
+							app:layout_constraintEnd_toEndOf="@+id/episode_name"
+							app:layout_constraintStart_toStartOf="@+id/episode_name"
+							app:layout_constraintTop_toBottomOf="@+id/episode_airs"
 							tools:text="@string/status_value"
 							tools:visibility="visible" />
 
 						<TextView
 							android:id="@+id/episode_quality"
-							android:layout_width="wrap_content"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/padding_half"
 							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 							android:visibility="gone"
+							app:layout_constraintEnd_toEndOf="@+id/episode_name"
+							app:layout_constraintStart_toStartOf="@+id/episode_name"
+							app:layout_constraintTop_toBottomOf="@+id/episode_status"
 							tools:text="@string/quality"
 							tools:visibility="visible" />
-					</LinearLayout>
+					</android.support.constraint.ConstraintLayout>
 				</android.support.v7.widget.CardView>
 
 				<android.support.v7.widget.CardView
@@ -91,27 +103,36 @@
 					android:visibility="gone"
 					tools:visibility="visible">
 
-					<LinearLayout
+					<android.support.constraint.ConstraintLayout
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/padding"
-						android:orientation="vertical">
+						android:paddingBottom="@dimen/padding">
 
 						<TextView
-							android:layout_width="wrap_content"
+							android:id="@+id/plot"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
+							android:layout_marginStart="@dimen/padding"
+							android:layout_marginTop="@dimen/padding"
+							android:layout_marginEnd="@dimen/padding"
 							android:text="@string/plot"
-							android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+							android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+							app:layout_constraintEnd_toEndOf="parent"
+							app:layout_constraintStart_toStartOf="parent"
+							app:layout_constraintTop_toTopOf="parent" />
 
 						<TextView
 							android:id="@+id/episode_plot"
-							android:layout_width="match_parent"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/padding"
 							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 							android:textIsSelectable="true"
+							app:layout_constraintEnd_toEndOf="@+id/plot"
+							app:layout_constraintStart_toStartOf="@+id/plot"
+							app:layout_constraintTop_toBottomOf="@+id/plot"
 							tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet nisi et arcu gravida dictum. Vestibulum vitae odio quis augue porta tincidunt eu pulvinar odio." />
-					</LinearLayout>
+					</android.support.constraint.ConstraintLayout>
 				</android.support.v7.widget.CardView>
 
 				<android.support.v7.widget.CardView
@@ -122,44 +143,59 @@
 					android:visibility="gone"
 					tools:visibility="visible">
 
-					<LinearLayout
+					<android.support.constraint.ConstraintLayout
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/padding"
-						android:orientation="vertical">
+						android:paddingBottom="@dimen/padding">
 
 						<TextView
-							android:layout_width="wrap_content"
+							android:id="@+id/more_information"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
+							android:layout_marginStart="@dimen/padding"
+							android:layout_marginTop="@dimen/padding"
+							android:layout_marginEnd="@dimen/padding"
 							android:text="@string/more_information"
-							android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+							android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+							app:layout_constraintEnd_toEndOf="parent"
+							app:layout_constraintStart_toStartOf="parent"
+							app:layout_constraintTop_toTopOf="parent" />
 
 						<TextView
 							android:id="@+id/episode_subtitles"
-							android:layout_width="wrap_content"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
+							android:layout_marginTop="@dimen/padding"
 							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 							android:visibility="gone"
+							app:layout_constraintEnd_toEndOf="@+id/more_information"
+							app:layout_constraintStart_toStartOf="@+id/more_information"
+							app:layout_constraintTop_toBottomOf="@+id/more_information"
 							tools:text="@string/subtitles_value"
 							tools:visibility="visible" />
 
 						<TextView
 							android:id="@+id/episode_file_size"
-							android:layout_width="wrap_content"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
-							android:layout_marginBottom="@dimen/padding_half"
+							android:layout_marginTop="@dimen/padding_half"
 							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+							app:layout_constraintEnd_toEndOf="@+id/more_information"
+							app:layout_constraintStart_toStartOf="@+id/more_information"
+							app:layout_constraintTop_toBottomOf="@+id/episode_subtitles"
 							tools:text="@string/file_size" />
 
 						<TextView
 							android:id="@+id/episode_location"
-							android:layout_width="wrap_content"
+							android:layout_width="0dp"
 							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/padding_half"
 							android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+							app:layout_constraintEnd_toEndOf="@+id/more_information"
+							app:layout_constraintStart_toStartOf="@+id/more_information"
+							app:layout_constraintTop_toBottomOf="@+id/episode_file_size"
 							tools:text="@string/location" />
-					</LinearLayout>
+					</android.support.constraint.ConstraintLayout>
 				</android.support.v7.widget.CardView>
 			</LinearLayout>
 		</ScrollView>
