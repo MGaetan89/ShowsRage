@@ -17,8 +17,8 @@ android {
 
     defaultConfig {
         applicationId = "com.mgaetan89.showsrage"
-        versionCode = 38
-        versionName = "1.7"
+        versionCode = 39
+        versionName = "1.8-beta1"
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
