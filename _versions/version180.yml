@@ -1,0 +1,9 @@
+---
+name: Version 1.8-beta1
+release_date: 28/07/2018
+current_tag: v1.8-beta1
+previous_tag: v1.7
+description: <em>ShowsRage</em> now supports Android 4.4 and up
+features:
+- Added support for TVmaze and TMDb indexers when adding a new show
+---
